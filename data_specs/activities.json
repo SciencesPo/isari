@@ -1,0 +1,146 @@
+[
+	{
+		"name":"l'histoire du monde",
+		"acronym":"HDM",
+		"start_date":"2015-05-06",
+		"end_date":"2019-06-02",
+		"organisations":[
+			{"id":1564,"role":"leader"},//start_date end_date ?
+			{"id":1564,"role":"partneraire"},//start_date end_date ?	
+		],
+		"people":[
+			{"id":"eaz234234","role":"PI"},//start_date end_date ?
+			{"id":"zeazejoij3432","role":"participant"},	
+		],
+		"subject":"zpejazp eajze pazjepazoje azpoejaz pe",
+		"summary":"azeakzpeokazpeoakz peoakze poazke paozek apzoekaz poekaz peoazkpeoazepaozek apz",
+		"url":"http://www.hdm.sciencespo.fr",
+		"type":"projet_recherche", //normé
+		"grants":[
+			{
+				"organisation_id":24565,//genre H2020 ou Europe
+				"name":"H2020",
+				"type":"collaboratif international",
+				"identifier":"zeaz7e",
+				"sciencespo_amount":154200,
+				"total_amount":1024564,
+				"submission_date":"2015-09-05",
+				"start_date":"2016-08-05",
+				"end_date":"2018-09-06",
+				"UG":"R12S05",
+				"status":"ongoing" //normé
+			}
+		]
+
+
+	},
+	{
+		"type":"partenariat",
+		"name":"OXford SciencesPO",
+		"acronym":"OXPO",
+		"start_date":"2015-05-06",
+		"end_date":"2019-06-02",
+		"organisations":[
+			{"id":123,"role":"partenaire"},
+			{"id":13135413,"role":"partneraire"},	
+		],
+		"description":"azeakzpeokazpeoakz peoakze poazke paozek apzoekaz poekaz peoazkpeoazepaozek apz",
+		"url":"?",
+		"activities":[1231,4564],
+		"grants":[
+			{
+				"organisation_id":245,//entreprise Total
+				"name":"partenariat Total",
+				"type":"levée de fond",//normé
+				"identifier":"zeaz7e",
+				"amount":154200,
+				"total_amount":1024564,
+				"submission_date":"2015-09-05",
+				"start_date":"2016-08-05",
+				"end_date":"2018-09-06",
+				"UG":"R12S05",
+				"status":"ongoing"
+			}
+		]
+	},
+	{
+		"name":"invitation Housley @ médialab",
+		"start_date":"2015-05-06",
+		"end_date":"2019-06-02",
+		"organisations":[
+			{"id":1564,"role":"from"},//université d'origine
+			{"id":1564,"role":"to"},//médialab	
+		],
+		"people":[
+			{"id":"ea4234","role":"professor"},//fiche personne de l'invité
+		],
+		"subject":"zpejazp eajze pazjepazoje azpoejaz pe",
+		"summary":"azeakzpeokazpeoakz peoakze poazke paozek apzoekaz poekaz peoazkpeoazepaozek apz",
+		"type":"invitation", //normé
+		"grants":[
+			{
+				"organisation_id":24565,//genre H2020 ou Europe
+				"name":"H2020",
+				"type":"collaboratif international",
+				"identifier":"zeaz7e",
+				"sciencespo_amount":154200,
+				"total_amount":1024564,
+				"submission_date":"2015-09-05",
+				"start_date":"2016-08-05",
+				"end_date":"2018-09-06",
+				"UG":"R12S05",
+				"status":"ongoing" //normé
+			}
+		]
+
+
+	},
+	{
+		"name":"doctorat",
+		"start_date":"2015-05-06",
+		"end_date":"2019-06-02", // = date de soutenance
+		"organisations":[
+			{"id":1564,"role":"inscription"},//école doctorale
+		],
+		"people":[
+			{"id":"ea4234","role":"doctorant"},
+			{"id":"eaazeazeFZEFR","role":"directeur de thèse"},
+			{"id":"eaaAZEA","role":"membre comité suivi"},
+			{"id":"eaa123","role":"membre du jury"}
+		],
+		"subject":"zpejazp eajze pazjepazoje azpoejaz pe",
+		"summary":"azeakzpeokazpeoakz peoakze poazke paozek apzoekaz poekaz peoazkpeoazepaozek apz",
+		"type":"doctorat", //normé
+		"grants":[
+			{
+				"organisation_id":24565,//genre H2020 ou Europe
+				"name":"H2020",
+				"type":"collaboratif international",
+				"identifier":"zeaz7e",
+				"sciencespo_amount":154200,
+				"total_amount":1024564,
+				"submission_date":"2015-09-05",
+				"start_date":"2016-08-05",
+				"end_date":"2018-09-06",
+				"UG":"R12S05",
+				"status":"ongoing" //normé
+			}
+		],
+		"distinctions":[
+			{
+				"organisations":["????"],
+				"date":"01/09/2006",
+				"title":"étoile de l'europe",
+				"type":"prix", // normé
+				"sujet":"azeazeazeazea aze azeaz ",
+				"mention":"formidable",
+				"preference":1
+			}
+		]
+
+
+	},
+
+
+
+]

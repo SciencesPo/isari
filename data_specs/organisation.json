@@ -1,0 +1,66 @@
+[
+	{
+		"id":123,
+		"name":"Fondation Nationale de Science Politique",
+		"acronyme":"FNSP",
+		"status":"private",
+		"address":"27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+		"type":"fondation",
+		"url":"http://www.sciencespo.fr"
+		//contact
+	},
+	{
+		"id":124,
+		"name":"Institut d'Études Politiques",
+		"acronyme":"IEP",
+		"status":"public",
+		"address":"27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+		"type":"?",
+		"url":"http://www.sciencespo.fr"
+	},
+	{
+		"id":147,
+		"name":"Centre National de Rercherche Scientifique",
+		"acronyme":"CNRS",
+		"status":"public",
+		"address":"?",
+		"type":"?",
+		"url":"http://www.cnrs.fr"
+	},
+	{
+		"id":12456,
+		"name":["Centre d'études européennes"],
+		"acronyme":"CEE",
+		"address":"27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+		"type":"Unité Mixte de Rercherche",
+		"identifiers":[
+			{"CNRS":"UMR8239"},
+			{"id_spire":"azeazieazoi"}
+		],
+		"url":"http://www.sciencespo.fr/centre-etudes-europeennes",
+		"organisation_links":[
+			{"type":"part_of","organisation_id":123},
+			{"type":"part_of","organisation_id":147}
+		]
+	},
+	{
+		"id":5468746,
+		"name":"Département d'Histoire",
+		"type":"département",
+		"url":"http://www.sciencespo.fr/departement-histoire/",
+		"organisation_links":[
+			{"type":"part_of","organisation_id":124}
+		]
+	}
+,
+{
+		"id":5230492348746,
+		"name":["Organisation Mondiale de la Santé","World Heatlth Organisation"],//à voir si on permet multiples noms
+		"acronym":["OMS","WHO"],
+		"type":"département",
+		"url":"http://www.sciencespo.fr/departement-histoire/",
+		"organisation_links":[
+			{"type":"part_of","organisation_id":124}
+		]
+	}
+]
