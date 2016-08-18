@@ -1,0 +1,30 @@
+{
+  "name": "data-import",
+  "version": "1.0.0",
+  "description": "ISARI import data from different files",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "google-drive": "0.0.7",
+    "google-spreadsheet": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8ctambules/isari.git"
+  },
+  "keywords": [
+    "data",
+    "import",
+    "isari"
+  ],
+  "author": "Philippe Hubert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/8ctambules/isari/issues"
+  },
+  "homepage": "https://github.com/8ctambules/isari#readme"
+}
