@@ -1,0 +1,42 @@
+{
+	"people":{
+		"firstname":{
+				"requirement":"mandatory",
+				"labels":{"fr":"Prénom","en":"Firstname"},
+			},
+		"name":{
+				"requirement":"mandatory",
+				"labels":{"fr":"Nom","en":"Name"},
+			},
+		"gender":{
+				"requirement":"recommended",
+				"labels":{"fr":"Genre","en":"Gender"},
+				"values":["m","f","o"],
+				"type":"values"
+			},
+		"birthdate":{
+				"requirement":"recommended",
+				"labels":{"fr":"Date de naissance","en":"Birthdate"},
+				"type":"date"
+			},
+		"nationality":{
+				"type":"external_values",
+				"collection":"countries"
+		},
+		
+
+
+
+	
+	},
+
+
+
+"recommended",
+key
+liste valeur
+norme
+decription
+
+
+}
