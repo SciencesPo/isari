@@ -23,20 +23,39 @@
 				"type":"external_values",
 				"collection":"countries"
 		},
-		
-
-
-
-	
+		"ldap_uid":{
+				"labels":{"fr":"Identifiant annuaire Sciences Po","en":"Sciences Po's directory identifier"},
+				"type":"external_uid",
+				"service":"ldap"
+			},
+		"banner_uid":{
+				"labels":{"fr":"Identifiant scolarité Sciences Po","en":"Sciences Po's teaching identifier"},
+				"type":"external_uid",
+				"service":"banner"
+			},
+		"SIRH_matricule":{
+				"labels":{"fr":"Identifiant Ressources Humaines Sciences Po","en":"Sciences Po's Human ressoruces identifier"},
+				"type":"external_uid",
+				"service":"sirh"
+			},
+		"ORCID":{
+				"labels":{"fr":"ORCID","en":"ORCID"},
+				"description":{"fr":"Identifiant ouvert pour chercheur et contributeur","en":"Open Researcher and Contributor ID"},
+				"type":"external_uid",
+				"service":"orcid"
+			},//'Numéro de chercheur international'
+		"IDREF":{
+				"labels":{"fr":"IDREF","en":"IDREF"},
+				"description":{"fr":"Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames","en":"Identifier compatible SUDOC, STAR, STEP, Calames"},		
+				"type":"external_uid",
+				"service":"idref"
+			},//'Numéro de chercheur national'
+		"SPIRE_ID":{
+				"labels":{"fr":"identifiant SPIRE","en":"SPIRE identifier"},
+				"type":"external_uid",
+				"service":"spire"
+			}
 	},
-
-
-
-"recommended",
-key
-liste valeur
-norme
-decription
 
 
 }

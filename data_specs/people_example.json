@@ -6,14 +6,13 @@
 		"sex":"F",
 		"birthdate":"1975-07-27",
 		"nationality_datahub":"", //'Voir DATAHUB'
-		"identifiers":{
-			"ldap_uid":"",
-			"banner_id":"zeazpoueé313213",
-			"SIRH_matricule":"",
-			"ORCID":"", //'Numéro de chercheur international'
-			"IDREF":"", //'Numéro de chercheur national'
-			"SPIRE_ID":""
-		},
+		"ldap_uid":"",
+		"banner_id":"zeazpoueé313213",
+		"SIRH_matricule":"",
+		"ORCID":"", //'Numéro de chercheur international'
+		"IDREF":"", //'Numéro de chercheur national'
+		"SPIRE_ID":"",
+		"isari_role":"superadmin"
 	},
 	{
 		"id":"154ze4z8ae4z8",
