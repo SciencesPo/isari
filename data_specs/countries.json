@@ -1,0 +1,13 @@
+[
+	{
+		"isocode":"fr",
+		"name":{"fr":"France","en":"France"},
+		"nationality":{"fr":"française","en":"French"}
+	},
+	{
+		"isocode":"en",
+		"name":{"fr":"Royaume-Uni","en":"United Kingdom"},
+		"labels":{"fr":"britannique","en":"British"}
+	}
+
+]

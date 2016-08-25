@@ -1,0 +1,55 @@
+[
+	{ // tutelle = organisation du contrat courant ?
+		"people_id":"154ze4z8ae4z8",
+		"organisation_id":123,//FNSP
+		"start_date":"2006-09-01",
+		"end_date":"2010-09-01",
+		"type":"CDI", // normé 
+		"timepart":"100",
+		"function":"associate professor", // quali ou référencé
+		"status":[
+			{"start_date":"01/09/2006","end_date":"01/06/2008","status":"research assistant"},
+			{"start_date":"01/09/2006","end_date":"01/06/2008","status":"associate professor"}
+			// hceres : peut on faire les transcriptions depuis les status Sciences Po & CNRS ?
+		],
+		"bonus":[
+			{"type":"management","start_date":"2016-05-02","end_date":"2016-09-04"} //normé
+		]
+		
+	},
+	{
+		"people_id":"154ze4z8ae4z8",
+		"organisation_id":147,//CNRS
+		"start_date":"02/09/2010",
+		"type":"emploi_public", // normé
+		"job_type":"chercheur", // normé
+		"job_subtype":"technique/administratif....",//normé
+		"timepart":"100",
+		//prime montant et type ?
+		"status":[{"start_date":"02/09/2010","rank":"CR1"}]
+
+	},
+	{
+		"people_id":"154ze4z8ae4z8",
+		"organisation_id":2432340, // CEE
+		"start_date":"01/09/2006",
+		"type":"affiliation_principal", // référencé ? 
+		"inhouse":"bureau numéro 5, étage 2" 
+	},
+	{
+		"people_id":"154zzeazee4z8ae4z8",
+		"organisation_id":2432340, // CEE
+		"start_date":"01/09/2006",
+		"type":"affiliation_principal", // référencé ? 
+		"inhouse":"bureau numéro 5, étage 2" 
+	},
+	{
+		"people_id":"154ze4z8ae4z8",
+		"organisation_id":"65456", // département sciences politiques
+		"start_date":"01/09/2006",
+		"type":"rattachement" // référencé ? 
+	},
+
+
+
+]
