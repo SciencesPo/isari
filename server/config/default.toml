@@ -1,0 +1,12 @@
+[http]
+port = 8080
+
+[log]
+format = 'dev'
+
+[session]
+secret = 'aizeoiniun'
+ttl = 86400
+
+[mongo]
+url = 'mongodb://localhost/isari'
