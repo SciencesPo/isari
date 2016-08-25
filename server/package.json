@@ -1,0 +1,30 @@
+{
+  "name": "isari-server",
+  "version": "1.0.0",
+  "description": "Isari REST API server",
+  "main": "server.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node server.js",
+    "test": "mocha --check-leaks -R spec",
+    "dev": "npm-run-all -p watch:*",
+    "watch:test": "npm test -- --watch --growl -R min",
+    "watch:lint": "esw --watch",
+    "watch:server": "cross-env NODE_ENV=development nodemon server.js"
+  },
+  "author": "Byte Club",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cross-env": "^2.0.0",
+    "env-test": "^1.0.0",
+    "eslint": "^3.3.1",
+    "eslint-watch": "^2.1.14",
+    "mocha": "^3.0.2",
+    "nodemon": "^1.10.2",
+    "npm-run-all": "^3.0.0"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongoose": "^4.5.10"
+  }
+}
