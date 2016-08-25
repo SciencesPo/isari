@@ -1,5 +1,16 @@
 {
 	"people":{
+		"isari_authorized_centers":{
+				"labels":{"fr":"Affiliation","en":"Affiliation"},
+				"type":"internal_uid_list",
+				"related_collection":"organisation",
+				"admin_only":true,
+				"isari_role":{
+					"labels":{"fr":"Role","en":"Role"},
+					"values":["central_admin","center_admin","central_reader"],
+					"type":"values"
+				},
+			},
 		"firstname":{
 				"requirement":"mandatory",
 				"labels":{"fr":"Prénom","en":"Firstname"},
@@ -54,7 +65,93 @@
 				"labels":{"fr":"identifiant SPIRE","en":"SPIRE identifier"},
 				"type":"external_uid",
 				"service":"spire"
-			}
+			},
+		"positions":{
+			"labels":{"fr":"Contrats","en":"Positions"},
+			"description":{"fr":"Contrats, affiliations, rattachements...","en":"Positions, affiliations, attachments..."},
+			"type":"nested_object_list",
+			"nested_model":
+						{ 
+						"organisation_id":{
+							"requirement":"mandatory",
+							"type":"internal_uid"
+						},
+						"start_date":{
+							"requirement":"mandatory",
+							"labels":{"fr":"Date de début","en":"Start date"},
+							"type":"date"
+						},
+						"end_date":{
+							"labels":{"fr":"Date de fin","en":"End date"},
+							"type":"date"
+						},
+						"type":{
+							"requirement":"mandatory",
+							"labels":{"fr":"Type","en":"Type"},
+							"type":"date"
+						},
+						"timepart":{
+							"labels":{"fr":"Taux d'occupation","en":"Part time rate"},
+							"type":"percentage",
+							"default":1
+						},
+						//QUESTIONS
+						"function":{
+							"requirement":"recommended",
+							"labels":{"fr":"Fonction","en":"Function"},
+							"values":["Associate professor"],
+							"type":"values"
+						},
+
+						"status":{
+							"labels":{"fr":"Statuts","en":"Status"},
+							"description":{"fr":"","en":""},
+							"type":"nested_object_list",
+							"nested_model":{
+								"start_date":{
+									"requirement":"mandatory",
+									"labels":{"fr":"Date de début","en":"Start date"},
+									"type":"date"
+								},
+								"end_date":{
+									"labels":{"fr":"Date de fin","en":"End date"},
+									"type":"date"
+								},
+								"status":{
+									"requirement":"mandatory",
+									"labels":{"fr":"Statut","en":"Status"},
+									"values":["Associate professor, Research Assistant"],
+									"type":"values"
+								}
+							}
+						}
+						//QUESTIONS
+						"bonus":[
+							"labels":{"fr":"Bonus","en":"Bonus"},
+							"description":{"fr":"","en":""},
+							"type":"nested_object_list",
+							"nested_model":{
+								"type":{
+									"labels":{"fr":"Type","en":"Type"},
+									"values":["management"],
+									"type":"values"
+								}
+								"start_date":{
+									"labels":{"fr":"Date de début","en":"Start date"},
+									"type":"date"
+								},
+								"end_date":{
+									"labels":{"fr":"Date de fin","en":"End date"},
+									"type":"date"
+								},
+							}
+						]
+
+						}
+		},
+			
+		
+			
 	},
 
 
