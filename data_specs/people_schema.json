@@ -2,17 +2,17 @@
 	"people":{
 		"firstname":{
 				"requirement":"mandatory",
-				"labels":{"fr":"Prénom","en":"Firstname"},
+				"labels":{"fr":"Prénom","en":"Firstname"}
 			},
 		"name":{
 				"requirement":"mandatory",
-				"labels":{"fr":"Nom","en":"Name"},
+				"labels":{"fr":"Nom","en":"Name"}
 			},
 		"gender":{
 				"requirement":"recommended",
 				"labels":{"fr":"Genre","en":"Gender"},
 				"values":["m","f","o"],
-				"type":"values"
+				"type":"enum"
 			},
 		"birthdate":{
 				"requirement":"recommended",
@@ -20,8 +20,8 @@
 				"type":"date"
 			},
 		"nationality":{
-				"type":"external_values",
-				"collection":"countries"
+				"type":"enum",
+				"values":[{},{},{}]
 		},
 		"ldap_uid":{
 				"labels":{"fr":"Identifiant annuaire Sciences Po","en":"Sciences Po's directory identifier"},
