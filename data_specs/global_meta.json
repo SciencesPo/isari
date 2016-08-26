@@ -1,156 +1,253 @@
-"peopleSchema":{
-	"isari_authorized_centers":{
-		"labels":{"fr":"Affiliation","en":"Affiliation"},
-		"admin_only":true
-	},
-	"isari_authorized_centers.isari_role":{
-		"labels":{"fr":"Role","en":"Role"},
-		
+"peopleSchema" : { 
+	"isari_authorized_centers" : { 
+		"labels" : { "fr" : "Affiliation", "en" : "Affiliation" }, 
+		"admin_only" : true
+	 }, 
+	"isari_authorized_centers.isari_role" : { 
+		"labels" : { "fr" : "Role", "en" : "Role" }
+	 }, 
+	"firstname" : { 
+		"requirement" : "mandatory", 
+		"labels" : { "fr" : "Prénom", "en" : "Firstname" }
+	 }, 
+	"name" : { 
+		"requirement" : "mandatory", 
+		"labels" : { "fr" : "Nom", "en" : "Name" }
+	 }, 
+	"gender" : { 
+		"requirement" : "recommended", 
+		"labels" : { "fr" : "Genre", "en" : "Gender" }
+	 }, 
+	"birthdate" : { 
+		"requirement" : "recommended", 
+		"labels" : { "fr" : "Date de naissance", "en" : "Birthdate" }
+	 }, 
+	"nationality" : { 
+	 }, 
+	"ldap_uid" : { 
+		"labels" : { "fr" : "Identifiant annuaire Sciences Po", "en" : "Sciences Po's directory identifier" }, 
+		"service" : "ldap"
+	 }, 
+	"banner_uid" : { 
+		"labels" : { "fr" : "Identifiant scolarité Sciences Po", "en" : "Sciences Po's teaching identifier" }, 
+		"service" : "banner"
+	 }, 
+	"SIRH_matricule" : { 
+		"labels" : { "fr" : "Identifiant Ressources Humaines Sciences Po", "en" : "Sciences Po's Human ressoruces identifier" }, 
+		"service" : "sirh"
+	 }, 
+	"ORCID" : { 
+		"labels" : { "fr" : "ORCID", "en" : "ORCID" }, 
+		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur", "en" : "Open Researcher and Contributor ID" }, 
+	 }, 
+	"IDREF" : { 
+		"labels" : { "fr" : "IDREF", "en" : "IDREF" }, 
+		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames", "en" : "Identifier compatible SUDOC, STAR, STEP, Calames" }, 		
+		"service" : "idref"
+	 }, 
+	"SPIRE_ID" : { 
+		"labels" : { "fr" : "identifiant SPIRE", "en" : "SPIRE identifier" }, 
+		"service" : "spire"
+	 }, 
+	"positions" : { 
+		"labels" : { "fr" : "Contrats", "en" : "Positions" }, 
+		"description" : { "fr" : "Contrats, affiliations, rattachements...", "en" : "Positions, affiliations, attachments..." }
+	 }, 
+	"positions.position" : {  
+		"organization" : { 
+			"requirement" : "mandatory"
+		 }, 
+		"start_date" : { 
+			"requirement" : "mandatory", 
+			"labels" : { "fr" : "Date de début", "en" : "Start date" }
+		 }, 
+		"end_date" : { 
+			"labels" : { "fr" : "Date de fin", "en" : "End date" }
+		 }, 
+		"type" : { 
+			"requirement" : "mandatory", 
+			"labels" : { "fr" : "Type", "en" : "Type" }
+		 }, 
+		"timepart" : { 
+			"labels" : { "fr" : "Taux d'occupation", "en" : "Part time rate" }
+		 }, 						
+		"function" : { 
+			"requirement" : "recommended", 
+			"labels" : { "fr" : "Fonction", "en" : "Function" }
+		 }
+	 }, 
+	"statuses" : { 
+		"labels" : { "fr" : "Statuts", "en" : "Status" }, 
+		"description" : { "fr" : "", "en" : "" }
+	 }, 
+	"statuses.status" : { 
+		"start_date" : { 
+			"requirement" : "mandatory", 
+			"labels" : { "fr" : "Date de début", "en" : "Start date" }
+		 }, 
+		"end_date" : { 
+			"labels" : { "fr" : "Date de fin", "en" : "End date" }
+		 }, 
+		"status" : { 
+			"requirement" : "mandatory", 
+			"labels" : { "fr" : "Statut", "en" : "Status" }
+		 }
+	 }, 
+	"bonuses" : { 
+		"labels" : { "fr" : "Bonus", "en" : "Bonus" }, 
+		"description" : { "fr" : "", "en" : "" }
+	 }, 
+	"bonuses.bonus" : { 
+		"bonusType" : { 
+			"labels" : { "fr" : "Type", "en" : "Type" }
+		 }, 
+		"start_date" : { 
+			"labels" : { "fr" : "Date de début", "en" : "Start date" }
+		 }, 
+		"end_date" : { 
+			"labels" : { "fr" : "Date de fin", "en" : "End date" }
+		 }
+	 }, 
+	"contact" : { 
+		"labels" : { "fr" : "Contact", "en" : "Contact" }, 
+		"email" : { 
+			"labels" : { "fr" : "Email", "en" : "Email" }
+		 }, 
+		"phone" : { 
+			"labels" : { "fr" : "Téléphone", "en" : "Phone number" }
+		 }, 
+	 }, 
+	"photo_filename" : { 
+		"labels" : { "fr" : "Photo", "en" : "Photo" }
+	 }, 
+	"biography" : { 
+		"labels" : { "fr" : "Bio", "en" : "Bio" }
+	 }, 
+	"tags.hceres_2017" : { 
+		"labels" : { "fr" : "Tags HCERES 2017", "en" : "HCERES 2017 tags" }
+	 }, 
+	"tags.hceres_2012" : { 
+		"labels" : { "fr" : "Tags HCERES 2012", "en" : "HCERES 2012 tags" }
+	 }, 
+	"tags.free" : { 
+		"labels" : { "fr" : "Tags libres", "en" : "Free tags" }
+	 }, 
+	"tags.erc" : { 
+		"labels" : { "fr" : "Tags ERC", "en" : "ERC tags" }
+	 }, 
+	"tags.discipline" : { 
+		"labels" : { "fr" : "Disciplines", "en" : "Academics" }
+	 }, 
+	"tags.research_theme" : { 
+		"labels" : { "fr" : "Thèmes de recherche", "en" : "Research themes" }
+	 }, 
+	"langs" : { 
+		"labels" : { "fr" : "Langues", "en" : "Languages" }
+	 }, 
+	"activities" : { 
+		"labels" : { "fr" : "Activités", "en" : "Activities" }
+	 }, 
+	"distinctions" : [
+		"labels" : { "fr" : "Distinctions", "en" : "Awards" }
+	 }
+ }
+
+
+
+
+"activitySchema" : {
+	"name" : {
+		"requirement" : "mandatory", 
+		"labels" : { "fr" : "Nom", "en" : "Name" }
+	}, 
+	"activityType": {
+		"labels" : { "fr" : "Type d'activité", "en" : "Activity type" }
+	}, 
+	"start_date" : { 
+		"labels" : { "fr" : "Date de début", "en" : "Start date" }
+	 }, 
+	"end_date" : { 
+		"labels" : { "fr" : "Date de fin", "en" : "End date" }
+	 }
+	"organizations" : {
+		"labels" : { "fr" : "Organisation", "en" : "Organization" }
+	}, 
+	"people" : {
+		"labels" : { "fr" : "Personnes", "en" : "Persons" }
+	}, 
+	"subject" : {
+		"labels" : { "fr" : "Sujet", "en" : "Subject" }
+	}, 
+	"summary" : {
+		"labels" : { "fr" : "Description", "en" : "Description" }
+	}, 
+	"grants" : {
+		"labels" : { "fr" : "Subventions", "en" : "Grants" }
 	}
-	"firstname":{
-		"requirement":"mandatory",
-		"labels":{"fr":"Prénom","en":"Firstname"}
-	},
-	"name":{
-		"requirement":"mandatory",
-		"labels":{"fr":"Nom","en":"Name"}
-	},
-	"gender":{
-		"requirement":"recommended",
-		"labels":{"fr":"Genre","en":"Gender"},
-	},
-	"birthdate":{
-		"requirement":"recommended",
-		"labels":{"fr":"Date de naissance","en":"Birthdate"},
-	},
-	"nationality":{
-	},
-	"ldap_uid":{
-		"labels":{"fr":"Identifiant annuaire Sciences Po","en":"Sciences Po's directory identifier"},
-		"service":"ldap"
-	},
-	"banner_uid":{
-		"labels":{"fr":"Identifiant scolarité Sciences Po","en":"Sciences Po's teaching identifier"},
-		"service":"banner"
-	},
-	"SIRH_matricule":{
-		"labels":{"fr":"Identifiant Ressources Humaines Sciences Po","en":"Sciences Po's Human ressoruces identifier"},
-		"service":"sirh"
-	},
-	"ORCID":{
-		"labels":{"fr":"ORCID","en":"ORCID"},
-		"description":{"fr":"Identifiant ouvert pour chercheur et contributeur","en":"Open Researcher and Contributor ID"},
-	},
-	"IDREF":{
-		"labels":{"fr":"IDREF","en":"IDREF"},
-		"description":{"fr":"Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames","en":"Identifier compatible SUDOC, STAR, STEP, Calames"},		
-		"service":"idref"
-	},
-	"SPIRE_ID":{
-		"labels":{"fr":"identifiant SPIRE","en":"SPIRE identifier"},
-		"service":"spire"
-	},
-	"positions":{
-		"labels":{"fr":"Contrats","en":"Positions"},
-		"description":{"fr":"Contrats, affiliations, rattachements...","en":"Positions, affiliations, attachments..."},
-	},
-	"positions.position":{ 
-		"organization":{
-			"requirement":"mandatory",
+	"grants.grant" : {
+		"organization" : {
+			"labels" : { "fr" : "Organisation", "en" : "Organization" }
 		},
-		"start_date":{
-			"requirement":"mandatory",
-			"labels":{"fr":"Date de début","en":"Start date"},
+		"name" : {
+			"labels" : { "fr" : "Nom", "en" : "Name" }
 		},
-		"end_date":{
-			"labels":{"fr":"Date de fin","en":"End date"},
+		"grantType" : {
+			"labels" : { "fr" : "Type", "en" : "Type" }
 		},
-		"type":{
-			"requirement":"mandatory",
-			"labels":{"fr":"Type","en":"Type"},
+		"identifier" : {
+			"labels" : { "fr" : "Identifiant", "en" : "Identifier" }
 		},
-		"timepart":{
-			"labels":{"fr":"Taux d'occupation","en":"Part time rate"},
-		},						
-		"function":{
-			"requirement":"recommended",
-			"labels":{"fr":"Fonction","en":"Function"},
+		"sciencespo_amount" : {
+			"labels" : { "fr" : "Montant Sciences Po", "en" : "Sciences Po amount" }
+		},
+		"total_amount" : {
+			"labels" : { "fr" : "Montant total", "en" : "Total amount" }
+		},
+		"submission_date" : {
+			"labels" : { "fr" : "Date de soumission", "en" : "Submission date" }
+		},
+		"start_date" : {
+			"labels" : { "fr" : "Date de début", "en" : "Start date" }
+		},
+		"end_date" : {
+			"labels" : { "fr" : "Date de fin", "en" : "End date" }
+		},
+		"UG" : {
+			"labels" : { "fr" : "UG", "en" : "UG" }
+		},
+		"status" : {
+			"labels" : { "fr" : "Statut", "en" : "Status" }
 		}
 	}
-	"statuses":{
-		"labels":{"fr":"Statuts","en":"Status"},
-		"description":{"fr":"","en":""},
-	}
-	"statuses.status":{
-		"start_date":{
-			"requirement":"mandatory",
-			"labels":{"fr":"Date de début","en":"Start date"},
-		},
-		"end_date":{
-			"labels":{"fr":"Date de fin","en":"End date"},
-		},
-		"status":{
-			"requirement":"mandatory",
-			"labels":{"fr":"Statut","en":"Status"},
-		}
-	}
-	"bonuses":{
-		"labels":{"fr":"Bonus","en":"Bonus"},
-		"description":{"fr":"","en":""},
-	}
-	"bonuses.bonus":{
-		"type":{
-			"labels":{"fr":"Type","en":"Type"},
-		},
-		"start_date":{
-			"labels":{"fr":"Date de début","en":"Start date"},
-		},
-		"end_date":{
-			"labels":{"fr":"Date de fin","en":"End date"},
-		}
-	}
-	"contact":{
-		"labels":{"fr":"Contact","en":"Contact"},
-		"email":{
-			"labels":{"fr":"Email","en":"Email"},
-		},
-		"phone":{
-			"labels":{"fr":"Téléphone","en":"Phone number"},
-		},
-	}
-	"photo_filename":{
-		"labels":{"fr":"Photo","en":"Photo"},
-	},
-	"biography":{
-		"labels":{"fr":"Bio","en":"Bio"},
-	},
-	"tags.hceres_2017":{
-		"labels":{"fr":"Tags HCERES 2017","en":"HCERES 2017 tags"},
-	},
-	"tags.hceres_2012":{
-		"labels":{"fr":"Tags HCERES 2012","en":"HCERES 2012 tags"},
-	},
-	"tags.free":{
-		"labels":{"fr":"Tags libres","en":"Free tags"},
-	},
-	"tags.erc":{
-		"labels":{"fr":"Tags ERC","en":"ERC tags"},
-	},
-	"tags.discipline":{
-		"labels":{"fr":"Disciplines","en":"Academics"},
-	},
-	"tags.research_theme":{
-		"labels":{"fr":"Thèmes de recherche","en":"Research themes"},
-	},
-	"langs":{
-		"labels":{"fr":"Langues","en":"Languages"},
-	},
-	"activities":{
-		"labels":{"fr":"Activités","en":"Activities"},
-	},
-	"distinctions":[
-		"labels":{"fr":"Distinctions","en":"Awards"},
-	},
-	
 	
 }
+
+
+
+
+"organizationSchema" : { 
+	"name" : {
+		"requirement" : "mandatory", 
+		"labels" : { "fr" : "Nom", "en" : "Name" }
+	},
+	"acronym" : {
+		"labels" : { "fr" : "Acronyme", "en" : "Acronym" }
+	},
+	"address" : {
+		"labels" : { "fr" : "Adresse", "en" : "Address" }
+	},
+	"status" : {
+		"labels" : { "fr" : "Statut", "en" : "Status" }
+	},
+	"organizationType" : {
+		"labels" : { "fr" : "Type d'organisation", "en" : "Organization type" }
+	}
+	"url" : {
+		"labels" : { "fr" : "Site web", "en" : "Website url" }
+	}
+	"organisation_links" : {
+		"labels" : { "fr" : "?????????????", "en" : "??????????????" }//De quoi s'agit-il ?
+	}
+
+}
+
