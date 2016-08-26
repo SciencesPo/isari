@@ -10,3 +10,9 @@ ttl = 86400
 
 [mongo]
 url = 'mongodb://localhost/isari'
+
+[elasticsearch]
+# https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/configuration.html
+host = 'localhost:9200'
+apiVersion = '2.3'
+index = 'es'
