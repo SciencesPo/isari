@@ -9,6 +9,7 @@ exports.notFound = (req, res, next) => {
 exports.serverError = includeErrInfo => (err, req, res) => {
 	res.status(err.status || 500).send({
 		message: err.message,
+		type: err.type,
 		stack: includeErrInfo ? err.stack : undefined,
 		error: includeErrInfo ? err : null
 	})
