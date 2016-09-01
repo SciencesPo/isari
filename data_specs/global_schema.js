@@ -17,7 +17,7 @@ var peopleSchema = new Schema({
 	birthdate : Date, 
 	nationality : { 
 		type : String, 
-		enum : enums.nationalities, 
+		enum : enums.countries.nationality, 
 	 }, 
 	ldap_uid : String, 
 	banner_uid : String, 
@@ -82,8 +82,8 @@ var peopleSchema = new Schema({
 	activities : [
 		activity : { type : Schema.Type.ObjectId, ref : 'Activity' }
 	], 
-	distinctions : [{ 
-		organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
+	distinctions : [{
+		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }], 
 		date : Date, 
 		title : String, 
 		distinctionType : { 
@@ -103,6 +103,10 @@ var organizationSchema = new Schema({
 	name : String,
 	acronym : String,
 	address : String,
+	country : { 
+		type : String, 
+		enum : enums.countries.en_short_name
+	 }, 
 	status : {
 		type : String,
 		enum : enums.organizationStatuses
