@@ -9,16 +9,19 @@ var peopleSchema = new Schema({
 		 }
 	 }], 
 	firstname : String, 
-	name : String, 
+	name : { 
+		type : String,
+		required : true
+	}, 
 	gender : { 
 		type : String, 
 		enum : enums.genders, 
 	 }, 
 	birthdate : Date, 
-	nationality : { 
+	nationalities : [{ 
 		type : String, 
 		enum : enums.countries.nationality, 
-	 }, 
+	 }], 
 	ldap_uid : String, 
 	banner_uid : String, 
 	SIRH_matricule : String, 
@@ -26,49 +29,54 @@ var peopleSchema = new Schema({
 	IDREF : String, 
 	SPIRE_ID : String, 
 	positions : [{ 
-		position : {  
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
 			start_date : Date, 
 			end_date : Date, 
-			timepart : { type : Number, default : 1 }, 						
-			function : { 
+			timepart : { type : Number, default : 1 , min:0.05, max:1}, 						
+			job_title : { 
 				type : String, 
-				enum : enums.functions
-			 }
-		 }, 
-		statuses : [{ 
-			status : { 
-				type : String, 
-				enum : enums.statuses, 
+				enum : enums.job_title
+			 }, 
+			statuses : [{ 
+					type : String, 
+					enum : enums.statuses, 
+					start_date : Date, 
+					end_date : Date
+			}],
+			bonuses : [{ 
+				bonusType : { 
+					type : String, 
+					enum : enums.bonuses
+				 }, 
 				start_date : Date, 
 				end_date : Date
-			 }
+		 	}]
+	}], 
+	contacts : [{
+		title : String,
+		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}, 
+		phone : { type : String}
 	 }], 
-	bonuses : [
-		bonus : { 
-			bonusType : { 
-				type : String, 
-				enum : enums.bonuses
-			 }, 
-			start_date : Date, 
-			end_date : Date
-		 }
-	], 
-	contact : { 
-		email : { type : String }, 
-		phone : { type : String }
-	 }, 
-	photo_filename : String, 
+	//photo_filename : String, 
 	biography : String, 
 	tags : { 
-		hceres_2017 : Array, 
-		hceres_2012 : Array, 
+		hceres_2017 : [{ 
+			type : String, 
+			enum : enums.hceres_2017
+		 }],  
+		hceres_2012 : [{ 
+			type : String, 
+			enum : enums.hceres_2012
+		 }],  
 		methods : [{ 
 			type : String, 
 			enum : enums.methods
 		 }], 
 		free : Array, 
-		erc : Array, 
+		erc : [{ 
+			type : String, 
+			enum : enums.erc
+		 }],  
 		discipline : { 
 			type : String, 
 			enum : enum.disciplines
@@ -77,10 +85,30 @@ var peopleSchema = new Schema({
 			type : String, 
 			enum : enums.research_themes
 		 }
-	 }, 
-	langs : Array, 
-	activities : [
-		activity : { type : Schema.Type.ObjectId, ref : 'Activity' }
+	 },
+	langs:[{
+		type:String,
+		enum:enums.iso6391
+	}],
+	personnal_activities : [
+	 	{
+	 		personnalActivityType:{
+	 			type:String,
+	 			validate: {
+		          validator: function(v) {
+		          	//check if value if an element of this tree : enums.personnalActivityTypes
+		          	// maybe this field will not be validated in which cas the enum will only be used by autocompletion
+		            return true;
+		          }
+		      }
+	 		},
+	 		start_date : Date,
+	 		end_date : Date,
+	 		role: String,
+	 		description: String,
+	 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }]
+	 	}
+	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
 	], 
 	distinctions : [{
 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }], 
@@ -91,8 +119,7 @@ var peopleSchema = new Schema({
 			enum : enums.distinctionTypes
 		 }, 
 		subject : String, 
-		honours : String, //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
-		preference : Number
+		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
 	 }], 
 });
 
@@ -100,7 +127,10 @@ var peopleSchema = new Schema({
 
 
 var organizationSchema = new Schema({ 
-	name : String,
+	name : { 
+		type : String,
+		required : true
+	}, 
 	acronym : String,
 	address : String,
 	country : { 
@@ -115,20 +145,23 @@ var organizationSchema = new Schema({
 		type : String,
 		enum : enums.organizationTypes
 	},
-	url : String,
-	organisation_links : {
-		linkType : {
-			type : String,
-			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }
+	url : String, // match syntax url ? allez non.
+	organisation_links : [
+		 {
+			organization : { type : Schema.Type.ObjectId, ref : 'Organization' },
+			description: String
 		}
-	} 
+	] 
 });
 
 
 
 
 var activitySchema = new Schema({
-	name : String,
+	name : { 
+		type : String,
+		required : true
+	}, 
 	activityType : {
 		type : String,
 		enum : enums.activityTypes
@@ -147,10 +180,13 @@ var activitySchema = new Schema({
 		role : {
 			type : String,
 			enum : enums.activityPeopleRoles
-		}
+		},
+		start_date : Date,
+		end_date : Date
 	}],
 	subject : String,
 	summary : String,
+	url : String, 
 	grants : [
 		{
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' },
@@ -159,9 +195,13 @@ var activitySchema = new Schema({
 				type : String,
 				enum : enums.grantTypes
 			},
-			identifier : String,
+			grant_identifier : String,
 			sciencespo_amount : Number,
 			total_amount : Number,
+			currency_amount : {
+				type : String,
+				enum : enums.iso4217 
+			}
 			submission_date : Date,
 			start_date : Date,
 			end_date : Date,
