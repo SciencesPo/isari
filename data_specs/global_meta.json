@@ -145,9 +145,30 @@
 	"langs" : { 
 		"labels" : { "fr" : "Langues", "en" : "Languages" }
 	 }, 
-	 //TODO
-	"personalActivities" : { 
-		"labels" : { "fr" : "Activités", "en" : "Activities" }
+	"personal_activities" : { 
+		"labels" : { "fr" : "Activités", "en" : "Activities" },
+ 		"personalActivityType" : {
+			"labels" : { "fr" : "Type d'activité", "en" : "Activity type" }
+		}
+ 		"start_date" : {
+ 			"labels" : { "fr" : "Date de début", "en" : "Start date" },
+ 		}
+ 		"end_date" : {
+ 			"labels" : { "fr" : "Date de fin", "en" : "End date" },
+ 		}
+ 		"role": {
+ 			"labels" : { "fr" : "Rôle", "en" : "Role" },
+ 		}
+ 		"description": {
+ 			"labels" : { "fr" : "Description", "en" : "Description" },
+ 		}
+ 		"organizations" : {
+ 			"labels" : { "fr" : "Organisations", "en" : "Organizations" },
+ 		}
+		
+	 	"people" : { 
+	 		"labels" : { "fr" : "Personne(s) concernée(s)", "en" : "Involved people" },
+	 	 }, 
 	 }, 
 	"distinctions" : {
 		"labels" : { "fr" : "Distinctions", "en" : "Awards" }

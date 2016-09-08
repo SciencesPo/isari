@@ -119,8 +119,6 @@ var peopleSchema = new Schema({
 				people : { type : Schema.Type.ObjectId, ref : 'People' }
 				// validation custom à coder , dates grades contenus dans les dates de positions
 			}]
-		// validation custom à coder , dates grades contenus dans les dates de positions
-	}]
 	 	}
 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
 	], 
