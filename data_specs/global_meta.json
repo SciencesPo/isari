@@ -275,7 +275,7 @@
 		"labels" : { "fr" : "Site web", "en" : "Website url" }
 	},
 	"organisation_links" : {
-		"labels" : { "fr" : "?????????????", "en" : "??????????????" }//De quoi s'agit-il ?
+		"labels" : { "fr" : "Organisation(s) liée(s)", "en" : "Related organization(s)" }//De quoi s'agit-il ?
 	}
 
 }
