@@ -32,17 +32,24 @@ var peopleSchema = new Schema({
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
 			start_date : Date, 
 			end_date : Date, 
-			timepart : { type : Number, default : 1 , min:0.05, max:1}, 						
+			timepart : { type : Number, default : 1 , min:0.05, max:1},
+			job_type : { 
+				type : String, 
+				enum : enums.job_type
+			 }, 						
 			job_title : { 
 				type : String, 
 				enum : enums.job_title
 			 }, 
-			statuses : [{ 
-					type : String, 
-					enum : enums.statuses, 
+			grades : [{
+					grade :{
+						type : String, 
+						enum : enums.grade
+					}, 
 					start_date : Date, 
 					end_date : Date
-			}],
+					// validation custom à coder , dates grades contenus dans les dates de positions
+			}], 
 			bonuses : [{ 
 				bonusType : { 
 					type : String, 
@@ -50,6 +57,7 @@ var peopleSchema = new Schema({
 				 }, 
 				start_date : Date, 
 				end_date : Date
+				// validation custom à coder , dates grades contenus dans les dates de positions
 		 	}]
 	}], 
 	contacts : [{
@@ -64,9 +72,9 @@ var peopleSchema = new Schema({
 			type : String, 
 			enum : enums.hceres_2017
 		 }],  
-		hceres_2012 : [{ 
+		aeres_2012 : [{ 
 			type : String, 
-			enum : enums.hceres_2012
+			enum : enums.aeres_2012
 		 }],  
 		methods : [{ 
 			type : String, 
@@ -77,22 +85,22 @@ var peopleSchema = new Schema({
 			type : String, 
 			enum : enums.erc
 		 }],  
-		discipline : { 
+		discipline : [{ 
 			type : String, 
 			enum : enum.disciplines
-		 }, 
-		research_theme : { 
+		 }], 
+		research_theme : [{ 
 			type : String, 
 			enum : enums.research_themes
-		 }
+		 }]
 	 },
 	langs:[{
 		type:String,
 		enum:enums.iso6391
 	}],
-	personnal_activities : [
+	personal_activities : [
 	 	{
-	 		personnalActivityType:{
+	 		personalActivityType:{
 	 			type:String,
 	 			validate: {
 		          validator: function(v) {
@@ -106,21 +114,30 @@ var peopleSchema = new Schema({
 	 		end_date : Date,
 	 		role: String,
 	 		description: String,
-	 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }]
+	 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }],
+			people : [{
+				people : { type : Schema.Type.ObjectId, ref : 'People' }
+				// validation custom à coder , dates grades contenus dans les dates de positions
+			}]
+		// validation custom à coder , dates grades contenus dans les dates de positions
+	}]
 	 	}
 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
 	], 
 	distinctions : [{
 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }], 
 		date : Date, 
-		title : String, 
+		title : { 
+			type : String,
+			required : true
+		}, 
 		distinctionType : { 
 			type : String, 
 			enum : enums.distinctionTypes
 		 }, 
 		subject : String, 
 		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
-	 }], 
+	 }] 
 });
 
 
@@ -150,6 +167,7 @@ var organizationSchema = new Schema({
 		 {
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' },
 			description: String
+			// ajoute t'on un type de lien normé ? 
 		}
 	] 
 });
@@ -164,7 +182,8 @@ var activitySchema = new Schema({
 	}, 
 	activityType : {
 		type : String,
-		enum : enums.activityTypes
+		enum : enums.activityTypes,
+		required : true
 	},
 	start_date : Date, 
 	end_date : Date,
@@ -173,16 +192,22 @@ var activitySchema = new Schema({
 		role : {
 			type : String,
 			enum : enums.activityOrganizationRoles
-		}
+			// est ce bien normé ? 
+		},
+		start_date : Date,
+		end_date : Date
+		// validation custom à coder , dates grades contenus dans les dates de positions
 	}],
 	people : [{
 		people : { type : Schema.Type.ObjectId, ref : 'People' }, 		
 		role : {
 			type : String,
 			enum : enums.activityPeopleRoles
+			// est ce bien normé ? 
 		},
 		start_date : Date,
 		end_date : Date
+		// validation custom à coder , dates grades contenus dans les dates de positions
 	}],
 	subject : String,
 	summary : String,
@@ -212,6 +237,20 @@ var activitySchema = new Schema({
 			}
 		}
 	],
+	distinctions : [{
+		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }], 
+		date : Date, 
+		title : { 
+			type : String,
+			required : true
+		}, 
+		/*distinctionType : { 
+			type : String, 
+			enum : enums.distinctionActivityTypes
+		 }, */
+		subject : String, 
+		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
+	 }]
 });
 
 var Organization  = mongoose.model('Organization', organizationSchema);

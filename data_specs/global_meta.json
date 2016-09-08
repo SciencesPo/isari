@@ -22,7 +22,8 @@
 		"requirement" : "recommended", 
 		"labels" : { "fr" : "Date de naissance", "en" : "Birthdate" }
 	 }, 
-	"nationality" : { 
+	"nationalities" : { 
+		"labels" : { "fr" : "Nationalité(s)", "en" : "Nationanality(ies)" }
 	 }, 
 	"ldap_uid" : { 
 		"labels" : { "fr" : "Identifiant annuaire Sciences Po", "en" : "Sciences Po's directory identifier" }, 
@@ -64,35 +65,35 @@
 		"end_date" : { 
 			"labels" : { "fr" : "Date de fin", "en" : "End date" }
 		 }, 
-		"type" : { 
+		"job_type" : { 
 			"requirement" : "mandatory", 
-			"labels" : { "fr" : "Type", "en" : "Type" }
+			"labels" : { "fr" : "Type de contrat", "en" : "Contract type" }
 		 }, 
 		"timepart" : { 
 			"labels" : { "fr" : "Taux d'occupation", "en" : "Part time rate" }
 		 }, 						
-		"function" : { 
+		"job_title" : { 
 			"requirement" : "recommended", 
 			"labels" : { "fr" : "Fonction", "en" : "Function" }
-		 }
-	 }, 
-	"statuses" : { 
-		"labels" : { "fr" : "Statuts", "en" : "Status" }, 
-		"description" : { "fr" : "", "en" : "" }
-	 }, 
-	"statuses.status" : { 
-		"start_date" : { 
-			"requirement" : "mandatory", 
-			"labels" : { "fr" : "Date de début", "en" : "Start date" }
-		 }, 
-		"end_date" : { 
-			"labels" : { "fr" : "Date de fin", "en" : "End date" }
-		 }, 
-		"status" : { 
-			"requirement" : "mandatory", 
-			"labels" : { "fr" : "Statut", "en" : "Status" }
-		 }
-	 }, 
+		 },
+		 "grades" : { 
+			"labels" : { "fr" : "Grades", "en" : "Grades" }, 
+			"description" : { "fr" : "", "en" : "" }
+		 },
+		 "grades.grade" : { 
+			"start_date" : { 
+				"requirement" : "mandatory", 
+				"labels" : { "fr" : "Date de début", "en" : "Start date" }
+			 }, 
+			"end_date" : { 
+				"labels" : { "fr" : "Date de fin", "en" : "End date" }
+			 }, 
+			"grade" : { 
+				"requirement" : "mandatory", 
+				"labels" : { "fr" : "Grade", "en" : "Grade" }
+			 }
+	 	}
+	 },
 	"bonuses" : { 
 		"labels" : { "fr" : "Bonus", "en" : "Bonus" }, 
 		"description" : { "fr" : "", "en" : "" }
@@ -108,8 +109,8 @@
 			"labels" : { "fr" : "Date de fin", "en" : "End date" }
 		 }
 	 }, 
-	"contact" : { 
-		"labels" : { "fr" : "Contact", "en" : "Contact" }, 
+	"contacts" : { 
+		"labels" : { "fr" : "Contact(s)", "en" : "Contact(s)" }, 
 		"email" : { 
 			"labels" : { "fr" : "Email", "en" : "Email" }
 		 }, 
@@ -126,8 +127,8 @@
 	"tags.hceres_2017" : { 
 		"labels" : { "fr" : "Tags HCERES 2017", "en" : "HCERES 2017 tags" }
 	 }, 
-	"tags.hceres_2012" : { 
-		"labels" : { "fr" : "Tags HCERES 2012", "en" : "HCERES 2012 tags" }
+	"tags.aeres_2012" : { 
+		"labels" : { "fr" : "Tags AERES 2012", "en" : "AERES 2012 tags" }
 	 }, 
 	"tags.free" : { 
 		"labels" : { "fr" : "Tags libres", "en" : "Free tags" }
@@ -144,10 +145,11 @@
 	"langs" : { 
 		"labels" : { "fr" : "Langues", "en" : "Languages" }
 	 }, 
-	"activities" : { 
+	 //TODO
+	"personalActivities" : { 
 		"labels" : { "fr" : "Activités", "en" : "Activities" }
 	 }, 
-	"distinctions" : [
+	"distinctions" : {
 		"labels" : { "fr" : "Distinctions", "en" : "Awards" }
 	 }
  }
@@ -168,7 +170,7 @@
 	 }, 
 	"end_date" : { 
 		"labels" : { "fr" : "Date de fin", "en" : "End date" }
-	 }
+	 },
 	"organizations" : {
 		"labels" : { "fr" : "Organisation", "en" : "Organization" }
 	}, 
@@ -181,9 +183,12 @@
 	"summary" : {
 		"labels" : { "fr" : "Description", "en" : "Description" }
 	}, 
+	"url" : {
+		"labels" : { "fr" : "Site Web", "en" : "Website" }
+	},
 	"grants" : {
 		"labels" : { "fr" : "Subventions", "en" : "Grants" }
-	}
+	},
 	"grants.grant" : {
 		"organization" : {
 			"labels" : { "fr" : "Organisation", "en" : "Organization" }
@@ -241,10 +246,10 @@
 	},
 	"organizationType" : {
 		"labels" : { "fr" : "Type d'organisation", "en" : "Organization type" }
-	}
+	},
 	"url" : {
 		"labels" : { "fr" : "Site web", "en" : "Website url" }
-	}
+	},
 	"organisation_links" : {
 		"labels" : { "fr" : "?????????????", "en" : "??????????????" }//De quoi s'agit-il ?
 	}

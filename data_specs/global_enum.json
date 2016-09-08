@@ -3,15 +3,18 @@ enums : {
  
 	"genders" : [ "m", "f", "o" ],
  
-	"job_title" : [ "Associate professor" ],
+	"job_title" : [ "enseignant chercheur","enseignant","appui administratif","appui technique"],
  
-	"statuses" : [ "Associate professor", "Research Assistant" ],
+ 	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public"],
+	
+	"grade" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant" ],
  
-	"bonuses" : [ "Management" ],
+ 	// données viennent de GAPEC
+	"bonuses" : [ {"gapec_id":57,"label":"direction centre"}],
 
 	"hceres_2017" : ["sociologie"],
 
-	"hceres_2012" : ["sciences politiques"], 
+	"aeres_2012" : ["sciences politiques"], 
  
 	"methods" : [ "quantitative", "qualitative" ],
 
@@ -21,15 +24,15 @@ enums : {
  
 	"research_themes" : [ "famine", "urbanisme" ],
  
-	"distinctionTypes" : [ "diplôme", "double-diplôme" ],
+	"distinctionTypes" : [ "diplôme", "double-diplôme", "cotutelle", "distinction" ],
  
 	"organizationStatuses" : [ "public", "privé" ],
  
 	"organizationType" : [ "département", "unité Mixte de Rercherche" ],
  
-	"activityTypes" : [ "partenariat", "doctorat", "projet_recherche" ],
+	"activityTypes" : [ "partenariat", "doctorat", "projet de recherche", "mobilité" ],
 
-	"personnalActivityTypes" : {
+	"personalActivityTypes" : {
 			"responsabilité" : {
 				"évaluation" : ["évaluation de structures","Communauté de programmation scientifique","évaluation de projets de recherche","évaluation de pairs"],
 				"jury":["jury de Thèse","jury de HDR","jury d'Agrégation","Comité de sélection"]
@@ -43,7 +46,7 @@ enums : {
 	"activityOrganizationRoles" : ["inscription", "leader", "partneraire"],
  
 	"activityPeopleRoles" : ["professor", "PI", "participant", "doctorant", "directeur de thèse", "membre comité suivi", "membre du jury"],
- 
+
 	"grantType" : [ "collaboratif international", "levée de fond" ],
  
 	"grantStatuses" : [ "submitted","accepted","ongoing","done"],
