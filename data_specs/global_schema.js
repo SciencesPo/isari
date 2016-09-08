@@ -145,7 +145,8 @@ var organizationSchema = new Schema({
 	name : { 
 		type : String,
 		required : true
-	}, 
+	},
+	ID_banner : String,
 	acronym : String,
 	address : String,
 	country : { 

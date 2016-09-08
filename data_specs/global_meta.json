@@ -256,6 +256,9 @@
 		"requirement" : "mandatory", 
 		"labels" : { "fr" : "Nom", "en" : "Name" }
 	},
+	"ID_banner" : {
+		"labels" : {"fr" : "Identifiant Banner", "en" : "banner ID" }
+	}
 	"acronym" : {
 		"labels" : { "fr" : "Acronyme", "en" : "Acronym" }
 	},
