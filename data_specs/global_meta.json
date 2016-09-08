@@ -256,8 +256,17 @@
 		"requirement" : "mandatory", 
 		"labels" : { "fr" : "Nom", "en" : "Name" }
 	},
+	"IDS_academy" : {
+		"labels" : {"fr" : "Immatriculation académique", "en" : "Academy registration number" }
+	}
 	"ID_banner" : {
 		"labels" : {"fr" : "Identifiant Banner", "en" : "banner ID" }
+	}
+	"ID_spire" : {
+		"labels" : {"fr" : "Identifiant Spire", "en" : "Spire ID" }
+	}
+	"UG" : {
+		"labels" : {"fr" : "UG", "en" : "UG" }
 	}
 	"acronym" : {
 		"labels" : { "fr" : "Acronyme", "en" : "Acronym" }
@@ -275,7 +284,7 @@
 		"labels" : { "fr" : "Site web", "en" : "Website url" }
 	},
 	"organisation_links" : {
-		"labels" : { "fr" : "Organisation(s) liée(s)", "en" : "Related organization(s)" }//De quoi s'agit-il ?
+		"labels" : { "fr" : "Organisation(s) liée(s)", "en" : "Related organization(s)" }
 	}
 
 }

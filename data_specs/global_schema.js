@@ -146,7 +146,14 @@ var organizationSchema = new Schema({
 		type : String,
 		required : true
 	},
+	IDS_academy : [
+		{
+			type : String,
+		}
+	]
 	ID_banner : String,
+	ID_spire : String,
+	UG : String,
 	acronym : String,
 	address : String,
 	country : { 
