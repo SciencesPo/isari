@@ -3,11 +3,11 @@ enums : {
  
 	"genders" : [ "m", "f", "o" ],
  
-	"job_title" : [ "enseignant chercheur","enseignant","appui administratif","appui technique"],
+	"job_title" : [ "chercheur","chercheur enseignant","enseignant chercheur","enseignant","appui administratif","appui technique"],
  
- 	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public"],
+ 	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public","affiliation"],
 	
-	"grade" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant" ],
+	"grade" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant","CR1","DR","CM1","CM2"],
  
  	// données viennent de GAPEC
 	"bonuses" : [ {"gapec_id":57,"label":"direction centre"}],
@@ -23,12 +23,16 @@ enums : {
 	"disciplines" : [ "sociologie", "histoire" ],
  
 	"research_themes" : [ "famine", "urbanisme" ],
+
+	"section_CNU" : ["04 Sciences Politiques"],
+
+	"section_CNRS" : ["36 Sociologie", "40 Sciences Politiques"],
  
 	"distinctionTypes" : [ "diplôme", "double-diplôme", "cotutelle", "distinction" ],
  
 	"organizationStatuses" : [ "public", "privé" ],
  
-	"organizationType" : [ "département", "unité Mixte de Rercherche" ],
+	"organizationType" : [ "département", "unité Mixte de Rercherche","entreprise", "université","institution internationale" ],
  
 	"activityTypes" : [ "partenariat", "doctorat", "projet de recherche", "mobilité" ],
 

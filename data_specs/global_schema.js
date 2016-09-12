@@ -74,7 +74,7 @@ var peopleSchema = new Schema({
 		 }],  
 		aeres_2012 : [{ 
 			type : String, 
-			enum : enums.aeres_2012
+			enum : enums.aneres_2012
 		 }],  
 		methods : [{ 
 			type : String, 
@@ -92,6 +92,14 @@ var peopleSchema = new Schema({
 		research_theme : [{ 
 			type : String, 
 			enum : enums.research_themes
+		 }],
+		 section_CNU : [{ 
+		 	type: String,
+		 	enum : enums.section_cnu
+		 }],
+		 section_CNRS : [{
+		 	type: String,
+		 	enum : enums.section_cnrs
 		 }]
 	 },
 	langs:[{
@@ -153,6 +161,7 @@ var organizationSchema = new Schema({
 	]
 	ID_banner : String,
 	ID_spire : String,
+	ID_RNSR : String, //identifiant niveau labo français
 	UG : String,
 	acronym : String,
 	address : String,
@@ -217,7 +226,34 @@ var activitySchema = new Schema({
 	}],
 	subject : String,
 	summary : String,
-	url : String, 
+	url : String,
+	tags : { 
+		hceres_2017 : [{ 
+			type : String, 
+			enum : enums.hceres_2017
+		 }],  
+		aeres_2012 : [{ 
+			type : String, 
+			enum : enums.aneres_2012
+		 }],  
+		methods : [{ 
+			type : String, 
+			enum : enums.methods
+		 }], 
+		free : Array, 
+		erc : [{ 
+			type : String, 
+			enum : enums.erc
+		 }],  
+		discipline : [{ 
+			type : String, 
+			enum : enum.disciplines
+		 }], 
+		research_theme : [{ 
+			type : String, 
+			enum : enums.research_themes
+		 }]
+	},
 	grants : [
 		{
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' },
