@@ -15,7 +15,7 @@ var peopleSchema = new Schema({
 	}, 
 	gender : { 
 		type : String, 
-		enum : enums.genders, 
+		enum : enums.genders
 	 }, 
 	birthdate : Date, 
 	nationalities : [{ 
@@ -116,7 +116,12 @@ var peopleSchema = new Schema({
 		          	// maybe this field will not be validated in which cas the enum will only be used by autocompletion
 		            return true;
 		          }
-		      }
+		      },
+		      required : true
+	 		},
+	 		personnalActivityTitle:{
+	 			type : String
+	 			// choix guidé par une liste de valuer qui dépends de personalActivityType
 	 		},
 	 		start_date : Date,
 	 		end_date : Date,
@@ -125,7 +130,6 @@ var peopleSchema = new Schema({
 	 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }],
 			people : [{
 				people : { type : Schema.Type.ObjectId, ref : 'People' }
-				// validation custom à coder , dates grades contenus dans les dates de positions
 			}]
 	 	}
 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
@@ -154,11 +158,13 @@ var organizationSchema = new Schema({
 		type : String,
 		required : true
 	},
-	IDS_academy : [
+	researchunit_codes : [
 		{
-			type : String,
+			code : String,
+			start_date : Date,
+			end_date : Date
 		}
-	]
+	],
 	ID_banner : String,
 	ID_spire : String,
 	ID_RNSR : String, //identifiant niveau labo français
@@ -178,12 +184,8 @@ var organizationSchema = new Schema({
 		enum : enums.organizationTypes
 	},
 	url : String, // match syntax url ? allez non.
-	organisation_links : [
-		 {
-			organization : { type : Schema.Type.ObjectId, ref : 'Organization' },
-			description: String
-			// ajoute t'on un type de lien normé ? 
-		}
+	parent_organisations : [
+		{ type : Schema.Type.ObjectId, ref : 'Organization' }
 	] 
 });
 
@@ -285,11 +287,7 @@ var activitySchema = new Schema({
 		title : { 
 			type : String,
 			required : true
-		}, 
-		/*distinctionType : { 
-			type : String, 
-			enum : enums.distinctionActivityTypes
-		 }, */
+		},
 		subject : String, 
 		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
 	 }]
