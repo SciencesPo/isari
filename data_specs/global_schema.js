@@ -27,7 +27,7 @@ var peopleSchema = new Schema({
 	SIRH_matricule : String, 
 	ORCID : String, 
 	IDREF : String, 
-	SPIRE_ID : String, 
+	SPIRE_ID : String,
 	positions : [{ 
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
 			start_date : Date, 
@@ -59,7 +59,18 @@ var peopleSchema = new Schema({
 				end_date : Date
 				// validation custom à coder , dates grades contenus dans les dates de positions
 		 	}]
-	}], 
+	}],
+	academicMembership : [
+		{	
+			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
+			start_date : Date, 
+			end_date : Date,
+			membership_type : {
+				type : String,
+				enum: enums.academicMembership
+			} 
+		}
+	], 
 	contacts : [{
 		title : String,
 		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}, 

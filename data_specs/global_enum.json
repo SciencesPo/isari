@@ -5,12 +5,14 @@ enums : {
  
 	"job_title" : [ "chercheur","chercheur enseignant","enseignant chercheur","enseignant","appui administratif","appui technique"],
  
- 	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public","affiliation"],
+ 	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public"],
 	
 	"grade" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant","CR1","DR","CM1","CM2"],
  
  	// données viennent de GAPEC
 	"bonuses" : [ {"gapec_id":57,"label":"direction centre"}],
+
+	"academicMembership" : ["membre","associé","rattaché","affilié"],
 
 	"hceres_2017" : ["sociologie"],
 
