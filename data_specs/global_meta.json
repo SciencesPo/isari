@@ -56,7 +56,10 @@
 	 }, 
 	"positions.position" : {  
 		"organization" : { 
-			"requirement" : "mandatory"
+			"requirement" : "mandatory",
+			// add as suggestions the top x values already stored un the database in position.organisation
+			"suggestions" : "top 10 of existing values",
+			"description" : "tutelle du contrat : FNSP, CNRS, MESR..."
 		 }, 
 		"start_date" : { 
 			"requirement" : "mandatory", 
@@ -64,6 +67,9 @@
 		 }, 
 		"end_date" : { 
 			"labels" : { "fr" : "Date de fin", "en" : "End date" }
+		 }, 
+		"job_name" : { 
+			"labels" : { "fr" : "Emploi personnalisé", "en" : "Job name" }
 		 }, 
 		"job_type" : { 
 			"requirement" : "mandatory", 
@@ -78,7 +84,8 @@
 		 },
 		 "grades" : { 
 			"labels" : { "fr" : "Grades", "en" : "Grades" }, 
-			"description" : { "fr" : "", "en" : "" }
+			"description" : { "fr" : "", "en" : "" },
+			"admin_only" : true
 		 },
 		 "grades.grade" : { 
 			"start_date" : { 
@@ -96,7 +103,8 @@
 	 },
 	"bonuses" : { 
 		"labels" : { "fr" : "Bonus", "en" : "Bonus" }, 
-		"description" : { "fr" : "", "en" : "" }
+		"description" : { "fr" : "", "en" : "" },
+		"admin_only" : true
 	 }, 
 	"bonuses.bonus" : { 
 		"bonusType" : { 
@@ -150,6 +158,14 @@
  		"personalActivityType" : {
 			"labels" : { "fr" : "Type d'activité", "en" : "Activity type" }
 		},
+		"personalActivitySubtype" : {
+			"labels" : { "fr" : "Plus précisément", "en" : "More precisely" },
+			// this field is guided trough the suggestiosn field depending on personnalActivityType value
+			"suggestions":{
+				"editorial":["collection scientifique", "revue scientifique"],
+				"encadrement":["mémoire", "thèse", "HDR"]
+			}
+		},
  		"start_date" : {
  			"labels" : { "fr" : "Date de début", "en" : "Start date" },
  		},
@@ -158,6 +174,7 @@
  		},
  		"role": {
  			"labels" : { "fr" : "Rôle", "en" : "Role" },
+ 			"suggestions":["Direction","Co-Direction","Présidence","reviewer"]
  		},
  		"description": {
  			"labels" : { "fr" : "Description", "en" : "Description" },
@@ -195,9 +212,20 @@
 	"organizations" : {
 		"labels" : { "fr" : "Organisation", "en" : "Organization" }
 	}, 
-	"people" : {
+	"peoples" : {
 		"labels" : { "fr" : "Personnes", "en" : "Persons" }
-	}, 
+	},
+	"people.role": 
+	{
+		"labels" : { "fr" : "Role", "en" : "Role" },
+		 // this field is guided trough the suggestiosn field depending on personnalActivityType value
+		"suggestions":{
+				"research":["PI", "partenaire"],
+				"invitation":["invité", "référent"],
+				"séjour":["invité","référent"],
+				"doctorat":["directeru de thèse", "rapporteur"]
+		} 
+	},
 	"subject" : {
 		"labels" : { "fr" : "Sujet", "en" : "Subject" }
 	}, 

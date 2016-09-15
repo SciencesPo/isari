@@ -33,6 +33,7 @@ var peopleSchema = new Schema({
 			start_date : Date, 
 			end_date : Date, 
 			timepart : { type : Number, default : 1 , min:0.05, max:1},
+			job_name : String,
 			job_type : { 
 				type : String, 
 				enum : enums.job_type
@@ -121,15 +122,10 @@ var peopleSchema = new Schema({
 	 	{
 	 		personalActivityType:{
 	 			type:String,
-	 			validate: {
-		          validator: function(v) {
-		          	//check if value if an element of this tree : enums.personnalActivityTypes
-		          	// maybe this field will not be validated in which cas the enum will only be used by autocompletion
-		            return true;
-		          }
-		      },
-		      required : true
-	 		},
+	 			enum:enums.personalActivityType
+			    required : true
+		    },
+		    personalActivitySubtype:String,
 	 		personnalActivityTitle:{
 	 			type : String
 	 			// choix guidé par une liste de valuer qui dépends de personalActivityType
@@ -228,11 +224,7 @@ var activitySchema = new Schema({
 	}],
 	people : [{
 		people : { type : Schema.Type.ObjectId, ref : 'People' }, 		
-		role : {
-			type : String,
-			enum : enums.activityPeopleRoles
-			// est ce bien normé ? 
-		},
+		role :  String,
 		start_date : Date,
 		end_date : Date
 		// validation custom à coder , dates grades contenus dans les dates de positions

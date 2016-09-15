@@ -38,16 +38,7 @@ enums : {
  
 	"activityTypes" : [ "partenariat", "doctorat", "projet de recherche", "mobilité" ],
 
-	"personalActivityTypes" : {
-			"responsabilité" : {
-				"évaluation" : ["évaluation de structures","Communauté de programmation scientifique","évaluation de projets de recherche","évaluation de pairs"],
-				"jury":["jury de Thèse","jury de HDR","jury d'Agrégation","Comité de sélection"]
-				},
-			"enseignement" : {
-				"encadrement" : ["Direction de mémoire", "Direction/codirection de thèse", "Direction/codirection de HDR", "Comité de thèse"],
-				"enseignement" : ["collège", "master", "doctorat", "formation continue"]
-			}	
-	},
+	"personalActivityTypes" :["activités éditoriales", "encadrement", "jurys", "expertise", "évaluations", "responsabilités et mandats", "collaborations scientifiques"],
 
 	"activityOrganizationRoles" : ["inscription", "leader", "partneraire"],
  
