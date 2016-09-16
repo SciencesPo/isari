@@ -1,4 +1,4 @@
-enums : {
+"enums" : {
 	"isari_role" : [ "central_admin", "center_admin", "central_reader" ],
  
 	"genders" : [ "m", "f", "o" ],
