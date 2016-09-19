@@ -1,5 +1,5 @@
 enums : {
-	"isari_role" : [ "central_admin", "center_admin", "central_reader" ],
+	"isari_role" : [ "central_admin", "center_admin", "central_reader", "CV_editor" ],
  
 	"genders" : [ "m", "f", "o" ],
  
