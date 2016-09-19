@@ -52,7 +52,7 @@ var peopleSchema = new Schema({
 			bonuses : [{ 
 				bonusType : { 
 					type : String, 
-					enum : enums.bonuses
+					enum : enums.bonusTypes
 				 }, 
 				start_date : Date, 
 				end_date : Date

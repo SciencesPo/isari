@@ -1,3 +1,4 @@
+{
 "peopleSchema" : { 
 	"isari_authorized_centers" : { 
 		"labels" : { "fr" : "Affiliation", "en" : "Affiliation" }, 
@@ -39,11 +40,11 @@
 	 }, 
 	"ORCID" : { 
 		"labels" : { "fr" : "ORCID", "en" : "ORCID" }, 
-		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur", "en" : "Open Researcher and Contributor ID" }, 
+		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur", "en" : "Open Researcher and Contributor ID" }
 	 }, 
 	"IDREF" : { 
 		"labels" : { "fr" : "IDREF", "en" : "IDREF" }, 
-		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames", "en" : "Identifier compatible SUDOC, STAR, STEP, Calames" }, 		
+		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames", "en" : "Identifier complying with SUDOC, STAR, STEP, Calames" }, 		
 		"service" : "idref"
 	 }, 
 	"SPIRE_ID" : { 
@@ -55,9 +56,9 @@
 		"description" : { "fr" : "Contrats, affiliations, rattachements...", "en" : "Positions, affiliations, attachments..." }
 	 }, 
 	"positions.position" : {  
-		"organization" : { 
+		"organization /*add as suggestions the top x values already stored un the database in position.organisation*/" : { 
 			"requirement" : "mandatory",
-			// add as suggestions the top x values already stored un the database in position.organisation
+			
 			"suggestions" : "top 10 of existing values",
 			"description" : "tutelle du contrat : FNSP, CNRS, MESR..."
 		 }, 
@@ -124,7 +125,7 @@
 		 }, 
 		"phone" : { 
 			"labels" : { "fr" : "Téléphone", "en" : "Phone number" }
-		 }, 
+		 } 
 	 }, 
 	"photo_filename" : { 
 		"labels" : { "fr" : "Photo", "en" : "Photo" }
@@ -158,12 +159,11 @@
  		"personalActivityType" : {
 			"labels" : { "fr" : "Type d'activité", "en" : "Activity type" }
 		},
-		"personalActivitySubtype" : {
+		"personalActivitySubtype /*this field is guided trough the suggestiosn field depending on personnalActivityType value */" : {
 			"labels" : { "fr" : "Plus précisément", "en" : "More precisely" },
-			// this field is guided trough the suggestiosn field depending on personnalActivityType value
-			"suggestions":{
-				"editorial":["collection scientifique", "revue scientifique"],
-				"encadrement":["mémoire", "thèse", "HDR"]
+ 			"suggestions" : {
+				"editorial"  : ["collection scientifique", "revue scientifique"],
+				"encadrement" : ["mémoire", "thèse", "HDR"]
 			}
 		},
  		"start_date" : {
@@ -174,9 +174,9 @@
  		},
  		"role": {
  			"labels" : { "fr" : "Rôle", "en" : "Role" },
- 			"suggestions":["Direction","Co-Direction","Présidence","reviewer"]
+ 			"suggestions" : ["Direction","Co-Direction","Présidence","reviewer"]
  		},
- 		"description": {
+ 		"description" : {
  			"labels" : { "fr" : "Description", "en" : "Description" },
  		},
  		"organizations" : {
@@ -192,9 +192,10 @@
 	 }
  }
 
+}
 
 
-
+{
 "activitySchema" : {
 	"name" : {
 		"requirement" : "mandatory", 
@@ -215,16 +216,17 @@
 	"peoples" : {
 		"labels" : { "fr" : "Personnes", "en" : "Persons" }
 	},
-	"people.role": 
-	{
-		"labels" : { "fr" : "Role", "en" : "Role" },
-		 // this field is guided trough the suggestiosn field depending on personnalActivityType value
-		"suggestions":{
-				"research":["PI", "partenaire"],
-				"invitation":["invité", "référent"],
-				"séjour":["invité","référent"],
-				"doctorat":["directeru de thèse", "rapporteur"]
-		} 
+	"peoples.people" : {
+		"role": {
+			"labels" : { "fr" : "Role", "en" : "Role" },
+	
+			"suggestions /*this field is guided through the suggestions field depending on personnalActivityType value*/" : {
+					"research" : ["PI", "partenaire"],
+					"invitation" : ["invité", "référent"],
+					"séjour" : ["invité","référent"],
+					"doctorat" : ["directeur de thèse", "rapporteur"]
+			} 
+		}
 	},
 	"subject" : {
 		"labels" : { "fr" : "Sujet", "en" : "Subject" }
@@ -275,45 +277,46 @@
 	}
 	
 }
+}
 
 
+{
+	"organizationSchema" : { 
+		"name" : {
+			"requirement" : "mandatory", 
+			"labels" : { "fr" : "Nom", "en" : "Name" }
+		},
+		"IDS_academy" : {
+			"labels" : {"fr" : "Immatriculation académique", "en" : "Academy registration number" }
+		},
+		"ID_banner" : {
+			"labels" : {"fr" : "Identifiant Banner", "en" : "banner ID" }
+		},
+		"ID_spire" : {
+			"labels" : {"fr" : "Identifiant Spire", "en" : "Spire ID" }
+		},
+		"UG" : {
+			"labels" : {"fr" : "UG", "en" : "UG" }
+		},
+		"acronym" : {
+			"labels" : { "fr" : "Acronyme", "en" : "Acronym" }
+		},
+		"address" : {
+			"labels" : { "fr" : "Adresse", "en" : "Address" }
+		},
+		"status" : {
+			"labels" : { "fr" : "Statut", "en" : "Status" }
+		},
+		"organizationType" : {
+			"labels" : { "fr" : "Type d'organisation", "en" : "Organization type" }
+		},
+		"url" : {
+			"labels" : { "fr" : "Site web", "en" : "Website url" }
+		},
+		"organisation_links" : {
+			"labels" : { "fr" : "Organisation(s) liée(s)", "en" : "Related organization(s)" }
+		}
 
-
-"organizationSchema" : { 
-	"name" : {
-		"requirement" : "mandatory", 
-		"labels" : { "fr" : "Nom", "en" : "Name" }
-	},
-	"IDS_academy" : {
-		"labels" : {"fr" : "Immatriculation académique", "en" : "Academy registration number" }
-	},
-	"ID_banner" : {
-		"labels" : {"fr" : "Identifiant Banner", "en" : "banner ID" }
-	},
-	"ID_spire" : {
-		"labels" : {"fr" : "Identifiant Spire", "en" : "Spire ID" }
-	},
-	"UG" : {
-		"labels" : {"fr" : "UG", "en" : "UG" }
-	},
-	"acronym" : {
-		"labels" : { "fr" : "Acronyme", "en" : "Acronym" }
-	},
-	"address" : {
-		"labels" : { "fr" : "Adresse", "en" : "Address" }
-	},
-	"status" : {
-		"labels" : { "fr" : "Statut", "en" : "Status" }
-	},
-	"organizationType" : {
-		"labels" : { "fr" : "Type d'organisation", "en" : "Organization type" }
-	},
-	"url" : {
-		"labels" : { "fr" : "Site web", "en" : "Website url" }
-	},
-	"organisation_links" : {
-		"labels" : { "fr" : "Organisation(s) liée(s)", "en" : "Related organization(s)" }
 	}
-
 }
 
