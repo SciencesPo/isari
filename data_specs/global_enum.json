@@ -9,8 +9,7 @@ enums : {
 	
 	"grade" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant","CR1","DR","CM1","CM2"],
  
- 	// données viennent de GAPEC
-	"bonuses" : [ {"gapec_id":57,"label":"direction centre"}],
+	"bonusTypes" : ["Prime direction", "Prime de convergence"],
 
 	"academicMembership" : ["membre","associé","rattaché","affilié"],
 

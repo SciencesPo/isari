@@ -1,5 +1,3 @@
-//Short People, excellente chanson de Randy Newman (https://play.google.com/music/preview/To5bpqly4uy6xpzie42hk2qeu2a?lyrics=1&utm_source=google&utm_medium=search&utm_campaign=lyrics&pcampaignid=kp-songlyrics)
-	
 var peopleSchema = new Schema({ 
 	isari_authorized_centers : [{ 
 		organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
@@ -32,7 +30,7 @@ var peopleSchema = new Schema({
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
 			start_date : Date, 
 			end_date : Date, 
-			timepart : { type : Number, default : 1 , min:0.05, max:1},
+			timepart : { type : Number, default : 1 , min:0.05, max:1 },
 			job_name : String,
 			job_type : { 
 				type : String, 
@@ -54,7 +52,7 @@ var peopleSchema = new Schema({
 			bonuses : [{ 
 				bonusType : { 
 					type : String, 
-					enum : enums.bonuses
+					enum : enums.bonusTypes
 				 }, 
 				start_date : Date, 
 				end_date : Date
@@ -68,14 +66,14 @@ var peopleSchema = new Schema({
 			end_date : Date,
 			membership_type : {
 				type : String,
-				enum: enums.academicMembership
+				enum : enums.academicMembership
 			} 
 		}
 	], 
 	contacts : [{
 		title : String,
-		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}, 
-		phone : { type : String}
+		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ }, 
+		phone : { type : String }
 	 }], 
 	//photo_filename : String, 
 	biography : String, 
@@ -99,45 +97,43 @@ var peopleSchema = new Schema({
 		 }],  
 		discipline : [{ 
 			type : String, 
-			enum : enum.disciplines
+			enum : enums.disciplines
 		 }], 
 		research_theme : [{ 
 			type : String, 
 			enum : enums.research_themes
 		 }],
 		 section_CNU : [{ 
-		 	type: String,
+		 	type : String,
 		 	enum : enums.section_cnu
 		 }],
 		 section_CNRS : [{
-		 	type: String,
+		 	type : String,
 		 	enum : enums.section_cnrs
 		 }]
 	 },
 	langs:[{
-		type:String,
-		enum:enums.iso6391
+		type : String,
+		enum : enums.iso6391
 	}],
 	personal_activities : [
 	 	{
-	 		personalActivityType:{
-	 			type:String,
-	 			enum:enums.personalActivityType
+	 		personalActivityType : {
+	 			type : String,
+	 			enum : enums.personalActivityType,
 			    required : true
 		    },
-		    personalActivitySubtype:String,
-	 		personnalActivityTitle:{
+		    personalActivitySubtype : String,
+	 		personnalActivityTitle : {
 	 			type : String
 	 			// choix guidé par une liste de valuer qui dépends de personalActivityType
 	 		},
 	 		start_date : Date,
 	 		end_date : Date,
-	 		role: String,
-	 		description: String,
+	 		role : String,
+	 		description : String,
 	 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }],
-			people : [{
-				people : { type : Schema.Type.ObjectId, ref : 'People' }
-			}]
+			peoples : [{ type : Schema.Type.ObjectId, ref : 'People' }]
 	 	}
 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
 	], 
@@ -222,7 +218,7 @@ var activitySchema = new Schema({
 		end_date : Date
 		// validation custom à coder , dates grades contenus dans les dates de positions
 	}],
-	people : [{
+	peoples : [{
 		people : { type : Schema.Type.ObjectId, ref : 'People' }, 		
 		role :  String,
 		start_date : Date,
@@ -252,7 +248,7 @@ var activitySchema = new Schema({
 		 }],  
 		discipline : [{ 
 			type : String, 
-			enum : enum.disciplines
+			enum : enums.disciplines
 		 }], 
 		research_theme : [{ 
 			type : String, 
