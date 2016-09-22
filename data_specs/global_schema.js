@@ -1,5 +1,5 @@
 var peopleSchema = new Schema({ 
-	corporate : {
+	admin : {
 		isari_authorized_centers : [{ 
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
 			isari_role : { 
@@ -7,6 +7,9 @@ var peopleSchema = new Schema({
 				enum : enums.isari_roles, 
 			 }
 		 }], 
+		
+	},
+	corporate : {
 		firstname : String,
 		name : { 
 			type : String,
@@ -67,7 +70,7 @@ var peopleSchema = new Schema({
 	 				// validation custom à coder , dates grades contenus dans les dates de positions
 	 		 	}]
 	 	}],
-		academicMembership : [
+		academicMemberships : [
 			{	
 				organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
 				start_date : Date, 
