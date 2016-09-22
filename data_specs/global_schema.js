@@ -49,7 +49,8 @@ var peopleSchema = new Schema({
 	 					}, 
 	 					start_date : Date, 
 	 					end_date : Date
-	 					// validation custom à coder , dates grades contenus dans les dates de positions
+	 					// validation custom à coder, dates grades contenus dans les dates de positions
+	 					// validation custom à coder, ne peut être rempli que si job_type  in ["appui administratif","appui technique"]
 	 			}], 
 	 			grades_academic : [{
 	 					grade : {
@@ -58,7 +59,8 @@ var peopleSchema = new Schema({
 	 					}, 
 	 					start_date : Date, 
 	 					end_date : Date
-	 					// validation custom à coder , dates grades contenus dans les dates de positions
+	 					// validation custom à coder, dates grades contenus dans les dates de positions
+	 					// validation custom à coder, ne peut être rempli que si job_type not in ["appui administratif","appui technique"]
 	 			}], 
 	 			bonuses : [{ 
 	 				bonusType : { 
