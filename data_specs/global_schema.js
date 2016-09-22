@@ -4,7 +4,7 @@ var peopleSchema = new Schema({
 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
 			isari_role : { 
 				type : String, 
-				enum : enums.isari_authorized_centers, 
+				enum : enums.isari_roles, 
 			 }
 		 }], 
 		firstname : String,

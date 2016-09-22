@@ -1,5 +1,5 @@
 enums : {
-	"isari_role" : [ "central_admin", "center_admin", "central_reader", "center_editor", "center_member","CV_editor","public"],
+	"isari_roles" : [ "central_admin", "center_admin", "central_reader", "center_editor", "center_member", "CV_editor", "public" ],
  
 	"genders" : [ "m", "f", "o" ],
  
@@ -8,7 +8,7 @@ enums : {
  	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public"],
 	
 	"grade-admin" : [ "CM1", "CM2" , "CM3", ],
- 
+ 	
 	"grade-academic" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant" ],
 
 	"bonusTypes" : ["Prime direction", "Prime de convergence"],
