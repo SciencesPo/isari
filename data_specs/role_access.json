@@ -24,7 +24,7 @@
 	},
 	"research_member":{
 		"corporate":["read"],
-		"individual":["read_others","write"],
+		"individual":["read","write"],
 		"all":["write"]
 	},
 	"public_intern":{},
