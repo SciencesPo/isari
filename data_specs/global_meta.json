@@ -1,61 +1,55 @@
 {
 "peopleSchema" : { 
-	"isari_authorized_centers" : { 
-		"labels" : { "fr" : "Affiliation", "en" : "Affiliation" }, 
-		"admin_only" : true
+	"admin":{"accessType":"confidential"}
+	"admin.isari_authorized_centers" : { 
+		"labels" : { "fr" : "Accès au(x) centre(s)", "en" : "Center(s) access" },
 	 }, 
-	"isari_authorized_centers.isari_role" : { 
-		"labels" : { "fr" : "Role", "en" : "Role" }
-	 }, 
-	"firstname" : { 
+	"admin.isari_authorized_centers.isari_role" : { 
+		"labels" : { "fr" : "Role", "en" : "Role" },
+	 },
+	"corporate":{
+		"accessType":"corporate"
+	},
+	"corporate.firstname" : { 
 		"requirement" : "mandatory", 
 		"labels" : { "fr" : "Prénom", "en" : "Firstname" }
 	 }, 
-	"name" : { 
+	"corporate.name" : { 
 		"requirement" : "mandatory", 
 		"labels" : { "fr" : "Nom", "en" : "Name" }
 	 }, 
-	"gender" : { 
+	"corporate.gender" : { 
 		"requirement" : "recommended", 
 		"labels" : { "fr" : "Genre", "en" : "Gender" }
 	 }, 
-	"birthdate" : { 
+	"corporate.birthdate" : { 
 		"requirement" : "recommended", 
 		"labels" : { "fr" : "Date de naissance", "en" : "Birthdate" }
 	 }, 
-	"nationalities" : { 
+	"corporate.nationalities" : { 
 		"labels" : { "fr" : "Nationalité(s)", "en" : "Nationanality(ies)" }
 	 }, 
-	"ldap_uid" : { 
+	"corporate.ldap_uid" : { 
 		"labels" : { "fr" : "Identifiant annuaire Sciences Po", "en" : "Sciences Po's directory identifier" }, 
 		"service" : "ldap"
 	 }, 
-	"banner_uid" : { 
+	"corporate.banner_uid" : { 
 		"labels" : { "fr" : "Identifiant scolarité Sciences Po", "en" : "Sciences Po's teaching identifier" }, 
 		"service" : "banner"
 	 }, 
-	"SIRH_matricule" : { 
+	"corporate.SIRH_matricule" : { 
 		"labels" : { "fr" : "Identifiant Ressources Humaines Sciences Po", "en" : "Sciences Po's Human ressoruces identifier" }, 
 		"service" : "sirh"
 	 }, 
-	"ORCID" : { 
-		"labels" : { "fr" : "ORCID", "en" : "ORCID" }, 
-		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur", "en" : "Open Researcher and Contributor ID" }
-	 }, 
-	"IDREF" : { 
-		"labels" : { "fr" : "IDREF", "en" : "IDREF" }, 
-		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames", "en" : "Identifier complying with SUDOC, STAR, STEP, Calames" }, 		
-		"service" : "idref"
-	 }, 
-	"SPIRE_ID" : { 
+	"corporate.SPIRE_ID" : { 
 		"labels" : { "fr" : "identifiant SPIRE", "en" : "SPIRE identifier" }, 
 		"service" : "spire"
 	 }, 
-	"positions" : { 
+	"corporate.positions" : { 
 		"labels" : { "fr" : "Contrats", "en" : "Positions" }, 
 		"description" : { "fr" : "Contrats, affiliations, rattachements...", "en" : "Positions, affiliations, attachments..." }
 	 }, 
-	"positions.position" : {  
+	"corporate.positions.position" : {  
 		"organization /*add as suggestions the top x values already stored un the database in position.organisation*/" : { 
 			"requirement" : "mandatory",
 			
@@ -83,12 +77,107 @@
 			"requirement" : "recommended", 
 			"labels" : { "fr" : "Fonction", "en" : "Function" }
 		 },
-		 "grades" : { 
+		 "grades_academic" : { 
 			"labels" : { "fr" : "Grades", "en" : "Grades" }, 
 			"description" : { "fr" : "", "en" : "" },
-			"admin_only" : true
 		 },
-		 "grades.grade" : { 
+		 "grades_academic.grade" : { 
+			"start_date" : { 
+				"requirement" : "mandatory", 
+				"labels" : { "fr" : "Date de début", "en" : "Start date" }
+			 }, 
+			"end_date" : { 
+				"labels" : { "fr" : "Date de fin", "en" : "End date" }
+			 }, 
+			"grade" : { 
+				"requirement" : "mandatory", 
+				"labels" : { "fr" : "Grade", "en" : "Grade" }
+			 }
+	 	},
+	 	 "grades_admin" : { 
+			"labels" : { "fr" : "Emplois repère", "en" : "Job grid" }, 
+			"description" : { "fr" : "", "en" : "" },
+			"accessType":"confidential"
+		 },
+		 "grades_admin.grade" : { 
+			"start_date" : { 
+				"requirement" : "mandatory", 
+				"labels" : { "fr" : "Date de début", "en" : "Start date" }
+			 }, 
+			"end_date" : { 
+				"labels" : { "fr" : "Date de fin", "en" : "End date" }
+			 }, 
+			"grade" : { 
+				"requirement" : "mandatory", 
+				"labels" : { "fr" : "emplois repère", "en" : "job level" }
+			 },
+			 "accessType":"confidential"
+	 	},
+		"bonuses" : { 
+			"labels" : { "fr" : "Bonus", "en" : "Bonus" }, 
+			"description" : { "fr" : "", "en" : "" },
+			"accessType":"confidential"
+		 }, 
+		"bonuses.bonus" : { 
+			"bonusType" : { 
+				"labels" : { "fr" : "Type", "en" : "Type" }
+			 }, 
+			"start_date" : { 
+				"labels" : { "fr" : "Date de début", "en" : "Start date" }
+			 }, 
+			"end_date" : { 
+				"labels" : { "fr" : "Date de fin", "en" : "End date" }
+			 },
+			 "accessType":"confidential"
+		 }
+	}, 
+	"corporate.academicMemberships":{
+		"labels" : { "fr" : "Affiliation", "en" : "Affiliation" },
+		"requirement" : "recommended",
+	},
+	"individual":{"accessType":"individual"},
+	"individual.ORCID" : { 
+		"labels" : { "fr" : "ORCID", "en" : "ORCID" }, 
+		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur", "en" : "Open Researcher and Contributor ID" }
+	 }, 
+	"individual.IDREF" : { 
+		"labels" : { "fr" : "IDREF", "en" : "IDREF" }, 
+		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames", "en" : "Identifier complying with SUDOC, STAR, STEP, Calames" }, 		
+		"service" : "idref"
+	 }, 
+	"individual.former_positions": {  
+		"organization /*add as suggestions the top x values already stored un the database in position.organisation*/" : { 
+			"requirement" : "mandatory",
+			
+			"suggestions" : "top 10 of existing values",
+			"description" : "tutelle du contrat : FNSP, CNRS, MESR..."
+		 }, 
+		"start_date" : { 
+			"requirement" : "mandatory", 
+			"labels" : { "fr" : "Date de début", "en" : "Start date" }
+		 }, 
+		"end_date" : { 
+			"labels" : { "fr" : "Date de fin", "en" : "End date" }
+		 }, 
+		"job_name" : { 
+			"labels" : { "fr" : "Emploi personnalisé", "en" : "Job name" }
+		 }, 
+		"job_type" : { 
+			"requirement" : "mandatory", 
+			"labels" : { "fr" : "Type de contrat", "en" : "Contract type" }
+		 }, 
+		"timepart" : { 
+			"labels" : { "fr" : "Taux d'occupation", "en" : "Part time rate" }
+		 }, 						
+		"job_title" : { 
+			"requirement" : "recommended", 
+			"labels" : { "fr" : "Fonction", "en" : "Function" }
+		 },
+		 "grades_academic" : { 
+			"labels" : { "fr" : "Grades", "en" : "Grades" }, 
+			"description" : { "fr" : "", "en" : "" },
+		 },
+		 "grades_academic.grade" : { 
 			"start_date" : { 
 				"requirement" : "mandatory", 
 				"labels" : { "fr" : "Date de début", "en" : "Start date" }
@@ -101,24 +190,8 @@
 				"labels" : { "fr" : "Grade", "en" : "Grade" }
 			 }
 	 	}
-	 },
-	"bonuses" : { 
-		"labels" : { "fr" : "Bonus", "en" : "Bonus" }, 
-		"description" : { "fr" : "", "en" : "" },
-		"admin_only" : true
-	 }, 
-	"bonuses.bonus" : { 
-		"bonusType" : { 
-			"labels" : { "fr" : "Type", "en" : "Type" }
-		 }, 
-		"start_date" : { 
-			"labels" : { "fr" : "Date de début", "en" : "Start date" }
-		 }, 
-		"end_date" : { 
-			"labels" : { "fr" : "Date de fin", "en" : "End date" }
-		 }
-	 }, 
-	"contacts" : { 
+	},
+	"individual.contacts" : { 
 		"labels" : { "fr" : "Contact(s)", "en" : "Contact(s)" }, 
 		"email" : { 
 			"labels" : { "fr" : "Email", "en" : "Email" }
@@ -127,34 +200,34 @@
 			"labels" : { "fr" : "Téléphone", "en" : "Phone number" }
 		 } 
 	 }, 
-	"photo_filename" : { 
+	"individual.photo_filename" : { 
 		"labels" : { "fr" : "Photo", "en" : "Photo" }
 	 }, 
-	"biography" : { 
+	"individual.biography" : { 
 		"labels" : { "fr" : "Bio", "en" : "Bio" }
 	 }, 
-	"tags.hceres_2017" : { 
+	"individual.tags.hceres_2017" : { 
 		"labels" : { "fr" : "Tags HCERES 2017", "en" : "HCERES 2017 tags" }
 	 }, 
-	"tags.aeres_2012" : { 
+	"individual.tags.aeres_2012" : { 
 		"labels" : { "fr" : "Tags AERES 2012", "en" : "AERES 2012 tags" }
 	 }, 
-	"tags.free" : { 
+	"individual.tags.free" : { 
 		"labels" : { "fr" : "Tags libres", "en" : "Free tags" }
 	 }, 
-	"tags.erc" : { 
+	"individual.tags.erc" : { 
 		"labels" : { "fr" : "Tags ERC", "en" : "ERC tags" }
 	 }, 
-	"tags.discipline" : { 
+	"individual.tags.discipline" : { 
 		"labels" : { "fr" : "Disciplines", "en" : "Academics" }
 	 }, 
-	"tags.research_theme" : { 
+	"individual.tags.research_theme" : { 
 		"labels" : { "fr" : "Thèmes de recherche", "en" : "Research themes" }
 	 }, 
-	"langs" : { 
+	"individual.langs" : { 
 		"labels" : { "fr" : "Langues", "en" : "Languages" }
 	 }, 
-	"personal_activities" : { 
+	"individual.personal_activities" : { 
 		"labels" : { "fr" : "Activités", "en" : "Activities" },
  		"personalActivityType" : {
 			"labels" : { "fr" : "Type d'activité", "en" : "Activity type" }
@@ -187,7 +260,7 @@
 	 		"labels" : { "fr" : "Personne(s) concernée(s)", "en" : "Involved people" },
 	 	 }, 
 	 }, 
-	"distinctions" : {
+	"individual.distinctions" : {
 		"labels" : { "fr" : "Distinctions", "en" : "Awards" }
 	 }
  }
