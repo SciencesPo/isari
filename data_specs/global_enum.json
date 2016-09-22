@@ -7,8 +7,10 @@ enums : {
  
  	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public"],
 	
-	"grade" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant","CR1","DR","CM1","CM2"],
+	"grade-admin" : [ "CM1", "CM2" , "CM3", ],
  
+	"grade-academic" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant" ],
+
 	"bonusTypes" : ["Prime direction", "Prime de convergence"],
 
 	"academicMembership" : ["membre","associé","rattaché","affilié"],
