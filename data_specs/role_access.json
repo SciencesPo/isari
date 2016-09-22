@@ -1,0 +1,32 @@
+{
+	"central_admin":{
+		"confidential":["write"],
+		"corporate":["write"],
+		"individual":["write"],
+		"all":["write"]
+	},
+	"central_reader":{
+		"confidential":["read"],
+		"corporate":["read"],
+		"individual":["read"],
+		"all":["read"]
+	},
+	"research_admin":{
+		"confidential":["read"],
+		"corporate":["read"],
+		"individual":["write"],
+		"all":["write"]
+	},
+	"research_editor":{
+		"corporate":["read"],
+		"individual":["write"],
+		"all":["write"]
+	},
+	"research_member":{
+		"corporate":["read"],
+		"individual":["read_others","write"],
+		"all":["write"]
+	},
+	"public_intern":{},
+	"public_extern":{}
+}
