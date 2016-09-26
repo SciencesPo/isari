@@ -28,6 +28,10 @@ var peopleSchema = new mongoose.Schema({
 			type : String,
 			required : true
 		}, 
+		birth_name : { 
+			type : String,
+			required : true
+		}, 
 		gender : { 
 			type : String, 
 			enum : enums.genders
@@ -55,6 +59,7 @@ var peopleSchema = new mongoose.Schema({
 	 				type : String, 
 	 				enum : enums.job_title
 	 			 }, 
+	 			UG : String,
 	 			grades_admin : [{
 	 					grade : {
 	 						type : String, 
@@ -100,6 +105,7 @@ var peopleSchema = new mongoose.Schema({
 	individual : {
 		ORCID : String, 
 		IDREF : String, 
+<<<<<<< HEAD
 		former_positions : [{ 
 				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
 				start_date : Date, 
@@ -124,6 +130,8 @@ var peopleSchema = new mongoose.Schema({
 						// validation custom à coder , dates grades contenus dans les dates de positions
 				}], 
 		}],
+=======
+>>>>>>> 6f26c90761eaab6123eda6da196e4a6a38d23712
 		biography : String, 
 		tags : { 
 			hceres_2017 : [{ 
@@ -321,6 +329,9 @@ var activitySchema = new mongoose.Schema({
 			grant_identifier : String,
 			sciencespo_amount : Number,
 			total_amount : Number,
+			invest_amount: Number,
+			run_amount: Number,
+			hr_amount: Number,
 			currency_amount : {
 				type : String,
 				enum : enums.iso4217 

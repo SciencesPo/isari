@@ -23,7 +23,7 @@
 		"all":["write"]
 	},
 	"research_member":{
-		"corporate":["read"],
+		"corporate":["read","write"],
 		"individual":["read","write"],
 		"all":["write"]
 	},
