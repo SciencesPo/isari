@@ -1,7 +1,20 @@
-var peopleSchema = new Schema({ 
+var fs = require('fs');
+var mongoose = require('mongoose');
+
+
+var enums = fs.readFileSync('./data_specs/global_enum.json');
+// console.log(enums);
+
+  // var enums = require('./data_specs/global_enum.json');
+
+// console.log(enums);
+// return false;
+
+
+var peopleSchema = new mongoose.Schema({ 
 	admin : {
 		isari_authorized_centers : [{ 
-			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
+			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
 			isari_role : { 
 				type : String, 
 				enum : enums.isari_roles, 
@@ -22,14 +35,14 @@ var peopleSchema = new Schema({
 	 	birthdate : Date, 
 	 	nationalities : [{ 
 	 		type : String, 
-	 		enum : enums.countries.nationality, 
+	 		enum : enums.nationalities, 
 	 	 }], 
 		ldap_uid : String, 
 		banner_uid : String, 
 		SIRH_matricule : String, 
 	 	SPIRE_ID : String,
 	 	positions : [{ 
-	 			organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
+	 			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
 	 			start_date : Date, 
 	 			end_date : Date, 
 	 			timepart : { type : Number, default : 1 , min:0.05, max:1 },
@@ -74,7 +87,7 @@ var peopleSchema = new Schema({
 	 	}],
 		academicMemberships : [
 			{	
-				organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
+				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
 				start_date : Date, 
 				end_date : Date,
 				membership_type : {
@@ -88,7 +101,7 @@ var peopleSchema = new Schema({
 		ORCID : String, 
 		IDREF : String, 
 		former_positions : [{ 
-				organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
+				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
 				start_date : Date, 
 				end_date : Date, 
 				timepart : { type : Number, default : 1 , min:0.05, max:1 },
@@ -163,13 +176,13 @@ var peopleSchema = new Schema({
 	 	 		end_date : Date,
 	 	 		role : String,
 	 	 		description : String,
-	 	 		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }],
-	 			peoples : [{ type : Schema.Type.ObjectId, ref : 'People' }]
+	 	 		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }],
+	 			peoples : [{ type : mongoose.Schema.Types.ObjectId, ref : 'People' }]
 	 	 	}
 	 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
 	 	], 
 		distinctions : [{
-			organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }], 
+			organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }], 
 			date : Date, 
 			title : { 
 				type : String,
@@ -181,7 +194,7 @@ var peopleSchema = new Schema({
 			 }, 
 			subject : String, 
 			honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
-		 }] 
+		 }],
 	 	contacts : [{
 	 		title : String,
 	 		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ }, 
@@ -198,7 +211,7 @@ var peopleSchema = new Schema({
 
 
 
-var organizationSchema = new Schema({ 
+var organizationSchema = new mongoose.Schema({ 
 	name : { 
 		type : String,
 		required : true
@@ -218,7 +231,7 @@ var organizationSchema = new Schema({
 	address : String,
 	country : { 
 		type : String, 
-		enum : enums.countries.en_short_name
+		enum : enums.countries
 	 }, 
 	status : {
 		type : String,
@@ -230,14 +243,14 @@ var organizationSchema = new Schema({
 	},
 	url : String, // match syntax url ? allez non.
 	parent_organisations : [
-		{ type : Schema.Type.ObjectId, ref : 'Organization' }
+		{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }
 	] 
 });
 
 
 
 
-var activitySchema = new Schema({
+var activitySchema = new mongoose.Schema({
 	name : { 
 		type : String,
 		required : true
@@ -250,7 +263,7 @@ var activitySchema = new Schema({
 	start_date : Date, 
 	end_date : Date,
 	organizations : [{
-		organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
+		organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
 		role : {
 			type : String,
 			enum : enums.activityOrganizationRoles
@@ -261,7 +274,7 @@ var activitySchema = new Schema({
 		// validation custom à coder , dates grades contenus dans les dates de positions
 	}],
 	peoples : [{
-		people : { type : Schema.Type.ObjectId, ref : 'People' }, 		
+		people : { type : mongoose.Schema.Types.ObjectId, ref : 'People' }, 		
 		role :  String,
 		start_date : Date,
 		end_date : Date
@@ -299,7 +312,7 @@ var activitySchema = new Schema({
 	},
 	grants : [
 		{
-			organization : { type : Schema.Type.ObjectId, ref : 'Organization' },
+			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' },
 			name : String,
 			grantType : {
 				type : String,
@@ -311,7 +324,7 @@ var activitySchema = new Schema({
 			currency_amount : {
 				type : String,
 				enum : enums.iso4217 
-			}
+			},
 			submission_date : Date,
 			start_date : Date,
 			end_date : Date,
@@ -323,7 +336,7 @@ var activitySchema = new Schema({
 		}
 	],
 	distinctions : [{
-		organizations : [{ type : Schema.Type.ObjectId, ref : 'Organization' }], 
+		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }], 
 		date : Date, 
 		title : { 
 			type : String,
