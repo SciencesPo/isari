@@ -186,6 +186,7 @@ var organizationSchema = new Schema({
 	ID_banner : String,
 	ID_spire : String,
 	ID_RNSR : String, //identifiant niveau labo français
+	scopus_orgid: String,
 	UG : String,
 	acronym : String,
 	address : String,
@@ -197,10 +198,10 @@ var organizationSchema = new Schema({
 		type : String,
 		enum : enums.organizationStatuses
 	},
-	organizationType : {
+	organizationType : [{
 		type : String,
 		enum : enums.organizationTypes
-	},
+	}],
 	url : String, // match syntax url ? allez non.
 	parent_organisations : [
 		{ type : Schema.Type.ObjectId, ref : 'Organization' }
