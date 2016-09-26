@@ -286,6 +286,15 @@
 		"total_amount" : {
 			"labels" : { "fr" : "Montant total", "en" : "Total amount" }
 		},
+		"invest_amount" : {
+			"labels" : { "fr" : "Montant investissement", "en" : "Investment amount" }
+		},
+		"run_amount" : {
+			"labels" : { "fr" : "Montant fonctionnement", "en" : "Operational amount" }
+		},
+		"hr_amount" : {
+			"labels" : { "fr" : "Montant Masse salariale", "en" : "Human Ressources amount" }
+		},
 		"submission_date" : {
 			"labels" : { "fr" : "Date de soumission", "en" : "Submission date" }
 		},

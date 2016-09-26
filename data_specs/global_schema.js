@@ -84,30 +84,6 @@ var peopleSchema = new Schema({
 	individual : {
 		ORCID : String, 
 		IDREF : String, 
-		former_positions : [{ 
-				organization : { type : Schema.Type.ObjectId, ref : 'Organization' }, 
-				start_date : Date, 
-				end_date : Date, 
-				timepart : { type : Number, default : 1 , min:0.05, max:1 },
-				job_name : String,
-				job_type : { 
-					type : String, 
-					enum : enums.job_type
-				 }, 						
-				job_title : { 
-					type : String, 
-					enum : enums.job_title
-				 }, 
-				grades_academic : [{
-						grade : {
-							type : String, 
-							enum : enums.grade
-						}, 
-						start_date : Date, 
-						end_date : Date
-						// validation custom à coder , dates grades contenus dans les dates de positions
-				}], 
-		}],
 		biography : String, 
 		tags : { 
 			hceres_2017 : [{ 
@@ -305,6 +281,9 @@ var activitySchema = new Schema({
 			grant_identifier : String,
 			sciencespo_amount : Number,
 			total_amount : Number,
+			invest_amount: Number,
+			run_amount: Number,
+			hr_amount: Number,
 			currency_amount : {
 				type : String,
 				enum : enums.iso4217 
