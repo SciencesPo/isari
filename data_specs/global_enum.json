@@ -7,7 +7,7 @@
 
  	"job_type" : ["CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public"],
 
-	"grade-admin" : [ "CM1", "CM2" , "CM3", ],
+	"grade-admin" : [ "CM1", "CM2" , "CM3" ],
 
 	"grade-academic" : [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant" ],
 

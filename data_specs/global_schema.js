@@ -28,7 +28,7 @@ var peopleSchema = new mongoose.Schema({
 			type : String,
 			required : true
 		}, 
-		birth_name : { 
+		birthname : { 
 			type : String,
 			required : true
 		}, 
@@ -101,11 +101,17 @@ var peopleSchema = new mongoose.Schema({
 				} 
 			}
 		], 
+		deptMemberships : [
+			{	
+				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
+				start_date : Date, 
+				end_date : Date,
+			}
+		], 
 	},
 	individual : {
 		ORCID : String, 
 		IDREF : String, 
-<<<<<<< HEAD
 		former_positions : [{ 
 				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
 				start_date : Date, 
@@ -130,8 +136,6 @@ var peopleSchema = new mongoose.Schema({
 						// validation custom à coder , dates grades contenus dans les dates de positions
 				}], 
 		}],
-=======
->>>>>>> 6f26c90761eaab6123eda6da196e4a6a38d23712
 		biography : String, 
 		tags : { 
 			hceres_2017 : [{ 
@@ -195,7 +199,11 @@ var peopleSchema = new mongoose.Schema({
 			title : { 
 				type : String,
 				required : true
-			}, 
+			},
+			country : { 
+				type : String, 
+				enum : enums.countries
+			 }, 
 			distinctionType : { 
 				type : String, 
 				enum : enums.distinctionTypes
