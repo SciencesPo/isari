@@ -1,6 +1,6 @@
 {
 "peopleSchema" : { 
-	"admin":{"accessType":"confidential"}
+	"admin":{"accessType":"confidential"},
 	"admin.isari_authorized_centers" : { 
 		"labels" : { "fr" : "Accès au(x) centre(s)", "en" : "Center(s) access" },
 	 }, 
@@ -136,61 +136,15 @@
 		"requirement" : "recommended",
 	},
 	"individual":{"accessType":"individual"},
-	"individual.ORCID" : { 
-		"labels" : { "fr" : "ORCID", "en" : "ORCID" }, 
+	"individual.ORCID" : {
+ 		"labels" : { "fr" : "ORCID", "en" : "ORCID" }, 
 		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur", "en" : "Open Researcher and Contributor ID" }
 	 }, 
 	"individual.IDREF" : { 
 		"labels" : { "fr" : "IDREF", "en" : "IDREF" }, 
 		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames", "en" : "Identifier complying with SUDOC, STAR, STEP, Calames" }, 		
 		"service" : "idref"
-	 }, 
-	"individual.former_positions": {  
-		"organization /*add as suggestions the top x values already stored un the database in position.organisation*/" : { 
-			"requirement" : "mandatory",
-			
-			"suggestions" : "top 10 of existing values",
-			"description" : "tutelle du contrat : FNSP, CNRS, MESR..."
-		 }, 
-		"start_date" : { 
-			"requirement" : "mandatory", 
-			"labels" : { "fr" : "Date de début", "en" : "Start date" }
-		 }, 
-		"end_date" : { 
-			"labels" : { "fr" : "Date de fin", "en" : "End date" }
-		 }, 
-		"job_name" : { 
-			"labels" : { "fr" : "Emploi personnalisé", "en" : "Job name" }
-		 }, 
-		"job_type" : { 
-			"requirement" : "mandatory", 
-			"labels" : { "fr" : "Type de contrat", "en" : "Contract type" }
-		 }, 
-		"timepart" : { 
-			"labels" : { "fr" : "Taux d'occupation", "en" : "Part time rate" }
-		 }, 						
-		"job_title" : { 
-			"requirement" : "recommended", 
-			"labels" : { "fr" : "Fonction", "en" : "Function" }
-		 },
-		 "grades_academic" : { 
-			"labels" : { "fr" : "Grades", "en" : "Grades" }, 
-			"description" : { "fr" : "", "en" : "" },
-		 },
-		 "grades_academic.grade" : { 
-			"start_date" : { 
-				"requirement" : "mandatory", 
-				"labels" : { "fr" : "Date de début", "en" : "Start date" }
-			 }, 
-			"end_date" : { 
-				"labels" : { "fr" : "Date de fin", "en" : "End date" }
-			 }, 
-			"grade" : { 
-				"requirement" : "mandatory", 
-				"labels" : { "fr" : "Grade", "en" : "Grade" }
-			 }
-	 	}
-	},
+	 },
 	"individual.contacts" : { 
 		"labels" : { "fr" : "Contact(s)", "en" : "Contact(s)" }, 
 		"email" : { 
