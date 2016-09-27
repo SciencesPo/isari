@@ -200,10 +200,10 @@ var peopleSchema = new mongoose.Schema({
 				type : String,
 				required : true
 			},
-			country : { 
+			countries : [{ 
 				type : String, 
 				enum : enums.countries
-			 }, 
+			 }], 
 			distinctionType : { 
 				type : String, 
 				enum : enums.distinctionTypes
