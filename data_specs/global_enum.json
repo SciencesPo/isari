@@ -34,9 +34,9 @@
 	"distinctionTypes" : [ "diplôme", "double-diplôme", "cotutelle", "distinction" ],
 
 	"organizationStatuses" : [ "public", "privé" ],
-
-	"organizationType" : [ "département", "unité Mixte de Rercherche","entreprise", "université","institution internationale" ],
-
+ 
+	"organizationType" : [ "département", "centre de rercherche", "entreprise", "université","institution internationale" ],
+ 
 	"activityTypes" : [ "partenariat", "doctorat", "projet de recherche", "mobilité" ],
 
 	"personalActivityTypes" :["activités éditoriales", "encadrement", "jurys", "expertise", "évaluations", "responsabilités et mandats", "collaborations scientifiques"],
