@@ -1,17 +1,11 @@
 var fs = require('fs');
 var mongoose = require('mongoose');
-
-
 var enums = fs.readFileSync('./data_specs/global_enum.json');
-// console.log(enums);
-
-  // var enums = require('./data_specs/global_enum.json');
-
-// console.log(enums);
-// return false;
 
 
-var peopleSchema = new mongoose.Schema({ 
+var peopleSchema;
+
+exports.peopleSchema = new mongoose.Schema({ 
 	admin : {
 		isari_authorized_centers : [{ 
 			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
@@ -182,7 +176,7 @@ var peopleSchema = new mongoose.Schema({
 	 		    personalActivitySubtype : String,
 	 	 		personnalActivityTitle : {
 	 	 			type : String
-	 	 			// choix guidé par une liste de valuer qui dépends de personalActivityType
+	 	 			// choix guidé par une liste de valeurs qui dépend de personalActivityType
 	 	 		},
 	 	 		start_date : Date,
 	 	 		end_date : Date,
@@ -223,11 +217,13 @@ var peopleSchema = new mongoose.Schema({
 	//photo_filename : String, 
 	}
 });
+var People;
+exports.People = mongoose.model('People', peopleSchema);
 
 
 
-
-var organizationSchema = new mongoose.Schema({ 
+var organizationSchema;
+exports.organizationSchema = new mongoose.Schema({ 
 	name : { 
 		type : String,
 		required : true
@@ -242,7 +238,6 @@ var organizationSchema = new mongoose.Schema({
 	ID_banner : String,
 	ID_spire : String,
 	ID_RNSR : String, //identifiant niveau labo français
-	scopus_orgid: String,
 	UG : String,
 	acronym : String,
 	address : String,
@@ -254,20 +249,23 @@ var organizationSchema = new mongoose.Schema({
 		type : String,
 		enum : enums.organizationStatuses
 	},
-	organizationType : [{
+	organizationType : {
 		type : String,
 		enum : enums.organizationTypes
-	}],
+	},
 	url : String, // match syntax url ? allez non.
 	parent_organisations : [
 		{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }
 	] 
 });
+var Organization;
+exports.Organization = mongoose.model('Organization', organizationSchema);
 
 
 
 
-var activitySchema = new mongoose.Schema({
+var activitySchema;
+exports.activitySchema = new mongoose.Schema({
 	name : { 
 		type : String,
 		required : true
@@ -366,7 +364,5 @@ var activitySchema = new mongoose.Schema({
 		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
 	 }]
 });
-
-var Organization  = mongoose.model('Organization', organizationSchema);
-var Activity  = mongoose.model('Activity', activitySchema);
-var People  = mongoose.model('People', peopleSchema);
+var Activity;
+exports.Activity  = mongoose.model('Activity', activitySchema);

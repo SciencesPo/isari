@@ -35,7 +35,7 @@
 
 	"organizationStatuses" : [ "public", "privé" ],
  
-	"organizationType" : [ "département", "centre de rercherche", "entreprise", "université","institution internationale" ],
+	"organizationType" : [ "département", "centre de rercherche", "entreprise", "université", "institution internationale" ],
  
 	"activityTypes" : [ "partenariat", "doctorat", "projet de recherche", "mobilité" ],
 
