@@ -106,30 +106,6 @@ exports.peopleSchema = new mongoose.Schema({
 	individual : {
 		ORCID : String, 
 		IDREF : String, 
-		former_positions : [{ 
-				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-				start_date : Date, 
-				end_date : Date, 
-				timepart : { type : Number, default : 1 , min:0.05, max:1 },
-				job_name : String,
-				job_type : { 
-					type : String, 
-					enum : enums.job_type
-				 }, 						
-				job_title : { 
-					type : String, 
-					enum : enums.job_title
-				 }, 
-				grades_academic : [{
-						grade : {
-							type : String, 
-							enum : enums.grade
-						}, 
-						start_date : Date, 
-						end_date : Date
-						// validation custom à coder , dates grades contenus dans les dates de positions
-				}], 
-		}],
 		biography : String, 
 		tags : { 
 			hceres_2017 : [{ 
