@@ -2,12 +2,12 @@ In ISARI the data collection/edition will be supported by a series of autocomple
 
 # restricted choices
 
-# foreign key(s)
+## foreign key(s)
 
 In case of fields pointing to internal objects in the data model, the autocompletion should help the user to chose an existing value.  
 If a user can't find an appropriate existing value, she should be able to create a new entry seamlessly.
 
-# enums
+## enums
 
 Enums are list of possible values used in mongoose to validate data.  
 Those enums will be used to propose values to users when editing fields pointed to an enum.  
@@ -30,7 +30,7 @@ They can be seen as *soft enums*.
 ## conditional hardcoded suggestions
 
 The contitional hardcoded suggestions are hardcoded suggestions whose possible values depends on another field value.  
-examples see (global_meta.json)[global_meta.json] : 
+examples see [global_meta.json](global_meta.json) : 
 
 - people.personalActivity.personalActivitySubtype depends on personnalAcitvity.personalActivityType
 - activity.peoples.people.role depends on activity.activityType
