@@ -1,60 +1,63 @@
 {
 "peopleSchema" : { 
-	"admin":{"accessType":"confidential"},
-	"admin.isari_authorized_centers" : { 
+	"isari_authorized_centers":{
+		"accessType":"confidential",
 		"labels" : { "fr" : "Accès au(x) centre(s)", "en" : "Center(s) access" },
 	 }, 
-	"admin.isari_authorized_centers.isari_role" : { 
+	"isari_authorized_centers.isari_role" : { 
 		"labels" : { "fr" : "Role", "en" : "Role" },
 	 },
-	"corporate":{
-		"accessType":"corporate"
-	},
-	"corporate.firstname" : { 
+	"firstname" : { 
 		"requirement" : "mandatory", 
-		"labels" : { "fr" : "Prénom", "en" : "Firstname" }
+		"labels" : { "fr" : "Prénom", "en" : "Firstname" },
+		"accessMonitoring":"corporate"
 	 }, 
-	"corporate.name" : { 
+	"name" : { 
 		"requirement" : "mandatory", 
-		"labels" : { "fr" : "Nom", "en" : "Name" }
+		"labels" : { "fr" : "Nom", "en" : "Name" },
+		"accessMonitoring":"corporate"
 	 }, 
-	"corporate.gender" : { 
+	"gender" : { 
 		"requirement" : "recommended", 
-		"labels" : { "fr" : "Genre", "en" : "Gender" }
+		"labels" : { "fr" : "Genre", "en" : "Gender" },
+		"accessMonitoring":"corporate"
 	 }, 
-	"corporate.birthdate" : { 
+	"birthdate" : { 
 		"requirement" : "recommended", 
-		"labels" : { "fr" : "Date de naissance", "en" : "Birthdate" }
+		"labels" : { "fr" : "Date de naissance", "en" : "Birthdate" },
+		"accessMonitoring":"corporate"
 	 }, 
-	"corporate.nationalities" : { 
-		"labels" : { "fr" : "Nationalité(s)", "en" : "Nationanality(ies)" }
+	"nationalities" : { 
+		"labels" : { "fr" : "Nationalité(s)", "en" : "Nationanality(ies)" },
+		"accessMonitoring":"corporate"
 	 }, 
-	"corporate.ldap_uid" : { 
+	"ldap_uid" : { 
 		"labels" : { "fr" : "Identifiant annuaire Sciences Po", "en" : "Sciences Po's directory identifier" }, 
 		"service" : "ldap"
 	 }, 
-	"corporate.banner_uid" : { 
+	"banner_uid" : { 
 		"labels" : { "fr" : "Identifiant scolarité Sciences Po", "en" : "Sciences Po's teaching identifier" }, 
 		"service" : "banner"
 	 }, 
-	"corporate.SIRH_matricule" : { 
+	"SIRH_matricule" : { 
 		"labels" : { "fr" : "Identifiant Ressources Humaines Sciences Po", "en" : "Sciences Po's Human ressoruces identifier" }, 
 		"service" : "sirh"
 	 }, 
-	"corporate.SPIRE_ID" : { 
+	"SPIRE_ID" : { 
 		"labels" : { "fr" : "identifiant SPIRE", "en" : "SPIRE identifier" }, 
 		"service" : "spire"
 	 }, 
-	"corporate.positions" : { 
+	"positions" : { 
 		"labels" : { "fr" : "Contrats", "en" : "Positions" }, 
-		"description" : { "fr" : "Contrats, affiliations, rattachements...", "en" : "Positions, affiliations, attachments..." }
+		"description" : { "fr" : "Contrats, affiliations, rattachements...", "en" : "Positions, affiliations, attachments..." },
+		"accessMonitoring":"corporate"
 	 }, 
-	"corporate.positions.position" : {  
-		"organization /*add as suggestions the top x values already stored un the database in position.organisation*/" : { 
-			"requirement" : "mandatory",
-			
+	"positions.position" : {  
+		"organization" : { 
+			"requirement" : "mandatory",		
 			"suggestions" : "top 10 of existing values",
-			"description" : "tutelle du contrat : FNSP, CNRS, MESR..."
+			"description" : "tutelle du contrat : FNSP, CNRS, MESR...",
+		 	"comment" : "add as suggestions the top x values already stored un the database in position.organisation"
 		 }, 
 		"start_date" : { 
 			"requirement" : "mandatory", 
@@ -131,21 +134,21 @@
 			 "accessType":"confidential"
 		 }
 	}, 
-	"corporate.academicMemberships":{
+	"academicMemberships":{
 		"labels" : { "fr" : "Affiliation", "en" : "Affiliation" },
 		"requirement" : "recommended",
+		"accessMonitoring":"corporate"
 	},
-	"individual":{"accessType":"individual"},
-	"individual.ORCID" : {
+	"ORCID" : {
  		"labels" : { "fr" : "ORCID", "en" : "ORCID" }, 
 		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur", "en" : "Open Researcher and Contributor ID" }
 	 }, 
-	"individual.IDREF" : { 
+	"IDREF" : { 
 		"labels" : { "fr" : "IDREF", "en" : "IDREF" }, 
 		"description" : { "fr" : "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames", "en" : "Identifier complying with SUDOC, STAR, STEP, Calames" }, 		
 		"service" : "idref"
 	 },
-	"individual.contacts" : { 
+	"contacts" : { 
 		"labels" : { "fr" : "Contact(s)", "en" : "Contact(s)" }, 
 		"email" : { 
 			"labels" : { "fr" : "Email", "en" : "Email" }
@@ -154,34 +157,34 @@
 			"labels" : { "fr" : "Téléphone", "en" : "Phone number" }
 		 } 
 	 }, 
-	"individual.photo_filename" : { 
+	"photo_filename" : { 
 		"labels" : { "fr" : "Photo", "en" : "Photo" }
 	 }, 
-	"individual.biography" : { 
+	"biography" : { 
 		"labels" : { "fr" : "Bio", "en" : "Bio" }
 	 }, 
-	"individual.tags.hceres_2017" : { 
+	"tags.hceres_2017" : { 
 		"labels" : { "fr" : "Tags HCERES 2017", "en" : "HCERES 2017 tags" }
 	 }, 
-	"individual.tags.aeres_2012" : { 
+	"tags.aeres_2012" : { 
 		"labels" : { "fr" : "Tags AERES 2012", "en" : "AERES 2012 tags" }
 	 }, 
-	"individual.tags.free" : { 
+	"tags.free" : { 
 		"labels" : { "fr" : "Tags libres", "en" : "Free tags" }
 	 }, 
-	"individual.tags.erc" : { 
+	"tags.erc" : { 
 		"labels" : { "fr" : "Tags ERC", "en" : "ERC tags" }
 	 }, 
-	"individual.tags.discipline" : { 
+	"tags.discipline" : { 
 		"labels" : { "fr" : "Disciplines", "en" : "Academics" }
 	 }, 
-	"individual.tags.research_theme" : { 
+	"tags.research_theme" : { 
 		"labels" : { "fr" : "Thèmes de recherche", "en" : "Research themes" }
 	 }, 
-	"individual.langs" : { 
+	"langs" : { 
 		"labels" : { "fr" : "Langues", "en" : "Languages" }
 	 }, 
-	"individual.personal_activities" : { 
+	"personal_activities" : { 
 		"labels" : { "fr" : "Activités", "en" : "Activities" },
  		"personalActivityType" : {
 			"labels" : { "fr" : "Type d'activité", "en" : "Activity type" }
@@ -214,7 +217,7 @@
 	 		"labels" : { "fr" : "Personne(s) concernée(s)", "en" : "Involved people" },
 	 	 }, 
 	 }, 
-	"individual.distinctions" : {
+	"distinctions" : {
 		"labels" : { "fr" : "Distinctions", "en" : "Awards" }
 	 }
  }

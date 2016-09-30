@@ -17,7 +17,7 @@ We use this set of files to descrie Isari data model :
 	- suggestions: the method to use to suggest input values (/!\ work in progress)
 
 - [global_enum.json](data_specs/global_enum.json): a json file which list values for controlled data attributes
-- [role_access.json](data_specs/role_access.json): a json file which describes roles and access types see [role_access.md](role_access.md)
+- [role_access.json](data_specs/role_access.json): a json file which describes roles and access types see [role_access.md](data_specs/role_access.md)
 
 ## technical infrastructure
 

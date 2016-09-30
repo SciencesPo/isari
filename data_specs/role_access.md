@@ -5,6 +5,9 @@ To defined which data attributes are tagged as specific access rules, we use the
 
 # roles 
 
+Roles are attributed to users by using the *people.admin.isari_authorized_centers* data field.  
+This implies that every users needs a related people entry.
+
 ## default roles
 
 **Research member**:  
@@ -47,8 +50,9 @@ Access Research unit information are isolated to research specific roles.
 Inside one research unit by default everyone can write any information.
 
 **Curriculum Vitae isolation**  
-Curriculum Vitae (i.e. people data model) can be read by all research unit members.
-Only the admins (local or global) and the Curriculum Vitae author can write.
+Curriculum Vitae (i.e. people data model) can be read only by all research unit members.
+Only the admins (local or global), the research editors and the Curriculum Vitae author can write.  
+This rule is expressed in (role_access.json)[role_access.json] with the *other_people* key.
 
 **Central point of view**  
 The research unit isolation has tow exceptions in the Central roles:
@@ -67,27 +71,6 @@ In such cases:
 - Central Admin : can write (and thus read)
 - Central Reader : can read
 - Resarch Admin : can read
-
-**corporate**  
-A part of researchers' Curriculum Vitae are tagged as corporate.
-In such case:
-
-- Central Admin : can write (and thus read)
-- Central Reader : can read
-- Resarch Admin : can read
-- Research editor : can read
-- research member : can read even others' CV but can't write even in their own CV
-
-**individual**  
-Individual information are part of researchers' Curriculum Vitae which are not tagged as corporate.  
-Those attributes are specifically tagged as "individual".  
-In such case:
-
-- Central Admin : can write (and thus read)
-- Central Reader : can read
-- Resarch Admin : can write (and thus read)
-- Research editor : can write (and thus read)
-- research member : can write their own CV and can read others' CV  
 
 
 

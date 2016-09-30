@@ -6,192 +6,186 @@ var enums = fs.readFileSync('./data_specs/global_enum.json');
 var peopleSchema;
 
 exports.peopleSchema = new mongoose.Schema({ 
-	admin : {
-		isari_authorized_centers : [{ 
-			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-			isari_role : { 
-				type : String, 
-				enum : enums.isari_roles, 
-			 }
-		 }], 
-		
-	},
-	corporate : {
-		firstname : String,
-		name : { 
-			type : String,
-			required : true
-		}, 
-		birthname : { 
-			type : String,
-			required : true
-		}, 
-		gender : { 
+	isari_authorized_centers : [{ 
+		organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
+		isari_role : { 
 			type : String, 
-			enum : enums.genders
-		 }, 
-	 	birthdate : Date, 
-	 	nationalities : [{ 
-	 		type : String, 
-	 		enum : enums.nationalities, 
-	 	 }], 
-		ldap_uid : String, 
-		banner_uid : String, 
-		SIRH_matricule : String, 
-	 	SPIRE_ID : String,
-	 	positions : [{ 
-	 			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-	 			start_date : Date, 
-	 			end_date : Date, 
-	 			timepart : { type : Number, default : 1 , min:0.05, max:1 },
-	 			job_name : String,
-	 			job_type : { 
-	 				type : String, 
-	 				enum : enums.job_type
-	 			 }, 						
-	 			job_title : { 
-	 				type : String, 
-	 				enum : enums.job_title
-	 			 }, 
-	 			UG : String,
-	 			grades_admin : [{
-	 					grade : {
-	 						type : String, 
-	 						enum : enums.grade
-	 					}, 
-	 					start_date : Date, 
-	 					end_date : Date
-	 					// validation custom à coder, dates grades contenus dans les dates de positions
-	 					// validation custom à coder, ne peut être rempli que si job_type  in ["appui administratif","appui technique"]
-	 			}], 
-	 			grades_academic : [{
-	 					grade : {
-	 						type : String, 
-	 						enum : enums.grade
-	 					}, 
-	 					start_date : Date, 
-	 					end_date : Date
-	 					// validation custom à coder, dates grades contenus dans les dates de positions
-	 					// validation custom à coder, ne peut être rempli que si job_type not in ["appui administratif","appui technique"]
-	 			}], 
-	 			bonuses : [{ 
-	 				bonusType : { 
-	 					type : String, 
-	 					enum : enums.bonusTypes
-	 				 }, 
-	 				start_date : Date, 
-	 				end_date : Date
-	 				// validation custom à coder , dates grades contenus dans les dates de positions
-	 		 	}]
-	 	}],
-		academicMemberships : [
-			{	
-				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-				start_date : Date, 
-				end_date : Date,
-				membership_type : {
-					type : String,
-					enum : enums.academicMembership
-				} 
-			}
-		], 
-		deptMemberships : [
-			{	
-				organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-				start_date : Date, 
-				end_date : Date,
-			}
-		], 
-	},
-	individual : {
-		ORCID : String, 
-		IDREF : String, 
-		biography : String, 
-		tags : { 
-			hceres_2017 : [{ 
+			enum : enums.isari_roles, 
+		 }
+	 }], 
+	firstname : String,
+	name : { 
+		type : String,
+		required : true
+	}, 
+	birthname : { 
+		type : String,
+		required : true
+	}, 
+	gender : { 
+		type : String, 
+		enum : enums.genders
+	 }, 
+		birthdate : Date, 
+		nationalities : [{ 
+			type : String, 
+			enum : enums.nationalities, 
+		 }], 
+	ldap_uid : String, 
+	banner_uid : String, 
+	SIRH_matricule : String, 
+	SPIRE_ID : String,
+	positions : [{ 
+			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
+			start_date : Date, 
+			end_date : Date, 
+			timepart : { type : Number, default : 1 , min:0.05, max:1 },
+			job_name : String,
+			job_type : { 
 				type : String, 
-				enum : enums.hceres_2017
-			 }],  
-			aeres_2012 : [{ 
+				enum : enums.job_type
+			 }, 						
+			job_title : { 
 				type : String, 
-				enum : enums.aneres_2012
-			 }],  
-			methods : [{ 
-				type : String, 
-				enum : enums.methods
-			 }], 
-			free : Array, 
-			erc : [{ 
-				type : String, 
-				enum : enums.erc
-			 }],  
-			discipline : [{ 
-				type : String, 
-				enum : enums.disciplines
-			 }], 
-			research_theme : [{ 
-				type : String, 
-				enum : enums.research_themes
-			 }],
-			 section_CNU : [{ 
-			 	type : String,
-			 	enum : enums.section_cnu
-			 }],
-			 section_CNRS : [{
-			 	type : String,
-			 	enum : enums.section_cnrs
-			 }]
-		 },
-	 	personal_activities : [
-	 	 	{
-	 	 		personalActivityType : {
-	 	 			type : String,
-	 	 			enum : enums.personalActivityType,
-	 			    required : true
-	 		    },
-	 		    personalActivitySubtype : String,
-	 	 		personnalActivityTitle : {
-	 	 			type : String
-	 	 			// choix guidé par une liste de valeurs qui dépend de personalActivityType
-	 	 		},
-	 	 		start_date : Date,
-	 	 		end_date : Date,
-	 	 		role : String,
-	 	 		description : String,
-	 	 		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }],
-	 			peoples : [{ type : mongoose.Schema.Types.ObjectId, ref : 'People' }]
-	 	 	}
-	 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
-	 	], 
-		distinctions : [{
-			organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }], 
-			date : Date, 
-			title : { 
-				type : String,
-				required : true
-			},
-			countries : [{ 
-				type : String, 
-				enum : enums.countries
-			 }], 
-			distinctionType : { 
-				type : String, 
-				enum : enums.distinctionTypes
+				enum : enums.job_title
 			 }, 
-			subject : String, 
-			honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
-		 }],
-	 	contacts : [{
-	 		title : String,
-	 		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ }, 
-	 		phone : { type : String }
-	 	 }], 
-	 	langs: [{
-	 		type : String,
-	 		enum : enums.iso6391
+			UG : String,
+			grades_admin : [{
+					grade : {
+						type : String, 
+						enum : enums.grade
+					}, 
+					start_date : Date, 
+					end_date : Date
+					// validation custom à coder, dates grades contenus dans les dates de positions
+					// validation custom à coder, ne peut être rempli que si job_type  in ["appui administratif","appui technique"]
+			}], 
+			grades_academic : [{
+					grade : {
+						type : String, 
+						enum : enums.grade
+					}, 
+					start_date : Date, 
+					end_date : Date
+					// validation custom à coder, dates grades contenus dans les dates de positions
+					// validation custom à coder, ne peut être rempli que si job_type not in ["appui administratif","appui technique"]
+			}], 
+			bonuses : [{ 
+				bonusType : { 
+					type : String, 
+					enum : enums.bonusTypes
+				 }, 
+				start_date : Date, 
+				end_date : Date
+				// validation custom à coder , dates grades contenus dans les dates de positions
+		 	}]
 	 	}],
+	academicMemberships : [
+		{	
+			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
+			start_date : Date, 
+			end_date : Date,
+			membership_type : {
+				type : String,
+				enum : enums.academicMembership
+			} 
+		}
+	], 
+	deptMemberships : [
+		{	
+			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
+			start_date : Date, 
+			end_date : Date,
+		}
+	], 
+
+	ORCID : String, 
+	IDREF : String, 
+	biography : String, 
+	tags : { 
+		hceres_2017 : [{ 
+			type : String, 
+			enum : enums.hceres_2017
+		 }],  
+		aeres_2012 : [{ 
+			type : String, 
+			enum : enums.aneres_2012
+		 }],  
+		methods : [{ 
+			type : String, 
+			enum : enums.methods
+		 }], 
+		free : Array, 
+		erc : [{ 
+			type : String, 
+			enum : enums.erc
+		 }],  
+		discipline : [{ 
+			type : String, 
+			enum : enums.disciplines
+		 }], 
+		research_theme : [{ 
+			type : String, 
+			enum : enums.research_themes
+		 }],
+		 section_CNU : [{ 
+		 	type : String,
+		 	enum : enums.section_cnu
+		 }],
+		 section_CNRS : [{
+		 	type : String,
+		 	enum : enums.section_cnrs
+		 }]
+	 },
+ 	personal_activities : [
+ 	 	{
+ 	 		personalActivityType : {
+ 	 			type : String,
+ 	 			enum : enums.personalActivityType,
+ 			    required : true
+ 		    },
+ 		    personalActivitySubtype : String,
+ 	 		personnalActivityTitle : {
+ 	 			type : String
+ 	 			// choix guidé par une liste de valeurs qui dépend de personalActivityType
+ 	 		},
+ 	 		start_date : Date,
+ 	 		end_date : Date,
+ 	 		role : String,
+ 	 		description : String,
+ 	 		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }],
+ 			peoples : [{ type : mongoose.Schema.Types.ObjectId, ref : 'People' }]
+ 	 	}
+ 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
+ 	], 
+	distinctions : [{
+		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }], 
+		date : Date, 
+		title : { 
+			type : String,
+			required : true
+		},
+		countries : [{ 
+			type : String, 
+			enum : enums.countries
+		 }], 
+		distinctionType : { 
+			type : String, 
+			enum : enums.distinctionTypes
+		 }, 
+		subject : String, 
+		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
+	 }],
+ 	contacts : [{
+ 		title : String,
+ 		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ }, 
+ 		phone : { type : String }
+ 	 }], 
+ 	langs: [{
+ 		type : String,
+ 		enum : enums.iso6391
+ 	}]
 	//photo_filename : String, 
-	}
 });
 var People;
 exports.People = mongoose.model('People', peopleSchema);
