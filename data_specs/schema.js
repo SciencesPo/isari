@@ -53,7 +53,7 @@ exports.peopleSchema = new mongoose.Schema({
 			grades_admin : [{
 					grade : {
 						type : String, 
-						enum : enums.grade
+						enum : enums.grade-admin
 					}, 
 					start_date : Date, 
 					end_date : Date
@@ -63,7 +63,7 @@ exports.peopleSchema = new mongoose.Schema({
 			grades_academic : [{
 					grade : {
 						type : String, 
-						enum : enums.grade
+						enum : enums.grade-academic
 					}, 
 					start_date : Date, 
 					end_date : Date
@@ -144,11 +144,11 @@ exports.peopleSchema = new mongoose.Schema({
  	 			enum : enums.personalActivityType,
  			    required : true
  		    },
- 		    personalActivitySubtype : String,
- 	 		personnalActivityTitle : {
+ 		    personalActivitySubtype : {
  	 			type : String
  	 			// choix guidé par une liste de valeurs qui dépend de personalActivityType
  	 		},
+ 	 		personnalActivityTitle : String,
  	 		start_date : Date,
  	 		end_date : Date,
  	 		role : String,
@@ -156,7 +156,6 @@ exports.peopleSchema = new mongoose.Schema({
  	 		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }],
  			peoples : [{ type : mongoose.Schema.Types.ObjectId, ref : 'People' }]
  	 	}
- 	 	// eneignemenet et encadrement demandent plus de champs... on les sépare ?
  	], 
 	distinctions : [{
 		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }], 
