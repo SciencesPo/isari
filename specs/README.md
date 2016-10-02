@@ -5,17 +5,17 @@
 We defined a data model although we use a nosql database to frame the User Interface generation (forms, validation, access...).  
 We use this set of files to descrie Isari data model : 
 
-- [schema.js](data_specs/schema.js): a mongoose data model js file which describe data objects.
-- [schema_meta.json](data_specs/schema_meta.json): a json file listing metadata for each data attributes. This file list :
+- [schema.js](schema.js): a mongoose data model js file which describe data objects.
+- [schema_meta.json](schema.meta.json): a json file listing metadata for each data attributes. This file list :
 	
 	- labels in fr and en
 	- requirements: mandatory or recommended
 	- accessType: specific access type
-	- suggestions: the method to use to suggest input values (see [autocompletion.md](data_specs/docs/autocompletion.md))
-	- accessMonitoring: a tag indicating the monitoring group (see [editLogs.md](data_specs/docs/editLogs.md)]) this fields belongs to. It implies that corresponding fields should be monitored and should trigger sepcific action when modified (report for post-moderation).  
+	- suggestions: the method to use to suggest input values (see [autocompletion.md](docs/autocompletion.md))
+	- accessMonitoring: a tag indicating the monitoring group (see [editLogs.md](docs/editLogs.md)) this fields belongs to. It implies that corresponding fields should be monitored and should trigger sepcific action when modified (report for post-moderation).  
 
-- [schema_enum.json](data_specs/schema_enum.json): a json file which list values for controlled data attributes
-- [role_access.json](data_specs/role_access.json): a json file which describes roles and access types see [role_access.md](data_specs/docs/role_access.md)
+- [schema.enums.json](schema.enums.json): a json file which list values for controlled data attributes
+- [role_access.json](role_access.json): a json file which describes roles and access types see [role_access.md](docs/role_access.md)
 
 # key features
 
