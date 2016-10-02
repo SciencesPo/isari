@@ -1,0 +1,42 @@
+version: '2'
+services:
+# ElasticSearch
+  index:
+    image: elasticsearch:2.3.5
+    restart: always
+    ports:
+      - 9200:9200
+# MongoDB
+  db:
+    image: mongo:3.2.9
+    restart: always
+    command: mongod --smallfiles --replSet rs2es
+    ports:
+      - 27017:27017
+    depends_on:
+      - index
+# Docker temporaire pour configuer le replica set
+  mongosetup:
+    image: mongo:3.2.9
+    links:
+      - db
+    volumes:
+      - ./scripts/:/scripts
+    entrypoint: [ "/scripts/mongosetup.sh" ]
+    depends_on:
+      - db
+# Mongo-connector
+  connector:
+    image: totem/docker-mongo-es
+    restart: always
+    links:
+      - index
+      - db
+    environment:
+      - MONGO_URL=mongodb://db:27017
+      - MONGO_INCLUDES=people,organisation,activity
+      - ES_URL=index:9200
+    depends_on:
+      - mongosetup
+     
+
