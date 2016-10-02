@@ -32,7 +32,7 @@ We use **mongo-connector** to index those data in a **elasticsearch** engine.
 A **nodejs** server using **mongoose** deliver a **REST** API through **express**.  
 A web client coded in **angular2** proposes data edition and exploration feeatures.
 
-![ISARI software architecture](docs/ISARI_software_architecture.svg)
+see the schema of the [ISARI software architecture](docs/ISARI_software_architecture.svg)
 
 # requirements
 
