@@ -230,9 +230,6 @@ exports.organizationSchema = new mongoose.Schema({
 var Organization;
 exports.Organization = mongoose.model('Organization', organizationSchema);
 
-
-
-
 var activitySchema;
 exports.activitySchema = new mongoose.Schema({
 	name : { 
