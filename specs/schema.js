@@ -1,16 +1,14 @@
 var fs = require('fs');
 var mongoose = require('mongoose');
-var enums = fs.readFileSync('./data_specs/global_enum.json');
+var enums = require('./schema.enums.json');
 
-
-var peopleSchema;
 
 exports.peopleSchema = new mongoose.Schema({
 	isariAuthorizedCenters: [{
 		organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
 		isariRole: {
 			type: String,
-			enum: enums.isari_roles,
+			enum: enums.isariRoles,
 		 }
 	 }],
 	firstname: String,
@@ -43,32 +41,32 @@ exports.peopleSchema = new mongoose.Schema({
 			jobName: String,
 			jobType: {
 				type: String,
-				enum: enums.job_type
+				enum: enums.jobType
 			 },
 			jobTitle: {
 				type: String,
-				enum: enums.job_title
+				enum: enums.jobTitle
 			 },
 			UG: String,
 			gradesAdmin: [{
 					grade: {
 						type: String,
-						enum: enums.grade-admin
+						enum: enums.gradeAdmin
 					},
 					startDate: Date,
 					endDate: Date
 					// validation custom à coder, dates grades contenus dans les dates de positions
-					// validation custom à coder, ne peut être rempli que si job_type  in ["appui administratif","appui technique"]
+					// validation custom à coder, ne peut être rempli que si jobType  in ["appui administratif","appui technique"]
 			}],
 			gradesAcademic: [{
 					grade: {
 						type: String,
-						enum: enums.grade-academic
+						enum: enums.gradeAcademic
 					},
 					startDate: Date,
 					endDate: Date
 					// validation custom à coder, dates grades contenus dans les dates de positions
-					// validation custom à coder, ne peut être rempli que si job_type not in ["appui administratif","appui technique"]
+					// validation custom à coder, ne peut être rempli que si jobType not in ["appui administratif","appui technique"]
 			}],
 			bonuses: [{
 				bonusType: {
@@ -105,11 +103,11 @@ exports.peopleSchema = new mongoose.Schema({
 	tags: {
 		hceres2017: [{
 			type: String,
-			enum: enums.hceres_2017
+			enum: enums.hceres2017
 		 }],
 		aeres2012: [{
 			type: String,
-			enum: enums.aneres_2012
+			enum: enums.aneres2012
 		 }],
 		methods: [{
 			type: String,
@@ -126,15 +124,15 @@ exports.peopleSchema = new mongoose.Schema({
 		 }],
 		researchTheme: [{
 			type: String,
-			enum: enums.research_themes
+			enum: enums.researchThemes
 		 }],
 		 sectionCnu: [{
 		 	type: String,
-		 	enum: enums.section_cnu
+		 	enum: enums.sectionCnu
 		 }],
 		 sectionCnrs: [{
 		 	type: String,
-		 	enum: enums.section_cnrs
+		 	enum: enums.sectionCnrs
 		 }]
 	 },
  	personalActivities: [
@@ -183,15 +181,15 @@ exports.peopleSchema = new mongoose.Schema({
  	langs: [{
  		type: String,
  		enum: enums.iso6391
- 	}]
+ 	}],
 	photoFilename: String,
 });
-var People;
-exports.People = mongoose.model('People', peopleSchema);
+
+exports.People = mongoose.model('People', exports.peopleSchema);
 
 
 
-var organizationSchema;
+
 exports.organizationSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -227,10 +225,10 @@ exports.organizationSchema = new mongoose.Schema({
 		{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }
 	]
 });
-var Organization;
-exports.Organization = mongoose.model('Organization', organizationSchema);
 
-var activitySchema;
+exports.Organization = mongoose.model('Organization', exports.organizationSchema);
+
+
 exports.activitySchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -267,11 +265,11 @@ exports.activitySchema = new mongoose.Schema({
 	tags: {
 		hceres2017: [{
 			type: String,
-			enum: enums.hceres_2017
+			enum: enums.hceres2017
 		 }],
 		aeres2012: [{
 			type: String,
-			enum: enums.aneres_2012
+			enum: enums.aneres2012
 		 }],
 		methods: [{
 			type: String,
@@ -288,7 +286,7 @@ exports.activitySchema = new mongoose.Schema({
 		 }],
 		researchTheme: [{
 			type: String,
-			enum: enums.research_themes
+			enum: enums.researchThemes
 		 }]
 	},
 	grants: [
@@ -330,5 +328,5 @@ exports.activitySchema = new mongoose.Schema({
 		honours: String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
 	 }]
 });
-var Activity;
-exports.Activity  = mongoose.model('Activity', activitySchema);
+
+exports.Activity  = mongoose.model('Activity', exports.activitySchema);
