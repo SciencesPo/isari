@@ -218,10 +218,10 @@ exports.organizationSchema = new mongoose.Schema({
 		type : String,
 		enum : enums.organizationStatuses
 	},
-	organizationType : {
+	organizationTypes : [{
 		type : String,
 		enum : enums.organizationTypes
-	},
+	}],
 	url : String, // match syntax url ? allez non.
 	parent_organisations : [
 		{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }
