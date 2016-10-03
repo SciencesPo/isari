@@ -1,4 +1,14 @@
-import { Component, Input, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  ViewChild,
+  EventEmitter,
+  ViewContainerRef,
+  ComponentFactoryResolver,
+  ComponentRef
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -12,6 +22,7 @@ export class FieldComponent implements OnInit {
 
   @Input() field: any;
   @Input() form: FormGroup;
+  @Output() onUpdate = new EventEmitter<any>();
 
   private componentReference: ComponentRef<any>;
   @ViewChild('fieldComponent', {read: ViewContainerRef}) viewContainerRef;
@@ -24,8 +35,10 @@ export class FieldComponent implements OnInit {
 
     Object.assign(this.componentReference.instance, {
         form: this.form,
-        name: this.field.name
+        name: this.field.name,
+        onUpdate: this.onUpdate
     });
+
   }
 
 }

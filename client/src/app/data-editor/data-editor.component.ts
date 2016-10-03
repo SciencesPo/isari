@@ -15,8 +15,21 @@ export class DataEditorComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group(this.fields.reduce((acc, cv) => Object.assign(acc, {
-      [cv.name]: ''
+      [cv.name]: '' // ['', [Validators.required, speValidator]]
     }), {}));
+
+    // save every 1000ms on change
+    this.form.valueChanges
+      .debounceTime(1000)
+      .subscribe((value: string) => {
+        this.save();
+      });
+  }
+
+  save () {
+    if (this.form.valid) {
+      console.log('save', this.form.value);
+    }
   }
 
 }
