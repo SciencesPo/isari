@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { IsariInputComponent } from '../fields/isari-input/isari-input.component';
+
 @Component({
   selector: 'isari-detail-page',
   templateUrl: 'detail-page.component.html',
@@ -8,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetailPageComponent implements OnInit {
 
-  data: any;
+  fields: Array<any>;
   feature: string;
 
   constructor (private route: ActivatedRoute) {}
@@ -19,9 +21,18 @@ export class DetailPageComponent implements OnInit {
         this.feature = feature;
       });
 
-    this.data = {
-      name: 'Jean'
-    };
+    this.fields = [
+      {
+       name: 'firstname',
+       type: IsariInputComponent,
+       label: 'firstname'
+      },
+      {
+       name: 'lastname',
+       type: IsariInputComponent,
+       label: 'lastname'
+      }
+    ];
   }
 
 }

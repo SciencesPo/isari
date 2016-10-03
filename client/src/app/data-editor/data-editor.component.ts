@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'isari-data-editor',
@@ -6,12 +7,16 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['data-editor.component.css']
 })
 export class DataEditorComponent implements OnInit {
+  form: FormGroup;
 
-  @Input() data: any;
+  @Input() fields: Array<any>;
 
-  constructor() { }
+  constructor(public fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group(this.fields.reduce((acc, cv) => Object.assign(acc, {
+      [cv.name]: ''
+    }), {}));
   }
 
 }
