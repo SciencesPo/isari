@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 
 @Component({
-  selector: 'list-page',
+  selector: 'isari-list-page',
   templateUrl: 'list-page.component.html',
   styleUrls: ['list-page.component.css']
 })

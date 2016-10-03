@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'detail-page',
+  selector: 'isari-detail-page',
   templateUrl: 'detail-page.component.html',
   styleUrls: ['detail-page.component.css']
 })
 export class DetailPageComponent implements OnInit {
 
+  data: any;
   feature: string;
 
   constructor (private route: ActivatedRoute) {}
@@ -17,6 +18,10 @@ export class DetailPageComponent implements OnInit {
       .subscribe(({ feature }) => {
         this.feature = feature;
       });
+
+    this.data = {
+      name: 'Jean'
+    };
   }
 
 }

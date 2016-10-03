@@ -1,1676 +1,1676 @@
 [
     {
-        "labels": {
-            "fr": "Afar", 
+        "label": {
+            "fr": "Afar",
             "en": "Afar"
-        }, 
-        "639-1": "aa", 
-        "639-2": "aar", 
+        },
+        "639-1": "aa",
+        "639-2": "aar",
         "639-3": "aar"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Abkhaze", 
+        "label": {
+            "fr": "Abkhaze",
             "en": "Abkhazian"
-        }, 
-        "639-1": "ab", 
-        "639-2": "abk", 
+        },
+        "639-1": "ab",
+        "639-2": "abk",
         "639-3": "abk"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Avestique", 
+        "label": {
+            "fr": "Avestique",
             "en": "Avestan"
-        }, 
-        "639-1": "ae", 
-        "639-2": "ave", 
+        },
+        "639-1": "ae",
+        "639-2": "ave",
         "639-3": "ave"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Afrikaans", 
+        "label": {
+            "fr": "Afrikaans",
             "en": "Afrikaans"
-        }, 
-        "639-1": "af", 
-        "639-2": "afr", 
+        },
+        "639-1": "af",
+        "639-2": "afr",
         "639-3": "afr"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Akan", 
+        "label": {
+            "fr": "Akan",
             "en": "Akan"
-        }, 
-        "639-1": "ak", 
-        "639-2": "aka", 
+        },
+        "639-1": "ak",
+        "639-2": "aka",
         "639-3": "aka + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Amharique", 
+        "label": {
+            "fr": "Amharique",
             "en": "Amharic"
-        }, 
-        "639-1": "am", 
-        "639-2": "amh", 
+        },
+        "639-1": "am",
+        "639-2": "amh",
         "639-3": "amh"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Aragonais", 
+        "label": {
+            "fr": "Aragonais",
             "en": "Aragonese"
-        }, 
-        "639-1": "an", 
-        "639-2": "arg", 
+        },
+        "639-1": "an",
+        "639-2": "arg",
         "639-3": "arg"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Arabe", 
+        "label": {
+            "fr": "Arabe",
             "en": "Arabic"
-        }, 
-        "639-1": "ar", 
-        "639-2": "ara", 
+        },
+        "639-1": "ar",
+        "639-2": "ara",
         "639-3": "ara + 30"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Assamais", 
+        "label": {
+            "fr": "Assamais",
             "en": "Assamese"
-        }, 
-        "639-1": "as", 
-        "639-2": "asm", 
+        },
+        "639-1": "as",
+        "639-2": "asm",
         "639-3": "asm"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Avar", 
+        "label": {
+            "fr": "Avar",
             "en": "Avaric"
-        }, 
-        "639-1": "av", 
-        "639-2": "ava", 
+        },
+        "639-1": "av",
+        "639-2": "ava",
         "639-3": "ava"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Aymara", 
+        "label": {
+            "fr": "Aymara",
             "en": "Aymara"
-        }, 
-        "639-1": "ay", 
-        "639-2": "aym", 
+        },
+        "639-1": "ay",
+        "639-2": "aym",
         "639-3": "aym + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Az\u00e9ri", 
+        "label": {
+            "fr": "Az\u00e9ri",
             "en": "Azerbaijani"
-        }, 
-        "639-1": "az", 
-        "639-2": "aze", 
+        },
+        "639-1": "az",
+        "639-2": "aze",
         "639-3": "aze + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bachkir", 
+        "label": {
+            "fr": "Bachkir",
             "en": "Bashkir"
-        }, 
-        "639-1": "ba", 
-        "639-2": "bak", 
+        },
+        "639-1": "ba",
+        "639-2": "bak",
         "639-3": "bak"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bi\u00e9lorusse", 
+        "label": {
+            "fr": "Bi\u00e9lorusse",
             "en": "Belarusian"
-        }, 
-        "639-1": "be", 
-        "639-2": "bel", 
+        },
+        "639-1": "be",
+        "639-2": "bel",
         "639-3": "bel"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bulgare", 
+        "label": {
+            "fr": "Bulgare",
             "en": "Bulgarian"
-        }, 
-        "639-1": "bg", 
-        "639-2": "bul", 
+        },
+        "639-1": "bg",
+        "639-2": "bul",
         "639-3": "bul"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bihari", 
+        "label": {
+            "fr": "Bihari",
             "en": "Bihari"
-        }, 
-        "639-1": "bh", 
-        "639-2": "bih", 
+        },
+        "639-1": "bh",
+        "639-2": "bih",
         "639-3": "--"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bichelamar", 
+        "label": {
+            "fr": "Bichelamar",
             "en": "Bislama"
-        }, 
-        "639-1": "bi", 
-        "639-2": "bis", 
+        },
+        "639-1": "bi",
+        "639-2": "bis",
         "639-3": "bis"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bambara", 
+        "label": {
+            "fr": "Bambara",
             "en": "Bambara"
-        }, 
-        "639-1": "bm", 
-        "639-2": "bam", 
+        },
+        "639-1": "bm",
+        "639-2": "bam",
         "639-3": "bam"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bengali", 
+        "label": {
+            "fr": "Bengali",
             "en": "Bengali"
-        }, 
-        "639-1": "bn", 
-        "639-2": "ben", 
+        },
+        "639-1": "bn",
+        "639-2": "ben",
         "639-3": "ben"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tib\u00e9tain", 
+        "label": {
+            "fr": "Tib\u00e9tain",
             "en": "Tibetan"
-        }, 
-        "639-1": "bo", 
-        "639-2": "tib/bod", 
+        },
+        "639-1": "bo",
+        "639-2": "tib/bod",
         "639-3": "bod"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Breton", 
+        "label": {
+            "fr": "Breton",
             "en": "Breton"
-        }, 
-        "639-1": "br", 
-        "639-2": "bre", 
+        },
+        "639-1": "br",
+        "639-2": "bre",
         "639-3": "bre"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Bosnien", 
+        "label": {
+            "fr": "Bosnien",
             "en": "Bosnian"
-        }, 
-        "639-1": "bs", 
-        "639-2": "bos", 
+        },
+        "639-1": "bs",
+        "639-2": "bos",
         "639-3": "bos"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Catalan", 
+        "label": {
+            "fr": "Catalan",
             "en": "Catalan"
-        }, 
-        "639-1": "ca", 
-        "639-2": "cat", 
+        },
+        "639-1": "ca",
+        "639-2": "cat",
         "639-3": "cat"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tch\u00e9tch\u00e8ne", 
+        "label": {
+            "fr": "Tch\u00e9tch\u00e8ne",
             "en": "Chechen"
-        }, 
-        "639-1": "ce", 
-        "639-2": "che", 
+        },
+        "639-1": "ce",
+        "639-2": "che",
         "639-3": "che"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Chamorro", 
+        "label": {
+            "fr": "Chamorro",
             "en": "Chamorro"
-        }, 
-        "639-1": "ch", 
-        "639-2": "cha", 
+        },
+        "639-1": "ch",
+        "639-2": "cha",
         "639-3": "cha"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Corse", 
+        "label": {
+            "fr": "Corse",
             "en": "Corsican"
-        }, 
-        "639-1": "co", 
-        "639-2": "cos", 
+        },
+        "639-1": "co",
+        "639-2": "cos",
         "639-3": "cos"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Cri", 
+        "label": {
+            "fr": "Cri",
             "en": "Cree"
-        }, 
-        "639-1": "cr", 
-        "639-2": "cre", 
+        },
+        "639-1": "cr",
+        "639-2": "cre",
         "639-3": "cre + 6"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tch\u00e8que", 
+        "label": {
+            "fr": "Tch\u00e8que",
             "en": "Czech"
-        }, 
-        "639-1": "cs", 
-        "639-2": "cze/ces", 
+        },
+        "639-1": "cs",
+        "639-2": "cze/ces",
         "639-3": "ces"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Vieux-slave", 
+        "label": {
+            "fr": "Vieux-slave",
             "en": "Old Church Slavonic"
-        }, 
-        "639-1": "cu", 
-        "639-2": "chu", 
+        },
+        "639-1": "cu",
+        "639-2": "chu",
         "639-3": "chu"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tchouvache", 
+        "label": {
+            "fr": "Tchouvache",
             "en": "Chuvash"
-        }, 
-        "639-1": "cv", 
-        "639-2": "chv", 
+        },
+        "639-1": "cv",
+        "639-2": "chv",
         "639-3": "chv"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Gallois", 
+        "label": {
+            "fr": "Gallois",
             "en": "Welsh"
-        }, 
-        "639-1": "cy", 
-        "639-2": "wel/cym", 
+        },
+        "639-1": "cy",
+        "639-2": "wel/cym",
         "639-3": "cym"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Danois", 
+        "label": {
+            "fr": "Danois",
             "en": "Danish"
-        }, 
-        "639-1": "da", 
-        "639-2": "dan", 
+        },
+        "639-1": "da",
+        "639-2": "dan",
         "639-3": "dan"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Allemand", 
+        "label": {
+            "fr": "Allemand",
             "en": "German"
-        }, 
-        "639-1": "de", 
-        "639-2": "ger/deu", 
+        },
+        "639-1": "de",
+        "639-2": "ger/deu",
         "639-3": "deu"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Maldivien", 
+        "label": {
+            "fr": "Maldivien",
             "en": "Divehi"
-        }, 
-        "639-1": "dv", 
-        "639-2": "div", 
+        },
+        "639-1": "dv",
+        "639-2": "div",
         "639-3": "div"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Dzongkha", 
+        "label": {
+            "fr": "Dzongkha",
             "en": "Dzongkha"
-        }, 
-        "639-1": "dz", 
-        "639-2": "dzo", 
+        },
+        "639-1": "dz",
+        "639-2": "dzo",
         "639-3": "dzo"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ewe", 
+        "label": {
+            "fr": "Ewe",
             "en": "Ewe"
-        }, 
-        "639-1": "ee", 
-        "639-2": "ewe", 
+        },
+        "639-1": "ee",
+        "639-2": "ewe",
         "639-3": "ewe"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Grec moderne", 
+        "label": {
+            "fr": "Grec moderne",
             "en": "Greek"
-        }, 
-        "639-1": "el", 
-        "639-2": "gre/ell", 
+        },
+        "639-1": "el",
+        "639-2": "gre/ell",
         "639-3": "ell"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Anglais", 
+        "label": {
+            "fr": "Anglais",
             "en": "English"
-        }, 
-        "639-1": "en", 
-        "639-2": "eng", 
+        },
+        "639-1": "en",
+        "639-2": "eng",
         "639-3": "eng"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Esp\u00e9ranto", 
+        "label": {
+            "fr": "Esp\u00e9ranto",
             "en": "Esperanto"
-        }, 
-        "639-1": "eo", 
-        "639-2": "epo", 
+        },
+        "639-1": "eo",
+        "639-2": "epo",
         "639-3": "epo"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Espagnol", 
+        "label": {
+            "fr": "Espagnol",
             "en": "Spanish"
-        }, 
-        "639-1": "es", 
-        "639-2": "spa", 
+        },
+        "639-1": "es",
+        "639-2": "spa",
         "639-3": "spa"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Estonien", 
+        "label": {
+            "fr": "Estonien",
             "en": "Estonian"
-        }, 
-        "639-1": "et", 
-        "639-2": "est", 
+        },
+        "639-1": "et",
+        "639-2": "est",
         "639-3": "est"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Basque", 
+        "label": {
+            "fr": "Basque",
             "en": "Basque"
-        }, 
-        "639-1": "eu", 
-        "639-2": "baq/eus", 
+        },
+        "639-1": "eu",
+        "639-2": "baq/eus",
         "639-3": "eus"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Persan", 
+        "label": {
+            "fr": "Persan",
             "en": "Persian"
-        }, 
-        "639-1": "fa", 
-        "639-2": "per/fas", 
+        },
+        "639-1": "fa",
+        "639-2": "per/fas",
         "639-3": "fas + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Peul", 
+        "label": {
+            "fr": "Peul",
             "en": "Fulah"
-        }, 
-        "639-1": "ff", 
-        "639-2": "ful", 
+        },
+        "639-1": "ff",
+        "639-2": "ful",
         "639-3": "ful + 9"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Finnois", 
+        "label": {
+            "fr": "Finnois",
             "en": "Finnish"
-        }, 
-        "639-1": "fi", 
-        "639-2": "fin", 
+        },
+        "639-1": "fi",
+        "639-2": "fin",
         "639-3": "fin"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Fidjien", 
+        "label": {
+            "fr": "Fidjien",
             "en": "Fijian"
-        }, 
-        "639-1": "fj", 
-        "639-2": "fij", 
+        },
+        "639-1": "fj",
+        "639-2": "fij",
         "639-3": "fij"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "F\u00e9ro\u00efen", 
+        "label": {
+            "fr": "F\u00e9ro\u00efen",
             "en": "Faroese"
-        }, 
-        "639-1": "fo", 
-        "639-2": "fao", 
+        },
+        "639-1": "fo",
+        "639-2": "fao",
         "639-3": "fao"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Fran\u00e7ais", 
+        "label": {
+            "fr": "Fran\u00e7ais",
             "en": "French"
-        }, 
-        "639-1": "fr", 
-        "639-2": "fre/fra", 
+        },
+        "639-1": "fr",
+        "639-2": "fre/fra",
         "639-3": "fra"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Frison", 
+        "label": {
+            "fr": "Frison",
             "en": "Western Frisian"
-        }, 
-        "639-1": "fy", 
-        "639-2": "fry", 
+        },
+        "639-1": "fy",
+        "639-2": "fry",
         "639-3": "fry + 3"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Irlandais", 
+        "label": {
+            "fr": "Irlandais",
             "en": "Irish"
-        }, 
-        "639-1": "ga", 
-        "639-2": "gle", 
+        },
+        "639-1": "ga",
+        "639-2": "gle",
         "639-3": "gle"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "\u00c9cossais", 
+        "label": {
+            "fr": "\u00c9cossais",
             "en": "Scottish Gaelic"
-        }, 
-        "639-1": "gd", 
-        "639-2": "gla", 
+        },
+        "639-1": "gd",
+        "639-2": "gla",
         "639-3": "gla"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Galicien", 
+        "label": {
+            "fr": "Galicien",
             "en": "Galician"
-        }, 
-        "639-1": "gl", 
-        "639-2": "glg", 
+        },
+        "639-1": "gl",
+        "639-2": "glg",
         "639-3": "glg"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Guarani", 
+        "label": {
+            "fr": "Guarani",
             "en": "Guarani"
-        }, 
-        "639-1": "gn", 
-        "639-2": "grn", 
+        },
+        "639-1": "gn",
+        "639-2": "grn",
         "639-3": "grn + 5"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Gujarati", 
+        "label": {
+            "fr": "Gujarati",
             "en": "Gujarati"
-        }, 
-        "639-1": "gu", 
-        "639-2": "guj", 
+        },
+        "639-1": "gu",
+        "639-2": "guj",
         "639-3": "guj"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Mannois", 
+        "label": {
+            "fr": "Mannois",
             "en": "Manx"
-        }, 
-        "639-1": "gv", 
-        "639-2": "glv", 
+        },
+        "639-1": "gv",
+        "639-2": "glv",
         "639-3": "glv"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Haoussa", 
+        "label": {
+            "fr": "Haoussa",
             "en": "Hausa"
-        }, 
-        "639-1": "ha", 
-        "639-2": "hau", 
+        },
+        "639-1": "ha",
+        "639-2": "hau",
         "639-3": "hau"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "H\u00e9breu", 
+        "label": {
+            "fr": "H\u00e9breu",
             "en": "Hebrew"
-        }, 
-        "639-1": "he", 
-        "639-2": "heb", 
+        },
+        "639-1": "he",
+        "639-2": "heb",
         "639-3": "heb"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Hindi", 
+        "label": {
+            "fr": "Hindi",
             "en": "Hindi"
-        }, 
-        "639-1": "hi", 
-        "639-2": "hin", 
+        },
+        "639-1": "hi",
+        "639-2": "hin",
         "639-3": "hin"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Hiri motu", 
+        "label": {
+            "fr": "Hiri motu",
             "en": "Hiri Motu"
-        }, 
-        "639-1": "ho", 
-        "639-2": "hmo", 
+        },
+        "639-1": "ho",
+        "639-2": "hmo",
         "639-3": "hmo"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Croate", 
+        "label": {
+            "fr": "Croate",
             "en": "Croatian"
-        }, 
-        "639-1": "hr", 
-        "639-2": "scr/hrv", 
+        },
+        "639-1": "hr",
+        "639-2": "scr/hrv",
         "639-3": "hrv"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Cr\u00e9ole ha\u00eftien", 
+        "label": {
+            "fr": "Cr\u00e9ole ha\u00eftien",
             "en": "Haitian"
-        }, 
-        "639-1": "ht", 
-        "639-2": "hat", 
+        },
+        "639-1": "ht",
+        "639-2": "hat",
         "639-3": "hat"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Hongrois", 
+        "label": {
+            "fr": "Hongrois",
             "en": "Hungarian"
-        }, 
-        "639-1": "hu", 
-        "639-2": "hun", 
+        },
+        "639-1": "hu",
+        "639-2": "hun",
         "639-3": "hun"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Arm\u00e9nien", 
+        "label": {
+            "fr": "Arm\u00e9nien",
             "en": "Armenian"
-        }, 
-        "639-1": "hy", 
-        "639-2": "arm/hye", 
+        },
+        "639-1": "hy",
+        "639-2": "arm/hye",
         "639-3": "hye"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "H\u00e9r\u00e9ro", 
+        "label": {
+            "fr": "H\u00e9r\u00e9ro",
             "en": "Herero"
-        }, 
-        "639-1": "hz", 
-        "639-2": "her", 
+        },
+        "639-1": "hz",
+        "639-2": "her",
         "639-3": "her"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Interlingua", 
+        "label": {
+            "fr": "Interlingua",
             "en": "Interlingua"
-        }, 
-        "639-1": "ia", 
-        "639-2": "ina", 
+        },
+        "639-1": "ia",
+        "639-2": "ina",
         "639-3": "ina"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Indon\u00e9sien", 
+        "label": {
+            "fr": "Indon\u00e9sien",
             "en": "Indonesian"
-        }, 
-        "639-1": "id", 
-        "639-2": "ind", 
+        },
+        "639-1": "id",
+        "639-2": "ind",
         "639-3": "ind"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Occidental", 
+        "label": {
+            "fr": "Occidental",
             "en": "Interlingue"
-        }, 
-        "639-1": "ie", 
-        "639-2": "ile", 
+        },
+        "639-1": "ie",
+        "639-2": "ile",
         "639-3": "ile"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Igbo", 
+        "label": {
+            "fr": "Igbo",
             "en": "Igbo"
-        }, 
-        "639-1": "ig", 
-        "639-2": "ibo", 
+        },
+        "639-1": "ig",
+        "639-2": "ibo",
         "639-3": "ibo"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Yi", 
+        "label": {
+            "fr": "Yi",
             "en": "Sichuan Yi"
-        }, 
-        "639-1": "ii", 
-        "639-2": "iii", 
+        },
+        "639-1": "ii",
+        "639-2": "iii",
         "639-3": "iii"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Inupiak", 
+        "label": {
+            "fr": "Inupiak",
             "en": "Inupiaq"
-        }, 
-        "639-1": "ik", 
-        "639-2": "ipk", 
+        },
+        "639-1": "ik",
+        "639-2": "ipk",
         "639-3": "ipk + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ido", 
+        "label": {
+            "fr": "Ido",
             "en": "Ido"
-        }, 
-        "639-1": "io", 
-        "639-2": "ido", 
+        },
+        "639-1": "io",
+        "639-2": "ido",
         "639-3": "ido"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Islandais", 
+        "label": {
+            "fr": "Islandais",
             "en": "Icelandic"
-        }, 
-        "639-1": "is", 
-        "639-2": "ice/isl", 
+        },
+        "639-1": "is",
+        "639-2": "ice/isl",
         "639-3": "isl"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Italien", 
+        "label": {
+            "fr": "Italien",
             "en": "Italian"
-        }, 
-        "639-1": "it", 
-        "639-2": "ita", 
+        },
+        "639-1": "it",
+        "639-2": "ita",
         "639-3": "ita"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Inuktitut", 
+        "label": {
+            "fr": "Inuktitut",
             "en": "Inuktitut"
-        }, 
-        "639-1": "iu", 
-        "639-2": "iku", 
+        },
+        "639-1": "iu",
+        "639-2": "iku",
         "639-3": "iku + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Japonais", 
+        "label": {
+            "fr": "Japonais",
             "en": "Japanese"
-        }, 
-        "639-1": "ja", 
-        "639-2": "jpn", 
+        },
+        "639-1": "ja",
+        "639-2": "jpn",
         "639-3": "jpn"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Javanais", 
+        "label": {
+            "fr": "Javanais",
             "en": "Javanese"
-        }, 
-        "639-1": "jv", 
-        "639-2": "jav", 
+        },
+        "639-1": "jv",
+        "639-2": "jav",
         "639-3": "jav"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "G\u00e9orgien", 
+        "label": {
+            "fr": "G\u00e9orgien",
             "en": "Georgian"
-        }, 
-        "639-1": "ka", 
-        "639-2": "geo/kat", 
+        },
+        "639-1": "ka",
+        "639-2": "geo/kat",
         "639-3": "kat"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kikongo", 
+        "label": {
+            "fr": "Kikongo",
             "en": "Kongo"
-        }, 
-        "639-1": "kg", 
-        "639-2": "kon", 
+        },
+        "639-1": "kg",
+        "639-2": "kon",
         "639-3": "kon + 3"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kikuyu", 
+        "label": {
+            "fr": "Kikuyu",
             "en": "Kikuyu"
-        }, 
-        "639-1": "ki", 
-        "639-2": "kik", 
+        },
+        "639-1": "ki",
+        "639-2": "kik",
         "639-3": "kik"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kuanyama", 
+        "label": {
+            "fr": "Kuanyama",
             "en": "Kwanyama"
-        }, 
-        "639-1": "kj", 
-        "639-2": "kua", 
+        },
+        "639-1": "kj",
+        "639-2": "kua",
         "639-3": "kua"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kazakh", 
+        "label": {
+            "fr": "Kazakh",
             "en": "Kazakh"
-        }, 
-        "639-1": "kk", 
-        "639-2": "kaz", 
+        },
+        "639-1": "kk",
+        "639-2": "kaz",
         "639-3": "kaz"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Groenlandais", 
+        "label": {
+            "fr": "Groenlandais",
             "en": "Kalaallisut"
-        }, 
-        "639-1": "kl", 
-        "639-2": "kal", 
+        },
+        "639-1": "kl",
+        "639-2": "kal",
         "639-3": "kal"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Khmer", 
+        "label": {
+            "fr": "Khmer",
             "en": "Khmer"
-        }, 
-        "639-1": "km", 
-        "639-2": "khm", 
+        },
+        "639-1": "km",
+        "639-2": "khm",
         "639-3": "khm"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kannada", 
+        "label": {
+            "fr": "Kannada",
             "en": "Kannada"
-        }, 
-        "639-1": "kn", 
-        "639-2": "kan", 
+        },
+        "639-1": "kn",
+        "639-2": "kan",
         "639-3": "kan"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Cor\u00e9en", 
+        "label": {
+            "fr": "Cor\u00e9en",
             "en": "Korean"
-        }, 
-        "639-1": "ko", 
-        "639-2": "kor", 
+        },
+        "639-1": "ko",
+        "639-2": "kor",
         "639-3": "kor"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kanouri", 
+        "label": {
+            "fr": "Kanouri",
             "en": "Kanuri"
-        }, 
-        "639-1": "kr", 
-        "639-2": "kau", 
+        },
+        "639-1": "kr",
+        "639-2": "kau",
         "639-3": "kau + 3"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Cachemiri", 
+        "label": {
+            "fr": "Cachemiri",
             "en": "Kashmiri"
-        }, 
-        "639-1": "ks", 
-        "639-2": "kas", 
+        },
+        "639-1": "ks",
+        "639-2": "kas",
         "639-3": "kas"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kurde", 
+        "label": {
+            "fr": "Kurde",
             "en": "Kurdish"
-        }, 
-        "639-1": "ku", 
-        "639-2": "kur", 
+        },
+        "639-1": "ku",
+        "639-2": "kur",
         "639-3": "kur + 3"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Komi", 
+        "label": {
+            "fr": "Komi",
             "en": "Komi"
-        }, 
-        "639-1": "kv", 
-        "639-2": "kom", 
+        },
+        "639-1": "kv",
+        "639-2": "kom",
         "639-3": "kom + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Cornique", 
+        "label": {
+            "fr": "Cornique",
             "en": "Cornish"
-        }, 
-        "639-1": "kw", 
-        "639-2": "cor", 
+        },
+        "639-1": "kw",
+        "639-2": "cor",
         "639-3": "cor"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kirghiz", 
+        "label": {
+            "fr": "Kirghiz",
             "en": "Kirghiz"
-        }, 
-        "639-1": "ky", 
-        "639-2": "kir", 
+        },
+        "639-1": "ky",
+        "639-2": "kir",
         "639-3": "kir"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Latin", 
+        "label": {
+            "fr": "Latin",
             "en": "Latin"
-        }, 
-        "639-1": "la", 
-        "639-2": "lat", 
+        },
+        "639-1": "la",
+        "639-2": "lat",
         "639-3": "lat"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Luxembourgeois", 
+        "label": {
+            "fr": "Luxembourgeois",
             "en": "Luxembourgish"
-        }, 
-        "639-1": "lb", 
-        "639-2": "ltz", 
+        },
+        "639-1": "lb",
+        "639-2": "ltz",
         "639-3": "ltz"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ganda", 
+        "label": {
+            "fr": "Ganda",
             "en": "Ganda"
-        }, 
-        "639-1": "lg", 
-        "639-2": "lug", 
+        },
+        "639-1": "lg",
+        "639-2": "lug",
         "639-3": "lug"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Limbourgeois", 
+        "label": {
+            "fr": "Limbourgeois",
             "en": "Limburgish"
-        }, 
-        "639-1": "li", 
-        "639-2": "lim", 
+        },
+        "639-1": "li",
+        "639-2": "lim",
         "639-3": "lim"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Lingala", 
+        "label": {
+            "fr": "Lingala",
             "en": "Lingala"
-        }, 
-        "639-1": "ln", 
-        "639-2": "lin", 
+        },
+        "639-1": "ln",
+        "639-2": "lin",
         "639-3": "lin"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Lao", 
+        "label": {
+            "fr": "Lao",
             "en": "Lao"
-        }, 
-        "639-1": "lo", 
-        "639-2": "lao", 
+        },
+        "639-1": "lo",
+        "639-2": "lao",
         "639-3": "lao"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Lituanien", 
+        "label": {
+            "fr": "Lituanien",
             "en": "Lithuanian"
-        }, 
-        "639-1": "lt", 
-        "639-2": "lit", 
+        },
+        "639-1": "lt",
+        "639-2": "lit",
         "639-3": "lit"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Luba-katanga", 
+        "label": {
+            "fr": "Luba-katanga",
             "en": "Luba-Katanga"
-        }, 
-        "639-1": "lu", 
-        "639-2": "lub", 
+        },
+        "639-1": "lu",
+        "639-2": "lub",
         "639-3": "lub"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Letton", 
+        "label": {
+            "fr": "Letton",
             "en": "Latvian"
-        }, 
-        "639-1": "lv", 
-        "639-2": "lav", 
+        },
+        "639-1": "lv",
+        "639-2": "lav",
         "639-3": "lav"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Malgache", 
+        "label": {
+            "fr": "Malgache",
             "en": "Malagasy"
-        }, 
-        "639-1": "mg", 
-        "639-2": "mlg", 
+        },
+        "639-1": "mg",
+        "639-2": "mlg",
         "639-3": "mlg + 10"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Marshallais", 
+        "label": {
+            "fr": "Marshallais",
             "en": "Marshallese"
-        }, 
-        "639-1": "mh", 
-        "639-2": "mah", 
+        },
+        "639-1": "mh",
+        "639-2": "mah",
         "639-3": "mah"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Maori de Nouvelle-Z\u00e9lande", 
+        "label": {
+            "fr": "Maori de Nouvelle-Z\u00e9lande",
             "en": "M\u0101ori"
-        }, 
-        "639-1": "mi", 
-        "639-2": "mao/mri", 
+        },
+        "639-1": "mi",
+        "639-2": "mao/mri",
         "639-3": "mri"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Mac\u00e9donien", 
+        "label": {
+            "fr": "Mac\u00e9donien",
             "en": "Macedonian"
-        }, 
-        "639-1": "mk", 
-        "639-2": "mac/mkd", 
+        },
+        "639-1": "mk",
+        "639-2": "mac/mkd",
         "639-3": "mkd"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Malayalam", 
+        "label": {
+            "fr": "Malayalam",
             "en": "Malayalam"
-        }, 
-        "639-1": "ml", 
-        "639-2": "mal", 
+        },
+        "639-1": "ml",
+        "639-2": "mal",
         "639-3": "mal"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Mongol", 
+        "label": {
+            "fr": "Mongol",
             "en": "Mongolian"
-        }, 
-        "639-1": "mn", 
-        "639-2": "mon", 
+        },
+        "639-1": "mn",
+        "639-2": "mon",
         "639-3": "mon + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Marathi", 
+        "label": {
+            "fr": "Marathi",
             "en": "Marathi"
-        }, 
-        "639-1": "mr", 
-        "639-2": "mar", 
+        },
+        "639-1": "mr",
+        "639-2": "mar",
         "639-3": "mar"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Malais", 
+        "label": {
+            "fr": "Malais",
             "en": "Malay"
-        }, 
-        "639-1": "ms", 
-        "639-2": "may/msa", 
+        },
+        "639-1": "ms",
+        "639-2": "may/msa",
         "639-3": "msa + 13"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Maltais", 
+        "label": {
+            "fr": "Maltais",
             "en": "Maltese"
-        }, 
-        "639-1": "mt", 
-        "639-2": "mlt", 
+        },
+        "639-1": "mt",
+        "639-2": "mlt",
         "639-3": "mlt"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Birman", 
+        "label": {
+            "fr": "Birman",
             "en": "Burmese"
-        }, 
-        "639-1": "my", 
-        "639-2": "bur/mya", 
+        },
+        "639-1": "my",
+        "639-2": "bur/mya",
         "639-3": "mya"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Nauruan", 
+        "label": {
+            "fr": "Nauruan",
             "en": "Nauru"
-        }, 
-        "639-1": "na", 
-        "639-2": "nau", 
+        },
+        "639-1": "na",
+        "639-2": "nau",
         "639-3": "nau"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Norv\u00e9gien Bokm\u00e5l", 
+        "label": {
+            "fr": "Norv\u00e9gien Bokm\u00e5l",
             "en": "Norwegian Bokm\u00e5l"
-        }, 
-        "639-1": "nb", 
-        "639-2": "nob", 
+        },
+        "639-1": "nb",
+        "639-2": "nob",
         "639-3": "nob"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Sindebele", 
+        "label": {
+            "fr": "Sindebele",
             "en": "North Ndebele"
-        }, 
-        "639-1": "nd", 
-        "639-2": "nde", 
+        },
+        "639-1": "nd",
+        "639-2": "nde",
         "639-3": "nde"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "N\u00e9palais", 
+        "label": {
+            "fr": "N\u00e9palais",
             "en": "Nepali"
-        }, 
-        "639-1": "ne", 
-        "639-2": "nep", 
+        },
+        "639-1": "ne",
+        "639-2": "nep",
         "639-3": "nep"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ndonga", 
+        "label": {
+            "fr": "Ndonga",
             "en": "Ndonga"
-        }, 
-        "639-1": "ng", 
-        "639-2": "ndo", 
+        },
+        "639-1": "ng",
+        "639-2": "ndo",
         "639-3": "ndo"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "N\u00e9erlandais", 
+        "label": {
+            "fr": "N\u00e9erlandais",
             "en": "Dutch"
-        }, 
-        "639-1": "nl", 
-        "639-2": "dut/nld", 
+        },
+        "639-1": "nl",
+        "639-2": "dut/nld",
         "639-3": "nld"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Norv\u00e9gien Nynorsk", 
+        "label": {
+            "fr": "Norv\u00e9gien Nynorsk",
             "en": "Norwegian Nynorsk"
-        }, 
-        "639-1": "nn", 
-        "639-2": "nno", 
+        },
+        "639-1": "nn",
+        "639-2": "nno",
         "639-3": "nno"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Norv\u00e9gien", 
+        "label": {
+            "fr": "Norv\u00e9gien",
             "en": "Norwegian"
-        }, 
-        "639-1": "no", 
-        "639-2": "nor", 
+        },
+        "639-1": "no",
+        "639-2": "nor",
         "639-3": "nor + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Nrebele", 
+        "label": {
+            "fr": "Nrebele",
             "en": "South Ndebele"
-        }, 
-        "639-1": "nr", 
-        "639-2": "nbl", 
+        },
+        "639-1": "nr",
+        "639-2": "nbl",
         "639-3": "nbl"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Navajo", 
+        "label": {
+            "fr": "Navajo",
             "en": "Navajo"
-        }, 
-        "639-1": "nv", 
-        "639-2": "nav", 
+        },
+        "639-1": "nv",
+        "639-2": "nav",
         "639-3": "nav"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Chichewa", 
+        "label": {
+            "fr": "Chichewa",
             "en": "Chichewa"
-        }, 
-        "639-1": "ny", 
-        "639-2": "nya", 
+        },
+        "639-1": "ny",
+        "639-2": "nya",
         "639-3": "nya"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Occitan", 
+        "label": {
+            "fr": "Occitan",
             "en": "Occitan"
-        }, 
-        "639-1": "oc", 
-        "639-2": "oci", 
+        },
+        "639-1": "oc",
+        "639-2": "oci",
         "639-3": "oci + 5"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ojibw\u00e9", 
+        "label": {
+            "fr": "Ojibw\u00e9",
             "en": "Ojibwa"
-        }, 
-        "639-1": "oj", 
-        "639-2": "oji", 
+        },
+        "639-1": "oj",
+        "639-2": "oji",
         "639-3": "oji + 7"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Oromo", 
+        "label": {
+            "fr": "Oromo",
             "en": "Oromo"
-        }, 
-        "639-1": "om", 
-        "639-2": "orm", 
+        },
+        "639-1": "om",
+        "639-2": "orm",
         "639-3": "orm + 4"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Oriya", 
+        "label": {
+            "fr": "Oriya",
             "en": "Oriya"
-        }, 
-        "639-1": "or", 
-        "639-2": "ori", 
+        },
+        "639-1": "or",
+        "639-2": "ori",
         "639-3": "ori"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Oss\u00e8te", 
+        "label": {
+            "fr": "Oss\u00e8te",
             "en": "Ossetian"
-        }, 
-        "639-1": "os", 
-        "639-2": "oss", 
+        },
+        "639-1": "os",
+        "639-2": "oss",
         "639-3": "oss"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Pendjabi", 
+        "label": {
+            "fr": "Pendjabi",
             "en": "Panjabi"
-        }, 
-        "639-1": "pa", 
-        "639-2": "pan", 
+        },
+        "639-1": "pa",
+        "639-2": "pan",
         "639-3": "pan"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Pali", 
+        "label": {
+            "fr": "Pali",
             "en": "P\u0101li"
-        }, 
-        "639-1": "pi", 
-        "639-2": "pli", 
+        },
+        "639-1": "pi",
+        "639-2": "pli",
         "639-3": "pli"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Polonais", 
+        "label": {
+            "fr": "Polonais",
             "en": "Polish"
-        }, 
-        "639-1": "pl", 
-        "639-2": "pol", 
+        },
+        "639-1": "pl",
+        "639-2": "pol",
         "639-3": "pol"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Pachto", 
+        "label": {
+            "fr": "Pachto",
             "en": "Pashto"
-        }, 
-        "639-1": "ps", 
-        "639-2": "pus", 
+        },
+        "639-1": "ps",
+        "639-2": "pus",
         "639-3": "pus + 3"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Portugais", 
+        "label": {
+            "fr": "Portugais",
             "en": "Portuguese"
-        }, 
-        "639-1": "pt", 
-        "639-2": "por", 
+        },
+        "639-1": "pt",
+        "639-2": "por",
         "639-3": "por"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Quechua", 
+        "label": {
+            "fr": "Quechua",
             "en": "Quechua"
-        }, 
-        "639-1": "qu", 
-        "639-2": "que", 
+        },
+        "639-1": "qu",
+        "639-2": "que",
         "639-3": "que + 44"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Cr\u00e9ole R\u00e9unionnais", 
+        "label": {
+            "fr": "Cr\u00e9ole R\u00e9unionnais",
             "en": "Reunionese"
-        }, 
-        "639-1": "rc", 
-        "639-2": "rcf", 
+        },
+        "639-1": "rc",
+        "639-2": "rcf",
         "639-3": "rcf"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Romanche", 
+        "label": {
+            "fr": "Romanche",
             "en": "Romansh"
-        }, 
-        "639-1": "rm", 
-        "639-2": "roh", 
+        },
+        "639-1": "rm",
+        "639-2": "roh",
         "639-3": "roh"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kirundi", 
+        "label": {
+            "fr": "Kirundi",
             "en": "Kirundi"
-        }, 
-        "639-1": "rn", 
-        "639-2": "run", 
+        },
+        "639-1": "rn",
+        "639-2": "run",
         "639-3": "run"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Roumain", 
+        "label": {
+            "fr": "Roumain",
             "en": "Romanian"
-        }, 
-        "639-1": "ro", 
-        "639-2": "rum/ron", 
+        },
+        "639-1": "ro",
+        "639-2": "rum/ron",
         "639-3": "ron"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Russe", 
+        "label": {
+            "fr": "Russe",
             "en": "Russian"
-        }, 
-        "639-1": "ru", 
-        "639-2": "rus", 
+        },
+        "639-1": "ru",
+        "639-2": "rus",
         "639-3": "rus"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Kinyarwanda", 
+        "label": {
+            "fr": "Kinyarwanda",
             "en": "Kinyarwanda"
-        }, 
-        "639-1": "rw", 
-        "639-2": "kin", 
+        },
+        "639-1": "rw",
+        "639-2": "kin",
         "639-3": "kin"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Sanskrit", 
+        "label": {
+            "fr": "Sanskrit",
             "en": "Sanskrit"
-        }, 
-        "639-1": "sa", 
-        "639-2": "san", 
+        },
+        "639-1": "sa",
+        "639-2": "san",
         "639-3": "san"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Sarde", 
+        "label": {
+            "fr": "Sarde",
             "en": "Sardinian"
-        }, 
-        "639-1": "sc", 
-        "639-2": "srd", 
+        },
+        "639-1": "sc",
+        "639-2": "srd",
         "639-3": "srd + 4"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Sindhi", 
+        "label": {
+            "fr": "Sindhi",
             "en": "Sindhi"
-        }, 
-        "639-1": "sd", 
-        "639-2": "snd", 
+        },
+        "639-1": "sd",
+        "639-2": "snd",
         "639-3": "snd"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Same du Nord", 
+        "label": {
+            "fr": "Same du Nord",
             "en": "Northern Sami"
-        }, 
-        "639-1": "se", 
-        "639-2": "sme", 
+        },
+        "639-1": "se",
+        "639-2": "sme",
         "639-3": "sme"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Sango", 
+        "label": {
+            "fr": "Sango",
             "en": "Sango"
-        }, 
-        "639-1": "sg", 
-        "639-2": "sag", 
+        },
+        "639-1": "sg",
+        "639-2": "sag",
         "639-3": "sag"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Serbo-croate", 
+        "label": {
+            "fr": "Serbo-croate",
             "en": ""
-        }, 
-        "639-1": "sh", 
-        "639-2": "", 
+        },
+        "639-1": "sh",
+        "639-2": "",
         "639-3": ""
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Cingalais", 
+        "label": {
+            "fr": "Cingalais",
             "en": "Sinhalese"
-        }, 
-        "639-1": "si", 
-        "639-2": "sin", 
+        },
+        "639-1": "si",
+        "639-2": "sin",
         "639-3": "sin"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Slovaque", 
+        "label": {
+            "fr": "Slovaque",
             "en": "Slovak"
-        }, 
-        "639-1": "sk", 
-        "639-2": "slo/slk", 
+        },
+        "639-1": "sk",
+        "639-2": "slo/slk",
         "639-3": "slk"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Slov\u00e8ne", 
+        "label": {
+            "fr": "Slov\u00e8ne",
             "en": "Slovene"
-        }, 
-        "639-1": "sl", 
-        "639-2": "slv", 
+        },
+        "639-1": "sl",
+        "639-2": "slv",
         "639-3": "slv"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Samoan", 
+        "label": {
+            "fr": "Samoan",
             "en": "Samoan"
-        }, 
-        "639-1": "sm", 
-        "639-2": "smo", 
+        },
+        "639-1": "sm",
+        "639-2": "smo",
         "639-3": "smo"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Shona", 
+        "label": {
+            "fr": "Shona",
             "en": "Shona"
-        }, 
-        "639-1": "sn", 
-        "639-2": "sna", 
+        },
+        "639-1": "sn",
+        "639-2": "sna",
         "639-3": "sna"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Somali", 
+        "label": {
+            "fr": "Somali",
             "en": "Somali"
-        }, 
-        "639-1": "so", 
-        "639-2": "som", 
+        },
+        "639-1": "so",
+        "639-2": "som",
         "639-3": "som"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Albanais", 
+        "label": {
+            "fr": "Albanais",
             "en": "Albanian"
-        }, 
-        "639-1": "sq", 
-        "639-2": "alb/sqi", 
+        },
+        "639-1": "sq",
+        "639-2": "alb/sqi",
         "639-3": "sqi + 4"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Serbe", 
+        "label": {
+            "fr": "Serbe",
             "en": "Serbian"
-        }, 
-        "639-1": "sr", 
-        "639-2": "scc/srp", 
+        },
+        "639-1": "sr",
+        "639-2": "scc/srp",
         "639-3": "srp"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Swati", 
+        "label": {
+            "fr": "Swati",
             "en": "Swati"
-        }, 
-        "639-1": "ss", 
-        "639-2": "ssw", 
+        },
+        "639-1": "ss",
+        "639-2": "ssw",
         "639-3": "ssw"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Sotho du Sud", 
+        "label": {
+            "fr": "Sotho du Sud",
             "en": "Sotho"
-        }, 
-        "639-1": "st", 
-        "639-2": "sot", 
+        },
+        "639-1": "st",
+        "639-2": "sot",
         "639-3": "sot"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Soundanais", 
+        "label": {
+            "fr": "Soundanais",
             "en": "Sundanese"
-        }, 
-        "639-1": "su", 
-        "639-2": "sun", 
+        },
+        "639-1": "su",
+        "639-2": "sun",
         "639-3": "sun"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Su\u00e9dois", 
+        "label": {
+            "fr": "Su\u00e9dois",
             "en": "Swedish"
-        }, 
-        "639-1": "sv", 
-        "639-2": "swe", 
+        },
+        "639-1": "sv",
+        "639-2": "swe",
         "639-3": "swe"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Swahili", 
+        "label": {
+            "fr": "Swahili",
             "en": "Swahili"
-        }, 
-        "639-1": "sw", 
-        "639-2": "swa", 
+        },
+        "639-1": "sw",
+        "639-2": "swa",
         "639-3": "swa + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tamoul", 
+        "label": {
+            "fr": "Tamoul",
             "en": "Tamil"
-        }, 
-        "639-1": "ta", 
-        "639-2": "tam", 
+        },
+        "639-1": "ta",
+        "639-2": "tam",
         "639-3": "tam"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "T\u00e9lougou", 
+        "label": {
+            "fr": "T\u00e9lougou",
             "en": "Telugu"
-        }, 
-        "639-1": "te", 
-        "639-2": "tel", 
+        },
+        "639-1": "te",
+        "639-2": "tel",
         "639-3": "tel"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tadjik", 
+        "label": {
+            "fr": "Tadjik",
             "en": "Tajik"
-        }, 
-        "639-1": "tg", 
-        "639-2": "tgk", 
+        },
+        "639-1": "tg",
+        "639-2": "tgk",
         "639-3": "tgk"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tha\u00ef", 
+        "label": {
+            "fr": "Tha\u00ef",
             "en": "Thai"
-        }, 
-        "639-1": "th", 
-        "639-2": "tha", 
+        },
+        "639-1": "th",
+        "639-2": "tha",
         "639-3": "tha"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tigrigna", 
+        "label": {
+            "fr": "Tigrigna",
             "en": "Tigrinya"
-        }, 
-        "639-1": "ti", 
-        "639-2": "tir", 
+        },
+        "639-1": "ti",
+        "639-2": "tir",
         "639-3": "tir"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Turkm\u00e8ne", 
+        "label": {
+            "fr": "Turkm\u00e8ne",
             "en": "Turkmen"
-        }, 
-        "639-1": "tk", 
-        "639-2": "tuk", 
+        },
+        "639-1": "tk",
+        "639-2": "tuk",
         "639-3": "tuk"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tagalog", 
+        "label": {
+            "fr": "Tagalog",
             "en": "Tagalog"
-        }, 
-        "639-1": "tl", 
-        "639-2": "tgl", 
+        },
+        "639-1": "tl",
+        "639-2": "tgl",
         "639-3": "tgl"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tswana", 
+        "label": {
+            "fr": "Tswana",
             "en": "Tswana"
-        }, 
-        "639-1": "tn", 
-        "639-2": "tsn", 
+        },
+        "639-1": "tn",
+        "639-2": "tsn",
         "639-3": "tsn"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tongien", 
+        "label": {
+            "fr": "Tongien",
             "en": "Tonga"
-        }, 
-        "639-1": "to", 
-        "639-2": "ton", 
+        },
+        "639-1": "to",
+        "639-2": "ton",
         "639-3": "ton"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Turc", 
+        "label": {
+            "fr": "Turc",
             "en": "Turkish"
-        }, 
-        "639-1": "tr", 
-        "639-2": "tur", 
+        },
+        "639-1": "tr",
+        "639-2": "tur",
         "639-3": "tur"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tsonga", 
+        "label": {
+            "fr": "Tsonga",
             "en": "Tsonga"
-        }, 
-        "639-1": "ts", 
-        "639-2": "tso", 
+        },
+        "639-1": "ts",
+        "639-2": "tso",
         "639-3": "tso"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tatar", 
+        "label": {
+            "fr": "Tatar",
             "en": "Tatar"
-        }, 
-        "639-1": "tt", 
-        "639-2": "tat", 
+        },
+        "639-1": "tt",
+        "639-2": "tat",
         "639-3": "tat"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Twi", 
+        "label": {
+            "fr": "Twi",
             "en": "Twi"
-        }, 
-        "639-1": "tw", 
-        "639-2": "twi", 
+        },
+        "639-1": "tw",
+        "639-2": "twi",
         "639-3": "twi"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Tahitien", 
+        "label": {
+            "fr": "Tahitien",
             "en": "Tahitian"
-        }, 
-        "639-1": "ty", 
-        "639-2": "tah", 
+        },
+        "639-1": "ty",
+        "639-2": "tah",
         "639-3": "tah"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ou\u00efghour", 
+        "label": {
+            "fr": "Ou\u00efghour",
             "en": "Uighur"
-        }, 
-        "639-1": "ug", 
-        "639-2": "uig", 
+        },
+        "639-1": "ug",
+        "639-2": "uig",
         "639-3": "uig"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ukrainien", 
+        "label": {
+            "fr": "Ukrainien",
             "en": "Ukrainian"
-        }, 
-        "639-1": "uk", 
-        "639-2": "ukr", 
+        },
+        "639-1": "uk",
+        "639-2": "ukr",
         "639-3": "ukr"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ourdou", 
+        "label": {
+            "fr": "Ourdou",
             "en": "Urdu"
-        }, 
-        "639-1": "ur", 
-        "639-2": "urd", 
+        },
+        "639-1": "ur",
+        "639-2": "urd",
         "639-3": "urd"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Ouzbek", 
+        "label": {
+            "fr": "Ouzbek",
             "en": "Uzbek"
-        }, 
-        "639-1": "uz", 
-        "639-2": "uzb", 
+        },
+        "639-1": "uz",
+        "639-2": "uzb",
         "639-3": "uzb + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Venda", 
+        "label": {
+            "fr": "Venda",
             "en": "Venda"
-        }, 
-        "639-1": "ve", 
-        "639-2": "ven", 
+        },
+        "639-1": "ve",
+        "639-2": "ven",
         "639-3": "ven"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Vietnamien", 
+        "label": {
+            "fr": "Vietnamien",
             "en": "Vi\u00eat Namese"
-        }, 
-        "639-1": "vi", 
-        "639-2": "vie", 
+        },
+        "639-1": "vi",
+        "639-2": "vie",
         "639-3": "vie"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Volap\u00fck", 
+        "label": {
+            "fr": "Volap\u00fck",
             "en": "Volap\u00fck"
-        }, 
-        "639-1": "vo", 
-        "639-2": "vol", 
+        },
+        "639-1": "vo",
+        "639-2": "vol",
         "639-3": "vol"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Wallon", 
+        "label": {
+            "fr": "Wallon",
             "en": "Walloon"
-        }, 
-        "639-1": "wa", 
-        "639-2": "wln", 
+        },
+        "639-1": "wa",
+        "639-2": "wln",
         "639-3": "wln"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Wolof", 
+        "label": {
+            "fr": "Wolof",
             "en": "Wolof"
-        }, 
-        "639-1": "wo", 
-        "639-2": "wol", 
+        },
+        "639-1": "wo",
+        "639-2": "wol",
         "639-3": "wol"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Xhosa", 
+        "label": {
+            "fr": "Xhosa",
             "en": "Xhosa"
-        }, 
-        "639-1": "xh", 
-        "639-2": "xho", 
+        },
+        "639-1": "xh",
+        "639-2": "xho",
         "639-3": "xho"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Yiddish", 
+        "label": {
+            "fr": "Yiddish",
             "en": "Yiddish"
-        }, 
-        "639-1": "yi", 
-        "639-2": "yid", 
+        },
+        "639-1": "yi",
+        "639-2": "yid",
         "639-3": "yid + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Yoruba", 
+        "label": {
+            "fr": "Yoruba",
             "en": "Yoruba"
-        }, 
-        "639-1": "yo", 
-        "639-2": "yor", 
+        },
+        "639-1": "yo",
+        "639-2": "yor",
         "639-3": "yor"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Zhuang", 
+        "label": {
+            "fr": "Zhuang",
             "en": "Zhuang"
-        }, 
-        "639-1": "za", 
-        "639-2": "zha", 
+        },
+        "639-1": "za",
+        "639-2": "zha",
         "639-3": "zha + 2"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Chinois", 
+        "label": {
+            "fr": "Chinois",
             "en": "Chinese"
-        }, 
-        "639-1": "zh", 
-        "639-2": "chi/zho", 
+        },
+        "639-1": "zh",
+        "639-2": "chi/zho",
         "639-3": "zho + 13"
-    }, 
+    },
     {
-        "labels": {
-            "fr": "Zoulou", 
+        "label": {
+            "fr": "Zoulou",
             "en": "Zulu"
-        }, 
-        "639-1": "zu", 
-        "639-2": "zul", 
+        },
+        "639-1": "zu",
+        "639-2": "zul",
         "639-3": "zul"
     }
 ]

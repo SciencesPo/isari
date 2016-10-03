@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
-  selector: 'data-table',
+  selector: 'isari-data-table',
   templateUrl: 'data-table.component.html',
   styleUrls: ['data-table.component.css']
 })

@@ -16,7 +16,7 @@ import { DataEditorComponent } from './data-editor/data-editor.component';
     ListPageComponent,
     DetailPageComponent,
     DataTableComponent,
-    DataEditorComponent
+    DataEditorComponent,
   ],
   imports: [
     BrowserModule,
