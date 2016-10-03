@@ -641,10 +641,10 @@
                 "en": "Status"
             }
         },
-        "organizationType": {
+        "organizationTypes": {
             "labels": {
-                "fr": "Type d'organisation",
-                "en": "Organization type"
+                "fr": "Types d'organisation",
+                "en": "Organization types"
             }
         },
         "url": {
@@ -653,7 +653,7 @@
                 "en": "Website url"
             }
         },
-        "organisation_links": {
+        "organisationLinks": {
             "labels": {
                 "fr": "Organisation(s) liée(s)",
                 "en": "Related organization(s)"
