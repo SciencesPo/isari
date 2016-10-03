@@ -29,9 +29,25 @@
 	"organizationType": [ "département", "centre de rercherche", "entreprise", "université", "institution internationale" ],
 
 	"activityTypes": [ "partenariat", "doctorat", "projet de recherche", "mobilité" ],
-	"personalActivityTypes": [ "activités éditoriales", "encadrement", "jurys", "expertise", "évaluations", "responsabilités et mandats", "collaborations scientifiques" ],
 	"activityOrganizationRoles": [ "inscription", "leader", "partneraire" ],
 	"activityPeopleRoles": [ "professor", "PI", "participant", "doctorant", "directeur de thèse", "membre comité suivi", "membre du jury" ],
+
+	"personalActivityTypes": {
+		"editorial": [
+			"collection scientifique",
+			"revue scientifique"
+		],
+		"encadrement": [
+			"mémoire",
+			"thèse",
+			"HDR"
+		],
+		"jurys": [],
+		"expertise": [],
+		"évaluations": [],
+		"responsabilités et mandats": [],
+		"collaborations scientifiques": []
+	},
 
 	"grantType": [ "collaboratif international", "levée de fond" ],
 	"grantStatuses": [ "submitted", "accepted", "ongoing", "done" ],
