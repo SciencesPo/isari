@@ -5,186 +5,186 @@ var enums = fs.readFileSync('./data_specs/global_enum.json');
 
 var peopleSchema;
 
-exports.peopleSchema = new mongoose.Schema({ 
-	isari_authorized_centers : [{ 
-		organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-		isari_role : { 
-			type : String, 
-			enum : enums.isari_roles, 
+exports.peopleSchema = new mongoose.Schema({
+	isariAuthorizedCenters: [{
+		organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+		isariRole: {
+			type: String,
+			enum: enums.isari_roles,
 		 }
-	 }], 
-	firstname : String,
-	name : { 
-		type : String,
-		required : true
-	}, 
-	birthname : { 
-		type : String,
-		required : true
-	}, 
-	gender : { 
-		type : String, 
-		enum : enums.genders
-	 }, 
-		birthdate : Date, 
-		nationalities : [{ 
-			type : String, 
-			enum : enums.nationalities, 
-		 }], 
-	ldap_uid : String, 
-	banner_uid : String, 
-	SIRH_matricule : String, 
-	SPIRE_ID : String,
-	positions : [{ 
-			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-			start_date : Date, 
-			end_date : Date, 
-			timepart : { type : Number, default : 1 , min:0.05, max:1 },
-			job_name : String,
-			job_type : { 
-				type : String, 
-				enum : enums.job_type
-			 }, 						
-			job_title : { 
-				type : String, 
-				enum : enums.job_title
-			 }, 
-			UG : String,
-			grades_admin : [{
-					grade : {
-						type : String, 
-						enum : enums.grade-admin
-					}, 
-					start_date : Date, 
-					end_date : Date
+	 }],
+	firstname: String,
+	name: {
+		type: String,
+		required: true
+	},
+	birthname: {
+		type: String,
+		required: true
+	},
+	gender: {
+		type: String,
+		enum: enums.genders
+	 },
+		birthdate: Date,
+		nationalities: [{
+			type: String,
+			enum: enums.nationalities,
+		 }],
+	ldapUid: String,
+	bannerUid: String,
+	sirhMatricule: String,
+	spireID: String,
+	positions: [{
+			organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+			startDate: Date,
+			endDate: Date,
+			timepart: { type: Number, default: 1 , min:0.05, max:1 },
+			jobName: String,
+			jobType: {
+				type: String,
+				enum: enums.job_type
+			 },
+			jobTitle: {
+				type: String,
+				enum: enums.job_title
+			 },
+			UG: String,
+			gradesAdmin: [{
+					grade: {
+						type: String,
+						enum: enums.grade-admin
+					},
+					startDate: Date,
+					endDate: Date
 					// validation custom à coder, dates grades contenus dans les dates de positions
 					// validation custom à coder, ne peut être rempli que si job_type  in ["appui administratif","appui technique"]
-			}], 
-			grades_academic : [{
-					grade : {
-						type : String, 
-						enum : enums.grade-academic
-					}, 
-					start_date : Date, 
-					end_date : Date
+			}],
+			gradesAcademic: [{
+					grade: {
+						type: String,
+						enum: enums.grade-academic
+					},
+					startDate: Date,
+					endDate: Date
 					// validation custom à coder, dates grades contenus dans les dates de positions
 					// validation custom à coder, ne peut être rempli que si job_type not in ["appui administratif","appui technique"]
-			}], 
-			bonuses : [{ 
-				bonusType : { 
-					type : String, 
-					enum : enums.bonusTypes
-				 }, 
-				start_date : Date, 
-				end_date : Date
+			}],
+			bonuses: [{
+				bonusType: {
+					type: String,
+					enum: enums.bonusTypes
+				 },
+				startDate: Date,
+				endDate: Date
 				// validation custom à coder , dates grades contenus dans les dates de positions
 		 	}]
 	 	}],
-	academicMemberships : [
-		{	
-			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-			start_date : Date, 
-			end_date : Date,
-			membership_type : {
-				type : String,
-				enum : enums.academicMembership
-			} 
+	academicMemberships: [
+		{
+			organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+			startDate: Date,
+			endDate: Date,
+			membershipType: {
+				type: String,
+				enum: enums.academicMembership
+			}
 		}
-	], 
-	deptMemberships : [
-		{	
-			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-			start_date : Date, 
-			end_date : Date,
+	],
+	deptMemberships: [
+		{
+			organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+			startDate: Date,
+			endDate: Date,
 		}
-	], 
+	],
 
-	ORCID : String, 
-	IDREF : String, 
-	biography : String, 
-	tags : { 
-		hceres_2017 : [{ 
-			type : String, 
-			enum : enums.hceres_2017
-		 }],  
-		aeres_2012 : [{ 
-			type : String, 
-			enum : enums.aneres_2012
-		 }],  
-		methods : [{ 
-			type : String, 
-			enum : enums.methods
-		 }], 
-		free : Array, 
-		erc : [{ 
-			type : String, 
-			enum : enums.erc
-		 }],  
-		discipline : [{ 
-			type : String, 
-			enum : enums.disciplines
-		 }], 
-		research_theme : [{ 
-			type : String, 
-			enum : enums.research_themes
+	ORCID: String,
+	IDREF: String,
+	biography: String,
+	tags: {
+		hceres2017: [{
+			type: String,
+			enum: enums.hceres_2017
 		 }],
-		 section_CNU : [{ 
-		 	type : String,
-		 	enum : enums.section_cnu
+		aeres2012: [{
+			type: String,
+			enum: enums.aneres_2012
 		 }],
-		 section_CNRS : [{
-		 	type : String,
-		 	enum : enums.section_cnrs
+		methods: [{
+			type: String,
+			enum: enums.methods
+		 }],
+		free: Array,
+		erc: [{
+			type: String,
+			enum: enums.erc
+		 }],
+		discipline: [{
+			type: String,
+			enum: enums.disciplines
+		 }],
+		researchTheme: [{
+			type: String,
+			enum: enums.research_themes
+		 }],
+		 sectionCnu: [{
+		 	type: String,
+		 	enum: enums.section_cnu
+		 }],
+		 sectionCnrs: [{
+		 	type: String,
+		 	enum: enums.section_cnrs
 		 }]
 	 },
- 	personal_activities : [
+ 	personalActivities: [
  	 	{
- 	 		personalActivityType : {
- 	 			type : String,
- 	 			enum : enums.personalActivityType,
- 			    required : true
+ 	 		personalActivityType: {
+ 	 			type: String,
+ 	 			enum: enums.personalActivityType,
+ 			    required: true
  		    },
- 		    personalActivitySubtype : {
- 	 			type : String
+ 		    personalActivitySubtype: {
+ 	 			type: String
  	 			// choix guidé par une liste de valeurs qui dépend de personalActivityType
  	 		},
- 	 		personnalActivityTitle : String,
- 	 		start_date : Date,
- 	 		end_date : Date,
- 	 		role : String,
- 	 		description : String,
- 	 		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }],
- 			peoples : [{ type : mongoose.Schema.Types.ObjectId, ref : 'People' }]
+ 	 		personnalActivityTitle: String,
+ 	 		startDate: Date,
+ 	 		endDate: Date,
+ 	 		role: String,
+ 	 		description: String,
+ 	 		organizations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }],
+ 			peoples: [{ type: mongoose.Schema.Types.ObjectId, ref: 'People' }]
  	 	}
- 	], 
-	distinctions : [{
-		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }], 
-		date : Date, 
-		title : { 
-			type : String,
-			required : true
+ 	],
+	distinctions: [{
+		organizations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }],
+		date: Date,
+		title: {
+			type: String,
+			required: true
 		},
-		countries : [{ 
-			type : String, 
-			enum : enums.countries
-		 }], 
-		distinctionType : { 
-			type : String, 
-			enum : enums.distinctionTypes
-		 }, 
-		subject : String, 
-		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
+		countries: [{
+			type: String,
+			enum: enums.countries
+		 }],
+		distinctionType: {
+			type: String,
+			enum: enums.distinctionTypes
+		 },
+		subject: String,
+		honours: String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
 	 }],
- 	contacts : [{
- 		title : String,
- 		email : { type : String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ }, 
- 		phone : { type : String }
- 	 }], 
+ 	contacts: [{
+ 		title: String,
+ 		email: { type: String, match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ },
+ 		phone: { type: String }
+ 	 }],
  	langs: [{
- 		type : String,
- 		enum : enums.iso6391
+ 		type: String,
+ 		enum: enums.iso6391
  	}]
-	//photo_filename : String, 
+	photoFilename: String,
 });
 var People;
 exports.People = mongoose.model('People', peopleSchema);
@@ -192,142 +192,142 @@ exports.People = mongoose.model('People', peopleSchema);
 
 
 var organizationSchema;
-exports.organizationSchema = new mongoose.Schema({ 
-	name : { 
-		type : String,
-		required : true
+exports.organizationSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true
 	},
-	researchunit_codes : [
+	researchunitCodes: [
 		{
-			code : String,
-			start_date : Date,
-			end_date : Date
+			code: String,
+			startDate: Date,
+			endDate: Date
 		}
 	],
-	ID_banner : String,
-	ID_spire : String,
-	ID_RNSR : String, //identifiant niveau labo français
-	UG : String,
-	acronym : String,
-	address : String,
-	country : { 
-		type : String, 
-		enum : enums.countries
-	 }, 
-	status : {
-		type : String,
-		enum : enums.organizationStatuses
+	idBanner: String,
+	idSpire: String,
+	idRnsr: String, //identifiant niveau labo français
+	UG: String,
+	acronym: String,
+	address: String,
+	country: {
+		type: String,
+		enum: enums.countries
+	 },
+	status: {
+		type: String,
+		enum: enums.organizationStatuses
 	},
-	organizationType : {
-		type : String,
-		enum : enums.organizationTypes
+	organizationType: {
+		type: String,
+		enum: enums.organizationTypes
 	},
-	url : String, // match syntax url ? allez non.
-	parent_organisations : [
-		{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }
-	] 
+	url: String, // match syntax url ? allez non.
+	parentOrganisations: [
+		{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }
+	]
 });
 var Organization;
 exports.Organization = mongoose.model('Organization', organizationSchema);
 
 var activitySchema;
 exports.activitySchema = new mongoose.Schema({
-	name : { 
-		type : String,
-		required : true
-	}, 
-	activityType : {
-		type : String,
-		enum : enums.activityTypes,
-		required : true
+	name: {
+		type: String,
+		required: true
 	},
-	start_date : Date, 
-	end_date : Date,
-	organizations : [{
-		organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }, 
-		role : {
-			type : String,
-			enum : enums.activityOrganizationRoles
-			// est ce bien normé ? 
+	activityType: {
+		type: String,
+		enum: enums.activityTypes,
+		required: true
+	},
+	startDate: Date,
+	endDate: Date,
+	organizations: [{
+		organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+		role: {
+			type: String,
+			enum: enums.activityOrganizationRoles
+			// est ce bien normé ?
 		},
-		start_date : Date,
-		end_date : Date
+		startDate: Date,
+		endDate: Date
 		// validation custom à coder , dates grades contenus dans les dates de positions
 	}],
-	peoples : [{
-		people : { type : mongoose.Schema.Types.ObjectId, ref : 'People' }, 		
-		role :  String,
-		start_date : Date,
-		end_date : Date
+	peoples: [{
+		people: { type: mongoose.Schema.Types.ObjectId, ref: 'People' },
+		role:  String,
+		startDate: Date,
+		endDate: Date
 		// validation custom à coder , dates grades contenus dans les dates de positions
 	}],
-	subject : String,
-	summary : String,
-	url : String,
-	tags : { 
-		hceres_2017 : [{ 
-			type : String, 
-			enum : enums.hceres_2017
-		 }],  
-		aeres_2012 : [{ 
-			type : String, 
-			enum : enums.aneres_2012
-		 }],  
-		methods : [{ 
-			type : String, 
-			enum : enums.methods
-		 }], 
-		free : Array, 
-		erc : [{ 
-			type : String, 
-			enum : enums.erc
-		 }],  
-		discipline : [{ 
-			type : String, 
-			enum : enums.disciplines
-		 }], 
-		research_theme : [{ 
-			type : String, 
-			enum : enums.research_themes
+	subject: String,
+	summary: String,
+	url: String,
+	tags: {
+		hceres2017: [{
+			type: String,
+			enum: enums.hceres_2017
+		 }],
+		aeres2012: [{
+			type: String,
+			enum: enums.aneres_2012
+		 }],
+		methods: [{
+			type: String,
+			enum: enums.methods
+		 }],
+		free: Array,
+		erc: [{
+			type: String,
+			enum: enums.erc
+		 }],
+		discipline: [{
+			type: String,
+			enum: enums.disciplines
+		 }],
+		researchTheme: [{
+			type: String,
+			enum: enums.research_themes
 		 }]
 	},
-	grants : [
+	grants: [
 		{
-			organization : { type : mongoose.Schema.Types.ObjectId, ref : 'Organization' },
-			name : String,
-			grantType : {
-				type : String,
-				enum : enums.grantTypes
+			organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+			name: String,
+			grantType: {
+				type: String,
+				enum: enums.grantTypes
 			},
-			grant_identifier : String,
-			sciencespo_amount : Number,
-			total_amount : Number,
-			invest_amount: Number,
-			run_amount: Number,
-			hr_amount: Number,
-			currency_amount : {
-				type : String,
-				enum : enums.iso4217 
+			grantIdentifier: String,
+			sciencespoAmount: Number,
+			totalAmount: Number,
+			investAmount: Number,
+			runAmount: Number,
+			hrAmount: Number,
+			currencyAmount: {
+				type: String,
+				enum: enums.iso4217
 			},
-			submission_date : Date,
-			start_date : Date,
-			end_date : Date,
-			UG : String,
-			status : {
-				type : String,
-				enum : enums.grantStatuses
+			submissionDate: Date,
+			startDate: Date,
+			endDate: Date,
+			UG: String,
+			status: {
+				type: String,
+				enum: enums.grantStatuses
 			}
 		}
 	],
-	distinctions : [{
-		organizations : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }], 
-		date : Date, 
-		title : { 
-			type : String,
-			required : true
+	distinctions: [{
+		organizations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }],
+		date: Date,
+		title: {
+			type: String,
+			required: true
 		},
-		subject : String, 
-		honours : String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
+		subject: String,
+		honours: String //désolé, honours est toujours au pluriel. Faut pas se laisser aller à la mauvaise aurtaugrafe non plus.
 	 }]
 });
 var Activity;
