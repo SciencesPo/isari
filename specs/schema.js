@@ -204,9 +204,9 @@ exports.organizationSchema = new mongoose.Schema({
 			end_date : Date
 		}
 	],
-	ID_banner : String,
-	ID_spire : String,
-	ID_RNSR : String, //identifiant niveau labo français
+	IDBanner : String,
+	IDSpire : String,
+	IDRNSR : String, //identifiant niveau labo français
 	UG : String,
 	acronym : String,
 	address : String,
@@ -223,7 +223,7 @@ exports.organizationSchema = new mongoose.Schema({
 		enum : enums.organizationTypes
 	}],
 	url : String, // match syntax url ? allez non.
-	parent_organisations : [
+	parentOrganisations : [
 		{ type : mongoose.Schema.Types.ObjectId, ref : 'Organization' }
 	] 
 });
