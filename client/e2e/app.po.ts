@@ -1,4 +1,6 @@
-export class ClientPage {
+import { browser, element, by } from 'protractor';
+
+export class IsariNg2FrontendPage {
   navigateTo() {
     return browser.get('/');
   }

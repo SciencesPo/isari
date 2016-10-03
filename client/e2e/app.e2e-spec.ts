@@ -1,10 +1,10 @@
-import { ClientPage } from './app.po';
+import { IsariNg2FrontendPage } from './app.po';
 
-describe('client App', function() {
-  let page: ClientPage;
+describe('isari-ng2-frontend App', function() {
+  let page: IsariNg2FrontendPage;
 
   beforeEach(() => {
-    page = new ClientPage();
+    page = new IsariNg2FrontendPage();
   });
 
   it('should display message saying app works', () => {
