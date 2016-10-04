@@ -24,10 +24,6 @@ function getSchema (req) {
 	throw new ClientError({ title: `Unknown model "${req.params.name}"`, status: 404 })
 }
 
-function formatMeta (meta, options) {
-	return Promise.resolve(_formatMeta(meta, options))
-}
-
 const KEPT_FIELDS = [
 	'label',
 	'requirement',
@@ -41,7 +37,7 @@ const KEPT_FIELDS = [
 	'regex'
 ]
 
-function _formatMeta (meta, options = {}) {
+function formatMeta (meta, options = {}) {
 	const { admin = false } = options
 
 	const multiple = Array.isArray(meta)
@@ -54,7 +50,7 @@ function _formatMeta (meta, options = {}) {
 
 		if (!RESERVED_FIELDS.includes(name)) {
 			// Sub-field: just include it
-			const subres = _formatMeta(desc[name], options)
+			const subres = formatMeta(desc[name], options)
 			if (subres) {
 				result[name] = subres
 			}

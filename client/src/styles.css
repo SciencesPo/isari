@@ -10,3 +10,16 @@ body {
 .app-content md-card {
   margin: 20px;
 }
+
+.label {
+  color: #888;
+  font-size: .8em;
+  margin-right: 1em;
+}
+.value {
+
+}
+
+.field {
+  margin: 1em;
+}

@@ -9,12 +9,9 @@ const countries = require('../../specs/enum.countries.json')
 const currencies = require('../../specs/enum.currencies.json')
 const languages = require('../../specs/enum.languages.json')
 
-const info = { countries, currencies, languages }
-
 
 module.exports = Router()
 .get('/:name', restHandler(getEnum))
-.get('/info/:name', restHandler(getInfo))
 
 
 function getEnum (req) {
@@ -25,21 +22,16 @@ function getEnum (req) {
 	throw new ClientError({ title: `Unknown enum "${req.params.name}"`, status: 404 })
 }
 
-function getInfo (req) {
-	if (req.params.name in info) {
-		return formatInfo(req.params.name, info[req.params.name])
-	}
-
-	throw new ClientError({ title: `No details info for enum "${req.params.name}"`, status: 404 })
-}
-
 
 function formatEnum (name, data) {
-	// TODO format for frontend needs
-	return Promise.resolve(data)
-}
+	// Special cases: some enums are just keys in schema.enums.json and must be matched with another file
+	if (name === 'nationalities') {
+		return data.map(value => {
+			const { nationalityLabel: label } = countries.find(c => c.alpha2 === value)
+			return { value, label }
+		})
+	}
 
-function formatInfo (name, data) {
-	// TODO format for frontend needs
-	return Promise.resolve(data)
+	// Other cases: no need to reformat
+	return data
 }
