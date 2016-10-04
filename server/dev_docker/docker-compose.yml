@@ -38,5 +38,14 @@ services:
       - ES_URL=index:9200
     depends_on:
       - mongosetup
-     
+# Kibana 
+  kibana:
+    image: kibana:4.5
+    restart: always
+    links:
+      - index
+    ports:
+     - 5601:5601
+    environment:
+     - ELASTICSEARCH_URL=http://index:9200     
 
