@@ -3,13 +3,16 @@ services:
 # ElasticSearch
   index:
     image: elasticsearch:2.3.5
-    restart: always
+    restart: unless-stopped
+    volumes:
+      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/elasticsearch/logging.yml:/usr/share/elasticsearch/config/logging.yml:ro
     ports:
       - 9200:9200
 # MongoDB
   db:
     image: mongo:3.2.9
-    restart: always
+    restart: unless-stopped
     command: mongod --smallfiles --replSet rs2es
     ports:
       - 27017:27017
@@ -28,7 +31,7 @@ services:
 # Mongo-connector
   connector:
     image: totem/docker-mongo-es
-    restart: always
+    restart: unless-stopped
     links:
       - index
       - db
@@ -36,7 +39,19 @@ services:
       - MONGO_URL=mongodb://db:27017
       - MONGO_INCLUDES=people,organisation,activity
       - ES_URL=index:9200
+      - CONFIG_LOCATION=file:///opt/mongo-connector/optional-config.json
+    volumes:
+      - ./config/mongo-connector/optional-config.json:/opt/mongo-connector/optional-config.json:ro
     depends_on:
       - mongosetup
-     
+# Kibana 
+  kibana:
+    image: kibana:4.5
+    restart: unless-stopped
+    links:
+      - index
+    ports:
+     - 5601:5601
+    environment:
+     - ELASTICSEARCH_URL=http://index:9200     
 
