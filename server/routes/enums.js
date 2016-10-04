@@ -26,12 +26,12 @@ function getEnum (req) {
 function formatEnum (name, data) {
 	// Special cases: some enums are just keys in schema.enums.json and must be matched with another file
 	if (name === 'nationalities') {
-		return Promise.resolve(data.map(value => {
+		return data.map(value => {
 			const { nationalityLabel: label } = countries.find(c => c.alpha2 === value)
 			return { value, label }
-		}))
+		})
 	}
 
 	// Other cases: no need to reformat
-	return Promise.resolve(data)
+	return data
 }
