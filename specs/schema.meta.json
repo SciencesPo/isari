@@ -8,26 +8,27 @@
         "suggestions": "What type of autocomplete?",
         "description": "Description usable as a hint (simple string or i18n like label)",
         "comment": "Technical comment",
+        "service": "Third-party service data is taken from",
 
-        "anyOtherField": {
-            "//": "field description as object of single-object array for collections",
-            "type": {
-                "string": "optional, default type",
-                "boolean": "",
-                "date": "3-selects date",
-                "email": "string with specific format",
-                "ref": "dbref (optional, default if 'ref' is defined)"
-            },
-            "ref": "target collection if type is 'dbref'",
-            "enum": "name of enums to take data from, see schema.enums.json, or direct list of values",
-            "//": "special enums:",
-            "//": "KEYS(name) === Object.keys on an object enum",
-            "//": "name.$field === Take values from field's value as a key from object enum",
-            "default": "default value",
-            "min": "validation rule",
-            "max": "validation rule",
-            "regex": "validation rule"
-        }
+        "//": "field description as object of single-object array for collections",
+        "type": {
+            "string": "optional, default type",
+            "boolean": "",
+            "date": "3-selects date",
+            "email": "string with specific format",
+            "ref": "dbref (optional, default if 'ref' is defined)"
+        },
+        "ref": "target collection if type is 'dbref'",
+        "enum": "name of enums to take data from, see schema.enums.json, or direct list of values",
+        "//": "special enums:",
+        "//": "KEYS(name) === Object.keys on an object enum",
+        "//": "name.$field === Take values from field's value as a key from object enum",
+        "default": "default value",
+        "min": "validation rule",
+        "max": "validation rule",
+        "regex": "validation rule",
+
+        "anyOtherField": "sub-field description (recursive)"
     },
 
 
