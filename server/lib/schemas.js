@@ -3,7 +3,7 @@
 const { Schema } = require('mongoose')
 const metas = require('../../specs/schema.meta.json')
 const enums = require('../../specs/schema.enums.json')
-const { get } = require('lodash/fp')
+const { get, padCharsStart } = require('lodash/fp')
 
 const debug = require('debug')('isari:schema')
 const chalk = require('chalk')
@@ -34,6 +34,8 @@ module.exports = {
 	RESERVED_FIELDS
 }
 
+
+const pad0 = padCharsStart('0', 2)
 
 // Get schema description from metadata
 function getSchema (name) {
@@ -107,7 +109,16 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		schema.type = Number
 	} else if (type === 'date') {
 		// Special type date, not translated into Date because we want support for partial dates
-		schema.year = Number
+		const fieldName = name.replace(/^.*\./, '')
+		const validator = function () {
+			const date = this[fieldName]
+			const s1 = `${date.year}-${pad0(date.month)}-${pad0(date.day)}`
+			const d1 = new Date(s1)
+			const s2 = `${d1.getFullYear()}-${pad0(d1.getMonth() + 1)}-${pad0(d1.getDate())}`
+			return s1 === s2
+		}
+		const message = 'Invalid date'
+		schema.year = { type: Number, required: true, validate: { validator, message } }
 		schema.month = { type: Number, min: 1, max: 12 }
 		schema.day = { type: Number, min: 1, max: 31 }
 	} else if (type === 'ref') {
