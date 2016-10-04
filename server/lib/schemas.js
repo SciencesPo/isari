@@ -93,7 +93,10 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	}
 
 	// Required?
-	schema.required = desc.requirement === 'mandatory'
+	// Note: no 'required' for date type (as it will be a sub-document)
+	if (type !== 'date') {
+		schema.required = desc.requirement === 'mandatory'
+	}
 
 	// Set Mongoose type
 	if (type === 'string') {
