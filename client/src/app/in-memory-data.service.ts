@@ -1,18 +1,51 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
-    let heroes = [
-      {id: 11, name: 'Mr. Nice'},
-      {id: 12, name: 'Narco'},
-      {id: 13, name: 'Bombasto'},
-      {id: 14, name: 'Celeritas'},
-      {id: 15, name: 'Magneta'},
-      {id: 16, name: 'RubberMan'},
-      {id: 17, name: 'Dynama'},
-      {id: 18, name: 'Dr IQ'},
-      {id: 19, name: 'Magma'},
-      {id: 20, name: 'Tornado'}
+
+    let people = [
+      {id: 1, name: 'Mr. Nice'}
     ];
-    return {heroes};
+
+    let schemas = [
+      {
+        id: 'people',
+        schema: {
+          'firstname': {
+              'label': { 'fr': 'Prénom', 'en': 'Firstname' }
+          },
+          'name': {
+              'requirement': 'mandatory',
+              'label': { 'fr': 'Nom', 'en': 'Name' }
+          },
+          'gender': {
+              'requirement': 'recommended',
+              'label': { 'fr': 'Genre', 'en': 'Gender' },
+              'enum': 'genders'
+          },
+          'birthdate': {
+              'requirement': 'recommended',
+              'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' },
+              'type': 'date'
+          },
+          'nationalities': {
+              'label': { 'fr': 'Nationalité(s)', 'en': 'Nationanality(ies)' },
+              'enum': 'nationalities',
+              'multiple': true
+          }
+        }
+      }
+    ];
+
+    let enums = [
+      {
+        genders: ['m', 'f', 'o']
+      }
+    ];
+
+    return {
+      people,
+      schemas,
+      enums
+    };
   }
 }

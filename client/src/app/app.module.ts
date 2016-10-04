@@ -2,11 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpModule }           from '@angular/http';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
 import { MaterialModule } from '@angular/material';
+
+import { IsariDataService } from './isari-data.service';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
@@ -34,9 +37,13 @@ import { FocusDirective } from './fields/focus.directive';
     CommonModule,
     ReactiveFormsModule,
     MaterialModule.forRoot(),
-    routing
+    routing,
+    HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
-  providers: [],
+  providers: [
+    IsariDataService
+  ],
   entryComponents: [
     AppComponent,
     IsariInputComponent

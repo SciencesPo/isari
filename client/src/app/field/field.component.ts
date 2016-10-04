@@ -30,7 +30,7 @@ export class FieldComponent implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.field.type);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.field.fieldType); // @todo
     this.componentReference = this.viewContainerRef.createComponent(componentFactory);
 
     Object.assign(this.componentReference.instance, {
