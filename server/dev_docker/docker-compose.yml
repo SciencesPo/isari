@@ -3,7 +3,7 @@ services:
 # ElasticSearch
   index:
     image: elasticsearch:2.3.5
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./config/elasticsearch/logging.yml:/usr/share/elasticsearch/config/logging.yml:ro
@@ -12,7 +12,7 @@ services:
 # MongoDB
   db:
     image: mongo:3.2.9
-    restart: always
+    restart: unless-stopped
     command: mongod --smallfiles --replSet rs2es
     ports:
       - 27017:27017
@@ -31,7 +31,7 @@ services:
 # Mongo-connector
   connector:
     image: totem/docker-mongo-es
-    restart: always
+    restart: unless-stopped
     links:
       - index
       - db
@@ -47,7 +47,7 @@ services:
 # Kibana 
   kibana:
     image: kibana:4.5
-    restart: always
+    restart: unless-stopped
     links:
       - index
     ports:
