@@ -1,7 +1,10 @@
 <span [formGroup]="form">
-  <span *ngIf="mode !== 'edit'" (click)="toggleMode()">tada</span>
+  <label *ngIf="mode !== 'edit'" (click)="toggleMode()">
+    <span class="label">{{ name }}</span>
+    <span class="value">{{ form.value[name] }}</span>
+  </label>
   <md-input
-    placeholder="name"
+    [placeholder]="name"
     isariFocus
     *ngIf="mode === 'edit'"
     (blur)="update($event)"
