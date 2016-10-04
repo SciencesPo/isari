@@ -48,16 +48,42 @@ function getSchema (name) {
 }
 
 // Get schema for a field or sub-field…
-function getField (name, meta, parentDesc) {
+function getField (name, meta, parentDesc, rootDesc = null) {
 	debug(`${name}: Normal field`)
 
 	const isArray = Array.isArray(meta)
 	const desc = isArray ? meta[0] : meta
 
+	// All non-reserved fields are considered subfields
+	const subFields = Object.keys(desc).filter(subField => {
+		if (RESERVED_FIELDS.includes(subField)) {
+			debug(`${name}: Reserved field ${subField}`)
+			return false
+		} else if (subField.substring(0, 2) === '//') {
+			debug(`${name}: Ignored comment field ${subField}`)
+			return false
+		} else {
+			return true
+		}
+	})
+	const isDocument = subFields.length > 0
+
+	// A pointer to root desc is required as we'll store some additional information like hooks
+	if (!rootDesc) {
+		rootDesc = desc
+	}
+
 	// Field description, we expect some fields and ignore others
 	// Other unknown field names will be treated as sub-fields
-	let schema = {
-		required: desc.requirement === 'mandatory'
+	let schema = {}
+
+	// If it's a document, do not set "type", "required", or any other field-related configuration
+	// Just define sub-fields and finish
+	if (isDocument) {
+		subFields.forEach(subField => {
+			schema[subField] = getField(`${name}.${subField}`, desc[subField], desc)
+		})
+		return isArray ? [schema] : schema
 	}
 
 	// Check 'type'
@@ -65,6 +91,9 @@ function getField (name, meta, parentDesc) {
 	if (desc.ref && type !== 'ref') {
 		throw Error(`${name}: Invalid type "${type}" conflicting with ref field`)
 	}
+
+	// Required?
+	schema.required = desc.requirement === 'mandatory'
 
 	// Set Mongoose type
 	if (type === 'string') {
@@ -154,18 +183,6 @@ function getField (name, meta, parentDesc) {
 	['default', 'min', 'max'].forEach(k => {
 		if (desc[k]) {
 			schema[k] = desc[k]
-		}
-	})
-
-	// All other non-reserved fields are considered subfields
-	Object.keys(desc).forEach(subField => {
-		if (RESERVED_FIELDS.includes(subField)) {
-			debug(`${name}: Reserved field ${subField}`)
-			return
-		} else if (subField.substring(0, 2) === '//') {
-			debug(`${name}: Ignored comment field ${subField}`)
-		} else {
-			schema[subField] = getField(`${name}.${subField}`, desc[subField], desc)
 		}
 	})
 
