@@ -225,7 +225,7 @@
                         "en": "Grade"
                     },
                     "type": "string",
-                    "enum": "gradesAcademic"
+                    "enum": "gradeAcademic"
                 },
 
                 "startDate": {
@@ -300,7 +300,7 @@
                         "fr": "Type",
                         "en": "Type"
                     },
-                    "enum": "bonusType"
+                    "enum": "bonusTypes"
                 },
 
                 "startDate": {
@@ -358,7 +358,7 @@
                     "fr": "Type d'affiliation",
                     "en": "Affiliation type"
                 },
-                "enum": "academicMemberships"
+                "enum": "academicMembership"
             }
         }],
 
@@ -492,7 +492,7 @@
                     "fr": "Type d'activité",
                     "en": "Activity type"
                 },
-                "enum": "KEYS(personalActivityType)"
+                "enum": "KEYS(personalActivityTypes)"
             },
 
             "personalActivitySubtype": {
@@ -500,7 +500,7 @@
                     "fr": "Plus précisément",
                     "en": "More precisely"
                 },
-                "enum": "personalActivityType.$personalActivityType"
+                "enum": "personalActivityTypes.$personalActivityType"
             },
 
             "startDate": {
@@ -882,7 +882,7 @@
                     "fr": "Type",
                     "en": "Type"
                 },
-                "enum": "grantType"
+                "enum": "grantTypes"
             },
 
             "grantIdentifier": {
