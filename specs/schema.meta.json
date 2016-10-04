@@ -54,7 +54,7 @@
                     "en": "Role"
                 },
                 "enum": "isariRoles"
-            },
+            }
         }],
 
         "firstname": {
@@ -280,7 +280,7 @@
                         "en": "End date"
                     },
                     "type": "date"
-                },
+                }
             }],
 
             "bonuses": [{
@@ -476,7 +476,7 @@
                     "fr": "Thèmes de recherche",
                     "en": "Research themes"
                 }
-            }],
+            }]
         },
 
         "personalActivities": [{
@@ -723,7 +723,7 @@
                     "en": "End date"
                 },
                 "type": "date"
-            },
+            }
 
         }],
 
@@ -774,7 +774,7 @@
                     "en": "End date"
                 },
                 "type": "date"
-            },
+            }
 
         }],
 
@@ -852,7 +852,7 @@
                     "fr": "Thèmes de recherche",
                     "en": "Research themes"
                 }
-            }],
+            }]
         },
 
         "grants": [{
