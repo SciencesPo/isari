@@ -4,6 +4,9 @@ services:
   index:
     image: elasticsearch:2.3.5
     restart: always
+    volumes:
+      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/elasticsearch/logging.yml:/usr/share/elasticsearch/config/logging.yml:ro
     ports:
       - 9200:9200
 # MongoDB
