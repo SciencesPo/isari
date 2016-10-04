@@ -244,13 +244,6 @@
             "requirement": "recommended",
             "accessMonitoring": "corporate"
         },
-        "deptMemberships ": {
-            "label": {
-                "fr": "Affiliation",
-                "en": "Affiliation"
-            },
-            "accessMonitoring": "corporate"
-        },
         "ORCID": {
             "label": {
                 "fr": "ORCID",
@@ -306,12 +299,6 @@
             "label": {
                 "fr": "Tags HCERES 2017",
                 "en": "HCERES 2017 tags"
-            }
-        },
-        "tags.methods": {
-            "label": {
-                "fr": "Méthodes de recherche",
-                "en": "Research methods"
             }
         },
         "tags.aeres_2012": {
@@ -409,10 +396,10 @@
                     "en": "Description"
                 }
             },
-            "organization": {
+            "organizations": {
                 "label": {
-                    "fr": "Organisation",
-                    "en": "Organization"
+                    "fr": "Organisations",
+                    "en": "Organizations"
                 }
             },
             "people": {
@@ -426,83 +413,8 @@
             "label": {
                 "fr": "Distinctions",
                 "en": "Awards"
-			}
-			"organizations" : {
-				"label" : {
-	                "fr": "Organisations",
-	                "en": "Organizations"
-				}
-			}, 
-			"date" : {
-				"label" : {
-	                "fr": "Date",
-	                "en": "Date"
-				}
-			}, 
-			"title" : { 
-				"label" : {
-	                "fr": "Nom",
-	                "en": "Name"
-				}
-	            "requirement": "mandatory",
-			},
-			"subject" : { 
-				"label" : {
-	                "fr": "Sujet",
-	                "en": "Subject"
-				}
-			}
-			"honours" : {
-				"label" : {
-	                "fr": "Mentions",
-	                "en": "Honours"
-				}
-			}
-			
+            }
         }
-        "tags.hceres_2017": {
-            "label": {
-                "fr": "Tags HCERES 2017",
-                "en": "HCERES 2017 tags"
-            }
-        },
-        "tags.methods": {
-            "label": {
-                "fr": "Méthodes de recherche",
-                "en": "Research methods"
-            }
-        },
-        "tags.aeres_2012": {
-            "label": {
-                "fr": "Tags AERES 2012",
-                "en": "AERES 2012 tags"
-            }
-        },
-        "tags.free": {
-            "label": {
-                "fr": "Tags libres",
-                "en": "Free tags"
-            }
-        },
-        "tags.erc": {
-            "label": {
-                "fr": "Tags ERC",
-                "en": "ERC tags"
-            }
-        },
-        "tags.discipline": {
-            "label": {
-                "fr": "Disciplines",
-                "en": "Academics"
-            }
-        },
-        "tags.research_theme": {
-            "label": {
-                "fr": "Thèmes de recherche",
-                "en": "Research themes"
-            }
-        },
-		
     },
     "activitySchema": {
         "name": {
@@ -679,13 +591,6 @@
             }
         }
     },
-	
-	
-	
-	
-	
-	
-	
     "organizationSchema": {
         "name": {
             "requirement": "mandatory",
@@ -694,31 +599,24 @@
                 "en": "Name"
             }
         },
-        "IDSAcademy": {
+        "IDS_academy": {
             "label": {
                 "fr": "Immatriculation académique",
                 "en": "Academy registration number"
             }
         },
-        "IDBanner": {
+        "ID_banner": {
             "label": {
                 "fr": "Identifiant Banner",
                 "en": "banner ID"
             }
         },
-        "IDSpire": {
+        "ID_spire": {
             "label": {
                 "fr": "Identifiant Spire",
                 "en": "Spire ID"
             }
         },
-        "IDRNSR": {
-            "label": {
-                "fr": "Identifiant Réseau National des Structures de Recherche",
-                "en": "????? ID"
-            }
-        },
-		
         "UG": {
             "label": {
                 "fr": "UG",
@@ -737,13 +635,7 @@
                 "en": "Address"
             }
         },
-        "country": {
-            "label": {
-                "fr": "Pays",
-                "en": "Country"
-            }
-        },
-        "status": {		
+        "status": {
             "label": {
                 "fr": "Statut",
                 "en": "Status"
@@ -761,12 +653,6 @@
                 "en": "Website url"
             }
         },
-        "parentOrganisation": {
-            "labels": {
-                "fr": "Organisation parent",
-                "en": "Parent organization"
-            }
-        }
         "organisationLinks": {
             "labels": {
                 "fr": "Organisation(s) liée(s)",
