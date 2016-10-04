@@ -34,6 +34,10 @@ app.use(session({
 
 app.use('/', routes.index)
 app.use('/people', routes.people)
+app.use('/organizations', routes.organizations)
+app.use('/activities', routes.activities)
+app.use('/schemas', routes.schemas)
+app.use('/enums', routes.enums)
 app.use('/auth', routes.auth)
 
 // Error handlers

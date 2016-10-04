@@ -3,6 +3,7 @@
 const { Schema } = require('mongoose')
 const metas = require('../../specs/schema.meta.json')
 const enums = require('../../specs/schema.enums.json')
+const { get, padCharsStart, map, filter, identity } = require('lodash/fp')
 
 const debug = require('debug')('isari:schema')
 const chalk = require('chalk')
@@ -34,6 +35,10 @@ module.exports = {
 }
 
 
+const extractValue = map('value')
+const removeEmpty = filter(identity)
+const pad0 = padCharsStart('0', 2)
+
 // Get schema description from metadata
 function getSchema (name) {
 	const meta = metas[name]
@@ -47,22 +52,54 @@ function getSchema (name) {
 }
 
 // Get schema for a field or sub-field…
-function getField (name, meta, parentDesc) {
+function getField (name, meta, parentDesc, rootDesc = null) {
 	debug(`${name}: Normal field`)
 
 	const isArray = Array.isArray(meta)
 	const desc = isArray ? meta[0] : meta
 
+	// All non-reserved fields are considered subfields
+	const subFields = Object.keys(desc).filter(subField => {
+		if (RESERVED_FIELDS.includes(subField)) {
+			debug(`${name}: Reserved field ${subField}`)
+			return false
+		} else if (subField.substring(0, 2) === '//') {
+			debug(`${name}: Ignored comment field ${subField}`)
+			return false
+		} else {
+			return true
+		}
+	})
+	const isDocument = subFields.length > 0
+
+	// A pointer to root desc is required as we'll store some additional information like hooks
+	if (!rootDesc) {
+		rootDesc = desc
+	}
+
 	// Field description, we expect some fields and ignore others
 	// Other unknown field names will be treated as sub-fields
-	let schema = {
-		required: desc.requirement === 'mandatory'
+	let schema = {}
+
+	// If it's a document, do not set "type", "required", or any other field-related configuration
+	// Just define sub-fields and finish
+	if (isDocument) {
+		subFields.forEach(subField => {
+			schema[subField] = getField(`${name}.${subField}`, desc[subField], desc)
+		})
+		return isArray ? [schema] : schema
 	}
 
 	// Check 'type'
 	const type = desc.type || (desc.ref ? 'ref' : 'string')
 	if (desc.ref && type !== 'ref') {
 		throw Error(`${name}: Invalid type "${type}" conflicting with ref field`)
+	}
+
+	// Required?
+	// Note: no 'required' for date type (as it will be a sub-document)
+	if (type !== 'date') {
+		schema.required = desc.requirement === 'mandatory'
 	}
 
 	// Set Mongoose type
@@ -74,7 +111,16 @@ function getField (name, meta, parentDesc) {
 		schema.type = Number
 	} else if (type === 'date') {
 		// Special type date, not translated into Date because we want support for partial dates
-		schema.year = Number
+		const fieldName = name.replace(/^.*\./, '')
+		const validator = function () {
+			const date = this[fieldName]
+			const s1 = `${date.year}-${pad0(date.month)}-${pad0(date.day)}`
+			const d1 = new Date(s1)
+			const s2 = `${d1.getFullYear()}-${pad0(d1.getMonth() + 1)}-${pad0(d1.getDate())}`
+			return s1 === s2
+		}
+		const message = 'Invalid date'
+		schema.year = { type: Number, required: true, validate: { validator, message } }
 		schema.month = { type: Number, min: 1, max: 12 }
 		schema.day = { type: Number, min: 1, max: 31 }
 	} else if (type === 'ref') {
@@ -100,7 +146,8 @@ function getField (name, meta, parentDesc) {
 		const subKey = getSubKey ? matchDot[2] : null
 		const enumName = getKeys ? matchKeys[1] : getSubKey ? matchDot[1] : desc.enum
 
-		if (!enums[enumName]) {
+		const values = getEnumValues(enumName)
+		if (!values) {
 			throw Error(`${name}: Unknown enum "${enumName}" (in "${desc.enum}")`)
 		}
 
@@ -109,15 +156,40 @@ function getField (name, meta, parentDesc) {
 		}
 
 		if (getSubKey) {
-			// Complex validation rule
-			// TODO add a hook to validate on save
-			process.stderr.write(chalk.yellow(`${name}: NOT IMPLEMENTED YET enum "${desc.enum}"`))
+			// Context-dependent enum validation: use a custom validator
+			if (typeof values !== 'object') {
+				throw Error(`${name}: context-dependent enum must be an object (in "${desc.enum}")`)
+			}
+			const getRefValue = get(subKey)
+			// 'function' is used on purpose, "this" will be defined as the validated document
+			// in case of sub-documents, it's the sub-document (not the root document)
+			// we can go up using "this.parent()" (behavior not implemented in current schema DSL)
+			const validator = function (value) {
+				// Beware of 'runValidators' on update methods, as "this" will not be defined then
+				// More info: http://mongoosejs.com/docs/api.html#schematype_SchemaType-validate
+				if (!this) {
+					process.stderr.write(chalk.yellow(`${name}: validator cannot be run in update context (enum "${desc.enum}")`))
+					// Just pass
+					return true
+				}
+				// Now the usual case
+				const refValue = getRefValue(this)
+				const allowedValues = values[refValue]
+				if (!Array.isArray(allowedValues)) {
+					process.stderr.write(chalk.yellow(`${name}: no values found for enum ${enumName}.${refValue}`))
+					return false
+				}
+				return allowedValues.includes(value)
+			}
+			const message = `{PATH} does not allow "{VALUE}" as of enum "${desc.enum}"`
+			schema.validate = { validator, message }
 		} else {
-			schema.enum = getKeys ? Object.keys(enums[enumName]) : enums[enumName]
+			// Use basic enum validation
+			schema.enum = getKeys ? Object.keys(values) : values
 		}
 	} else if (Array.isArray(desc.enum)) {
 		// As an array: direct values not exported into enums module
-		schema.enum = desc.enum
+		schema.enum = getEnumValues(desc.enum)
 	} else if (desc.enum) {
 		throw Error(`${name}: Invalid enum value "${desc.enum}"`)
 	}
@@ -134,17 +206,19 @@ function getField (name, meta, parentDesc) {
 		}
 	})
 
-	// All other non-reserved fields are considered subfields
-	Object.keys(desc).forEach(subField => {
-		if (RESERVED_FIELDS.includes(subField)) {
-			debug(`${name}: Reserved field ${subField}`)
-			return
-		} else if (subField.substring(0, 2) === '//') {
-			debug(`${name}: Ignored comment field ${subField}`)
-		} else {
-			schema[subField] = getField(`${name}.${subField}`, desc[subField], desc)
-		}
-	})
-
 	return isArray ? [schema] : schema
+}
+
+function getEnumValues (zenum) {
+	if (typeof zenum === 'string') {
+		return getEnumValues(enums[zenum])
+	}
+
+	if (Array.isArray(zenum) && typeof zenum[0] === 'object') {
+		// Array of object, grab 'value' field
+		return removeEmpty(extractValue(zenum))
+	} else {
+		// Array of string or object, keep as-is
+		return zenum
+	}
 }

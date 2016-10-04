@@ -28,7 +28,7 @@ services:
 # Mongo-connector
   connector:
     image: totem/docker-mongo-es
-    restart: always
+    restart: unless-stopped
     links:
       - index
       - db
