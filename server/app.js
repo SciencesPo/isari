@@ -8,6 +8,16 @@ const bodyParser = require('body-parser')
 const config = require('config')
 const routes = require('./routes')
 
+// Loaded right here to force schema validation at boot time
+const chalk = require('chalk')
+try {
+	require('./lib/model')
+} catch (e) {
+	process.stderr.write(`\n\n${chalk.bold.red('Fatal error in schema')}:\n${chalk.red(e.message)}\n\n`)
+	process.exit(1)
+}
+
+
 const app = module.exports = express()
 
 app.use(logger(config.log.format))
@@ -24,6 +34,10 @@ app.use(session({
 
 app.use('/', routes.index)
 app.use('/people', routes.people)
+app.use('/organizations', routes.organizations)
+app.use('/activities', routes.activities)
+app.use('/schemas', routes.schemas)
+app.use('/enums', routes.enums)
 app.use('/auth', routes.auth)
 
 // Error handlers

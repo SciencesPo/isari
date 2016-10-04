@@ -13,6 +13,7 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { DataEditorComponent } from './data-editor/data-editor.component';
 import { FieldComponent } from './field/field.component';
 import { IsariInputComponent } from './fields/isari-input/isari-input.component';
+import { FocusDirective } from './fields/focus.directive';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { IsariInputComponent } from './fields/isari-input/isari-input.component'
     DataTableComponent,
     DataEditorComponent,
     FieldComponent,
-    IsariInputComponent
+    IsariInputComponent,
+    FocusDirective
   ],
   imports: [
     BrowserModule,
