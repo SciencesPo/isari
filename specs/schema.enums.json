@@ -32,6 +32,7 @@
 	"activityOrganizationRoles": [ "inscription", "leader", "partneraire" ],
 	"activityPeopleRoles": [ "professor", "PI", "participant", "doctorant", "directeur de thèse", "membre comité suivi", "membre du jury" ],
 
+	"personalActivityRoles": [ "Direction", "Co-Direction", "Présidence", "reviewer" ],
 	"personalActivityTypes": {
 		"editorial": [
 			"collection scientifique",

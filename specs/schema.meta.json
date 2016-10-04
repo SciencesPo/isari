@@ -524,12 +524,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "enum": [
-                    "Direction",
-                    "Co-Direction",
-                    "Présidence",
-                    "reviewer"
-                ]
+                "enum": "personalActivityRoles"
             },
 
             "description": {
