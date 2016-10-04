@@ -36,6 +36,9 @@ services:
       - MONGO_URL=mongodb://db:27017
       - MONGO_INCLUDES=people,organisation,activity
       - ES_URL=index:9200
+      - CONFIG_LOCATION=file:///opt/mongo-connector/optional-config.json
+    volumes:
+      - ./config/mongo-connector/optional-config.json:/opt/mongo-connector/optional-config.json:ro
     depends_on:
       - mongosetup
 # Kibana 

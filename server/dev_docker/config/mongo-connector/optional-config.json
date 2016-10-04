@@ -1,0 +1,14 @@
+{
+    "__comment__": "Configuration options starting with '__' are disabled",
+    "__comment__": "To enable them, remove the preceding '__'",
+
+    "__batchSize": -1,
+
+    "docManagers": [
+        {
+            "__bulkSize": 1000,
+            "__autoCommitInterval": null
+        }
+    ]
+}
+
