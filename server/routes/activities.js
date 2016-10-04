@@ -6,35 +6,35 @@ const es = require('../lib/elasticsearch')
 const { restHandler } = require('../lib/rest-utils')
 
 module.exports = Router()
-.get('/', restHandler(listPeople))
-.get('/:id', restHandler(getPeople))
-.put('/:id', restHandler(updatePeople))
-.post('/', restHandler(createPeople))
-.delete('/:id', restHandler(deletePeople))
-.get('/search', restHandler(searchPeople))
+.get('/', restHandler(listActivity))
+.get('/:id', restHandler(getActivity))
+.put('/:id', restHandler(updateActivity))
+.post('/', restHandler(createActivity))
+.delete('/:id', restHandler(deleteActivity))
+.get('/search', restHandler(searchActivity))
 
 
-function listPeople () {
+function listActivity () {
 	throw new ServerError({ status: 501, title: 'TODO' })
 }
 
-function getPeople () {
+function getActivity () {
 	throw new ServerError({ status: 501, title: 'TODO' })
 }
 
-function updatePeople () {
+function updateActivity () {
 	throw new ServerError({ status: 501, title: 'TODO' })
 }
 
-function createPeople () {
+function createActivity () {
 	throw new ServerError({ status: 501, title: 'TODO' })
 }
 
-function deletePeople () {
+function deleteActivity () {
 	throw new ServerError({ status: 501, title: 'TODO' })
 }
 
-function searchPeople (req) {
+function searchActivity (req) {
 	const query = req.query.q
 	const fields = req.query.fields ? req.query.fields.split(',') : undefined
 
@@ -42,6 +42,5 @@ function searchPeople (req) {
 		throw new ClientError({ title: 'Missing query string (field "q")' })
 	}
 
-	// return es.q('books', { query, fields })
 	throw new ServerError({ status: 501, title: 'TODO' })
 }
