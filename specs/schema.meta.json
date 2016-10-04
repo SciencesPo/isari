@@ -153,7 +153,7 @@
                 "description": {
                     "fr": "Tutelle du contrat : FNSP, CNRS, MESR...",
                     "en": "Organisation holding the position"
-                }, 
+                },
                 "comment": "add as suggestions the top x values already stored un the database in position.organisation",
                 "ref": "Organization"
             },
@@ -726,7 +726,7 @@
 
         }],
 
-        "peoples": [{
+        "people": [{
             "label": {
                 "fr": "Personnes impliquées",
                 "en": "Collaborators"
@@ -1148,7 +1148,7 @@
             }
         },
 
-        "parentOrganisations": [{
+        "parentOrganizations": [{
             "label": {
                 "fr": "Organisation(s) de tutelle",
                 "en": "Parent organization(s)"
