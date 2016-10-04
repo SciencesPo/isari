@@ -3,7 +3,7 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
 
     let people = [
-      {id: 1, name: 'Mr. Nice'}
+      { id: 1, firstname: 'John', name: 'Doe' }
     ];
 
     let schemas = [

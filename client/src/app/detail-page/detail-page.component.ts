@@ -11,8 +11,9 @@ import { IsariDataService } from '../isari-data.service';
 })
 export class DetailPageComponent implements OnInit {
 
-  fields: Array<any> = [];
   feature: string;
+  fields: Array<any> = [];
+  data: any;
 
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
@@ -30,10 +31,10 @@ export class DetailPageComponent implements OnInit {
             }));
           });
 
-        // this.isariDataService.getPeople(+id)
-        //   .then(people => {
-        //     console.log('people', people);
-        //   });
+        this.isariDataService.getPeople(+id)
+          .then(people => {
+            this.data = people;
+          });
 
       });
   }
