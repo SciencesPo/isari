@@ -39,7 +39,6 @@ export class DataEditorComponent implements OnInit, OnChanges {
   }
 
   private createForm () {
-    console.log('createForm');
     this.fields.forEach(field => {
       this.form.addControl(field.name, new FormControl(this.data[field.name] || '')); // @TODO : add vaue + validators
     });
