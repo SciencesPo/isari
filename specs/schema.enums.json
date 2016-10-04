@@ -1,7 +1,11 @@
 {
 	"isariRoles": [ "central_admin", "center_admin", "central_reader", "center_editor", "center_member", "CV_editor", "public" ],
 
-	"genders": [ "m", "f", "o" ],
+	"genders": [
+		{ "value": "m", "label": { "fr": "Homme", "en": "Male" } },
+		{ "value": "f", "label": { "fr": "Femme", "en": "Female" } },
+		{ "value": "o", "label": { "fr": "Autre", "en": "Other" } }
+	],
 
 	"jobTitle": [ "chercheur", "chercheur enseignant", "enseignant chercheur", "enseignant", "appui administratif", "appui technique"],
 	"jobType": [ "CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public" ],

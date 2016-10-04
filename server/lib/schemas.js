@@ -3,7 +3,7 @@
 const { Schema } = require('mongoose')
 const metas = require('../../specs/schema.meta.json')
 const enums = require('../../specs/schema.enums.json')
-const { get, padCharsStart } = require('lodash/fp')
+const { get, padCharsStart, map, filter, identity } = require('lodash/fp')
 
 const debug = require('debug')('isari:schema')
 const chalk = require('chalk')
@@ -35,6 +35,8 @@ module.exports = {
 }
 
 
+const extractValue = map('value')
+const removeEmpty = filter(identity)
 const pad0 = padCharsStart('0', 2)
 
 // Get schema description from metadata
@@ -144,7 +146,8 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		const subKey = getSubKey ? matchDot[2] : null
 		const enumName = getKeys ? matchKeys[1] : getSubKey ? matchDot[1] : desc.enum
 
-		if (!enums[enumName]) {
+		const values = getEnumValues(enumName)
+		if (!values) {
 			throw Error(`${name}: Unknown enum "${enumName}" (in "${desc.enum}")`)
 		}
 
@@ -154,6 +157,9 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 
 		if (getSubKey) {
 			// Context-dependent enum validation: use a custom validator
+			if (typeof values !== 'object') {
+				throw Error(`${name}: context-dependent enum must be an object (in "${desc.enum}")`)
+			}
 			const getRefValue = get(subKey)
 			// 'function' is used on purpose, "this" will be defined as the validated document
 			// in case of sub-documents, it's the sub-document (not the root document)
@@ -168,7 +174,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 				}
 				// Now the usual case
 				const refValue = getRefValue(this)
-				const allowedValues = enums[enumName][refValue]
+				const allowedValues = values[refValue]
 				if (!Array.isArray(allowedValues)) {
 					process.stderr.write(chalk.yellow(`${name}: no values found for enum ${enumName}.${refValue}`))
 					return false
@@ -179,11 +185,11 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 			schema.validate = { validator, message }
 		} else {
 			// Use basic enum validation
-			schema.enum = getKeys ? Object.keys(enums[enumName]) : enums[enumName]
+			schema.enum = getKeys ? Object.keys(values) : values
 		}
 	} else if (Array.isArray(desc.enum)) {
 		// As an array: direct values not exported into enums module
-		schema.enum = desc.enum
+		schema.enum = getEnumValues(desc.enum)
 	} else if (desc.enum) {
 		throw Error(`${name}: Invalid enum value "${desc.enum}"`)
 	}
@@ -201,4 +207,18 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	})
 
 	return isArray ? [schema] : schema
+}
+
+function getEnumValues (zenum) {
+	if (typeof zenum === 'string') {
+		return getEnumValues(enums[zenum])
+	}
+
+	if (Array.isArray(zenum) && typeof zenum[0] === 'object') {
+		// Array of object, grab 'value' field
+		return removeEmpty(extractValue(zenum))
+	} else {
+		// Array of string or object, keep as-is
+		return zenum
+	}
 }
