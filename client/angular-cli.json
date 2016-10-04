@@ -15,7 +15,8 @@
       "prefix": "isari",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.css",
+        "material2-app-theme.scss"
       ],
       "scripts": [],
       "environments": {

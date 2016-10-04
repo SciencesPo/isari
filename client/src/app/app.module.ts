@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { MaterialModule } from '@angular/material';
+
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { ListPageComponent } from './list-page/list-page.component';
@@ -26,6 +28,7 @@ import { IsariInputComponent } from './fields/isari-input/isari-input.component'
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
+    MaterialModule.forRoot(),
     routing
   ],
   providers: [],
