@@ -3,6 +3,7 @@
 const { Schema } = require('mongoose')
 const metas = require('../../specs/schema.meta.json')
 const enums = require('../../specs/schema.enums.json')
+const { get } = require('lodash/fp')
 
 const debug = require('debug')('isari:schema')
 const chalk = require('chalk')
@@ -109,10 +110,32 @@ function getField (name, meta, parentDesc) {
 		}
 
 		if (getSubKey) {
-			// Complex validation rule
-			// TODO add a hook to validate on save
-			process.stderr.write(chalk.yellow(`${name}: NOT IMPLEMENTED YET enum "${desc.enum}"`))
+			// Context-dependent enum validation: use a custom validator
+			const getRefValue = get(subKey)
+			// 'function' is used on purpose, "this" will be defined as the validated document
+			// in case of sub-documents, it's the sub-document (not the root document)
+			// we can go up using "this.parent()" (behavior not implemented in current schema DSL)
+			const validator = function (value) {
+				// Beware of 'runValidators' on update methods, as "this" will not be defined then
+				// More info: http://mongoosejs.com/docs/api.html#schematype_SchemaType-validate
+				if (!this) {
+					process.stderr.write(chalk.yellow(`${name}: validator cannot be run in update context (enum "${desc.enum}")`))
+					// Just pass
+					return true
+				}
+				// Now the usual case
+				const refValue = getRefValue(this)
+				const allowedValues = enums[enumName][refValue]
+				if (!Array.isArray(allowedValues)) {
+					process.stderr.write(chalk.yellow(`${name}: no values found for enum ${enumName}.${refValue}`))
+					return false
+				}
+				return allowedValues.includes(value)
+			}
+			const message = `{PATH} does not allow "{VALUE}" as of enum "${desc.enum}"`
+			schema.validate = { validator, message }
 		} else {
+			// Use basic enum validation
 			schema.enum = getKeys ? Object.keys(enums[enumName]) : enums[enumName]
 		}
 	} else if (Array.isArray(desc.enum)) {
