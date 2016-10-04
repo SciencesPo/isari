@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'isari-input',
-  template: `<div [formGroup]="form"><input (blur)="update($event)" [formControlName]="name"></div>`
+  template: `<span [formGroup]="form"><md-input (blur)="update($event)" [formControlName]="name"></md-input></span>`
 })
 export class IsariInputComponent implements OnInit {
 
