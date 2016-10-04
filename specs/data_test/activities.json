@@ -5,7 +5,8 @@
       "acronym": "OXPO",
       "start_date": "20150506",
       "end_date": "20190602",
-      "organizations": [{
+      "organizations": [
+         {
             "organization": "IEP Paris",
             "role": "leader"
          },
@@ -13,24 +14,22 @@
             "organization": "Oxford University",
             "role": "partenaire"
          }
-         ],
+      ],
       "subject": "OXford SciencesPO",
       "summary": "Evénements, Gourvernance, Mobilité, cofinancements",
       "url": "http://www.maxpo.eu"
-
-	},
-
-
+   },
    {
       "name": "ESS",
       "activityType": "projet de recherche",
       "start_date": "20131203",
       "end_date": "20151231",
-      "organizations": [{
+      "organizations": [
+         {
             "organization": "CDSP",
             "role": "leader"
          }
-         ],
+      ],
       "peoples": {
          "people": "Anne Cornilleau",
          "role": "responsable scientifique"
@@ -52,75 +51,56 @@
             "status": "done"
          }
       ]
-	},
-
-
-
-
-
-
-
-
-
-
-
+   },
    {
       "name": "Post-doc",
       "activityType": "invité",
       "start_date": "20150201",
       "end_date": "20150831",
-      "organizations": [{
+      "organizations": [
+         {
             "organization": "CDSP",
             "role": "leader"
          }
-         ],
-      "peoples": [{
+      ],
+      "peoples": [
+         {
             "people": "Daniel Afonso Da Silva",
             "role": "invité"
-      },
+         },
          {
             "people": "Marc Dubois",
             "role": "Référent"
-      }
+         }
       ],
       "subject": "Une place au soleil",
       "summary": "La France et le Brésil dans la recherche d'une place au soleil de 1985 à nos jours"
-
-	},
-
-
-
-
-
-
-
-
-
-
-
-
+   },
    {
       "name": "Séjour UCLA",
       "activityType": "séjour à l'étranger",
       "start_date": "20150629",
       "end_date": "20151130",
-      "organizations": [{
+      "organizations": [
+         {
             "organization": "UCLA",
             "role": "leader"
          }
-         ],
-      "peoples": [{
+      ],
+      "peoples": [
+         {
             "people": "Paul Bismuth",
             "role": "invité"
-      }
+         }
       ],
       "subject": "Séjour de recherche",
       "summary": "Pourquoi le ciel est bleu ?",
       "tags": {
          "discipline": "Sociologie, démographie",
          "research_theme": [
-              "aires", "villes et territoires"
-           ]
+            "aires",
+            "villes et territoires"
+         ]
       },
       "grants": [
          {
@@ -131,48 +111,48 @@
             "status": "done"
          }
       ]
-
-	},
-
-
-
-
-
+   },
    {
       "name": "doctorat",
       "activityType": "doctorat",
       "start_date": "20091001",
       "end_date": "20141117",
-      "organizations": [{
+      "organizations": [
+         {
             "organization": "IEP Paris",
             "role": "inscription"
          }
-         ],
-      "peoples": [{
+      ],
+      "peoples": [
+         {
             "people": "Matthieu Ichou",
             "role": "doctorant"
-      },
+         },
          {
             "people": "Agnès Van Zanten",
             "role": "direction"
-      },
+         },
          {
             "people": "Anthony Heath",
             "role": "co-direction"
-      },
+         },
          {
             "people": "Goerges Felouzis",
             "role": "rapporteur"
-      }
+         }
       ],
       "subject": "Origines des inégalités scolaires",
       "summary": "Origines des inégalités scolaires: contribution à l'étude des trajectoires scolaires des enfants d'immigrés en France et en Angleterre",
       "tags": {
          "discipline": "Sociologie, démographie",
-         "aeres_2012": ["Europe Occidentale", "France"],
+         "aeres_2012": [
+            "Europe Occidentale",
+            "France"
+         ],
          "research_theme": [
-              "migrations, immigration", "inégalités, discrimination"
-           ]
+            "migrations, immigration",
+            "inégalités, discrimination"
+         ]
       },
       "grants": [
          {
@@ -192,31 +172,21 @@
             "end_date": "20101231"
          }
       ]
-
-	},
-
-
-
-
-
-
-
-
-
-
-
+   },
    {
       "name": "God and Cesar in motion",
       "activityType": "projet de recherche",
-      "organizations": [{
+      "organizations": [
+         {
             "organization": "CERI",
             "role": "leader"
          }
-         ],
-      "peoples": [{
+      ],
+      "peoples": [
+         {
             "people": "Riva Kastoryano",
             "role": "responsable scientifique"
-      }
+         }
       ],
       "subject": "Changing Boundaries",
       "summary": "Changing Boundaries between Religion and Politics in a Pluralizing World",
@@ -231,9 +201,5 @@
             "status": "rejected"
          }
       ]
-
-	}
-
-
-
+   }
 ]
