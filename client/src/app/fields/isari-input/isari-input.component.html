@@ -1,0 +1,9 @@
+<span [formGroup]="form">
+  <span *ngIf="mode !== 'edit'" (click)="toggleMode()">tada</span>
+  <md-input
+    placeholder="name"
+    isariFocus
+    *ngIf="mode === 'edit'"
+    (blur)="update($event)"
+    [formControlName]="name"></md-input>
+</span>

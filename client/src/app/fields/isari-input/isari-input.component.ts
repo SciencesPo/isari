@@ -3,13 +3,14 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'isari-input',
-  template: `<span [formGroup]="form"><md-input (blur)="update($event)" [formControlName]="name"></md-input></span>`
+  templateUrl: 'isari-input.component.html'
 })
 export class IsariInputComponent implements OnInit {
 
   @Input() name: string;
   @Input() form: FormGroup;
   onUpdate: EventEmitter<any>;
+  mode: string = 'display';
 
   constructor() { }
 
@@ -17,7 +18,12 @@ export class IsariInputComponent implements OnInit {
   }
 
   update($event) {
+    this.toggleMode();
     this.onUpdate.emit($event);
+  }
+
+  toggleMode () {
+    this.mode = this.mode === 'edit' ? 'display' : 'edit';
   }
 
 }
