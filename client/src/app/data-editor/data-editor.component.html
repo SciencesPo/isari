@@ -1,3 +1,6 @@
 <form novalidate [formGroup]="form">
-  <isari-field (onUpdate)="save($event)" [form]="form" [field]="field" *ngFor="let field of fields"></isari-field>
+  <fieldset *ngFor="let group of layout">
+    <legend *ngIf="group.label">{{ group.label }}</legend>
+    <isari-field *ngFor="let fieldName of group.fields" (onUpdate)="save($event)" [form]="form" [field]="getField(fieldName)"></isari-field>
+  </fieldset>
 </form>

@@ -19,20 +19,31 @@ export class DetailPageComponent implements OnInit {
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
   ngOnInit() {
+
     this.route.params
       .subscribe(({ feature, id }) => {
         this.feature = feature;
         Promise.all([
-          this.isariDataService.getPeople(+id),
+          this.isariDataService.getPeople(+id), // @TODO dependson feature
           this.isariDataService.getSchema(this.feature),
           this.isariDataService.getLayout(this.feature)
-        ]).then(([people, schema, layout]) => {
-          this.fields = Object.keys(schema).map(key => Object.assign({}, schema[key], {
-            name: key,
-            label: schema[key].label['fr'], // @TODO get lang from somewhere
-            fieldType: IsariInputComponent // @TODO get from type + ...
-          }));
-          this.data = people;
+        ]).then(([data, schema, layout]) => {
+          this.data = data;
+
+          const extraFields: Set<any> = new Set(layout.reduce((acc, group) => {
+            if (Array.isArray(group)) {
+              return [...acc, ...group];
+            }
+            if (typeof group === 'string') {
+              return [...acc, group];
+            }
+            return [...acc, ...group.fields];
+          }, []));
+
+          layout = [...layout, ...Array.from(
+            new Set([...Object.keys(schema)].filter(x => !extraFields.has(x)))
+          )];
+
           this.layout = layout.map(group => {
             if (Array.isArray(group)) {
               return { fields: group };
@@ -40,8 +51,18 @@ export class DetailPageComponent implements OnInit {
             if (typeof group === 'string') {
               return { fields: [group] };
             }
-            return group;
+            return Object.assign({}, group, {
+              fields: group.fields,
+              label: group.label['fr'] // @TODO get lang from somewhere
+            });
           });
+
+          this.fields = Object.keys(schema).map(key => Object.assign({}, schema[key], {
+            name: key,
+            label: schema[key].label['fr'], // @TODO get lang from somewhere
+            fieldType: IsariInputComponent // @TODO get from type + ...
+          }));
+
         });
       });
   }

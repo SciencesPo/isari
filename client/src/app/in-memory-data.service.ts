@@ -50,10 +50,10 @@ export class InMemoryDataService implements InMemoryDbService {
           {
             label: { fr: 'groupe 1', en: 'group 1' },
             collapsabled: true,
-            fields: ['firstname', 'lastname']
+            fields: ['firstname', 'name']
           },
           ['gender', 'birthdate'],
-          'nationalities'
+//          'nationalities'
         ]
       }
     ];

@@ -45,8 +45,11 @@ export class DataEditorComponent implements OnInit, OnChanges {
     }
   }
 
+  getField (fieldName: string) {
+    return this.fields.find(field => field.name === fieldName);
+  }
+
   private createForm () {
-console.log(this.layout);
     this.fields.forEach(field => {
       this.form.addControl(field.name, new FormControl(
         { value: this.data[field.name] || '', disabled: !this.data.opts.editable },
