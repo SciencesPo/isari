@@ -1,12 +1,7 @@
-<span [formGroup]="form">
-  <label *ngIf="mode !== 'edit'" (click)="toggleMode()">
-    <span class="label">{{ name }}</span>
-    <span class="value">{{ form.value[name] }}</span>
-  </label>
+<span [formGroup]="form" [ngClass]="{error: !form.controls[name]?.valid }">
   <md-input
     [placeholder]="name"
-    isariFocus
-    *ngIf="mode === 'edit'"
+    *ngIf="form.controls[name]"
     (blur)="update($event)"
     [formControlName]="name"></md-input>
 </span>
