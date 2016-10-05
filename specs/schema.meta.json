@@ -691,7 +691,7 @@
                 }
             }
         ],
-        "peoples": [
+        "people": [
             {
                 "label": {
                     "fr": "Personnes impliquées",
@@ -1092,7 +1092,7 @@
                 "en": "Website url"
             }
         },
-        "parentOrganisations": [
+        "parentOrganizations": [
             {
                 "label": {
                     "fr": "Organisation(s) de tutelle",
