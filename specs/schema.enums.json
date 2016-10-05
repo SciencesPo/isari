@@ -1,64 +1,6483 @@
 {
-	"isariRoles": [ "central_admin", "center_admin", "central_reader", "center_editor", "center_member", "CV_editor", "public" ],
-
-	"genders": [
-		{ "value": "m", "label": { "fr": "Masculin", "en": "Male" } },
-		{ "value": "f", "label": { "fr": "Féminin", "en": "Female" } },
-		{ "value": "o", "label": { "fr": "Autre", "en": "Other" } }
-	],
-
-	"jobTitle": [ "chercheur", "chercheur enseignant", "enseignant chercheur", "enseignant", "appui administratif", "appui technique"],
-	"jobType": [ "CDD", "CDI", "stage", "alternance", "disponibilité", "COD", "CDD d'usage", "détachement", "emploi public" ],
-	"gradeAdmin": [ "CM1", "CM2" , "CM3" ],
-	"gradeAcademic": [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant" ],
-	"bonusTypes": [ "Prime direction", "Prime de convergence" ],
-	"academicMembershipType": [ "membre", "associé", "rattaché", "affilié" ],
-
-	"hceres2017": [ "sociologie" ],
-	"aeres2012": [ "sciences politiques" ],
-
-	"methods": [ "quantitative", "qualitative" ],
-
-	"erc": [ "sociology" ],
-
-	"disciplines": [ "sociologie", "histoire" ],
-	"researchThemes": [ "famine", "urbanisme" ],
-
-	"sectionCnu": [ "04 Sciences Politiques" ],
-	"sectionCnrs": [ "36 Sociologie", "40 Sciences Politiques" ],
-
-	"distinctionTypes": [ "diplôme", "double-diplôme", "cotutelle", "distinction" ],
-
-	"organizationStatuses": [ "public", "privé" ],
-	"organizationTypes": [ "département", "centre de rercherche", "entreprise", "université", "institution internationale" ],
-
-	"activityTypes": [ "partenariat", "doctorat", "projet de recherche", "mobilité" ],
-	"activityOrganizationRoles": [ "inscription", "leader", "partneraire" ],
-	"activityPeopleRoles": [ "professor", "PI", "participant", "doctorant", "directeur de thèse", "membre comité suivi", "membre du jury" ],
-
-	"personalActivityRoles": [ "Direction", "Co-Direction", "Présidence", "reviewer" ],
-	"personalActivityTypes": {
-		"editorial": [
-			"collection scientifique",
-			"revue scientifique"
-		],
-		"encadrement": [
-			"mémoire",
-			"thèse",
-			"HDR"
-		],
-		"jurys": [],
-		"expertise": [],
-		"évaluations": [],
-		"responsabilités et mandats": [],
-		"collaborations scientifiques": []
-	},
-
-	"grantTypes": [ "collaboratif international", "levée de fond" ],
-	"grantStatuses": [ "submitted", "accepted", "ongoing", "done" ],
-
-	"iso4217": [ "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BOV", "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNH", "CNY", "COP", "COU", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MRO", "MUR", "MVR", "MWK", "MXN", "MXV", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SPL", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XDR", "XOF", "XPD", "XPF", "XPT", "YER", "ZAR", "ZMW", "ZWD" ],
-	"iso6391": [ "aa","ab","ae","af","ak","am","an","ar","as","av","ay","az","ba","be","bg","bh","bi","bm","bn","bo","br","bs","ca","ce","ch","co","cr","cs","cu","cv","cy","da","de","dv","dz","ee","el","en","eo","es","et","eu","fa","ff","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu","gv","ha","he","hi","ho","hr","ht","hu","hy","hz","ia","id","ie","ig","ii","ik","io","is","it","iu","ja","jv","ka","kg","ki","kj","kk","kl","km","kn","ko","kr","ks","ku","kv","kw","ky","la","lb","lg","li","ln","lo","lt","lu","lv","mg","mh","mi","mk","ml","mn","mr","ms","mt","my","na","nb","nd","ne","ng","nl","nn","no","nr","nv","ny","oc","oj","om","or","os","pa","pi","pl","ps","pt","qu","rc","rm","rn","ro","ru","rw","sa","sc","sd","se","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st","su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts","tt","tw","ty","ug","uk","ur","uz","ve","vi","vo","wa","wo","xh","yi","yo","za","zh","zu" ],
-	"nationalities": [ "AD","AE","AF","AG","AI","AL","AM","AO","AR","AS","AT","AU","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BM","BN","BO","BR","BS","BT","BW","BY","BZ","CA","CD","CF","CG","CH","CI","CL","CM","CN","CO","CR","CU","CV","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GG","GH","GI","GL","GM","GN","GQ","GR","GS","GT","GU","GW","GY","HK","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MG","MH","MK","ML","MM","MN","MO","MP","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NE","NG","NI","NL","NO","NP","NR","NZ","OM","PA","PE","PG","PH","PK","PL","PN","PS","PT","PW","PY","QA","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SK","SL","SM","SN","SO","SR","SS","ST","SV","SY","SZ","TC","TD","TG","TH","TJ","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","US","UY","UZ","VA","VC","VE","VG","VN","VU","WS","YE","ZA","ZM","ZW" ],
-	"countries": [ "AF","AX","AL","DZ","AS","AD","AO","AI","AQ","AG","AR","AM","AW","AU","AT","AZ","BS","BH","BD","BB","BY","BE","BZ","BJ","BM","BT","BO","BQ","BA","BW","BV","BR","IO","BN","BG","BF","BI","KH","CM","CA","CV","KY","CF","TD","CL","CN","CX","CC","CO","KM","CG","CD","CK","CR","CI","HR","CU","CW","CY","CZ","DK","DJ","DM","DO","EC","EG","SV","GQ","ER","EE","ET","FK","FO","FJ","FI","FR","GF","PF","TF","GA","GM","GE","DE","GH","GI","GR","GL","GD","GP","GU","GT","GG","GN","GW","GY","HT","HM","VA","HN","HK","HU","IS","IN","ID","IR","IQ","IE","IM","IL","IT","JM","JP","JE","JO","KZ","KE","KI","KP","KR","KW","KG","LA","LV","LB","LS","LR","LY","LI","LT","LU","MO","MK","MG","MW","MY","MV","ML","MT","MH","MQ","MR","MU","YT","MX","FM","MD","MC","MN","ME","MS","MA","MZ","MM","NA","NR","NP","NL","NC","NZ","NI","NE","NG","NU","NF","MP","NO","OM","PK","PW","PS","PA","PG","PY","PE","PH","PN","PL","PT","PR","QA","RE","RO","RU","RW","BL","SH","KN","LC","MF","PM","VC","WS","SM","ST","SA","SN","RS","SC","SL","SG","SX","SK","SI","SB","SO","ZA","GS","SS","ES","LK","SD","SR","SJ","SZ","SE","CH","SY","TW","TJ","TZ","TH","TL","TG","TK","TO","TT","TN","TR","TM","TC","TV","UG","UA","AE","GB","US","UM","UY","UZ","VU","VE","VN","VG","VI","WF","EH","YE","ZM","ZW" ]
+    "sectionCnrs": [
+        {
+            "value": "36Sociologie", 
+            "label": {
+                "fr": "36 Sociologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "40SciencesPolitiques", 
+            "label": {
+                "fr": "40 Sciences Politiques", 
+                "en": ""
+            }
+        }
+    ], 
+    "methods": [
+        {
+            "value": "quantitative", 
+            "label": {
+                "fr": "quantitative", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "qualitative", 
+            "label": {
+                "fr": "qualitative", 
+                "en": ""
+            }
+        }
+    ], 
+    "disciplines": [
+        {
+            "value": "sociologie", 
+            "label": {
+                "fr": "sociologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "histoire", 
+            "label": {
+                "fr": "histoire", 
+                "en": ""
+            }
+        }
+    ], 
+    "gradeAdmin": [
+        {
+            "value": "CM1", 
+            "label": {
+                "fr": "CM1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CM2", 
+            "label": {
+                "fr": "CM2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CM3", 
+            "label": {
+                "fr": "CM3", 
+                "en": ""
+            }
+        }
+    ], 
+    "personalActivityRoles": [
+        {
+            "value": "Direction", 
+            "label": {
+                "fr": "Direction", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CoDirection", 
+            "label": {
+                "fr": "Co-Direction", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Pr\u00e9sidence", 
+            "label": {
+                "fr": "Pr\u00e9sidence", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "reviewer", 
+            "label": {
+                "fr": "reviewer", 
+                "en": ""
+            }
+        }
+    ], 
+    "grantTypes": [
+        {
+            "value": "collaboratifinternational", 
+            "label": {
+                "fr": "collaboratif international", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "lev\u00e9edefond", 
+            "label": {
+                "fr": "lev\u00e9e de fond", 
+                "en": ""
+            }
+        }
+    ], 
+    "isariRoles": [
+        {
+            "value": "central_admin", 
+            "label": {
+                "fr": "adminsitrateur central", 
+                "en": "central administrator"
+            }
+        }, 
+        {
+            "value": "center_admin", 
+            "label": {
+                "fr": "administrateur du centre", 
+                "en": "unit administrator"
+            }
+        }, 
+        {
+            "value": "central_reader", 
+            "label": {
+                "fr": "direction g\u00e9n\u00e9rale", 
+                "en": "central reader"
+            }
+        }, 
+        {
+            "value": "center_editor", 
+            "label": {
+                "fr": "\u00e9diteur du centre", 
+                "en": "unit editor"
+            }
+        }, 
+        {
+            "value": "center_member", 
+            "label": {
+                "fr": "membre du centre", 
+                "en": "unit member"
+            }
+        }
+    ], 
+    "jobType": [
+        {
+            "value": "CDD", 
+            "label": {
+                "fr": "CDD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CDI", 
+            "label": {
+                "fr": "CDI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "stage", 
+            "label": {
+                "fr": "stage", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "alternance", 
+            "label": {
+                "fr": "alternance", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "disponibilit\u00e9", 
+            "label": {
+                "fr": "disponibilit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "COD", 
+            "label": {
+                "fr": "COD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CDDdusage", 
+            "label": {
+                "fr": "CDD d'usage", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "d\u00e9tachement", 
+            "label": {
+                "fr": "d\u00e9tachement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "emploipublic", 
+            "label": {
+                "fr": "emploi public", 
+                "en": ""
+            }
+        }
+    ], 
+    "organizationTypes": [
+        {
+            "value": "d\u00e9partement", 
+            "label": {
+                "fr": "d\u00e9partement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "centrederercherche", 
+            "label": {
+                "fr": "centre de rercherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "entreprise", 
+            "label": {
+                "fr": "entreprise", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "universit\u00e9", 
+            "label": {
+                "fr": "universit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "institutioninternationale", 
+            "label": {
+                "fr": "institution internationale", 
+                "en": ""
+            }
+        }
+    ], 
+    "bonusTypes": [
+        {
+            "value": "Primedirection", 
+            "label": {
+                "fr": "Prime direction", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Primedeconvergence", 
+            "label": {
+                "fr": "Prime de convergence", 
+                "en": ""
+            }
+        }
+    ], 
+    "hceres2017": [
+        {
+            "value": "sociologie", 
+            "label": {
+                "fr": "sociologie", 
+                "en": ""
+            }
+        }
+    ], 
+    "grantStatuses": [
+        {
+            "value": "submitted", 
+            "label": {
+                "fr": "submitted", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "accepted", 
+            "label": {
+                "fr": "accepted", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ongoing", 
+            "label": {
+                "fr": "ongoing", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "done", 
+            "label": {
+                "fr": "done", 
+                "en": ""
+            }
+        }
+    ], 
+    "activityTypes": [
+        {
+            "value": "partenariat", 
+            "label": {
+                "fr": "partenariat", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doctorat", 
+            "label": {
+                "fr": "doctorat", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "projetderecherche", 
+            "label": {
+                "fr": "projet de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mobilit\u00e9", 
+            "label": {
+                "fr": "mobilit\u00e9", 
+                "en": ""
+            }
+        }
+    ], 
+    "academicMembershipType": [
+        {
+            "value": "membre", 
+            "label": {
+                "fr": "membre", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "associ\u00e9", 
+            "label": {
+                "fr": "associ\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "rattach\u00e9", 
+            "label": {
+                "fr": "rattach\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "affili\u00e9", 
+            "label": {
+                "fr": "affili\u00e9", 
+                "en": ""
+            }
+        }
+    ], 
+    "personalActivityTypes": [
+        {
+            "value": "editorial", 
+            "label": {
+                "fr": "editorial", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "collaborationsscientifiques", 
+            "label": {
+                "fr": "collaborations scientifiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "expertise", 
+            "label": {
+                "fr": "expertise", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "jurys", 
+            "label": {
+                "fr": "jurys", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "encadrement", 
+            "label": {
+                "fr": "encadrement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "responsabilit\u00e9setmandats", 
+            "label": {
+                "fr": "responsabilit\u00e9s et mandats", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "\u00e9valuations", 
+            "label": {
+                "fr": "\u00e9valuations", 
+                "en": ""
+            }
+        }
+    ], 
+    "activityOrganizationRoles": [
+        {
+            "value": "inscription", 
+            "label": {
+                "fr": "inscription", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "leader", 
+            "label": {
+                "fr": "leader", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "partneraire", 
+            "label": {
+                "fr": "partneraire", 
+                "en": ""
+            }
+        }
+    ], 
+    "aeres2012": [
+        {
+            "value": "sciencespolitiques", 
+            "label": {
+                "fr": "sciences politiques", 
+                "en": ""
+            }
+        }
+    ], 
+    "iso6391": [
+        {
+            "value": "aa", 
+            "label": {
+                "fr": "aa", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ab", 
+            "label": {
+                "fr": "ab", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ae", 
+            "label": {
+                "fr": "ae", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "af", 
+            "label": {
+                "fr": "af", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ak", 
+            "label": {
+                "fr": "ak", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "am", 
+            "label": {
+                "fr": "am", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "an", 
+            "label": {
+                "fr": "an", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ar", 
+            "label": {
+                "fr": "ar", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "as", 
+            "label": {
+                "fr": "as", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "av", 
+            "label": {
+                "fr": "av", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ay", 
+            "label": {
+                "fr": "ay", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "az", 
+            "label": {
+                "fr": "az", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ba", 
+            "label": {
+                "fr": "ba", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "be", 
+            "label": {
+                "fr": "be", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "bg", 
+            "label": {
+                "fr": "bg", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "bh", 
+            "label": {
+                "fr": "bh", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "bi", 
+            "label": {
+                "fr": "bi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "bm", 
+            "label": {
+                "fr": "bm", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "bn", 
+            "label": {
+                "fr": "bn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "bo", 
+            "label": {
+                "fr": "bo", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "br", 
+            "label": {
+                "fr": "br", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "bs", 
+            "label": {
+                "fr": "bs", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ca", 
+            "label": {
+                "fr": "ca", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ce", 
+            "label": {
+                "fr": "ce", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ch", 
+            "label": {
+                "fr": "ch", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "co", 
+            "label": {
+                "fr": "co", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cr", 
+            "label": {
+                "fr": "cr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cs", 
+            "label": {
+                "fr": "cs", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cu", 
+            "label": {
+                "fr": "cu", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cv", 
+            "label": {
+                "fr": "cv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cy", 
+            "label": {
+                "fr": "cy", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "da", 
+            "label": {
+                "fr": "da", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "de", 
+            "label": {
+                "fr": "de", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "dv", 
+            "label": {
+                "fr": "dv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "dz", 
+            "label": {
+                "fr": "dz", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ee", 
+            "label": {
+                "fr": "ee", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "el", 
+            "label": {
+                "fr": "el", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "en", 
+            "label": {
+                "fr": "en", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "eo", 
+            "label": {
+                "fr": "eo", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "es", 
+            "label": {
+                "fr": "es", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "et", 
+            "label": {
+                "fr": "et", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "eu", 
+            "label": {
+                "fr": "eu", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "fa", 
+            "label": {
+                "fr": "fa", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ff", 
+            "label": {
+                "fr": "ff", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "fi", 
+            "label": {
+                "fr": "fi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "fj", 
+            "label": {
+                "fr": "fj", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "fo", 
+            "label": {
+                "fr": "fo", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "fr", 
+            "label": {
+                "fr": "fr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "fy", 
+            "label": {
+                "fr": "fy", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ga", 
+            "label": {
+                "fr": "ga", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "gd", 
+            "label": {
+                "fr": "gd", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "gl", 
+            "label": {
+                "fr": "gl", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "gn", 
+            "label": {
+                "fr": "gn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "gu", 
+            "label": {
+                "fr": "gu", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "gv", 
+            "label": {
+                "fr": "gv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ha", 
+            "label": {
+                "fr": "ha", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "he", 
+            "label": {
+                "fr": "he", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "hi", 
+            "label": {
+                "fr": "hi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ho", 
+            "label": {
+                "fr": "ho", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "hr", 
+            "label": {
+                "fr": "hr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ht", 
+            "label": {
+                "fr": "ht", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "hu", 
+            "label": {
+                "fr": "hu", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "hy", 
+            "label": {
+                "fr": "hy", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "hz", 
+            "label": {
+                "fr": "hz", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ia", 
+            "label": {
+                "fr": "ia", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "id", 
+            "label": {
+                "fr": "id", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ie", 
+            "label": {
+                "fr": "ie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ig", 
+            "label": {
+                "fr": "ig", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ii", 
+            "label": {
+                "fr": "ii", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ik", 
+            "label": {
+                "fr": "ik", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "io", 
+            "label": {
+                "fr": "io", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "is", 
+            "label": {
+                "fr": "is", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "it", 
+            "label": {
+                "fr": "it", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "iu", 
+            "label": {
+                "fr": "iu", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ja", 
+            "label": {
+                "fr": "ja", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "jv", 
+            "label": {
+                "fr": "jv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ka", 
+            "label": {
+                "fr": "ka", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kg", 
+            "label": {
+                "fr": "kg", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ki", 
+            "label": {
+                "fr": "ki", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kj", 
+            "label": {
+                "fr": "kj", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kk", 
+            "label": {
+                "fr": "kk", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kl", 
+            "label": {
+                "fr": "kl", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "km", 
+            "label": {
+                "fr": "km", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kn", 
+            "label": {
+                "fr": "kn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ko", 
+            "label": {
+                "fr": "ko", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kr", 
+            "label": {
+                "fr": "kr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ks", 
+            "label": {
+                "fr": "ks", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ku", 
+            "label": {
+                "fr": "ku", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kv", 
+            "label": {
+                "fr": "kv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "kw", 
+            "label": {
+                "fr": "kw", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ky", 
+            "label": {
+                "fr": "ky", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "la", 
+            "label": {
+                "fr": "la", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "lb", 
+            "label": {
+                "fr": "lb", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "lg", 
+            "label": {
+                "fr": "lg", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "li", 
+            "label": {
+                "fr": "li", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ln", 
+            "label": {
+                "fr": "ln", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "lo", 
+            "label": {
+                "fr": "lo", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "lt", 
+            "label": {
+                "fr": "lt", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "lu", 
+            "label": {
+                "fr": "lu", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "lv", 
+            "label": {
+                "fr": "lv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mg", 
+            "label": {
+                "fr": "mg", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mh", 
+            "label": {
+                "fr": "mh", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mi", 
+            "label": {
+                "fr": "mi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mk", 
+            "label": {
+                "fr": "mk", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ml", 
+            "label": {
+                "fr": "ml", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mn", 
+            "label": {
+                "fr": "mn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mr", 
+            "label": {
+                "fr": "mr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ms", 
+            "label": {
+                "fr": "ms", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mt", 
+            "label": {
+                "fr": "mt", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "my", 
+            "label": {
+                "fr": "my", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "na", 
+            "label": {
+                "fr": "na", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "nb", 
+            "label": {
+                "fr": "nb", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "nd", 
+            "label": {
+                "fr": "nd", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ne", 
+            "label": {
+                "fr": "ne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ng", 
+            "label": {
+                "fr": "ng", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "nl", 
+            "label": {
+                "fr": "nl", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "nn", 
+            "label": {
+                "fr": "nn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "no", 
+            "label": {
+                "fr": "no", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "nr", 
+            "label": {
+                "fr": "nr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "nv", 
+            "label": {
+                "fr": "nv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ny", 
+            "label": {
+                "fr": "ny", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "oc", 
+            "label": {
+                "fr": "oc", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "oj", 
+            "label": {
+                "fr": "oj", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "om", 
+            "label": {
+                "fr": "om", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "or", 
+            "label": {
+                "fr": "or", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "os", 
+            "label": {
+                "fr": "os", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pa", 
+            "label": {
+                "fr": "pa", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pi", 
+            "label": {
+                "fr": "pi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pl", 
+            "label": {
+                "fr": "pl", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ps", 
+            "label": {
+                "fr": "ps", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pt", 
+            "label": {
+                "fr": "pt", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "qu", 
+            "label": {
+                "fr": "qu", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "rc", 
+            "label": {
+                "fr": "rc", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "rm", 
+            "label": {
+                "fr": "rm", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "rn", 
+            "label": {
+                "fr": "rn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ro", 
+            "label": {
+                "fr": "ro", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ru", 
+            "label": {
+                "fr": "ru", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "rw", 
+            "label": {
+                "fr": "rw", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sa", 
+            "label": {
+                "fr": "sa", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sc", 
+            "label": {
+                "fr": "sc", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sd", 
+            "label": {
+                "fr": "sd", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "se", 
+            "label": {
+                "fr": "se", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sg", 
+            "label": {
+                "fr": "sg", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh", 
+            "label": {
+                "fr": "sh", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "si", 
+            "label": {
+                "fr": "si", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sk", 
+            "label": {
+                "fr": "sk", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sl", 
+            "label": {
+                "fr": "sl", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sm", 
+            "label": {
+                "fr": "sm", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sn", 
+            "label": {
+                "fr": "sn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "so", 
+            "label": {
+                "fr": "so", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sq", 
+            "label": {
+                "fr": "sq", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sr", 
+            "label": {
+                "fr": "sr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ss", 
+            "label": {
+                "fr": "ss", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st", 
+            "label": {
+                "fr": "st", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "su", 
+            "label": {
+                "fr": "su", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sv", 
+            "label": {
+                "fr": "sv", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sw", 
+            "label": {
+                "fr": "sw", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ta", 
+            "label": {
+                "fr": "ta", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "te", 
+            "label": {
+                "fr": "te", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "tg", 
+            "label": {
+                "fr": "tg", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "th", 
+            "label": {
+                "fr": "th", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ti", 
+            "label": {
+                "fr": "ti", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "tk", 
+            "label": {
+                "fr": "tk", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "tl", 
+            "label": {
+                "fr": "tl", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "tn", 
+            "label": {
+                "fr": "tn", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "to", 
+            "label": {
+                "fr": "to", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "tr", 
+            "label": {
+                "fr": "tr", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ts", 
+            "label": {
+                "fr": "ts", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "tt", 
+            "label": {
+                "fr": "tt", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "tw", 
+            "label": {
+                "fr": "tw", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ty", 
+            "label": {
+                "fr": "ty", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ug", 
+            "label": {
+                "fr": "ug", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "uk", 
+            "label": {
+                "fr": "uk", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ur", 
+            "label": {
+                "fr": "ur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "uz", 
+            "label": {
+                "fr": "uz", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ve", 
+            "label": {
+                "fr": "ve", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "vi", 
+            "label": {
+                "fr": "vi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "vo", 
+            "label": {
+                "fr": "vo", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "wa", 
+            "label": {
+                "fr": "wa", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "wo", 
+            "label": {
+                "fr": "wo", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "xh", 
+            "label": {
+                "fr": "xh", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "yi", 
+            "label": {
+                "fr": "yi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "yo", 
+            "label": {
+                "fr": "yo", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "za", 
+            "label": {
+                "fr": "za", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "zh", 
+            "label": {
+                "fr": "zh", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "zu", 
+            "label": {
+                "fr": "zu", 
+                "en": ""
+            }
+        }
+    ], 
+    "jobTitle": [
+        {
+            "value": "c", 
+            "label": {
+                "fr": "chercheur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ce", 
+            "label": {
+                "fr": "chercheur enseignant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ec", 
+            "label": {
+                "fr": "enseignant chercheur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "e", 
+            "label": {
+                "fr": "enseignant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aa", 
+            "label": {
+                "fr": "appui administratif", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "at", 
+            "label": {
+                "fr": "appui technique", 
+                "en": ""
+            }
+        }
+    ], 
+    "enum": [
+        {
+            "value": "value", 
+            "label": {
+                "fr": "label_fr", 
+                "en": "label_en"
+            }
+        }
+    ], 
+    "activityPeopleRoles": [
+        {
+            "value": "professor", 
+            "label": {
+                "fr": "professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PI", 
+            "label": {
+                "fr": "PI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "participant", 
+            "label": {
+                "fr": "participant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doctorant", 
+            "label": {
+                "fr": "doctorant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurdeth\u00e8se", 
+            "label": {
+                "fr": "directeur de th\u00e8se", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "membrecomit\u00e9suivi", 
+            "label": {
+                "fr": "membre comit\u00e9 suivi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "membredujury", 
+            "label": {
+                "fr": "membre du jury", 
+                "en": ""
+            }
+        }
+    ], 
+    "gradeAcademic": [
+        {
+            "value": "associateprofessor", 
+            "label": {
+                "fr": "associate professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "assistantprofessor", 
+            "label": {
+                "fr": "assistant professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professor", 
+            "label": {
+                "fr": "professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurderecherche", 
+            "label": {
+                "fr": "directeur de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "postdoc", 
+            "label": {
+                "fr": "postdoc", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "invit\u00e9", 
+            "label": {
+                "fr": "invit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doctorant", 
+            "label": {
+                "fr": "doctorant", 
+                "en": ""
+            }
+        }
+    ], 
+    "nationalities": [
+        {
+            "value": "AD", 
+            "label": {
+                "fr": "AD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AE", 
+            "label": {
+                "fr": "AE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AF", 
+            "label": {
+                "fr": "AF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AG", 
+            "label": {
+                "fr": "AG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AI", 
+            "label": {
+                "fr": "AI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AL", 
+            "label": {
+                "fr": "AL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AM", 
+            "label": {
+                "fr": "AM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AO", 
+            "label": {
+                "fr": "AO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AR", 
+            "label": {
+                "fr": "AR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AS", 
+            "label": {
+                "fr": "AS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AT", 
+            "label": {
+                "fr": "AT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AU", 
+            "label": {
+                "fr": "AU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AZ", 
+            "label": {
+                "fr": "AZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BA", 
+            "label": {
+                "fr": "BA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BB", 
+            "label": {
+                "fr": "BB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BD", 
+            "label": {
+                "fr": "BD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BE", 
+            "label": {
+                "fr": "BE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BF", 
+            "label": {
+                "fr": "BF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BG", 
+            "label": {
+                "fr": "BG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BH", 
+            "label": {
+                "fr": "BH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BI", 
+            "label": {
+                "fr": "BI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BJ", 
+            "label": {
+                "fr": "BJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BM", 
+            "label": {
+                "fr": "BM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BN", 
+            "label": {
+                "fr": "BN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BO", 
+            "label": {
+                "fr": "BO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BR", 
+            "label": {
+                "fr": "BR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BS", 
+            "label": {
+                "fr": "BS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BT", 
+            "label": {
+                "fr": "BT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BW", 
+            "label": {
+                "fr": "BW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BY", 
+            "label": {
+                "fr": "BY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BZ", 
+            "label": {
+                "fr": "BZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CA", 
+            "label": {
+                "fr": "CA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CD", 
+            "label": {
+                "fr": "CD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CF", 
+            "label": {
+                "fr": "CF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CG", 
+            "label": {
+                "fr": "CG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CH", 
+            "label": {
+                "fr": "CH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CI", 
+            "label": {
+                "fr": "CI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CL", 
+            "label": {
+                "fr": "CL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CM", 
+            "label": {
+                "fr": "CM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CN", 
+            "label": {
+                "fr": "CN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CO", 
+            "label": {
+                "fr": "CO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CR", 
+            "label": {
+                "fr": "CR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CU", 
+            "label": {
+                "fr": "CU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CV", 
+            "label": {
+                "fr": "CV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CZ", 
+            "label": {
+                "fr": "CZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DE", 
+            "label": {
+                "fr": "DE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DJ", 
+            "label": {
+                "fr": "DJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DK", 
+            "label": {
+                "fr": "DK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DM", 
+            "label": {
+                "fr": "DM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DO", 
+            "label": {
+                "fr": "DO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DZ", 
+            "label": {
+                "fr": "DZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EC", 
+            "label": {
+                "fr": "EC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EE", 
+            "label": {
+                "fr": "EE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EG", 
+            "label": {
+                "fr": "EG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EH", 
+            "label": {
+                "fr": "EH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ER", 
+            "label": {
+                "fr": "ER", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ES", 
+            "label": {
+                "fr": "ES", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ET", 
+            "label": {
+                "fr": "ET", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FI", 
+            "label": {
+                "fr": "FI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FJ", 
+            "label": {
+                "fr": "FJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FK", 
+            "label": {
+                "fr": "FK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FM", 
+            "label": {
+                "fr": "FM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FO", 
+            "label": {
+                "fr": "FO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FR", 
+            "label": {
+                "fr": "FR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GA", 
+            "label": {
+                "fr": "GA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GB", 
+            "label": {
+                "fr": "GB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GD", 
+            "label": {
+                "fr": "GD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GE", 
+            "label": {
+                "fr": "GE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GG", 
+            "label": {
+                "fr": "GG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GH", 
+            "label": {
+                "fr": "GH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GI", 
+            "label": {
+                "fr": "GI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GL", 
+            "label": {
+                "fr": "GL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GM", 
+            "label": {
+                "fr": "GM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GN", 
+            "label": {
+                "fr": "GN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GQ", 
+            "label": {
+                "fr": "GQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GR", 
+            "label": {
+                "fr": "GR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GS", 
+            "label": {
+                "fr": "GS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GT", 
+            "label": {
+                "fr": "GT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GU", 
+            "label": {
+                "fr": "GU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GW", 
+            "label": {
+                "fr": "GW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GY", 
+            "label": {
+                "fr": "GY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HK", 
+            "label": {
+                "fr": "HK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HN", 
+            "label": {
+                "fr": "HN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HR", 
+            "label": {
+                "fr": "HR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HT", 
+            "label": {
+                "fr": "HT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HU", 
+            "label": {
+                "fr": "HU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ID", 
+            "label": {
+                "fr": "ID", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IE", 
+            "label": {
+                "fr": "IE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IL", 
+            "label": {
+                "fr": "IL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IM", 
+            "label": {
+                "fr": "IM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IN", 
+            "label": {
+                "fr": "IN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IO", 
+            "label": {
+                "fr": "IO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IQ", 
+            "label": {
+                "fr": "IQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IR", 
+            "label": {
+                "fr": "IR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IS", 
+            "label": {
+                "fr": "IS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IT", 
+            "label": {
+                "fr": "IT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JE", 
+            "label": {
+                "fr": "JE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JM", 
+            "label": {
+                "fr": "JM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JO", 
+            "label": {
+                "fr": "JO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JP", 
+            "label": {
+                "fr": "JP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KE", 
+            "label": {
+                "fr": "KE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KG", 
+            "label": {
+                "fr": "KG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KH", 
+            "label": {
+                "fr": "KH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KI", 
+            "label": {
+                "fr": "KI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KM", 
+            "label": {
+                "fr": "KM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KN", 
+            "label": {
+                "fr": "KN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KP", 
+            "label": {
+                "fr": "KP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KR", 
+            "label": {
+                "fr": "KR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KW", 
+            "label": {
+                "fr": "KW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KY", 
+            "label": {
+                "fr": "KY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KZ", 
+            "label": {
+                "fr": "KZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LA", 
+            "label": {
+                "fr": "LA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LB", 
+            "label": {
+                "fr": "LB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LC", 
+            "label": {
+                "fr": "LC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LI", 
+            "label": {
+                "fr": "LI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LK", 
+            "label": {
+                "fr": "LK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LR", 
+            "label": {
+                "fr": "LR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LS", 
+            "label": {
+                "fr": "LS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LT", 
+            "label": {
+                "fr": "LT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LU", 
+            "label": {
+                "fr": "LU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LV", 
+            "label": {
+                "fr": "LV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LY", 
+            "label": {
+                "fr": "LY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MA", 
+            "label": {
+                "fr": "MA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MC", 
+            "label": {
+                "fr": "MC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MD", 
+            "label": {
+                "fr": "MD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ME", 
+            "label": {
+                "fr": "ME", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MG", 
+            "label": {
+                "fr": "MG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MH", 
+            "label": {
+                "fr": "MH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MK", 
+            "label": {
+                "fr": "MK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ML", 
+            "label": {
+                "fr": "ML", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MM", 
+            "label": {
+                "fr": "MM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MN", 
+            "label": {
+                "fr": "MN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MO", 
+            "label": {
+                "fr": "MO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MP", 
+            "label": {
+                "fr": "MP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MR", 
+            "label": {
+                "fr": "MR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MS", 
+            "label": {
+                "fr": "MS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MT", 
+            "label": {
+                "fr": "MT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MU", 
+            "label": {
+                "fr": "MU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MV", 
+            "label": {
+                "fr": "MV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MW", 
+            "label": {
+                "fr": "MW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MX", 
+            "label": {
+                "fr": "MX", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MY", 
+            "label": {
+                "fr": "MY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MZ", 
+            "label": {
+                "fr": "MZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NA", 
+            "label": {
+                "fr": "NA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NE", 
+            "label": {
+                "fr": "NE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NG", 
+            "label": {
+                "fr": "NG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NI", 
+            "label": {
+                "fr": "NI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NL", 
+            "label": {
+                "fr": "NL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NO", 
+            "label": {
+                "fr": "NO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NP", 
+            "label": {
+                "fr": "NP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NR", 
+            "label": {
+                "fr": "NR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NZ", 
+            "label": {
+                "fr": "NZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "OM", 
+            "label": {
+                "fr": "OM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PA", 
+            "label": {
+                "fr": "PA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PE", 
+            "label": {
+                "fr": "PE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PG", 
+            "label": {
+                "fr": "PG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PH", 
+            "label": {
+                "fr": "PH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PK", 
+            "label": {
+                "fr": "PK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PL", 
+            "label": {
+                "fr": "PL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PN", 
+            "label": {
+                "fr": "PN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PS", 
+            "label": {
+                "fr": "PS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PT", 
+            "label": {
+                "fr": "PT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PW", 
+            "label": {
+                "fr": "PW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PY", 
+            "label": {
+                "fr": "PY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "QA", 
+            "label": {
+                "fr": "QA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RO", 
+            "label": {
+                "fr": "RO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RS", 
+            "label": {
+                "fr": "RS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RU", 
+            "label": {
+                "fr": "RU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RW", 
+            "label": {
+                "fr": "RW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SA", 
+            "label": {
+                "fr": "SA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SB", 
+            "label": {
+                "fr": "SB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SC", 
+            "label": {
+                "fr": "SC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SD", 
+            "label": {
+                "fr": "SD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SE", 
+            "label": {
+                "fr": "SE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SG", 
+            "label": {
+                "fr": "SG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SH", 
+            "label": {
+                "fr": "SH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SI", 
+            "label": {
+                "fr": "SI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SK", 
+            "label": {
+                "fr": "SK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SL", 
+            "label": {
+                "fr": "SL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SM", 
+            "label": {
+                "fr": "SM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SN", 
+            "label": {
+                "fr": "SN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SO", 
+            "label": {
+                "fr": "SO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SR", 
+            "label": {
+                "fr": "SR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SS", 
+            "label": {
+                "fr": "SS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ST", 
+            "label": {
+                "fr": "ST", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SV", 
+            "label": {
+                "fr": "SV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SY", 
+            "label": {
+                "fr": "SY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SZ", 
+            "label": {
+                "fr": "SZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TC", 
+            "label": {
+                "fr": "TC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TD", 
+            "label": {
+                "fr": "TD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TG", 
+            "label": {
+                "fr": "TG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TH", 
+            "label": {
+                "fr": "TH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TJ", 
+            "label": {
+                "fr": "TJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TL", 
+            "label": {
+                "fr": "TL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TM", 
+            "label": {
+                "fr": "TM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TN", 
+            "label": {
+                "fr": "TN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TO", 
+            "label": {
+                "fr": "TO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TR", 
+            "label": {
+                "fr": "TR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TT", 
+            "label": {
+                "fr": "TT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TV", 
+            "label": {
+                "fr": "TV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TW", 
+            "label": {
+                "fr": "TW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TZ", 
+            "label": {
+                "fr": "TZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UA", 
+            "label": {
+                "fr": "UA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UG", 
+            "label": {
+                "fr": "UG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "US", 
+            "label": {
+                "fr": "US", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UY", 
+            "label": {
+                "fr": "UY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UZ", 
+            "label": {
+                "fr": "UZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VA", 
+            "label": {
+                "fr": "VA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VC", 
+            "label": {
+                "fr": "VC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VE", 
+            "label": {
+                "fr": "VE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VG", 
+            "label": {
+                "fr": "VG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VN", 
+            "label": {
+                "fr": "VN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VU", 
+            "label": {
+                "fr": "VU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "WS", 
+            "label": {
+                "fr": "WS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "YE", 
+            "label": {
+                "fr": "YE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZA", 
+            "label": {
+                "fr": "ZA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZM", 
+            "label": {
+                "fr": "ZM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZW", 
+            "label": {
+                "fr": "ZW", 
+                "en": ""
+            }
+        }
+    ], 
+    "sectionCnu": [
+        {
+            "value": "04SciencesPolitiques", 
+            "label": {
+                "fr": "04 Sciences Politiques", 
+                "en": ""
+            }
+        }
+    ], 
+    "distinctionTypes": [
+        {
+            "value": "dipl\u00f4me", 
+            "label": {
+                "fr": "dipl\u00f4me", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doubledipl\u00f4me", 
+            "label": {
+                "fr": "double-dipl\u00f4me", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cotutelle", 
+            "label": {
+                "fr": "cotutelle", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "distinction", 
+            "label": {
+                "fr": "distinction", 
+                "en": ""
+            }
+        }
+    ], 
+    "iso4217": [
+        {
+            "value": "AED", 
+            "label": {
+                "fr": "AED", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AFN", 
+            "label": {
+                "fr": "AFN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ALL", 
+            "label": {
+                "fr": "ALL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AMD", 
+            "label": {
+                "fr": "AMD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ANG", 
+            "label": {
+                "fr": "ANG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AOA", 
+            "label": {
+                "fr": "AOA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ARS", 
+            "label": {
+                "fr": "ARS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AUD", 
+            "label": {
+                "fr": "AUD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AWG", 
+            "label": {
+                "fr": "AWG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AZN", 
+            "label": {
+                "fr": "AZN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BAM", 
+            "label": {
+                "fr": "BAM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BBD", 
+            "label": {
+                "fr": "BBD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BDT", 
+            "label": {
+                "fr": "BDT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BGN", 
+            "label": {
+                "fr": "BGN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BHD", 
+            "label": {
+                "fr": "BHD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BIF", 
+            "label": {
+                "fr": "BIF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BMD", 
+            "label": {
+                "fr": "BMD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BND", 
+            "label": {
+                "fr": "BND", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BOB", 
+            "label": {
+                "fr": "BOB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BOV", 
+            "label": {
+                "fr": "BOV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BRL", 
+            "label": {
+                "fr": "BRL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BSD", 
+            "label": {
+                "fr": "BSD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BTN", 
+            "label": {
+                "fr": "BTN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BWP", 
+            "label": {
+                "fr": "BWP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BYN", 
+            "label": {
+                "fr": "BYN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BZD", 
+            "label": {
+                "fr": "BZD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CAD", 
+            "label": {
+                "fr": "CAD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CDF", 
+            "label": {
+                "fr": "CDF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CHF", 
+            "label": {
+                "fr": "CHF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CLF", 
+            "label": {
+                "fr": "CLF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CLP", 
+            "label": {
+                "fr": "CLP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CNH", 
+            "label": {
+                "fr": "CNH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CNY", 
+            "label": {
+                "fr": "CNY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "COP", 
+            "label": {
+                "fr": "COP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "COU", 
+            "label": {
+                "fr": "COU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CRC", 
+            "label": {
+                "fr": "CRC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CUC", 
+            "label": {
+                "fr": "CUC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CUP", 
+            "label": {
+                "fr": "CUP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CVE", 
+            "label": {
+                "fr": "CVE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CZK", 
+            "label": {
+                "fr": "CZK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DJF", 
+            "label": {
+                "fr": "DJF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DKK", 
+            "label": {
+                "fr": "DKK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DOP", 
+            "label": {
+                "fr": "DOP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DZD", 
+            "label": {
+                "fr": "DZD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EGP", 
+            "label": {
+                "fr": "EGP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ERN", 
+            "label": {
+                "fr": "ERN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ETB", 
+            "label": {
+                "fr": "ETB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EUR", 
+            "label": {
+                "fr": "EUR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FJD", 
+            "label": {
+                "fr": "FJD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FKP", 
+            "label": {
+                "fr": "FKP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GBP", 
+            "label": {
+                "fr": "GBP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GEL", 
+            "label": {
+                "fr": "GEL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GGP", 
+            "label": {
+                "fr": "GGP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GHS", 
+            "label": {
+                "fr": "GHS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GIP", 
+            "label": {
+                "fr": "GIP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GMD", 
+            "label": {
+                "fr": "GMD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GNF", 
+            "label": {
+                "fr": "GNF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GTQ", 
+            "label": {
+                "fr": "GTQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GYD", 
+            "label": {
+                "fr": "GYD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HKD", 
+            "label": {
+                "fr": "HKD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HNL", 
+            "label": {
+                "fr": "HNL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HRK", 
+            "label": {
+                "fr": "HRK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HTG", 
+            "label": {
+                "fr": "HTG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HUF", 
+            "label": {
+                "fr": "HUF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IDR", 
+            "label": {
+                "fr": "IDR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ILS", 
+            "label": {
+                "fr": "ILS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IMP", 
+            "label": {
+                "fr": "IMP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "INR", 
+            "label": {
+                "fr": "INR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IQD", 
+            "label": {
+                "fr": "IQD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IRR", 
+            "label": {
+                "fr": "IRR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ISK", 
+            "label": {
+                "fr": "ISK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JEP", 
+            "label": {
+                "fr": "JEP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JMD", 
+            "label": {
+                "fr": "JMD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JOD", 
+            "label": {
+                "fr": "JOD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JPY", 
+            "label": {
+                "fr": "JPY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KES", 
+            "label": {
+                "fr": "KES", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KGS", 
+            "label": {
+                "fr": "KGS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KHR", 
+            "label": {
+                "fr": "KHR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KMF", 
+            "label": {
+                "fr": "KMF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KPW", 
+            "label": {
+                "fr": "KPW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KRW", 
+            "label": {
+                "fr": "KRW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KWD", 
+            "label": {
+                "fr": "KWD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KYD", 
+            "label": {
+                "fr": "KYD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KZT", 
+            "label": {
+                "fr": "KZT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LAK", 
+            "label": {
+                "fr": "LAK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LBP", 
+            "label": {
+                "fr": "LBP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LKR", 
+            "label": {
+                "fr": "LKR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LRD", 
+            "label": {
+                "fr": "LRD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LSL", 
+            "label": {
+                "fr": "LSL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LYD", 
+            "label": {
+                "fr": "LYD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MAD", 
+            "label": {
+                "fr": "MAD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MDL", 
+            "label": {
+                "fr": "MDL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MGA", 
+            "label": {
+                "fr": "MGA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MKD", 
+            "label": {
+                "fr": "MKD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MMK", 
+            "label": {
+                "fr": "MMK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MNT", 
+            "label": {
+                "fr": "MNT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MRO", 
+            "label": {
+                "fr": "MRO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MUR", 
+            "label": {
+                "fr": "MUR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MVR", 
+            "label": {
+                "fr": "MVR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MWK", 
+            "label": {
+                "fr": "MWK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MXN", 
+            "label": {
+                "fr": "MXN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MXV", 
+            "label": {
+                "fr": "MXV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MYR", 
+            "label": {
+                "fr": "MYR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MZN", 
+            "label": {
+                "fr": "MZN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NAD", 
+            "label": {
+                "fr": "NAD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NGN", 
+            "label": {
+                "fr": "NGN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NIO", 
+            "label": {
+                "fr": "NIO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NOK", 
+            "label": {
+                "fr": "NOK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NPR", 
+            "label": {
+                "fr": "NPR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NZD", 
+            "label": {
+                "fr": "NZD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "OMR", 
+            "label": {
+                "fr": "OMR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PAB", 
+            "label": {
+                "fr": "PAB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PEN", 
+            "label": {
+                "fr": "PEN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PGK", 
+            "label": {
+                "fr": "PGK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PHP", 
+            "label": {
+                "fr": "PHP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PKR", 
+            "label": {
+                "fr": "PKR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PLN", 
+            "label": {
+                "fr": "PLN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PYG", 
+            "label": {
+                "fr": "PYG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "QAR", 
+            "label": {
+                "fr": "QAR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RON", 
+            "label": {
+                "fr": "RON", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RSD", 
+            "label": {
+                "fr": "RSD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RUB", 
+            "label": {
+                "fr": "RUB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RWF", 
+            "label": {
+                "fr": "RWF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SAR", 
+            "label": {
+                "fr": "SAR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SBD", 
+            "label": {
+                "fr": "SBD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SCR", 
+            "label": {
+                "fr": "SCR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SDG", 
+            "label": {
+                "fr": "SDG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SEK", 
+            "label": {
+                "fr": "SEK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SGD", 
+            "label": {
+                "fr": "SGD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SHP", 
+            "label": {
+                "fr": "SHP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SLL", 
+            "label": {
+                "fr": "SLL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SOS", 
+            "label": {
+                "fr": "SOS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SPL", 
+            "label": {
+                "fr": "SPL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SRD", 
+            "label": {
+                "fr": "SRD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "STD", 
+            "label": {
+                "fr": "STD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SVC", 
+            "label": {
+                "fr": "SVC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SYP", 
+            "label": {
+                "fr": "SYP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SZL", 
+            "label": {
+                "fr": "SZL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "THB", 
+            "label": {
+                "fr": "THB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TJS", 
+            "label": {
+                "fr": "TJS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TMT", 
+            "label": {
+                "fr": "TMT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TND", 
+            "label": {
+                "fr": "TND", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TOP", 
+            "label": {
+                "fr": "TOP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TRY", 
+            "label": {
+                "fr": "TRY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TTD", 
+            "label": {
+                "fr": "TTD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TVD", 
+            "label": {
+                "fr": "TVD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TWD", 
+            "label": {
+                "fr": "TWD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TZS", 
+            "label": {
+                "fr": "TZS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UAH", 
+            "label": {
+                "fr": "UAH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UGX", 
+            "label": {
+                "fr": "UGX", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "USD", 
+            "label": {
+                "fr": "USD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UYU", 
+            "label": {
+                "fr": "UYU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UZS", 
+            "label": {
+                "fr": "UZS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VEF", 
+            "label": {
+                "fr": "VEF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VND", 
+            "label": {
+                "fr": "VND", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VUV", 
+            "label": {
+                "fr": "VUV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "WST", 
+            "label": {
+                "fr": "WST", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XAF", 
+            "label": {
+                "fr": "XAF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XAG", 
+            "label": {
+                "fr": "XAG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XAU", 
+            "label": {
+                "fr": "XAU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XCD", 
+            "label": {
+                "fr": "XCD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XDR", 
+            "label": {
+                "fr": "XDR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XOF", 
+            "label": {
+                "fr": "XOF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XPD", 
+            "label": {
+                "fr": "XPD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XPF", 
+            "label": {
+                "fr": "XPF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "XPT", 
+            "label": {
+                "fr": "XPT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "YER", 
+            "label": {
+                "fr": "YER", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZAR", 
+            "label": {
+                "fr": "ZAR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZMW", 
+            "label": {
+                "fr": "ZMW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZWD", 
+            "label": {
+                "fr": "ZWD", 
+                "en": ""
+            }
+        }
+    ], 
+    "countries": [
+        {
+            "value": "AF", 
+            "label": {
+                "fr": "AF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AX", 
+            "label": {
+                "fr": "AX", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AL", 
+            "label": {
+                "fr": "AL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DZ", 
+            "label": {
+                "fr": "DZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AS", 
+            "label": {
+                "fr": "AS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AD", 
+            "label": {
+                "fr": "AD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AO", 
+            "label": {
+                "fr": "AO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AI", 
+            "label": {
+                "fr": "AI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AQ", 
+            "label": {
+                "fr": "AQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AG", 
+            "label": {
+                "fr": "AG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AR", 
+            "label": {
+                "fr": "AR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AM", 
+            "label": {
+                "fr": "AM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AW", 
+            "label": {
+                "fr": "AW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AU", 
+            "label": {
+                "fr": "AU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AT", 
+            "label": {
+                "fr": "AT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AZ", 
+            "label": {
+                "fr": "AZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BS", 
+            "label": {
+                "fr": "BS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BH", 
+            "label": {
+                "fr": "BH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BD", 
+            "label": {
+                "fr": "BD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BB", 
+            "label": {
+                "fr": "BB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BY", 
+            "label": {
+                "fr": "BY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BE", 
+            "label": {
+                "fr": "BE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BZ", 
+            "label": {
+                "fr": "BZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BJ", 
+            "label": {
+                "fr": "BJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BM", 
+            "label": {
+                "fr": "BM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BT", 
+            "label": {
+                "fr": "BT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BO", 
+            "label": {
+                "fr": "BO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BQ", 
+            "label": {
+                "fr": "BQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BA", 
+            "label": {
+                "fr": "BA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BW", 
+            "label": {
+                "fr": "BW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BV", 
+            "label": {
+                "fr": "BV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BR", 
+            "label": {
+                "fr": "BR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IO", 
+            "label": {
+                "fr": "IO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BN", 
+            "label": {
+                "fr": "BN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BG", 
+            "label": {
+                "fr": "BG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BF", 
+            "label": {
+                "fr": "BF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BI", 
+            "label": {
+                "fr": "BI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KH", 
+            "label": {
+                "fr": "KH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CM", 
+            "label": {
+                "fr": "CM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CA", 
+            "label": {
+                "fr": "CA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CV", 
+            "label": {
+                "fr": "CV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KY", 
+            "label": {
+                "fr": "KY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CF", 
+            "label": {
+                "fr": "CF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TD", 
+            "label": {
+                "fr": "TD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CL", 
+            "label": {
+                "fr": "CL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CN", 
+            "label": {
+                "fr": "CN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CX", 
+            "label": {
+                "fr": "CX", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CC", 
+            "label": {
+                "fr": "CC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CO", 
+            "label": {
+                "fr": "CO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KM", 
+            "label": {
+                "fr": "KM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CG", 
+            "label": {
+                "fr": "CG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CD", 
+            "label": {
+                "fr": "CD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CK", 
+            "label": {
+                "fr": "CK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CR", 
+            "label": {
+                "fr": "CR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CI", 
+            "label": {
+                "fr": "CI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HR", 
+            "label": {
+                "fr": "HR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CU", 
+            "label": {
+                "fr": "CU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CW", 
+            "label": {
+                "fr": "CW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CY", 
+            "label": {
+                "fr": "CY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CZ", 
+            "label": {
+                "fr": "CZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DK", 
+            "label": {
+                "fr": "DK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DJ", 
+            "label": {
+                "fr": "DJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DM", 
+            "label": {
+                "fr": "DM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DO", 
+            "label": {
+                "fr": "DO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EC", 
+            "label": {
+                "fr": "EC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EG", 
+            "label": {
+                "fr": "EG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SV", 
+            "label": {
+                "fr": "SV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GQ", 
+            "label": {
+                "fr": "GQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ER", 
+            "label": {
+                "fr": "ER", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EE", 
+            "label": {
+                "fr": "EE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ET", 
+            "label": {
+                "fr": "ET", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FK", 
+            "label": {
+                "fr": "FK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FO", 
+            "label": {
+                "fr": "FO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FJ", 
+            "label": {
+                "fr": "FJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FI", 
+            "label": {
+                "fr": "FI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FR", 
+            "label": {
+                "fr": "FR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GF", 
+            "label": {
+                "fr": "GF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PF", 
+            "label": {
+                "fr": "PF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TF", 
+            "label": {
+                "fr": "TF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GA", 
+            "label": {
+                "fr": "GA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GM", 
+            "label": {
+                "fr": "GM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GE", 
+            "label": {
+                "fr": "GE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "DE", 
+            "label": {
+                "fr": "DE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GH", 
+            "label": {
+                "fr": "GH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GI", 
+            "label": {
+                "fr": "GI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GR", 
+            "label": {
+                "fr": "GR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GL", 
+            "label": {
+                "fr": "GL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GD", 
+            "label": {
+                "fr": "GD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GP", 
+            "label": {
+                "fr": "GP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GU", 
+            "label": {
+                "fr": "GU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GT", 
+            "label": {
+                "fr": "GT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GG", 
+            "label": {
+                "fr": "GG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GN", 
+            "label": {
+                "fr": "GN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GW", 
+            "label": {
+                "fr": "GW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GY", 
+            "label": {
+                "fr": "GY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HT", 
+            "label": {
+                "fr": "HT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HM", 
+            "label": {
+                "fr": "HM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VA", 
+            "label": {
+                "fr": "VA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HN", 
+            "label": {
+                "fr": "HN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HK", 
+            "label": {
+                "fr": "HK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "HU", 
+            "label": {
+                "fr": "HU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IS", 
+            "label": {
+                "fr": "IS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IN", 
+            "label": {
+                "fr": "IN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ID", 
+            "label": {
+                "fr": "ID", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IR", 
+            "label": {
+                "fr": "IR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IQ", 
+            "label": {
+                "fr": "IQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IE", 
+            "label": {
+                "fr": "IE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IM", 
+            "label": {
+                "fr": "IM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IL", 
+            "label": {
+                "fr": "IL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IT", 
+            "label": {
+                "fr": "IT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JM", 
+            "label": {
+                "fr": "JM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JP", 
+            "label": {
+                "fr": "JP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JE", 
+            "label": {
+                "fr": "JE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "JO", 
+            "label": {
+                "fr": "JO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KZ", 
+            "label": {
+                "fr": "KZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KE", 
+            "label": {
+                "fr": "KE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KI", 
+            "label": {
+                "fr": "KI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KP", 
+            "label": {
+                "fr": "KP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KR", 
+            "label": {
+                "fr": "KR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KW", 
+            "label": {
+                "fr": "KW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KG", 
+            "label": {
+                "fr": "KG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LA", 
+            "label": {
+                "fr": "LA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LV", 
+            "label": {
+                "fr": "LV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LB", 
+            "label": {
+                "fr": "LB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LS", 
+            "label": {
+                "fr": "LS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LR", 
+            "label": {
+                "fr": "LR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LY", 
+            "label": {
+                "fr": "LY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LI", 
+            "label": {
+                "fr": "LI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LT", 
+            "label": {
+                "fr": "LT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LU", 
+            "label": {
+                "fr": "LU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MO", 
+            "label": {
+                "fr": "MO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MK", 
+            "label": {
+                "fr": "MK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MG", 
+            "label": {
+                "fr": "MG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MW", 
+            "label": {
+                "fr": "MW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MY", 
+            "label": {
+                "fr": "MY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MV", 
+            "label": {
+                "fr": "MV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ML", 
+            "label": {
+                "fr": "ML", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MT", 
+            "label": {
+                "fr": "MT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MH", 
+            "label": {
+                "fr": "MH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MQ", 
+            "label": {
+                "fr": "MQ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MR", 
+            "label": {
+                "fr": "MR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MU", 
+            "label": {
+                "fr": "MU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "YT", 
+            "label": {
+                "fr": "YT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MX", 
+            "label": {
+                "fr": "MX", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "FM", 
+            "label": {
+                "fr": "FM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MD", 
+            "label": {
+                "fr": "MD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MC", 
+            "label": {
+                "fr": "MC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MN", 
+            "label": {
+                "fr": "MN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ME", 
+            "label": {
+                "fr": "ME", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MS", 
+            "label": {
+                "fr": "MS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MA", 
+            "label": {
+                "fr": "MA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MZ", 
+            "label": {
+                "fr": "MZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MM", 
+            "label": {
+                "fr": "MM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NA", 
+            "label": {
+                "fr": "NA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NR", 
+            "label": {
+                "fr": "NR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NP", 
+            "label": {
+                "fr": "NP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NL", 
+            "label": {
+                "fr": "NL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NC", 
+            "label": {
+                "fr": "NC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NZ", 
+            "label": {
+                "fr": "NZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NI", 
+            "label": {
+                "fr": "NI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NE", 
+            "label": {
+                "fr": "NE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NG", 
+            "label": {
+                "fr": "NG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NU", 
+            "label": {
+                "fr": "NU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NF", 
+            "label": {
+                "fr": "NF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MP", 
+            "label": {
+                "fr": "MP", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "NO", 
+            "label": {
+                "fr": "NO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "OM", 
+            "label": {
+                "fr": "OM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PK", 
+            "label": {
+                "fr": "PK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PW", 
+            "label": {
+                "fr": "PW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PS", 
+            "label": {
+                "fr": "PS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PA", 
+            "label": {
+                "fr": "PA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PG", 
+            "label": {
+                "fr": "PG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PY", 
+            "label": {
+                "fr": "PY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PE", 
+            "label": {
+                "fr": "PE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PH", 
+            "label": {
+                "fr": "PH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PN", 
+            "label": {
+                "fr": "PN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PL", 
+            "label": {
+                "fr": "PL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PT", 
+            "label": {
+                "fr": "PT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PR", 
+            "label": {
+                "fr": "PR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "QA", 
+            "label": {
+                "fr": "QA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RE", 
+            "label": {
+                "fr": "RE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RO", 
+            "label": {
+                "fr": "RO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RU", 
+            "label": {
+                "fr": "RU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RW", 
+            "label": {
+                "fr": "RW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "BL", 
+            "label": {
+                "fr": "BL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SH", 
+            "label": {
+                "fr": "SH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "KN", 
+            "label": {
+                "fr": "KN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LC", 
+            "label": {
+                "fr": "LC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "MF", 
+            "label": {
+                "fr": "MF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PM", 
+            "label": {
+                "fr": "PM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VC", 
+            "label": {
+                "fr": "VC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "WS", 
+            "label": {
+                "fr": "WS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SM", 
+            "label": {
+                "fr": "SM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ST", 
+            "label": {
+                "fr": "ST", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SA", 
+            "label": {
+                "fr": "SA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SN", 
+            "label": {
+                "fr": "SN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "RS", 
+            "label": {
+                "fr": "RS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SC", 
+            "label": {
+                "fr": "SC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SL", 
+            "label": {
+                "fr": "SL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SG", 
+            "label": {
+                "fr": "SG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SX", 
+            "label": {
+                "fr": "SX", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SK", 
+            "label": {
+                "fr": "SK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SI", 
+            "label": {
+                "fr": "SI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SB", 
+            "label": {
+                "fr": "SB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SO", 
+            "label": {
+                "fr": "SO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZA", 
+            "label": {
+                "fr": "ZA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GS", 
+            "label": {
+                "fr": "GS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SS", 
+            "label": {
+                "fr": "SS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ES", 
+            "label": {
+                "fr": "ES", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "LK", 
+            "label": {
+                "fr": "LK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SD", 
+            "label": {
+                "fr": "SD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SR", 
+            "label": {
+                "fr": "SR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SJ", 
+            "label": {
+                "fr": "SJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SZ", 
+            "label": {
+                "fr": "SZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SE", 
+            "label": {
+                "fr": "SE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CH", 
+            "label": {
+                "fr": "CH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SY", 
+            "label": {
+                "fr": "SY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TW", 
+            "label": {
+                "fr": "TW", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TJ", 
+            "label": {
+                "fr": "TJ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TZ", 
+            "label": {
+                "fr": "TZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TH", 
+            "label": {
+                "fr": "TH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TL", 
+            "label": {
+                "fr": "TL", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TG", 
+            "label": {
+                "fr": "TG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TK", 
+            "label": {
+                "fr": "TK", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TO", 
+            "label": {
+                "fr": "TO", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TT", 
+            "label": {
+                "fr": "TT", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TN", 
+            "label": {
+                "fr": "TN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TR", 
+            "label": {
+                "fr": "TR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TM", 
+            "label": {
+                "fr": "TM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TC", 
+            "label": {
+                "fr": "TC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TV", 
+            "label": {
+                "fr": "TV", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UG", 
+            "label": {
+                "fr": "UG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UA", 
+            "label": {
+                "fr": "UA", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AE", 
+            "label": {
+                "fr": "AE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "GB", 
+            "label": {
+                "fr": "GB", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "US", 
+            "label": {
+                "fr": "US", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UM", 
+            "label": {
+                "fr": "UM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UY", 
+            "label": {
+                "fr": "UY", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "UZ", 
+            "label": {
+                "fr": "UZ", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VU", 
+            "label": {
+                "fr": "VU", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VE", 
+            "label": {
+                "fr": "VE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VN", 
+            "label": {
+                "fr": "VN", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VG", 
+            "label": {
+                "fr": "VG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "VI", 
+            "label": {
+                "fr": "VI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "WF", 
+            "label": {
+                "fr": "WF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "EH", 
+            "label": {
+                "fr": "EH", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "YE", 
+            "label": {
+                "fr": "YE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZM", 
+            "label": {
+                "fr": "ZM", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ZW", 
+            "label": {
+                "fr": "ZW", 
+                "en": ""
+            }
+        }
+    ], 
+    "researchThemes": [
+        {
+            "value": "famine", 
+            "label": {
+                "fr": "famine", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "urbanisme", 
+            "label": {
+                "fr": "urbanisme", 
+                "en": ""
+            }
+        }
+    ], 
+    "organizationStatuses": [
+        {
+            "value": "public", 
+            "label": {
+                "fr": "public", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "priv\u00e9", 
+            "label": {
+                "fr": "priv\u00e9", 
+                "en": ""
+            }
+        }
+    ], 
+    "erc": [
+        {
+            "value": "sociology", 
+            "label": {
+                "fr": "sociology", 
+                "en": ""
+            }
+        }
+    ], 
+    "genders": [
+        {
+            "value": "m", 
+            "label": {
+                "fr": "Homme", 
+                "en": "Male"
+            }
+        }, 
+        {
+            "value": "f", 
+            "label": {
+                "fr": "Femme", 
+                "en": "Female"
+            }
+        }, 
+        {
+            "value": "o", 
+            "label": {
+                "fr": "Autre", 
+                "en": "Other"
+            }
+        }
+    ]
 }
