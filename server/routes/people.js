@@ -29,7 +29,7 @@ function getPeople (req) {
 	return People.findById(req.params.id)
 		.then(found => found
 			? formatPeople(found)
-			: Promise.reject(peopleNotFoundErr())
+			: Promise.reject(PeopleNotFoundErr())
 		)
 }
 
@@ -50,7 +50,7 @@ function createPeople (req, res) {
 function deletePeople (req, res) {
 	return People.remove({ _id: req.params.id })
 		.then(({ result }) => result.n > 0)
-		.then(deleted => deleted || Promise.reject(peopleNotFoundErr()))
+		.then(deleted => deleted || Promise.reject(PeopleNotFoundErr()))
 		.then(() => res.status(204))
 }
 
@@ -87,7 +87,7 @@ function formatPeople (people) {
 	return o
 }
 
-function peopleNotFoundErr () {
+function PeopleNotFoundErr () {
 	return new ClientError({
 		title: 'People not found',
 		status: 404
