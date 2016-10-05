@@ -11,6 +11,7 @@ export class DataEditorComponent implements OnInit, OnChanges {
 
   @Input() fields: Array<any>;
   @Input() data;
+  @Input() layout;
 
   constructor(public fb: FormBuilder) {}
 
@@ -26,8 +27,7 @@ export class DataEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges (changes: SimpleChanges) {
-    if ((changes['fields'] && changes['fields'].currentValue && changes['fields'].currentValue.length && this.data)
-        || (changes['data'] && changes['data'].currentValue && this.fields && this.fields.length)) {
+    if (this.data && this.fields && this.fields.length && this.layout) {
       this.createForm();
     }
   }
@@ -43,6 +43,10 @@ export class DataEditorComponent implements OnInit, OnChanges {
     if (this.form.dirty) {
       console.log('save', this.form.value);
     }
+  }
+
+  getField (fieldName: string) {
+    return this.fields.find(field => field.name === fieldName);
   }
 
   private createForm () {
