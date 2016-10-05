@@ -4,6 +4,10 @@ const mongoose = require('mongoose')
 const { getSchema } = require('./schemas')
 const config = require('config')
 
+// Use native promises with Mongoose
+mongoose.Promise = Promise
+
+
 module.exports = {
 	People:       model('People'),
 	Activity:     model('Activity'),
