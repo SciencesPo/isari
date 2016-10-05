@@ -18,9 +18,15 @@ module.exports = {
 
 function model (name) {
 	const desc = getSchema(name)
+
 	const schema = new mongoose.Schema(desc, {
 		strict: 'throw'
 	})
+
+	schema.static('removeById', function (id) {
+		return this.remove({ _id: id })
+	})
+
 	return mongoose.model(name, schema)
 }
 
