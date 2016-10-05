@@ -1,0 +1,11 @@
+[http]
+port = 8080
+
+[log]
+format = 'dev'
+
+[mongo]
+url = 'mongodb://localhost/isari-dev'
+
+[elasticsearch]
+index = 'isari-dev'

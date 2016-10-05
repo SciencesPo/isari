@@ -2,7 +2,7 @@
 port = 8080
 
 [log]
-format = 'dev'
+format = 'combined'
 
 [session]
 secret = 'aizeoiniun'
@@ -15,4 +15,4 @@ url = 'mongodb://localhost/isari'
 # https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/configuration.html
 host = 'localhost:9200'
 apiVersion = '2.3'
-index = 'es'
+index = 'isari'
