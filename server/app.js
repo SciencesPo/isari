@@ -17,6 +17,15 @@ try {
 	process.exit(1)
 }
 
+// Initiate MongoDB connection at startup
+const { connect } = require('./lib/model')
+connect()
+.then(() => process.stdout.write('Established connection to MongoDB'))
+.catch(e => {
+	process.stderr.write(`\n\n${chalk.bold.red('Could not connect to MongoDB')}:\n${chalk.red(e.message)}\n\n`)
+	process.exit(1)
+})
+
 
 const app = module.exports = express()
 
