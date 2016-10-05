@@ -20,7 +20,10 @@ try {
 
 const app = module.exports = express()
 
-app.use(logger(config.log.format))
+if (config.log.format) {
+	app.use(logger(config.log.format))
+}
+
 app.use(bodyParser.json())
 app.use(session({
 	secret: config.session.secret,

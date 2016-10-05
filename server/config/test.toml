@@ -1,2 +1,5 @@
 [mongo]
 url = 'mongodb://localhost/isari-test'
+
+[log]
+format = false
