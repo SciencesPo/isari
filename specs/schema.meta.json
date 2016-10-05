@@ -475,7 +475,7 @@
                "fr": "Tags ERC",
                "en": "ERC tags"
             },
-            "enum": "ERC"
+            "enum": "erc"
             }],
 
          "discipline": [{
@@ -868,7 +868,7 @@
                "fr": "Disciplines",
                "en": "Academics"
             },
-            "enum": "discipline"
+            "enum": "disciplines"
             }],
 
          "researchTheme": [{
@@ -876,240 +876,138 @@
                "fr": "Thèmes de recherche",
                "en": "Research themes"
             },
-            "enum": "researchTheme"
+            "enum": "researchThemes"
             }]
       },
 
       "grants": [{
          "label": {
-            "fr": "Subventions",
-            "en": "Grants"
+            "fr": "Disciplines",
+            "en": "Academics"
          },
-
-         "organization": {
-            "label": {
-               "fr": "Organisation",
-               "en": "Organization"
-            },
-            "ref": "Organization"
-         },
-
-         "name": {
-            "label": {
-               "fr": "Nom",
-               "en": "Name"
-            }
-         },
-
-         "grantType": {
-            "label": {
-               "fr": "Type",
-               "en": "Type"
-            },
-            "enum": "grantTypes"
-         },
-
-         "grantIdentifier": {
-            "label": {
-               "fr": "Identifiant",
-               "en": "Identifier"
-            },
-            "description": {
-               "fr": "identifiant donné par l'organisme financeur",
-               "en": "identifier given by the financing institution"
-            }
-         },
-
-         "sciencespoAmount": {
-            "label": {
-               "fr": "Montant Sciences Po",
-               "en": "Sciences Po amount"
-            },
-            "type": "number"
-         },
-
-         "totalAmount": {
-            "label": {
-               "fr": "Montant total",
-               "en": "Total amount"
-            },
-            "type": "number"
-         },
-
-         "investAmount": {
-            "label": {
-               "fr": "Montant investissement",
-               "en": "Investment amount"
-            },
-            "type": "number"
-         },
-
-         "runAmount": {
-            "label": {
-               "fr": "Montant fonctionnement",
-               "en": "Operational amount"
-            },
-            "type": "number"
-         },
-
-         "hrAmount": {
-            "label": {
-               "fr": "Montant Masse salariale",
-               "en": "Human Ressources amount"
-            },
-            "type": "number"
-         },
-
-         "currencyAmount": {
-            "label": {
-               "fr": "Devise",
-               "en": "Currency"
-            },
-            "default": "EUR",
-            "enum": "iso4217"
-         },
-
-         "submissionDate": {
-            "label": {
-               "fr": "Date de soumission",
-               "en": "Submission date"
-            },
-            "type": "date"
-         },
-
-         "startDate": {
-            "label": {
-               "fr": "Date de début",
-               "en": "Start date"
-            },
-            "type": "date"
-         },
-
-         "endDate": {
-            "label": {
-               "fr": "Date de fin",
-               "en": "End date"
-            },
-            "type": "date"
-         },
-
-         "UG": {
-            "label": {
-               "fr": "Unité de Gestion",
-               "en": "Unité de Gestion"
-            },
-            "description": {
-               "fr": "Ligne budgétaire où est géré le financement",
-               "en": "budget line impacted by the grant"
-            }
-         },
-
-         "status": {
-            "label": {
-               "fr": "Statut",
-               "en": "Status"
-            },
-            "enum": "grantStatuses"
-         }
-        }],
-
-      "distinctions": [{
-         "label": {
-            "fr": "Distinctions",
-            "en": "Awards"
-         },
-
-         "organizations": [{
-            "label": {
-               "fr": "Organisations",
-               "en": "Organizations"
-            },
-            "ref": "Organization"
+         "enum": "discipline"
             }],
 
-         "date": {
-            "label": {
-               "fr": "Date",
-               "en": "Date"
-            },
-            "type": "date"
+      "researchTheme": [{
+         "label": {
+            "fr": "Thèmes de recherche",
+            "en": "Research themes"
          },
-
-         "title": {
-            "label": {
-               "fr": "Titre",
-               "en": "Title"
-            },
-            "requirement": "mandatory"
-         },
-
-         "subject": {
-            "label": {
-               "fr": "Sujet",
-               "en": "Subject"
-            }
-         }
-        }]
+         "enum": "researchTheme"
+            }]
    },
 
-   "Organization": {
+   "grants": [{
+      "label": {
+         "fr": "Subventions",
+         "en": "Grants"
+      },
+
+      "organization": {
+         "label": {
+            "fr": "Organisation",
+            "en": "Organization"
+         },
+         "ref": "Organization"
+      },
+
       "name": {
-         "requirement": "mandatory",
          "label": {
             "fr": "Nom",
             "en": "Name"
          }
       },
 
-      "researchUnitCodes": [{
+      "grantType": {
          "label": {
-            "fr": "codes de l'unité de recherche",
-            "en": "Research unit's codes"
+            "fr": "Type",
+            "en": "Type"
          },
+         "enum": "grantTypes"
+      },
 
-         "code": {
-            "label": {
-               "fr": "Code",
-               "en": "Code"
-            }
-         },
-
-         "startDate": {
-            "label": {
-               "fr": "Date de début",
-               "en": "Start date"
-            },
-            "type": "date"
-         },
-
-         "endDate": {
-            "label": {
-               "fr": "Date de fin",
-               "en": "End date"
-            },
-            "type": "date"
-         }
-        }],
-
-      "idBanner": {
+      "grantIdentifier": {
          "label": {
-            "fr": "Identifiant Banner",
-            "en": "banner ID"
+            "fr": "Identifiant",
+            "en": "Identifier"
+         },
+         "description": {
+            "fr": "identifiant donné par l'organisme financeur",
+            "en": "identifier given by the financing institution"
          }
       },
 
-      "idSpire": {
+      "sciencespoAmount": {
          "label": {
-            "fr": "Identifiant Spire",
-            "en": "Spire ID"
-         }
+            "fr": "Montant Sciences Po",
+            "en": "Sciences Po amount"
+         },
+         "type": "number"
       },
 
-      "idRnsr": {
+      "totalAmount": {
          "label": {
-            "fr": "Identifiant RNSR",
-            "en": "RNSR identifier"
-         }
+            "fr": "Montant total",
+            "en": "Total amount"
+         },
+         "type": "number"
+      },
+
+      "investAmount": {
+         "label": {
+            "fr": "Montant investissement",
+            "en": "Investment amount"
+         },
+         "type": "number"
+      },
+
+      "runAmount": {
+         "label": {
+            "fr": "Montant fonctionnement",
+            "en": "Operational amount"
+         },
+         "type": "number"
+      },
+
+      "hrAmount": {
+         "label": {
+            "fr": "Montant Masse salariale",
+            "en": "Human Ressources amount"
+         },
+         "type": "number"
+      },
+
+      "currencyAmount": {
+         "label": {
+            "fr": "Devise",
+            "en": "Currency"
+         },
+         "default": "EUR",
+         "enum": "iso4217"
+      },
+
+      "submissionDate": {
+         "label": {
+            "fr": "Date de soumission",
+            "en": "Submission date"
+         },
+         "type": "date"
+      },
+
+      "startDate": {
+         "label": {
+            "fr": "Date de début",
+            "en": "Start date"
+         },
+         "type": "date"
+      },
+
+      "endDate": {
+         "label": {
+            "fr": "Date de fin",
+            "en": "End date"
+         },
+         "type": "date"
       },
 
       "UG": {
@@ -1118,31 +1016,9 @@
             "en": "Unité de Gestion"
          },
          "description": {
-            "fr": "Ligne budgétaire de l'unité de recherche",
-            "en": "research unit's budget line"
+            "fr": "Ligne budgétaire où est géré le financement",
+            "en": "budget line impacted by the grant"
          }
-      },
-
-      "acronym": {
-         "label": {
-            "fr": "Acronyme",
-            "en": "Acronym"
-         }
-      },
-
-      "address": {
-         "label": {
-            "fr": "Adresse",
-            "en": "Address"
-         }
-      },
-
-      "country": {
-         "label": {
-            "fr": "Pays",
-            "en": "Country"
-         },
-         "enum": "countries"
       },
 
       "status": {
@@ -1150,30 +1026,171 @@
             "fr": "Statut",
             "en": "Status"
          },
-         "enum": "organizationStatuses"
+         "enum": "grantStatuses"
+      }
+        }],
+
+   "distinctions": [{
+      "label": {
+         "fr": "Distinctions",
+         "en": "Awards"
       },
 
-      "organizationType": {
+      "organizations": [{
          "label": {
-            "fr": "Type d'organisation",
-            "en": "Organization type"
+            "fr": "Organisations",
+            "en": "Organizations"
          },
-         "enum": "organizationTypes"
+         "ref": "Organization"
+            }],
+
+      "date": {
+         "label": {
+            "fr": "Date",
+            "en": "Date"
+         },
+         "type": "date"
       },
 
-      "url": {
+      "title": {
          "label": {
-            "fr": "Site web",
-            "en": "Website url"
+            "fr": "Titre",
+            "en": "Title"
+         },
+         "requirement": "mandatory"
+      },
+
+      "subject": {
+         "label": {
+            "fr": "Sujet",
+            "en": "Subject"
+         }
+      }
+        }]
+},
+
+"Organization": {
+   "name": {
+      "requirement": "mandatory",
+      "label": {
+         "fr": "Nom",
+         "en": "Name"
+      }
+   },
+
+   "researchUnitCodes": [{
+      "label": {
+         "fr": "codes de l'unité de recherche",
+         "en": "Research unit's codes"
+      },
+
+      "code": {
+         "label": {
+            "fr": "Code",
+            "en": "Code"
          }
       },
 
-      "parentOrganizations": [{
+      "startDate": {
          "label": {
-            "fr": "Organisation(s) de tutelle",
-            "en": "Parent organization(s)"
+            "fr": "Date de début",
+            "en": "Start date"
          },
-         "ref": "Organization"
+         "type": "date"
+      },
+
+      "endDate": {
+         "label": {
+            "fr": "Date de fin",
+            "en": "End date"
+         },
+         "type": "date"
+      }
+        }],
+
+   "idBanner": {
+      "label": {
+         "fr": "Identifiant Banner",
+         "en": "banner ID"
+      }
+   },
+
+   "idSpire": {
+      "label": {
+         "fr": "Identifiant Spire",
+         "en": "Spire ID"
+      }
+   },
+
+   "idRnsr": {
+      "label": {
+         "fr": "Identifiant RNSR",
+         "en": "RNSR identifier"
+      }
+   },
+
+   "UG": {
+      "label": {
+         "fr": "Unité de Gestion",
+         "en": "Unité de Gestion"
+      },
+      "description": {
+         "fr": "Ligne budgétaire de l'unité de recherche",
+         "en": "research unit's budget line"
+      }
+   },
+
+   "acronym": {
+      "label": {
+         "fr": "Acronyme",
+         "en": "Acronym"
+      }
+   },
+
+   "address": {
+      "label": {
+         "fr": "Adresse",
+         "en": "Address"
+      }
+   },
+
+   "country": {
+      "label": {
+         "fr": "Pays",
+         "en": "Country"
+      },
+      "enum": "countries"
+   },
+
+   "status": {
+      "label": {
+         "fr": "Statut",
+         "en": "Status"
+      },
+      "enum": "organizationStatuses"
+   },
+
+   "organizationType": {
+      "label": {
+         "fr": "Type d'organisation",
+         "en": "Organization type"
+      },
+      "enum": "organizationTypes"
+   },
+
+   "url": {
+      "label": {
+         "fr": "Site web",
+         "en": "Website url"
+      }
+   },
+
+   "parentOrganizations": [{
+      "label": {
+         "fr": "Organisation(s) de tutelle",
+         "en": "Parent organization(s)"
+      },
+      "ref": "Organization"
         }]
-   }
+}
 }
