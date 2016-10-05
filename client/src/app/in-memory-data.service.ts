@@ -43,10 +43,26 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
+    let layouts = [
+      {
+        id: 'people',
+        layout: [
+          {
+            label: 'group 1',
+            collapsabled: true,
+            fields: ['firstname', 'lastname']
+          },
+          ['gender', 'birthdate'],
+          'nationalities'
+        ]
+      }
+    ];
+
     return {
       people,
       schemas,
-      enums
+      enums,
+      layouts
     };
   }
 }

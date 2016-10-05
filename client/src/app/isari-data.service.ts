@@ -8,6 +8,7 @@ export class IsariDataService {
 
   private dataUrl = 'api/people';
   private schemaUrl = 'api/schemas';
+  private layoutUrl = 'api/layouts';
 
   constructor(private http: Http) { }
 
@@ -24,6 +25,14 @@ export class IsariDataService {
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data.schema || response.json().data)
+      .catch(this.handleError);
+  }
+
+  getLayout (feature: string) {
+    const url = `${this.layoutUrl}/${feature}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data.layout || response.json().data)
       .catch(this.handleError);
   }
 
