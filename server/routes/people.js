@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { ClientError, ServerError } = require('../lib/errors')
+const { ClientError } = require('../lib/errors')
 const es = require('../lib/elasticsearch')
 const { restHandler } = require('../lib/rest-utils')
 const People = require('../lib/model')
@@ -47,7 +47,7 @@ function createPeople (req, res) {
 		})
 }
 
-function deletePeople (req) {
+function deletePeople (req, res) {
 	return People.remove({ _id: req.params.id })
 		.then(({ result }) => result.n > 0)
 		.then(deleted => deleted || Promise.reject(peopleNotFoundErr()))
