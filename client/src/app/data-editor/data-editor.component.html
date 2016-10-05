@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form">
-  <fieldset *ngFor="let group of layout">
-    <legend *ngIf="group.label">{{ group.label }}</legend>
+  <md-card-content *ngFor="let group of layout">
+    <md-card-subtitle *ngIf="group.label">{{ group.label }}</md-card-subtitle>
     <isari-field *ngFor="let fieldName of group.fields" (onUpdate)="save($event)" [form]="form" [field]="getField(fieldName)"></isari-field>
-  </fieldset>
+  </md-card-content>
 </form>
