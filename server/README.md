@@ -1,5 +1,33 @@
 # Isari Server
 
+## Configuration
+
+* Configuration files use `TOML` (INI on steroids) format and are located in `config` folder
+* `default.toml` is the main configuration file
+* You can override default options in `$NODE_ENV.toml`
+* You can override default and env-specific options in `local.toml` (unversionned)
+
+## Development
+
+```sh
+npm install
+```
+
+* `npm run dev` starts all these sub-tasks in parallel:
+  * `watch:server` runs `server.js` in *development* environment, restarts on every change
+  * `watch:lint` runs ESLint validation on every change
+  * `watch:test` runs unit tests on every change
+* `npm test` runs unit tests
+* `npm run lint` runs ESLint validation
+
+## Production
+
+```sh
+npm install --production
+```
+
+* `npm start` starts `server.js` in *production* environment
+
 ## REST API (**WIP**)
 
 ### Collection endpoints:

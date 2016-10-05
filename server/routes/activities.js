@@ -1,46 +1,19 @@
 'use strict'
 
-const { Router } = require('express')
-const { ClientError, ServerError } = require('../lib/errors')
-const es = require('../lib/elasticsearch')
-const { restHandler } = require('../lib/rest-utils')
-
-module.exports = Router()
-.get('/', restHandler(listActivity))
-.get('/:id', restHandler(getActivity))
-.put('/:id', restHandler(updateActivity))
-.post('/', restHandler(createActivity))
-.delete('/:id', restHandler(deleteActivity))
-.get('/search', restHandler(searchActivity))
+const { restRouter } = require('../lib/rest-utils')
+const { Activity } = require('../lib/model')
 
 
-function listActivity () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+module.exports = restRouter(Activity, formatActivity, 'activity')
 
-function getActivity () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
 
-function updateActivity () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+function formatActivity (activity) {
+	let o = activity.toObject()
 
-function createActivity () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+	o.id = o._id
 
-function deleteActivity () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+	delete o._id
+	delete o.__v
 
-function searchActivity (req) {
-	const query = req.query.q
-	const fields = req.query.fields ? req.query.fields.split(',') : undefined
-
-	if (!query) {
-		throw new ClientError({ title: 'Missing query string (field "q")' })
-	}
-
-	throw new ServerError({ status: 501, title: 'TODO' })
+	return o
 }

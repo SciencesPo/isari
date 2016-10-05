@@ -1,46 +1,19 @@
 'use strict'
 
-const { Router } = require('express')
-const { ClientError, ServerError } = require('../lib/errors')
-const es = require('../lib/elasticsearch')
-const { restHandler } = require('../lib/rest-utils')
-
-module.exports = Router()
-.get('/', restHandler(listOrganization))
-.get('/:id', restHandler(getOrganization))
-.put('/:id', restHandler(updateOrganization))
-.post('/', restHandler(createOrganization))
-.delete('/:id', restHandler(deleteOrganization))
-.get('/search', restHandler(searchOrganization))
+const { restRouter } = require('../lib/rest-utils')
+const { Organization } = require('../lib/model')
 
 
-function listOrganization () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+module.exports = restRouter(Organization, formatOrganization, 'organization')
 
-function getOrganization () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
 
-function updateOrganization () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+function formatOrganization (organization) {
+	let o = organization.toObject()
 
-function createOrganization () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+	o.id = o._id
 
-function deleteOrganization () {
-	throw new ServerError({ status: 501, title: 'TODO' })
-}
+	delete o._id
+	delete o.__v
 
-function searchOrganization (req) {
-	const query = req.query.q
-	const fields = req.query.fields ? req.query.fields.split(',') : undefined
-
-	if (!query) {
-		throw new ClientError({ title: 'Missing query string (field "q")' })
-	}
-
-	throw new ServerError({ status: 501, title: 'TODO' })
+	return o
 }
