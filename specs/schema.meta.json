@@ -469,7 +469,7 @@
                     "fr": "Tags ERC",
                     "en": "ERC tags"
                 },
-                "enum": "ERC"
+                "enum": "erc"
             }],
 
             "discipline": [{
@@ -848,7 +848,7 @@
                     "fr": "Disciplines",
                     "en": "Academics"
                 },
-                "enum":"discipline"
+                "enum":"disciplines"
             }],
 
             "researchTheme": [{
@@ -856,7 +856,7 @@
                     "fr": "Thèmes de recherche",
                     "en": "Research themes"
                 },
-                "enum":"researchTheme"
+                "enum":"researchThemes"
             }]
         },
 
