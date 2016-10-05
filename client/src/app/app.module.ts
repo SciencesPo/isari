@@ -17,8 +17,9 @@ import { ListPageComponent } from './list-page/list-page.component';
 import { DetailPageComponent } from './detail-page/detail-page.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DataEditorComponent } from './data-editor/data-editor.component';
-import { FieldComponent } from './field/field.component';
+import { FieldComponent } from './fields/field.component';
 import { IsariInputComponent } from './fields/isari-input/isari-input.component';
+import { DisabledDirective } from './fields/disabled.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { IsariInputComponent } from './fields/isari-input/isari-input.component'
     DataTableComponent,
     DataEditorComponent,
     FieldComponent,
-    IsariInputComponent
+    IsariInputComponent,
+    DisabledDirective
   ],
   imports: [
     BrowserModule,

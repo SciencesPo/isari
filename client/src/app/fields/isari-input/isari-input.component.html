@@ -1,5 +1,6 @@
-<span [formGroup]="form" [ngClass]="{error: !form.controls[name]?.valid }">
+<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }">
   <md-input
+    [isariDisabled]="form.controls[name]?.disabled"
     [placeholder]="name"
     *ngIf="form.controls[name]"
     (blur)="update($event)"

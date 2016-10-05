@@ -33,8 +33,11 @@ export class DataEditorComponent implements OnInit, OnChanges {
   }
 
   save () {
+    if (this.form.disabled) {
+      return;
+    }
     if (!this.form.valid) {
-      console.log('Error');
+      console.log('Error', this.form);
       return;
     }
     if (this.form.dirty) {
@@ -44,7 +47,10 @@ export class DataEditorComponent implements OnInit, OnChanges {
 
   private createForm () {
     this.fields.forEach(field => {
-      this.form.addControl(field.name, new FormControl(this.data[field.name] || '', this.required(field)));
+      this.form.addControl(field.name, new FormControl(
+        { value: this.data[field.name] || '', disabled: !this.data.opts.editable },
+        this.required(field)
+      ));
     });
   }
 

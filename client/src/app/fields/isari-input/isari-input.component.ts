@@ -10,20 +10,19 @@ export class IsariInputComponent implements OnInit {
   @Input() name: string;
   @Input() form: FormGroup;
   onUpdate: EventEmitter<any>;
-  mode: string = 'display';
 
   constructor() { }
 
   ngOnInit() {
+    console.log(this.form.controls[this.name], this.name);
+    // this.form.controls[this.name].statusChanges.subscribe((newStatus) => {
+    //   console.log(newStatus);
+    //   this.form.controls[this.name].disable();
+    // });
   }
 
   update($event) {
-    this.toggleMode();
     this.onUpdate.emit($event);
-  }
-
-  toggleMode () {
-    this.mode = this.mode === 'edit' ? 'display' : 'edit';
   }
 
 }
