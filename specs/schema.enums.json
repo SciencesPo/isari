@@ -12,7 +12,7 @@
 	"gradeAdmin": [ "CM1", "CM2" , "CM3" ],
 	"gradeAcademic": [ "associate professor", "assistant professor", "professor", "directeur de recherche", "postdoc", "invité", "doctorant" ],
 	"bonusTypes": [ "Prime direction", "Prime de convergence" ],
-	"academicMembership": [ "membre", "associé", "rattaché", "affilié" ],
+	"academicMembershipType": [ "membre", "associé", "rattaché", "affilié" ],
 
 	"hceres2017": [ "sociologie" ],
 	"aeres2012": [ "sciences politiques" ],

@@ -6,7 +6,7 @@
         "requirement": "'mandatory' or 'recommended'",
         "accessMonitoring": "this field has special focus for logs analysis",
         "suggestions": "What type of autocomplete?",
-        "description": "Description usable as a hint (simple string or i18n like label)",
+        "description":  { "langCode": "Description usable as a hint", "…": "…" },
         "comment": "Technical comment",
         "service": "Third-party service data is taken from",
 
@@ -43,8 +43,8 @@
 
             "organization": {
                 "label": {
-                    "fr": "Organisation",
-                    "en": "Organization"
+                    "fr": "Centre de recherche",
+                    "en": "Research unit"
                 },
                 "ref": "Organization"
             },
@@ -142,15 +142,18 @@
                 "en": "Positions"
             },
             "description": {
-                "fr": "Contrats, affiliations, rattachements...",
-                "en": "Positions, affiliations, attachments..."
+                "fr": "Contrats de travail, postes publiques, ...",
+                "en": "Academic positions, working positions, ..."
             },
             "accessMonitoring": "corporate",
 
             "organization": {
                 "requirement": "mandatory",
                 "suggestions": "top_10",
-                "description": "tutelle du contrat : FNSP, CNRS, MESR...",
+                "description": {
+                    "fr": "Tutelle du contrat : FNSP, CNRS, MESR...",
+                    "en": "Organisation holding the position"
+                },
                 "comment": "add as suggestions the top x values already stored un the database in position.organisation",
                 "ref": "Organization"
             },
@@ -214,8 +217,8 @@
                     "en": "Grades"
                 },
                 "description": {
-                    "fr": "",
-                    "en": ""
+                    "fr": "Grades académiques DR1, CR1...",
+                    "en": "Academic Grade Associate Prof, Full Prof..."
                 },
 
                 "grade": {
@@ -252,8 +255,8 @@
                     "en": "Job grid"
                 },
                 "description": {
-                    "fr": "",
-                    "en": ""
+                    "fr": "Grade administratif du poste",
+                    "en": "Administratif level of the position"
                 },
                 "accessType": "confidential",
 
@@ -290,8 +293,8 @@
                     "en": "Bonus"
                 },
                 "description": {
-                    "fr": "",
-                    "en": ""
+                    "fr": "Primes à l'enseignement, direction...",
+                    "en": "Bonus for extra-academic activities"
                 },
                 "accessType": "confidential",
 
@@ -331,8 +334,8 @@
 
             "organization": {
                 "label": {
-                    "fr": "Organisation",
-                    "en": "Organization"
+                    "fr": "Laboratoire de recherche",
+                    "en": "Research Lab"
                 },
                 "ref": "Organization"
             },
@@ -358,7 +361,7 @@
                     "fr": "Type d'affiliation",
                     "en": "Affiliation type"
                 },
-                "enum": "academicMembership"
+                "enum": "academicMembershipType"
             }
         }],
 
@@ -372,8 +375,8 @@
 
             "organization": {
                 "label": {
-                    "fr": "Organisation",
-                    "en": "Organization"
+                    "fr": "Département d'enseignement",
+                    "en": "Teaching departement"
                 },
                 "ref": "Organization"
             },
@@ -434,21 +437,24 @@
                 "label": {
                     "fr": "Tags HCERES 2017",
                     "en": "HCERES 2017 tags"
-                }
+                },
+                "enum": "hceres2017"
             }],
 
             "aeres2012": [{
                 "label": {
                     "fr": "Tags AERES 2012",
                     "en": "AERES 2012 tags"
-                }
+                },
+                "enum": "aeres2012"
             }],
 
             "methods": [{
                 "label": {
                     "fr": "Tags méthodes",
                     "en": "Methods tags"
-                }
+                },
+                "enum": "methods"
             }],
 
             "free": [{
@@ -462,28 +468,31 @@
                 "label": {
                     "fr": "Tags ERC",
                     "en": "ERC tags"
-                }
+                },
+                "enum": "ERC"
             }],
 
             "discipline": [{
                 "label": {
                     "fr": "Disciplines",
                     "en": "Academics"
-                }
+                },
+                "enum": "disciplines"
             }],
 
             "researchTheme": [{
                 "label": {
                     "fr": "Thèmes de recherche",
                     "en": "Research themes"
-                }
+                },
+                "enum": "researchThemes"
             }]
         },
 
         "personalActivities": [{
             "label": {
-                "fr": "Activités",
-                "en": "Activities"
+                "fr": "Activités personnelles",
+                "en": "Personal activities"
             },
 
             "personalActivityType": {
@@ -504,6 +513,7 @@
             },
 
             "startDate": {
+                "requirement": "mandatory",
                 "label": {
                     "fr": "Date de début",
                     "en": "Start date"
@@ -529,8 +539,8 @@
 
             "description": {
                 "label": {
-                    "fr": "Description",
-                    "en": "Description"
+                    "fr": "Activités personnelles d'enseignement, d'expertise, d'encadrement...",
+                    "en": "Personal activities : teaching, expertise..."
                 }
             },
 
@@ -553,8 +563,8 @@
 
         "distinctions": [{
             "label": {
-                "fr": "Distinctions",
-                "en": "Awards"
+                "fr": "Diplômes et distinctions",
+                "en": "Diplomas and awards"
             },
 
             "organizations": [{
@@ -640,13 +650,6 @@
                 "en": "Languages"
             },
             "enum": "iso6391"
-        },
-
-        "photoFilename": {
-            "label": {
-                "fr": "Photo",
-                "en": "Photo"
-            }
         }
     },
 
@@ -685,8 +688,8 @@
 
         "organizations": [{
             "label": {
-                "fr": "Organisations",
-                "en": "Organizations"
+                "fr": "Partenaires",
+                "en": "Partnership"
             },
 
             "organization": {
@@ -702,7 +705,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "enum": "activityPeopleRoles"
+                "enum": "activityOrganizationRoles"
             },
 
             "startDate": {
@@ -723,10 +726,10 @@
 
         }],
 
-        "peoples": [{
+        "people": [{
             "label": {
-                "fr": "Personnes",
-                "en": "Persons"
+                "fr": "Personnes impliquées",
+                "en": "Collaborators"
             },
 
             "role": {
@@ -805,21 +808,24 @@
                 "label": {
                     "fr": "Tags HCERES 2017",
                     "en": "HCERES 2017 tags"
-                }
+                },
+                "enum":"hceres2017"
             }],
 
             "aeres2012": [{
                 "label": {
                     "fr": "Tags AERES 2012",
                     "en": "AERES 2012 tags"
-                }
+                },
+                "enum":"aeres2012"
             }],
 
             "methods": [{
                 "label": {
                     "fr": "Tags méthodes",
                     "en": "Methods tags"
-                }
+                },
+                "enum":"methods"
             }],
 
             "free": [{
@@ -833,21 +839,24 @@
                 "label": {
                     "fr": "Tags ERC",
                     "en": "ERC tags"
-                }
+                },
+                "enum":"erc"
             }],
 
             "discipline": [{
                 "label": {
                     "fr": "Disciplines",
                     "en": "Academics"
-                }
+                },
+                "enum":"discipline"
             }],
 
             "researchTheme": [{
                 "label": {
                     "fr": "Thèmes de recherche",
                     "en": "Research themes"
-                }
+                },
+                "enum":"researchTheme"
             }]
         },
 
@@ -884,6 +893,10 @@
                 "label": {
                     "fr": "Identifiant",
                     "en": "Identifier"
+                },
+                "description":{
+                    "fr":"identifiant donné par l'organisme financeur",
+                    "en":"identifier given by the financing institution"
                 }
             },
 
@@ -962,8 +975,12 @@
 
             "UG": {
                 "label": {
-                    "fr": "UG",
-                    "en": "UG"
+                    "fr": "Unité de Gestion",
+                    "en": "Unité de Gestion"
+                },
+                "description":{
+                    "fr":"Ligne budgétaire où est géré le financement",
+                    "en":"budget line impacted by the grant"
                 }
             },
 
@@ -1006,33 +1023,10 @@
                 "requirement": "mandatory"
             },
 
-            "countries": [{
-                "label": {
-                    "fr": "Pays",
-                    "en": "Country"
-                },
-                "enum": "countries"
-            }],
-
-            "distinctionType": {
-                "label": {
-                    "fr": "Type de distinction",
-                    "en": "Distinction type"
-                },
-                "enum": "distinctionTypes"
-            },
-
             "subject": {
                 "label": {
                     "fr": "Sujet",
                     "en": "Subject"
-                }
-            },
-
-            "honours": {
-                "label": {
-                    "fr": "Honneurs",
-                    "en": "Honours"
                 }
             }
         }]
@@ -1049,8 +1043,8 @@
 
         "researchUnitCodes": [{
             "label": {
-                "fr": "Unités de recherche",
-                "en": "Research units"
+                "fr": "codes de l'unité de recherche",
+                "en": "Research unit's codes"
             },
 
             "code": {
@@ -1093,23 +1087,20 @@
 
         "idRnsr": {
             "label": {
-                "fr": "Identifiant niveau labo français",
-                "en": "…"
+                "fr": "Identifiant RNSR",
+                "en": "RNSR identifier"
             }
         },
 
         "UG": {
-            "label": {
-                "fr": "UG",
-                "en": "UG"
-            }
-        },
-
-        "idsAcademy": {
-            "label": {
-                "fr": "Immatriculation académique",
-                "en": "Academy registration number"
-            }
+                "label": {
+                    "fr": "Unité de Gestion",
+                    "en": "Unité de Gestion"
+                },
+                "description":{
+                    "fr":"Ligne budgétaire de l'unité de recherche",
+                    "en":"research unit's budget line"
+                }
         },
 
         "acronym": {
@@ -1157,10 +1148,10 @@
             }
         },
 
-        "organizationLinks": [{
+        "parentOrganizations": [{
             "label": {
-                "fr": "Organisation(s) liée(s)",
-                "en": "Related organization(s)"
+                "fr": "Organisation(s) de tutelle",
+                "en": "Parent organization(s)"
             },
             "ref": "Organization"
         }]
