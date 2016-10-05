@@ -3,7 +3,7 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
 
     let people = [
-      { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe' },
+      { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe', gender: 'm' },
       { id: 2, opts: { editable: false }, firstname: 'Kyle', name: 'Dixon' }
     ];
 
@@ -28,18 +28,23 @@ export class InMemoryDataService implements InMemoryDbService {
               'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' },
               'type': 'date'
           },
-          'nationalities': {
-              'label': { 'fr': 'Nationalité(s)', 'en': 'Nationanality(ies)' },
-              'enum': 'nationalities',
-              'multiple': true
-          }
+          // 'nationalities': {
+          //     'label': { 'fr': 'Nationalité(s)', 'en': 'Nationanality(ies)' },
+          //     'enum': 'nationalities',
+          //     'multiple': true
+          // }
         }
       }
     ];
 
     let enums = [
       {
-        genders: ['m', 'f', 'o']
+        id: 'genders',
+        enum: [
+          { 'value': 'm', 'label': { 'fr': 'Masculin', 'en': 'Male' } },
+          { 'value': 'f', 'label': { 'fr': 'F\u00e9minin', 'en': 'Female' } },
+          { 'value': 'o', 'label': { 'fr': 'Autre', 'en': 'Other' } }
+        ]
       }
     ];
 

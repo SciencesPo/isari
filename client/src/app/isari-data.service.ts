@@ -9,6 +9,7 @@ export class IsariDataService {
   private dataUrl = 'api/people';
   private schemaUrl = 'api/schemas';
   private layoutUrl = 'api/layouts';
+  private enumUrl = 'api/enums';
 
   constructor(private http: Http) { }
 
@@ -33,6 +34,14 @@ export class IsariDataService {
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data.layout || response.json().data)
+      .catch(this.handleError);
+  }
+
+  getEnum (en: string) {
+    const url = `${this.enumUrl}/${en}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data.enum || response.json().data)
       .catch(this.handleError);
   }
 

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { IsariInputComponent } from '../fields/isari-input/isari-input.component';
+import { IsariFieldSelectorService } from '../fields/isari-field-selector.service';
 import { IsariDataService } from '../isari-data.service';
 
 @Component({
   selector: 'isari-detail-page',
   templateUrl: 'detail-page.component.html',
-  styleUrls: ['detail-page.component.css']
+  styleUrls: ['detail-page.component.css'],
+  providers: [ IsariFieldSelectorService ]
 })
 export class DetailPageComponent implements OnInit {
 
@@ -16,7 +17,10 @@ export class DetailPageComponent implements OnInit {
   data: any;
   layout: any;
 
-  constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
+  constructor (
+    private route: ActivatedRoute,
+    private isariDataService: IsariDataService,
+    private isariFieldSelectorServive: IsariFieldSelectorService) {}
 
   ngOnInit() {
 
@@ -60,7 +64,7 @@ export class DetailPageComponent implements OnInit {
           this.fields = Object.keys(schema).map(key => Object.assign({}, schema[key], {
             name: key,
             label: schema[key].label['fr'], // @TODO get lang from somewhere
-            fieldType: IsariInputComponent // @TODO get from type + ...
+            fieldType: this.isariFieldSelectorServive.getInputComponent(schema[key]) // @TODO get from type + ...
           }));
 
         });

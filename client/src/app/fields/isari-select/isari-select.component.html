@@ -1,0 +1,32 @@
+<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }">
+
+  <div style="display: inline-block;position: relative;text-align: left;">
+    <div class="md-input-wrapper">
+      <div class="md-input-table">
+        <div class="md-input-prefix"></div>
+        <div class="md-input-infix">
+          <input class="md-input-element"
+            *ngIf="form.controls[name]"
+            (focus)="triggerMenu()"
+            (blur)="focused = false"
+            [formControl]="selectControl"
+            [md-menu-trigger-for]="menu">
+          <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
+            {{ name }}
+          </label>
+        </div>
+        <div class="md-input-suffix"></div>
+      </div>
+      <div class="md-input-underline">
+        <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" [formControlName]="name">
+
+  <md-menu y-position="below" #menu="mdMenu" class="selectMenu">
+    <button md-menu-item *ngFor="let entry of values" (click)="select(entry.value)">{{ entry.label.fr }}</button>
+  </md-menu>
+
+</span>
