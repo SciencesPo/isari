@@ -10,7 +10,6 @@ export class IsariInputComponent implements OnInit {
   @Input() name: string;
   @Input() form: FormGroup;
   onUpdate: EventEmitter<any>;
-  mode: string = 'display';
 
   constructor() { }
 
@@ -18,12 +17,7 @@ export class IsariInputComponent implements OnInit {
   }
 
   update($event) {
-    this.toggleMode();
     this.onUpdate.emit($event);
-  }
-
-  toggleMode () {
-    this.mode = this.mode === 'edit' ? 'display' : 'edit';
   }
 
 }

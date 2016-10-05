@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { FocusDirective } from './focus.directive';
+import { DisabledDirective } from './disabled.directive';
 
-describe('Directive: Focus', () => {
+describe('Directive: Disabled', () => {
   it('should create an instance', () => {
-    let directive = new FocusDirective();
+    let directive = new DisabledDirective();
     expect(directive).toBeTruthy();
   });
 });

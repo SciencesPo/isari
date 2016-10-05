@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'isari-data-editor',
@@ -10,6 +10,7 @@ export class DataEditorComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   @Input() fields: Array<any>;
+  @Input() data;
 
   constructor(public fb: FormBuilder) {}
 
@@ -25,17 +26,39 @@ export class DataEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges (changes: SimpleChanges) {
-    if (changes['fields'].currentValue && changes['fields'].currentValue.length) {
-      this.fields.forEach(field => {
-        this.form.addControl(field.name, new FormControl()); // @TODO : add vaue + validators
-      });
+    if ((changes['fields'] && changes['fields'].currentValue && changes['fields'].currentValue.length && this.data)
+        || (changes['data'] && changes['data'].currentValue && this.fields && this.fields.length)) {
+      this.createForm();
     }
   }
 
   save () {
-    if (this.form.valid) {
+    if (this.form.disabled) {
+      return;
+    }
+    if (!this.form.valid) {
+      console.log('Error', this.form);
+      return;
+    }
+    if (this.form.dirty) {
       console.log('save', this.form.value);
     }
+  }
+
+  private createForm () {
+    this.fields.forEach(field => {
+      this.form.addControl(field.name, new FormControl(
+        { value: this.data[field.name] || '', disabled: !this.data.opts.editable },
+        this.required(field)
+      ));
+    });
+  }
+
+  private required (field) {
+    if (field.requirement && field.requirement === 'mandatory') {
+      return Validators.required;
+    }
+    return null;
   }
 
 }

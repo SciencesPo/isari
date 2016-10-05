@@ -442,7 +442,7 @@
                         "fr": "Tags ERC",
                         "en": "ERC tags"
                     },
-                    "enum": "ERC"
+                    "enum": "erc"
                 }
             ],
             "discipline": [
@@ -598,6 +598,12 @@
                     "fr": "Contact(s)",
                     "en": "Contact(s)"
                 },
+                "title": {
+                    "label": {
+                        "fr": "titre",
+                        "en": "title"
+                    }
+                },
                 "email": {
                     "label": {
                         "fr": "Email",
@@ -690,6 +696,13 @@
                 "label": {
                     "fr": "Personnes impliquées",
                     "en": "Collaborators"
+                },
+                "people": {
+                    "label": {
+                        "fr": "participant",
+                        "en": "participant"
+                    },
+                    "ref": "People"
                 },
                 "role": {
                     "label": {
@@ -806,7 +819,7 @@
                         "fr": "Disciplines",
                         "en": "Academics"
                     },
-                    "enum": "discipline"
+                    "enum": "disciplines"
                 }
             ],
             "researchTheme": [
@@ -815,7 +828,7 @@
                         "fr": "Thèmes de recherche",
                         "en": "Research themes"
                     },
-                    "enum": "researchTheme"
+                    "enum": "researchThemes"
                 }
             ]
         },
