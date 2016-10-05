@@ -1,16 +1,86 @@
 {
     "sectionCnrs": [
         {
-            "value": "36Sociologie", 
+            "value": "cnrs02", 
             "label": {
-                "fr": "36 Sociologie", 
+                "fr": "section 02 - Th\u00e9ories physiques : m\u00e9thodes, mod\u00e8les et applications", 
                 "en": ""
             }
         }, 
         {
-            "value": "40SciencesPolitiques", 
+            "value": "cnrs06", 
             "label": {
-                "fr": "40 Sciences Politiques", 
+                "fr": "section 06 - Sciences de l'information : fondements de l'informatique, calculs, algorithmes, repr\u00e9sentations, exploitations", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs26", 
+            "label": {
+                "fr": "section 26 - Cerveau, cognition, comportement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs31", 
+            "label": {
+                "fr": "section 31 - Hommes et milieux : \u00e9volution, interactions", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs33", 
+            "label": {
+                "fr": "section 33 - Mondes modernes et contemporains", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs34", 
+            "label": {
+                "fr": "section 34 - Sciences du langage", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs35", 
+            "label": {
+                "fr": "section 35 - Sciences philosophiques et philologiques, sciences de l'art", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs36", 
+            "label": {
+                "fr": "section 36 - Sociologie et sciences du droit", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs37", 
+            "label": {
+                "fr": "section 37 - Economie et gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs38", 
+            "label": {
+                "fr": "section 38 - Anthropologie et \u00e9tude comparative des soci\u00e9t\u00e9s contemporaines", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs39", 
+            "label": {
+                "fr": "section 39 - Espaces, territoires et soci\u00e9t\u00e9s\u201d,\u201dsection 40 - Politique, pouvoir, organisation", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs40", 
+            "label": {
+                "fr": "section 40 - Politique, pouvoir, organisation", 
                 "en": ""
             }
         }
@@ -29,43 +99,267 @@
                 "fr": "qualitative", 
                 "en": ""
             }
+        }, 
+        {
+            "value": "mixte", 
+            "label": {
+                "fr": "mixte", 
+                "en": ""
+            }
         }
     ], 
     "disciplines": [
         {
-            "value": "sociologie", 
+            "value": "discipline621", 
             "label": {
-                "fr": "sociologie", 
+                "fr": "Philosophie", 
                 "en": ""
             }
         }, 
         {
-            "value": "histoire", 
+            "value": "discipline622", 
             "label": {
-                "fr": "histoire", 
+                "fr": "\u00c9pist\u00e9mologie, histoire des sciences et des techniques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline623", 
+            "label": {
+                "fr": "Ethique et d\u00e9ontologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline643", 
+            "label": {
+                "fr": "Histoire et civilisations : histoire des mondes modernes, histoire du monde contemporain, de l'art", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline645", 
+            "label": {
+                "fr": "G\u00e9ographie physique, humaine, \u00e9conomique et r\u00e9gionale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline646", 
+            "label": {
+                "fr": "Am\u00e9nagement de l'espace, urbanisme\u201d,\u201dDroit priv\u00e9 et sciences criminelles", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline712", 
+            "label": {
+                "fr": "Droit public", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline713", 
+            "label": {
+                "fr": "Histoire du droit et des institutions", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline714", 
+            "label": {
+                "fr": "Science politique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline721", 
+            "label": {
+                "fr": "Science \u00e9conomique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline722", 
+            "label": {
+                "fr": "Science de gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline731", 
+            "label": {
+                "fr": "Sociologie, d\u00e9mographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline732", 
+            "label": {
+                "fr": "Anthropologie, ethnologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline911", 
+            "label": {
+                "fr": "Informatique et applications", 
                 "en": ""
             }
         }
     ], 
     "gradeAdmin": [
         {
+            "value": "CMission", 
+            "label": {
+                "fr": "CM : charg\u00e9(e) de mission", 
+                "en": ""
+            }
+        }, 
+        {
             "value": "CM1", 
             "label": {
-                "fr": "CM1", 
+                "fr": "CM1 : charg\u00e9(e) de mission niveau 1", 
                 "en": ""
             }
         }, 
         {
             "value": "CM2", 
             "label": {
-                "fr": "CM2", 
+                "fr": "CM2 : charg\u00e9(e) de mission niveau 2", 
                 "en": ""
             }
         }, 
         {
             "value": "CM3", 
             "label": {
-                "fr": "CM3", 
+                "fr": "CM3 : charg\u00e9(e) de mission niveau 3", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AGEST", 
+            "label": {
+                "fr": "AG : assistant(e) de gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "S1", 
+            "label": {
+                "fr": "S1 : secr\u00e9taire de niveau 1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "S2", 
+            "label": {
+                "fr": "S2 : secr\u00e9taire de niveau 2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ABS", 
+            "label": {
+                "fr": "ABS : agent de biblioth\u00e8que sp\u00e9cialis\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "B1", 
+            "label": {
+                "fr": "B1 : biblioth\u00e9caire de niveau 1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "B2", 
+            "label": {
+                "fr": "B2 : biblioth\u00e9caire de niveau 2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "B3", 
+            "label": {
+                "fr": "B3 : biblioth\u00e9caire de niveau 3", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "APCE", 
+            "label": {
+                "fr": "APCE : appariteur chef d'\u00e9quipe", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "APAB", 
+            "label": {
+                "fr": "APAB : appariteur agent de bureau", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IENC", 
+            "label": {
+                "fr": "IE : informatique encadrement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IEX", 
+            "label": {
+                "fr": "IEX : informatique exploitation", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IGE", 
+            "label": {
+                "fr": "IGE : ing\u00e9nieur d'\u00e9tudes", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IGR", 
+            "label": {
+                "fr": "IGR : ing\u00e9nieur de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCN", 
+            "label": {
+                "fr": "TCN : technicien de classe normale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCS", 
+            "label": {
+                "fr": "TCS : technicien de classe sup\u00e9rieure", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCE", 
+            "label": {
+                "fr": "TCE : technicien de classe exceptionnelle", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AING", 
+            "label": {
+                "fr": "AI : assistant ing\u00e9nieur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CASSIST", 
+            "label": {
+                "fr": "CA : chercheur assistant", 
                 "en": ""
             }
         }
@@ -102,16 +396,51 @@
     ], 
     "grantTypes": [
         {
-            "value": "collaboratifinternational", 
+            "value": "lev\u00e9edefond", 
             "label": {
-                "fr": "collaboratif international", 
+                "fr": "lev\u00e9e de fond", 
+                "en": "fundraising"
+            }
+        }, 
+        {
+            "value": "collaboratifh2020", 
+            "label": {
+                "fr": "H2020 collaboratif", 
                 "en": ""
             }
         }, 
         {
-            "value": "lev\u00e9edefond", 
+            "value": "individuelh2020", 
             "label": {
-                "fr": "lev\u00e9e de fond", 
+                "fr": "H2020 individuel", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "collaboratifinternational", 
+            "label": {
+                "fr": "International collaboratif", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "individuelinternational", 
+            "label": {
+                "fr": "International individuel", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "collaboratifnational", 
+            "label": {
+                "fr": "National collaboratif", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "individuelnational", 
+            "label": {
+                "fr": "National individuel", 
                 "en": ""
             }
         }
@@ -223,28 +552,28 @@
             "value": "d\u00e9partement", 
             "label": {
                 "fr": "d\u00e9partement", 
-                "en": ""
+                "en": "department"
             }
         }, 
         {
             "value": "centrederercherche", 
             "label": {
-                "fr": "centre de rercherche", 
-                "en": ""
+                "fr": "centre de recherche", 
+                "en": "research center"
             }
         }, 
         {
             "value": "entreprise", 
             "label": {
                 "fr": "entreprise", 
-                "en": ""
+                "en": "company"
             }
         }, 
         {
             "value": "universit\u00e9", 
             "label": {
                 "fr": "universit\u00e9", 
-                "en": ""
+                "en": "university"
             }
         }, 
         {
@@ -253,29 +582,330 @@
                 "fr": "institution internationale", 
                 "en": ""
             }
+        }, 
+        {
+            "value": "chaire", 
+            "label": {
+                "fr": "chaire", 
+                "en": ""
+            }
         }
     ], 
     "bonusTypes": [
         {
-            "value": "Primedirection", 
+            "value": "primeDirection", 
             "label": {
-                "fr": "Prime direction", 
+                "fr": "Prime direction de centre", 
                 "en": ""
             }
         }, 
         {
-            "value": "Primedeconvergence", 
+            "value": "primeDepartement", 
             "label": {
-                "fr": "Prime de convergence", 
+                "fr": "Prime direction de d\u00e9partement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeErc", 
+            "label": {
+                "fr": "ERC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeIUF", 
+            "label": {
+                "fr": "IUF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primePedr", 
+            "label": {
+                "fr": "PEDR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeCnrs", 
+            "label": {
+                "fr": "PES/MESR ou CNRS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeCDI", 
+            "label": {
+                "fr": "Prime CDI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeRES", 
+            "label": {
+                "fr": "Prime R.E.S.", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeFontion", 
+            "label": {
+                "fr": "Prime de fonction", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeComplement", 
+            "label": {
+                "fr": "Prime en compl\u00e9ment", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeConvergence", 
+            "label": {
+                "fr": "Prime incitation enseignement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeAutremesr", 
+            "label": {
+                "fr": "Autre MESR", 
                 "en": ""
             }
         }
     ], 
     "hceres2017": [
         {
-            "value": "sociologie", 
+            "value": "st1", 
             "label": {
-                "fr": "sociologie", 
+                "fr": "ST1 Math\u00e9matiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st2", 
+            "label": {
+                "fr": "ST2 Physique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st3", 
+            "label": {
+                "fr": "ST3 Sciences de la terre et de l'univers", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st4", 
+            "label": {
+                "fr": "ST4 Chimie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st5", 
+            "label": {
+                "fr": "ST5 Sciences pour l'ing\u00e9nieur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st6", 
+            "label": {
+                "fr": "ST6 Sciences et technologies de l'information et de la communication", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve1", 
+            "label": {
+                "fr": "SVE1 Agronomie, Biologie V\u00e9g\u00e9tale, Ecologie, Environnement, Evolution", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve2", 
+            "label": {
+                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Mol\u00e9culaire, Biochimie, G\u00e9nomique, Biologie Syst\u00e9mique, D\u00e9veloppement, Biologie Structurale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve3", 
+            "label": {
+                "fr": "SVE3 Microbiologie, Immunit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve4", 
+            "label": {
+                "fr": "SVE4 Neurologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve5", 
+            "label": {
+                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies M\u00e9dicales", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve6", 
+            "label": {
+                "fr": "SVE6 Sant\u00e9 Publique, Epid\u00e9miologie, Recherche Clinique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs11", 
+            "label": {
+                "fr": "SHS1_1 Economie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs12", 
+            "label": {
+                "fr": "SHS1_2 Finance, management", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs21", 
+            "label": {
+                "fr": "SHS2_1 Droit", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs22", 
+            "label": {
+                "fr": "SHS2_2 Science politique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs23", 
+            "label": {
+                "fr": "SHS2_3 Anthropologie et ethnologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs24", 
+            "label": {
+                "fr": "SHS2_4 Sociologie, d\u00e9mographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs25", 
+            "label": {
+                "fr": "SHS2_5 Sciences de l\u2019information et de la communication", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs31", 
+            "label": {
+                "fr": "SHS3_1 G\u00e9ographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs32", 
+            "label": {
+                "fr": "SHS3_2 Am\u00e9nagement et urbanisme", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs33", 
+            "label": {
+                "fr": "SHS3_3 Architecture", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs41", 
+            "label": {
+                "fr": "SHS4_1 Linguistique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs42", 
+            "label": {
+                "fr": "SHS4_2 Psychologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs43", 
+            "label": {
+                "fr": "SHS4_3 Sciences de l'\u00e9ducation", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs44", 
+            "label": {
+                "fr": "SHS4_4 Sciences et techniques des activit\u00e9s physiques et sportives", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs51", 
+            "label": {
+                "fr": "SHS5_1 Langues / litt\u00e9ratures anciennes et fran\u00e7aises, litt\u00e9rature compar\u00e9e", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs52", 
+            "label": {
+                "fr": "SHS5_2 Litt\u00e9ratures et langues \u00e9trang\u00e8res, civilisations, cultures et langues r\u00e9gionales", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs53", 
+            "label": {
+                "fr": "SHS5_3 Arts", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs54", 
+            "label": {
+                "fr": "SHS5_4 Philosophie, sciences des religions, th\u00e9ologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs61", 
+            "label": {
+                "fr": "SHS6_1 Histoire", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs62", 
+            "label": {
+                "fr": "SHS6_2 Histoire de l'art", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs63", 
+            "label": {
+                "fr": "SHS6_3 Arch\u00e9ologie", 
                 "en": ""
             }
         }
@@ -308,6 +938,13 @@
                 "fr": "done", 
                 "en": ""
             }
+        }, 
+        {
+            "value": "rejected", 
+            "label": {
+                "fr": "rejected", 
+                "en": ""
+            }
         }
     ], 
     "activityTypes": [
@@ -333,9 +970,16 @@
             }
         }, 
         {
-            "value": "mobilit\u00e9", 
+            "value": "mob_entrante", 
             "label": {
-                "fr": "mobilit\u00e9", 
+                "fr": "invit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mob_sortante", 
+            "label": {
+                "fr": "s\u00e9jour \u00e0 l'\u00e9tranger", 
                 "en": ""
             }
         }
@@ -374,7 +1018,7 @@
         {
             "value": "editorial", 
             "label": {
-                "fr": "editorial", 
+                "fr": "activit\u00e9s \u00e9ditoriales", 
                 "en": ""
             }
         }, 
@@ -419,6 +1063,13 @@
                 "fr": "\u00e9valuations", 
                 "en": ""
             }
+        }, 
+        {
+            "value": "enseignement", 
+            "label": {
+                "fr": "enseignement", 
+                "en": ""
+            }
         }
     ], 
     "activityOrganizationRoles": [
@@ -437,1364 +1088,465 @@
             }
         }, 
         {
-            "value": "partneraire", 
+            "value": "partenaire", 
             "label": {
-                "fr": "partneraire", 
+                "fr": "partenaire", 
                 "en": ""
             }
         }
     ], 
     "aeres2012": [
         {
-            "value": "sciencespolitiques", 
+            "value": "aireg\u00e9ographique1", 
             "label": {
-                "fr": "sciences politiques", 
+                "fr": "Afrique subsaharienne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique2", 
+            "label": {
+                "fr": "Afrique du nord", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique3", 
+            "label": {
+                "fr": "Afrique de l'est", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique4", 
+            "label": {
+                "fr": "Afrique de l'ouest", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique5", 
+            "label": {
+                "fr": "Afrique centrale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique6", 
+            "label": {
+                "fr": "Afrique australe", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique7", 
+            "label": {
+                "fr": "Afrique saharienne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique8", 
+            "label": {
+                "fr": "Proche, Moyen-Orient", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique9", 
+            "label": {
+                "fr": "Monde m\u00e9diterran\u00e9en", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique10", 
+            "label": {
+                "fr": "Europe m\u00e9diterran\u00e9enne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique11", 
+            "label": {
+                "fr": "Europe occidentale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique12", 
+            "label": {
+                "fr": "France", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique13", 
+            "label": {
+                "fr": "Italie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique14", 
+            "label": {
+                "fr": "Espagne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique15", 
+            "label": {
+                "fr": "Portugal", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique16", 
+            "label": {
+                "fr": "Gr\u00e8ce, Balkans", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique17", 
+            "label": {
+                "fr": "Europe du nord", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique18", 
+            "label": {
+                "fr": "Europe centrale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique19", 
+            "label": {
+                "fr": "Russie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique20", 
+            "label": {
+                "fr": "Mondes slaves", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique21", 
+            "label": {
+                "fr": "Mondes anglophones", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique22", 
+            "label": {
+                "fr": "Mondes germaniques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique23", 
+            "label": {
+                "fr": "Am\u00e9rique du nord", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique24", 
+            "label": {
+                "fr": "Am\u00e9rique centrale et Am\u00e9rique du sud", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique25", 
+            "label": {
+                "fr": "Pacifique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique26", 
+            "label": {
+                "fr": "Oc\u00e9anie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique27", 
+            "label": {
+                "fr": "Australie, Nouvelle Z\u00e9lande", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique28", 
+            "label": {
+                "fr": "Extr\u00eame orient", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique29", 
+            "label": {
+                "fr": "Asie du sud", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique30", 
+            "label": {
+                "fr": "Asie du sud-est", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique31", 
+            "label": {
+                "fr": "Pays himalayens", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique32", 
+            "label": {
+                "fr": "Asie centrale", 
                 "en": ""
             }
         }
     ], 
     "iso6391": [
-        {
-            "value": "aa", 
-            "label": {
-                "fr": "aa", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ab", 
-            "label": {
-                "fr": "ab", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ae", 
-            "label": {
-                "fr": "ae", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "af", 
-            "label": {
-                "fr": "af", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ak", 
-            "label": {
-                "fr": "ak", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "am", 
-            "label": {
-                "fr": "am", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "an", 
-            "label": {
-                "fr": "an", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ar", 
-            "label": {
-                "fr": "ar", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "as", 
-            "label": {
-                "fr": "as", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "av", 
-            "label": {
-                "fr": "av", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ay", 
-            "label": {
-                "fr": "ay", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "az", 
-            "label": {
-                "fr": "az", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ba", 
-            "label": {
-                "fr": "ba", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "be", 
-            "label": {
-                "fr": "be", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "bg", 
-            "label": {
-                "fr": "bg", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "bh", 
-            "label": {
-                "fr": "bh", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "bi", 
-            "label": {
-                "fr": "bi", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "bm", 
-            "label": {
-                "fr": "bm", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "bn", 
-            "label": {
-                "fr": "bn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "bo", 
-            "label": {
-                "fr": "bo", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "br", 
-            "label": {
-                "fr": "br", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "bs", 
-            "label": {
-                "fr": "bs", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ca", 
-            "label": {
-                "fr": "ca", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ce", 
-            "label": {
-                "fr": "ce", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ch", 
-            "label": {
-                "fr": "ch", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "co", 
-            "label": {
-                "fr": "co", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "cr", 
-            "label": {
-                "fr": "cr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "cs", 
-            "label": {
-                "fr": "cs", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "cu", 
-            "label": {
-                "fr": "cu", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "cv", 
-            "label": {
-                "fr": "cv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "cy", 
-            "label": {
-                "fr": "cy", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "da", 
-            "label": {
-                "fr": "da", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "de", 
-            "label": {
-                "fr": "de", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "dv", 
-            "label": {
-                "fr": "dv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "dz", 
-            "label": {
-                "fr": "dz", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ee", 
-            "label": {
-                "fr": "ee", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "el", 
-            "label": {
-                "fr": "el", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "en", 
-            "label": {
-                "fr": "en", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "eo", 
-            "label": {
-                "fr": "eo", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "es", 
-            "label": {
-                "fr": "es", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "et", 
-            "label": {
-                "fr": "et", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "eu", 
-            "label": {
-                "fr": "eu", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "fa", 
-            "label": {
-                "fr": "fa", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ff", 
-            "label": {
-                "fr": "ff", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "fi", 
-            "label": {
-                "fr": "fi", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "fj", 
-            "label": {
-                "fr": "fj", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "fo", 
-            "label": {
-                "fr": "fo", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "fr", 
-            "label": {
-                "fr": "fr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "fy", 
-            "label": {
-                "fr": "fy", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ga", 
-            "label": {
-                "fr": "ga", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "gd", 
-            "label": {
-                "fr": "gd", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "gl", 
-            "label": {
-                "fr": "gl", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "gn", 
-            "label": {
-                "fr": "gn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "gu", 
-            "label": {
-                "fr": "gu", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "gv", 
-            "label": {
-                "fr": "gv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ha", 
-            "label": {
-                "fr": "ha", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "he", 
-            "label": {
-                "fr": "he", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "hi", 
-            "label": {
-                "fr": "hi", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ho", 
-            "label": {
-                "fr": "ho", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "hr", 
-            "label": {
-                "fr": "hr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ht", 
-            "label": {
-                "fr": "ht", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "hu", 
-            "label": {
-                "fr": "hu", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "hy", 
-            "label": {
-                "fr": "hy", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "hz", 
-            "label": {
-                "fr": "hz", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ia", 
-            "label": {
-                "fr": "ia", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "id", 
-            "label": {
-                "fr": "id", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ie", 
-            "label": {
-                "fr": "ie", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ig", 
-            "label": {
-                "fr": "ig", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ii", 
-            "label": {
-                "fr": "ii", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ik", 
-            "label": {
-                "fr": "ik", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "io", 
-            "label": {
-                "fr": "io", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "is", 
-            "label": {
-                "fr": "is", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "it", 
-            "label": {
-                "fr": "it", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "iu", 
-            "label": {
-                "fr": "iu", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ja", 
-            "label": {
-                "fr": "ja", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "jv", 
-            "label": {
-                "fr": "jv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ka", 
-            "label": {
-                "fr": "ka", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kg", 
-            "label": {
-                "fr": "kg", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ki", 
-            "label": {
-                "fr": "ki", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kj", 
-            "label": {
-                "fr": "kj", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kk", 
-            "label": {
-                "fr": "kk", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kl", 
-            "label": {
-                "fr": "kl", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "km", 
-            "label": {
-                "fr": "km", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kn", 
-            "label": {
-                "fr": "kn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ko", 
-            "label": {
-                "fr": "ko", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kr", 
-            "label": {
-                "fr": "kr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ks", 
-            "label": {
-                "fr": "ks", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ku", 
-            "label": {
-                "fr": "ku", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kv", 
-            "label": {
-                "fr": "kv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "kw", 
-            "label": {
-                "fr": "kw", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ky", 
-            "label": {
-                "fr": "ky", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "la", 
-            "label": {
-                "fr": "la", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "lb", 
-            "label": {
-                "fr": "lb", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "lg", 
-            "label": {
-                "fr": "lg", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "li", 
-            "label": {
-                "fr": "li", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ln", 
-            "label": {
-                "fr": "ln", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "lo", 
-            "label": {
-                "fr": "lo", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "lt", 
-            "label": {
-                "fr": "lt", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "lu", 
-            "label": {
-                "fr": "lu", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "lv", 
-            "label": {
-                "fr": "lv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mg", 
-            "label": {
-                "fr": "mg", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mh", 
-            "label": {
-                "fr": "mh", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mi", 
-            "label": {
-                "fr": "mi", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mk", 
-            "label": {
-                "fr": "mk", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ml", 
-            "label": {
-                "fr": "ml", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mn", 
-            "label": {
-                "fr": "mn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mr", 
-            "label": {
-                "fr": "mr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ms", 
-            "label": {
-                "fr": "ms", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mt", 
-            "label": {
-                "fr": "mt", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "my", 
-            "label": {
-                "fr": "my", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "na", 
-            "label": {
-                "fr": "na", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "nb", 
-            "label": {
-                "fr": "nb", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "nd", 
-            "label": {
-                "fr": "nd", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ne", 
-            "label": {
-                "fr": "ne", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ng", 
-            "label": {
-                "fr": "ng", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "nl", 
-            "label": {
-                "fr": "nl", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "nn", 
-            "label": {
-                "fr": "nn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "no", 
-            "label": {
-                "fr": "no", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "nr", 
-            "label": {
-                "fr": "nr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "nv", 
-            "label": {
-                "fr": "nv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ny", 
-            "label": {
-                "fr": "ny", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "oc", 
-            "label": {
-                "fr": "oc", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "oj", 
-            "label": {
-                "fr": "oj", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "om", 
-            "label": {
-                "fr": "om", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "or", 
-            "label": {
-                "fr": "or", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "os", 
-            "label": {
-                "fr": "os", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "pa", 
-            "label": {
-                "fr": "pa", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "pi", 
-            "label": {
-                "fr": "pi", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "pl", 
-            "label": {
-                "fr": "pl", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ps", 
-            "label": {
-                "fr": "ps", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "pt", 
-            "label": {
-                "fr": "pt", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "qu", 
-            "label": {
-                "fr": "qu", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "rc", 
-            "label": {
-                "fr": "rc", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "rm", 
-            "label": {
-                "fr": "rm", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "rn", 
-            "label": {
-                "fr": "rn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ro", 
-            "label": {
-                "fr": "ro", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ru", 
-            "label": {
-                "fr": "ru", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "rw", 
-            "label": {
-                "fr": "rw", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sa", 
-            "label": {
-                "fr": "sa", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sc", 
-            "label": {
-                "fr": "sc", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sd", 
-            "label": {
-                "fr": "sd", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "se", 
-            "label": {
-                "fr": "se", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sg", 
-            "label": {
-                "fr": "sg", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sh", 
-            "label": {
-                "fr": "sh", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "si", 
-            "label": {
-                "fr": "si", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sk", 
-            "label": {
-                "fr": "sk", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sl", 
-            "label": {
-                "fr": "sl", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sm", 
-            "label": {
-                "fr": "sm", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sn", 
-            "label": {
-                "fr": "sn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "so", 
-            "label": {
-                "fr": "so", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sq", 
-            "label": {
-                "fr": "sq", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sr", 
-            "label": {
-                "fr": "sr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ss", 
-            "label": {
-                "fr": "ss", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "st", 
-            "label": {
-                "fr": "st", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "su", 
-            "label": {
-                "fr": "su", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sv", 
-            "label": {
-                "fr": "sv", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "sw", 
-            "label": {
-                "fr": "sw", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ta", 
-            "label": {
-                "fr": "ta", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "te", 
-            "label": {
-                "fr": "te", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "tg", 
-            "label": {
-                "fr": "tg", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "th", 
-            "label": {
-                "fr": "th", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ti", 
-            "label": {
-                "fr": "ti", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "tk", 
-            "label": {
-                "fr": "tk", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "tl", 
-            "label": {
-                "fr": "tl", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "tn", 
-            "label": {
-                "fr": "tn", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "to", 
-            "label": {
-                "fr": "to", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "tr", 
-            "label": {
-                "fr": "tr", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ts", 
-            "label": {
-                "fr": "ts", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "tt", 
-            "label": {
-                "fr": "tt", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "tw", 
-            "label": {
-                "fr": "tw", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ty", 
-            "label": {
-                "fr": "ty", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ug", 
-            "label": {
-                "fr": "ug", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "uk", 
-            "label": {
-                "fr": "uk", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ur", 
-            "label": {
-                "fr": "ur", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "uz", 
-            "label": {
-                "fr": "uz", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ve", 
-            "label": {
-                "fr": "ve", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "vi", 
-            "label": {
-                "fr": "vi", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "vo", 
-            "label": {
-                "fr": "vo", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "wa", 
-            "label": {
-                "fr": "wa", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "wo", 
-            "label": {
-                "fr": "wo", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "xh", 
-            "label": {
-                "fr": "xh", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "yi", 
-            "label": {
-                "fr": "yi", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "yo", 
-            "label": {
-                "fr": "yo", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "za", 
-            "label": {
-                "fr": "za", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "zh", 
-            "label": {
-                "fr": "zh", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "zu", 
-            "label": {
-                "fr": "zu", 
-                "en": ""
-            }
-        }
+        "aa", 
+        "ab", 
+        "ae", 
+        "af", 
+        "ak", 
+        "am", 
+        "an", 
+        "ar", 
+        "as", 
+        "av", 
+        "ay", 
+        "az", 
+        "ba", 
+        "be", 
+        "bg", 
+        "bh", 
+        "bi", 
+        "bm", 
+        "bn", 
+        "bo", 
+        "br", 
+        "bs", 
+        "ca", 
+        "ce", 
+        "ch", 
+        "co", 
+        "cr", 
+        "cs", 
+        "cu", 
+        "cv", 
+        "cy", 
+        "da", 
+        "de", 
+        "dv", 
+        "dz", 
+        "ee", 
+        "el", 
+        "en", 
+        "eo", 
+        "es", 
+        "et", 
+        "eu", 
+        "fa", 
+        "ff", 
+        "fi", 
+        "fj", 
+        "fo", 
+        "fr", 
+        "fy", 
+        "ga", 
+        "gd", 
+        "gl", 
+        "gn", 
+        "gu", 
+        "gv", 
+        "ha", 
+        "he", 
+        "hi", 
+        "ho", 
+        "hr", 
+        "ht", 
+        "hu", 
+        "hy", 
+        "hz", 
+        "ia", 
+        "id", 
+        "ie", 
+        "ig", 
+        "ii", 
+        "ik", 
+        "io", 
+        "is", 
+        "it", 
+        "iu", 
+        "ja", 
+        "jv", 
+        "ka", 
+        "kg", 
+        "ki", 
+        "kj", 
+        "kk", 
+        "kl", 
+        "km", 
+        "kn", 
+        "ko", 
+        "kr", 
+        "ks", 
+        "ku", 
+        "kv", 
+        "kw", 
+        "ky", 
+        "la", 
+        "lb", 
+        "lg", 
+        "li", 
+        "ln", 
+        "lo", 
+        "lt", 
+        "lu", 
+        "lv", 
+        "mg", 
+        "mh", 
+        "mi", 
+        "mk", 
+        "ml", 
+        "mn", 
+        "mr", 
+        "ms", 
+        "mt", 
+        "my", 
+        "na", 
+        "nb", 
+        "nd", 
+        "ne", 
+        "ng", 
+        "nl", 
+        "nn", 
+        "no", 
+        "nr", 
+        "nv", 
+        "ny", 
+        "oc", 
+        "oj", 
+        "om", 
+        "or", 
+        "os", 
+        "pa", 
+        "pi", 
+        "pl", 
+        "ps", 
+        "pt", 
+        "qu", 
+        "rc", 
+        "rm", 
+        "rn", 
+        "ro", 
+        "ru", 
+        "rw", 
+        "sa", 
+        "sc", 
+        "sd", 
+        "se", 
+        "sg", 
+        "sh", 
+        "si", 
+        "sk", 
+        "sl", 
+        "sm", 
+        "sn", 
+        "so", 
+        "sq", 
+        "sr", 
+        "ss", 
+        "st", 
+        "su", 
+        "sv", 
+        "sw", 
+        "ta", 
+        "te", 
+        "tg", 
+        "th", 
+        "ti", 
+        "tk", 
+        "tl", 
+        "tn", 
+        "to", 
+        "tr", 
+        "ts", 
+        "tt", 
+        "tw", 
+        "ty", 
+        "ug", 
+        "uk", 
+        "ur", 
+        "uz", 
+        "ve", 
+        "vi", 
+        "vo", 
+        "wa", 
+        "wo", 
+        "xh", 
+        "yi", 
+        "yo", 
+        "za", 
+        "zh", 
+        "zu"
     ], 
     "jobTitle": [
         {
-            "value": "c", 
+            "value": "chercheur", 
             "label": {
                 "fr": "chercheur", 
                 "en": ""
             }
         }, 
         {
-            "value": "ce", 
+            "value": "chercheurenseignant", 
             "label": {
                 "fr": "chercheur enseignant", 
                 "en": ""
             }
         }, 
         {
-            "value": "ec", 
+            "value": "enseignantchercheur", 
             "label": {
                 "fr": "enseignant chercheur", 
                 "en": ""
             }
         }, 
         {
-            "value": "e", 
+            "value": "enseignant", 
             "label": {
                 "fr": "enseignant", 
                 "en": ""
             }
         }, 
         {
-            "value": "aa", 
+            "value": "appuiadministratif", 
             "label": {
                 "fr": "appui administratif", 
                 "en": ""
             }
         }, 
         {
-            "value": "at", 
+            "value": "appuitechnique", 
             "label": {
                 "fr": "appui technique", 
                 "en": ""
@@ -1821,7 +1573,7 @@
         {
             "value": "PI", 
             "label": {
-                "fr": "PI", 
+                "fr": "responsable scientifique (PI)", 
                 "en": ""
             }
         }, 
@@ -1833,7 +1585,7 @@
             }
         }, 
         {
-            "value": "doctorant", 
+            "value": "doctorant(role)", 
             "label": {
                 "fr": "doctorant", 
                 "en": ""
@@ -1863,1588 +1615,434 @@
     ], 
     "gradeAcademic": [
         {
-            "value": "associateprofessor", 
-            "label": {
-                "fr": "associate professor", 
-                "en": ""
-            }
-        }, 
-        {
             "value": "assistantprofessor", 
             "label": {
-                "fr": "assistant professor", 
+                "fr": "Assistant professor", 
                 "en": ""
             }
         }, 
         {
-            "value": "professor", 
+            "value": "associateprofessor", 
             "label": {
-                "fr": "professor", 
+                "fr": "Associate professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professeur", 
+            "label": {
+                "fr": "Professeur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "profuniv", 
+            "label": {
+                "fr": "Professeur des universit\u00e9s", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "profunivemerite", 
+            "label": {
+                "fr": "Professeur des universit\u00e9s \u00e9m\u00e9rite", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mconf", 
+            "label": {
+                "fr": "Ma\u00eetre de conf\u00e9rences", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chargederecherche", 
+            "label": {
+                "fr": "Charg\u00e9 de recherche", 
                 "en": ""
             }
         }, 
         {
             "value": "directeurderecherche", 
             "label": {
-                "fr": "directeur de recherche", 
+                "fr": "Directeur de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurderechercheremerite", 
+            "label": {
+                "fr": "Directeur de recherche \u00e9m\u00e9rite", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "charg\u00e9d\u00e9tudes", 
+            "label": {
+                "fr": "Charg\u00e9 d'\u00e9tudes", 
                 "en": ""
             }
         }, 
         {
             "value": "postdoc", 
             "label": {
-                "fr": "postdoc", 
+                "fr": "Postdoc", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chercheurcontractuel", 
+            "label": {
+                "fr": "Chercheur contractuel", 
                 "en": ""
             }
         }, 
         {
             "value": "invit\u00e9", 
             "label": {
-                "fr": "invit\u00e9", 
+                "fr": "Invit\u00e9", 
                 "en": ""
             }
         }, 
         {
-            "value": "doctorant", 
+            "value": "doctorant(grade)", 
             "label": {
-                "fr": "doctorant", 
+                "fr": "Doctorant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "past", 
+            "label": {
+                "fr": "PAST", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "prag", 
+            "label": {
+                "fr": "PRAG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ater", 
+            "label": {
+                "fr": "ATER", 
                 "en": ""
             }
         }
     ], 
     "nationalities": [
-        {
-            "value": "AD", 
-            "label": {
-                "fr": "AD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AE", 
-            "label": {
-                "fr": "AE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AF", 
-            "label": {
-                "fr": "AF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AG", 
-            "label": {
-                "fr": "AG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AI", 
-            "label": {
-                "fr": "AI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AL", 
-            "label": {
-                "fr": "AL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AM", 
-            "label": {
-                "fr": "AM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AO", 
-            "label": {
-                "fr": "AO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AR", 
-            "label": {
-                "fr": "AR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AS", 
-            "label": {
-                "fr": "AS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AT", 
-            "label": {
-                "fr": "AT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AU", 
-            "label": {
-                "fr": "AU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AZ", 
-            "label": {
-                "fr": "AZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BA", 
-            "label": {
-                "fr": "BA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BB", 
-            "label": {
-                "fr": "BB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BD", 
-            "label": {
-                "fr": "BD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BE", 
-            "label": {
-                "fr": "BE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BF", 
-            "label": {
-                "fr": "BF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BG", 
-            "label": {
-                "fr": "BG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BH", 
-            "label": {
-                "fr": "BH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BI", 
-            "label": {
-                "fr": "BI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BJ", 
-            "label": {
-                "fr": "BJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BM", 
-            "label": {
-                "fr": "BM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BN", 
-            "label": {
-                "fr": "BN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BO", 
-            "label": {
-                "fr": "BO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BR", 
-            "label": {
-                "fr": "BR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BS", 
-            "label": {
-                "fr": "BS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BT", 
-            "label": {
-                "fr": "BT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BW", 
-            "label": {
-                "fr": "BW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BY", 
-            "label": {
-                "fr": "BY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BZ", 
-            "label": {
-                "fr": "BZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CA", 
-            "label": {
-                "fr": "CA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CD", 
-            "label": {
-                "fr": "CD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CF", 
-            "label": {
-                "fr": "CF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CG", 
-            "label": {
-                "fr": "CG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CH", 
-            "label": {
-                "fr": "CH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CI", 
-            "label": {
-                "fr": "CI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CL", 
-            "label": {
-                "fr": "CL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CM", 
-            "label": {
-                "fr": "CM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CN", 
-            "label": {
-                "fr": "CN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CO", 
-            "label": {
-                "fr": "CO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CR", 
-            "label": {
-                "fr": "CR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CU", 
-            "label": {
-                "fr": "CU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CV", 
-            "label": {
-                "fr": "CV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CZ", 
-            "label": {
-                "fr": "CZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DE", 
-            "label": {
-                "fr": "DE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DJ", 
-            "label": {
-                "fr": "DJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DK", 
-            "label": {
-                "fr": "DK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DM", 
-            "label": {
-                "fr": "DM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DO", 
-            "label": {
-                "fr": "DO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DZ", 
-            "label": {
-                "fr": "DZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EC", 
-            "label": {
-                "fr": "EC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EE", 
-            "label": {
-                "fr": "EE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EG", 
-            "label": {
-                "fr": "EG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EH", 
-            "label": {
-                "fr": "EH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ER", 
-            "label": {
-                "fr": "ER", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ES", 
-            "label": {
-                "fr": "ES", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ET", 
-            "label": {
-                "fr": "ET", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FI", 
-            "label": {
-                "fr": "FI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FJ", 
-            "label": {
-                "fr": "FJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FK", 
-            "label": {
-                "fr": "FK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FM", 
-            "label": {
-                "fr": "FM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FO", 
-            "label": {
-                "fr": "FO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FR", 
-            "label": {
-                "fr": "FR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GA", 
-            "label": {
-                "fr": "GA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GB", 
-            "label": {
-                "fr": "GB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GD", 
-            "label": {
-                "fr": "GD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GE", 
-            "label": {
-                "fr": "GE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GG", 
-            "label": {
-                "fr": "GG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GH", 
-            "label": {
-                "fr": "GH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GI", 
-            "label": {
-                "fr": "GI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GL", 
-            "label": {
-                "fr": "GL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GM", 
-            "label": {
-                "fr": "GM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GN", 
-            "label": {
-                "fr": "GN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GQ", 
-            "label": {
-                "fr": "GQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GR", 
-            "label": {
-                "fr": "GR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GS", 
-            "label": {
-                "fr": "GS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GT", 
-            "label": {
-                "fr": "GT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GU", 
-            "label": {
-                "fr": "GU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GW", 
-            "label": {
-                "fr": "GW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GY", 
-            "label": {
-                "fr": "GY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HK", 
-            "label": {
-                "fr": "HK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HN", 
-            "label": {
-                "fr": "HN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HR", 
-            "label": {
-                "fr": "HR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HT", 
-            "label": {
-                "fr": "HT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HU", 
-            "label": {
-                "fr": "HU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ID", 
-            "label": {
-                "fr": "ID", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IE", 
-            "label": {
-                "fr": "IE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IL", 
-            "label": {
-                "fr": "IL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IM", 
-            "label": {
-                "fr": "IM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IN", 
-            "label": {
-                "fr": "IN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IO", 
-            "label": {
-                "fr": "IO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IQ", 
-            "label": {
-                "fr": "IQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IR", 
-            "label": {
-                "fr": "IR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IS", 
-            "label": {
-                "fr": "IS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IT", 
-            "label": {
-                "fr": "IT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JE", 
-            "label": {
-                "fr": "JE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JM", 
-            "label": {
-                "fr": "JM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JO", 
-            "label": {
-                "fr": "JO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JP", 
-            "label": {
-                "fr": "JP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KE", 
-            "label": {
-                "fr": "KE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KG", 
-            "label": {
-                "fr": "KG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KH", 
-            "label": {
-                "fr": "KH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KI", 
-            "label": {
-                "fr": "KI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KM", 
-            "label": {
-                "fr": "KM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KN", 
-            "label": {
-                "fr": "KN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KP", 
-            "label": {
-                "fr": "KP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KR", 
-            "label": {
-                "fr": "KR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KW", 
-            "label": {
-                "fr": "KW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KY", 
-            "label": {
-                "fr": "KY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KZ", 
-            "label": {
-                "fr": "KZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LA", 
-            "label": {
-                "fr": "LA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LB", 
-            "label": {
-                "fr": "LB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LC", 
-            "label": {
-                "fr": "LC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LI", 
-            "label": {
-                "fr": "LI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LK", 
-            "label": {
-                "fr": "LK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LR", 
-            "label": {
-                "fr": "LR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LS", 
-            "label": {
-                "fr": "LS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LT", 
-            "label": {
-                "fr": "LT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LU", 
-            "label": {
-                "fr": "LU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LV", 
-            "label": {
-                "fr": "LV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LY", 
-            "label": {
-                "fr": "LY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MA", 
-            "label": {
-                "fr": "MA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MC", 
-            "label": {
-                "fr": "MC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MD", 
-            "label": {
-                "fr": "MD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ME", 
-            "label": {
-                "fr": "ME", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MG", 
-            "label": {
-                "fr": "MG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MH", 
-            "label": {
-                "fr": "MH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MK", 
-            "label": {
-                "fr": "MK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ML", 
-            "label": {
-                "fr": "ML", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MM", 
-            "label": {
-                "fr": "MM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MN", 
-            "label": {
-                "fr": "MN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MO", 
-            "label": {
-                "fr": "MO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MP", 
-            "label": {
-                "fr": "MP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MR", 
-            "label": {
-                "fr": "MR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MS", 
-            "label": {
-                "fr": "MS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MT", 
-            "label": {
-                "fr": "MT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MU", 
-            "label": {
-                "fr": "MU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MV", 
-            "label": {
-                "fr": "MV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MW", 
-            "label": {
-                "fr": "MW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MX", 
-            "label": {
-                "fr": "MX", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MY", 
-            "label": {
-                "fr": "MY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MZ", 
-            "label": {
-                "fr": "MZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NA", 
-            "label": {
-                "fr": "NA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NE", 
-            "label": {
-                "fr": "NE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NG", 
-            "label": {
-                "fr": "NG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NI", 
-            "label": {
-                "fr": "NI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NL", 
-            "label": {
-                "fr": "NL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NO", 
-            "label": {
-                "fr": "NO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NP", 
-            "label": {
-                "fr": "NP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NR", 
-            "label": {
-                "fr": "NR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NZ", 
-            "label": {
-                "fr": "NZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "OM", 
-            "label": {
-                "fr": "OM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PA", 
-            "label": {
-                "fr": "PA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PE", 
-            "label": {
-                "fr": "PE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PG", 
-            "label": {
-                "fr": "PG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PH", 
-            "label": {
-                "fr": "PH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PK", 
-            "label": {
-                "fr": "PK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PL", 
-            "label": {
-                "fr": "PL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PN", 
-            "label": {
-                "fr": "PN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PS", 
-            "label": {
-                "fr": "PS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PT", 
-            "label": {
-                "fr": "PT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PW", 
-            "label": {
-                "fr": "PW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PY", 
-            "label": {
-                "fr": "PY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "QA", 
-            "label": {
-                "fr": "QA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RO", 
-            "label": {
-                "fr": "RO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RS", 
-            "label": {
-                "fr": "RS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RU", 
-            "label": {
-                "fr": "RU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RW", 
-            "label": {
-                "fr": "RW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SA", 
-            "label": {
-                "fr": "SA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SB", 
-            "label": {
-                "fr": "SB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SC", 
-            "label": {
-                "fr": "SC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SD", 
-            "label": {
-                "fr": "SD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SE", 
-            "label": {
-                "fr": "SE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SG", 
-            "label": {
-                "fr": "SG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SH", 
-            "label": {
-                "fr": "SH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SI", 
-            "label": {
-                "fr": "SI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SK", 
-            "label": {
-                "fr": "SK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SL", 
-            "label": {
-                "fr": "SL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SM", 
-            "label": {
-                "fr": "SM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SN", 
-            "label": {
-                "fr": "SN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SO", 
-            "label": {
-                "fr": "SO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SR", 
-            "label": {
-                "fr": "SR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SS", 
-            "label": {
-                "fr": "SS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ST", 
-            "label": {
-                "fr": "ST", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SV", 
-            "label": {
-                "fr": "SV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SY", 
-            "label": {
-                "fr": "SY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SZ", 
-            "label": {
-                "fr": "SZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TC", 
-            "label": {
-                "fr": "TC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TD", 
-            "label": {
-                "fr": "TD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TG", 
-            "label": {
-                "fr": "TG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TH", 
-            "label": {
-                "fr": "TH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TJ", 
-            "label": {
-                "fr": "TJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TL", 
-            "label": {
-                "fr": "TL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TM", 
-            "label": {
-                "fr": "TM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TN", 
-            "label": {
-                "fr": "TN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TO", 
-            "label": {
-                "fr": "TO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TR", 
-            "label": {
-                "fr": "TR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TT", 
-            "label": {
-                "fr": "TT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TV", 
-            "label": {
-                "fr": "TV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TW", 
-            "label": {
-                "fr": "TW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TZ", 
-            "label": {
-                "fr": "TZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UA", 
-            "label": {
-                "fr": "UA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UG", 
-            "label": {
-                "fr": "UG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "US", 
-            "label": {
-                "fr": "US", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UY", 
-            "label": {
-                "fr": "UY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UZ", 
-            "label": {
-                "fr": "UZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VA", 
-            "label": {
-                "fr": "VA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VC", 
-            "label": {
-                "fr": "VC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VE", 
-            "label": {
-                "fr": "VE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VG", 
-            "label": {
-                "fr": "VG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VN", 
-            "label": {
-                "fr": "VN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VU", 
-            "label": {
-                "fr": "VU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "WS", 
-            "label": {
-                "fr": "WS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "YE", 
-            "label": {
-                "fr": "YE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZA", 
-            "label": {
-                "fr": "ZA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZM", 
-            "label": {
-                "fr": "ZM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZW", 
-            "label": {
-                "fr": "ZW", 
-                "en": ""
-            }
-        }
+        "AD", 
+        "AE", 
+        "AF", 
+        "AG", 
+        "AI", 
+        "AL", 
+        "AM", 
+        "AO", 
+        "AR", 
+        "AS", 
+        "AT", 
+        "AU", 
+        "AZ", 
+        "BA", 
+        "BB", 
+        "BD", 
+        "BE", 
+        "BF", 
+        "BG", 
+        "BH", 
+        "BI", 
+        "BJ", 
+        "BM", 
+        "BN", 
+        "BO", 
+        "BR", 
+        "BS", 
+        "BT", 
+        "BW", 
+        "BY", 
+        "BZ", 
+        "CA", 
+        "CD", 
+        "CF", 
+        "CG", 
+        "CH", 
+        "CI", 
+        "CL", 
+        "CM", 
+        "CN", 
+        "CO", 
+        "CR", 
+        "CU", 
+        "CV", 
+        "CZ", 
+        "DE", 
+        "DJ", 
+        "DK", 
+        "DM", 
+        "DO", 
+        "DZ", 
+        "EC", 
+        "EE", 
+        "EG", 
+        "EH", 
+        "ER", 
+        "ES", 
+        "ET", 
+        "FI", 
+        "FJ", 
+        "FK", 
+        "FM", 
+        "FO", 
+        "FR", 
+        "GA", 
+        "GB", 
+        "GD", 
+        "GE", 
+        "GG", 
+        "GH", 
+        "GI", 
+        "GL", 
+        "GM", 
+        "GN", 
+        "GQ", 
+        "GR", 
+        "GS", 
+        "GT", 
+        "GU", 
+        "GW", 
+        "GY", 
+        "HK", 
+        "HN", 
+        "HR", 
+        "HT", 
+        "HU", 
+        "ID", 
+        "IE", 
+        "IL", 
+        "IM", 
+        "IN", 
+        "IO", 
+        "IQ", 
+        "IR", 
+        "IS", 
+        "IT", 
+        "JE", 
+        "JM", 
+        "JO", 
+        "JP", 
+        "KE", 
+        "KG", 
+        "KH", 
+        "KI", 
+        "KM", 
+        "KN", 
+        "KP", 
+        "KR", 
+        "KW", 
+        "KY", 
+        "KZ", 
+        "LA", 
+        "LB", 
+        "LC", 
+        "LI", 
+        "LK", 
+        "LR", 
+        "LS", 
+        "LT", 
+        "LU", 
+        "LV", 
+        "LY", 
+        "MA", 
+        "MC", 
+        "MD", 
+        "ME", 
+        "MG", 
+        "MH", 
+        "MK", 
+        "ML", 
+        "MM", 
+        "MN", 
+        "MO", 
+        "MP", 
+        "MR", 
+        "MS", 
+        "MT", 
+        "MU", 
+        "MV", 
+        "MW", 
+        "MX", 
+        "MY", 
+        "MZ", 
+        "NA", 
+        "NE", 
+        "NG", 
+        "NI", 
+        "NL", 
+        "NO", 
+        "NP", 
+        "NR", 
+        "NZ", 
+        "OM", 
+        "PA", 
+        "PE", 
+        "PG", 
+        "PH", 
+        "PK", 
+        "PL", 
+        "PN", 
+        "PS", 
+        "PT", 
+        "PW", 
+        "PY", 
+        "QA", 
+        "RO", 
+        "RS", 
+        "RU", 
+        "RW", 
+        "SA", 
+        "SB", 
+        "SC", 
+        "SD", 
+        "SE", 
+        "SG", 
+        "SH", 
+        "SI", 
+        "SK", 
+        "SL", 
+        "SM", 
+        "SN", 
+        "SO", 
+        "SR", 
+        "SS", 
+        "ST", 
+        "SV", 
+        "SY", 
+        "SZ", 
+        "TC", 
+        "TD", 
+        "TG", 
+        "TH", 
+        "TJ", 
+        "TL", 
+        "TM", 
+        "TN", 
+        "TO", 
+        "TR", 
+        "TT", 
+        "TV", 
+        "TW", 
+        "TZ", 
+        "UA", 
+        "UG", 
+        "US", 
+        "UY", 
+        "UZ", 
+        "VA", 
+        "VC", 
+        "VE", 
+        "VG", 
+        "VN", 
+        "VU", 
+        "WS", 
+        "YE", 
+        "ZA", 
+        "ZM", 
+        "ZW"
     ], 
     "sectionCnu": [
         {
-            "value": "04SciencesPolitiques", 
+            "value": "cnu01", 
             "label": {
-                "fr": "04 Sciences Politiques", 
+                "fr": "section 01 - Droit priv\u00e9 et sciences criminelles", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu02", 
+            "label": {
+                "fr": "section 02 - Droit public", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu03", 
+            "label": {
+                "fr": "section 03 - Histoire du droit et des institutions", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu04", 
+            "label": {
+                "fr": "section 04 - Science politique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu05", 
+            "label": {
+                "fr": "section 05 - Sciences \u00e9conomiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu06", 
+            "label": {
+                "fr": "section 06 - Sciences de gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu17", 
+            "label": {
+                "fr": "section 17 - Philosophie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu19", 
+            "label": {
+                "fr": "section 19 - Sociologie, d\u00e9mographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu20", 
+            "label": {
+                "fr": "section 20 - Ethnologie, pr\u00e9histoire, anthropologie biologique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu22", 
+            "label": {
+                "fr": "section 22 - Histoire et civilisations : histoire des mondes modernes, histoire du monde contemporain ; de l'art ; de la musique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu23", 
+            "label": {
+                "fr": "section 23 - G\u00e9ographie physique, humaine, \u00e9conomique et r\u00e9gionale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu24", 
+            "label": {
+                "fr": "section 24 - Am\u00e9nagement de l'espace, urbanisme", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu27", 
+            "label": {
+                "fr": "section 27 - Informatique", 
                 "en": ""
             }
         }
@@ -3480,2954 +2078,650 @@
         }
     ], 
     "iso4217": [
-        {
-            "value": "AED", 
-            "label": {
-                "fr": "AED", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AFN", 
-            "label": {
-                "fr": "AFN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ALL", 
-            "label": {
-                "fr": "ALL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AMD", 
-            "label": {
-                "fr": "AMD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ANG", 
-            "label": {
-                "fr": "ANG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AOA", 
-            "label": {
-                "fr": "AOA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ARS", 
-            "label": {
-                "fr": "ARS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AUD", 
-            "label": {
-                "fr": "AUD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AWG", 
-            "label": {
-                "fr": "AWG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AZN", 
-            "label": {
-                "fr": "AZN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BAM", 
-            "label": {
-                "fr": "BAM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BBD", 
-            "label": {
-                "fr": "BBD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BDT", 
-            "label": {
-                "fr": "BDT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BGN", 
-            "label": {
-                "fr": "BGN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BHD", 
-            "label": {
-                "fr": "BHD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BIF", 
-            "label": {
-                "fr": "BIF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BMD", 
-            "label": {
-                "fr": "BMD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BND", 
-            "label": {
-                "fr": "BND", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BOB", 
-            "label": {
-                "fr": "BOB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BOV", 
-            "label": {
-                "fr": "BOV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BRL", 
-            "label": {
-                "fr": "BRL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BSD", 
-            "label": {
-                "fr": "BSD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BTN", 
-            "label": {
-                "fr": "BTN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BWP", 
-            "label": {
-                "fr": "BWP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BYN", 
-            "label": {
-                "fr": "BYN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BZD", 
-            "label": {
-                "fr": "BZD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CAD", 
-            "label": {
-                "fr": "CAD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CDF", 
-            "label": {
-                "fr": "CDF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CHF", 
-            "label": {
-                "fr": "CHF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CLF", 
-            "label": {
-                "fr": "CLF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CLP", 
-            "label": {
-                "fr": "CLP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CNH", 
-            "label": {
-                "fr": "CNH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CNY", 
-            "label": {
-                "fr": "CNY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "COP", 
-            "label": {
-                "fr": "COP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "COU", 
-            "label": {
-                "fr": "COU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CRC", 
-            "label": {
-                "fr": "CRC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CUC", 
-            "label": {
-                "fr": "CUC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CUP", 
-            "label": {
-                "fr": "CUP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CVE", 
-            "label": {
-                "fr": "CVE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CZK", 
-            "label": {
-                "fr": "CZK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DJF", 
-            "label": {
-                "fr": "DJF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DKK", 
-            "label": {
-                "fr": "DKK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DOP", 
-            "label": {
-                "fr": "DOP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DZD", 
-            "label": {
-                "fr": "DZD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EGP", 
-            "label": {
-                "fr": "EGP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ERN", 
-            "label": {
-                "fr": "ERN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ETB", 
-            "label": {
-                "fr": "ETB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EUR", 
-            "label": {
-                "fr": "EUR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FJD", 
-            "label": {
-                "fr": "FJD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FKP", 
-            "label": {
-                "fr": "FKP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GBP", 
-            "label": {
-                "fr": "GBP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GEL", 
-            "label": {
-                "fr": "GEL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GGP", 
-            "label": {
-                "fr": "GGP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GHS", 
-            "label": {
-                "fr": "GHS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GIP", 
-            "label": {
-                "fr": "GIP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GMD", 
-            "label": {
-                "fr": "GMD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GNF", 
-            "label": {
-                "fr": "GNF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GTQ", 
-            "label": {
-                "fr": "GTQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GYD", 
-            "label": {
-                "fr": "GYD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HKD", 
-            "label": {
-                "fr": "HKD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HNL", 
-            "label": {
-                "fr": "HNL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HRK", 
-            "label": {
-                "fr": "HRK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HTG", 
-            "label": {
-                "fr": "HTG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HUF", 
-            "label": {
-                "fr": "HUF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IDR", 
-            "label": {
-                "fr": "IDR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ILS", 
-            "label": {
-                "fr": "ILS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IMP", 
-            "label": {
-                "fr": "IMP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "INR", 
-            "label": {
-                "fr": "INR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IQD", 
-            "label": {
-                "fr": "IQD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IRR", 
-            "label": {
-                "fr": "IRR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ISK", 
-            "label": {
-                "fr": "ISK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JEP", 
-            "label": {
-                "fr": "JEP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JMD", 
-            "label": {
-                "fr": "JMD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JOD", 
-            "label": {
-                "fr": "JOD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JPY", 
-            "label": {
-                "fr": "JPY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KES", 
-            "label": {
-                "fr": "KES", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KGS", 
-            "label": {
-                "fr": "KGS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KHR", 
-            "label": {
-                "fr": "KHR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KMF", 
-            "label": {
-                "fr": "KMF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KPW", 
-            "label": {
-                "fr": "KPW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KRW", 
-            "label": {
-                "fr": "KRW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KWD", 
-            "label": {
-                "fr": "KWD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KYD", 
-            "label": {
-                "fr": "KYD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KZT", 
-            "label": {
-                "fr": "KZT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LAK", 
-            "label": {
-                "fr": "LAK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LBP", 
-            "label": {
-                "fr": "LBP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LKR", 
-            "label": {
-                "fr": "LKR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LRD", 
-            "label": {
-                "fr": "LRD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LSL", 
-            "label": {
-                "fr": "LSL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LYD", 
-            "label": {
-                "fr": "LYD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MAD", 
-            "label": {
-                "fr": "MAD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MDL", 
-            "label": {
-                "fr": "MDL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MGA", 
-            "label": {
-                "fr": "MGA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MKD", 
-            "label": {
-                "fr": "MKD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MMK", 
-            "label": {
-                "fr": "MMK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MNT", 
-            "label": {
-                "fr": "MNT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MRO", 
-            "label": {
-                "fr": "MRO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MUR", 
-            "label": {
-                "fr": "MUR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MVR", 
-            "label": {
-                "fr": "MVR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MWK", 
-            "label": {
-                "fr": "MWK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MXN", 
-            "label": {
-                "fr": "MXN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MXV", 
-            "label": {
-                "fr": "MXV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MYR", 
-            "label": {
-                "fr": "MYR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MZN", 
-            "label": {
-                "fr": "MZN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NAD", 
-            "label": {
-                "fr": "NAD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NGN", 
-            "label": {
-                "fr": "NGN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NIO", 
-            "label": {
-                "fr": "NIO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NOK", 
-            "label": {
-                "fr": "NOK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NPR", 
-            "label": {
-                "fr": "NPR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NZD", 
-            "label": {
-                "fr": "NZD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "OMR", 
-            "label": {
-                "fr": "OMR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PAB", 
-            "label": {
-                "fr": "PAB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PEN", 
-            "label": {
-                "fr": "PEN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PGK", 
-            "label": {
-                "fr": "PGK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PHP", 
-            "label": {
-                "fr": "PHP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PKR", 
-            "label": {
-                "fr": "PKR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PLN", 
-            "label": {
-                "fr": "PLN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PYG", 
-            "label": {
-                "fr": "PYG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "QAR", 
-            "label": {
-                "fr": "QAR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RON", 
-            "label": {
-                "fr": "RON", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RSD", 
-            "label": {
-                "fr": "RSD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RUB", 
-            "label": {
-                "fr": "RUB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RWF", 
-            "label": {
-                "fr": "RWF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SAR", 
-            "label": {
-                "fr": "SAR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SBD", 
-            "label": {
-                "fr": "SBD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SCR", 
-            "label": {
-                "fr": "SCR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SDG", 
-            "label": {
-                "fr": "SDG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SEK", 
-            "label": {
-                "fr": "SEK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SGD", 
-            "label": {
-                "fr": "SGD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SHP", 
-            "label": {
-                "fr": "SHP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SLL", 
-            "label": {
-                "fr": "SLL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SOS", 
-            "label": {
-                "fr": "SOS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SPL", 
-            "label": {
-                "fr": "SPL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SRD", 
-            "label": {
-                "fr": "SRD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "STD", 
-            "label": {
-                "fr": "STD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SVC", 
-            "label": {
-                "fr": "SVC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SYP", 
-            "label": {
-                "fr": "SYP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SZL", 
-            "label": {
-                "fr": "SZL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "THB", 
-            "label": {
-                "fr": "THB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TJS", 
-            "label": {
-                "fr": "TJS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TMT", 
-            "label": {
-                "fr": "TMT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TND", 
-            "label": {
-                "fr": "TND", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TOP", 
-            "label": {
-                "fr": "TOP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TRY", 
-            "label": {
-                "fr": "TRY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TTD", 
-            "label": {
-                "fr": "TTD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TVD", 
-            "label": {
-                "fr": "TVD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TWD", 
-            "label": {
-                "fr": "TWD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TZS", 
-            "label": {
-                "fr": "TZS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UAH", 
-            "label": {
-                "fr": "UAH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UGX", 
-            "label": {
-                "fr": "UGX", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "USD", 
-            "label": {
-                "fr": "USD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UYU", 
-            "label": {
-                "fr": "UYU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UZS", 
-            "label": {
-                "fr": "UZS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VEF", 
-            "label": {
-                "fr": "VEF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VND", 
-            "label": {
-                "fr": "VND", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VUV", 
-            "label": {
-                "fr": "VUV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "WST", 
-            "label": {
-                "fr": "WST", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XAF", 
-            "label": {
-                "fr": "XAF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XAG", 
-            "label": {
-                "fr": "XAG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XAU", 
-            "label": {
-                "fr": "XAU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XCD", 
-            "label": {
-                "fr": "XCD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XDR", 
-            "label": {
-                "fr": "XDR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XOF", 
-            "label": {
-                "fr": "XOF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XPD", 
-            "label": {
-                "fr": "XPD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XPF", 
-            "label": {
-                "fr": "XPF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "XPT", 
-            "label": {
-                "fr": "XPT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "YER", 
-            "label": {
-                "fr": "YER", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZAR", 
-            "label": {
-                "fr": "ZAR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZMW", 
-            "label": {
-                "fr": "ZMW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZWD", 
-            "label": {
-                "fr": "ZWD", 
-                "en": ""
-            }
-        }
+        "AED", 
+        "AFN", 
+        "ALL", 
+        "AMD", 
+        "ANG", 
+        "AOA", 
+        "ARS", 
+        "AUD", 
+        "AWG", 
+        "AZN", 
+        "BAM", 
+        "BBD", 
+        "BDT", 
+        "BGN", 
+        "BHD", 
+        "BIF", 
+        "BMD", 
+        "BND", 
+        "BOB", 
+        "BOV", 
+        "BRL", 
+        "BSD", 
+        "BTN", 
+        "BWP", 
+        "BYN", 
+        "BZD", 
+        "CAD", 
+        "CDF", 
+        "CHF", 
+        "CLF", 
+        "CLP", 
+        "CNH", 
+        "CNY", 
+        "COP", 
+        "COU", 
+        "CRC", 
+        "CUC", 
+        "CUP", 
+        "CVE", 
+        "CZK", 
+        "DJF", 
+        "DKK", 
+        "DOP", 
+        "DZD", 
+        "EGP", 
+        "ERN", 
+        "ETB", 
+        "EUR", 
+        "FJD", 
+        "FKP", 
+        "GBP", 
+        "GEL", 
+        "GGP", 
+        "GHS", 
+        "GIP", 
+        "GMD", 
+        "GNF", 
+        "GTQ", 
+        "GYD", 
+        "HKD", 
+        "HNL", 
+        "HRK", 
+        "HTG", 
+        "HUF", 
+        "IDR", 
+        "ILS", 
+        "IMP", 
+        "INR", 
+        "IQD", 
+        "IRR", 
+        "ISK", 
+        "JEP", 
+        "JMD", 
+        "JOD", 
+        "JPY", 
+        "KES", 
+        "KGS", 
+        "KHR", 
+        "KMF", 
+        "KPW", 
+        "KRW", 
+        "KWD", 
+        "KYD", 
+        "KZT", 
+        "LAK", 
+        "LBP", 
+        "LKR", 
+        "LRD", 
+        "LSL", 
+        "LYD", 
+        "MAD", 
+        "MDL", 
+        "MGA", 
+        "MKD", 
+        "MMK", 
+        "MNT", 
+        "MRO", 
+        "MUR", 
+        "MVR", 
+        "MWK", 
+        "MXN", 
+        "MXV", 
+        "MYR", 
+        "MZN", 
+        "NAD", 
+        "NGN", 
+        "NIO", 
+        "NOK", 
+        "NPR", 
+        "NZD", 
+        "OMR", 
+        "PAB", 
+        "PEN", 
+        "PGK", 
+        "PHP", 
+        "PKR", 
+        "PLN", 
+        "PYG", 
+        "QAR", 
+        "RON", 
+        "RSD", 
+        "RUB", 
+        "RWF", 
+        "SAR", 
+        "SBD", 
+        "SCR", 
+        "SDG", 
+        "SEK", 
+        "SGD", 
+        "SHP", 
+        "SLL", 
+        "SOS", 
+        "SPL", 
+        "SRD", 
+        "STD", 
+        "SVC", 
+        "SYP", 
+        "SZL", 
+        "THB", 
+        "TJS", 
+        "TMT", 
+        "TND", 
+        "TOP", 
+        "TRY", 
+        "TTD", 
+        "TVD", 
+        "TWD", 
+        "TZS", 
+        "UAH", 
+        "UGX", 
+        "USD", 
+        "UYU", 
+        "UZS", 
+        "VEF", 
+        "VND", 
+        "VUV", 
+        "WST", 
+        "XAF", 
+        "XAG", 
+        "XAU", 
+        "XCD", 
+        "XDR", 
+        "XOF", 
+        "XPD", 
+        "XPF", 
+        "XPT", 
+        "YER", 
+        "ZAR", 
+        "ZMW", 
+        "ZWD"
     ], 
     "countries": [
-        {
-            "value": "AF", 
-            "label": {
-                "fr": "AF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AX", 
-            "label": {
-                "fr": "AX", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AL", 
-            "label": {
-                "fr": "AL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DZ", 
-            "label": {
-                "fr": "DZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AS", 
-            "label": {
-                "fr": "AS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AD", 
-            "label": {
-                "fr": "AD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AO", 
-            "label": {
-                "fr": "AO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AI", 
-            "label": {
-                "fr": "AI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AQ", 
-            "label": {
-                "fr": "AQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AG", 
-            "label": {
-                "fr": "AG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AR", 
-            "label": {
-                "fr": "AR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AM", 
-            "label": {
-                "fr": "AM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AW", 
-            "label": {
-                "fr": "AW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AU", 
-            "label": {
-                "fr": "AU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AT", 
-            "label": {
-                "fr": "AT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AZ", 
-            "label": {
-                "fr": "AZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BS", 
-            "label": {
-                "fr": "BS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BH", 
-            "label": {
-                "fr": "BH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BD", 
-            "label": {
-                "fr": "BD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BB", 
-            "label": {
-                "fr": "BB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BY", 
-            "label": {
-                "fr": "BY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BE", 
-            "label": {
-                "fr": "BE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BZ", 
-            "label": {
-                "fr": "BZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BJ", 
-            "label": {
-                "fr": "BJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BM", 
-            "label": {
-                "fr": "BM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BT", 
-            "label": {
-                "fr": "BT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BO", 
-            "label": {
-                "fr": "BO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BQ", 
-            "label": {
-                "fr": "BQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BA", 
-            "label": {
-                "fr": "BA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BW", 
-            "label": {
-                "fr": "BW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BV", 
-            "label": {
-                "fr": "BV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BR", 
-            "label": {
-                "fr": "BR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IO", 
-            "label": {
-                "fr": "IO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BN", 
-            "label": {
-                "fr": "BN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BG", 
-            "label": {
-                "fr": "BG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BF", 
-            "label": {
-                "fr": "BF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BI", 
-            "label": {
-                "fr": "BI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KH", 
-            "label": {
-                "fr": "KH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CM", 
-            "label": {
-                "fr": "CM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CA", 
-            "label": {
-                "fr": "CA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CV", 
-            "label": {
-                "fr": "CV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KY", 
-            "label": {
-                "fr": "KY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CF", 
-            "label": {
-                "fr": "CF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TD", 
-            "label": {
-                "fr": "TD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CL", 
-            "label": {
-                "fr": "CL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CN", 
-            "label": {
-                "fr": "CN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CX", 
-            "label": {
-                "fr": "CX", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CC", 
-            "label": {
-                "fr": "CC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CO", 
-            "label": {
-                "fr": "CO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KM", 
-            "label": {
-                "fr": "KM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CG", 
-            "label": {
-                "fr": "CG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CD", 
-            "label": {
-                "fr": "CD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CK", 
-            "label": {
-                "fr": "CK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CR", 
-            "label": {
-                "fr": "CR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CI", 
-            "label": {
-                "fr": "CI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HR", 
-            "label": {
-                "fr": "HR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CU", 
-            "label": {
-                "fr": "CU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CW", 
-            "label": {
-                "fr": "CW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CY", 
-            "label": {
-                "fr": "CY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CZ", 
-            "label": {
-                "fr": "CZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DK", 
-            "label": {
-                "fr": "DK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DJ", 
-            "label": {
-                "fr": "DJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DM", 
-            "label": {
-                "fr": "DM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DO", 
-            "label": {
-                "fr": "DO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EC", 
-            "label": {
-                "fr": "EC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EG", 
-            "label": {
-                "fr": "EG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SV", 
-            "label": {
-                "fr": "SV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GQ", 
-            "label": {
-                "fr": "GQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ER", 
-            "label": {
-                "fr": "ER", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EE", 
-            "label": {
-                "fr": "EE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ET", 
-            "label": {
-                "fr": "ET", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FK", 
-            "label": {
-                "fr": "FK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FO", 
-            "label": {
-                "fr": "FO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FJ", 
-            "label": {
-                "fr": "FJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FI", 
-            "label": {
-                "fr": "FI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FR", 
-            "label": {
-                "fr": "FR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GF", 
-            "label": {
-                "fr": "GF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PF", 
-            "label": {
-                "fr": "PF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TF", 
-            "label": {
-                "fr": "TF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GA", 
-            "label": {
-                "fr": "GA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GM", 
-            "label": {
-                "fr": "GM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GE", 
-            "label": {
-                "fr": "GE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "DE", 
-            "label": {
-                "fr": "DE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GH", 
-            "label": {
-                "fr": "GH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GI", 
-            "label": {
-                "fr": "GI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GR", 
-            "label": {
-                "fr": "GR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GL", 
-            "label": {
-                "fr": "GL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GD", 
-            "label": {
-                "fr": "GD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GP", 
-            "label": {
-                "fr": "GP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GU", 
-            "label": {
-                "fr": "GU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GT", 
-            "label": {
-                "fr": "GT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GG", 
-            "label": {
-                "fr": "GG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GN", 
-            "label": {
-                "fr": "GN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GW", 
-            "label": {
-                "fr": "GW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GY", 
-            "label": {
-                "fr": "GY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HT", 
-            "label": {
-                "fr": "HT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HM", 
-            "label": {
-                "fr": "HM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VA", 
-            "label": {
-                "fr": "VA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HN", 
-            "label": {
-                "fr": "HN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HK", 
-            "label": {
-                "fr": "HK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "HU", 
-            "label": {
-                "fr": "HU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IS", 
-            "label": {
-                "fr": "IS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IN", 
-            "label": {
-                "fr": "IN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ID", 
-            "label": {
-                "fr": "ID", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IR", 
-            "label": {
-                "fr": "IR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IQ", 
-            "label": {
-                "fr": "IQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IE", 
-            "label": {
-                "fr": "IE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IM", 
-            "label": {
-                "fr": "IM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IL", 
-            "label": {
-                "fr": "IL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IT", 
-            "label": {
-                "fr": "IT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JM", 
-            "label": {
-                "fr": "JM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JP", 
-            "label": {
-                "fr": "JP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JE", 
-            "label": {
-                "fr": "JE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "JO", 
-            "label": {
-                "fr": "JO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KZ", 
-            "label": {
-                "fr": "KZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KE", 
-            "label": {
-                "fr": "KE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KI", 
-            "label": {
-                "fr": "KI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KP", 
-            "label": {
-                "fr": "KP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KR", 
-            "label": {
-                "fr": "KR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KW", 
-            "label": {
-                "fr": "KW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KG", 
-            "label": {
-                "fr": "KG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LA", 
-            "label": {
-                "fr": "LA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LV", 
-            "label": {
-                "fr": "LV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LB", 
-            "label": {
-                "fr": "LB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LS", 
-            "label": {
-                "fr": "LS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LR", 
-            "label": {
-                "fr": "LR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LY", 
-            "label": {
-                "fr": "LY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LI", 
-            "label": {
-                "fr": "LI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LT", 
-            "label": {
-                "fr": "LT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LU", 
-            "label": {
-                "fr": "LU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MO", 
-            "label": {
-                "fr": "MO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MK", 
-            "label": {
-                "fr": "MK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MG", 
-            "label": {
-                "fr": "MG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MW", 
-            "label": {
-                "fr": "MW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MY", 
-            "label": {
-                "fr": "MY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MV", 
-            "label": {
-                "fr": "MV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ML", 
-            "label": {
-                "fr": "ML", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MT", 
-            "label": {
-                "fr": "MT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MH", 
-            "label": {
-                "fr": "MH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MQ", 
-            "label": {
-                "fr": "MQ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MR", 
-            "label": {
-                "fr": "MR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MU", 
-            "label": {
-                "fr": "MU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "YT", 
-            "label": {
-                "fr": "YT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MX", 
-            "label": {
-                "fr": "MX", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "FM", 
-            "label": {
-                "fr": "FM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MD", 
-            "label": {
-                "fr": "MD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MC", 
-            "label": {
-                "fr": "MC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MN", 
-            "label": {
-                "fr": "MN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ME", 
-            "label": {
-                "fr": "ME", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MS", 
-            "label": {
-                "fr": "MS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MA", 
-            "label": {
-                "fr": "MA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MZ", 
-            "label": {
-                "fr": "MZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MM", 
-            "label": {
-                "fr": "MM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NA", 
-            "label": {
-                "fr": "NA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NR", 
-            "label": {
-                "fr": "NR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NP", 
-            "label": {
-                "fr": "NP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NL", 
-            "label": {
-                "fr": "NL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NC", 
-            "label": {
-                "fr": "NC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NZ", 
-            "label": {
-                "fr": "NZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NI", 
-            "label": {
-                "fr": "NI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NE", 
-            "label": {
-                "fr": "NE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NG", 
-            "label": {
-                "fr": "NG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NU", 
-            "label": {
-                "fr": "NU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NF", 
-            "label": {
-                "fr": "NF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MP", 
-            "label": {
-                "fr": "MP", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "NO", 
-            "label": {
-                "fr": "NO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "OM", 
-            "label": {
-                "fr": "OM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PK", 
-            "label": {
-                "fr": "PK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PW", 
-            "label": {
-                "fr": "PW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PS", 
-            "label": {
-                "fr": "PS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PA", 
-            "label": {
-                "fr": "PA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PG", 
-            "label": {
-                "fr": "PG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PY", 
-            "label": {
-                "fr": "PY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PE", 
-            "label": {
-                "fr": "PE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PH", 
-            "label": {
-                "fr": "PH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PN", 
-            "label": {
-                "fr": "PN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PL", 
-            "label": {
-                "fr": "PL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PT", 
-            "label": {
-                "fr": "PT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PR", 
-            "label": {
-                "fr": "PR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "QA", 
-            "label": {
-                "fr": "QA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RE", 
-            "label": {
-                "fr": "RE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RO", 
-            "label": {
-                "fr": "RO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RU", 
-            "label": {
-                "fr": "RU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RW", 
-            "label": {
-                "fr": "RW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "BL", 
-            "label": {
-                "fr": "BL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SH", 
-            "label": {
-                "fr": "SH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "KN", 
-            "label": {
-                "fr": "KN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LC", 
-            "label": {
-                "fr": "LC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "MF", 
-            "label": {
-                "fr": "MF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "PM", 
-            "label": {
-                "fr": "PM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VC", 
-            "label": {
-                "fr": "VC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "WS", 
-            "label": {
-                "fr": "WS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SM", 
-            "label": {
-                "fr": "SM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ST", 
-            "label": {
-                "fr": "ST", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SA", 
-            "label": {
-                "fr": "SA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SN", 
-            "label": {
-                "fr": "SN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "RS", 
-            "label": {
-                "fr": "RS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SC", 
-            "label": {
-                "fr": "SC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SL", 
-            "label": {
-                "fr": "SL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SG", 
-            "label": {
-                "fr": "SG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SX", 
-            "label": {
-                "fr": "SX", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SK", 
-            "label": {
-                "fr": "SK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SI", 
-            "label": {
-                "fr": "SI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SB", 
-            "label": {
-                "fr": "SB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SO", 
-            "label": {
-                "fr": "SO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZA", 
-            "label": {
-                "fr": "ZA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GS", 
-            "label": {
-                "fr": "GS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SS", 
-            "label": {
-                "fr": "SS", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ES", 
-            "label": {
-                "fr": "ES", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "LK", 
-            "label": {
-                "fr": "LK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SD", 
-            "label": {
-                "fr": "SD", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SR", 
-            "label": {
-                "fr": "SR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SJ", 
-            "label": {
-                "fr": "SJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SZ", 
-            "label": {
-                "fr": "SZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SE", 
-            "label": {
-                "fr": "SE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CH", 
-            "label": {
-                "fr": "CH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "SY", 
-            "label": {
-                "fr": "SY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TW", 
-            "label": {
-                "fr": "TW", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TJ", 
-            "label": {
-                "fr": "TJ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TZ", 
-            "label": {
-                "fr": "TZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TH", 
-            "label": {
-                "fr": "TH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TL", 
-            "label": {
-                "fr": "TL", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TG", 
-            "label": {
-                "fr": "TG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TK", 
-            "label": {
-                "fr": "TK", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TO", 
-            "label": {
-                "fr": "TO", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TT", 
-            "label": {
-                "fr": "TT", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TN", 
-            "label": {
-                "fr": "TN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TR", 
-            "label": {
-                "fr": "TR", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TM", 
-            "label": {
-                "fr": "TM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TC", 
-            "label": {
-                "fr": "TC", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TV", 
-            "label": {
-                "fr": "TV", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UG", 
-            "label": {
-                "fr": "UG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UA", 
-            "label": {
-                "fr": "UA", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AE", 
-            "label": {
-                "fr": "AE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "GB", 
-            "label": {
-                "fr": "GB", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "US", 
-            "label": {
-                "fr": "US", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UM", 
-            "label": {
-                "fr": "UM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UY", 
-            "label": {
-                "fr": "UY", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "UZ", 
-            "label": {
-                "fr": "UZ", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VU", 
-            "label": {
-                "fr": "VU", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VE", 
-            "label": {
-                "fr": "VE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VN", 
-            "label": {
-                "fr": "VN", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VG", 
-            "label": {
-                "fr": "VG", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "VI", 
-            "label": {
-                "fr": "VI", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "WF", 
-            "label": {
-                "fr": "WF", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "EH", 
-            "label": {
-                "fr": "EH", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "YE", 
-            "label": {
-                "fr": "YE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZM", 
-            "label": {
-                "fr": "ZM", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ZW", 
-            "label": {
-                "fr": "ZW", 
-                "en": ""
-            }
-        }
+        "AF", 
+        "AX", 
+        "AL", 
+        "DZ", 
+        "AS", 
+        "AD", 
+        "AO", 
+        "AI", 
+        "AQ", 
+        "AG", 
+        "AR", 
+        "AM", 
+        "AW", 
+        "AU", 
+        "AT", 
+        "AZ", 
+        "BS", 
+        "BH", 
+        "BD", 
+        "BB", 
+        "BY", 
+        "BE", 
+        "BZ", 
+        "BJ", 
+        "BM", 
+        "BT", 
+        "BO", 
+        "BQ", 
+        "BA", 
+        "BW", 
+        "BV", 
+        "BR", 
+        "IO", 
+        "BN", 
+        "BG", 
+        "BF", 
+        "BI", 
+        "KH", 
+        "CM", 
+        "CA", 
+        "CV", 
+        "KY", 
+        "CF", 
+        "TD", 
+        "CL", 
+        "CN", 
+        "CX", 
+        "CC", 
+        "CO", 
+        "KM", 
+        "CG", 
+        "CD", 
+        "CK", 
+        "CR", 
+        "CI", 
+        "HR", 
+        "CU", 
+        "CW", 
+        "CY", 
+        "CZ", 
+        "DK", 
+        "DJ", 
+        "DM", 
+        "DO", 
+        "EC", 
+        "EG", 
+        "SV", 
+        "GQ", 
+        "ER", 
+        "EE", 
+        "ET", 
+        "FK", 
+        "FO", 
+        "FJ", 
+        "FI", 
+        "FR", 
+        "GF", 
+        "PF", 
+        "TF", 
+        "GA", 
+        "GM", 
+        "GE", 
+        "DE", 
+        "GH", 
+        "GI", 
+        "GR", 
+        "GL", 
+        "GD", 
+        "GP", 
+        "GU", 
+        "GT", 
+        "GG", 
+        "GN", 
+        "GW", 
+        "GY", 
+        "HT", 
+        "HM", 
+        "VA", 
+        "HN", 
+        "HK", 
+        "HU", 
+        "IS", 
+        "IN", 
+        "ID", 
+        "IR", 
+        "IQ", 
+        "IE", 
+        "IM", 
+        "IL", 
+        "IT", 
+        "JM", 
+        "JP", 
+        "JE", 
+        "JO", 
+        "KZ", 
+        "KE", 
+        "KI", 
+        "KP", 
+        "KR", 
+        "KW", 
+        "KG", 
+        "LA", 
+        "LV", 
+        "LB", 
+        "LS", 
+        "LR", 
+        "LY", 
+        "LI", 
+        "LT", 
+        "LU", 
+        "MO", 
+        "MK", 
+        "MG", 
+        "MW", 
+        "MY", 
+        "MV", 
+        "ML", 
+        "MT", 
+        "MH", 
+        "MQ", 
+        "MR", 
+        "MU", 
+        "YT", 
+        "MX", 
+        "FM", 
+        "MD", 
+        "MC", 
+        "MN", 
+        "ME", 
+        "MS", 
+        "MA", 
+        "MZ", 
+        "MM", 
+        "NA", 
+        "NR", 
+        "NP", 
+        "NL", 
+        "NC", 
+        "NZ", 
+        "NI", 
+        "NE", 
+        "NG", 
+        "NU", 
+        "NF", 
+        "MP", 
+        "NO", 
+        "OM", 
+        "PK", 
+        "PW", 
+        "PS", 
+        "PA", 
+        "PG", 
+        "PY", 
+        "PE", 
+        "PH", 
+        "PN", 
+        "PL", 
+        "PT", 
+        "PR", 
+        "QA", 
+        "RE", 
+        "RO", 
+        "RU", 
+        "RW", 
+        "BL", 
+        "SH", 
+        "KN", 
+        "LC", 
+        "MF", 
+        "PM", 
+        "VC", 
+        "WS", 
+        "SM", 
+        "ST", 
+        "SA", 
+        "SN", 
+        "RS", 
+        "SC", 
+        "SL", 
+        "SG", 
+        "SX", 
+        "SK", 
+        "SI", 
+        "SB", 
+        "SO", 
+        "ZA", 
+        "GS", 
+        "SS", 
+        "ES", 
+        "LK", 
+        "SD", 
+        "SR", 
+        "SJ", 
+        "SZ", 
+        "SE", 
+        "CH", 
+        "SY", 
+        "TW", 
+        "TJ", 
+        "TZ", 
+        "TH", 
+        "TL", 
+        "TG", 
+        "TK", 
+        "TO", 
+        "TT", 
+        "TN", 
+        "TR", 
+        "TM", 
+        "TC", 
+        "TV", 
+        "UG", 
+        "UA", 
+        "AE", 
+        "GB", 
+        "US", 
+        "UM", 
+        "UY", 
+        "UZ", 
+        "VU", 
+        "VE", 
+        "VN", 
+        "VG", 
+        "VI", 
+        "WF", 
+        "EH", 
+        "YE", 
+        "ZM", 
+        "ZW"
     ], 
     "researchThemes": [
         {
-            "value": "famine", 
+            "value": "scpo1", 
             "label": {
-                "fr": "famine", 
+                "fr": "aires", 
                 "en": ""
             }
         }, 
         {
-            "value": "urbanisme", 
+            "value": "scpo2", 
             "label": {
-                "fr": "urbanisme", 
+                "fr": "analyse des march\u00e9s", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo3", 
+            "label": {
+                "fr": "criminalit\u00e9, d\u00e9linquance", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo4", 
+            "label": {
+                "fr": "culture, arts", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo5", 
+            "label": {
+                "fr": "d\u00e9mocratie, nations, nationalismes", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo6", 
+            "label": {
+                "fr": "\u00e9ducation, enseignement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo7", 
+            "label": {
+                "fr": "\u00e9lites", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo8", 
+            "label": {
+                "fr": "environnement, climat, \u00e9nergie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo9", 
+            "label": {
+                "fr": "Etat, administration, politiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo10", 
+            "label": {
+                "fr": "expertise et savoirs", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo11", 
+            "label": {
+                "fr": "finances", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo12", 
+            "label": {
+                "fr": "genre et sexualit\u00e9s", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo13", 
+            "label": {
+                "fr": "gouvernance globale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo14", 
+            "label": {
+                "fr": "in\u00e9galit\u00e9s et discriminations", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo15", 
+            "label": {
+                "fr": "int\u00e9gration europ\u00e9enne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo16", 
+            "label": {
+                "fr": "m\u00e9dias et communication", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo17", 
+            "label": {
+                "fr": "m\u00e9moire, futurs", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo18", 
+            "label": {
+                "fr": "m\u00e9thodes", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo19", 
+            "label": {
+                "fr": "migrations, immigration", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo20", 
+            "label": {
+                "fr": "modes de vie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo21", 
+            "label": {
+                "fr": "num\u00e9rique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo22", 
+            "label": {
+                "fr": "participation, comportements politiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo23", 
+            "label": {
+                "fr": "ph\u00e9nom\u00e8nes juridiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo24", 
+            "label": {
+                "fr": "politiques et acteurs \u00e9conomiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo25", 
+            "label": {
+                "fr": "religion(s)", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo26", 
+            "label": {
+                "fr": "sant\u00e9, risques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo27", 
+            "label": {
+                "fr": "sciences et (bio)technologies", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo28", 
+            "label": {
+                "fr": "s\u00e9curit\u00e9, d\u00e9fense", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo29", 
+            "label": {
+                "fr": "social, travail", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo30", 
+            "label": {
+                "fr": "th\u00e9orie \u00e9conomique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo31", 
+            "label": {
+                "fr": "villes et territoires", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo32", 
+            "label": {
+                "fr": "violence politique, guerre, conflits, pacification", 
                 "en": ""
             }
         }
@@ -6450,9 +2744,177 @@
     ], 
     "erc": [
         {
-            "value": "sociology", 
+            "value": "pe1", 
             "label": {
-                "fr": "sociology", 
+                "fr": "PE1 Mathematical foundations", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe2", 
+            "label": {
+                "fr": "PE2 Fundamental constituents of matter", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe3", 
+            "label": {
+                "fr": "PE3 Condensed matter physics", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe4", 
+            "label": {
+                "fr": "PE4 Physical and analytical chemical sciences", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe5", 
+            "label": {
+                "fr": "PE5 Materials and synthesis", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe6", 
+            "label": {
+                "fr": "PE6 Computer science and informatics", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe7", 
+            "label": {
+                "fr": "PE7 Systems and communication engineering", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe8", 
+            "label": {
+                "fr": "PE8 Products and processes engineering", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe9", 
+            "label": {
+                "fr": "PE9 Universe sciences", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe10", 
+            "label": {
+                "fr": "PE10 Earth system science", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh1", 
+            "label": {
+                "fr": "SH1 Individuals, institutions and markets : economics, finance and management", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh2", 
+            "label": {
+                "fr": "SH2 Institutions, values and beliefs and behaviour : sociology, social anthropology, political science, law, communication, social studies of science and technology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh3", 
+            "label": {
+                "fr": "SH3 Environment and society : environmental studies, demography, social geography, urban and regional studies", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh4", 
+            "label": {
+                "fr": "SH4 The Human Mind and its complexity : cognition, psychology, linguistics, philosophy and education", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh5", 
+            "label": {
+                "fr": "SH5 Cultures and cultural production : literature, visual and performing arts, music, cultural and comparative studies", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh6", 
+            "label": {
+                "fr": "SH6 The study of the human past : archaeology, history and memory", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls1", 
+            "label": {
+                "fr": "LS1 Molecular and Structural Biology and Biochemistry", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls2", 
+            "label": {
+                "fr": "LS2 Genetics, Genomics, Bioinformatics and Systems Biology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls3", 
+            "label": {
+                "fr": "LS3 Cellular and Developmental Biology, Physiology, Pathophysiology and Endocrinology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls4", 
+            "label": {
+                "fr": "LS4 Physiology, Pathophysiology and Endocrinology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls5", 
+            "label": {
+                "fr": "LS5 Neurosciences and neural disorders", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls6", 
+            "label": {
+                "fr": "LS6 Immunity and infection", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls7", 
+            "label": {
+                "fr": "LS7 Diagnostic tools, therapies and public health", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls8", 
+            "label": {
+                "fr": "LS8 Evolutionary, population and environmental biology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls9", 
+            "label": {
+                "fr": "LS9 Applied life sciences and biotechnology", 
                 "en": ""
             }
         }
@@ -6461,14 +2923,14 @@
         {
             "value": "m", 
             "label": {
-                "fr": "Homme", 
+                "fr": "Masculin", 
                 "en": "Male"
             }
         }, 
         {
             "value": "f", 
             "label": {
-                "fr": "Femme", 
+                "fr": "F\u00e9minin", 
                 "en": "Female"
             }
         }, 
