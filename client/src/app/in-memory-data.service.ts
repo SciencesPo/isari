@@ -48,7 +48,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 'people',
         layout: [
           {
-            label: 'group 1',
+            label: { fr: 'groupe 1', en: 'group 1' },
             collapsabled: true,
             fields: ['firstname', 'lastname']
           },
