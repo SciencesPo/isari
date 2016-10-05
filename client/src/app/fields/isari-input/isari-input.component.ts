@@ -14,11 +14,6 @@ export class IsariInputComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.form.controls[this.name], this.name);
-    // this.form.controls[this.name].statusChanges.subscribe((newStatus) => {
-    //   console.log(newStatus);
-    //   this.form.controls[this.name].disable();
-    // });
   }
 
   update($event) {
