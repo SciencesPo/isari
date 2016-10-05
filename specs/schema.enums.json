@@ -2,8 +2,8 @@
 	"isariRoles": [ "central_admin", "center_admin", "central_reader", "center_editor", "center_member", "CV_editor", "public" ],
 
 	"genders": [
-		{ "value": "m", "label": { "fr": "Homme", "en": "Male" } },
-		{ "value": "f", "label": { "fr": "Femme", "en": "Female" } },
+		{ "value": "m", "label": { "fr": "Masculin", "en": "Male" } },
+		{ "value": "f", "label": { "fr": "Féminin", "en": "Female" } },
 		{ "value": "o", "label": { "fr": "Autre", "en": "Other" } }
 	],
 

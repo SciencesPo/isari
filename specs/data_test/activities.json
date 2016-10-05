@@ -2,9 +2,8 @@
    {
       "name": "OXPO",
       "activityType": "partenariat",
-      "acronym": "OXPO",
-      "start_date": "20150506",
-      "end_date": "20190602",
+      "startDate": "20150506",
+      "endDate": "20190602",
       "organizations": [
          {
             "organization": "IEP Paris",
@@ -22,15 +21,15 @@
    {
       "name": "ESS",
       "activityType": "projet de recherche",
-      "start_date": "20131203",
-      "end_date": "20151231",
+      "startDate": "20131203",
+      "endDate": "20151231",
       "organizations": [
          {
             "organization": "CDSP",
             "role": "leader"
          }
       ],
-      "peoples": {
+      "people": {
          "people": "Anne Cornilleau",
          "role": "responsable scientifique"
       },
@@ -40,13 +39,13 @@
          {
             "organization": "EHESS",
             "grantType": "National collaboratif",
-            "grant_identifier": "wz4254",
-            "sciencespo_amount": 900000,
-            "total_amount": 945123,
-            "currency_amount": "EUR",
-            "submission_date": "20130605",
-            "start_date": "20131203",
-            "end_date": "20151231",
+            "grantIdentifier": "wz4254",
+            "sciencespoAmount": 900000,
+            "totalAmount": 945123,
+            "currencyAmount": "EUR",
+            "submissionDate": "20130605",
+            "startDate": "20131203",
+            "endDate": "20151231",
             "UG": "R82S05",
             "status": "done"
          }
@@ -55,15 +54,15 @@
    {
       "name": "Post-doc",
       "activityType": "invité",
-      "start_date": "20150201",
-      "end_date": "20150831",
+      "startDate": "20150201",
+      "endDate": "20150831",
       "organizations": [
          {
             "organization": "CDSP",
             "role": "leader"
          }
       ],
-      "peoples": [
+      "people": [
          {
             "people": "Daniel Afonso Da Silva",
             "role": "invité"
@@ -79,15 +78,15 @@
    {
       "name": "Séjour UCLA",
       "activityType": "séjour à l'étranger",
-      "start_date": "20150629",
-      "end_date": "20151130",
+      "startDate": "20150629",
+      "endDate": "20151130",
       "organizations": [
          {
             "organization": "UCLA",
             "role": "leader"
          }
       ],
-      "peoples": [
+      "people": [
          {
             "people": "Paul Bismuth",
             "role": "invité"
@@ -97,7 +96,7 @@
       "summary": "Pourquoi le ciel est bleu ?",
       "tags": {
          "discipline": "Sociologie, démographie",
-         "research_theme": [
+         "researchTheme": [
             "aires",
             "villes et territoires"
          ]
@@ -105,8 +104,8 @@
       "grants": [
          {
             "organization": "UCLA",
-            "sciencespo_amount": 30000,
-            "currency_amount": "EUR",
+            "sciencespoAmount": 30000,
+            "currencyAmount": "EUR",
             "UG": "R420B",
             "status": "done"
          }
@@ -115,15 +114,15 @@
    {
       "name": "doctorat",
       "activityType": "doctorat",
-      "start_date": "20091001",
-      "end_date": "20141117",
+      "startDate": "20091001",
+      "endDate": "20141117",
       "organizations": [
          {
             "organization": "IEP Paris",
             "role": "inscription"
          }
       ],
-      "peoples": [
+      "people": [
          {
             "people": "Matthieu Ichou",
             "role": "doctorant"
@@ -145,11 +144,11 @@
       "summary": "Origines des inégalités scolaires: contribution à l'étude des trajectoires scolaires des enfants d'immigrés en France et en Angleterre",
       "tags": {
          "discipline": "Sociologie, démographie",
-         "aeres_2012": [
+         "aeres2012": [
             "Europe Occidentale",
             "France"
          ],
-         "research_theme": [
+         "researchTheme": [
             "migrations, immigration",
             "inégalités, discrimination"
          ]
@@ -158,18 +157,18 @@
          {
             "organization": "IEP Paris",
             "grantType": "individuel",
-            "total_amount": 850,
-            "currency_amount": "EUR",
-            "start_date": "20100101",
-            "end_date": "20101231"
+            "totalAmount": 850,
+            "currencyAmount": "EUR",
+            "startDate": "20100101",
+            "endDate": "20101231"
          },
          {
             "organization": "MESR",
             "grantType": "individuel",
-            "total_amount": 20000,
-            "currency_amount": "EUR",
-            "start_date": "20100101",
-            "end_date": "20101231"
+            "totalAmount": 20000,
+            "currencyAmount": "EUR",
+            "startDate": "20100101",
+            "endDate": "20101231"
          }
       ]
    },
@@ -182,7 +181,7 @@
             "role": "leader"
          }
       ],
-      "peoples": [
+      "people": [
          {
             "people": "Riva Kastoryano",
             "role": "responsable scientifique"
@@ -195,9 +194,9 @@
             "organization": "ANR",
             "name": "ANR-ORA",
             "grantType": "collaboratif national",
-            "total_amount": 2549540,
-            "currency_amount": "EUR",
-            "submission_date": "20150301",
+            "totalAmount": 2549540,
+            "currencyAmount": "EUR",
+            "submissionDate": "20150301",
             "status": "rejected"
          }
       ]
