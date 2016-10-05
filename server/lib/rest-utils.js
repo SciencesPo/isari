@@ -8,7 +8,9 @@ const es = require('./elasticsearch')
 
 
 const restHandler = exports.restHandler = fn => (req, res, next) => {
-	Promise.resolve().then(() => fn(req, res)).then(data => res.send(data)).catch(err => {
+	Promise.resolve().then(() => fn(req, res))
+	.then(data => res.send(data))
+	.catch(err => {
 		if (!err.status) {
 			err.status = 500
 		}
@@ -50,7 +52,7 @@ exports.restRouter = (Model, format = identity, esIndex = null) => {
 }
 
 const listModel = (Model, formatAll) => () =>
-	Model.find().them(formatAll)
+	Model.find().then(formatAll)
 
 const getModel = (Model, format) => req =>
 	Model.findById(req.params.id)
@@ -89,7 +91,10 @@ const deleteModel = Model => (req, res) =>
 	Model.remove({ _id: req.params.id })
 	.then(({ result }) => result.n > 0)
 	.then(deleted => deleted || Promise.reject(NotFoundError({ title: Model.modelName })))
-	.then(() => res.status(204))
+	.then(() => {
+		res.status(204)
+		return null
+	})
 
 const searchModel = (esIndex, formatAll) => req => {
 	const query = req.query.q

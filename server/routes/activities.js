@@ -1,7 +1,7 @@
 'use strict'
 
 const { restRouter } = require('../lib/rest-utils')
-const Activity = require('../lib/model')
+const { Activity } = require('../lib/model')
 
 
 module.exports = restRouter(Activity, formatActivity, 'activity')

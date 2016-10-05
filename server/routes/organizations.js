@@ -1,7 +1,7 @@
 'use strict'
 
 const { restRouter } = require('../lib/rest-utils')
-const Organization = require('../lib/model')
+const { Organization } = require('../lib/model')
 
 
 module.exports = restRouter(Organization, formatOrganization, 'organization')
