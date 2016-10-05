@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { ClientError, NotFoundError } = require('./errors')
+const { ServerError, ClientError, NotFoundError } = require('./errors')
 const { identity, set, merge, map } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
@@ -33,13 +33,12 @@ const saveDocument = (format = identity) => doc => doc.save()
 
 exports.restRouter = (Model, format = identity, esIndex = null) => {
 	const save = saveDocument(format)
-	const get = getModel(Model, format)
 	const formatAll = map(format)
 	const router = Router()
 		.use(bodyParser.json())
 		.get('/', restHandler(listModel(Model, formatAll)))
-		.get('/:id', restHandler(get))
-		.put('/:id', restHandler(updateModel(Model, get, save)))
+		.get('/:id', restHandler(getModel(Model, format)))
+		.put('/:id', restHandler(updateModel(Model, save)))
 		.post('/', restHandler(createModel(Model, save)))
 		.delete('/:id', restHandler(deleteModel(Model)))
 
@@ -58,17 +57,32 @@ const getModel = (Model, format) => req =>
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
 	.then(format)
 
-const updateModel = (Model, get, save) => req =>
-	get(req)
-	.then(doc => merge(doc, req.body))
-	.then(save)
+const updateModel = (Model, save) => {
+	const get = getModel(Model, identity)
+	return req => get(req).then(doc => {
+		const updated = merge(doc, req.body)
+		new Model(updated) // Triggers StrictModeError in case of extra fields
+		return save(updated)
+	})
+}
 
-const createModel = (Model, save) => (req, res) =>
-	save(new Model(req.body))
-	.then(saved => {
+const createModel = (Model, save) => (req, res) => {
+	let o
+	try {
+		o = new Model(req.body)
+	} catch (e) {
+		if (e.name === 'StrictModeError') {
+			// Extra fields
+			return Promise.reject(ClientError({ title: e.message }))
+		} else {
+			return Promise.reject(ServerError({ title: e.message }))
+		}
+	}
+	return save(o).then(saved => {
 		res.status(201)
 		return saved
 	})
+}
 
 const deleteModel = Model => (req, res) =>
 	Model.remove({ _id: req.params.id })
