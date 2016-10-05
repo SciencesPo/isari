@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'isari-data-editor',
@@ -33,15 +33,26 @@ export class DataEditorComponent implements OnInit, OnChanges {
   }
 
   save () {
-    if (this.form.valid) {
+    if (!this.form.valid) {
+      console.log('Error');
+      return;
+    }
+    if (this.form.dirty) {
       console.log('save', this.form.value);
     }
   }
 
   private createForm () {
     this.fields.forEach(field => {
-      this.form.addControl(field.name, new FormControl(this.data[field.name] || '')); // @TODO : add vaue + validators
+      this.form.addControl(field.name, new FormControl(this.data[field.name] || '', this.required(field)));
     });
+  }
+
+  private required (field) {
+    if (field.requirement && field.requirement === 'mandatory') {
+      return Validators.required;
+    }
+    return null;
   }
 
 }
