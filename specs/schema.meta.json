@@ -1,1159 +1,1179 @@
 {
 
-    "//": {
-        "accessType": "Restricted access field?, ex. 'confidential'",
-        "label": { "langCode": "label for this language", "…": "…" },
-        "requirement": "'mandatory' or 'recommended'",
-        "accessMonitoring": "this field has special focus for logs analysis",
-        "suggestions": "What type of autocomplete?",
-        "description":  { "langCode": "Description usable as a hint", "…": "…" },
-        "comment": "Technical comment",
-        "service": "Third-party service data is taken from",
+   "//": {
+      "accessType": "Restricted access field?, ex. 'confidential'",
+      "label": {
+         "langCode": "label for this language",
+         "…": "…"
+      },
+      "requirement": "'mandatory' or 'recommended'",
+      "accessMonitoring": "this field has special focus for logs analysis",
+      "suggestions": "What type of autocomplete?",
+      "description": {
+         "langCode": "Description usable as a hint",
+         "…": "…"
+      },
+      "comment": "Technical comment",
+      "service": "Third-party service data is taken from",
 
-        "//": "field description as object of single-object array for collections",
-        "type": {
-            "string": "optional, default type",
-            "boolean": "",
-            "date": "3-selects date",
-            "email": "string with specific format",
-            "ref": "dbref (optional, default if 'ref' is defined)"
-        },
-        "ref": "target collection if type is 'dbref'",
-        "enum": "name of enums to take data from, see schema.enums.json, or direct list of values",
-        "//": "special enums:",
-        "//": "KEYS(name) === Object.keys on an object enum",
-        "//": "name.$field === Take values from field's value as a key from object enum",
-        "default": "default value",
-        "min": "validation rule",
-        "max": "validation rule",
-        "regex": "validation rule",
+      "//": "field description as object of single-object array for collections",
+      "type": {
+         "string": "optional, default type",
+         "boolean": "",
+         "date": "3-selects date",
+         "email": "string with specific format",
+         "ref": "dbref (optional, default if 'ref' is defined)"
+      },
+      "ref": "target collection if type is 'dbref'",
+      "enum": "name of enums to take data from, see schema.enums.json, or direct list of values",
+      "//": "special enums:",
+      "//": "KEYS(name) === Object.keys on an object enum",
+      "//": "name.$field === Take values from field's value as a key from object enum",
+      "default": "default value",
+      "min": "validation rule",
+      "max": "validation rule",
+      "regex": "validation rule",
 
-        "anyOtherField": "sub-field description (recursive)"
-    },
+      "anyOtherField": "sub-field description (recursive)"
+   },
 
 
-    "People": {
+   "People": {
 
-        "isariAuthorizedCenters": [{
-            "accessType": "confidential",
+      "isariAuthorizedCenters": [{
+         "accessType": "confidential",
+         "label": {
+            "fr": "Accès au(x) centre(s)",
+            "en": "Center(s) access"
+         },
+
+         "organization": {
             "label": {
-                "fr": "Accès au(x) centre(s)",
-                "en": "Center(s) access"
+               "fr": "Centre de recherche",
+               "en": "Research unit"
             },
+            "ref": "Organization"
+         },
 
-            "organization": {
-                "label": {
-                    "fr": "Centre de recherche",
-                    "en": "Research unit"
-                },
-                "ref": "Organization"
+         "isariRole": {
+            "label": {
+               "fr": "Role",
+               "en": "Role"
             },
-
-            "isariRole": {
-                "label": {
-                    "fr": "Role",
-                    "en": "Role"
-                },
-                "enum": "isariRoles"
-            }
+            "enum": "isariRoles"
+         }
         }],
 
-        "firstname": {
-            "label": {
-                "fr": "Prénom",
-                "en": "Firstname"
-            },
-            "accessMonitoring": "corporate"
-        },
+      "firstname": {
+         "label": {
+            "fr": "Prénom",
+            "en": "Firstname"
+         },
+         "accessMonitoring": "corporate"
+      },
 
-        "name": {
+      "name": {
+         "requirement": "mandatory",
+         "label": {
+            "fr": "Nom",
+            "en": "Name"
+         },
+         "accessMonitoring": "corporate"
+      },
+
+      "gender": {
+         "requirement": "recommended",
+         "label": {
+            "fr": "Genre",
+            "en": "Gender"
+         },
+         "accessMonitoring": "corporate",
+         "enum": "genders"
+      },
+
+      "birthdate": {
+         "requirement": "recommended",
+         "label": {
+            "fr": "Date de naissance",
+            "en": "Birthdate"
+         },
+         "accessMonitoring": "corporate",
+         "type": "date"
+      },
+
+      "nationalities": [{
+         "label": {
+            "fr": "Nationalité(s)",
+            "en": "Nationanality(ies)"
+         },
+         "accessMonitoring": "corporate",
+         "enum": "nationalities"
+        }],
+
+      "ldapUid": {
+         "label": {
+            "fr": "Identifiant annuaire Sciences Po",
+            "en": "Sciences Po's directory identifier"
+         },
+         "service": "ldap"
+      },
+
+      "bannerUid": {
+         "label": {
+            "fr": "Identifiant scolarité Sciences Po",
+            "en": "Sciences Po's teaching identifier"
+         },
+         "service": "banner"
+      },
+
+      "sirhMatricule": {
+         "label": {
+            "fr": "Identifiant Ressources Humaines Sciences Po",
+            "en": "Sciences Po's Human ressoruces identifier"
+         },
+         "service": "sirh"
+      },
+
+      "spireID": {
+         "label": {
+            "fr": "identifiant SPIRE",
+            "en": "SPIRE identifier"
+         },
+         "service": "spire"
+      },
+
+      "positions": [{
+         "label": {
+            "fr": "Contrats",
+            "en": "Positions"
+         },
+         "description": {
+            "fr": "Contrats de travail, postes publiques, ...",
+            "en": "Academic positions, working positions, ..."
+         },
+         "accessMonitoring": "corporate",
+
+         "organization": {
+            "requirement": "mandatory",
+            "suggestions": "top_10",
+            "description": {
+               "fr": "Tutelle du contrat : FNSP, CNRS, MESR...",
+               "en": "Organisation holding the position"
+            },
+            "comment": "add as suggestions the top x values already stored un the database in position.organisation",
+            "ref": "Organization"
+         },
+
+         "startDate": {
             "requirement": "mandatory",
             "label": {
-                "fr": "Nom",
-                "en": "Name"
+               "fr": "Date de début",
+               "en": "Start date"
             },
-            "accessMonitoring": "corporate"
-        },
-
-        "gender": {
-            "requirement": "recommended",
-            "label": {
-                "fr": "Genre",
-                "en": "Gender"
-            },
-            "accessMonitoring": "corporate",
-            "enum": "genders"
-        },
-
-        "birthdate": {
-            "requirement": "recommended",
-            "label": {
-                "fr": "Date de naissance",
-                "en": "Birthdate"
-            },
-            "accessMonitoring": "corporate",
             "type": "date"
-        },
+         },
 
-        "nationalities": [{
+         "endDate": {
             "label": {
-                "fr": "Nationalité(s)",
-                "en": "Nationanality(ies)"
+               "fr": "Date de fin",
+               "en": "End date"
             },
-            "accessMonitoring": "corporate",
-            "enum": "nationalities"
-        }],
+            "type": "date"
+         },
 
-        "ldapUid": {
+         "jobName": {
             "label": {
-                "fr": "Identifiant annuaire Sciences Po",
-                "en": "Sciences Po's directory identifier"
-            },
-            "service": "ldap"
-        },
-
-        "bannerUid": {
-            "label": {
-                "fr": "Identifiant scolarité Sciences Po",
-                "en": "Sciences Po's teaching identifier"
-            },
-            "service": "banner"
-        },
-
-        "sirhMatricule": {
-            "label": {
-                "fr": "Identifiant Ressources Humaines Sciences Po",
-                "en": "Sciences Po's Human ressoruces identifier"
-            },
-            "service": "sirh"
-        },
-
-        "spireID": {
-            "label": {
-                "fr": "identifiant SPIRE",
-                "en": "SPIRE identifier"
-            },
-            "service": "spire"
-        },
-
-        "positions": [{
-            "label": {
-                "fr": "Contrats",
-                "en": "Positions"
-            },
-            "description": {
-                "fr": "Contrats de travail, postes publiques, ...",
-                "en": "Academic positions, working positions, ..."
-            },
-            "accessMonitoring": "corporate",
-
-            "organization": {
-                "requirement": "mandatory",
-                "suggestions": "top_10",
-                "description": {
-                    "fr": "Tutelle du contrat : FNSP, CNRS, MESR...",
-                    "en": "Organisation holding the position"
-                },
-                "comment": "add as suggestions the top x values already stored un the database in position.organisation",
-                "ref": "Organization"
-            },
-
-            "startDate": {
-                "requirement": "mandatory",
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            },
-
-            "jobName": {
-                "label": {
-                    "fr": "Emploi personnalisé",
-                    "en": "Job name"
-                }
-            },
-
-            "jobType": {
-                "requirement": "mandatory",
-                "label": {
-                    "fr": "Type de contrat",
-                    "en": "Contract type"
-                },
-                "enum": "jobType"
-            },
-
-            "timepart": {
-                "label": {
-                    "fr": "Taux d'occupation",
-                    "en": "Part time rate"
-                },
-                "type": "number",
-                "default": 1,
-                "min": 0.05,
-                "max": 1
-            },
-
-            "jobTitle": {
-                "requirement": "recommended",
-                "label": {
-                    "fr": "Fonction",
-                    "en": "Function"
-                },
-                "enum": "jobTitle"
-            },
-
-            "gradesAcademic": [{
-                "label": {
-                    "fr": "Grades",
-                    "en": "Grades"
-                },
-                "description": {
-                    "fr": "Grades académiques DR1, CR1...",
-                    "en": "Academic Grade Associate Prof, Full Prof..."
-                },
-
-                "grade": {
-                    "requirement": "mandatory",
-                    "label": {
-                        "fr": "Grade",
-                        "en": "Grade"
-                    },
-                    "type": "string",
-                    "enum": "gradeAcademic"
-                },
-
-                "startDate": {
-                    "requirement": "mandatory",
-                    "label": {
-                        "fr": "Date de début",
-                        "en": "Start date"
-                    },
-                    "type": "date"
-                },
-
-                "endDate": {
-                    "label": {
-                        "fr": "Date de fin",
-                        "en": "End date"
-                    },
-                    "type": "date"
-                }
-            }],
-
-            "gradesAdmin": [{
-                "label": {
-                    "fr": "Emplois repère",
-                    "en": "Job grid"
-                },
-                "description": {
-                    "fr": "Grade administratif du poste",
-                    "en": "Administratif level of the position"
-                },
-                "accessType": "confidential",
-
-                "grade": {
-                    "requirement": "mandatory",
-                    "label": {
-                        "fr": "emplois repère",
-                        "en": "job level"
-                    },
-                    "enum": "gradeAdmin"
-                },
-
-                "startDate": {
-                    "requirement": "mandatory",
-                    "label": {
-                        "fr": "Date de début",
-                        "en": "Start date"
-                    },
-                    "type": "date"
-                },
-
-                "endDate": {
-                    "label": {
-                        "fr": "Date de fin",
-                        "en": "End date"
-                    },
-                    "type": "date"
-                }
-            }],
-
-            "bonuses": [{
-                "label": {
-                    "fr": "Bonus",
-                    "en": "Bonus"
-                },
-                "description": {
-                    "fr": "Primes à l'enseignement, direction...",
-                    "en": "Bonus for extra-academic activities"
-                },
-                "accessType": "confidential",
-
-                "bonusType": {
-                    "label": {
-                        "fr": "Type",
-                        "en": "Type"
-                    },
-                    "enum": "bonusTypes"
-                },
-
-                "startDate": {
-                    "label": {
-                        "fr": "Date de début",
-                        "en": "Start date"
-                    },
-                    "type": "date"
-                },
-
-                "endDate": {
-                    "label": {
-                        "fr": "Date de fin",
-                        "en": "End date"
-                    },
-                    "type": "date"
-                }
-            }]
-        }],
-
-        "academicMemberships": [{
-            "label": {
-                "fr": "Affiliation",
-                "en": "Affiliation"
-            },
-            "requirement": "recommended",
-            "accessMonitoring": "corporate",
-
-            "organization": {
-                "label": {
-                    "fr": "Laboratoire de recherche",
-                    "en": "Research Lab"
-                },
-                "ref": "Organization"
-            },
-
-            "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            },
-
-            "membershipType": {
-                "label": {
-                    "fr": "Type d'affiliation",
-                    "en": "Affiliation type"
-                },
-                "enum": "academicMembershipType"
+               "fr": "Emploi personnalisé",
+               "en": "Job name"
             }
-        }],
+         },
 
-        "deptMemberships": [{
-            "label": {
-                "fr": "Département",
-                "en": "Département"
-            },
-            "requirement": "recommended",
-            "accessMonitoring": "corporate",
-
-            "organization": {
-                "label": {
-                    "fr": "Département d'enseignement",
-                    "en": "Teaching departement"
-                },
-                "ref": "Organization"
-            },
-
-            "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            }
-        }],
-
-        "ORCID": {
-            "label": {
-                "fr": "ORCID",
-                "en": "ORCID"
-            },
-            "description": {
-                "fr": "Identifiant ouvert pour chercheur et contributeur",
-                "en": "Open Researcher and Contributor ID"
-            }
-        },
-
-        "IDREF": {
-            "label": {
-                "fr": "IDREF",
-                "en": "IDREF"
-            },
-            "description": {
-                "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
-                "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
-            }
-        },
-
-        "biography": {
-            "label": {
-                "fr": "Bio",
-                "en": "Bio"
-            }
-        },
-
-        "tags": {
-            "label": {
-                "fr": "Tags",
-                "en": "Tags"
-            },
-
-            "hceres2017": [{
-                "label": {
-                    "fr": "Tags HCERES 2017",
-                    "en": "HCERES 2017 tags"
-                },
-                "enum": "hceres2017"
-            }],
-
-            "aeres2012": [{
-                "label": {
-                    "fr": "Tags AERES 2012",
-                    "en": "AERES 2012 tags"
-                },
-                "enum": "aeres2012"
-            }],
-
-            "methods": [{
-                "label": {
-                    "fr": "Tags méthodes",
-                    "en": "Methods tags"
-                },
-                "enum": "methods"
-            }],
-
-            "free": [{
-                "label": {
-                    "fr": "Tags libres",
-                    "en": "Free tags"
-                }
-            }],
-
-            "erc": [{
-                "label": {
-                    "fr": "Tags ERC",
-                    "en": "ERC tags"
-                },
-                "enum": "ERC"
-            }],
-
-            "discipline": [{
-                "label": {
-                    "fr": "Disciplines",
-                    "en": "Academics"
-                },
-                "enum": "disciplines"
-            }],
-
-            "researchTheme": [{
-                "label": {
-                    "fr": "Thèmes de recherche",
-                    "en": "Research themes"
-                },
-                "enum": "researchThemes"
-            }]
-        },
-
-        "personalActivities": [{
-            "label": {
-                "fr": "Activités personnelles",
-                "en": "Personal activities"
-            },
-
-            "personalActivityType": {
-                "requirement": "mandatory",
-                "label": {
-                    "fr": "Type d'activité",
-                    "en": "Activity type"
-                },
-                "enum": "KEYS(personalActivityTypes)"
-            },
-
-            "personalActivitySubtype": {
-                "label": {
-                    "fr": "Plus précisément",
-                    "en": "More precisely"
-                },
-                "enum": "personalActivityTypes.$personalActivityType"
-            },
-
-            "startDate": {
-                "requirement": "mandatory",
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            },
-
-            "role": {
-                "label": {
-                    "fr": "Rôle",
-                    "en": "Role"
-                },
-                "enum": "personalActivityRoles"
-            },
-
-            "description": {
-                "label": {
-                    "fr": "Activités personnelles d'enseignement, d'expertise, d'encadrement...",
-                    "en": "Personal activities : teaching, expertise..."
-                }
-            },
-
-            "organizations": [{
-                "label": {
-                    "fr": "Organisations",
-                    "en": "Organizations"
-                },
-                "ref": "Organization"
-            }],
-
-            "people": [{
-                "label": {
-                    "fr": "Personne(s) concernée(s)",
-                    "en": "Involved people"
-                },
-                "ref": "People"
-            }]
-        }],
-
-        "distinctions": [{
-            "label": {
-                "fr": "Diplômes et distinctions",
-                "en": "Diplomas and awards"
-            },
-
-            "organizations": [{
-                "label": {
-                    "fr": "Organisations",
-                    "en": "Organizations"
-                },
-                "ref": "Organization"
-            }],
-
-            "date": {
-                "label": {
-                    "fr": "Date",
-                    "en": "Date"
-                },
-                "type": "date"
-            },
-
-            "title": {
-                "label": {
-                    "fr": "Titre",
-                    "en": "Title"
-                },
-                "requirement": "mandatory"
-            },
-
-            "countries": [{
-                "label": {
-                    "fr": "Pays",
-                    "en": "Country"
-                },
-                "enum": "countries"
-            }],
-
-            "distinctionType": {
-                "label": {
-                    "fr": "Type de distinction",
-                    "en": "Distinction type"
-                },
-                "enum": "distinctionTypes"
-            },
-
-            "subject": {
-                "label": {
-                    "fr": "Sujet",
-                    "en": "Subject"
-                }
-            },
-
-            "honours": {
-                "label": {
-                    "fr": "Honneurs",
-                    "en": "Honours"
-                }
-            }
-        }],
-
-        "contacts": [{
-            "label": {
-                "fr": "Contact(s)",
-                "en": "Contact(s)"
-            },
-
-            "email": {
-                "label": {
-                    "fr": "Email",
-                    "en": "Email"
-                },
-                "type": "email"
-            },
-
-            "phone": {
-                "label": {
-                    "fr": "Téléphone",
-                    "en": "Phone number"
-                }
-            }
-        }],
-
-        "langs": {
-            "label": {
-                "fr": "Langues",
-                "en": "Languages"
-            },
-            "enum": "iso6391"
-        }
-    },
-
-    "Activity": {
-
-        "name": {
+         "jobType": {
             "requirement": "mandatory",
             "label": {
-                "fr": "Nom",
-                "en": "Name"
-            }
-        },
-
-        "activityType": {
-            "label": {
-                "fr": "Type d'activité",
-                "en": "Activity type"
+               "fr": "Type de contrat",
+               "en": "Contract type"
             },
-            "requirement": "mandatory",
-            "enum": "activityTypes"
-        },
+            "enum": "jobType"
+         },
 
-        "startDate": {
+         "timepart": {
             "label": {
-                "fr": "Date de début",
-                "en": "Start date"
-            }
-        },
-
-        "endDate": {
-            "label": {
-                "fr": "Date de fin",
-                "en": "End date"
-            }
-        },
-
-        "organizations": [{
-            "label": {
-                "fr": "Partenaires",
-                "en": "Partnership"
+               "fr": "Taux d'occupation",
+               "en": "Part time rate"
             },
+            "type": "number",
+            "default": 1,
+            "min": 0.05,
+            "max": 1
+         },
 
-            "organization": {
-                "label": {
-                    "fr": "Organisation",
-                    "en": "Organization"
-                },
-                "ref": "Organization"
+         "jobTitle": {
+            "requirement": "recommended",
+            "label": {
+               "fr": "Fonction",
+               "en": "Function"
+            },
+            "enum": "jobTitle"
+         },
+
+         "gradesAcademic": [{
+            "label": {
+               "fr": "Grades",
+               "en": "Grades"
+            },
+            "description": {
+               "fr": "Grades académiques DR1, CR1...",
+               "en": "Academic Grade Associate Prof, Full Prof..."
             },
 
-            "role": {
-                "label": {
-                    "fr": "Rôle",
-                    "en": "Role"
-                },
-                "enum": "activityOrganizationRoles"
+            "grade": {
+               "requirement": "mandatory",
+               "label": {
+                  "fr": "Grade",
+                  "en": "Grade"
+               },
+               "type": "string",
+               "enum": "gradeAcademic"
             },
 
             "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
+               "requirement": "mandatory",
+               "label": {
+                  "fr": "Date de début",
+                  "en": "Start date"
+               },
+               "type": "date"
             },
 
             "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
+               "label": {
+                  "fr": "Date de fin",
+                  "en": "End date"
+               },
+               "type": "date"
             }
+            }],
+
+         "gradesAdmin": [{
+            "label": {
+               "fr": "Emplois repère",
+               "en": "Job grid"
+            },
+            "description": {
+               "fr": "Grade administratif du poste",
+               "en": "Administratif level of the position"
+            },
+            "accessType": "confidential",
+
+            "grade": {
+               "requirement": "mandatory",
+               "label": {
+                  "fr": "emplois repère",
+                  "en": "job level"
+               },
+               "enum": "gradeAdmin"
+            },
+
+            "startDate": {
+               "requirement": "mandatory",
+               "label": {
+                  "fr": "Date de début",
+                  "en": "Start date"
+               },
+               "type": "date"
+            },
+
+            "endDate": {
+               "label": {
+                  "fr": "Date de fin",
+                  "en": "End date"
+               },
+               "type": "date"
+            }
+            }],
+
+         "bonuses": [{
+            "label": {
+               "fr": "Bonus",
+               "en": "Bonus"
+            },
+            "description": {
+               "fr": "Primes à l'enseignement, direction...",
+               "en": "Bonus for extra-academic activities"
+            },
+            "accessType": "confidential",
+
+            "bonusType": {
+               "label": {
+                  "fr": "Type",
+                  "en": "Type"
+               },
+               "enum": "bonusTypes"
+            },
+
+            "startDate": {
+               "label": {
+                  "fr": "Date de début",
+                  "en": "Start date"
+               },
+               "type": "date"
+            },
+
+            "endDate": {
+               "label": {
+                  "fr": "Date de fin",
+                  "en": "End date"
+               },
+               "type": "date"
+            }
+            }]
+        }],
+
+      "academicMemberships": [{
+         "label": {
+            "fr": "Affiliation",
+            "en": "Affiliation"
+         },
+         "requirement": "recommended",
+         "accessMonitoring": "corporate",
+
+         "organization": {
+            "label": {
+               "fr": "Laboratoire de recherche",
+               "en": "Research Lab"
+            },
+            "ref": "Organization"
+         },
+
+         "startDate": {
+            "label": {
+               "fr": "Date de début",
+               "en": "Start date"
+            },
+            "type": "date"
+         },
+
+         "endDate": {
+            "label": {
+               "fr": "Date de fin",
+               "en": "End date"
+            },
+            "type": "date"
+         },
+
+         "membershipType": {
+            "label": {
+               "fr": "Type d'affiliation",
+               "en": "Affiliation type"
+            },
+            "enum": "academicMembershipType"
+         }
+        }],
+
+      "deptMemberships": [{
+         "label": {
+            "fr": "Département",
+            "en": "Département"
+         },
+         "requirement": "recommended",
+         "accessMonitoring": "corporate",
+
+         "organization": {
+            "label": {
+               "fr": "Département d'enseignement",
+               "en": "Teaching departement"
+            },
+            "ref": "Organization"
+         },
+
+         "startDate": {
+            "label": {
+               "fr": "Date de début",
+               "en": "Start date"
+            },
+            "type": "date"
+         },
+
+         "endDate": {
+            "label": {
+               "fr": "Date de fin",
+               "en": "End date"
+            },
+            "type": "date"
+         }
+        }],
+
+      "ORCID": {
+         "label": {
+            "fr": "ORCID",
+            "en": "ORCID"
+         },
+         "description": {
+            "fr": "Identifiant ouvert pour chercheur et contributeur",
+            "en": "Open Researcher and Contributor ID"
+         }
+      },
+
+      "IDREF": {
+         "label": {
+            "fr": "IDREF",
+            "en": "IDREF"
+         },
+         "description": {
+            "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
+            "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
+         }
+      },
+
+      "biography": {
+         "label": {
+            "fr": "Bio",
+            "en": "Bio"
+         }
+      },
+
+      "tags": {
+         "label": {
+            "fr": "Tags",
+            "en": "Tags"
+         },
+
+         "hceres2017": [{
+            "label": {
+               "fr": "Tags HCERES 2017",
+               "en": "HCERES 2017 tags"
+            },
+            "enum": "hceres2017"
+            }],
+
+         "aeres2012": [{
+            "label": {
+               "fr": "Tags AERES 2012",
+               "en": "AERES 2012 tags"
+            },
+            "enum": "aeres2012"
+            }],
+
+         "methods": [{
+            "label": {
+               "fr": "Tags méthodes",
+               "en": "Methods tags"
+            },
+            "enum": "methods"
+            }],
+
+         "free": [{
+            "label": {
+               "fr": "Tags libres",
+               "en": "Free tags"
+            }
+            }],
+
+         "erc": [{
+            "label": {
+               "fr": "Tags ERC",
+               "en": "ERC tags"
+            },
+            "enum": "ERC"
+            }],
+
+         "discipline": [{
+            "label": {
+               "fr": "Disciplines",
+               "en": "Academics"
+            },
+            "enum": "disciplines"
+            }],
+
+         "researchTheme": [{
+            "label": {
+               "fr": "Thèmes de recherche",
+               "en": "Research themes"
+            },
+            "enum": "researchThemes"
+            }]
+      },
+
+      "personalActivities": [{
+         "label": {
+            "fr": "Activités personnelles",
+            "en": "Personal activities"
+         },
+
+         "personalActivityType": {
+            "requirement": "mandatory",
+            "label": {
+               "fr": "Type d'activité",
+               "en": "Activity type"
+            },
+            "enum": "KEYS(personalActivityTypes)"
+         },
+
+         "personalActivitySubtype": {
+            "label": {
+               "fr": "Plus précisément",
+               "en": "More precisely"
+            },
+            "enum": "personalActivityTypes.$personalActivityType"
+         },
+
+         "startDate": {
+            "requirement": "mandatory",
+            "label": {
+               "fr": "Date de début",
+               "en": "Start date"
+            },
+            "type": "date"
+         },
+
+         "endDate": {
+            "label": {
+               "fr": "Date de fin",
+               "en": "End date"
+            },
+            "type": "date"
+         },
+
+         "role": {
+            "label": {
+               "fr": "Rôle",
+               "en": "Role"
+            },
+            "enum": "personalActivityRoles"
+         },
+
+         "description": {
+            "label": {
+               "fr": "Activités personnelles d'enseignement, d'expertise, d'encadrement...",
+               "en": "Personal activities : teaching, expertise..."
+            }
+         },
+
+         "organizations": [{
+            "label": {
+               "fr": "Organisations",
+               "en": "Organizations"
+            },
+            "ref": "Organization"
+            }],
+
+         "people": [{
+            "label": {
+               "fr": "Personne(s) concernée(s)",
+               "en": "Involved people"
+            },
+            "ref": "People"
+            }]
+        }],
+
+      "distinctions": [{
+         "label": {
+            "fr": "Diplômes et distinctions",
+            "en": "Diplomas and awards"
+         },
+
+         "organizations": [{
+            "label": {
+               "fr": "Organisations",
+               "en": "Organizations"
+            },
+            "ref": "Organization"
+            }],
+
+         "date": {
+            "label": {
+               "fr": "Date",
+               "en": "Date"
+            },
+            "type": "date"
+         },
+
+         "title": {
+            "label": {
+               "fr": "Titre",
+               "en": "Title"
+            },
+            "requirement": "mandatory"
+         },
+
+         "countries": [{
+            "label": {
+               "fr": "Pays",
+               "en": "Country"
+            },
+            "enum": "countries"
+            }],
+
+         "distinctionType": {
+            "label": {
+               "fr": "Type de distinction",
+               "en": "Distinction type"
+            },
+            "enum": "distinctionTypes"
+         },
+
+         "subject": {
+            "label": {
+               "fr": "Sujet",
+               "en": "Subject"
+            }
+         },
+
+         "honours": {
+            "label": {
+               "fr": "Honneurs",
+               "en": "Honours"
+            }
+         }
+        }],
+
+      "contacts": [{
+         "label": {
+            "fr": "Contact(s)",
+            "en": "Contact(s)"
+         },
+
+         "title": {
+            "label": {
+               "fr": "Titre",
+               "en": "Title",
+            }
+
+         },
+
+         "email": {
+            "label": {
+               "fr": "Email",
+               "en": "Email"
+            },
+            "type": "email"
+         },
+
+         "phone": {
+            "label": {
+               "fr": "Téléphone",
+               "en": "Phone number"
+            }
+         }
+        }],
+
+      "langs": {
+         "label": {
+            "fr": "Langues",
+            "en": "Languages"
+         },
+         "enum": "iso6391"
+      }
+   },
+
+   "Activity": {
+
+      "name": {
+         "requirement": "mandatory",
+         "label": {
+            "fr": "Nom",
+            "en": "Name"
+         }
+      },
+
+      "activityType": {
+         "label": {
+            "fr": "Type d'activité",
+            "en": "Activity type"
+         },
+         "requirement": "mandatory",
+         "enum": "activityTypes"
+      },
+
+      "startDate": {
+         "label": {
+            "fr": "Date de début",
+            "en": "Start date"
+         }
+      },
+
+      "endDate": {
+         "label": {
+            "fr": "Date de fin",
+            "en": "End date"
+         }
+      },
+
+      "organizations": [{
+         "label": {
+            "fr": "Partenaires",
+            "en": "Partnership"
+         },
+
+         "organization": {
+            "label": {
+               "fr": "Organisation",
+               "en": "Organization"
+            },
+            "ref": "Organization"
+         },
+
+         "role": {
+            "label": {
+               "fr": "Rôle",
+               "en": "Role"
+            },
+            "enum": "activityOrganizationRoles"
+         },
+
+         "startDate": {
+            "label": {
+               "fr": "Date de début",
+               "en": "Start date"
+            },
+            "type": "date"
+         },
+
+         "endDate": {
+            "label": {
+               "fr": "Date de fin",
+               "en": "End date"
+            },
+            "type": "date"
+         }
 
         }],
 
-        "people": [{
+      "people": [{
+         "label": {
+            "fr": "Personnes impliquées",
+            "en": "Collaborators"
+         },
+         "people": {
             "label": {
-                "fr": "Personnes impliquées",
-                "en": "Collaborators"
-            },
+               "fr": "Participant",
+               "en": "Participant"
+            }
+         },
 
-            "role": {
-                "label": {
-                    "fr": "Rôle",
-                    "en": "Role"
-                },
-                "//TODO": "refactor this field, 'suggestions' should become 'enum' but additional intel has been requested",
-                "//": "this field is guided through the suggestions field depending on personalActivityType value",
-                "suggestions": {
-                    "research": [
+         "role": {
+            "label": {
+               "fr": "Rôle",
+               "en": "Role"
+            },
+            "//TODO": "refactor this field, 'suggestions' should become 'enum' but additional intel has been requested",
+            "//": "this field is guided through the suggestions field depending on personalActivityType value",
+            "suggestions": {
+               "research": [
                         "PI",
                         "partenaire"
                     ],
-                    "invitation": [
+               "invitation": [
                         "invité",
                         "référent"
                     ],
-                    "séjour": [
+               "séjour": [
                         "invité",
                         "référent"
                     ],
-                    "doctorat": [
+               "doctorat": [
                         "directeur de thèse",
                         "rapporteur"
                     ]
-                }
-            },
-
-            "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
             }
+         },
+
+         "startDate": {
+            "label": {
+               "fr": "Date de début",
+               "en": "Start date"
+            },
+            "type": "date"
+         },
+
+         "endDate": {
+            "label": {
+               "fr": "Date de fin",
+               "en": "End date"
+            },
+            "type": "date"
+         }
 
         }],
 
-        "subject": {
-            "label": {
-                "fr": "Sujet",
-                "en": "Subject"
-            }
-        },
+      "subject": {
+         "label": {
+            "fr": "Sujet",
+            "en": "Subject"
+         }
+      },
 
-        "summary": {
-            "label": {
-                "fr": "Description",
-                "en": "Description"
-            }
-        },
+      "summary": {
+         "label": {
+            "fr": "Description",
+            "en": "Description"
+         }
+      },
 
-        "url": {
-            "label": {
-                "fr": "Site Web",
-                "en": "Website"
-            }
-        },
+      "url": {
+         "label": {
+            "fr": "Site Web",
+            "en": "Website"
+         }
+      },
 
-        "tags": {
+      "tags": {
+         "label": {
+            "fr": "Tags",
+            "en": "Tags"
+         },
+
+         "hceres2017": [{
             "label": {
-                "fr": "Tags",
-                "en": "Tags"
+               "fr": "Tags HCERES 2017",
+               "en": "HCERES 2017 tags"
             },
-
-            "hceres2017": [{
-                "label": {
-                    "fr": "Tags HCERES 2017",
-                    "en": "HCERES 2017 tags"
-                },
-                "enum":"hceres2017"
+            "enum": "hceres2017"
             }],
 
-            "aeres2012": [{
-                "label": {
-                    "fr": "Tags AERES 2012",
-                    "en": "AERES 2012 tags"
-                },
-                "enum":"aeres2012"
+         "aeres2012": [{
+            "label": {
+               "fr": "Tags AERES 2012",
+               "en": "AERES 2012 tags"
+            },
+            "enum": "aeres2012"
             }],
 
-            "methods": [{
-                "label": {
-                    "fr": "Tags méthodes",
-                    "en": "Methods tags"
-                },
-                "enum":"methods"
+         "methods": [{
+            "label": {
+               "fr": "Tags méthodes",
+               "en": "Methods tags"
+            },
+            "enum": "methods"
             }],
 
-            "free": [{
-                "label": {
-                    "fr": "Tags libres",
-                    "en": "Free tags"
-                }
+         "free": [{
+            "label": {
+               "fr": "Tags libres",
+               "en": "Free tags"
+            }
             }],
 
-            "erc": [{
-                "label": {
-                    "fr": "Tags ERC",
-                    "en": "ERC tags"
-                },
-                "enum":"erc"
+         "erc": [{
+            "label": {
+               "fr": "Tags ERC",
+               "en": "ERC tags"
+            },
+            "enum": "erc"
             }],
 
-            "discipline": [{
-                "label": {
-                    "fr": "Disciplines",
-                    "en": "Academics"
-                },
-                "enum":"discipline"
+         "discipline": [{
+            "label": {
+               "fr": "Disciplines",
+               "en": "Academics"
+            },
+            "enum": "discipline"
             }],
 
-            "researchTheme": [{
-                "label": {
-                    "fr": "Thèmes de recherche",
-                    "en": "Research themes"
-                },
-                "enum":"researchTheme"
+         "researchTheme": [{
+            "label": {
+               "fr": "Thèmes de recherche",
+               "en": "Research themes"
+            },
+            "enum": "researchTheme"
             }]
-        },
+      },
 
-        "grants": [{
+      "grants": [{
+         "label": {
+            "fr": "Subventions",
+            "en": "Grants"
+         },
+
+         "organization": {
             "label": {
-                "fr": "Subventions",
-                "en": "Grants"
-            },
-
-            "organization": {
-                "label": {
-                    "fr": "Organisation",
-                    "en": "Organization"
-                },
-                "ref": "Organization"
-            },
-
-            "name": {
-                "label": {
-                    "fr": "Nom",
-                    "en": "Name"
-                }
-            },
-
-            "grantType": {
-                "label": {
-                    "fr": "Type",
-                    "en": "Type"
-                },
-                "enum": "grantTypes"
-            },
-
-            "grantIdentifier": {
-                "label": {
-                    "fr": "Identifiant",
-                    "en": "Identifier"
-                },
-                "description":{
-                    "fr":"identifiant donné par l'organisme financeur",
-                    "en":"identifier given by the financing institution"
-                }
-            },
-
-            "sciencespoAmount": {
-                "label": {
-                    "fr": "Montant Sciences Po",
-                    "en": "Sciences Po amount"
-                },
-                "type": "number"
-            },
-
-            "totalAmount": {
-                "label": {
-                    "fr": "Montant total",
-                    "en": "Total amount"
-                },
-                "type": "number"
-            },
-
-            "investAmount": {
-                "label": {
-                    "fr": "Montant investissement",
-                    "en": "Investment amount"
-                },
-                "type": "number"
-            },
-
-            "runAmount": {
-                "label": {
-                    "fr": "Montant fonctionnement",
-                    "en": "Operational amount"
-                },
-                "type": "number"
-            },
-
-            "hrAmount": {
-                "label": {
-                    "fr": "Montant Masse salariale",
-                    "en": "Human Ressources amount"
-                },
-                "type": "number"
-            },
-
-            "currencyAmount": {
-                "label": {
-                    "fr": "Devise",
-                    "en": "Currency"
-                },
-                "default": "EUR",
-                "enum": "iso4217"
-            },
-
-            "submissionDate": {
-                "label": {
-                    "fr": "Date de soumission",
-                    "en": "Submission date"
-                },
-                "type": "date"
-            },
-
-            "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            },
-
-            "UG": {
-                "label": {
-                    "fr": "Unité de Gestion",
-                    "en": "Unité de Gestion"
-                },
-                "description":{
-                    "fr":"Ligne budgétaire où est géré le financement",
-                    "en":"budget line impacted by the grant"
-                }
-            },
-
-            "status": {
-                "label": {
-                    "fr": "Statut",
-                    "en": "Status"
-                },
-                "enum": "grantStatuses"
-            }
-        }],
-
-        "distinctions": [{
-            "label": {
-                "fr": "Distinctions",
-                "en": "Awards"
-            },
-
-            "organizations": [{
-                "label": {
-                    "fr": "Organisations",
-                    "en": "Organizations"
-                },
-                "ref": "Organization"
-            }],
-
-            "date": {
-                "label": {
-                    "fr": "Date",
-                    "en": "Date"
-                },
-                "type": "date"
-            },
-
-            "title": {
-                "label": {
-                    "fr": "Titre",
-                    "en": "Title"
-                },
-                "requirement": "mandatory"
-            },
-
-            "subject": {
-                "label": {
-                    "fr": "Sujet",
-                    "en": "Subject"
-                }
-            }
-        }]
-    },
-
-    "Organization": {
-        "name": {
-            "requirement": "mandatory",
-            "label": {
-                "fr": "Nom",
-                "en": "Name"
-            }
-        },
-
-        "researchUnitCodes": [{
-            "label": {
-                "fr": "codes de l'unité de recherche",
-                "en": "Research unit's codes"
-            },
-
-            "code": {
-                "label": {
-                    "fr": "Code",
-                    "en": "Code"
-                }
-            },
-
-            "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            }
-        }],
-
-        "idBanner": {
-            "label": {
-                "fr": "Identifiant Banner",
-                "en": "banner ID"
-            }
-        },
-
-        "idSpire": {
-            "label": {
-                "fr": "Identifiant Spire",
-                "en": "Spire ID"
-            }
-        },
-
-        "idRnsr": {
-            "label": {
-                "fr": "Identifiant RNSR",
-                "en": "RNSR identifier"
-            }
-        },
-
-        "UG": {
-                "label": {
-                    "fr": "Unité de Gestion",
-                    "en": "Unité de Gestion"
-                },
-                "description":{
-                    "fr":"Ligne budgétaire de l'unité de recherche",
-                    "en":"research unit's budget line"
-                }
-        },
-
-        "acronym": {
-            "label": {
-                "fr": "Acronyme",
-                "en": "Acronym"
-            }
-        },
-
-        "address": {
-            "label": {
-                "fr": "Adresse",
-                "en": "Address"
-            }
-        },
-
-        "country": {
-            "label": {
-                "fr": "Pays",
-                "en": "Country"
-            },
-            "enum": "countries"
-        },
-
-        "status": {
-            "label": {
-                "fr": "Statut",
-                "en": "Status"
-            },
-            "enum": "organizationStatuses"
-        },
-
-        "organizationType": {
-            "label": {
-                "fr": "Type d'organisation",
-                "en": "Organization type"
-            },
-            "enum": "organizationTypes"
-        },
-
-        "url": {
-            "label": {
-                "fr": "Site web",
-                "en": "Website url"
-            }
-        },
-
-        "parentOrganizations": [{
-            "label": {
-                "fr": "Organisation(s) de tutelle",
-                "en": "Parent organization(s)"
+               "fr": "Organisation",
+               "en": "Organization"
             },
             "ref": "Organization"
+         },
+
+         "name": {
+            "label": {
+               "fr": "Nom",
+               "en": "Name"
+            }
+         },
+
+         "grantType": {
+            "label": {
+               "fr": "Type",
+               "en": "Type"
+            },
+            "enum": "grantTypes"
+         },
+
+         "grantIdentifier": {
+            "label": {
+               "fr": "Identifiant",
+               "en": "Identifier"
+            },
+            "description": {
+               "fr": "identifiant donné par l'organisme financeur",
+               "en": "identifier given by the financing institution"
+            }
+         },
+
+         "sciencespoAmount": {
+            "label": {
+               "fr": "Montant Sciences Po",
+               "en": "Sciences Po amount"
+            },
+            "type": "number"
+         },
+
+         "totalAmount": {
+            "label": {
+               "fr": "Montant total",
+               "en": "Total amount"
+            },
+            "type": "number"
+         },
+
+         "investAmount": {
+            "label": {
+               "fr": "Montant investissement",
+               "en": "Investment amount"
+            },
+            "type": "number"
+         },
+
+         "runAmount": {
+            "label": {
+               "fr": "Montant fonctionnement",
+               "en": "Operational amount"
+            },
+            "type": "number"
+         },
+
+         "hrAmount": {
+            "label": {
+               "fr": "Montant Masse salariale",
+               "en": "Human Ressources amount"
+            },
+            "type": "number"
+         },
+
+         "currencyAmount": {
+            "label": {
+               "fr": "Devise",
+               "en": "Currency"
+            },
+            "default": "EUR",
+            "enum": "iso4217"
+         },
+
+         "submissionDate": {
+            "label": {
+               "fr": "Date de soumission",
+               "en": "Submission date"
+            },
+            "type": "date"
+         },
+
+         "startDate": {
+            "label": {
+               "fr": "Date de début",
+               "en": "Start date"
+            },
+            "type": "date"
+         },
+
+         "endDate": {
+            "label": {
+               "fr": "Date de fin",
+               "en": "End date"
+            },
+            "type": "date"
+         },
+
+         "UG": {
+            "label": {
+               "fr": "Unité de Gestion",
+               "en": "Unité de Gestion"
+            },
+            "description": {
+               "fr": "Ligne budgétaire où est géré le financement",
+               "en": "budget line impacted by the grant"
+            }
+         },
+
+         "status": {
+            "label": {
+               "fr": "Statut",
+               "en": "Status"
+            },
+            "enum": "grantStatuses"
+         }
+        }],
+
+      "distinctions": [{
+         "label": {
+            "fr": "Distinctions",
+            "en": "Awards"
+         },
+
+         "organizations": [{
+            "label": {
+               "fr": "Organisations",
+               "en": "Organizations"
+            },
+            "ref": "Organization"
+            }],
+
+         "date": {
+            "label": {
+               "fr": "Date",
+               "en": "Date"
+            },
+            "type": "date"
+         },
+
+         "title": {
+            "label": {
+               "fr": "Titre",
+               "en": "Title"
+            },
+            "requirement": "mandatory"
+         },
+
+         "subject": {
+            "label": {
+               "fr": "Sujet",
+               "en": "Subject"
+            }
+         }
         }]
-    }
+   },
+
+   "Organization": {
+      "name": {
+         "requirement": "mandatory",
+         "label": {
+            "fr": "Nom",
+            "en": "Name"
+         }
+      },
+
+      "researchUnitCodes": [{
+         "label": {
+            "fr": "codes de l'unité de recherche",
+            "en": "Research unit's codes"
+         },
+
+         "code": {
+            "label": {
+               "fr": "Code",
+               "en": "Code"
+            }
+         },
+
+         "startDate": {
+            "label": {
+               "fr": "Date de début",
+               "en": "Start date"
+            },
+            "type": "date"
+         },
+
+         "endDate": {
+            "label": {
+               "fr": "Date de fin",
+               "en": "End date"
+            },
+            "type": "date"
+         }
+        }],
+
+      "idBanner": {
+         "label": {
+            "fr": "Identifiant Banner",
+            "en": "banner ID"
+         }
+      },
+
+      "idSpire": {
+         "label": {
+            "fr": "Identifiant Spire",
+            "en": "Spire ID"
+         }
+      },
+
+      "idRnsr": {
+         "label": {
+            "fr": "Identifiant RNSR",
+            "en": "RNSR identifier"
+         }
+      },
+
+      "UG": {
+         "label": {
+            "fr": "Unité de Gestion",
+            "en": "Unité de Gestion"
+         },
+         "description": {
+            "fr": "Ligne budgétaire de l'unité de recherche",
+            "en": "research unit's budget line"
+         }
+      },
+
+      "acronym": {
+         "label": {
+            "fr": "Acronyme",
+            "en": "Acronym"
+         }
+      },
+
+      "address": {
+         "label": {
+            "fr": "Adresse",
+            "en": "Address"
+         }
+      },
+
+      "country": {
+         "label": {
+            "fr": "Pays",
+            "en": "Country"
+         },
+         "enum": "countries"
+      },
+
+      "status": {
+         "label": {
+            "fr": "Statut",
+            "en": "Status"
+         },
+         "enum": "organizationStatuses"
+      },
+
+      "organizationType": {
+         "label": {
+            "fr": "Type d'organisation",
+            "en": "Organization type"
+         },
+         "enum": "organizationTypes"
+      },
+
+      "url": {
+         "label": {
+            "fr": "Site web",
+            "en": "Website url"
+         }
+      },
+
+      "parentOrganizations": [{
+         "label": {
+            "fr": "Organisation(s) de tutelle",
+            "en": "Parent organization(s)"
+         },
+         "ref": "Organization"
+        }]
+   }
 }
