@@ -18,7 +18,9 @@ module.exports = {
 
 function model (name) {
 	const desc = getSchema(name)
-	const schema = new mongoose.Schema(desc)
+	const schema = new mongoose.Schema(desc, {
+		strict: 'throw'
+	})
 	return mongoose.model(name, schema)
 }
 
