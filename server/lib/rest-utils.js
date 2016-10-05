@@ -2,7 +2,7 @@
 
 const { Router } = require('express')
 const { ServerError, ClientError, NotFoundError } = require('./errors')
-const { identity, set, merge, map } = require('lodash/fp')
+const { identity, set, map } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 
@@ -60,9 +60,10 @@ const getModel = (Model, format) => req =>
 const updateModel = (Model, save) => {
 	const get = getModel(Model, identity)
 	return req => get(req).then(doc => {
-		const updated = merge(doc, req.body)
-		new Model(updated) // Triggers StrictModeError in case of extra fields
-		return save(updated)
+		Object.keys(req.body).forEach(field => {
+			doc[field] = req.body[field]
+		})
+		return save(doc)
 	})
 }
 
