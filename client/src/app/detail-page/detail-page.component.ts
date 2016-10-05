@@ -14,6 +14,7 @@ export class DetailPageComponent implements OnInit {
   feature: string;
   fields: Array<any> = [];
   data: any;
+  layout: any;
 
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
@@ -21,21 +22,27 @@ export class DetailPageComponent implements OnInit {
     this.route.params
       .subscribe(({ feature, id }) => {
         this.feature = feature;
-
-        this.isariDataService.getSchema(this.feature)
-          .then(schema => {
-            this.fields = Object.keys(schema).map(key => Object.assign({}, schema[key], {
-              name: key,
-              label: schema[key].label['fr'], // @TODO get lang from somewhere
-              fieldType: IsariInputComponent // @TODO get from type + ...
-            }));
+        Promise.all([
+          this.isariDataService.getPeople(+id),
+          this.isariDataService.getSchema(this.feature),
+          this.isariDataService.getLayout(this.feature)
+        ]).then(([people, schema, layout]) => {
+          this.fields = Object.keys(schema).map(key => Object.assign({}, schema[key], {
+            name: key,
+            label: schema[key].label['fr'], // @TODO get lang from somewhere
+            fieldType: IsariInputComponent // @TODO get from type + ...
+          }));
+          this.data = people;
+          this.layout = layout.map(group => {
+            if (Array.isArray(group)) {
+              return { fields: group };
+            }
+            if (typeof group === 'string') {
+              return { fields: [group] };
+            }
+            return group;
           });
-
-        this.isariDataService.getPeople(+id)
-          .then(people => {
-            this.data = people;
-          });
-
+        });
       });
   }
 
