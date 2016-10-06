@@ -5,7 +5,7 @@ port = 8080
 format = 'dev'
 
 [mongo]
-url = 'mongodb://localhost/isari'
+url = 'mongodb://localhost/isaridev'
 
 [elasticsearch]
-index = 'isari'
+index = 'isaridev'

@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start-db": "docker-compose -f dev_docker/docker-compose.yml -p isari up",
-    "start": "cross-env NODE_ENV=production node server.js",
+    "clean-db": "docker-compose -f dev_docker/docker-compose.yml -p isari down",
+    "start": "cross-env NODE_ENV=production node server",
     "test": "mocha --check-leaks -R spec",
     "pretest": "npm run lint",
     "dev": "npm-run-all -p watch:*",
