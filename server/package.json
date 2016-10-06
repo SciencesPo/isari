@@ -4,6 +4,7 @@
   "description": "Isari REST API server",
   "main": "app.js",
   "scripts": {
+    "start-db": "docker-compose -f dev_docker/docker-compose.yml -p isari up",
     "start": "cross-env NODE_ENV=production node server.js",
     "test": "mocha --check-leaks -R spec",
     "pretest": "npm run lint",
