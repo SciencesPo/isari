@@ -23,11 +23,13 @@ export class IsariSelectComponent implements OnInit {
   allValues: any[] = [];
   selectControl: FormControl;
   focused: boolean = false;
+  disabled: boolean = false;
 
   constructor(private isariDataService: IsariDataService) { }
 
   ngOnInit() {
-    this.selectControl = new FormControl();
+    this.selectControl = new FormControl({ value: null, disabled: this.form.controls[this.name].disabled });
+
     this.selectControl.valueChanges
       .subscribe((value: string) => {
         if (this.form.controls[this.name].value !== this.findValue(value)) {

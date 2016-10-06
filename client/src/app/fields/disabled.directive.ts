@@ -15,9 +15,11 @@ export class DisabledDirective implements OnInit {
 
   constructor(private view: ViewContainerRef) {}
 
-  ngOnInit(){
+  ngOnInit() {
     const component = (<any>this.view)._element.component;
-    component.disabled = this.isariDisabled;
+    if (component) {
+      component.disabled = this.isariDisabled;
+    }
   }
 
 }
