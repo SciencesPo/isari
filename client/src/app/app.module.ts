@@ -21,6 +21,7 @@ import { FieldComponent } from './fields/field.component';
 import { DisabledDirective } from './fields/disabled.directive';
 import { IsariInputComponent } from './fields/isari-input/isari-input.component';
 import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
+import { IsariDateComponent } from './fields/isari-date/isari-date.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { IsariSelectComponent } from './fields/isari-select/isari-select.compone
     FieldComponent,
     IsariInputComponent,
     DisabledDirective,
-    IsariSelectComponent
+    IsariSelectComponent,
+    IsariDateComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import { IsariSelectComponent } from './fields/isari-select/isari-select.compone
   entryComponents: [
     AppComponent,
     IsariInputComponent,
-    IsariSelectComponent
+    IsariSelectComponent,
+    IsariDateComponent
   ],
   bootstrap: [AppComponent]
 })

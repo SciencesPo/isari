@@ -3,7 +3,7 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
 
     let people = [
-      { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe', gender: 'm' },
+      { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe', gender: 'm', birthdate: '1978-8' },
       { id: 2, opts: { editable: false }, firstname: 'Kyle', name: 'Dixon', gender: 'f' }
     ];
 
@@ -71,3 +71,88 @@ export class InMemoryDataService implements InMemoryDbService {
     };
   }
 }
+
+/*
+[
+  {
+    "organization": "FNSP",
+    "startDate": "2003-05-04",
+    "timepart": 1,
+    "jobName": "ingénieur de recherche",
+    "jobType": "CDI",
+    "jobTitle": "appui technique",
+    "UG": "R12B",
+    "gradesAdmin": [
+      {
+        "grade": "CM1",
+        "startDate": "2003-05-04",
+        "endDate": "2004-06-07"
+      },
+      {
+        "grade": "CM2",
+        "startDate": "2004-06-08"
+      }
+    ]
+  }
+]
+
+{
+  "multiple": true,
+  "label": {
+      "fr": "Contrats",
+      "en": "Positions"
+    },
+    "organization": {
+        "requirement": "mandatory",
+        "suggestions": "top_10",
+        "ref": "Organization"
+    },
+    "startDate": {
+        "requirement": "mandatory",
+        "label": { "fr": "Date de début", "en": "Start date" },
+        "type": "date"
+    },
+    "endDate": {
+      "label": { "fr": "Date de fin", "en": "End date" },
+      "type": "date"
+    },
+    "jobName": {
+      "label": { "fr": "Emploi personnalisé", "en": "Job name" }
+    },
+    "jobType": {
+      "requirement": "mandatory",
+      "label": { "fr": "Type de contrat", "en": "Contract type" },
+      "enum": "jobType"
+    },
+    "timepart": {
+      "label": { "fr": "Taux d'occupation", "en": "Part time rate" },
+      "type": "number",
+      "default": 1,
+      "min": 0.05,
+      "max": 1
+    },
+    "jobTitle": {
+      "requirement": "recommended",
+      "label": { "fr": "Fonction", "en": "Function" },
+      "enum": "jobTitle"
+    },
+    "gradesAdmin": {
+      multiple: true,
+      "label": { "fr": "Emplois repère", "en": "Job grid" },
+      "grade": {
+        "requirement": "mandatory",
+        "label": { "fr": "emplois repère", "en": "job level" },
+        "enum": "gradeAdmin"
+      },
+      "startDate": {
+        "requirement": "mandatory",
+        "label": { "fr": "Date de début", "en": "Start date" },
+        "type": "date"
+      },
+      "endDate": {
+        "label": { "fr": "Date de fin", "en": "End date" },
+        "type": "date"
+      }
+  }
+}
+*/

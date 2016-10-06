@@ -23,3 +23,30 @@ body {
 .field {
   margin: 1em;
 }
+
+.field .error .label {
+  color: red;
+}
+
+.selectMenu {
+  margin-top: 38px; /* ? */
+}
+
+.dateMenu {
+  margin-top: 0;
+  max-width: none !important;
+}
+.dateMenu .calendar {
+  height: auto !important;
+  display: block !important;
+}
+.dateMenu .calendar div {
+  margin-bottom: 5px;
+}
+.dateMenu .calendar.years, .dateMenu .calendar.months {
+  max-width: 280px;
+}
+.dateMenu .calendar.years span.btn, .dateMenu .calendar.months span.btn {
+  float: left;
+  margin-right: 2px;
+}

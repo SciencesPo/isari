@@ -1,4 +1,5 @@
 <span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }">
+  <input type="hidden" [formControlName]="name">
 
   <div style="display: inline-block;position: relative;text-align: left;">
     <div class="md-input-wrapper">
@@ -23,8 +24,6 @@
       </div>
     </div>
   </div>
-
-  <input type="hidden" [formControlName]="name">
 
   <md-menu y-position="below" #menu="mdMenu" class="selectMenu">
     <button md-menu-item *ngFor="let entry of values" (click)="select(entry.value)">{{ entry.label.fr }}</button>
