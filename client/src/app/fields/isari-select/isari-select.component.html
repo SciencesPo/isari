@@ -7,8 +7,8 @@
         <div class="md-input-infix">
           <input class="md-input-element"
             *ngIf="form.controls[name]"
-            (focus)="triggerMenu()"
-            (blur)="focused = false"
+            (focus)="openMenu()"
+            (blur)="blur($event)"
             [formControl]="selectControl"
             [md-menu-trigger-for]="menu">
           <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
