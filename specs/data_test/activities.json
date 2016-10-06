@@ -2,8 +2,8 @@
    {
       "name": "OXPO",
       "activityType": "partenariat",
-      "startDate": "20150506",
-      "endDate": "20190602",
+      "startDate": "2015-05-06",
+      "endDate": "2019-06-02",
       "organizations": [
          {
             "organization": "IEP Paris",
@@ -21,8 +21,8 @@
    {
       "name": "ESS",
       "activityType": "projet de recherche",
-      "startDate": "20131203",
-      "endDate": "20151231",
+      "startDate": "2013-12-03",
+      "endDate": "2015-12-31",
       "organizations": [
          {
             "organization": "CDSP",
@@ -43,9 +43,9 @@
             "sciencespoAmount": 900000,
             "totalAmount": 945123,
             "currencyAmount": "EUR",
-            "submissionDate": "20130605",
-            "startDate": "20131203",
-            "endDate": "20151231",
+            "submissionDate": "2013-06-05",
+            "startDate": "2013-12-03",
+            "endDate": "2015-12-31",
             "UG": "R82S05",
             "status": "done"
          }
@@ -54,8 +54,8 @@
    {
       "name": "Post-doc",
       "activityType": "invité",
-      "startDate": "20150201",
-      "endDate": "20150831",
+      "startDate": "2015-02-01",
+      "endDate": "2015-08-31",
       "organizations": [
          {
             "organization": "CDSP",
@@ -78,8 +78,8 @@
    {
       "name": "Séjour UCLA",
       "activityType": "séjour à l'étranger",
-      "startDate": "20150629",
-      "endDate": "20151130",
+      "startDate": "2015-06-29",
+      "endDate": "2015-11-30",
       "organizations": [
          {
             "organization": "UCLA",
@@ -114,8 +114,8 @@
    {
       "name": "doctorat",
       "activityType": "doctorat",
-      "startDate": "20091001",
-      "endDate": "20141117",
+      "startDate": "2009-10-01",
+      "endDate": "2014-11-17",
       "organizations": [
          {
             "organization": "IEP Paris",
@@ -159,16 +159,16 @@
             "grantType": "individuel",
             "totalAmount": 850,
             "currencyAmount": "EUR",
-            "startDate": "20100101",
-            "endDate": "20101231"
+            "startDate": "2010-01-01",
+            "endDate": "2010-12-31"
          },
          {
             "organization": "MESR",
             "grantType": "individuel",
             "totalAmount": 20000,
             "currencyAmount": "EUR",
-            "startDate": "20100101",
-            "endDate": "20101231"
+            "startDate": "2010-01-01",
+            "endDate": "2010-12-31"
          }
       ]
    },
@@ -196,7 +196,7 @@
             "grantType": "collaboratif national",
             "totalAmount": 2549540,
             "currencyAmount": "EUR",
-            "submissionDate": "20150301",
+            "submissionDate": "2015-03-01",
             "status": "rejected"
          }
       ]

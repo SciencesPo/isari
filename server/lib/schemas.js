@@ -97,10 +97,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	}
 
 	// Required?
-	// Note: no 'required' for date type (as it will be a sub-document)
-	if (type !== 'date') {
-		schema.required = desc.requirement === 'mandatory'
-	}
+	schema.required = desc.requirement === 'mandatory'
 
 	// Set Mongoose type
 	if (type === 'string') {
@@ -111,30 +108,15 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		schema.type = Number
 	} else if (type === 'date') {
 		// Special type date, not translated into Date because we want support for partial dates
-		const fieldName = name.replace(/^.*\./, '')
-		const validator = function () {
-			const date = this[fieldName]
-			if (!date.year) {
-				return desc.requirement !== 'mandatory'
-			}
-			else if (!date.month) {
-				// Year only, always valid
-				return true
-			}
-			else if (!date.day) {
-				// Year+Month only
-				const s1 = `${date.year}-${pad0(date.month)}`
-				const d1 = new Date(s1)
-				const s2 = `${d1.getFullYear()}-${pad0(d1.getMonth() + 1)}`
-				return s1 === s2
-			}
-			else {
-				// Full date
-				const s1 = `${date.year}-${pad0(date.month)}-${pad0(date.day)}`
-				const d1 = new Date(s1)
-				const s2 = `${d1.getFullYear()}-${pad0(d1.getMonth() + 1)}-${pad0(d1.getDate())}`
-				return s1 === s2
-			}
+		schema.type = String
+		schema.match = /^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})$/
+		const validator = v => {
+			v = String(v)
+			const [ year, month = 0, day = 0 ] = v.split('-')
+			const s1 = `${year}-${pad0(month)}-${pad0(day)}`
+			const d = new Date(v)
+			const s2 = `${d.getFullYear()}-${pad0(month ? d.getMonth() + 1 : 0)}-${pad0(day ? d1.getDate() : 0)}`
+			return s1 === s2
 		}
 		const message = 'Invalid date'
 		schema.year = { type: Number, validate: { validator, message } }

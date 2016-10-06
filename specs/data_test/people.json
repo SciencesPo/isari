@@ -9,7 +9,7 @@
       "firstname": "Paul",
       "name": "Bismuth",
       "gender": "h",
-      "birthdate": "19760903",
+      "birthdate": "1976-09-03",
       "nationalities": [
       "FR",
       "IT"
@@ -17,7 +17,7 @@
       "positions": [
          {
             "organization": "FNSP",
-            "startDate": "20030504",
+            "startDate": "2003-05-04",
             "timepart": 1,
             "jobName": "ingénieur de recherche",
             "jobType": "CDI",
@@ -26,12 +26,12 @@
             "gradesAdmin": [
                {
                   "grade": "CM1",
-                  "startDate": "20030504",
-                  "endDate": "20040607"
+                  "startDate": "2003-05-04",
+                  "endDate": "2004-06-07"
           },
                {
                   "grade": "CM2",
-                  "startDate": "20040608"
+                  "startDate": "2004-06-08"
           }
         ]
       }
@@ -39,7 +39,7 @@
       "academicMemberships": [
          {
             "organization": "medialab",
-            "startDate": "20030504",
+            "startDate": "2003-05-04",
             "membershipType": "membre"
       }
     ],
