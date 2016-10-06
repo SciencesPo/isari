@@ -5,6 +5,10 @@ const { ClientError } = require('../lib/errors')
 const metas = require('../../specs/schema.meta.json')
 const { restHandler } = require('../lib/rest-utils')
 const { RESERVED_FIELDS } = require('../lib/schemas')
+// TODO use proper logger
+const chalk = require('chalk')
+const util = require('util')
+
 
 module.exports = Router()
 .get('/:name', restHandler(getSchema))
@@ -42,6 +46,7 @@ function formatMeta (meta, options = {}) {
 
 	const multiple = Array.isArray(meta)
 	const desc = multiple ? meta[0] : meta
+	let isObject = false
 
 	const handleField = (result, name) => {
 		if (!result) {
@@ -50,6 +55,7 @@ function formatMeta (meta, options = {}) {
 
 		if (!RESERVED_FIELDS.includes(name)) {
 			// Sub-field: just include it
+			isObject = true
 			const subres = formatMeta(desc[name], options)
 			if (subres) {
 				result[name] = subres
@@ -75,6 +81,18 @@ function formatMeta (meta, options = {}) {
 	if (!result) {
 		// Skip this field
 		return result
+	}
+
+	if (isObject) {
+		if (result.type) {
+			process.stderr.write(chalk.yellow(`\n[WARN] type "${result.type}" defined on an object document?\n`))
+			process.stderr.write(util.inspect(result, { colors: true }))
+		}
+		result.type = 'object'
+	}
+
+	if (!result.type) {
+		result.type = 'string'
 	}
 
 	// Handle multi-valued fields
