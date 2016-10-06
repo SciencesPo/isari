@@ -17,13 +17,6 @@ export class DataEditorComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.form = this.fb.group({});
-
-    // save every 1s on change
-    // this.form.valueChanges
-    //   .debounceTime(1000)
-    //   .subscribe((value: string) => {
-    //     this.save();
-    //   });
   }
 
   ngOnChanges (changes: SimpleChanges) {

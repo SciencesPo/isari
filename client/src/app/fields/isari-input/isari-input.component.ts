@@ -14,6 +14,12 @@ export class IsariInputComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // save every 1s on change
+    this.form.controls[this.name].valueChanges
+      .debounceTime(1000)
+      .subscribe((value: string) => {
+        this.update({});
+      });
   }
 
   update($event) {
