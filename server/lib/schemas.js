@@ -112,10 +112,10 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		schema.match = /^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})$/
 		const validator = v => {
 			v = String(v)
-			const [ year, month = 0, day = 0 ] = v.split('-')
+			const [ year, month = '', day = '' ] = v.split('-')
 			const s1 = `${year}-${pad0(month)}-${pad0(day)}`
 			const d = new Date(v)
-			const s2 = `${d.getFullYear()}-${pad0(month ? d.getMonth() + 1 : 0)}-${pad0(day ? d1.getDate() : 0)}`
+			const s2 = `${d.getFullYear()}-${pad0(month ? d.getMonth() + 1 : 0)}-${pad0(day ? d.getDate() : 0)}`
 			return s1 === s2
 		}
 		const message = 'Invalid date'

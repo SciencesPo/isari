@@ -13,6 +13,8 @@
 npm install
 ```
 
+* `npm run start-db` starts the Docker image with combined MongoDB and ElasticSearch
+  * `npm run clean-db` clears the image
 * `npm run dev` starts all these sub-tasks in parallel:
   * `watch:server` runs `server.js` in *development* environment, restarts on every change
   * `watch:lint` runs ESLint validation on every change

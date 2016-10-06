@@ -18,7 +18,7 @@
         "type": {
             "string": "optional, default type",
             "boolean": "",
-            "date": "3-selects date",
+            "date": "3-selects date (translated into YYYY-MM-DD string field)",
             "email": "string with specific format",
             "ref": "dbref (optional, default if 'ref' is defined)"
         },

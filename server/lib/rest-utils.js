@@ -2,7 +2,7 @@
 
 const { Router } = require('express')
 const { ServerError, ClientError, NotFoundError } = require('./errors')
-const { identity, set, map } = require('lodash/fp')
+const { identity, set, map, compose } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 
@@ -35,18 +35,19 @@ const saveDocument = (format = identity) => doc => doc.save()
 
 exports.restRouter = (Model, format = identity, esIndex = null) => {
 	const save = saveDocument(format)
-	const formatAll = map(format)
 	const router = Router()
-		.use(bodyParser.json())
-		.get('/', restHandler(listModel(Model, formatAll)))
-		.get('/:id', restHandler(getModel(Model, format)))
-		.put('/:id', restHandler(updateModel(Model, save)))
-		.post('/', restHandler(createModel(Model, save)))
-		.delete('/:id', restHandler(deleteModel(Model)))
+
+	router.use(bodyParser.json())
 
 	if (esIndex) {
-		router.get('/search', restHandler(searchModel(esIndex, formatAll)))
+		router.get('/search', restHandler(searchModel(esIndex, map(compose(format, Model)))))
 	}
+
+	router.get('/', restHandler(listModel(Model, map(format))))
+	router.get('/:id', restHandler(getModel(Model, format)))
+	router.put('/:id', restHandler(updateModel(Model, save)))
+	router.post('/', restHandler(createModel(Model, save)))
+	router.delete('/:id', restHandler(deleteModel(Model)))
 
 	return router
 }

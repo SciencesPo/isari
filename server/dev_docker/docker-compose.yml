@@ -34,9 +34,9 @@ services:
       - db
     environment:
       - MONGO_URL=mongodb://db:27017
-      - MONGO_INCLUDES=people,organisation,activity
+      - MONGO_INCLUDES=isari.people,isari.organizations,isari.activities,isaridev.people,isaridev.organizations,isaridev.activities,isaritest.people,isaritest.organizations,isaritest.activities
       - ES_URL=index:9200
     depends_on:
       - mongosetup
-     
+
 

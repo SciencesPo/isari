@@ -9,25 +9,26 @@ mongoose.Promise = Promise
 
 
 module.exports = {
-	People:       model('People'),
-	Activity:     model('Activity'),
-	Organization: model('Organization'),
+	People:       model('People', 'people'),
+	Activity:     model('Activity', 'activities'),
+	Organization: model('Organization', 'organizations'),
 	connect
 }
 
 
-function model (name) {
-	const desc = getSchema(name)
+function model (modelName, collectionName) {
+	const desc = getSchema(modelName)
 
 	const schema = new mongoose.Schema(desc, {
-		strict: 'throw'
+		strict: 'throw',
+		collection: collectionName
 	})
 
 	schema.static('removeById', function (id) {
 		return this.remove({ _id: id })
 	})
 
-	return mongoose.model(name, schema)
+	return mongoose.model(modelName, schema)
 }
 
 function connect (url = null) {

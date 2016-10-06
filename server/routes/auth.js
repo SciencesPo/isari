@@ -1,8 +1,12 @@
 'use strict'
 
 const { Router } = require('express')
+const bodyParser = require('body-parser')
 
 const router = module.exports = Router()
+
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded())
 
 router.post('/login', (req, res) => {
 	req.session.user = 'ok'

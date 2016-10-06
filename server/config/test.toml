@@ -2,10 +2,10 @@
 port = 0 # should not be used
 
 [mongo]
-url = 'mongodb://localhost/isari-test'
+url = 'mongodb://localhost/isaritest'
 
 [log]
 format = false
 
 [elasticsearch]
-index = 'isari-test'
+index = 'isaritest'
