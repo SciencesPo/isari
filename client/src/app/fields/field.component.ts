@@ -39,8 +39,14 @@ export class FieldComponent implements OnInit, OnChanges {
 
   ngOnChanges (changes: SimpleChanges) {
     if (changes['data'].isFirstChange()) {
+    // if (this.data) {
+    //   console.log(this.data);
+      if (this.form.get(this.field.name)) {
+        this.form.removeControl(this.field.name);
+      }
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.isariDataService.getInputComponent(this.field));
       this.componentReference = this.viewContainerRef.createComponent(componentFactory);
+
 
       if (this.componentReference.instance instanceof DataEditorComponent) {
         Object.assign(this.componentReference.instance, {
