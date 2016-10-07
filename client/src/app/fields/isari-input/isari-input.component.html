@@ -5,6 +5,6 @@
     *ngIf="form.controls[name]"
     (blur)="update($event)"
     [formControlName]="name">
-     <md-hint *ngIf="!form.controls[name]?.valid" [ngStyle]="{'color': 'red'}" align="start">error</md-hint>
+     <md-hint *ngIf="!form.controls[name]?.disabled && !form.controls[name]?.valid" [ngStyle]="{'color': 'red'}" align="start">error</md-hint>
   </md-input>
 </span>
