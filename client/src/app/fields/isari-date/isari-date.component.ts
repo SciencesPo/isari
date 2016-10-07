@@ -34,19 +34,21 @@ export class IsariDateComponent implements OnInit {
 
   ngOnInit() {
     [this.year, this.month, this.day] = this.form.controls[this.name].value.split('-').map(v => Number(v));
+
     this.selectControl = new FormControl({
       value: this.getDisplayedValue(this.year, this.month, this.day),
       disabled: this.form.controls[this.name].disabled
     });
 
-    this.days = this.setDays(this.year, this.month);
-    this.years = this.setYears(this.year);
     if (!this.month) {
       this.display('months');
     }
     if (!this.year) {
       this.display('years');
     }
+
+    this.days = this.setDays(this.year, this.month);
+    this.years = this.setYears(this.year || new Date().getFullYear());
   }
 
   update($event) {
@@ -98,6 +100,9 @@ export class IsariDateComponent implements OnInit {
   }
 
   private getDisplayedValue (year, month, day) {
+    if (!year) {
+      return '';
+    }
     return (day ? day + ' ' : '')
       + (month ? this.months['fr'][month] + ' ' : '')
       + year;
