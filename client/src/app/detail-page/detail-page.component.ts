@@ -32,4 +32,8 @@ export class DetailPageComponent implements OnInit {
       });
   }
 
+  save (obj) {
+    console.log(obj);
+  }
+
 }

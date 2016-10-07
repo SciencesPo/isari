@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   templateUrl: 'data-editor.component.html',
   styleUrls: ['data-editor.component.css']
 })
-export class DataEditorComponent implements OnInit, OnChanges {
+export class DataEditorComponent implements OnInit {
   form: FormGroup;
   ready: boolean = false;
 
@@ -14,7 +14,7 @@ export class DataEditorComponent implements OnInit, OnChanges {
   @Input() layout;
   @Input() parentForm: FormGroup | null;
   @Input() name: string | null;
-  onUpdate: EventEmitter<any>;
+  @Output() onUpdate = new EventEmitter<any>();
 
   constructor(public fb: FormBuilder) {}
 
@@ -26,28 +26,16 @@ export class DataEditorComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges (changes: SimpleChanges) {
-    // if (this.data && this.data.opts) {
-    //   this.disabled = !this.data.opts.editable;
-    // }
-  }
-
-  save() {
-    if (this.onUpdate) {
-      this.onUpdate.emit({});
-    } else {
-      console.log('save', this.form);
+  update() {
+    if (this.form.disabled) {
+      return;
     }
-    // if (this.form.disabled) {
-    //   return;
-    // }
-    // if (!this.form.valid) {
-    //   console.log('Error', this.form);
-    //   return;
-    // }
-    // if (this.form.dirty) {
-    //   console.log('save', this.form.value);
-    // }
+    if (!this.form.valid) {
+      this.onUpdate.emit(this.form);
+    }
+    if (this.form.dirty) {
+      this.onUpdate.emit(this.form.value);
+    }
   }
 
 }
