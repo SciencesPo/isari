@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 
 import { IsariDataService } from '../isari-data.service';
 
 @Component({
   selector: 'isari-detail-page',
   templateUrl: 'detail-page.component.html',
-  styleUrls: ['detail-page.component.css']
+  styleUrls: ['detail-page.component.css'],
+  providers: [MdSnackBar]
 })
 export class DetailPageComponent implements OnInit {
 
@@ -16,7 +19,9 @@ export class DetailPageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private isariDataService: IsariDataService) {}
+    private isariDataService: IsariDataService,
+    private snackBar: MdSnackBar,
+    private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit() {
     this.route.params
@@ -33,7 +38,13 @@ export class DetailPageComponent implements OnInit {
   }
 
   save (obj) {
-    console.log(obj);
+    // let config = new MdSnackBarConfig(this.viewContainerRef);
+    if (!obj.errors) {
+      this.data = obj;
+      // this.snackBar.open('Saved', '', config);
+    } else {
+      // this.snackBar.open('', 'Errors', config);
+    }
   }
 
 }

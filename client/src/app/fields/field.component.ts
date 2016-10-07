@@ -38,7 +38,7 @@ export class FieldComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges (changes: SimpleChanges) {
-    if (this.data) {
+    if (changes['data'].isFirstChange()) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.isariDataService.getInputComponent(this.field));
       this.componentReference = this.viewContainerRef.createComponent(componentFactory);
 

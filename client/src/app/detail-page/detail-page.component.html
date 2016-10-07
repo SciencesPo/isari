@@ -1,7 +1,7 @@
 <md-card>
-  <h3>{{ feature }}</h3>
+  <isari-data-editor [data]="data" [layout]="layout" (onUpdate)="save($event)"></isari-data-editor>
 </md-card>
 
 <md-card>
-  <isari-data-editor [data]="data" [layout]="layout" (onUpdate)="save($event)"></isari-data-editor>
+  <pre>{{ data | json }}</pre>
 </md-card>
