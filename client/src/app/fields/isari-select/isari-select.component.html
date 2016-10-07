@@ -13,7 +13,7 @@
             (blur)="blur($event)"
             [formControl]="selectControl"
             [md-menu-trigger-for]="menu">
-          <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
+          <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl?.value, 'md-focused': focused }">
             {{ name }}
           </label>
         </div>

@@ -26,20 +26,25 @@ export class IsariSelectComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.selectControl = new FormControl({ value: null, disabled: this.form.controls[this.name].disabled });
-
-    this.selectControl.valueChanges
-      .subscribe((value: string) => {
-        if (this.form.controls[this.name].value !== this.findValue(value)) {
-          this.values = this.findValues(value);
-        }
-      });
+    this.selectControl = new FormControl({
+      value: this.form.controls[this.name].value ? ' ' : '',
+      disabled: this.form.controls[this.name].disabled
+    });
 
     this.promiseOfEnum.then()
       .then(values => {
         this.allValues = values;
         this.values = this.findValues();
+
         this.setDisplayValue();
+
+        this.selectControl.valueChanges
+          .subscribe((value: string) => {
+            if (this.form.controls[this.name].value !== this.findValue(value)) {
+              this.values = this.findValues(value);
+            }
+          });
+
       });
   }
 
@@ -71,8 +76,9 @@ export class IsariSelectComponent implements OnInit {
   }
 
   private setDisplayValue () {
-    const found = this.allValues.find(entry => entry.value === this.form.controls[this.name].value)
+    const found = this.allValues.find(entry => entry.value === this.form.controls[this.name].value);
     this.selectControl.setValue(found ? found.label.fr : '');
+    this.selectControl.markAsDirty();
   }
 
   private findValue(label: string): string {

@@ -8,7 +8,8 @@ import {
   EventEmitter,
   ViewContainerRef,
   ComponentFactoryResolver,
-  ComponentRef
+  ComponentRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -17,13 +18,12 @@ import { DataEditorComponent } from '../data-editor/data-editor.component';
 import { IsariDataService } from '../isari-data.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'isari-field',
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.css']
 })
 export class FieldComponent implements OnInit, OnChanges {
-
-  // @TODO : destroy componentReference instance on destroy
 
   @Input() field: any;
   @Input() form: FormGroup;
@@ -39,17 +39,16 @@ export class FieldComponent implements OnInit, OnChanges {
 
   ngOnChanges (changes: SimpleChanges) {
     if (changes['data'].isFirstChange()) {
-    // if (this.data) {
-    //   console.log(this.data);
       if (this.form.get(this.field.name)) {
         this.form.removeControl(this.field.name);
       }
+
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.isariDataService.getInputComponent(this.field));
-      this.componentReference = this.viewContainerRef.createComponent(componentFactory);
+      const componentReference = this.viewContainerRef.createComponent(componentFactory);
+      const component = componentReference.instance;
 
-
-      if (this.componentReference.instance instanceof DataEditorComponent) {
-        Object.assign(this.componentReference.instance, {
+      if (component instanceof DataEditorComponent) {
+        Object.assign(component, {
           layout: this.field.layout,
           parentForm: this.form,
           name: this.field.name,
@@ -63,7 +62,7 @@ export class FieldComponent implements OnInit, OnChanges {
           value: this.data[this.field.name] || '',
           disabled: this.data.opts && !this.data.opts.editable
         }, this.getValidators(this.field)));
-        Object.assign(this.componentReference.instance, {
+        Object.assign(component, {
             form: this.form,
             name: this.field.name,
             onUpdate: this.onUpdate,
@@ -76,7 +75,6 @@ export class FieldComponent implements OnInit, OnChanges {
 
   private getValidators (field) {
     if (field.requirement && field.requirement === 'mandatory') {
-      console.log(field);
       return [Validators.required];
     }
   }
