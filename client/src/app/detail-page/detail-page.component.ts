@@ -35,6 +35,8 @@ export class DetailPageComponent implements OnInit {
   save (obj) {
     if (!obj.invalid) {
       this.data = obj;
+    } else {
+      this.data = 'Errors';
     }
   }
 
