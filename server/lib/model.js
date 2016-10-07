@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const { getSchema } = require('./schemas')
+const { getMongooseSchema } = require('./schemas')
 const config = require('config')
 
 // Use native promises with Mongoose
@@ -17,7 +17,7 @@ module.exports = {
 
 
 function model (modelName, collectionName) {
-	const desc = getSchema(modelName)
+	const desc = getMongooseSchema(modelName)
 
 	const schema = new mongoose.Schema(desc, {
 		strict: 'throw',
