@@ -54,7 +54,7 @@ export class FieldComponent implements OnInit, OnChanges {
           parentForm: this.form,
           name: this.field.name,
           onUpdate: this.onUpdate,
-          data: Object.assign(this.data[this.field.name] || {}, {
+          data: Object.assign({}, this.data[this.field.name] || {}, {
             opts: this.data.opts
           })
         });

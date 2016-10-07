@@ -71,7 +71,8 @@ export class IsariSelectComponent implements OnInit {
   }
 
   private setDisplayValue () {
-    this.selectControl.setValue(this.allValues.find(entry => entry.value === this.form.controls[this.name].value).label.fr);
+    const found = this.allValues.find(entry => entry.value === this.form.controls[this.name].value)
+    this.selectControl.setValue(found ? found.label.fr : '');
   }
 
   private findValue(label: string): string {

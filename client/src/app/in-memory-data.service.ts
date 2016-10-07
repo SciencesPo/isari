@@ -5,7 +5,7 @@ export class InMemoryDataService implements InMemoryDbService {
     let people = [
       { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe', gender: 'm', birthdate: '1978-8' },
       { id: 2, opts: { editable: false }, firstname: 'Kyle', name: 'Dixon', gender: 'f' },
-      { id: 3, opts: { editable: false }, firstname: 'Michael', name: 'Stein', composed: { subField: 'test sous champ' } }
+      { id: 3, opts: { editable: true }, firstname: 'Michael', name: 'Stein', composed: { subField: 'test sous champ' } }
     ];
 
     let schemas = [
