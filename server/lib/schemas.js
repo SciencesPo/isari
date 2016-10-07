@@ -35,15 +35,21 @@ module.exports = {
 }
 
 
+let cache = {}
+
+
 const extractValue = map('value')
 const removeEmpty = filter(identity)
 const pad0 = padCharsStart('0', 2)
 
 // Get schema description from metadata
 function getSchema (name) {
+	if (name in cache) {
+		return cache[name]
+	}
 	const meta = metas[name]
 	// Root description: every key is a field description here
-	return Object.keys(meta).reduce(
+	return cache[name] = Object.keys(meta).reduce(
 		(schema, field) => Object.assign(schema, {
 			[field]: getField(`${name}.${field}`, meta[field], meta)
 		}),
