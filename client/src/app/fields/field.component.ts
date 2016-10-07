@@ -57,11 +57,12 @@ export class FieldComponent implements OnInit, OnChanges {
           value: this.data[this.field.name] || '',
           disabled: this.data.opts && !this.data.opts.editable
         }));
+        console.log(this.field);
         Object.assign(this.componentReference.instance, {
             form: this.form,
             name: this.field.name,
             onUpdate: this.onUpdate,
-            field: this.field
+            promiseOfEnum: this.field.enum ? this.isariDataService.getEnum(this.field.enum) : null
         });
       }
     }

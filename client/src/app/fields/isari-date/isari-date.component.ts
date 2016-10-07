@@ -11,7 +11,6 @@ export class IsariDateComponent implements OnInit {
 
   @Input() name: string;
   @Input() form: FormGroup;
-  @Input() field: any;
 
   @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
 

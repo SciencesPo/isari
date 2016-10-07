@@ -2,8 +2,6 @@ import { Component, Input, OnInit, EventEmitter, ViewChild } from '@angular/core
 import { FormGroup, FormControl } from '@angular/forms';
 import { MdMenuTrigger } from '@angular/material';
 
-import { IsariDataService } from '../../isari-data.service';
-
 @Component({
   selector: 'isari-select',
   templateUrl: 'isari-select.component.html',
@@ -13,7 +11,7 @@ export class IsariSelectComponent implements OnInit {
 
   @Input() name: string;
   @Input() form: FormGroup;
-  @Input() field: any;
+  @Input() promiseOfEnum: any | null;
   max: number = 5;
 
   @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
@@ -25,7 +23,7 @@ export class IsariSelectComponent implements OnInit {
   focused: boolean = false;
   disabled: boolean = false;
 
-  constructor(private isariDataService: IsariDataService) { }
+  constructor() { }
 
   ngOnInit() {
     this.selectControl = new FormControl({ value: null, disabled: this.form.controls[this.name].disabled });
@@ -37,7 +35,7 @@ export class IsariSelectComponent implements OnInit {
         }
       });
 
-    this.isariDataService.getEnum(this.field.enum)
+    this.promiseOfEnum.then()
       .then(values => {
         this.allValues = values;
         this.values = this.findValues();

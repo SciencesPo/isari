@@ -56,9 +56,9 @@ export class IsariDataService {
   }
 
   getInputComponent (field): any {
-    // if (field.enum) {
-    //   return IsariSelectComponent;
-    // }
+    if (field.enum) {
+      return IsariSelectComponent;
+    }
     if (field.type === 'object') {
       return DataEditorComponent;
     }
