@@ -46,13 +46,14 @@ import { IsariDateComponent } from './fields/isari-date/isari-date.component';
     InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [
-    IsariDataService
+    IsariDataService,
   ],
   entryComponents: [
     AppComponent,
     IsariInputComponent,
     IsariSelectComponent,
-    IsariDateComponent
+    IsariDateComponent,
+    DataEditorComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'isari-data-editor',
@@ -8,54 +8,46 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 })
 export class DataEditorComponent implements OnInit, OnChanges {
   form: FormGroup;
+  ready: boolean = false;
 
-  @Input() fields: Array<any>;
   @Input() data;
   @Input() layout;
+  @Input() parentForm: FormGroup | null;
+  @Input() name: string | null;
+  onUpdate: EventEmitter<any>;
 
   constructor(public fb: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.fb.group({});
+    // if this is a sub component attach the form as a subform
+    if (this.parentForm && this.name) {
+      this.parentForm.addControl(this.name, this.form);
+    }
   }
 
   ngOnChanges (changes: SimpleChanges) {
-    if (this.data && this.fields && this.fields.length && this.layout) {
-      this.createForm();
-    }
+    // if (this.data && this.data.opts) {
+    //   this.disabled = !this.data.opts.editable;
+    // }
   }
 
-  save () {
-    if (this.form.disabled) {
-      return;
+  save() {
+    if (this.onUpdate) {
+      this.onUpdate.emit({});
+    } else {
+      console.log('save', this.form);
     }
-    if (!this.form.valid) {
-      console.log('Error', this.form);
-      return;
-    }
-    if (this.form.dirty) {
-      console.log('save', this.form.value);
-    }
-  }
-
-  getField (fieldName: string) {
-    return this.fields.find(field => field.name === fieldName);
-  }
-
-  private createForm () {
-    this.fields.forEach(field => {
-      this.form.addControl(field.name, new FormControl(
-        { value: this.data[field.name] || '', disabled: !this.data.opts.editable },
-        this.required(field)
-      ));
-    });
-  }
-
-  private required (field) {
-    if (field.requirement && field.requirement === 'mandatory') {
-      return Validators.required;
-    }
-    return null;
+    // if (this.form.disabled) {
+    //   return;
+    // }
+    // if (!this.form.valid) {
+    //   console.log('Error', this.form);
+    //   return;
+    // }
+    // if (this.form.dirty) {
+    //   console.log('save', this.form.value);
+    // }
   }
 
 }

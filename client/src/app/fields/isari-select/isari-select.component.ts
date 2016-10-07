@@ -14,7 +14,7 @@ export class IsariSelectComponent implements OnInit {
   @Input() name: string;
   @Input() form: FormGroup;
   @Input() field: any;
-  @Input() max: number = 5;
+  max: number = 5;
 
   @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
 

@@ -28,11 +28,15 @@ export class InMemoryDataService implements InMemoryDbService {
               'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' },
               'type': 'date'
           },
-          // 'nationalities': {
-          //     'label': { 'fr': 'Nationalité(s)', 'en': 'Nationanality(ies)' },
-          //     'enum': 'nationalities',
-          //     'multiple': true
-          // }
+          'composed': {
+            'label': {
+              'fr': 'composé', 'en': 'composed'
+            },
+            'type': 'object',
+            'subField': {
+              'label': { 'fr': 'sous', 'en': 'sub' }
+            }
+          }
         }
       }
     ];
@@ -55,10 +59,33 @@ export class InMemoryDataService implements InMemoryDbService {
           {
             label: { fr: 'groupe 1', en: 'group 1' },
             collapsabled: true,
-            fields: ['firstname', 'name']
+            fields: [
+              { name: 'firstname', 'label': { 'fr': 'Prénom', 'en': 'Firstname' }},
+              { name: 'name', 'requirement': 'mandatory', 'label': { 'fr': 'Nom', 'en': 'Name' } }
+            ]
           },
-          ['gender', 'birthdate'],
-//          'nationalities'
+          {
+            fields: [
+              { name: 'gender', 'requirement': 'recommended', 'label': { 'fr': 'Genre', 'en': 'Gender' }, 'enum': 'genders' },
+              {name: 'birthdate', 'requirement': 'recommended', 'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' }, 'type': 'date' }
+            ]
+          },
+          {
+            fields: [
+              {
+                'name': 'composed',
+                'label': { 'fr': 'composé', 'en': 'composed' },
+                'type': 'object',
+                layout: [
+                  {
+                    fields: [
+                      { 'name': 'subField', 'label': { 'fr': 'sous', 'en': 'sub' } }
+                    ]
+                  }
+                ]
+             }
+            ]
+          }
         ]
       }
     ];
@@ -71,88 +98,3 @@ export class InMemoryDataService implements InMemoryDbService {
     };
   }
 }
-
-/*
-[
-  {
-    "organization": "FNSP",
-    "startDate": "2003-05-04",
-    "timepart": 1,
-    "jobName": "ingénieur de recherche",
-    "jobType": "CDI",
-    "jobTitle": "appui technique",
-    "UG": "R12B",
-    "gradesAdmin": [
-      {
-        "grade": "CM1",
-        "startDate": "2003-05-04",
-        "endDate": "2004-06-07"
-      },
-      {
-        "grade": "CM2",
-        "startDate": "2004-06-08"
-      }
-    ]
-  }
-]
-
-{
-  "multiple": true,
-  "label": {
-      "fr": "Contrats",
-      "en": "Positions"
-    },
-    "organization": {
-        "requirement": "mandatory",
-        "suggestions": "top_10",
-        "ref": "Organization"
-    },
-    "startDate": {
-        "requirement": "mandatory",
-        "label": { "fr": "Date de début", "en": "Start date" },
-        "type": "date"
-    },
-    "endDate": {
-      "label": { "fr": "Date de fin", "en": "End date" },
-      "type": "date"
-    },
-    "jobName": {
-      "label": { "fr": "Emploi personnalisé", "en": "Job name" }
-    },
-    "jobType": {
-      "requirement": "mandatory",
-      "label": { "fr": "Type de contrat", "en": "Contract type" },
-      "enum": "jobType"
-    },
-    "timepart": {
-      "label": { "fr": "Taux d'occupation", "en": "Part time rate" },
-      "type": "number",
-      "default": 1,
-      "min": 0.05,
-      "max": 1
-    },
-    "jobTitle": {
-      "requirement": "recommended",
-      "label": { "fr": "Fonction", "en": "Function" },
-      "enum": "jobTitle"
-    },
-    "gradesAdmin": {
-      multiple: true,
-      "label": { "fr": "Emplois repère", "en": "Job grid" },
-      "grade": {
-        "requirement": "mandatory",
-        "label": { "fr": "emplois repère", "en": "job level" },
-        "enum": "gradeAdmin"
-      },
-      "startDate": {
-        "requirement": "mandatory",
-        "label": { "fr": "Date de début", "en": "Start date" },
-        "type": "date"
-      },
-      "endDate": {
-        "label": { "fr": "Date de fin", "en": "End date" },
-        "type": "date"
-      }
-  }
-}
-*/

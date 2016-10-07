@@ -3,6 +3,11 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
+import { IsariInputComponent } from './fields/isari-input/isari-input.component';
+import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
+import { IsariDateComponent } from './fields/isari-date/isari-date.component';
+import { DataEditorComponent } from './data-editor/data-editor.component';
+
 @Injectable()
 export class IsariDataService {
 
@@ -48,6 +53,19 @@ export class IsariDataService {
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
+  }
+
+  getInputComponent (field): any {
+    // if (field.enum) {
+    //   return IsariSelectComponent;
+    // }
+    if (field.type === 'object') {
+      return DataEditorComponent;
+    }
+    if (field.type === 'date') {
+      return IsariDateComponent;
+    }
+    return IsariInputComponent;
   }
 
 }
