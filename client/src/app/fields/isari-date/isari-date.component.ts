@@ -69,6 +69,12 @@ export class IsariDateComponent implements OnInit {
   }
 
   display(_displayed) {
+    if (_displayed === 'months' && !this.year) {
+      return;
+    }
+    if (_displayed === 'days' && !this.month) {
+      return;
+    }
     this.displayed = _displayed;
   }
 
@@ -83,11 +89,19 @@ export class IsariDateComponent implements OnInit {
     this.month = m;
     this.days = this.setDays(this.year, this.month);
     this.display('years');
+    if (!this.month) {
+      this.day = null;
+    }
+
   }
 
   setYear(y, $event) {
     $event.stopPropagation();
     this.year = y;
+    if (!this.year) {
+      this.month = null;
+      this.day = null;
+    }
   }
 
   navigateYears(y, $event) {
@@ -96,7 +110,7 @@ export class IsariDateComponent implements OnInit {
   }
 
   private setYears (y) {
-    return Array.apply(null, {length: 20}).map((v, i) => i + y - 10);
+    return ['-', ...Array.apply(null, {length: 20}).map((v, i) => i + y - 10)];
   }
 
   private getDisplayedValue (year, month, day) {

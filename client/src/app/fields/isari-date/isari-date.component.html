@@ -28,8 +28,8 @@
   <md-menu y-position="below" #menu="mdMenu" class="dateMenu">
     <span md-menu-item disabled>
       <button md-button (click)="display('days')">{{ day || '-' }}</button>
-      <button md-button (click)="display('months')">{{ months['fr'][month] }}</button>
-      <button md-button (click)="display('years')">{{ year }}</button>
+      <button md-button (click)="display('months')">{{ months['fr'][month] || '-' }}</button>
+      <button md-button (click)="display('years')">{{ year || '-' }}</button>
     </span>
 
     <div *ngIf="displayed === 'days'" md-menu-item disabled class="calendar">
@@ -53,7 +53,8 @@
         <button (click)="navigateYears(years[0]-10, $event)" md-icon-button>...</button>
       </span>
       <span *ngFor="let y of years" class="btn">
-        <button (click)="setYear(y, $event)" md-icon-button color="">{{ y }}</button>
+        <button (click)="setYear(null, $event)" md-raised-button *ngIf="y === '-'">{{ y }}</button>
+        <button (click)="setYear(y, $event)" md-icon-button color="" *ngIf="y !== '-'">{{ y }}</button>
       </span>
       <span class="btn">
         <button (click)="navigateYears(years[years.length - 1]+11, $event)" md-icon-button>...</button>
