@@ -12,7 +12,6 @@ import { DataEditorComponent } from './data-editor/data-editor.component';
 export class IsariDataService {
 
   private dataUrl = 'api/people';
-  private schemaUrl = 'api/schemas';
   private layoutUrl = 'api/layouts';
   private enumUrl = 'api/enums';
 
@@ -26,12 +25,8 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  getSchema (feature: string) {
-    const url = `${this.schemaUrl}/${feature}`;
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json().data.schema || response.json().data)
-      .catch(this.handleError);
+  getData (feature: string, id: number) {
+    return this['get' + feature.charAt(0).toUpperCase() + feature.slice(1).toLowerCase()](id);
   }
 
   getLayout (feature: string) {

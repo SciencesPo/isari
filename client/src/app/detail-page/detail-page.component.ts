@@ -23,7 +23,7 @@ export class DetailPageComponent implements OnInit {
       .subscribe(({ feature, id }) => {
         this.feature = feature;
         Promise.all([
-          this.isariDataService.getPeople(+id), // @TODO dependson feature
+          this.isariDataService.getData(this.feature, +id),
           this.isariDataService.getLayout(this.feature)
         ]).then(([data, layout]) => {
           this.data = data;

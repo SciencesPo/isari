@@ -8,40 +8,6 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 3, opts: { editable: true }, firstname: 'Michael', name: 'Stein', composed: { subField: 'test sous champ' } }
     ];
 
-    let schemas = [
-      {
-        id: 'people',
-        schema: {
-          'firstname': {
-              'label': { 'fr': 'Prénom', 'en': 'Firstname' }
-          },
-          'name': {
-              'requirement': 'mandatory',
-              'label': { 'fr': 'Nom', 'en': 'Name' }
-          },
-          'gender': {
-              'requirement': 'recommended',
-              'label': { 'fr': 'Genre', 'en': 'Gender' },
-              'enum': 'genders'
-          },
-          'birthdate': {
-              'requirement': 'recommended',
-              'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' },
-              'type': 'date'
-          },
-          'composed': {
-            'label': {
-              'fr': 'composé', 'en': 'composed'
-            },
-            'type': 'object',
-            'subField': {
-              'label': { 'fr': 'sous', 'en': 'sub' }
-            }
-          }
-        }
-      }
-    ];
-
     let enums = [
       {
         id: 'genders',
@@ -93,7 +59,6 @@ export class InMemoryDataService implements InMemoryDbService {
 
     return {
       people,
-      schemas,
       enums,
       layouts
     };
