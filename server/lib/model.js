@@ -8,11 +8,10 @@ const config = require('config')
 mongoose.Promise = Promise
 
 
-module.exports = {
-	People:       model('People', 'people'),
-	Activity:     model('Activity', 'activities'),
-	Organization: model('Organization', 'organizations'),
-	connect
+module.exports = { connect }
+
+for (const name in config.collections) {
+	module.exports[name] = model(name, config.collections[name])
 }
 
 

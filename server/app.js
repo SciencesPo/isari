@@ -9,10 +9,21 @@ const routes = require('./routes')
 
 // Loaded right here to force schema validation at boot time
 const chalk = require('chalk')
-try {
-	require('./lib/model')
-} catch (e) {
-	process.stderr.write(`\n\n${chalk.bold.red('Fatal error in schema')}:\n${chalk.red(e.message)}\n\n`)
+const { getFrontSchema, getMongooseSchema } = require('./lib/schemas')
+const { getLayout } = require('./lib/layouts')
+let errors = []
+Object.keys(config.collections).forEach(name => {
+	try {
+		getMongooseSchema(name)
+		getLayout(name)
+		getFrontSchema(name)
+	} catch (e) {
+		process.stderr.write(`\n\n${chalk.bold.red(`Fatal error in schema "${name}"`)}:\n${chalk.red(e.message)}\n\n`)
+		errors.push(name)
+	}
+})
+if (errors.length > 0) {
+	process.stderr.write(`\n\n${chalk.bold.red(`Fatal error in following schemas: ${errors.join(', ')}`)}\n${chalk.red('Check errors above')}\n\n`)
 	process.exit(1)
 }
 
