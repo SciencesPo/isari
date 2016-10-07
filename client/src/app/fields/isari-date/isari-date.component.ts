@@ -34,26 +34,20 @@ export class IsariDateComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    function chunk(array: any[], size: number) {
-      let ceil = Math.ceil;
-      return Array( ceil(array.length / size) )
-        .fill(null)
-        .map((_, i) => array.slice(i * size, i * size + size));
-    }
-
     [this.year, this.month, this.day] = this.form.controls[this.name].value.split('-').map(v => Number(v));
     this.selectControl = new FormControl({
       value: this.getDisplayedValue(this.year, this.month, this.day),
       disabled: this.form.controls[this.name].disabled
     });
 
-    const daysInMonth = new Date(+this.year, +this.month, 0).getDate();
-    this.days = ['-', '-', ...Array.apply(null, {length: daysInMonth}).map((v, i) => i + 1)];
-    this.days = chunk(this.days, 7);
-    this.days[0].shift();
-
+    this.days = this.setDays(this.year, this.month);
     this.years = this.setYears(this.year);
+    if (!this.month) {
+      this.display('months');
+    }
+    if (!this.year) {
+      this.display('years');
+    }
   }
 
   update($event) {
@@ -86,6 +80,7 @@ export class IsariDateComponent implements OnInit {
   setMonth(m , $event) {
     $event.stopPropagation();
     this.month = m;
+    this.days = this.setDays(this.year, this.month);
     this.display('years');
   }
 
@@ -107,6 +102,26 @@ export class IsariDateComponent implements OnInit {
     return (day ? day + ' ' : '')
       + (month ? this.months['fr'][month] + ' ' : '')
       + year;
+  }
+
+  private setDays (year, month) {
+    if (!year || !month) {
+      return [];
+    }
+
+    const daysInMonth = new Date(+year, +month, 0).getDate();
+    let days = ['-', '-', ...Array.apply(null, {length: daysInMonth}).map((v, i) => i + 1)];
+    days = chunk(days, 7);
+    days[0].shift();
+
+    return days;
+
+    function chunk(array: any[], size: number) {
+      let ceil = Math.ceil;
+      return Array( ceil(array.length / size) )
+        .fill(null)
+        .map((_, i) => array.slice(i * size, i * size + size));
+    }
   }
 
 }
