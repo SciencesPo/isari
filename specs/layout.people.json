@@ -11,7 +11,7 @@
     "fields": ["nationalities"]
   },
   {
-    "//": "will take layout from 'layout.people.tags.json'",
+    "// nested layouts": "will take layout from 'layout.people.tags.json'",
     "label": { "fr": "Tags", "en": "Tags" },
     "collapsable": true,
     "fields": ["tags"]

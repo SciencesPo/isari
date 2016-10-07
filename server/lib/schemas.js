@@ -31,10 +31,24 @@ const RESERVED_FIELDS = [
 	'max',
 ]
 
+const FRONT_KEPT_FIELDS = [
+	'label',
+	'requirement',
+	'suggestions',
+	'type',
+	'ref',
+	'enum',
+	'default',
+	'min',
+	'max',
+	'regex'
+]
+
 module.exports = {
 	getMongooseSchema,
 	getFrontSchema,
-	RESERVED_FIELDS
+	RESERVED_FIELDS,
+	FRONT_KEPT_FIELDS
 }
 
 
@@ -238,20 +252,6 @@ function getEnumValues (zenum) {
 
 
 // Formatting for frontend APIs
-
-const FRONT_KEPT_FIELDS = [
-	'label',
-	'requirement',
-	'suggestions',
-	'type',
-	'ref',
-	'enum',
-	'default',
-	'min',
-	'max',
-	'regex'
-]
-
 function getFrontSchema (name, options = {}) {
 	const meta = getMeta(name)
 
