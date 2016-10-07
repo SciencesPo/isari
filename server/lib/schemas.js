@@ -266,6 +266,10 @@ function formatMeta (meta, options = {}) {
 	let isObject = false
 
 	const handleField = (result, name) => {
+		if (name.substring(0, 2) === '//') {
+			return false // Skipped comment field
+		}
+
 		if (!result) {
 			return result // Skipped field
 		}

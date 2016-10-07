@@ -1,3 +1,8 @@
+[collections]
+People = 'people'
+Activity = 'activities'
+Organization = 'organizations'
+
 [http]
 port = 8080
 
