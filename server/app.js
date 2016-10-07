@@ -15,10 +15,20 @@ let errors = []
 Object.keys(config.collections).forEach(name => {
 	try {
 		getMongooseSchema(name)
-		getLayout(name)
+	} catch (e) {
+		process.stderr.write(`\n\n${chalk.bold.red(`Fatal error in schema (mongoose) "${name}"`)}:\n${chalk.red(e.message)}\n\n`)
+		errors.push(name)
+	}
+	try {
 		getFrontSchema(name)
 	} catch (e) {
-		process.stderr.write(`\n\n${chalk.bold.red(`Fatal error in schema "${name}"`)}:\n${chalk.red(e.message)}\n\n`)
+		process.stderr.write(`\n\n${chalk.bold.red(`Fatal error in schema (front) "${name}"`)}:\n${chalk.red(e.message)}\n\n`)
+		errors.push(name)
+	}
+	try {
+		getLayout(name)
+	} catch (e) {
+		process.stderr.write(`\n\n${chalk.bold.red(`Fatal error in layout "${name}"`)}:\n${chalk.red(e.message)}\n\n`)
 		errors.push(name)
 	}
 })
