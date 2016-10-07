@@ -15,6 +15,7 @@ exports.organizations = require('./organizations')
 
 exports.schemas = require('./schemas')
 exports.enums = require('./enums')
+exports.layouts = require('./layouts')
 
 exports.errors = require('./errors')
 exports.auth = require('./auth')

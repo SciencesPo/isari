@@ -37,7 +37,7 @@ function getLayout (name) {
 
 const _getLayout = (name, schema) => {
 	if (!schema) {
-		throw Error(`${name}: No schema found while trying to build layout`)
+		return null
 	}
 	const rows = (layouts[name] || []).map(getRow(name, schema))
 	const rowsFields = rows.reduce((fields, row) => fields.concat(map('name', row.fields || [])), [])
