@@ -32,9 +32,11 @@ export class DataEditorComponent implements OnInit {
     }
     if (!this.form.valid) {
       this.onUpdate.emit(this.form);
+      return;
     }
     if (this.form.dirty) {
       this.onUpdate.emit(this.form.value);
+      return;
     }
   }
 

@@ -10,7 +10,7 @@ import {
   ComponentFactoryResolver,
   ComponentRef
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { DataEditorComponent } from '../data-editor/data-editor.component';
 
@@ -62,7 +62,7 @@ export class FieldComponent implements OnInit, OnChanges {
         this.form.addControl(this.field.name, new FormControl({
           value: this.data[this.field.name] || '',
           disabled: this.data.opts && !this.data.opts.editable
-        }));
+        }, this.getValidators(this.field)));
         Object.assign(this.componentReference.instance, {
             form: this.form,
             name: this.field.name,
@@ -72,6 +72,13 @@ export class FieldComponent implements OnInit, OnChanges {
       }
     }
 
+  }
+
+  private getValidators (field) {
+    if (field.requirement && field.requirement === 'mandatory') {
+      console.log(field);
+      return [Validators.required];
+    }
   }
 
 }
