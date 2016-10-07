@@ -4,7 +4,6 @@ const express = require('express')
 const logger = require('morgan')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-const bodyParser = require('body-parser')
 const config = require('config')
 const routes = require('./routes')
 
@@ -35,12 +34,13 @@ app.use(session({
 }))
 
 app.use('/', routes.index)
+app.use('/auth', routes.auth)
 app.use('/people', routes.people)
 app.use('/organizations', routes.organizations)
 app.use('/activities', routes.activities)
 app.use('/schemas', routes.schemas)
+app.use('/layouts', routes.layouts)
 app.use('/enums', routes.enums)
-app.use('/auth', routes.auth)
 
 // Error handlers
 app.use(routes.errors.notFound)

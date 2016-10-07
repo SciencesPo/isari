@@ -1,0 +1,19 @@
+[
+  {
+    "label": { "fr": "groupe 1", "en": "group 1" },
+    "collapsable": true,
+    "fields": ["firstname", "name"]
+  },
+  {
+    "fields": ["gender", "birthdate"]
+  },
+  {
+    "fields": ["nationalities"]
+  },
+  {
+    "// nested layouts": "will take layout from 'layout.people.tags.json'",
+    "label": { "fr": "Tags", "en": "Tags" },
+    "collapsable": true,
+    "fields": ["tags"]
+  }
+]

@@ -3,21 +3,16 @@
 const { Router } = require('express')
 const { ClientError } = require('../lib/errors')
 const { restHandler } = require('../lib/rest-utils')
-const { getFrontSchema } = require('../lib/schemas')
+const { getLayout } = require('../lib/layouts')
 
 
 module.exports = Router()
-.get('/:name', restHandler(getSchema))
+.get('/:name', restHandler(req => {
+	const layout = getLayout(req.params.name)
 
-
-function getSchema (req) {
-	const schema = getFrontSchema(req.params.name, {
-		admin: false // TODO from web session
-	})
-
-	if (!schema) {
+	if (!layout) {
 		throw new ClientError({ title: `Unknown model "${req.params.name}"`, status: 404 })
 	}
 
-	return schema
-}
+	return layout
+}))

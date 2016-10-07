@@ -1,12 +1,14 @@
 'use strict'
 
 const { Schema } = require('mongoose')
-const metas = require('../../specs/schema.meta.json')
 const enums = require('../../specs/schema.enums.json')
 const { get, padCharsStart, map, filter, identity } = require('lodash/fp')
+const { getMeta } = require('./specs')
 
+// TODO use proper logger
 const debug = require('debug')('isari:schema')
 const chalk = require('chalk')
+const util = require('util')
 
 
 const RESERVED_FIELDS = [
@@ -29,10 +31,28 @@ const RESERVED_FIELDS = [
 	'max',
 ]
 
+const FRONT_KEPT_FIELDS = [
+	'label',
+	'requirement',
+	'suggestions',
+	'type',
+	'ref',
+	'enum',
+	'default',
+	'min',
+	'max',
+	'regex'
+]
+
 module.exports = {
-	getSchema,
-	RESERVED_FIELDS
+	getMongooseSchema,
+	getFrontSchema,
+	RESERVED_FIELDS,
+	FRONT_KEPT_FIELDS
 }
+
+
+let cache = {}
 
 
 const extractValue = map('value')
@@ -40,10 +60,18 @@ const removeEmpty = filter(identity)
 const pad0 = padCharsStart('0', 2)
 
 // Get schema description from metadata
-function getSchema (name) {
-	const meta = metas[name]
+function getMongooseSchema (name) {
+	if (name in cache) {
+		return cache[name]
+	}
+
+	const meta = getMeta(name)
+	if (!meta) {
+		throw Error(`${name}: Unknonwn schema`)
+	}
+
 	// Root description: every key is a field description here
-	return Object.keys(meta).reduce(
+	return cache[name] = Object.keys(meta).reduce(
 		(schema, field) => Object.assign(schema, {
 			[field]: getField(`${name}.${field}`, meta[field], meta)
 		}),
@@ -220,4 +248,74 @@ function getEnumValues (zenum) {
 		// Array of string or object, keep as-is
 		return zenum
 	}
+}
+
+
+// Formatting for frontend APIs
+function getFrontSchema (name, options = {}) {
+	const meta = getMeta(name)
+
+	return meta && formatMeta(meta, options)
+}
+
+function formatMeta (meta, options = {}) {
+	const { admin = false } = options
+
+	const multiple = Array.isArray(meta)
+	const desc = multiple ? meta[0] : meta
+	let isObject = false
+
+	const handleField = (result, name) => {
+		if (!result) {
+			return result // Skipped field
+		}
+
+		if (!RESERVED_FIELDS.includes(name)) {
+			// Sub-field: just include it
+			isObject = true
+			const subres = formatMeta(desc[name], options)
+			if (subres) {
+				result[name] = subres
+			}
+		}
+
+		// Access type defines if we can see this field
+		else if (name === 'accessType' && !admin) {
+			result = null // Skip the field
+		}
+
+		// Field kept as-is
+		else if (FRONT_KEPT_FIELDS.includes(name)) {
+			result[name] = desc[name]
+		}
+
+		// Other reserved fields are skipped
+
+		return result
+	}
+
+	let result = Object.keys(desc).reduce(handleField, {})
+	if (!result) {
+		// Skip this field
+		return result
+	}
+
+	if (isObject) {
+		if (result.type) {
+			process.stderr.write(chalk.yellow(`\n[WARN] type "${result.type}" defined on an object document?\n`))
+			process.stderr.write(util.inspect(result, { colors: true }))
+		}
+		result.type = 'object'
+	}
+
+	if (!result.type) {
+		result.type = 'string'
+	}
+
+	// Handle multi-valued fields
+	if (multiple) {
+		result.multiple = true
+	}
+
+	return result
 }
