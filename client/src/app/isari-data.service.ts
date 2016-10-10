@@ -11,21 +11,25 @@ import { DataEditorComponent } from './data-editor/data-editor.component';
 @Injectable()
 export class IsariDataService {
 
-  private dataUrl = 'api/people';
-  private layoutUrl = 'api/layouts';
-  private enumUrl = 'api/enums';
+  // private dataUrl = 'api/people';
+  // private layoutUrl = 'api/layouts';
+  // private enumUrl = 'api/enums';
+
+  private dataUrl = 'http://localhost:8080/people';
+  private layoutUrl = 'http://localhost:8080/layouts';
+  private enumUrl = 'http://localhost:8080/enums';
 
   constructor(private http: Http) { }
 
-  getPeople (id: number) {
+  getPeople (id: string) {
     const url = `${this.dataUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data)
+      .then(response => response.json())
       .catch(this.handleError);
   }
 
-  getData (feature: string, id: number) {
+  getData (feature: string, id: string) {
     return this['get' + feature.charAt(0).toUpperCase() + feature.slice(1).toLowerCase()](id);
   }
 
@@ -33,15 +37,18 @@ export class IsariDataService {
     const url = `${this.layoutUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data.layout || response.json().data)
+      .then(response => response.json())
       .catch(this.handleError);
   }
 
   getEnum (en: string) {
+    if (en === 'KEYS(personalActivityTypes)' || en === 'personalActivityTypes.$personalActivityType') {
+      return Promise.resolve([]);
+    }
     const url = `${this.enumUrl}/${en}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data.enum || response.json().data)
+      .then(response => response.json())
       .catch(this.handleError);
   }
 
