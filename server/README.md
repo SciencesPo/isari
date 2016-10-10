@@ -1,5 +1,11 @@
 # Isari Server
 
+## requirements
+
+* node.js >=v6.7
+* mongodb + mongo-connector - see [dev_docker](./dev_docker)
+* Elasticsearch - see [dev_docker](./dev_docker)
+
 ## Configuration
 
 * Configuration files use `TOML` (INI on steroids) format and are located in `config` folder
