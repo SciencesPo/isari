@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule }           from '@angular/http';
 
-//import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-//import { InMemoryDataService }  from './in-memory-data.service';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService }  from './in-memory-data.service';
 
 import { MaterialModule } from '@angular/material';
 
@@ -43,8 +43,8 @@ import { IsariDateComponent } from './fields/isari-date/isari-date.component';
     ReactiveFormsModule,
     MaterialModule.forRoot(),
     routing,
-    HttpModule
-    //InMemoryWebApiModule.forRoot(InMemoryDataService)
+    HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [
     IsariDataService,
