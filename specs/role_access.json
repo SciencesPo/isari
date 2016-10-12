@@ -1,27 +1,27 @@
 {
-	"central_admin":{
-		"confidential":["write"],
-		"other_people":["write"],
-		"all":["write"]
+	"central_admin": {
+		"confidential": ["write"],
+		"other_people": ["write"],
+		"all": ["write"]
 	},
-	"central_reader":{
-		"confidential":["read"],
-		"other_people":["read"],
-		"all":["read"]
+	"central_reader": {
+		"confidential": ["read"],
+		"other_people": ["read"],
+		"all": ["read"]
 	},
-	"research_admin":{
-		"confidential":["read"],
-		"other_people":["write"],
-		"all":["write"]
+	"research_admin": {
+		"confidential": ["read"],
+		"other_people": ["write"],
+		"all": ["write"]
 	},
-	"research_editor":{
-		"other_people":["write"],
-		"all":["write"]
+	"research_editor": {
+		"other_people": ["write"],
+		"all": ["write"]
 	},
-	"research_member":{
-		"other_people":["read"],
-		"all":["write"]
+	"research_member": {
+		"other_people": ["read"],
+		"all": ["write"]
 	},
-	"public_intern":{},
-	"public_extern":{}
+	"public_intern": {},
+	"public_extern": {}
 }

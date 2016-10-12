@@ -1,17 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { IsariDataService } from '../isari-data.service';
 
 @Component({
   selector: 'isari-data-editor',
   templateUrl: 'data-editor.component.html',
   styleUrls: ['data-editor.component.css']
 })
-export class DataEditorComponent implements OnInit {
+export class DataEditorComponent {
 
-  @Input() data: any;
+  @Input() form: FormGroup;
+  @Input() layout;
+  @Input() name: string | null;
+  @Output() onUpdate = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(private isariDataService: IsariDataService) {}
 
-  ngOnInit() {
+  update($event) {
+    this.onUpdate.emit($event);
   }
 
 }

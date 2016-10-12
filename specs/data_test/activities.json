@@ -1,0 +1,204 @@
+[
+   {
+      "name": "OXPO",
+      "activityType": "partenariat",
+      "startDate": "2015-05-06",
+      "endDate": "2019-06-02",
+      "organizations": [
+         {
+            "organization": "IEP Paris",
+            "role": "leader"
+         },
+         {
+            "organization": "Oxford University",
+            "role": "partenaire"
+         }
+      ],
+      "subject": "OXford SciencesPO",
+      "summary": "Evénements, Gourvernance, Mobilité, cofinancements",
+      "url": "http://www.maxpo.eu"
+   },
+   {
+      "name": "ESS",
+      "activityType": "projet de recherche",
+      "startDate": "2013-12-03",
+      "endDate": "2015-12-31",
+      "organizations": [
+         {
+            "organization": "CDSP",
+            "role": "leader"
+         }
+      ],
+      "people": {
+         "people": "Anne Cornilleau",
+         "role": "responsable scientifique"
+      },
+      "subject": "European Social Survey",
+      "summary": "Réalisation de l'édition 7 de l'enquête sociale européenne - European Social Survey",
+      "grants": [
+         {
+            "organization": "EHESS",
+            "grantType": "National collaboratif",
+            "grantIdentifier": "wz4254",
+            "sciencespoAmount": 900000,
+            "totalAmount": 945123,
+            "currencyAmount": "EUR",
+            "submissionDate": "2013-06-05",
+            "startDate": "2013-12-03",
+            "endDate": "2015-12-31",
+            "UG": "R82S05",
+            "status": "done"
+         }
+      ]
+   },
+   {
+      "name": "Post-doc",
+      "activityType": "invité",
+      "startDate": "2015-02-01",
+      "endDate": "2015-08-31",
+      "organizations": [
+         {
+            "organization": "CDSP",
+            "role": "leader"
+         }
+      ],
+      "people": [
+         {
+            "people": "Daniel Afonso Da Silva",
+            "role": "invité"
+         },
+         {
+            "people": "Marc Dubois",
+            "role": "Référent"
+         }
+      ],
+      "subject": "Une place au soleil",
+      "summary": "La France et le Brésil dans la recherche d'une place au soleil de 1985 à nos jours"
+   },
+   {
+      "name": "Séjour UCLA",
+      "activityType": "séjour à l'étranger",
+      "startDate": "2015-06-29",
+      "endDate": "2015-11-30",
+      "organizations": [
+         {
+            "organization": "UCLA",
+            "role": "leader"
+         }
+      ],
+      "people": [
+         {
+            "people": "Paul Bismuth",
+            "role": "invité"
+         }
+      ],
+      "subject": "Séjour de recherche",
+      "summary": "Pourquoi le ciel est bleu ?",
+      "tags": {
+         "discipline": "Sociologie, démographie",
+         "researchTheme": [
+            "aires",
+            "villes et territoires"
+         ]
+      },
+      "grants": [
+         {
+            "organization": "UCLA",
+            "sciencespoAmount": 30000,
+            "currencyAmount": "EUR",
+            "UG": "R420B",
+            "status": "done"
+         }
+      ]
+   },
+   {
+      "name": "doctorat",
+      "activityType": "doctorat",
+      "startDate": "2009-10-01",
+      "endDate": "2014-11-17",
+      "organizations": [
+         {
+            "organization": "IEP Paris",
+            "role": "inscription"
+         }
+      ],
+      "people": [
+         {
+            "people": "Matthieu Ichou",
+            "role": "doctorant"
+         },
+         {
+            "people": "Agnès Van Zanten",
+            "role": "direction"
+         },
+         {
+            "people": "Anthony Heath",
+            "role": "co-direction"
+         },
+         {
+            "people": "Goerges Felouzis",
+            "role": "rapporteur"
+         }
+      ],
+      "subject": "Origines des inégalités scolaires",
+      "summary": "Origines des inégalités scolaires: contribution à l'étude des trajectoires scolaires des enfants d'immigrés en France et en Angleterre",
+      "tags": {
+         "discipline": "Sociologie, démographie",
+         "aeres2012": [
+            "Europe Occidentale",
+            "France"
+         ],
+         "researchTheme": [
+            "migrations, immigration",
+            "inégalités, discrimination"
+         ]
+      },
+      "grants": [
+         {
+            "organization": "IEP Paris",
+            "grantType": "individuel",
+            "totalAmount": 850,
+            "currencyAmount": "EUR",
+            "startDate": "2010-01-01",
+            "endDate": "2010-12-31"
+         },
+         {
+            "organization": "MESR",
+            "grantType": "individuel",
+            "totalAmount": 20000,
+            "currencyAmount": "EUR",
+            "startDate": "2010-01-01",
+            "endDate": "2010-12-31"
+         }
+      ]
+   },
+   {
+      "name": "God and Cesar in motion",
+      "activityType": "projet de recherche",
+      "organizations": [
+         {
+            "organization": "CERI",
+            "role": "leader"
+         }
+      ],
+      "people": [
+         {
+            "people": "Riva Kastoryano",
+            "role": "responsable scientifique"
+         }
+      ],
+      "subject": "Changing Boundaries",
+      "summary": "Changing Boundaries between Religion and Politics in a Pluralizing World",
+      "grants": [
+         {
+            "organization": "ANR",
+            "name": "ANR-ORA",
+            "grantType": "collaboratif national",
+            "totalAmount": 2549540,
+            "currencyAmount": "EUR",
+            "submissionDate": "2015-03-01",
+            "status": "rejected"
+         }
+      ]
+   }
+]

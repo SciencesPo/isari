@@ -37,7 +37,7 @@ services:
       - db
     environment:
       - MONGO_URL=mongodb://db:27017
-      - MONGO_INCLUDES=people,organisation,activity
+      - MONGO_INCLUDES=isari.people,isari.organizations,isari.activities,isaridev.people,isaridev.organizations,isaridev.activities,isaritest.people,isaritest.organizations,isaritest.activities
       - ES_URL=index:9200
       - CONFIG_LOCATION=file:///opt/mongo-connector/optional-config.json
     volumes:
@@ -54,4 +54,5 @@ services:
      - 5601:5601
     environment:
      - ELASTICSEARCH_URL=http://index:9200     
+
 

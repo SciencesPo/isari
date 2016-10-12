@@ -1,0 +1,271 @@
+[
+   {
+      "isariAuthorizedCenters": [
+         {
+            "organization": "medialab",
+            "isariRole": "researchMember"
+      }
+    ],
+      "firstname": "Paul",
+      "name": "Bismuth",
+      "gender": "h",
+      "birthdate": "1976-09-03",
+      "nationalities": [
+      "FR",
+      "IT"
+    ],
+      "positions": [
+         {
+            "organization": "FNSP",
+            "startDate": "2003-05-04",
+            "timepart": 1,
+            "jobName": "ingénieur de recherche",
+            "jobType": "CDI",
+            "jobTitle": "appui technique",
+            "UG": "R12B",
+            "gradesAdmin": [
+               {
+                  "grade": "CM1",
+                  "startDate": "2003-05-04",
+                  "endDate": "2004-06-07"
+          },
+               {
+                  "grade": "CM2",
+                  "startDate": "2004-06-08"
+          }
+        ]
+      }
+    ],
+      "academicMemberships": [
+         {
+            "organization": "medialab",
+            "startDate": "2003-05-04",
+            "membershipType": "membre"
+      }
+    ],
+      "biography": "ma vie mon oeuvre",
+      "tags": {
+         "hceres2017": [
+        "SHS2_4 Sociologie, démographie",
+        "SHS2_5 Sciences de l'information et de la communications"
+      ],
+         "methods": "mixte",
+         "erc": "SH2 Institutions, values and beliefs and behaviours"
+      },
+      "personalActivities": [
+         {
+            "personalActivityType": "expertise",
+            "personalActivitySubtype": "rapport",
+            "personalActivityTitle": "statistique sanitaire mondiale",
+            "startDate": "2014",
+            "endDate": "2014",
+            "role": "expert",
+            "description": "rapport sur la santé dans le monde",
+            "organizations": [
+          "OMS"
+        ]
+      }
+    ],
+      "distinctions": [
+         {
+            "organizations": [
+          "CNRS"
+        ],
+            "date": "2013",
+            "title": "médaille de cristal",
+            "countries": [
+          "FR"
+        ],
+            "distinctionType": "distinction"
+      }
+    ],
+      "contacts": [
+         {
+            "title": "bureau",
+            "email": "paul.bismuth@sciencespo.fr",
+            "phone": "0145467891"
+      }
+    ],
+      "langs": [
+      "fr",
+      "en",
+      "es",
+      "it"
+    ]
+  },
+   {
+      "isariAuthorizedCenters": [
+         {
+            "organization": "CSO",
+            "isariRole": "researchMember"
+      }
+    ],
+      "firstname": "Henri",
+      "name": "Bergero",
+      "gender": "h",
+      "birthdate": "1966",
+      "nationalities": [
+      "FR"
+    ],
+      "positions": [
+         {
+            "organization": "CNRS",
+            "startDate": "2012",
+            "timepart": 1,
+            "jobName": "chargé de recherche CNRS",
+            "jobType": "emploi public",
+            "jobTitle": "chercheur",
+            "UG": "R51B",
+            "gradesAdmin": [
+               {
+                  "grade": "CR",
+                  "startDate": "2012"
+          }
+        ]
+      }
+    ],
+      "academicMemberships": [
+         {
+            "organization": "CSO",
+            "startDate": "2012",
+            "membershipType": "membre"
+      }
+    ],
+      "biography": "La vie de Henri",
+      "tags": {
+         "hceres2017": [
+        "SHS2_2 Science politique",
+        "SHS2_4 Sociologie, démographie"
+      ]
+      },
+      "personalActivities": [
+         {
+            "personalActivityType": "encadrement",
+            "personalActivitySubtype": "mémoire",
+            "personalActivityTitle": "Direction de mémoire",
+            "startDate": "2012",
+            "endDate": "2013",
+            "role": "direction",
+            "description": "magnifique rapport de mémoire",
+            "organizations": [
+          "IEP Paris"
+        ],
+            "peoples": "Louisa Ken"
+      }
+    ],
+      "distinctions": [
+         {
+            "organizations": [
+          "IEP Paris"
+        ],
+            "date": "1980",
+            "title": "doctorat en sciences politiques",
+            "countries": [
+          "FR"
+        ],
+            "distinctionType": "diplôme"
+      }
+    ],
+      "contacts": [
+         {
+            "title": "bureau",
+            "email": "henri.bergero@sciencespo.fr",
+            "phone": "0159684568"
+      }
+    ],
+      "langs": [
+      "fr",
+      "en"
+    ]
+  },
+   {
+      "isariAuthorizedCenters": [
+         {
+            "organization": "CEE",
+            "isariRole": "researchMember"
+      }
+    ],
+      "firstname": "Richard",
+      "name": "Dupond",
+      "gender": "h",
+      "birthdate": "1957",
+      "nationalities": [
+      "FR"
+    ],
+      "positions": [
+         {
+            "organization": "MESR",
+            "startDate": "2012",
+            "timepart": 1,
+            "jobName": "professeur des universités",
+            "jobType": "emploi public",
+            "jobTitle": "enseignant chercheur",
+            "UG": "RC1B",
+            "gradesAdmin": [
+               {
+                  "grade": "PR2",
+                  "startDate": "2001"
+          }
+        ]
+      }
+    ],
+      "academicMemberships": [
+         {
+            "organization": "CEE",
+            "startDate": "2001",
+            "membershipType": "membre"
+      }
+    ],
+      "deptMemberships": [
+         {
+            "organization": "Département de science politique"
+      }
+    ],
+      "biography": "La vie de Richard",
+      "tags": {
+         "hceres2017": [
+        "SHSH2_1 Droit",
+        "SHS2_2 Science politique"
+      ]
+      },
+      "methods": [
+      "quantitative",
+      "qualitative"
+    ],
+      "personalActivities": [
+         {
+            "personalActivityType": "collaborations scientifiques",
+            "personalActivitySubtype": "groupe de recherche",
+            "personalActivityTitle": "France Agendas Project",
+            "startDate": "2008",
+            "endDate": "2012",
+            "role": "co-direction"
+      }
+    ],
+      "distinctions": [
+         {
+            "organizations": [
+          "London School of Economics",
+          "IEP Paris"
+        ],
+            "date": "1980",
+            "title": "doctorat en économie",
+            "countries": [
+          "GB"
+        ],
+            "distinctionType": "double-diplôme"
+      }
+    ],
+      "contacts": [
+         {
+            "title": "bureau",
+            "email": "richard.dupont@sciencespo.fr",
+            "phone": "0643664588"
+      }
+    ],
+      "langs": [
+      "fr",
+      "en"
+    ]
+  }
+]

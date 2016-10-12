@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+}
+
+.app-content {
+  padding: 20px;
+}
+
+.app-content md-card {
+  margin: 20px;
+}
+
+.label {
+  color: #888;
+  font-size: .8em;
+  margin-right: 1em;
+}
+.value {
+
+}
+
+.field {
+  margin: 1em;
+}
+
+.field .error .label {
+  color: red;
+}
+
+.selectMenu {
+  margin-top: 38px; /* ? */
+}
+
+.dateMenu {
+  margin-top: 0;
+  max-width: none !important;
+}
+.dateMenu .calendar {
+  height: auto !important;
+  display: block !important;
+}
+.dateMenu .calendar div {
+  margin-bottom: 5px;
+}
+.dateMenu .calendar.years, .dateMenu .calendar.months {
+  max-width: 280px;
+}
+.dateMenu .calendar.years span.btn, .dateMenu .calendar.months span.btn {
+  float: left;
+  margin-right: 2px;
+}

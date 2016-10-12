@@ -1,0 +1,44 @@
+<span [formGroup]="form">
+
+  <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
+
+    <div *ngSwitchCase="'object'">
+      <button (click)="remove()" md-raised-button color="warn" *ngIf="index !== null">-</button>
+      {{ field.label.fr }} {{ index }}
+      <isari-data-editor
+        (onUpdate)="update($event)"
+        [form]="getForm()"
+        [layout]="field.layout"></isari-data-editor>
+    </div>
+
+    <isari-date *ngSwitchCase="'date'"
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label.fr"
+      [form]="form"></isari-date>
+
+    <!--<isari-select *ngSwitchCase="'select'"
+      (onUpdate)="update($event)"
+      [promiseOfEnum]="getPromiseOfEnum()"
+      [name]="field.name"
+      [label]="field.label.fr"
+      [form]="form"></isari-select>-->
+
+    <isari-input *ngSwitchDefault
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label.fr"
+      [form]="form"></isari-input>
+
+  </span>
+
+  <span *ngIf="field.multiple" [formArrayName]="field.name">
+    <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
+      (onUpdate)="update($event)"
+      [index]="i"
+      [form]="form"
+      [field]="getField(field)"></isari-field>
+    <button (click)="add()" md-raised-button color="warn">Add {{ field.label.fr }}</button>
+  </span>
+
+</span>

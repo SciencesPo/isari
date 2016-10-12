@@ -1,0 +1,9 @@
+[
+  {
+    "label": { "fr": "groupe 1", "en": "group 1" },
+    "collapsable": true,
+    "fields": ["firstname", "name"]
+  },
+  ["gender", "birthdate", "nationalities"],
+  "tags"
+]

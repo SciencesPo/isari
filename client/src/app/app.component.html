@@ -1,8 +1,28 @@
-<h1>ISARI</h1>
-<nav>
-  <ul>
-    <li><a routerLink="/people">People</a></li>
-    <li><a routerLink="/activities">Activities</a></li>
-  </ul>
-</nav>
-<router-outlet></router-outlet>
+<md-sidenav-layout>
+
+  <md-toolbar color="primary">
+    Isari
+
+    <span class="app-toolbar-filler"></span>
+
+    <button md-button [md-menu-trigger-for]="menu">
+      MENU
+    </button>
+
+    <md-menu x-position="before" #menu="mdMenu">
+      <a md-menu-item routerLink="/people">People</a>
+      <a md-menu-item routerLink="/activities">Activities</a>
+      <a md-menu-item routerLink="/people/57f7bebb8cc4215842206ef2">People 1</a>
+      <a md-menu-item routerLink="/people/2">People 2</a>
+      <a md-menu-item routerLink="/people/3">People 3</a>
+    </md-menu>
+  </md-toolbar>
+
+  <div class="app-content">
+
+      <router-outlet></router-outlet>
+
+  </div>
+
+</md-sidenav-layout>
+

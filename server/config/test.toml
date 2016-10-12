@@ -1,0 +1,11 @@
+[http]
+port = 0 # should not be used
+
+[mongo]
+url = 'mongodb://localhost/isaritest'
+
+[log]
+format = false
+
+[elasticsearch]
+index = 'isaritest'

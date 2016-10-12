@@ -6,10 +6,11 @@ const app = require('./app')
 const debug = require('debug')('isari:server')
 const { createServer } = require('http')
 const config = require('config')
+const chalk = require('chalk')
+const { connect } = require('./lib/model')
+
 
 const server = createServer(app)
-
-server.listen(config.http.port)
 
 server.on('listening', () => {
 	const addr = server.address()
@@ -19,4 +20,14 @@ server.on('listening', () => {
 
 server.on('error', err => {
 	throw err
+})
+
+connect()
+.then(() => {
+	process.stdout.write('Established connection to MongoDB')
+	server.listen(config.http.port)
+})
+.catch(e => {
+	process.stderr.write(`\n\n${chalk.bold.red('Could not connect to MongoDB')}:\n${chalk.red(e.message)}\n\n`)
+	process.exit(1)
 })

@@ -1,0 +1,8 @@
+<span [formGroup]="form">
+  <md-input
+    [placeholder]="label"
+    (blur)="update($event)"
+    [formControlName]="name">
+     <md-hint *ngIf="!form.controls[name].valid" align="start">error</md-hint>
+  </md-input>
+</span>

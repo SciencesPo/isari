@@ -4,7 +4,9 @@
   "description": "Isari REST API server",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start-db": "docker-compose -f dev_docker/docker-compose.yml -p isari up",
+    "clean-db": "docker-compose -f dev_docker/docker-compose.yml -p isari down",
+    "start": "cross-env NODE_ENV=production node server",
     "test": "mocha --check-leaks -R spec",
     "pretest": "npm run lint",
     "dev": "npm-run-all -p watch:*",
@@ -27,8 +29,10 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "chalk": "^1.1.3",
     "config": "^1.21.0",
     "connect-mongo": "^1.3.2",
+    "cors": "^2.8.1",
     "debug": "^2.2.0",
     "elasticsearch": "^11.0.1",
     "error": "^7.0.2",
@@ -38,6 +42,8 @@
     "mongoose": "^4.5.10",
     "morgan": "^1.7.0",
     "native-promisify": "^1.2.0",
+    "supertest": "^2.0.0",
+    "supertest-as-promised": "^4.0.0",
     "toml": "^2.3.0"
   }
 }
