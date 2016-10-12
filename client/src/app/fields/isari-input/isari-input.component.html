@@ -1,10 +1,8 @@
 <span [formGroup]="form">
   <md-input
-    [isariDisabled]="form.controls[name]?.disabled"
-    [placeholder]="name"
-    *ngIf="form.controls[name]"
+    [placeholder]="label"
     (blur)="update($event)"
     [formControlName]="name">
-     <md-hint *ngIf="!form.controls[name]?.disabled && !form.controls[name]?.valid" [ngStyle]="{'color': 'red'}" align="start">error</md-hint>
+     <md-hint *ngIf="!form.controls[name].valid" align="start">error</md-hint>
   </md-input>
 </span>

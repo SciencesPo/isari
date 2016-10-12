@@ -1,31 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-
+import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import 'rxjs/add/operator/toPromise';
-
-import { IsariInputComponent } from './fields/isari-input/isari-input.component';
-import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
-import { IsariDateComponent } from './fields/isari-date/isari-date.component';
-import { DataEditorComponent } from './data-editor/data-editor.component';
 
 @Injectable()
 export class IsariDataService {
 
-  // private dataUrl = 'api/people';
-  // private layoutUrl = 'api/layouts';
-  // private enumUrl = 'api/enums';
+  // private dataUrl = 'http://localhost:8080/people';
+  // private layoutUrl = 'http://localhost:8080/layouts';
+  // private enumUrl = 'http://localhost:8080/enums';
 
-  private dataUrl = 'http://localhost:8080/people';
-  private layoutUrl = 'http://localhost:8080/layouts';
-  private enumUrl = 'http://localhost:8080/enums';
+  private dataUrl = 'api/people';
+  private layoutUrl = 'api/layouts';
+  private enumUrl = 'api/enums';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private fb: FormBuilder) { }
 
   getPeople (id: string) {
     const url = `${this.dataUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json())
+      .then(response => response.json().data)
+      // .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -37,18 +33,21 @@ export class IsariDataService {
     const url = `${this.layoutUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json())
+      .then(response => response.json().data.layout)
+      // .then(response => response.json())
       .catch(this.handleError);
   }
 
   getEnum (en: string) {
+    // cas non gérés pour le moment
     if (en === 'KEYS(personalActivityTypes)' || en === 'personalActivityTypes.$personalActivityType') {
       return Promise.resolve([]);
     }
     const url = `${this.enumUrl}/${en}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json())
+      .then(response => response.json().data.enum)
+      // .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -57,17 +56,45 @@ export class IsariDataService {
     return Promise.reject(error.message || error);
   }
 
-  getInputComponent (field): any {
-    if (field.enum) {
-      return IsariSelectComponent;
-    }
+  buildForm(layout, data): FormGroup {
+    let form = this.fb.group({});
+    let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
+    fields.forEach(field => {
+      if (field.multiple) {
+        let fa = new FormArray([]);
+        (data[field.name] || []).forEach(d => {
+          this.addFormControlToArray(fa, field, d);
+        });
+        form.addControl(field.name, fa);
+      } else if (field.type === 'object') {
+        form.addControl(field.name, this.buildForm(field.layout, data[field.name] || {}));
+      } else {
+        form.addControl(field.name, new FormControl({
+          value: data[field.name] || '',
+          disabled: false
+        }));
+      }
+    });
+    return form;
+  }
+
+  addFormControlToArray(fa: FormArray, field, data = {}) {
+    let fieldClone = Object.assign({}, field);
+    delete fieldClone.multiple;
     if (field.type === 'object') {
-      return DataEditorComponent;
+      fa.push(this.buildForm(field.layout, data));
+    } else {
+      fa.push(new FormGroup({
+        [field.name]: new FormControl({
+          value: data || '',
+          disabled: false
+        })
+      }));
     }
-    if (field.type === 'date') {
-      return IsariDateComponent;
-    }
-    return IsariInputComponent;
+  }
+
+  getControlType (field): string {
+    return field.type || (field.enum ? 'select' : null) || 'input';
   }
 
 }

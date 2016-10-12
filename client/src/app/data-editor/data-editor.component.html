@@ -1,7 +1,6 @@
-<div form novalidate [formGroup]="form">
-  {{ name }}
+<div form novalidate [formGroup]="form" *ngIf="form">
   <md-card-content *ngFor="let group of layout">
     <md-card-subtitle *ngIf="group.label">{{ group.label['fr'] }}</md-card-subtitle>
-    <isari-field *ngFor="let field of group.fields" (onUpdate)="update($event)" [form]="form" [field]="field" [data]="data"></isari-field>
+    <isari-field *ngFor="let field of group.fields" (onUpdate)="update($event)" [form]="form" [field]="field"></isari-field>
   </md-card-content>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MdMenuTrigger } from '@angular/material';
 
@@ -11,10 +11,11 @@ export class IsariDateComponent implements OnInit {
 
   @Input() name: string;
   @Input() form: FormGroup;
+  @Input() label: string;
+  @Output() onUpdate = new EventEmitter<any>();
 
   @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
 
-  onUpdate: EventEmitter<any>;
   selectControl: FormControl;
   focused: boolean = false;
   disabled: boolean = false;
@@ -66,6 +67,7 @@ export class IsariDateComponent implements OnInit {
   }
 
   blur($event) {
+    this.trigger.closeMenu();
   }
 
   display(_displayed) {

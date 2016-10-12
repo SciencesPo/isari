@@ -3,7 +3,8 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
 
     let people = [
-      { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe', gender: 'm', birthdate: '1978-8' },
+      { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe', gender: 'm', birthdate: '1978-8',
+        tag: [{bla: 'un' }, {bla: 'deux'}]},
       { id: 2, opts: { editable: false }, firstname: 'Kyle', name: 'Dixon', gender: 'f' },
       { id: 3, opts: { editable: true }, firstname: 'Michael', name: 'Stein', composed: { subField: 'test sous champ' } }
     ];
@@ -51,6 +52,19 @@ export class InMemoryDataService implements InMemoryDbService {
                   }
                 ]
              }
+            ]
+          },
+          {
+            fields: [
+              {
+                name: 'tag',
+                label: { fr: 'tag', en: 'tag' },
+                multiple: true,
+                type: 'object',
+                layout: [
+                  { fields: [{ 'name': 'bla', label: { 'fr': 'bla', 'en': 'bla' } }] }
+                ]
+              }
             ]
           }
         ]

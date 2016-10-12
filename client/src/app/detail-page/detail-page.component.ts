@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 import { IsariDataService } from '../isari-data.service';
 
@@ -13,6 +14,7 @@ export class DetailPageComponent implements OnInit {
   feature: string;
   data: any;
   layout: any;
+  form: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,15 +30,16 @@ export class DetailPageComponent implements OnInit {
         ]).then(([data, layout]) => {
           this.data = data;
           this.layout = layout;
+          this.form = this.isariDataService.buildForm(this.layout, this.data);
         });
       });
   }
 
-  save (obj) {
-    if (!obj.invalid) {
-      this.data = obj;
-    } else {
-      this.data = 'Errors';
+  save($event) {
+    if (!this.form.disabled && this.form.valid && this.form.dirty) {
+      console.log('save', this.form.value);
+      this.data = this.form.value;
+      return;
     }
   }
 
