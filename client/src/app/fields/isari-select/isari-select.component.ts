@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MdMenuTrigger } from '@angular/material';
 
@@ -11,12 +11,13 @@ export class IsariSelectComponent implements OnInit {
 
   @Input() name: string;
   @Input() form: FormGroup;
-  @Input() promiseOfEnum: any | null;
+  @Input() label: string;
+  @Output() onUpdate = new EventEmitter<any>();
+  @Input() promiseOfEnum: Promise<any>;
   max: number = 5;
 
   @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
 
-  onUpdate: EventEmitter<any>;
   values: any[] = [];
   allValues: any[] = [];
   selectControl: FormControl;
@@ -71,7 +72,7 @@ export class IsariSelectComponent implements OnInit {
     // ugly : avoid menu closed before value select
     setTimeout(() => {
       this.trigger.closeMenu();
-    }, 100);
+    });
     this.focused = false;
   }
 

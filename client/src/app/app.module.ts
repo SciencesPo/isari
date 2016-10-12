@@ -19,6 +19,7 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { DataEditorComponent } from './data-editor/data-editor.component';
 import { FieldComponent } from './fields/field.component';
 import { DisabledDirective } from './fields/disabled.directive';
+
 import { IsariInputComponent } from './fields/isari-input/isari-input.component';
 import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
 import { IsariDateComponent } from './fields/isari-date/isari-date.component';
@@ -31,8 +32,8 @@ import { IsariDateComponent } from './fields/isari-date/isari-date.component';
     DataTableComponent,
     DataEditorComponent,
     FieldComponent,
-    IsariInputComponent,
     DisabledDirective,
+    IsariInputComponent,
     IsariSelectComponent,
     IsariDateComponent
   ],
@@ -50,10 +51,6 @@ import { IsariDateComponent } from './fields/isari-date/isari-date.component';
   ],
   entryComponents: [
     AppComponent,
-    IsariInputComponent,
-    IsariSelectComponent,
-    IsariDateComponent,
-    DataEditorComponent
   ],
   bootstrap: [AppComponent]
 })
