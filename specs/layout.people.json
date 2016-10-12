@@ -4,7 +4,6 @@
     "collapsable": true,
     "fields": ["firstname", "name"]
   },
-  ["gender", "birthdate"],
-  "nationalities",
+  ["gender", "birthdate", "nationalities"],
   "tags"
 ]
