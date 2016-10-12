@@ -3,12 +3,16 @@
 const mongoose = require('mongoose')
 const { getMongooseSchema } = require('./schemas')
 const config = require('config')
+const { EditLog, middleware: editLogMiddleware } = require('./edit-logs')
 
 // Use native promises with Mongoose
 mongoose.Promise = Promise
 
 
-module.exports = { connect }
+module.exports = {
+	connect,
+	EditLog
+}
 
 for (const name in config.collections) {
 	module.exports[name] = model(name, config.collections[name])
@@ -22,6 +26,8 @@ function model (modelName, collectionName) {
 		strict: 'throw',
 		collection: collectionName
 	})
+
+	schema.plugin(editLogMiddleware)
 
 	schema.static('removeById', function (id) {
 		return this.remove({ _id: id })

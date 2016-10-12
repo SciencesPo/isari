@@ -66,6 +66,7 @@ const updateModel = (Model, save) => {
 		Object.keys(req.body).forEach(field => {
 			doc[field] = req.body[field]
 		})
+		doc._elWho = 'TODO GET USERNAME FROM WEB SESSION (update)'
 		return save(doc)
 	})
 }
@@ -82,6 +83,7 @@ const createModel = (Model, save) => (req, res) => {
 			return Promise.reject(ServerError({ title: e.message }))
 		}
 	}
+	o._elWho = 'TODO GET USERNAME FROM WEB SESSION (create)'
 	return save(o).then(saved => {
 		res.status(201)
 		return saved
@@ -89,9 +91,12 @@ const createModel = (Model, save) => (req, res) => {
 }
 
 const deleteModel = Model => (req, res) =>
-	Model.remove({ _id: req.params.id })
-	.then(({ result }) => result.n > 0)
-	.then(deleted => deleted || Promise.reject(NotFoundError({ title: Model.modelName })))
+	Model.findById(req.params.id)
+	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
+	.then(doc => {
+		doc._elWho = 'TODO GET USERNAME FROM WEB SESSION (delete)'
+		return doc.remove()
+	})
 	.then(() => {
 		res.status(204)
 		return null

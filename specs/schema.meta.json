@@ -619,13 +619,15 @@
                 }
             }
         ],
-        "langs": {
-            "label": {
-                "fr": "Langues",
-                "en": "Languages"
-            },
-            "enum": "iso6391"
-        }
+        "langs": [
+            {
+                "label": {
+                    "fr": "Langues",
+                    "en": "Languages"
+                },
+                "enum": "iso6391"
+            }
+        ]
     },
     "Activity": {
         "name": {

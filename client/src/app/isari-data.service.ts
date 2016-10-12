@@ -3,13 +3,6 @@ import { Http } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import 'rxjs/add/operator/toPromise';
 
-import { IsariInputComponent } from './fields/isari-input/isari-input.component';
-import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
-import { IsariDateComponent } from './fields/isari-date/isari-date.component';
-import { IsariMultipleComponent } from './fields/isari-multiple/isari-multiple.component';
-import { DataEditorComponent } from './data-editor/data-editor.component';
-
-
 @Injectable()
 export class IsariDataService {
 
@@ -27,8 +20,8 @@ export class IsariDataService {
     const url = `${this.dataUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
-      //.then(response => response.json())
       .then(response => response.json().data)
+      // .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -40,8 +33,8 @@ export class IsariDataService {
     const url = `${this.layoutUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      //.then(response => response.json())
       .then(response => response.json().data.layout)
+      // .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -53,8 +46,8 @@ export class IsariDataService {
     const url = `${this.enumUrl}/${en}`;
     return this.http.get(url)
       .toPromise()
-      //.then(response => response.json())
       .then(response => response.json().data.enum)
+      // .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -102,22 +95,6 @@ export class IsariDataService {
 
   getControlType (field): string {
     return field.type || (field.enum ? 'select' : null) || 'input';
-  }
-
-  getInputComponent (field): any {
-    // if (field.enum) {
-    //   return IsariSelectComponent;
-    // }
-    // if (field.type === 'object') {
-    //   return DataEditorComponent;
-    // }
-    // if (field.type === 'date') {
-    //   return IsariDateComponent;
-    // }
-    if (field.multiple === true) {
-      return IsariMultipleComponent;
-    }
-    return IsariInputComponent;
   }
 
 }

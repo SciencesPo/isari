@@ -1,6 +1,7 @@
 'use strict'
 
 const express = require('express')
+const cors = require('cors')
 const logger = require('morgan')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
@@ -39,6 +40,8 @@ if (errors.length > 0) {
 
 
 const app = module.exports = express()
+
+app.use(cors())
 
 if (config.log.format) {
 	app.use(logger(config.log.format))
