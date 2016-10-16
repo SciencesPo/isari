@@ -50,3 +50,16 @@ body {
   float: left;
   margin-right: 2px;
 }
+
+[hidden] { display: none !important;}
+
+isari-select {
+  position: relative;
+}
+
+isari-select .md-menu {
+    position: absolute;
+    top: 23px;
+    right: 70px;
+    z-index: 100000;
+}

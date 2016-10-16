@@ -29,6 +29,9 @@ export class FieldComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
       this.field.controlType = this.isariDataService.getControlType(this.field);
+      if (this.field.enum) {
+        this.field.src = this.isariDataService.getEnum(this.field.enum);
+      }
     }
   }
 
@@ -47,12 +50,6 @@ export class FieldComponent implements OnInit, OnChanges {
       return (<FormArray> this.form.controls[this.field.name]).at(this.index);
     } else {
       return this.form.controls[this.field.name];
-    }
-  }
-
-  getPromiseOfEnum() {
-    if (this.field.enum) {
-      return this.isariDataService.getEnum(this.field.enum);
     }
   }
 

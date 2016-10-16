@@ -17,12 +17,12 @@
       [label]="field.label.fr"
       [form]="form"></isari-date>
 
-    <!--<isari-select *ngSwitchCase="'select'"
+    <isari-select *ngSwitchCase="'select'"
       (onUpdate)="update($event)"
-      [promiseOfEnum]="getPromiseOfEnum()"
+      [src]="field.src"
       [name]="field.name"
       [label]="field.label.fr"
-      [form]="form"></isari-select>-->
+      [form]="form"></isari-select>
 
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"

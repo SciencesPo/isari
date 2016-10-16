@@ -1,6 +1,12 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MdMenuTrigger } from '@angular/material';
+
+const UP_ARROW = 38;
+const DOWN_ARROW = 40;
+const RIGHT_ARROW = 39;
+const LEFT_ARROW = 37;
+const ENTER = 13;
+const TAB = 9;
 
 @Component({
   selector: 'isari-select',
@@ -13,16 +19,15 @@ export class IsariSelectComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() label: string;
   @Output() onUpdate = new EventEmitter<any>();
-  @Input() promiseOfEnum: Promise<any>;
-  max: number = 5;
+  @Input() src: Promise<any>;
 
-  @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
-
+  max: number = 20;
   values: any[] = [];
   allValues: any[] = [];
   selectControl: FormControl;
   focused: boolean = false;
   disabled: boolean = false;
+  currentIndex = -1;
 
   constructor() { }
 
@@ -32,7 +37,7 @@ export class IsariSelectComponent implements OnInit {
       disabled: this.form.controls[this.name].disabled
     });
 
-    this.promiseOfEnum.then()
+    this.src.then()
       .then(values => {
         this.allValues = values;
         this.values = this.findValues();
@@ -49,31 +54,35 @@ export class IsariSelectComponent implements OnInit {
       });
   }
 
-  update($event) {
-    this.focused = false;
-    this.trigger.closeMenu();
-    this.onUpdate.emit($event);
-    this.values = this.findValues(); // reset values displayed (for reopening)
-  }
-
-  openMenu() {
+  onFocus($event) {
     this.focused = true;
-    this.trigger.openMenu();
   }
 
-  select(value: string) {
-    this.form.controls[this.name].setValue(value);
+  onBlur($event) {
+    this.focused = false;
+  }
+
+  onSelect(idx: number) {
+    this.currentIndex = idx;
+    this.form.controls[this.name].setValue(this.values[this.currentIndex].value);
     this.form.controls[this.name].markAsDirty();
     this.setDisplayValue();
     this.update({});
   }
 
-  blur($event) {
-    // ugly : avoid menu closed before value select
-    setTimeout(() => {
-      this.trigger.closeMenu();
-    });
-    this.focused = false;
+  onKey($event) {
+    if ($event.keyCode === DOWN_ARROW) {
+      this.currentIndex = Math.min(this.currentIndex + 1, this.values.length - 1);
+    } else if ($event.keyCode === UP_ARROW) {
+      this.currentIndex = Math.max(this.currentIndex - 1, 0);
+    } else if ($event.keyCode === ENTER && this.currentIndex >= 0) {
+      this.onSelect(this.currentIndex);
+    }
+  }
+
+  update($event) {
+    this.onUpdate.emit($event);
+    this.values = this.findValues(); // reset values displayed (for reopening)
   }
 
   private setDisplayValue () {
