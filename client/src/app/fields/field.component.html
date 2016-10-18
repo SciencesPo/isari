@@ -3,8 +3,8 @@
   <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
 
     <div *ngSwitchCase="'object'">
-      <button (click)="remove()" md-raised-button color="warn" *ngIf="index !== null">-</button>
-      {{ field.label.fr }} {{ index }}
+      <button (click)="remove()" md-icon-button color="warn" *ngIf="index !== null">-</button>
+      {{ field.label.fr }}
       <isari-data-editor
         (onUpdate)="update($event)"
         [form]="getForm()"
@@ -38,7 +38,7 @@
       [index]="i"
       [form]="form"
       [field]="getField(field)"></isari-field>
-    <button (click)="add()" md-raised-button color="warn">Add {{ field.label.fr }}</button>
+    <button (click)="add()" md-icon-button color="warn">+</button>
   </span>
 
 </span>
