@@ -41,6 +41,9 @@ export class DetailPageComponent implements OnInit {
       this.data = this.form.value;
       return;
     }
+    if (!this.form.valid) {
+      console.log('ERROR', this.form);
+    }
   }
 
 }

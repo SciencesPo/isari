@@ -3,6 +3,6 @@
     [placeholder]="label"
     (blur)="update($event)"
     [formControlName]="name">
-     <md-hint *ngIf="!form.controls[name].valid" align="start">error</md-hint>
+     <md-hint *ngIf="!form.controls[name].valid && form.controls[name].errors.required" align="start" class="error">Obligatoire</md-hint>
   </md-input>
 </span>

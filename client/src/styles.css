@@ -11,20 +11,7 @@ body {
   margin: 20px;
 }
 
-.label {
-  color: #888;
-  font-size: .8em;
-  margin-right: 1em;
-}
-.value {
-
-}
-
-.field {
-  margin: 1em;
-}
-
-.field .error .label {
+md-hint.error {
   color: red;
 }
 
