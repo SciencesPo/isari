@@ -1,3 +1,19 @@
+isari-select {
+  position: relative;
+}
+
+.isari-input-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.md-menu {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    z-index: 100000;
+}
+
 .md-menu button.active:after {
   position: absolute;
   top: 0;

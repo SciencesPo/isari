@@ -1,7 +1,7 @@
-<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }" (keyup)="onKey($event)">
+<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }" (keyup)="onKey($event)" class="isari-input-wrapper">
   <input type="hidden" [formControlName]="name">
 
-  <div style="display: inline-block;position: relative;text-align: left;">
+  <div style="display: inline-block;text-align: left;">
     <div class="md-input-wrapper">
       <div class="md-input-table">
         <div class="md-input-prefix"></div>
