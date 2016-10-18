@@ -1,0 +1,26 @@
+isari-date {
+  position: relative;
+}
+
+.isari-input-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.md-menu {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    z-index: 100000;
+    width: 296px;
+    max-width: 296px;
+    min-width: 296px;
+}
+
+.calendar {
+  padding-left: 8px;
+}
+
+.calendar button {
+  float: left;
+}
