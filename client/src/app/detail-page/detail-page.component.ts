@@ -36,7 +36,8 @@ export class DetailPageComponent implements OnInit {
   }
 
   save($event) {
-    if (!this.form.disabled && this.form.valid && this.form.dirty) {
+    if (!this.form.disabled && this.form.valid) {
+       // check for change
       console.log('save', this.form.value);
       this.data = this.form.value;
       return;

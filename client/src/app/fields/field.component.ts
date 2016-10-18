@@ -54,16 +54,18 @@ export class FieldComponent implements OnInit, OnChanges {
   }
 
   // add item in a multiple field
-  add() {
+  add($event) {
     if (this.form.controls[this.field.name] instanceof FormArray) {
       this.isariDataService.addFormControlToArray((<FormArray> this.form.controls[this.field.name]), this.field);
+      this.update($event);
     }
   }
 
   // remove item from a multiple field
-  remove() {
+  remove($event) {
     if (this.form.controls[this.field.name] instanceof FormArray) {
       (<FormArray> this.form.controls[this.field.name]).removeAt(this.index);
+      this.update($event);
     }
   }
 }
