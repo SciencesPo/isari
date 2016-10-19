@@ -10,7 +10,7 @@
           (blur)="onBlur($event)"
           [formControl]="selectControl">
         <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
-          {{ name }}
+          {{ label }}
         </label>
       </div>
       <div class="md-input-suffix"></div>

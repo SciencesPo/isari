@@ -104,6 +104,24 @@ export class IsariDataService {
     return null;
   }
 
+  // private setGroupLabels (layout) {
+  //   return layout.map(group => Object.assign({}, group, {
+  //     label: this.getLabel(group)
+  //   }));
+  // }
+
+  // private getLabel (item) {
+  //   return item.label
+  //     || item.fields
+  //         .map(field => this.getLabel(field))
+  //         .reduce((acc, cv) => {
+  //           Object.keys(cv).forEach(key => {
+  //             acc[key] = [...(acc[key] || []), cv[key]];
+  //           });
+  //           return acc;
+  //         }, {});
+  // }
+
 }
 
 

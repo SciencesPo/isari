@@ -55,6 +55,7 @@ export class FieldComponent implements OnInit, OnChanges {
 
   // add item in a multiple field
   add($event) {
+    $event.preventDefault();
     if (this.form.controls[this.field.name] instanceof FormArray) {
       this.isariDataService.addFormControlToArray((<FormArray> this.form.controls[this.field.name]), this.field);
       this.update($event);

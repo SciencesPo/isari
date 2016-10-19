@@ -1,11 +1,11 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'isari-input',
   templateUrl: 'isari-input.component.html'
 })
-export class IsariInputComponent {
+export class IsariInputComponent implements OnInit {
 
   @Input() name: string;
   @Input() form: FormGroup;
@@ -18,6 +18,9 @@ export class IsariInputComponent {
     if (this.onUpdate) {
       this.onUpdate.emit($event);
     }
+  }
+
+  ngOnInit() {
   }
 
 }

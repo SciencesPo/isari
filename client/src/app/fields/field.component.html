@@ -3,10 +3,10 @@
   <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
 
     <div *ngSwitchCase="'object'">
-      <button (click)="remove($event)" md-icon-button color="warn" *ngIf="index !== null">-</button>
-      {{ field.label.fr }}
       <isari-data-editor
+        (onDelete)="remove($event)"
         (onUpdate)="update($event)"
+        [deletable]="index !== null"
         [form]="getForm()"
         [layout]="field.layout"></isari-data-editor>
     </div>
@@ -38,7 +38,9 @@
       [index]="i"
       [form]="form"
       [field]="getField(field)"></isari-field>
-    <button (click)="add($event)" md-icon-button color="warn">+</button>
+    <md-card-subtitle>
+      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label.fr }}</a>
+    </md-card-subtitle>
   </span>
 
 </span>
