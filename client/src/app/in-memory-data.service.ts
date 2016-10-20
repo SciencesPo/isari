@@ -62,7 +62,7 @@ export class InMemoryDataService implements InMemoryDbService {
             fields: [
               {
                 name: 'tag',
-                label: { fr: 'tags', en: 'tags' },
+                label: { fr: 'tag', en: 'tag' },
                 multiple: true,
                 type: 'object',
                 layout: [

@@ -31,6 +31,10 @@ export class DetailPageComponent implements OnInit {
           this.data = data;
           this.layout = layout;
           this.form = this.isariDataService.buildForm(this.layout, this.data);
+          // disabled all form
+          if (this.data.opts.editable === false) {
+            this.form.disable();
+          }
         });
       });
   }

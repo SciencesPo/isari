@@ -1,7 +1,7 @@
 <div form novalidate [formGroup]="form" *ngIf="form">
   <md-card-content *ngFor="let group of layout">
     <md-card-subtitle>
-      <a class="delete" href *ngIf="deletable" (click)="delete($event)"><md-icon>remove_circle_outline</md-icon></a>
+      <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)"><md-icon>remove_circle_outline</md-icon></a>
       {{ group.label['fr'] }}
     </md-card-subtitle>
     <isari-field *ngFor="let field of group.fields" (onUpdate)="update($event)" [form]="form" [field]="field"></isari-field>

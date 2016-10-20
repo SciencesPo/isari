@@ -32,7 +32,7 @@
 
   </span>
 
-  <span *ngIf="field.multiple" [formArrayName]="field.name">
+  <span *ngIf="field.multiple && form.enabled" [formArrayName]="field.name">
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
       (onUpdate)="update($event)"
       [index]="i"
