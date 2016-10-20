@@ -14,20 +14,20 @@
     <isari-date *ngSwitchCase="'date'"
       (onUpdate)="update($event)"
       [name]="field.name"
-      [label]="field.label.fr"
+      [label]="field.label"
       [form]="form"></isari-date>
 
     <isari-select *ngSwitchCase="'select'"
       (onUpdate)="update($event)"
       [src]="field.src"
       [name]="field.name"
-      [label]="field.label.fr"
+      [label]="field.label"
       [form]="form"></isari-select>
 
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
-      [label]="field.label.fr"
+      [label]="field.label"
       [form]="form"></isari-input>
 
   </span>
@@ -39,7 +39,7 @@
       [form]="form"
       [field]="getField(field)"></isari-field>
     <md-card-subtitle>
-      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label.fr }}</a>
+      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
     </md-card-subtitle>
   </span>
 

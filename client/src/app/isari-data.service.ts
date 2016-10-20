@@ -89,6 +89,21 @@ export class IsariDataService {
     }
   }
 
+  translate(layout, lang) {
+    return layout.map(group => {
+      let grp = Object.assign({}, group, {
+        label: group.label[lang]
+      });
+      if (grp.fields) {
+        grp.fields = this.translate(grp.fields, lang);
+      }
+      if (grp.layout) {
+        grp.layout = this.translate(grp.layout, lang);
+      }
+      return grp;
+    });
+  }
+
   getControlType (field): string {
     return field.type || (field.enum ? 'select' : null) || 'input';
   }
