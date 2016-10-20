@@ -8,7 +8,8 @@ md-card-subtitle {
   margin-left: -1em;
 }
 
-.delete md-icon {
+.delete md-icon, .collapse md-icon {
   vertical-align: middle;
   cursor: pointer;
 }
+

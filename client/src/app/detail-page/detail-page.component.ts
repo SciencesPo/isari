@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { IsariDataService } from '../isari-data.service';
   templateUrl: 'detail-page.component.html',
   styleUrls: ['detail-page.component.css']
 })
-export class DetailPageComponent implements OnInit {
+export class DetailPageComponent implements OnInit, OnChanges {
 
   feature: string;
   data: any;
@@ -37,6 +37,12 @@ export class DetailPageComponent implements OnInit {
           }
         });
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['lang']) {
+      console.log(changes['lang']);
+    }
   }
 
   save($event) {

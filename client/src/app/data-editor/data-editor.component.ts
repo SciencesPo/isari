@@ -17,6 +17,9 @@ export class DataEditorComponent implements OnInit {
 
   constructor() {}
 
+  ngOnInit() {
+  }
+
   update($event) {
     this.onUpdate.emit($event);
   }
@@ -28,7 +31,9 @@ export class DataEditorComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  collapse($event, group) {
+    $event.preventDefault();
+    group.collapsed = !group.collapsed;
   }
 
 }
