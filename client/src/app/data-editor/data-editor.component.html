@@ -1,9 +1,7 @@
 <div form novalidate [formGroup]="form" *ngIf="form">
   <md-card-content *ngFor="let group of layout">
     <md-card-subtitle>
-      <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
-        <md-icon>remove_circle_outline</md-icon>
-      </a>
+      <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)"><md-icon>remove_circle_outline</md-icon></a>
       {{ group.label }}
       <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)">
         <md-icon>{{ group.collapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</md-icon>
