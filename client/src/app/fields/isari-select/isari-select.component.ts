@@ -97,10 +97,14 @@ export class IsariSelectComponent implements OnInit {
   }
 
   private findValues(query = ''): string[] {
-    query = query.toLowerCase();
+    query = this.normalize(query.toLowerCase());
     return (query
-      ? this.allValues.filter(entry => entry.label.fr.toLowerCase().indexOf(query) !== -1)
+      ? this.allValues.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(query) !== -1)
       : this.allValues).slice(0, this.max);
+  }
+
+  private normalize(str: string): string {
+    return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
   }
 
 }
