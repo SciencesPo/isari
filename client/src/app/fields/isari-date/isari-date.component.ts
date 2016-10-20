@@ -119,7 +119,7 @@ export class IsariDateComponent implements OnInit {
       return '';
     }
     return (day ? day + ' ' : '')
-      + (month ? this.months['fr'][month] + ' ' : '')
+      + (month ? this.months['fr'][month - 1] + ' ' : '')
       + year;
   }
 
