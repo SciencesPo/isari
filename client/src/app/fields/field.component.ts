@@ -29,6 +29,9 @@ export class FieldComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
       this.field.controlType = this.isariDataService.getControlType(this.field);
+      if (this.field.enum) {
+        this.field.src = this.isariDataService.getEnum(this.field.enum);
+      }
     }
   }
 
@@ -50,23 +53,21 @@ export class FieldComponent implements OnInit, OnChanges {
     }
   }
 
-  getPromiseOfEnum() {
-    if (this.field.enum) {
-      return this.isariDataService.getEnum(this.field.enum);
-    }
-  }
-
   // add item in a multiple field
-  add() {
-    if (this.form.controls[this.field.name] instanceof FormArray) {
-      this.isariDataService.addFormControlToArray((<FormArray> this.form.controls[this.field.name]), this.field);
+  add($event) {
+    $event.preventDefault();
+    const parentFormControl = this.form.controls[this.field.name];
+    if (parentFormControl instanceof FormArray) {
+      this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field, {});
+      this.update($event);
     }
   }
 
   // remove item from a multiple field
-  remove() {
+  remove($event) {
     if (this.form.controls[this.field.name] instanceof FormArray) {
       (<FormArray> this.form.controls[this.field.name]).removeAt(this.index);
+      this.update($event);
     }
   }
 }

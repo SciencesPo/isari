@@ -3,10 +3,10 @@
   <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
 
     <div *ngSwitchCase="'object'">
-      <button (click)="remove()" md-raised-button color="warn" *ngIf="index !== null">-</button>
-      {{ field.label.fr }} {{ index }}
       <isari-data-editor
+        (onDelete)="remove($event)"
         (onUpdate)="update($event)"
+        [deletable]="index !== null"
         [form]="getForm()"
         [layout]="field.layout"></isari-data-editor>
     </div>
@@ -14,31 +14,33 @@
     <isari-date *ngSwitchCase="'date'"
       (onUpdate)="update($event)"
       [name]="field.name"
-      [label]="field.label.fr"
+      [label]="field.label"
       [form]="form"></isari-date>
 
-    <!--<isari-select *ngSwitchCase="'select'"
+    <isari-select *ngSwitchCase="'select'"
       (onUpdate)="update($event)"
-      [promiseOfEnum]="getPromiseOfEnum()"
+      [src]="field.src"
       [name]="field.name"
-      [label]="field.label.fr"
-      [form]="form"></isari-select>-->
+      [label]="field.label"
+      [form]="form"></isari-select>
 
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
-      [label]="field.label.fr"
+      [label]="field.label"
       [form]="form"></isari-input>
 
   </span>
 
-  <span *ngIf="field.multiple" [formArrayName]="field.name">
+  <span *ngIf="field.multiple && form.enabled" [formArrayName]="field.name">
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
       (onUpdate)="update($event)"
       [index]="i"
       [form]="form"
       [field]="getField(field)"></isari-field>
-    <button (click)="add()" md-raised-button color="warn">Add {{ field.label.fr }}</button>
+    <md-card-subtitle>
+      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
+    </md-card-subtitle>
   </span>
 
 </span>

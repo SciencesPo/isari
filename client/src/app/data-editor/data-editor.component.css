@@ -1,1 +1,15 @@
-md-card-content {}
+md-card-content {
+  border-left: 1px solid #ddd;
+  padding-left: 2em;
+  margin-bottom: 2em;
+}
+
+md-card-subtitle {
+  margin-left: -1em;
+}
+
+.delete md-icon, .collapse md-icon {
+  vertical-align: middle;
+  cursor: pointer;
+}
+

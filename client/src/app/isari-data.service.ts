@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -51,17 +51,13 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
-  }
-
   buildForm(layout, data): FormGroup {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
     fields.forEach(field => {
       if (field.multiple) {
         let fa = new FormArray([]);
+        // fa.disable(disabled);
         (data[field.name] || []).forEach(d => {
           this.addFormControlToArray(fa, field, d);
         });
@@ -72,7 +68,7 @@ export class IsariDataService {
         form.addControl(field.name, new FormControl({
           value: data[field.name] || '',
           disabled: false
-        }));
+        }, this.getValidators(field)));
       }
     });
     return form;
@@ -93,8 +89,35 @@ export class IsariDataService {
     }
   }
 
+  translate(layout, lang) {
+    return layout.map(group => {
+      let grp = Object.assign({}, group, {
+        label: group.label[lang]
+      });
+      if (grp.fields) {
+        grp.fields = this.translate(grp.fields, lang);
+      }
+      if (grp.layout) {
+        grp.layout = this.translate(grp.layout, lang);
+      }
+      return grp;
+    });
+  }
+
   getControlType (field): string {
     return field.type || (field.enum ? 'select' : null) || 'input';
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
+  }
+
+  private getValidators (field): ValidatorFn|ValidatorFn[]|null {
+    if (field && field.requirement && field.requirement === 'mandatory') {
+      return [Validators.required];
+    }
+    return null;
   }
 
 }

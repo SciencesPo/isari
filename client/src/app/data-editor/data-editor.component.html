@@ -1,6 +1,14 @@
 <div form novalidate [formGroup]="form" *ngIf="form">
   <md-card-content *ngFor="let group of layout">
-    <md-card-subtitle *ngIf="group.label">{{ group.label['fr'] }}</md-card-subtitle>
-    <isari-field *ngFor="let field of group.fields" (onUpdate)="update($event)" [form]="form" [field]="field"></isari-field>
+    <md-card-subtitle>
+      <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)"><md-icon>remove_circle_outline</md-icon></a>
+      {{ group.label }}
+      <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)">
+        <md-icon>{{ group.collapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</md-icon>
+      </a>
+    </md-card-subtitle>
+    <div [hidden]="group.collapsed">
+      <isari-field *ngFor="let field of group.fields" (onUpdate)="update($event)" [form]="form" [field]="field"></isari-field>
+    </div>
   </md-card-content>
 </div>

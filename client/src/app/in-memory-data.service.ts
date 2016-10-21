@@ -33,12 +33,14 @@ export class InMemoryDataService implements InMemoryDbService {
             ]
           },
           {
+            label: { fr: 'Genre, Date de naissance', en: 'Gender, Birthdate' },
             fields: [
               { name: 'gender', 'requirement': 'recommended', 'label': { 'fr': 'Genre', 'en': 'Gender' }, 'enum': 'genders' },
               {name: 'birthdate', 'requirement': 'recommended', 'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' }, 'type': 'date' }
             ]
           },
           {
+            label: { fr: 'groupe composé', en: 'composed group' },
             fields: [
               {
                 'name': 'composed',
@@ -46,6 +48,7 @@ export class InMemoryDataService implements InMemoryDbService {
                 'type': 'object',
                 layout: [
                   {
+                    label: {fr: 'sous', en: 'sub' },
                     fields: [
                       { 'name': 'subField', 'label': { 'fr': 'sous', 'en': 'sub' } }
                     ]
@@ -55,6 +58,7 @@ export class InMemoryDataService implements InMemoryDbService {
             ]
           },
           {
+            label: { fr: 'tags', en: 'tags' },
             fields: [
               {
                 name: 'tag',
@@ -62,7 +66,7 @@ export class InMemoryDataService implements InMemoryDbService {
                 multiple: true,
                 type: 'object',
                 layout: [
-                  { fields: [{ 'name': 'bla', label: { 'fr': 'bla', 'en': 'bla' } }] }
+                  { label: { fr: 'tag', en: 'tag' }, fields: [{ 'name': 'bla', label: { 'fr': 'bla', 'en': 'bla' } }] }
                 ]
               }
             ]

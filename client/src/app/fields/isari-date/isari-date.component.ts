@@ -1,6 +1,5 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MdMenuTrigger } from '@angular/material';
 
 @Component({
   selector: 'isari-date',
@@ -14,8 +13,6 @@ export class IsariDateComponent implements OnInit {
   @Input() label: string;
   @Output() onUpdate = new EventEmitter<any>();
 
-  @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
-
   selectControl: FormControl;
   focused: boolean = false;
   disabled: boolean = false;
@@ -25,9 +22,10 @@ export class IsariDateComponent implements OnInit {
   day: number | null;
   days: any[];
   months: any = {
-    fr: ['-', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+    fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
   };
   years: number[];
+  runningClick = false;
 
   constructor() {
     this.year = (new Date()).getFullYear();
@@ -52,6 +50,18 @@ export class IsariDateComponent implements OnInit {
     this.years = this.setYears(this.year || new Date().getFullYear());
   }
 
+  onFocus($event) {
+    this.focused = true;
+  }
+
+  onBlur($event) {
+    if (!this.runningClick) {
+      this.focused = false;
+    } else {
+      this.runningClick = false;
+    }
+  }
+
   update($event) {
     this.form.controls[this.name].setValue([this.year, this.month, this.day].filter(v => !!v).join('-'));
     this.form.controls[this.name].markAsDirty();
@@ -59,18 +69,15 @@ export class IsariDateComponent implements OnInit {
     this.selectControl.setValue(this.getDisplayedValue(this.year, this.month, this.day));
 
     this.display('days');
+
+    this.focused = false;
+    this.runningClick = false;
+
     this.onUpdate.emit($event);
   }
 
-  openMenu() {
-    this.trigger.openMenu();
-  }
-
-  blur($event) {
-    this.trigger.closeMenu();
-  }
-
   display(_displayed) {
+    this.runningClick = true;
     if (_displayed === 'months' && !this.year) {
       return;
     }
@@ -81,25 +88,22 @@ export class IsariDateComponent implements OnInit {
   }
 
   setDay(d, $event) {
-    $event.stopPropagation();
     this.day = d;
     this.display('months');
   }
 
   setMonth(m , $event) {
-    $event.stopPropagation();
     this.month = m;
     this.days = this.setDays(this.year, this.month);
     this.display('years');
     if (!this.month) {
       this.day = null;
     }
-
   }
 
   setYear(y, $event) {
-    $event.stopPropagation();
     this.year = y;
+    this.display('years');
     if (!this.year) {
       this.month = null;
       this.day = null;
@@ -107,12 +111,7 @@ export class IsariDateComponent implements OnInit {
   }
 
   navigateYears(y, $event) {
-    $event.stopPropagation();
     this.years = this.setYears(y);
-  }
-
-  private setYears (y) {
-    return ['-', ...Array.apply(null, {length: 20}).map((v, i) => i + y - 10)];
   }
 
   private getDisplayedValue (year, month, day) {
@@ -120,28 +119,20 @@ export class IsariDateComponent implements OnInit {
       return '';
     }
     return (day ? day + ' ' : '')
-      + (month ? this.months['fr'][month] + ' ' : '')
+      + (month ? this.months['fr'][month - 1] + ' ' : '')
       + year;
+  }
+
+  private setYears (y) {
+    return [...Array.apply(null, {length: 15}).map((v, i) => i + y - 5)];
   }
 
   private setDays (year, month) {
     if (!year || !month) {
       return [];
     }
-
     const daysInMonth = new Date(+year, +month, 0).getDate();
-    let days = ['-', '-', ...Array.apply(null, {length: daysInMonth}).map((v, i) => i + 1)];
-    days = chunk(days, 7);
-    days[0].shift();
-
-    return days;
-
-    function chunk(array: any[], size: number) {
-      let ceil = Math.ceil;
-      return Array( ceil(array.length / size) )
-        .fill(null)
-        .map((_, i) => array.slice(i * size, i * size + size));
-    }
+    return [...Array.apply(null, {length: daysInMonth}).map((v, i) => i + 1)];
   }
 
 }

@@ -1,69 +1,53 @@
-<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }">
+<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }" class="isari-input-wrapper" (blur)="onBlur($event)">
   <input type="hidden" [formControlName]="name">
 
-  <div style="display: inline-block;position: relative;text-align: left;">
-    <div class="md-input-wrapper">
-      <div class="md-input-table">
-        <div class="md-input-prefix"></div>
-        <div class="md-input-infix">
-          <input class="md-input-element"
-            [isariDisabled]="selectControl?.disabled"
-            *ngIf="form.controls[name]"
-            (focus)="openMenu()"
-            (blur)="blur($event)"
-            [formControl]="selectControl"
-            [md-menu-trigger-for]="menu">
-          <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
-            {{ name }}
-          </label>
-        </div>
-        <div class="md-input-suffix"></div>
+  <div class="md-input-wrapper">
+    <div class="md-input-table">
+      <div class="md-input-prefix"></div>
+      <div class="md-input-infix">
+        <input class="md-input-element"
+          (focus)="onFocus($event)"
+          (blur)="onBlur($event)"
+          [formControl]="selectControl">
+        <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
+          {{ label }}
+        </label>
       </div>
-      <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
-        <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>
-      </div>
+      <div class="md-input-suffix"></div>
+    </div>
+    <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
+      <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>
     </div>
   </div>
 
-  <md-menu y-position="below" #menu="mdMenu" class="dateMenu">
+  <div class="md-menu" [hidden]="!focused">
     <span md-menu-item disabled>
-      <button md-button (click)="display('days')">{{ day || '-' }}</button>
-      <button md-button (click)="display('months')">{{ months['fr'][month] || '-' }}</button>
-      <button md-button (click)="display('years')">{{ year || '-' }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('days')">{{ day || '-' }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months['fr'][month - 1] || '-' }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || '-' }}</button>
     </span>
 
-    <div *ngIf="displayed === 'days'" md-menu-item disabled class="calendar">
-      <div *ngFor="let week of days">
-        <span *ngFor="let d of week">
-          <button (click)="setDay(null, $event)" md-raised-button *ngIf="d === '-'">{{ d }}</button>
-          <button (click)="setDay(d, $event)" md-icon-button color="" *ngIf="d !== '-'">{{ d }}</button>
-        </span>
-      </div>
+    <div *ngIf="displayed === 'days'" class="calendar">
+      <button tabindex="-1" (mousedown)="setDay(null, $event)" md-icon-button>-</button>
+      <button tabindex="-1"  *ngFor="let d of days" (mousedown)="setDay(d, $event)" md-icon-button>{{ d }}</button>
     </div>
 
-    <div *ngIf="displayed === 'months'" md-menu-item disabled class="calendar months">
-      <span *ngFor="let m of months['fr']; let i = index" class="btn">
-          <button (click)="setMonth(null, $event)" md-raised-button color="" *ngIf="m === '-'">{{ m }}</button>
-          <button (click)="setMonth(i, $event)" md-button color="" *ngIf="m !== '-'">{{ m }}</button>
-      </span>
+    <div *ngIf="displayed === 'months'" class="calendar">
+      <button tabindex="-1" (mousedown)="setMonth(null, $event)" md-button>-</button>
+      <button tabindex="-1" *ngFor="let m of months['fr']; let i = index" (mousedown)="setMonth(i+1, $event)" md-button>{{ m }}</button>
     </div>
 
-    <div *ngIf="displayed === 'years'" md-menu-item disabled class="calendar years">
-      <span class="btn">
-        <button (click)="navigateYears(years[0]-10, $event)" md-icon-button>...</button>
-      </span>
-      <span *ngFor="let y of years" class="btn">
-        <button (click)="setYear(null, $event)" md-raised-button *ngIf="y === '-'">{{ y }}</button>
-        <button (click)="setYear(y, $event)" md-icon-button color="" *ngIf="y !== '-'">{{ y }}</button>
-      </span>
-      <span class="btn">
-        <button (click)="navigateYears(years[years.length - 1]+11, $event)" md-icon-button>...</button>
-      </span>
+    <div *ngIf="displayed === 'years'" class="calendar years">
+      <button tabindex="-1" (mousedown)="navigateYears(years[0]-10, $event)" md-button>...</button>
+      <button tabindex="-1" (mousedown)="setYear(null, $event)" md-button>-</button>
+      <button tabindex="-1" *ngFor="let y of years" (mousedown)="setYear(y, $event)" md-button color="">{{ y }}</button>
+      <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" md-button>...</button>
     </div>
 
-    <button (click)="update($event)" md-menu-item>
+    <button tabindex="-1" (mousedown)="update($event)" md-menu-item>
       <md-icon color="primary">done</md-icon>
     </button>
-  </md-menu>
+  </div>
+
 
 </span>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { IsariDataService } from '../isari-data.service';
   templateUrl: 'detail-page.component.html',
   styleUrls: ['detail-page.component.css']
 })
-export class DetailPageComponent implements OnInit {
+export class DetailPageComponent implements OnInit, OnChanges {
 
   feature: string;
   data: any;
@@ -29,17 +29,31 @@ export class DetailPageComponent implements OnInit {
           this.isariDataService.getLayout(this.feature)
         ]).then(([data, layout]) => {
           this.data = data;
-          this.layout = layout;
+          this.layout = this.isariDataService.translate(layout, 'en');
           this.form = this.isariDataService.buildForm(this.layout, this.data);
+          // disabled all form
+          if (this.data.opts.editable === false) {
+            this.form.disable();
+          }
         });
       });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['lang']) {
+      console.log(changes['lang']);
+    }
+  }
+
   save($event) {
-    if (!this.form.disabled && this.form.valid && this.form.dirty) {
+    if (!this.form.disabled && this.form.valid) {
+       // check for change
       console.log('save', this.form.value);
       this.data = this.form.value;
       return;
+    }
+    if (!this.form.valid) {
+      console.log('ERROR', this.form);
     }
   }
 

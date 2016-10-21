@@ -2,7 +2,8 @@
   <md-input
     [placeholder]="label"
     (blur)="update($event)"
+    [isariDisabled]="form.controls[name].disabled"
     [formControlName]="name">
-     <md-hint *ngIf="!form.controls[name].valid" align="start">error</md-hint>
+     <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">Obligatoire</md-hint>
   </md-input>
 </span>

@@ -1,20 +1,17 @@
-<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }">
+<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }" (keyup)="onKey($event)" class="isari-input-wrapper">
   <input type="hidden" [formControlName]="name">
 
-  <div style="display: inline-block;position: relative;text-align: left;">
+  <div style="display: inline-block;text-align: left;">
     <div class="md-input-wrapper">
       <div class="md-input-table">
         <div class="md-input-prefix"></div>
         <div class="md-input-infix">
           <input class="md-input-element"
-            [isariDisabled]="selectControl?.disabled"
-            *ngIf="form.controls[name]"
-            (focus)="openMenu()"
-            (blur)="blur($event)"
-            [formControl]="selectControl"
-            [md-menu-trigger-for]="menu">
+            (focus)="onFocus($event)"
+            (blur)="onBlur($event)"
+            [formControl]="selectControl">
           <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl?.value, 'md-focused': focused }">
-            {{ name }}
+            {{ label }}
           </label>
         </div>
         <div class="md-input-suffix"></div>
@@ -25,8 +22,8 @@
     </div>
   </div>
 
-  <md-menu y-position="below" #menu="mdMenu" class="selectMenu">
-    <button md-menu-item *ngFor="let entry of values" (click)="select(entry.value)">{{ entry.label.fr }}</button>
-  </md-menu>
+  <div class="md-menu" [hidden]="!focused">
+    <button [ngClass]="{active: currentIndex === i}" *ngFor="let entry of values;let i = index"  md-button style="width:100%;display:flex;" (mousedown)="onSelect(i)">{{ entry.label.fr }}</button>
+  </div>
 
 </span>
