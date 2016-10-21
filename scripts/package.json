@@ -1,0 +1,14 @@
+{
+  "name": "isari-scripts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Collection of scripts for ISARI.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "author": {
+    "name": "Guillaume Plique",
+    "url": "http://github.com/Yomguithereal"
+  },
+  "license": "ISC"
+}
