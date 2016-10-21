@@ -5,7 +5,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "université"
         ],
       "url": "http://www.sciencespo.fr"
@@ -16,7 +16,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "établissement d'enseignement supérieur"
         ],
       "url": "http://www.sciencespo.fr"
@@ -27,7 +27,7 @@
       "address": "25 Rue de la Montagne Sainte Geneviève 75005 PARIS",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "ministère"
         ],
       "url": "http://www.enseignementsup-recherche.gouv.fr"
@@ -38,7 +38,7 @@
       "address": "3 Rue Michel Ange 75016 PARIS",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "organisme de recherche public"
         ],
       "url": "http://www.cnrs.fr"
@@ -49,7 +49,7 @@
       "address": "110 rue de Grenelle 75007 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "ministère"
         ],
       "url": "http://www.education.gouv.fr"
@@ -60,7 +60,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "service central"
         ],
       "url": "http://www.sciencespo.fr/recherche/fr",
@@ -73,7 +73,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "département"
         ],
       "url": "http://www.sciencespo.fr/departement-science-politique/",
@@ -86,7 +86,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "département"
         ],
       "url": "http://www.sciencespo.fr/departement-sociologie/fr,IEP Paris",
@@ -99,7 +99,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "département"
         ],
       "url": "http://www.sciencespo.fr/ecole-de-droit/fr,IEP Paris",
@@ -112,7 +112,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "département"
         ],
       "url": "http://econ.sciences-po.fr,IEP Paris",
@@ -125,7 +125,7 @@
       "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "département"
         ],
       "url": "http://www.sciencespo.fr/departement-histoire/,IEP Paris",
@@ -146,7 +146,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://cdsp.sciences-po.fr/",
@@ -168,7 +168,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.cee.sciences-po.fr/",
@@ -190,7 +190,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.sciencespo.fr/ceri/",
@@ -212,7 +212,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.cevipof.com",
@@ -234,7 +234,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://chsp.sciences-po.fr/",
@@ -256,7 +256,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.cso.edu",
@@ -277,7 +277,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche",
             "département"
         ],
@@ -299,7 +299,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche",
             "département"
         ],
@@ -320,7 +320,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.medialab.sciences-po.fr",
@@ -341,7 +341,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.sciencespo.fr/osc",
@@ -357,7 +357,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.ofce.sciences-po.fr/",
@@ -371,7 +371,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationType": [
+      "organizationTypes": [
             "centre de recherche"
         ],
       "url": "http://www.sciencespo.fr/liepp",
@@ -385,7 +385,7 @@
       "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
       "country": "FR",
       "status": "public",
-      "organizationTypes": [
+      "organizationTypess": [
             "centre de recherche"
         ],
       "url": "http://www.maxpo.eu",

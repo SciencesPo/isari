@@ -20,7 +20,7 @@
    },
    {
       "name": "ESS",
-      "activityType": "projet de recherche",
+      "activityType": "projetderecherche",
       "startDate": "2013-12-03",
       "endDate": "2015-12-31",
       "organizations": [
@@ -29,10 +29,10 @@
             "role": "leader"
          }
       ],
-      "people": {
+      "people": [{
          "people": "Anne Cornilleau",
          "role": "responsable scientifique"
-      },
+      }],
       "subject": "European Social Survey",
       "summary": "Réalisation de l'édition 7 de l'enquête sociale européenne - European Social Survey",
       "grants": [
@@ -53,7 +53,7 @@
    },
    {
       "name": "Post-doc",
-      "activityType": "invité",
+      "activityType": "mob_entrante",
       "startDate": "2015-02-01",
       "endDate": "2015-08-31",
       "organizations": [
@@ -77,7 +77,7 @@
    },
    {
       "name": "Séjour UCLA",
-      "activityType": "séjour à l'étranger",
+      "activityType": "mob_sortante",
       "startDate": "2015-06-29",
       "endDate": "2015-11-30",
       "organizations": [
@@ -174,7 +174,7 @@
    },
    {
       "name": "God and Cesar in motion",
-      "activityType": "projet de recherche",
+      "activityType": "projetderecherche",
       "organizations": [
          {
             "organization": "CERI",
