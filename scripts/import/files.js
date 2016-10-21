@@ -9,13 +9,13 @@ module.exports = {
     folder: 'organisations',
     files: [
       {
-        name: 'default_organizations.csv',
-        separator: ',',
+        name: 'default',
+        path: 'default_organizations.csv',
+        delimiter: ',',
         consumer(line) {
           return {
             name: line.name,
             acronym: line.acronym || null,
-            UG: line.UG,
             address: line.address,
             country: line.country,
             status: line.status,
@@ -27,9 +27,10 @@ module.exports = {
           };
         }
       },
-      {
-        name: 'sciencespo_research_units.csv'
-      }
+      // {
+      //   name: 'researchUnits'
+      //   path: 'sciencespo_research_units.csv'
+      // }
     ]
   }
 };

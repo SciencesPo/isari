@@ -1,6 +1,6 @@
 /**
  * ISARI Import Scripts File Cleaners
- * ===================================
+ * ==================================
  *
  * Function aiming at cleaning CSV files cells before processing.
  */
