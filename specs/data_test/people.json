@@ -90,7 +90,9 @@
         "SHS2_4 Sociologie, démographie",
         "SHS2_5 Sciences de l'information et de la communications"
       ],
-      "methods": "mixte"
+      "methods": [
+        "mixte"
+      ]
     }
   },
   {
@@ -228,10 +230,6 @@
       "fr",
       "en"
     ],
-    "methods": [
-      "quantitative",
-      "qualitative"
-    ],
     "name": "Dupond",
     "nationalities": [
       "FR"
@@ -267,6 +265,10 @@
       "hceres2017": [
         "SHSH2_1 Droit",
         "SHS2_2 Science politique"
+      ],
+      "methods": [
+        "quantitative",
+        "qualitative"
       ]
     }
   }

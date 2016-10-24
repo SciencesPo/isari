@@ -89,9 +89,11 @@ const peopleObjects = peopleData.map(person => {
 
     return relatedItem;
   });
+
+  return (new People(person)).toObject();
 });
 
-throw new Error('Early Termination!');
+// throw new Error('Early Termination!');
 
 /**
  * Inserting.
@@ -107,16 +109,11 @@ async.series({
       .catch(err => next(err));
   },
 
-  insertOrganizations(next) {
-    // NOTE: TEMP OVERRIDE!
-    return next();
-    Organization.collection.insertMany(organizationObjects, (err, result) => {
-      if (err)
-        return next(err);
-
-      console.log(result);
-      return next();
-    });
+  insert(next) {
+    async.parallel([
+      cb => Organization.collection.insertMany(organizationObjects, cb),
+      cb => People.collection.insertMany(peopleObjects, cb)
+    ], next);
   }
 }, err => {
   if (CONNECTION)
