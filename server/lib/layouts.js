@@ -3,7 +3,7 @@
 const { getFrontSchema, RESERVED_FIELDS, FRONT_KEPT_FIELDS } = require('./schemas')
 const { readdirSync } = require('fs')
 const path = require('path')
-const { pick, merge, map, difference, isArray, isObject, isString } = require('lodash/fp')
+const { pick, merge, map, difference, isArray, isObject, isString, flatten } = require('lodash/fp')
 const util = require('util')
 
 
@@ -40,10 +40,15 @@ const _getLayout = (name, schema) => {
 		return null
 	}
 	const rows = (layouts[name] || []).map(getRow(name, schema))
-	const rowsFields = rows.reduce((fields, row) => fields.concat(map('name', row.fields || [])), [])
+	const rowsFields = flatten(rows.map(row => map('name', row.fields)))
 	const expectedFields = difference(Object.keys(schema), RESERVED_FIELDS)
 	const missingFields = difference(expectedFields, rowsFields)
-	return rows.concat(missingFields.map(getRow(name, schema)))
+	const completeRows = rows.concat(missingFields.map(getRow(name, schema)))
+	// Remove ignored fields
+	const filteredRows = completeRows.map(row => Object.assign(row, {
+		fields: row.fields.filter(field => !field.ignored) // Remove ignored fields
+	})).filter(row => row.fields.length > 0) // Remove empty rows
+	return filteredRows
 }
 
 const getRow = (name, schema) => row => {
@@ -74,6 +79,13 @@ const getRowObject = (baseName, schema, row) => merge(
 )
 
 const getFieldsDescription = (baseName, schema) => name => {
+	if (name[0] === '-') {
+		return {
+			name: name.substring(1),
+			ignored: true
+		}
+	}
+
 	const fieldSchema = schema[name]
 	if (!fieldSchema) {
 		throw Error(`${baseName}.${name}: Unknown schema while trying to build layout, check field's name`)
