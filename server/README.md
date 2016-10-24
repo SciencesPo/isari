@@ -70,7 +70,7 @@ npm install --production
 
 #### Format: `Item`
 
-* See `schema.meta.json` for model description
+* See `specs/README.md` for model description
 * Add `id` (Mongo ID)
 * Add `opts` which includes frontend-metadata:
   * `editable` (boolean) indicates if user has permission to edit the fetched object

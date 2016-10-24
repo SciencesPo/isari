@@ -1,0 +1,125 @@
+{
+    "name": {
+        "requirement": "mandatory",
+        "label": {
+            "fr": "Nom",
+            "en": "Name"
+        }
+    },
+    "researchUnitCodes": [
+        {
+            "label": {
+                "fr": "codes de l'unité de recherche",
+                "en": "Research unit's codes"
+            },
+            "code": {
+                "label": {
+                    "fr": "Code",
+                    "en": "Code"
+                }
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            }
+        }
+    ],
+    "idBanner": {
+        "label": {
+            "fr": "Identifiant Banner",
+            "en": "banner ID"
+        }
+    },
+    "idSpire": {
+        "label": {
+            "fr": "Identifiant Spire",
+            "en": "Spire ID"
+        }
+    },
+    "idRnsr": {
+        "label": {
+            "fr": "Identifiant RNSR",
+            "en": "RNSR identifier"
+        }
+    },
+    "idScopus": {
+        "label": {
+            "fr": "Identifiant Scopus",
+            "en": "Scopus identifier"
+        }
+    },
+    "idHCERES": {
+        "label": {
+            "fr": "Identifiant HCERES",
+            "en": "HCERES identifier"
+        }
+    },
+    "UG": {
+        "label": {
+            "fr": "Unité de Gestion",
+            "en": "Unité de Gestion"
+        },
+        "description": {
+            "fr": "Ligne budgétaire de l'unité de recherche",
+            "en": "research unit's budget line"
+        }
+    },
+    "acronym": {
+        "label": {
+            "fr": "Acronyme",
+            "en": "Acronym"
+        }
+    },
+    "address": {
+        "label": {
+            "fr": "Adresse",
+            "en": "Address"
+        }
+    },
+    "country": {
+        "label": {
+            "fr": "Pays",
+            "en": "Country"
+        },
+        "enum": "countries"
+    },
+    "status": {
+        "label": {
+            "fr": "Statut",
+            "en": "Status"
+        },
+        "enum": "organizationStatuses"
+    },
+    "organizationTypes": [{
+        "label": {
+            "fr": "Type d'organisation",
+            "en": "Organization type"
+        },
+        "enum": "organizationTypes"
+    }],
+    "url": {
+        "label": {
+            "fr": "Site web",
+            "en": "Website url"
+        }
+    },
+    "parentOrganizations": [
+        {
+            "label": {
+                "fr": "Organisation(s) de tutelle",
+                "en": "Parent organization(s)"
+            },
+            "ref": "Organization"
+        }
+    ]
+}
