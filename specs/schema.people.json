@@ -459,7 +459,7 @@
                     "fr": "Plus précisément",
                     "en": "More precisely"
                 },
-                "enum": "personalActivityTypes.$personalActivityType"
+                "softenum": "personalActivityTypes.$personalActivityType"
             },
             "startDate": {
                 "requirement": "mandatory",
@@ -481,7 +481,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "enum": "personalActivityRoles"
+                "softenum": "personalActivityRoles"
             },
             "description": {
                 "label": {
