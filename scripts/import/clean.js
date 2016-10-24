@@ -6,4 +6,4 @@
  */
 exports.default = function(value) {
   return value.trim();
-}
+};
