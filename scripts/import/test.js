@@ -6,7 +6,8 @@
  * a test base.
  */
 const path = require('path'),
-      async = require('async');
+      async = require('async'),
+      mongoose = require('../../server/node_modules/mongoose');
 
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
 
@@ -39,17 +40,34 @@ const peopleRelations = helpers.findRelations(People.schema),
  * Data processing.
  */
 
-// Solving organizations
-const organizationObjects = organizationData.map(org => {
-  return (new Organization(org)).toObject();
+// Giving an a pre-computed id to organizations to be able to solve relations
+organizationData.forEach(org => {
+  org._id = mongoose.Types.ObjectId();
 });
 
 // Indexing organizations
-organizationObjects.forEach(org => {
+organizationData.forEach(org => {
   if (org.acronym)
     INDEXES.Organization[org.acronym] = org._id;
   else if (org.name)
     INDEXES.Organization[org.name] = org._id;
+});
+
+// Solving organizations' relations
+organizationData.forEach(org => {
+  helpers.processRelations(organizationRelations, org, (id, ref) => {
+    const relatedItem = INDEXES[ref][id];
+
+    if (!relatedItem)
+      console.error('Could not find:', ref, id, org.name);
+    else
+      return relatedItem;
+  });
+});
+
+// Building Mongoose objects for organizations
+const organizationObjects = organizationData.map(org => {
+  return (new Organization(org)).toObject();
 });
 
 // Solving people
