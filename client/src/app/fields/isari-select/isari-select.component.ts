@@ -20,6 +20,7 @@ export class IsariSelectComponent implements OnInit {
   @Input() label: string;
   @Output() onUpdate = new EventEmitter<any>();
   @Input() src: Promise<any>;
+  @Input() extensible = false;
 
   max: number = 20;
   values: any[] = [];
@@ -28,6 +29,7 @@ export class IsariSelectComponent implements OnInit {
   focused: boolean = false;
   disabled: boolean = false;
   currentIndex = -1;
+  extend = false;
 
   constructor() { }
 
@@ -48,6 +50,11 @@ export class IsariSelectComponent implements OnInit {
           .subscribe((value: string) => {
             if (this.form.controls[this.name].value !== this.findValue(value)) {
               this.values = this.findValues(value);
+              if (this.extensible && this.values.length === 0) {
+                this.extend = true;
+              } else {
+                this.extend = false;
+              }
             }
           });
 
@@ -78,6 +85,12 @@ export class IsariSelectComponent implements OnInit {
     } else if ($event.keyCode === ENTER && this.currentIndex >= 0) {
       this.onSelect(this.currentIndex);
     }
+  }
+
+  createValue() {
+    this.form.controls[this.name].setValue(this.selectControl.value);
+    this.form.controls[this.name].markAsDirty();
+    this.update({});
   }
 
   update($event) {

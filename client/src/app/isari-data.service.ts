@@ -105,7 +105,13 @@ export class IsariDataService {
   }
 
   getControlType (field): string {
-    return field.type || (field.enum ? 'select' : null) || 'input';
+    if (field.type) {
+      return field.type;
+    }
+    if (field.enum || field.softenum) {
+      return 'select';
+    }
+    return  'input';
   }
 
   private handleError(error: any): Promise<any> {
