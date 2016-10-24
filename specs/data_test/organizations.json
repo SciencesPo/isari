@@ -121,6 +121,16 @@
     "url": "http://econ.sciences-po.fr,IEP Paris"
   },
   {
+    "address": "Somewhere in London",
+    "country": "GB",
+    "name": "London School of Economics",
+    "organizationTypes": [
+      "université"
+    ],
+    "status": "public",
+    "url": "http://www.lse.ac.uk/home.aspx"
+  },
+  {
     "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
     "country": "FR",
     "name": "Département d'histoire",
@@ -309,6 +319,7 @@
     "url": "http://www.sciencespo.fr/ecole-de-droit/"
   },
   {
+    "acronym": "medialab",
     "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
     "country": "FR",
     "idRnsr": "201420819Y",
@@ -364,6 +375,18 @@
     ],
     "status": "public",
     "url": "http://www.ofce.sciences-po.fr/"
+  },
+  {
+    "acronym": "OMS",
+    "address": "56 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "128121637F",
+    "name": "Observatoire Mondial de la Santé",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "status": "public",
+    "url": "http://www.who.int/fr/"
   },
   {
     "acronym": "LIEPP",

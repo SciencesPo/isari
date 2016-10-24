@@ -48,6 +48,8 @@ const organizationObjects = organizationData.map(org => {
 organizationObjects.forEach(org => {
   if (org.acronym)
     INDEXES.Organization[org.acronym] = org._id;
+  else if (org.name)
+    INDEXES.Organization[org.name] = org._id;
 });
 
 // Solving people
