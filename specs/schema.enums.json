@@ -178,6 +178,20 @@
         { "value": "\u00e9valuations", "label": { "fr": "\u00e9valuations", "en": "" } },
         { "value": "enseignement", "label": { "fr": "enseignement", "en": "" } }
     ],
+    "personalActivitySubTypes": {
+        "editorial": [
+            { "value": "editorial", "label": { "fr": "activit\u00e9s \u00e9ditoriales", "en": "" } },
+            { "value": "collaborationsscientifiques", "label": { "fr": "collaborations scientifiques", "en": "" } },
+            { "value": "expertise", "label": { "fr": "expertise", "en": "" } },
+            { "value": "jurys", "label": { "fr": "jurys", "en": "" } }
+        ],
+        "expertise": [
+            { "value": "encadrement", "label": { "fr": "encadrement", "en": "" } },
+            { "value": "responsabilit\u00e9setmandats", "label": { "fr": "responsabilit\u00e9s et mandats", "en": "" } },
+            { "value": "\u00e9valuations", "label": { "fr": "\u00e9valuations", "en": "" } },
+            { "value": "enseignement", "label": { "fr": "enseignement", "en": "" } }
+        ]
+    },
     "activityOrganizationRoles": [
         { "value": "inscription", "label": { "fr": "inscription", "en": "" } },
         { "value": "leader", "label": { "fr": "leader", "en": "" } },

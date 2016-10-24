@@ -483,7 +483,7 @@
                         "fr": "Type d'activité",
                         "en": "Activity type"
                     },
-                    "enum": "KEYS(personalActivityTypes)"
+                    "enum": "personalActivityTypes"
                 },
                 "personalActivitySubtype": {
                     "label": {
