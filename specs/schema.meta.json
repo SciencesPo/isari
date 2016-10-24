@@ -1,35 +1,4 @@
 {
-    "//": {
-        "accessType": "Restricted access field?, ex. 'confidential'",
-        "label": {
-            "langCode": "label for this language",
-            "…": "…"
-        },
-        "requirement": "'mandatory' or 'recommended'",
-        "accessMonitoring": "this field has special focus for logs analysis",
-        "suggestions": "What type of autocomplete?",
-        "description": {
-            "langCode": "Description usable as a hint",
-            "…": "…"
-        },
-        "comment": "Technical comment",
-        "service": "Third-party service data is taken from",
-        "//": "name.$field === Take values from field's value as a key from object enum",
-        "type": {
-            "string": "optional, default type",
-            "boolean": "",
-            "date": "3-selects date (translated into YYYY-MM-DD string field)",
-            "email": "string with specific format",
-            "ref": "dbref (optional, default if 'ref' is defined)"
-        },
-        "ref": "target collection if type is 'dbref'",
-        "enum": "name of enums to take data from, see schema.enums.json, or direct list of values",
-        "default": "default value",
-        "min": "validation rule",
-        "max": "validation rule",
-        "regex": "validation rule",
-        "anyOtherField": "sub-field description (recursive)"
-    },
     "People": {
         "isariAuthorizedCenters": [
             {
@@ -483,7 +452,7 @@
                         "fr": "Type d'activité",
                         "en": "Activity type"
                     },
-                    "enum": "KEYS(personalActivityTypes)"
+                    "enum": "personalActivityTypes"
                 },
                 "personalActivitySubtype": {
                     "label": {
