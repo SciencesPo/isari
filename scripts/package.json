@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "Collection of scripts for ISARI.",
   "main": "index.js",
+  "scripts": {
+    "import:test": "node ./import/test.js"
+  },
   "dependencies": {
     "async": "^2.1.2",
     "csv": "^1.1.0",
