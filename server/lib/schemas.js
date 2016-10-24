@@ -128,7 +128,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	schema.required = desc.requirement === 'mandatory'
 
 	// Set Mongoose type
-	if (type === 'string') {
+	if (type === 'string' || type === 'text') {
 		schema.type = String
 	} else if (type === 'bool' || type === 'boolean') {
 		schema.type = Boolean
