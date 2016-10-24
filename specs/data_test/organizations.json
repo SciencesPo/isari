@@ -33,6 +33,17 @@
     "url": "http://www.enseignementsup-recherche.gouv.fr"
   },
   {
+    "acronym": "ANR",
+    "address": "Paris",
+    "country": "FR",
+    "name": "Agence Nationale de la Recherche",
+    "organizationTypes": [
+      "organisme de recherche public"
+    ],
+    "status": "public",
+    "url": "http://www.agence-nationale-recherche.fr/"
+  },
+  {
     "acronym": "CNRS",
     "address": "3 Rue Michel Ange 75016 PARIS",
     "country": "FR",
@@ -129,6 +140,38 @@
     ],
     "status": "public",
     "url": "http://www.lse.ac.uk/home.aspx"
+  },
+  {
+    "address": "Somewhere in Oxford",
+    "country": "GB",
+    "name": "Oxford University",
+    "organizationTypes": [
+      "université"
+    ],
+    "status": "public",
+    "url": "http://www.ox.ac.uk/"
+  },
+  {
+    "acronym": "EHESS",
+    "address": "Somewhere in Paris",
+    "country": "FR",
+    "name": "Ecole des Hautes Etudes en Sciences Sociales",
+    "organizationTypes": [
+      "université"
+    ],
+    "status": "public",
+    "url": "https://www.ehess.fr/fr"
+  },
+  {
+    "acronym": "UCLA",
+    "address": "Somewhere in California",
+    "country": "US",
+    "name": "University of California, Los Angeles",
+    "organizationTypes": [
+      "université"
+    ],
+    "status": "public",
+    "url": "http://www.ucla.edu/"
   },
   {
     "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",

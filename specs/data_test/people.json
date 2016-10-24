@@ -271,5 +271,69 @@
         "qualitative"
       ]
     }
+  },
+  {
+    "name": "Cornilleau",
+    "firstname": "Anne",
+    "gender": "f",
+    "nationalities": [
+      "FR"
+    ]
+  },
+  {
+    "name": "Da Silva",
+    "firstname": "Daniel Afonso",
+    "gender": "h",
+    "nationalities": [
+      "FR"
+    ]
+  },
+  {
+    "name": "Dubois",
+    "firstname": "Marc",
+    "gender": "h",
+    "nationalities": [
+      "FR"
+    ]
+  },
+  {
+    "name": "Ichou",
+    "firstname": "Matthieu",
+    "gender": "h",
+    "nationalities": [
+      "FR"
+    ]
+  },
+  {
+    "name": "Heath",
+    "firstname": "Anthony",
+    "gender": "h",
+    "nationalities": [
+      "FR"
+    ]
+  },
+  {
+    "name": "Van Zanten",
+    "firstname": "Agnès",
+    "gender": "f",
+    "nationalities": [
+      "FR"
+    ]
+  },
+  {
+    "name": "Felouzis",
+    "firstname": "Goerges",
+    "gender": "h",
+    "nationalities": [
+      "FR"
+    ]
+  },
+  {
+    "name": "Kastoryano",
+    "firstname": "Riva",
+    "gender": "f",
+    "nationalities": [
+      "FR"
+    ]
   }
 ]
