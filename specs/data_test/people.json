@@ -8,7 +8,7 @@
     ],
       "firstname": "Paul",
       "name": "Bismuth",
-      "gender": "h",
+      "gender": "m",
       "birthdate": "1976-09-03",
       "nationalities": [
       "FR",
@@ -21,7 +21,7 @@
             "timepart": 1,
             "jobName": "ingénieur de recherche",
             "jobType": "CDI",
-            "jobTitle": "appui technique",
+            "jobTitle": "appuitechnique",
             "UG": "R12B",
             "gradesAdmin": [
                {
@@ -102,7 +102,7 @@
     ],
       "firstname": "Henri",
       "name": "Bergero",
-      "gender": "h",
+      "gender": "m",
       "birthdate": "1966",
       "nationalities": [
       "FR"
@@ -113,12 +113,12 @@
             "startDate": "2012",
             "timepart": 1,
             "jobName": "chargé de recherche CNRS",
-            "jobType": "emploi public",
+            "jobType": "emploipublic",
             "jobTitle": "chercheur",
             "UG": "R51B",
-            "gradesAdmin": [
+            "gradesAcademic": [
                {
-                  "grade": "CR",
+                  "grade": "chargederecherche",
                   "startDate": "2012"
           }
         ]
@@ -150,7 +150,7 @@
             "organizations": [
           "IEP Paris"
         ],
-            "peoples": "Louisa Ken"
+            "people": ["Louisa Ken"]
       }
     ],
       "distinctions": [
@@ -195,15 +195,15 @@
       "positions": [
          {
             "organization": "MESR",
-            "startDate": "2012",
+            "startDate": "1987",
             "timepart": 1,
             "jobName": "professeur des universités",
-            "jobType": "emploi public",
-            "jobTitle": "enseignant chercheur",
+            "jobType": "emploipublic",
+            "jobTitle": "enseignantchercheur",
             "UG": "RC1B",
-            "gradesAdmin": [
+            "gradesAcademic": [
                {
-                  "grade": "PR2",
+                  "grade": "profuniv",
                   "startDate": "2001"
           }
         ]
@@ -253,7 +253,7 @@
             "countries": [
           "GB"
         ],
-            "distinctionType": "double-diplôme"
+            "distinctionType": "doublediplôme"
       }
     ],
       "contacts": [

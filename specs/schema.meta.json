@@ -69,6 +69,13 @@
             },
             "accessMonitoring": "corporate"
         },
+        "birthName": {
+            "label": {
+                "fr": "Nom de naissance",
+                "en": "Birth name"
+            },
+            "accessMonitoring": "corporate"
+        },
         "gender": {
             "requirement": "recommended",
             "label": {
@@ -1045,6 +1052,18 @@
                 "en": "RNSR identifier"
             }
         },
+        "idScopus": {
+            "label": {
+                "fr": "Identifiant Scopus",
+                "en": "Scopus identifier"
+            }
+        },
+        "idHCERES": {
+            "label": {
+                "fr": "Identifiant HCERES",
+                "en": "HCERES identifier"
+            }
+        },
         "UG": {
             "label": {
                 "fr": "Unité de Gestion",
@@ -1081,13 +1100,13 @@
             },
             "enum": "organizationStatuses"
         },
-        "organizationType": {
+        "organizationTypes": [{
             "label": {
                 "fr": "Type d'organisation",
                 "en": "Organization type"
             },
             "enum": "organizationTypes"
-        },
+        }],
         "url": {
             "label": {
                 "fr": "Site web",
