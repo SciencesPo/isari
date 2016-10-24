@@ -37,6 +37,7 @@
         },
         "accessMonitoring": "corporate"
     },
+    "template":"peopleName",
     "birthName": {
         "label": {
             "fr": "Nom de naissance",
@@ -136,6 +137,7 @@
                 },
                 "type": "date"
             },
+            "template":"organizationDates",
             "jobName": {
                 "label": {
                     "fr": "Emploi personnalisé",
@@ -333,6 +335,7 @@
                 },
                 "type": "date"
             },
+            "template":"organizationDates",
             "membershipType": {
                 "label": {
                     "fr": "Type d'affiliation",
@@ -370,7 +373,8 @@
                     "en": "End date"
                 },
                 "type": "date"
-            }
+            },
+            "template":"organizationDates",
         }
     ],
     "ORCID": {
@@ -504,6 +508,7 @@
                 },
                 "type": "date"
             },
+            "template":"personalActivity",
             "role": {
                 "label": {
                     "fr": "Rôle",
@@ -543,6 +548,14 @@
                 "fr": "Diplômes et distinctions",
                 "en": "Diplomas and awards"
             },
+            "title": {
+                "label": {
+                    "fr": "Titre",
+                    "en": "Title"
+                },
+                "requirement": "mandatory"
+            },
+            "template":"distinction",
             "organizations": [
                 {
                     "label": {
@@ -558,13 +571,6 @@
                     "en": "Date"
                 },
                 "type": "date"
-            },
-            "title": {
-                "label": {
-                    "fr": "Titre",
-                    "en": "Title"
-                },
-                "requirement": "mandatory"
             },
             "countries": [
                 {

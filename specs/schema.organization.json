@@ -6,6 +6,7 @@
             "en": "Name"
         }
     },
+    "template":"name",
     "researchUnitCodes": [
         {
             "label": {
@@ -31,7 +32,8 @@
                     "en": "End date"
                 },
                 "type": "date"
-            }
+            },
+            "template":"researchUnitCode"
         }
     ],
     "idBanner": {
