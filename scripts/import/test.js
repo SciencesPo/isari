@@ -26,7 +26,8 @@ const peopleData = require('../../specs/data_test/people.json'),
 let CONNECTION;
 
 const INDEXES = {
-  Organization: Object.create(null)
+  Organization: Object.create(null),
+  People: Object.create(null)
 };
 
 /**
@@ -93,7 +94,30 @@ const peopleObjects = peopleData.map(person => {
   return (new People(person)).toObject();
 });
 
-// throw new Error('Early Termination!');
+// Indexing people
+peopleObjects.forEach(person => {
+  INDEXES.People[person.firstname + ' ' + person.name] = person._id;
+});
+
+// Solving activities
+const activityObjects = activityData.map(activity => {
+
+  // Solving relations
+  helpers.processRelations(activityRelations, activity, (id, ref) => {
+    const relatedItem = INDEXES[ref][id];
+
+    if (!relatedItem)
+      return console.error(ref, id);
+
+    return relatedItem;
+  });
+
+  return (new Activity(activity)).toObject();
+});
+
+// TODO: need to precomputed indexes for people too to solve inner relations
+
+throw new Error('Early Termination!');
 
 /**
  * Inserting.
