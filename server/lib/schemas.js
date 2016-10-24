@@ -22,6 +22,7 @@ const RESERVED_FIELDS = [
 	'comment',
 	'service',
 	'softenum',
+	'template',
 	// Schema fields
 	'type',
 	'enum',
