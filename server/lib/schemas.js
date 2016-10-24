@@ -1,7 +1,7 @@
 'use strict'
 
 const { Schema } = require('mongoose')
-const enums = require('../../specs/schema.enums.json')
+const enums = require('../../specs/enums.json')
 const { get, padCharsStart, map, filter, identity } = require('lodash/fp')
 const { getMeta } = require('./specs')
 

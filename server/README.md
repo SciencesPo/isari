@@ -89,11 +89,11 @@ Should be the same as Item
   * Note that fields `id` and `opts` are never specified in schema, however they're included in any collection item returned by API
   * **Valid names**: same as collections
 * `GET /enums/:name`
-  * Returns data found for key in `schema.enums.json`, maybe formatted for frontend needs (**WIP**)
+  * Returns data found for key in `enums.json`, maybe formatted for frontend needs (**WIP**)
   * Can be an array of strings (value === label)
   * Can be an array of objects with key `value` and `label` (can be multilingual)
   * Can be an object in case of inter-dependant fields (see personalActivityType and personalActivitySubType)
-  * **Valid names**: see `schema.enums.json`
+  * **Valid names**: see `enums.json`
 * `GET /layouts/:name`
   * Returns the layout description to render forms (**WIP**)
   * for convenience `name` is not case sensitive (i.e. `People` or `people` will do)

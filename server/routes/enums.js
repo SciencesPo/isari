@@ -2,7 +2,7 @@
 
 const { Router } = require('express')
 const { ClientError } = require('../lib/errors')
-const enums = require('../../specs/schema.enums.json')
+const enums = require('../../specs/enums.json')
 const { restHandler } = require('../lib/rest-utils')
 
 const countries = require('../../specs/enum.countries.json')
@@ -24,7 +24,7 @@ function getEnum (req) {
 
 
 function formatEnum (name, data) {
-	// Special cases: some enums are just keys in schema.enums.json and must be matched with another file
+	// Special cases: some enums are just keys in enums.json and must be matched with another file
 
 	// nationalities
 	if (name === 'nationalities') {
