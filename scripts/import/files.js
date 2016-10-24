@@ -6,7 +6,7 @@
  */
 module.exports = {
   organizations: {
-    folder: 'organisations',
+    folder: 'organizations',
     files: [
       {
         name: 'default',
