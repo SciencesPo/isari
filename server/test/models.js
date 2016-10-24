@@ -47,16 +47,18 @@ function describeModel (name, Model, create) {
 			Model.find().then(os => expect(os).to.be.an('array').and.have.length(0))
 		)
 
-		it('should add element', () =>
-			new Model(create()).save()
-			.then(o => id = o.id)
-			.catch(e => {
-				if (e.name === 'ValidationError') {
-					e.message = inspect(mapValues('message', e.errors))
-				}
-				throw e
-			})
-		)
+		it('should add element', () => {
+			const o = new Model(create())
+			o._elWho = 'Test User'
+			return o.save()
+				.then(o => id = o.id)
+				.catch(e => {
+					if (e.name === 'ValidationError') {
+						e.message = inspect(mapValues('message', e.errors))
+					}
+					throw e
+				})
+		})
 
 		it('should have one element', () =>
 			Model.find().then(os => expect(os).to.be.an('array').and.have.length(1))

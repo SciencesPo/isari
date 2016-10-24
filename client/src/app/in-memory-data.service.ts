@@ -50,7 +50,8 @@ export class InMemoryDataService implements InMemoryDbService {
                   {
                     label: {fr: 'sous', en: 'sub' },
                     fields: [
-                      { 'name': 'subField', 'label': { 'fr': 'sous', 'en': 'sub' } }
+                      { 'name': 'subField', 'label': { 'fr': 'sous', 'en': 'sub' } },
+                      { name: 'xgender', 'requirement': 'recommended', 'label': { 'fr': 'Genre', 'en': 'Gender' }, 'softenum': 'genders' }
                     ]
                   }
                 ]

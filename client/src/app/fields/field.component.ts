@@ -29,8 +29,8 @@ export class FieldComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
       this.field.controlType = this.isariDataService.getControlType(this.field);
-      if (this.field.enum) {
-        this.field.src = this.isariDataService.getEnum(this.field.enum);
+      if (this.field.enum || this.field.softenum) {
+        this.field.src = this.isariDataService.getEnum(this.field.enum || this.field.softenum);
       }
     }
   }

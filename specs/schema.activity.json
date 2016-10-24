@@ -1,0 +1,364 @@
+{
+    "name": {
+        "requirement": "mandatory",
+        "label": {
+            "fr": "Nom",
+            "en": "Name"
+        }
+    },
+    "activityType": {
+        "label": {
+            "fr": "Type d'activité",
+            "en": "Activity type"
+        },
+        "requirement": "mandatory",
+        "enum": "activityTypes"
+    },
+    "startDate": {
+        "label": {
+            "fr": "Date de début",
+            "en": "Start date"
+        },
+        "type": "date"
+    },
+    "endDate": {
+        "label": {
+            "fr": "Date de fin",
+            "en": "End date"
+        },
+        "type": "date"
+    },
+    "organizations": [
+        {
+            "label": {
+                "fr": "Partenaires",
+                "en": "Partnership"
+            },
+            "organization": {
+                "label": {
+                    "fr": "Organisation",
+                    "en": "Organization"
+                },
+                "ref": "Organization"
+            },
+            "role": {
+                "label": {
+                    "fr": "Rôle",
+                    "en": "Role"
+                },
+                "enum": "activityOrganizationRoles"
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            }
+        }
+    ],
+    "people": [
+        {
+            "label": {
+                "fr": "Personnes impliquées",
+                "en": "Collaborators"
+            },
+            "people": {
+                "label": {
+                    "fr": "participant",
+                    "en": "participant"
+                },
+                "ref": "People"
+            },
+            "role": {
+                "label": {
+                    "fr": "Rôle",
+                    "en": "Role"
+                },
+                "//TODO": "refactor this field, 'suggestions' should become 'enum' but additional intel has been requested",
+                "//": "this field is guided through the suggestions field depending on personalActivityType value",
+                "suggestions": {
+                    "research": [
+                        "PI",
+                        "partenaire"
+                    ],
+                    "invitation": [
+                        "invité",
+                        "référent"
+                    ],
+                    "séjour": [
+                        "invité",
+                        "référent"
+                    ],
+                    "doctorat": [
+                        "directeur de thèse",
+                        "rapporteur"
+                    ]
+                }
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            }
+        }
+    ],
+    "subject": {
+        "label": {
+            "fr": "Sujet",
+            "en": "Subject"
+        }
+    },
+    "summary": {
+        "label": {
+            "fr": "Description",
+            "en": "Description"
+        }
+    },
+    "url": {
+        "label": {
+            "fr": "Site Web",
+            "en": "Website"
+        }
+    },
+    "tags": {
+        "label": {
+            "fr": "Tags",
+            "en": "Tags"
+        },
+        "hceres2017": [
+            {
+                "label": {
+                    "fr": "Tags HCERES 2017",
+                    "en": "HCERES 2017 tags"
+                },
+                "enum": "hceres2017"
+            }
+        ],
+        "aeres2012": [
+            {
+                "label": {
+                    "fr": "Tags AERES 2012",
+                    "en": "AERES 2012 tags"
+                },
+                "enum": "aeres2012"
+            }
+        ],
+        "methods": [
+            {
+                "label": {
+                    "fr": "Tags méthodes",
+                    "en": "Methods tags"
+                },
+                "enum": "methods"
+            }
+        ],
+        "free": [
+            {
+                "label": {
+                    "fr": "Tags libres",
+                    "en": "Free tags"
+                }
+            }
+        ],
+        "erc": [
+            {
+                "label": {
+                    "fr": "Tags ERC",
+                    "en": "ERC tags"
+                },
+                "enum": "erc"
+            }
+        ],
+        "discipline": [
+            {
+                "label": {
+                    "fr": "Disciplines",
+                    "en": "Academics"
+                },
+                "enum": "disciplines"
+            }
+        ],
+        "researchTheme": [
+            {
+                "label": {
+                    "fr": "Thèmes de recherche",
+                    "en": "Research themes"
+                },
+                "enum": "researchThemes"
+            }
+        ]
+    },
+    "grants": [
+        {
+            "label": {
+                "fr": "Subventions",
+                "en": "Grants"
+            },
+            "organization": {
+                "label": {
+                    "fr": "Organisation",
+                    "en": "Organization"
+                },
+                "ref": "Organization"
+            },
+            "name": {
+                "label": {
+                    "fr": "Nom",
+                    "en": "Name"
+                }
+            },
+            "grantType": {
+                "label": {
+                    "fr": "Type",
+                    "en": "Type"
+                },
+                "enum": "grantTypes"
+            },
+            "grantIdentifier": {
+                "label": {
+                    "fr": "Identifiant",
+                    "en": "Identifier"
+                },
+                "description": {
+                    "fr": "identifiant donné par l'organisme financeur",
+                    "en": "identifier given by the financing institution"
+                }
+            },
+            "sciencespoAmount": {
+                "label": {
+                    "fr": "Montant Sciences Po",
+                    "en": "Sciences Po amount"
+                },
+                "type": "number"
+            },
+            "totalAmount": {
+                "label": {
+                    "fr": "Montant total",
+                    "en": "Total amount"
+                },
+                "type": "number"
+            },
+            "investAmount": {
+                "label": {
+                    "fr": "Montant investissement",
+                    "en": "Investment amount"
+                },
+                "type": "number"
+            },
+            "runAmount": {
+                "label": {
+                    "fr": "Montant fonctionnement",
+                    "en": "Operational amount"
+                },
+                "type": "number"
+            },
+            "hrAmount": {
+                "label": {
+                    "fr": "Montant Masse salariale",
+                    "en": "Human Ressources amount"
+                },
+                "type": "number"
+            },
+            "currencyAmount": {
+                "label": {
+                    "fr": "Devise",
+                    "en": "Currency"
+                },
+                "default": "EUR",
+                "enum": "iso4217"
+            },
+            "submissionDate": {
+                "label": {
+                    "fr": "Date de soumission",
+                    "en": "Submission date"
+                },
+                "type": "date"
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            },
+            "UG": {
+                "label": {
+                    "fr": "Unité de Gestion",
+                    "en": "Unité de Gestion"
+                },
+                "description": {
+                    "fr": "Ligne budgétaire où est géré le financement",
+                    "en": "budget line impacted by the grant"
+                }
+            },
+            "status": {
+                "label": {
+                    "fr": "Statut",
+                    "en": "Status"
+                },
+                "enum": "grantStatuses"
+            }
+        }
+    ],
+    "distinctions": [
+        {
+            "label": {
+                "fr": "Distinctions",
+                "en": "Awards"
+            },
+            "organizations": [
+                {
+                    "label": {
+                        "fr": "Organisations",
+                        "en": "Organizations"
+                    },
+                    "ref": "Organization"
+                }
+            ],
+            "date": {
+                "label": {
+                    "fr": "Date",
+                    "en": "Date"
+                },
+                "type": "date"
+            },
+            "title": {
+                "label": {
+                    "fr": "Titre",
+                    "en": "Title"
+                },
+                "requirement": "mandatory"
+            },
+            "subject": {
+                "label": {
+                    "fr": "Sujet",
+                    "en": "Subject"
+                }
+            }
+        }
+    ]
+}

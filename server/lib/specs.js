@@ -1,8 +1,5 @@
 'use strict'
 
-const metas = require('../../specs/schema.meta.json')
-
-
 module.exports = {
 	getMeta
 }
@@ -12,11 +9,5 @@ module.exports = {
 function getMeta (name) {
 	name = name.toLowerCase()
 
-	for (let key in metas) {
-		if (key.toLowerCase() === name) {
-			return metas[key]
-		}
-	}
-
-	return null
+	return require(`../../specs/schema.${name}.json`)
 }
