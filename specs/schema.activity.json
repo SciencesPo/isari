@@ -11,7 +11,6 @@
             "fr": "Type d'activité",
             "en": "Activity type"
         },
-        "requirement": "mandatory",
         "enum": "activityTypes"
     },
     "startDate": {

@@ -168,28 +168,21 @@
                 },
                 "enum": "jobTitle"
             },
-            "gradeSIRH":[
+            "gradeSirh": [
                 {
                     "accessType": "confidential",
-                    "label":{
-                        "fr":"grade DRH Sciences Po",
-                        "en":"Sciences Po HR grade"
-                    },
-                     "description": {
-                        "fr": "Grades académiques DR1, CR1...",
-                        "en": "Academic Grade Associate Prof, Full Prof..."
+                    "label": {
+                        "fr": "grade DRH Sciences Po",
+                        "en": "Sciences Po HR grade"
                     },
                     "grade": {
                         "requirement": "mandatory",
                         "label": {
                             "fr": "Grade",
                             "en": "Grade"
-                        },
-                        "type": "string",
-                        "enum": "gradeAcademic"
+                        }
                     },
                     "startDate": {
-                        "requirement": "mandatory",
                         "label": {
                             "fr": "Date de début",
                             "en": "Start date"
@@ -225,7 +218,6 @@
                         "enum": "gradeAcademic"
                     },
                     "startDate": {
-                        "requirement": "mandatory",
                         "label": {
                             "fr": "Date de début",
                             "en": "Start date"
@@ -261,7 +253,6 @@
                         "enum": "gradeAdmin"
                     },
                     "startDate": {
-                        "requirement": "mandatory",
                         "label": {
                             "fr": "Date de début",
                             "en": "Start date"
