@@ -1,397 +1,397 @@
 [
-   {
-      "name": "Fondation Nationale des Sciences Politiques",
-      "acronym": "FNSP",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "université"
-        ],
-      "url": "http://www.sciencespo.fr"
-    },
-   {
-      "name": "Institut d'études politiques de Paris",
-      "acronym": "IEP Paris",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "établissement d'enseignement supérieur"
-        ],
-      "url": "http://www.sciencespo.fr"
-    },
-   {
-      "name": "Ministère de l'enseignement supérieur et de la recherche",
-      "acronym": "MESR",
-      "address": "25 Rue de la Montagne Sainte Geneviève 75005 PARIS",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "ministère"
-        ],
-      "url": "http://www.enseignementsup-recherche.gouv.fr"
-    },
-   {
-      "name": "Centre National de la Recherche Scientifique",
-      "acronym": "CNRS",
-      "address": "3 Rue Michel Ange 75016 PARIS",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "organisme de recherche public"
-        ],
-      "url": "http://www.cnrs.fr"
-    },
-   {
-      "name": "Ministère de l'Éducation Nationale",
-      "acronym": "MEN",
-      "address": "110 rue de Grenelle 75007 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "ministère"
-        ],
-      "url": "http://www.education.gouv.fr"
-    },
-   {
-      "name": "Direction Scientifique",
-      "acronym": "DS",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "service central"
-        ],
-      "url": "http://www.sciencespo.fr/recherche/fr",
-      "parentOrganizations": [
-            "FNSP"
-        ]
-    },
-   {
-      "name": "Département de sciences politiques",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "département"
-        ],
-      "url": "http://www.sciencespo.fr/departement-science-politique/",
-      "parentOrganizations": [
-            "IEP Paris"
-        ]
-    },
-   {
-      "name": "Département de sociologie",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "département"
-        ],
-      "url": "http://www.sciencespo.fr/departement-sociologie/fr,IEP Paris",
-      "parentOrganizations": [
-            "IEP Paris"
-        ]
-    },
-   {
-      "name": "Département de droit",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "département"
-        ],
-      "url": "http://www.sciencespo.fr/ecole-de-droit/fr,IEP Paris",
-      "parentOrganizations": [
-            "IEP Paris"
-        ]
-    },
-   {
-      "name": "Département d'économie",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "département"
-        ],
-      "url": "http://econ.sciences-po.fr,IEP Paris",
-      "parentOrganizations": [
-            "IEP Paris"
-        ]
-    },
-   {
-      "name": "Département d'histoire",
-      "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "département"
-        ],
-      "url": "http://www.sciencespo.fr/departement-histoire/,IEP Paris",
-      "parentOrganizations": [
-            "IEP Paris"
-        ]
-    },
-   {
-      "name": "Centre de données socio-politiques",
-      "researchunitCodes": [
-         {
-            "code": "UMS 828",
-            "startDate": "1993"
-            }
-        ],
-      "IDRNSR": "200510839P",
-      "acronym": "CDSP",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://cdsp.sciences-po.fr/",
-      "parentOrganizations": [
-            "FNSP",
-            "CNRS"
-        ]
-    },
-   {
-      "name": "Centre d'études européennes",
-      "researchunitCodes": [
-         {
-            "code": "UMR 8239",
-            "startDate": "2005"
-            }
-        ],
-      "IDRNSR": "201420750Y",
-      "acronym": "CEE",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.cee.sciences-po.fr/",
-      "parentOrganizations": [
-            "FNSP",
-            "CNRS"
-        ]
-    },
-   {
-      "name": "Centre de recherches internationales",
-      "researchunitCodes": [
-         {
-            "code": "UMR 7050",
-            "startDate": "1952"
-            }
-        ],
-      "IDRNSR": "200119307L",
-      "acronym": "CERI",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.sciencespo.fr/ceri/",
-      "parentOrganizations": [
-            "FNSP",
-            "CNRS"
-        ]
-    },
-   {
-      "name": "Centre de recherches politiques",
-      "researchunitCodes": [
-         {
-            "code": "UMR 7048",
-            "startDate": "1960"
-            }
-        ],
-      "IDRNSR": "200119305J",
-      "acronym": "CEVIPOF",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.cevipof.com",
-      "parentOrganizations": [
-            "FNSP",
-            "CNRS"
-        ]
-    },
-   {
-      "name": "Centre d'histoire de Sciences Po",
-      "researchunitCodes": [
-         {
-            "code": "EA 113",
-            "startDate": "1984"
-            }
-        ],
-      "IDRNSR": "198421635R",
-      "acronym": "CHSP",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://chsp.sciences-po.fr/",
-      "parentOrganizations": [
-            "FNSP",
-            "CNRS"
-        ]
-    },
-   {
-      "name": "Centre de sociologie des organisations",
-      "researchunitCodes": [
-         {
-            "code": "UMR 7116",
-            "startDate": "1961"
-            }
-        ],
-      "IDRNSR": "200119308M",
-      "acronym": "CSO",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.cso.edu",
-      "parentOrganizations": [
-            "FNSP",
-            "CNRS"
-        ]
-    },
-   {
-      "name": "Département d'économie",
-      "researchunitCodes": [
-         {
-            "code": "EA 4460",
-            "startDate": "2015"
-            }
-        ],
-      "IDRNSR": "200820915D",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche",
-            "département"
-        ],
-      "url": "http://econ.sciences-po.fr/",
-      "parentOrganizations": [
-            "FNSP"
-        ]
-    },
-   {
-      "name": "Ecole de droit",
-      "researchunitCodes": [
-         {
-            "code": "EA 4461",
-            "startDate": "2016"
-            }
-        ],
-      "IDRNSR": "200921636H",
-      "acronym": "EDD",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche",
-            "département"
-        ],
-      "url": "http://www.sciencespo.fr/ecole-de-droit/",
-      "parentOrganizations": [
-            "FNSP"
-        ]
-    },
-   {
-      "name": "médialab",
-      "researchunitCodes": [
-         {
-            "code": "EA 7033",
-            "startDate": "2012"
-            }
-        ],
-      "IDRNSR": "201420819Y",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.medialab.sciences-po.fr",
-      "parentOrganizations": [
-            "FNSP"
-        ]
-    },
-   {
-      "name": "Observatoire sociologique du changement",
-      "researchunitCodes": [
-         {
-            "code": "UMR 7049",
-            "startDate": "1988"
-            }
-        ],
-      "IDRNSR": "198821638B",
-      "acronym": "OSC",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.sciencespo.fr/osc",
-      "parentOrganizations": [
-            "FNSP",
-            "CNRS"
-        ]
-    },
-   {
-      "name": "Observatoire Français des Conjonctures Économiques",
-      "IDRNSR": "198121637F",
-      "acronym": "OFCE",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.ofce.sciences-po.fr/",
-      "parentOrganizations": [
-            "FNSP"
-        ]
-    },
-   {
-      "name": "Laboratoire interdisciplinaire d'évaluation des politiques publiques",
-      "acronym": "LIEPP",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypes": [
-            "centre de recherche"
-        ],
-      "url": "http://www.sciencespo.fr/liepp",
-      "parentOrganizations": [
-            "FNSP"
-        ]
-    },
-   {
-      "name": "Max Planck Sciences Po Center on Coping with Instability in Market Societies",
-      "acronym": "MAXPO",
-      "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
-      "country": "FR",
-      "status": "public",
-      "organizationTypess": [
-            "centre de recherche"
-        ],
-      "url": "http://www.maxpo.eu",
-      "parentOrganizations": [
-            "FNSP",
-            "Max Planck Society"
-        ]
-    }
+  {
+    "acronym": "FNSP",
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Fondation Nationale des Sciences Politiques",
+    "organizationTypes": [
+      "université"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr"
+  },
+  {
+    "acronym": "IEP Paris",
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Institut d'études politiques de Paris",
+    "organizationTypes": [
+      "établissement d'enseignement supérieur"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr"
+  },
+  {
+    "acronym": "MESR",
+    "address": "25 Rue de la Montagne Sainte Geneviève 75005 PARIS",
+    "country": "FR",
+    "name": "Ministère de l'enseignement supérieur et de la recherche",
+    "organizationTypes": [
+      "ministère"
+    ],
+    "status": "public",
+    "url": "http://www.enseignementsup-recherche.gouv.fr"
+  },
+  {
+    "acronym": "CNRS",
+    "address": "3 Rue Michel Ange 75016 PARIS",
+    "country": "FR",
+    "name": "Centre National de la Recherche Scientifique",
+    "organizationTypes": [
+      "organisme de recherche public"
+    ],
+    "status": "public",
+    "url": "http://www.cnrs.fr"
+  },
+  {
+    "acronym": "MEN",
+    "address": "110 rue de Grenelle 75007 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Ministère de l'Éducation Nationale",
+    "organizationTypes": [
+      "ministère"
+    ],
+    "status": "public",
+    "url": "http://www.education.gouv.fr"
+  },
+  {
+    "acronym": "DS",
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Direction Scientifique",
+    "organizationTypes": [
+      "service central"
+    ],
+    "parentOrganizations": [
+      "FNSP"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/recherche/fr"
+  },
+  {
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Département de sciences politiques",
+    "organizationTypes": [
+      "département"
+    ],
+    "parentOrganizations": [
+      "IEP Paris"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/departement-science-politique/"
+  },
+  {
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Département de sociologie",
+    "organizationTypes": [
+      "département"
+    ],
+    "parentOrganizations": [
+      "IEP Paris"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/departement-sociologie/fr,IEP Paris"
+  },
+  {
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Département de droit",
+    "organizationTypes": [
+      "département"
+    ],
+    "parentOrganizations": [
+      "IEP Paris"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/ecole-de-droit/fr,IEP Paris"
+  },
+  {
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Département d'économie",
+    "organizationTypes": [
+      "département"
+    ],
+    "parentOrganizations": [
+      "IEP Paris"
+    ],
+    "status": "public",
+    "url": "http://econ.sciences-po.fr,IEP Paris"
+  },
+  {
+    "address": "27 rue Saint Guillaume 75337 PARIS CEDEX 7",
+    "country": "FR",
+    "name": "Département d'histoire",
+    "organizationTypes": [
+      "département"
+    ],
+    "parentOrganizations": [
+      "IEP Paris"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/departement-histoire/,IEP Paris"
+  },
+  {
+    "acronym": "CDSP",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "200510839P",
+    "name": "Centre de données socio-politiques",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "CNRS"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "UMS 828",
+        "startDate": "1993"
+      }
+    ],
+    "status": "public",
+    "url": "http://cdsp.sciences-po.fr/"
+  },
+  {
+    "acronym": "CEE",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "201420750Y",
+    "name": "Centre d'études européennes",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "CNRS"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "UMR 8239",
+        "startDate": "2005"
+      }
+    ],
+    "status": "public",
+    "url": "http://www.cee.sciences-po.fr/"
+  },
+  {
+    "acronym": "CERI",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "200119307L",
+    "name": "Centre de recherches internationales",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "CNRS"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "UMR 7050",
+        "startDate": "1952"
+      }
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/ceri/"
+  },
+  {
+    "acronym": "CEVIPOF",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "200119305J",
+    "name": "Centre de recherches politiques",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "CNRS"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "UMR 7048",
+        "startDate": "1960"
+      }
+    ],
+    "status": "public",
+    "url": "http://www.cevipof.com"
+  },
+  {
+    "acronym": "CHSP",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "198421635R",
+    "name": "Centre d'histoire de Sciences Po",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "CNRS"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "EA 113",
+        "startDate": "1984"
+      }
+    ],
+    "status": "public",
+    "url": "http://chsp.sciences-po.fr/"
+  },
+  {
+    "acronym": "CSO",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "200119308M",
+    "name": "Centre de sociologie des organisations",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "CNRS"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "UMR 7116",
+        "startDate": "1961"
+      }
+    ],
+    "status": "public",
+    "url": "http://www.cso.edu"
+  },
+  {
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "200820915D",
+    "name": "Département d'économie",
+    "organizationTypes": [
+      "centre de recherche",
+      "département"
+    ],
+    "parentOrganizations": [
+      "FNSP"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "EA 4460",
+        "startDate": "2015"
+      }
+    ],
+    "status": "public",
+    "url": "http://econ.sciences-po.fr/"
+  },
+  {
+    "acronym": "EDD",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "200921636H",
+    "name": "Ecole de droit",
+    "organizationTypes": [
+      "centre de recherche",
+      "département"
+    ],
+    "parentOrganizations": [
+      "FNSP"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "EA 4461",
+        "startDate": "2016"
+      }
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/ecole-de-droit/"
+  },
+  {
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "201420819Y",
+    "name": "médialab",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "EA 7033",
+        "startDate": "2012"
+      }
+    ],
+    "status": "public",
+    "url": "http://www.medialab.sciences-po.fr"
+  },
+  {
+    "acronym": "OSC",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "198821638B",
+    "name": "Observatoire sociologique du changement",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "CNRS"
+    ],
+    "researchUnitCodes": [
+      {
+        "code": "UMR 7049",
+        "startDate": "1988"
+      }
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/osc"
+  },
+  {
+    "acronym": "OFCE",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "idRnsr": "198121637F",
+    "name": "Observatoire Français des Conjonctures Économiques",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP"
+    ],
+    "status": "public",
+    "url": "http://www.ofce.sciences-po.fr/"
+  },
+  {
+    "acronym": "LIEPP",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "name": "Laboratoire interdisciplinaire d'évaluation des politiques publiques",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP"
+    ],
+    "status": "public",
+    "url": "http://www.sciencespo.fr/liepp"
+  },
+  {
+    "acronym": "MAXPO",
+    "address": "27 rue Saint-Guillaume 75337 Paris Cedex 07",
+    "country": "FR",
+    "name": "Max Planck Sciences Po Center on Coping with Instability in Market Societies",
+    "organizationTypes": [
+      "centre de recherche"
+    ],
+    "parentOrganizations": [
+      "FNSP",
+      "Max Planck Society"
+    ],
+    "status": "public",
+    "url": "http://www.maxpo.eu"
+  }
 ]

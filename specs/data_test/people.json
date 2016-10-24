@@ -1,271 +1,273 @@
 [
-   {
-      "isariAuthorizedCenters": [
-         {
-            "organization": "medialab",
-            "isariRole": "researchMember"
+  {
+    "academicMemberships": [
+      {
+        "membershipType": "membre",
+        "organization": "medialab",
+        "startDate": "2003-05-04"
       }
     ],
-      "firstname": "Paul",
-      "name": "Bismuth",
-      "gender": "m",
-      "birthdate": "1976-09-03",
-      "nationalities": [
-      "FR",
-      "IT"
-    ],
-      "positions": [
-         {
-            "organization": "FNSP",
-            "startDate": "2003-05-04",
-            "timepart": 1,
-            "jobName": "ingénieur de recherche",
-            "jobType": "CDI",
-            "jobTitle": "appuitechnique",
-            "UG": "R12B",
-            "gradesAdmin": [
-               {
-                  "grade": "CM1",
-                  "startDate": "2003-05-04",
-                  "endDate": "2004-06-07"
-          },
-               {
-                  "grade": "CM2",
-                  "startDate": "2004-06-08"
-          }
-        ]
+    "biography": "ma vie mon oeuvre",
+    "birthdate": "1976-09-03",
+    "contacts": [
+      {
+        "email": "paul.bismuth@sciencespo.fr",
+        "phone": "0145467891",
+        "title": "bureau"
       }
     ],
-      "academicMemberships": [
-         {
-            "organization": "medialab",
-            "startDate": "2003-05-04",
-            "membershipType": "membre"
-      }
-    ],
-      "biography": "ma vie mon oeuvre",
-      "tags": {
-         "hceres2017": [
-        "SHS2_4 Sociologie, démographie",
-        "SHS2_5 Sciences de l'information et de la communications"
-      ],
-         "methods": "mixte",
-         "erc": "SH2 Institutions, values and beliefs and behaviours"
-      },
-      "personalActivities": [
-         {
-            "personalActivityType": "expertise",
-            "personalActivitySubtype": "rapport",
-            "personalActivityTitle": "statistique sanitaire mondiale",
-            "startDate": "2014",
-            "endDate": "2014",
-            "role": "expert",
-            "description": "rapport sur la santé dans le monde",
-            "organizations": [
-          "OMS"
-        ]
-      }
-    ],
-      "distinctions": [
-         {
-            "organizations": [
-          "CNRS"
-        ],
-            "date": "2013",
-            "title": "médaille de cristal",
-            "countries": [
+    "distinctions": [
+      {
+        "countries": [
           "FR"
         ],
-            "distinctionType": "distinction"
+        "date": "2013",
+        "distinctionType": "distinction",
+        "organizations": [
+          "CNRS"
+        ],
+        "title": "médaille de cristal"
       }
     ],
-      "contacts": [
-         {
-            "title": "bureau",
-            "email": "paul.bismuth@sciencespo.fr",
-            "phone": "0145467891"
+    "firstname": "Paul",
+    "gender": "m",
+    "isariAuthorizedCenters": [
+      {
+        "isariRole": "researchMember",
+        "organization": "medialab"
       }
     ],
-      "langs": [
+    "langs": [
       "fr",
       "en",
       "es",
       "it"
-    ]
-  },
-   {
-      "isariAuthorizedCenters": [
-         {
-            "organization": "CSO",
-            "isariRole": "researchMember"
+    ],
+    "name": "Bismuth",
+    "nationalities": [
+      "FR",
+      "IT"
+    ],
+    "personalActivities": [
+      {
+        "description": "rapport sur la santé dans le monde",
+        "endDate": "2014",
+        "organizations": [
+          "OMS"
+        ],
+        "personalActivitySubtype": "rapport",
+        "personalActivityTitle": "statistique sanitaire mondiale",
+        "personalActivityType": "expertise",
+        "role": "expert",
+        "startDate": "2014"
       }
     ],
-      "firstname": "Henri",
-      "name": "Bergero",
-      "gender": "m",
-      "birthdate": "1966",
-      "nationalities": [
+    "positions": [
+      {
+        "UG": "R12B",
+        "gradesAdmin": [
+          {
+            "endDate": "2004-06-07",
+            "grade": "CM1",
+            "startDate": "2003-05-04"
+          },
+          {
+            "grade": "CM2",
+            "startDate": "2004-06-08"
+          }
+        ],
+        "jobName": "ingénieur de recherche",
+        "jobTitle": "appuitechnique",
+        "jobType": "CDI",
+        "organization": "FNSP",
+        "startDate": "2003-05-04",
+        "timepart": 1
+      }
+    ],
+    "tags": {
+      "erc": "SH2 Institutions, values and beliefs and behaviours",
+      "hceres2017": [
+        "SHS2_4 Sociologie, démographie",
+        "SHS2_5 Sciences de l'information et de la communications"
+      ],
+      "methods": "mixte"
+    }
+  },
+  {
+    "academicMemberships": [
+      {
+        "membershipType": "membre",
+        "organization": "CSO",
+        "startDate": "2012"
+      }
+    ],
+    "biography": "La vie de Henri",
+    "birthdate": "1966",
+    "contacts": [
+      {
+        "email": "henri.bergero@sciencespo.fr",
+        "phone": "0159684568",
+        "title": "bureau"
+      }
+    ],
+    "distinctions": [
+      {
+        "countries": [
+          "FR"
+        ],
+        "date": "1980",
+        "distinctionType": "diplôme",
+        "organizations": [
+          "IEP Paris"
+        ],
+        "title": "doctorat en sciences politiques"
+      }
+    ],
+    "firstname": "Henri",
+    "gender": "m",
+    "isariAuthorizedCenters": [
+      {
+        "isariRole": "researchMember",
+        "organization": "CSO"
+      }
+    ],
+    "langs": [
+      "fr",
+      "en"
+    ],
+    "name": "Bergero",
+    "nationalities": [
       "FR"
     ],
-      "positions": [
-         {
-            "organization": "CNRS",
-            "startDate": "2012",
-            "timepart": 1,
-            "jobName": "chargé de recherche CNRS",
-            "jobType": "emploipublic",
-            "jobTitle": "chercheur",
-            "UG": "R51B",
-            "gradesAcademic": [
-               {
-                  "grade": "chargederecherche",
-                  "startDate": "2012"
+    "personalActivities": [
+      {
+        "description": "magnifique rapport de mémoire",
+        "endDate": "2013",
+        "organizations": [
+          "IEP Paris"
+        ],
+        "people": [
+          "Louisa Ken"
+        ],
+        "personalActivitySubtype": "mémoire",
+        "personalActivityTitle": "Direction de mémoire",
+        "personalActivityType": "encadrement",
+        "role": "direction",
+        "startDate": "2012"
+      }
+    ],
+    "positions": [
+      {
+        "UG": "R51B",
+        "gradesAcademic": [
+          {
+            "grade": "chargederecherche",
+            "startDate": "2012"
           }
-        ]
+        ],
+        "jobName": "chargé de recherche CNRS",
+        "jobTitle": "chercheur",
+        "jobType": "emploipublic",
+        "organization": "CNRS",
+        "startDate": "2012",
+        "timepart": 1
       }
     ],
-      "academicMemberships": [
-         {
-            "organization": "CSO",
-            "startDate": "2012",
-            "membershipType": "membre"
-      }
-    ],
-      "biography": "La vie de Henri",
-      "tags": {
-         "hceres2017": [
+    "tags": {
+      "hceres2017": [
         "SHS2_2 Science politique",
         "SHS2_4 Sociologie, démographie"
       ]
-      },
-      "personalActivities": [
-         {
-            "personalActivityType": "encadrement",
-            "personalActivitySubtype": "mémoire",
-            "personalActivityTitle": "Direction de mémoire",
-            "startDate": "2012",
-            "endDate": "2013",
-            "role": "direction",
-            "description": "magnifique rapport de mémoire",
-            "organizations": [
-          "IEP Paris"
-        ],
-            "people": ["Louisa Ken"]
-      }
-    ],
-      "distinctions": [
-         {
-            "organizations": [
-          "IEP Paris"
-        ],
-            "date": "1980",
-            "title": "doctorat en sciences politiques",
-            "countries": [
-          "FR"
-        ],
-            "distinctionType": "diplôme"
-      }
-    ],
-      "contacts": [
-         {
-            "title": "bureau",
-            "email": "henri.bergero@sciencespo.fr",
-            "phone": "0159684568"
-      }
-    ],
-      "langs": [
-      "fr",
-      "en"
-    ]
+    }
   },
-   {
-      "isariAuthorizedCenters": [
-         {
-            "organization": "CEE",
-            "isariRole": "researchMember"
+  {
+    "academicMemberships": [
+      {
+        "membershipType": "membre",
+        "organization": "CEE",
+        "startDate": "2001"
       }
     ],
-      "firstname": "Richard",
-      "name": "Dupond",
-      "gender": "h",
-      "birthdate": "1957",
-      "nationalities": [
-      "FR"
-    ],
-      "positions": [
-         {
-            "organization": "MESR",
-            "startDate": "1987",
-            "timepart": 1,
-            "jobName": "professeur des universités",
-            "jobType": "emploipublic",
-            "jobTitle": "enseignantchercheur",
-            "UG": "RC1B",
-            "gradesAcademic": [
-               {
-                  "grade": "profuniv",
-                  "startDate": "2001"
-          }
-        ]
+    "biography": "La vie de Richard",
+    "birthdate": "1957",
+    "contacts": [
+      {
+        "email": "richard.dupont@sciencespo.fr",
+        "phone": "0643664588",
+        "title": "bureau"
       }
     ],
-      "academicMemberships": [
-         {
-            "organization": "CEE",
-            "startDate": "2001",
-            "membershipType": "membre"
+    "deptMemberships": [
+      {
+        "organization": "Département de science politique"
       }
     ],
-      "deptMemberships": [
-         {
-            "organization": "Département de science politique"
-      }
-    ],
-      "biography": "La vie de Richard",
-      "tags": {
-         "hceres2017": [
-        "SHSH2_1 Droit",
-        "SHS2_2 Science politique"
-      ]
-      },
-      "methods": [
-      "quantitative",
-      "qualitative"
-    ],
-      "personalActivities": [
-         {
-            "personalActivityType": "collaborations scientifiques",
-            "personalActivitySubtype": "groupe de recherche",
-            "personalActivityTitle": "France Agendas Project",
-            "startDate": "2008",
-            "endDate": "2012",
-            "role": "co-direction"
-      }
-    ],
-      "distinctions": [
-         {
-            "organizations": [
+    "distinctions": [
+      {
+        "countries": [
+          "GB"
+        ],
+        "date": "1980",
+        "distinctionType": "doublediplôme",
+        "organizations": [
           "London School of Economics",
           "IEP Paris"
         ],
-            "date": "1980",
-            "title": "doctorat en économie",
-            "countries": [
-          "GB"
-        ],
-            "distinctionType": "doublediplôme"
+        "title": "doctorat en économie"
       }
     ],
-      "contacts": [
-         {
-            "title": "bureau",
-            "email": "richard.dupont@sciencespo.fr",
-            "phone": "0643664588"
+    "firstname": "Richard",
+    "gender": "h",
+    "isariAuthorizedCenters": [
+      {
+        "isariRole": "researchMember",
+        "organization": "CEE"
       }
     ],
-      "langs": [
+    "langs": [
       "fr",
       "en"
-    ]
+    ],
+    "methods": [
+      "quantitative",
+      "qualitative"
+    ],
+    "name": "Dupond",
+    "nationalities": [
+      "FR"
+    ],
+    "personalActivities": [
+      {
+        "endDate": "2012",
+        "personalActivitySubtype": "groupe de recherche",
+        "personalActivityTitle": "France Agendas Project",
+        "personalActivityType": "collaborations scientifiques",
+        "role": "co-direction",
+        "startDate": "2008"
+      }
+    ],
+    "positions": [
+      {
+        "UG": "RC1B",
+        "gradesAcademic": [
+          {
+            "grade": "profuniv",
+            "startDate": "2001"
+          }
+        ],
+        "jobName": "professeur des universités",
+        "jobTitle": "enseignantchercheur",
+        "jobType": "emploipublic",
+        "organization": "MESR",
+        "startDate": "1987",
+        "timepart": 1
+      }
+    ],
+    "tags": {
+      "hceres2017": [
+        "SHSH2_1 Droit",
+        "SHS2_2 Science politique"
+      ]
+    }
   }
 ]
