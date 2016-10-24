@@ -1,18 +1,8 @@
 {
-  "name": "data-import",
+  "name": "isari",
   "version": "1.0.0",
-  "description": "Set mapping to import data from files to Isari",
-  "main": "index.js",
-  "dependencies": {
-    "body-parser": "^1.15.2",
-    "ejs": "^2.5.1",
-    "express": "^4.14.0",
-    "google-auth-library": "^0.9.8",
-    "google-drive": "0.0.7",
-    "google-spreadsheet": "^2.0.3",
-    "googleapis": "^12.3.0",
-    "npm-run-all": "^3.0.0"
-  },
+  "description": "Isari root project",
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "test": "npm-run-all test-*",
@@ -22,17 +12,18 @@
     "install-client": "cd client && npm install",
     "install-server": "cd server && npm install"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/8ctambules/isari.git"
-  },
+  "author": "Philippe Hubert",
   "keywords": [
     "data",
     "import",
     "isari"
   ],
-  "author": "Philippe Hubert",
-  "license": "ISC",
+  "private": true,
+  "license": "AGPL-3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8ctambules/isari.git"
+  },
   "bugs": {
     "url": "https://github.com/8ctambules/isari/issues"
   },

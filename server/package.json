@@ -16,7 +16,6 @@
     "lint": "eslint ."
   },
   "author": "Byte Club",
-  "license": "ISC",
   "devDependencies": {
     "chai": "^3.5.0",
     "cross-env": "^2.0.0",
@@ -45,5 +44,15 @@
     "supertest": "^2.0.0",
     "supertest-as-promised": "^4.0.0",
     "toml": "^2.3.0"
-  }
+  },
+  "private": true,
+  "license": "AGPL-3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8ctambules/isari.git"
+  },
+  "bugs": {
+    "url": "https://github.com/8ctambules/isari/issues"
+  },
+  "homepage": "https://github.com/8ctambules/isari/server#readme"
 }
