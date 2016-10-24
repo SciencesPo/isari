@@ -71,10 +71,18 @@ const organizationObjects = organizationData.map(org => {
   return (new Organization(org)).toObject();
 });
 
-// Solving people
-const peopleObjects = peopleData.map(person => {
+// Giving an a pre-computed id to people to be able to solve relations
+peopleData.forEach(person => {
+  person._id = mongoose.Types.ObjectId();
+});
 
-  // Solving relations
+// Indexing people
+peopleData.forEach(person => {
+  INDEXES.People[person.firstname + ' ' + person.name] = person._id;
+});
+
+// Solving people's relations
+peopleData.forEach(person => {
   helpers.processRelations(peopleRelations, person, (id, ref) => {
     // TEMP OVERRIDE
     if (ref !== 'Organization')
@@ -90,13 +98,11 @@ const peopleObjects = peopleData.map(person => {
 
     return relatedItem;
   });
-
-  return (new People(person)).toObject();
 });
 
-// Indexing people
-peopleObjects.forEach(person => {
-  INDEXES.People[person.firstname + ' ' + person.name] = person._id;
+// Building Mongoose objects for people
+const peopleObjects = peopleData.map(person => {
+  return (new People(person)).toObject();
 });
 
 // Solving activities
@@ -115,9 +121,10 @@ const activityObjects = activityData.map(activity => {
   return (new Activity(activity)).toObject();
 });
 
-// TODO: need to precomputed indexes for people too to solve inner relations
-
-throw new Error('Early Termination!');
+// Summary
+console.log('Organizations:', organizationObjects.length);
+console.log('People:', peopleObjects.length);
+console.log('Activities:', activityObjects.length);
 
 /**
  * Inserting.
@@ -136,7 +143,8 @@ async.series({
   insert(next) {
     async.parallel([
       cb => Organization.collection.insertMany(organizationObjects, cb),
-      cb => People.collection.insertMany(peopleObjects, cb)
+      cb => People.collection.insertMany(peopleObjects, cb),
+      cb => Activity.collection.insertMany(activityObjects, cb)
     ], next);
   }
 }, err => {
