@@ -45,6 +45,7 @@ exports.restRouter = (Model, format = identity, esIndex = null) => {
 
 	router.get('/', restHandler(listModel(Model, format)))
 	router.get('/:id', restHandler(getModel(Model, format)))
+	router.get('/:id/string', restHandler(getModelString(Model)))
 	router.put('/:id', restHandler(updateModel(Model, save)))
 	router.post('/', restHandler(createModel(Model, save)))
 	router.delete('/:id', restHandler(deleteModel(Model)))
@@ -65,6 +66,11 @@ const getModel = (Model, format) => req =>
 	Model.findById(req.params.id)
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
 	.then(format)
+
+const getModelString = Model => req =>
+	Model.findById(req.params.id)
+	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
+	.then(o => ({ id: String(o._id), value: o.applyTemplates(0) }))
 
 const updateModel = (Model, save) => {
 	const get = getModel(Model, identity)
