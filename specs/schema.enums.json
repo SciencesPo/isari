@@ -1,0 +1,2945 @@
+{
+    "sectionCnrs": [
+        {
+            "value": "cnrs02", 
+            "label": {
+                "fr": "section 02 - Th\u00e9ories physiques : m\u00e9thodes, mod\u00e8les et applications", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs06", 
+            "label": {
+                "fr": "section 06 - Sciences de l'information : fondements de l'informatique, calculs, algorithmes, repr\u00e9sentations, exploitations", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs26", 
+            "label": {
+                "fr": "section 26 - Cerveau, cognition, comportement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs31", 
+            "label": {
+                "fr": "section 31 - Hommes et milieux : \u00e9volution, interactions", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs33", 
+            "label": {
+                "fr": "section 33 - Mondes modernes et contemporains", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs34", 
+            "label": {
+                "fr": "section 34 - Sciences du langage", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs35", 
+            "label": {
+                "fr": "section 35 - Sciences philosophiques et philologiques, sciences de l'art", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs36", 
+            "label": {
+                "fr": "section 36 - Sociologie et sciences du droit", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs37", 
+            "label": {
+                "fr": "section 37 - Economie et gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs38", 
+            "label": {
+                "fr": "section 38 - Anthropologie et \u00e9tude comparative des soci\u00e9t\u00e9s contemporaines", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs39", 
+            "label": {
+                "fr": "section 39 - Espaces, territoires et soci\u00e9t\u00e9s\u201d,\u201dsection 40 - Politique, pouvoir, organisation", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnrs40", 
+            "label": {
+                "fr": "section 40 - Politique, pouvoir, organisation", 
+                "en": ""
+            }
+        }
+    ], 
+    "methods": [
+        {
+            "value": "quantitative", 
+            "label": {
+                "fr": "quantitative", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "qualitative", 
+            "label": {
+                "fr": "qualitative", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mixte", 
+            "label": {
+                "fr": "mixte", 
+                "en": ""
+            }
+        }
+    ], 
+    "disciplines": [
+        {
+            "value": "discipline621", 
+            "label": {
+                "fr": "Philosophie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline622", 
+            "label": {
+                "fr": "\u00c9pist\u00e9mologie, histoire des sciences et des techniques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline623", 
+            "label": {
+                "fr": "Ethique et d\u00e9ontologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline643", 
+            "label": {
+                "fr": "Histoire et civilisations : histoire des mondes modernes, histoire du monde contemporain, de l'art", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline645", 
+            "label": {
+                "fr": "G\u00e9ographie physique, humaine, \u00e9conomique et r\u00e9gionale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline646", 
+            "label": {
+                "fr": "Am\u00e9nagement de l'espace, urbanisme\u201d,\u201dDroit priv\u00e9 et sciences criminelles", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline712", 
+            "label": {
+                "fr": "Droit public", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline713", 
+            "label": {
+                "fr": "Histoire du droit et des institutions", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline714", 
+            "label": {
+                "fr": "Science politique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline721", 
+            "label": {
+                "fr": "Science \u00e9conomique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline722", 
+            "label": {
+                "fr": "Science de gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline731", 
+            "label": {
+                "fr": "Sociologie, d\u00e9mographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline732", 
+            "label": {
+                "fr": "Anthropologie, ethnologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "discipline911", 
+            "label": {
+                "fr": "Informatique et applications", 
+                "en": ""
+            }
+        }
+    ], 
+    "gradeAdmin": [
+        {
+            "value": "CMission", 
+            "label": {
+                "fr": "CM : charg\u00e9(e) de mission", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CM1", 
+            "label": {
+                "fr": "CM1 : charg\u00e9(e) de mission niveau 1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CM2", 
+            "label": {
+                "fr": "CM2 : charg\u00e9(e) de mission niveau 2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CM3", 
+            "label": {
+                "fr": "CM3 : charg\u00e9(e) de mission niveau 3", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AGEST", 
+            "label": {
+                "fr": "AG : assistant(e) de gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "S1", 
+            "label": {
+                "fr": "S1 : secr\u00e9taire de niveau 1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "S2", 
+            "label": {
+                "fr": "S2 : secr\u00e9taire de niveau 2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ABS", 
+            "label": {
+                "fr": "ABS : agent de biblioth\u00e8que sp\u00e9cialis\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "B1", 
+            "label": {
+                "fr": "B1 : biblioth\u00e9caire de niveau 1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "B2", 
+            "label": {
+                "fr": "B2 : biblioth\u00e9caire de niveau 2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "B3", 
+            "label": {
+                "fr": "B3 : biblioth\u00e9caire de niveau 3", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "APCE", 
+            "label": {
+                "fr": "APCE : appariteur chef d'\u00e9quipe", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "APAB", 
+            "label": {
+                "fr": "APAB : appariteur agent de bureau", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IENC", 
+            "label": {
+                "fr": "IE : informatique encadrement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IEX", 
+            "label": {
+                "fr": "IEX : informatique exploitation", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IGE", 
+            "label": {
+                "fr": "IGE : ing\u00e9nieur d'\u00e9tudes", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IGR", 
+            "label": {
+                "fr": "IGR : ing\u00e9nieur de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCN", 
+            "label": {
+                "fr": "TCN : technicien de classe normale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCS", 
+            "label": {
+                "fr": "TCS : technicien de classe sup\u00e9rieure", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCE", 
+            "label": {
+                "fr": "TCE : technicien de classe exceptionnelle", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AING", 
+            "label": {
+                "fr": "AI : assistant ing\u00e9nieur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CASSIST", 
+            "label": {
+                "fr": "CA : chercheur assistant", 
+                "en": ""
+            }
+        }
+    ], 
+    "personalActivityRoles": [
+        {
+            "value": "Direction", 
+            "label": {
+                "fr": "Direction", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CoDirection", 
+            "label": {
+                "fr": "Co-Direction", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Pr\u00e9sidence", 
+            "label": {
+                "fr": "Pr\u00e9sidence", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "reviewer", 
+            "label": {
+                "fr": "reviewer", 
+                "en": ""
+            }
+        }
+    ], 
+    "grantTypes": [
+        {
+            "value": "lev\u00e9edefond", 
+            "label": {
+                "fr": "lev\u00e9e de fond", 
+                "en": "fundraising"
+            }
+        }, 
+        {
+            "value": "collaboratifh2020", 
+            "label": {
+                "fr": "H2020 collaboratif", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "individuelh2020", 
+            "label": {
+                "fr": "H2020 individuel", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "collaboratifinternational", 
+            "label": {
+                "fr": "International collaboratif", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "individuelinternational", 
+            "label": {
+                "fr": "International individuel", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "collaboratifnational", 
+            "label": {
+                "fr": "National collaboratif", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "individuelnational", 
+            "label": {
+                "fr": "National individuel", 
+                "en": ""
+            }
+        }
+    ], 
+    "isariRoles": [
+        {
+            "value": "central_admin", 
+            "label": {
+                "fr": "adminsitrateur central", 
+                "en": "central administrator"
+            }
+        }, 
+        {
+            "value": "center_admin", 
+            "label": {
+                "fr": "administrateur du centre", 
+                "en": "unit administrator"
+            }
+        }, 
+        {
+            "value": "central_reader", 
+            "label": {
+                "fr": "direction g\u00e9n\u00e9rale", 
+                "en": "central reader"
+            }
+        }, 
+        {
+            "value": "center_editor", 
+            "label": {
+                "fr": "\u00e9diteur du centre", 
+                "en": "unit editor"
+            }
+        }, 
+        {
+            "value": "center_member", 
+            "label": {
+                "fr": "membre du centre", 
+                "en": "unit member"
+            }
+        }
+    ], 
+    "jobType": [
+        {
+            "value": "CDD", 
+            "label": {
+                "fr": "CDD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CDI", 
+            "label": {
+                "fr": "CDI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "stage", 
+            "label": {
+                "fr": "stage", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "alternance", 
+            "label": {
+                "fr": "alternance", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "disponibilit\u00e9", 
+            "label": {
+                "fr": "disponibilit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "COD", 
+            "label": {
+                "fr": "COD", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CDDdusage", 
+            "label": {
+                "fr": "CDD d'usage", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "d\u00e9tachement", 
+            "label": {
+                "fr": "d\u00e9tachement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "emploipublic", 
+            "label": {
+                "fr": "emploi public", 
+                "en": ""
+            }
+        }
+    ], 
+    "organizationTypes": [
+        {
+            "value": "d\u00e9partement", 
+            "label": {
+                "fr": "d\u00e9partement", 
+                "en": "department"
+            }
+        }, 
+        {
+            "value": "centrederercherche", 
+            "label": {
+                "fr": "centre de recherche", 
+                "en": "research center"
+            }
+        }, 
+        {
+            "value": "entreprise", 
+            "label": {
+                "fr": "entreprise", 
+                "en": "company"
+            }
+        }, 
+        {
+            "value": "universit\u00e9", 
+            "label": {
+                "fr": "universit\u00e9", 
+                "en": "university"
+            }
+        }, 
+        {
+            "value": "institutioninternationale", 
+            "label": {
+                "fr": "institution internationale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chaire", 
+            "label": {
+                "fr": "chaire", 
+                "en": ""
+            }
+        }
+    ], 
+    "bonusTypes": [
+        {
+            "value": "primeDirection", 
+            "label": {
+                "fr": "Prime direction de centre", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeDepartement", 
+            "label": {
+                "fr": "Prime direction de d\u00e9partement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeErc", 
+            "label": {
+                "fr": "ERC", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeIUF", 
+            "label": {
+                "fr": "IUF", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primePedr", 
+            "label": {
+                "fr": "PEDR", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeCnrs", 
+            "label": {
+                "fr": "PES/MESR ou CNRS", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeCDI", 
+            "label": {
+                "fr": "Prime CDI", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeRES", 
+            "label": {
+                "fr": "Prime R.E.S.", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeFontion", 
+            "label": {
+                "fr": "Prime de fonction", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeComplement", 
+            "label": {
+                "fr": "Prime en compl\u00e9ment", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeConvergence", 
+            "label": {
+                "fr": "Prime incitation enseignement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeAutremesr", 
+            "label": {
+                "fr": "Autre MESR", 
+                "en": ""
+            }
+        }
+    ], 
+    "hceres2017": [
+        {
+            "value": "st1", 
+            "label": {
+                "fr": "ST1 Math\u00e9matiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st2", 
+            "label": {
+                "fr": "ST2 Physique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st3", 
+            "label": {
+                "fr": "ST3 Sciences de la terre et de l'univers", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st4", 
+            "label": {
+                "fr": "ST4 Chimie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st5", 
+            "label": {
+                "fr": "ST5 Sciences pour l'ing\u00e9nieur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "st6", 
+            "label": {
+                "fr": "ST6 Sciences et technologies de l'information et de la communication", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve1", 
+            "label": {
+                "fr": "SVE1 Agronomie, Biologie V\u00e9g\u00e9tale, Ecologie, Environnement, Evolution", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve2", 
+            "label": {
+                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Mol\u00e9culaire, Biochimie, G\u00e9nomique, Biologie Syst\u00e9mique, D\u00e9veloppement, Biologie Structurale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve3", 
+            "label": {
+                "fr": "SVE3 Microbiologie, Immunit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve4", 
+            "label": {
+                "fr": "SVE4 Neurologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve5", 
+            "label": {
+                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies M\u00e9dicales", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sve6", 
+            "label": {
+                "fr": "SVE6 Sant\u00e9 Publique, Epid\u00e9miologie, Recherche Clinique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs11", 
+            "label": {
+                "fr": "SHS1_1 Economie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs12", 
+            "label": {
+                "fr": "SHS1_2 Finance, management", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs21", 
+            "label": {
+                "fr": "SHS2_1 Droit", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs22", 
+            "label": {
+                "fr": "SHS2_2 Science politique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs23", 
+            "label": {
+                "fr": "SHS2_3 Anthropologie et ethnologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs24", 
+            "label": {
+                "fr": "SHS2_4 Sociologie, d\u00e9mographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs25", 
+            "label": {
+                "fr": "SHS2_5 Sciences de l\u2019information et de la communication", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs31", 
+            "label": {
+                "fr": "SHS3_1 G\u00e9ographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs32", 
+            "label": {
+                "fr": "SHS3_2 Am\u00e9nagement et urbanisme", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs33", 
+            "label": {
+                "fr": "SHS3_3 Architecture", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs41", 
+            "label": {
+                "fr": "SHS4_1 Linguistique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs42", 
+            "label": {
+                "fr": "SHS4_2 Psychologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs43", 
+            "label": {
+                "fr": "SHS4_3 Sciences de l'\u00e9ducation", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs44", 
+            "label": {
+                "fr": "SHS4_4 Sciences et techniques des activit\u00e9s physiques et sportives", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs51", 
+            "label": {
+                "fr": "SHS5_1 Langues / litt\u00e9ratures anciennes et fran\u00e7aises, litt\u00e9rature compar\u00e9e", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs52", 
+            "label": {
+                "fr": "SHS5_2 Litt\u00e9ratures et langues \u00e9trang\u00e8res, civilisations, cultures et langues r\u00e9gionales", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs53", 
+            "label": {
+                "fr": "SHS5_3 Arts", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs54", 
+            "label": {
+                "fr": "SHS5_4 Philosophie, sciences des religions, th\u00e9ologie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs61", 
+            "label": {
+                "fr": "SHS6_1 Histoire", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs62", 
+            "label": {
+                "fr": "SHS6_2 Histoire de l'art", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "shs63", 
+            "label": {
+                "fr": "SHS6_3 Arch\u00e9ologie", 
+                "en": ""
+            }
+        }
+    ], 
+    "grantStatuses": [
+        {
+            "value": "submitted", 
+            "label": {
+                "fr": "submitted", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "accepted", 
+            "label": {
+                "fr": "accepted", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ongoing", 
+            "label": {
+                "fr": "ongoing", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "done", 
+            "label": {
+                "fr": "done", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "rejected", 
+            "label": {
+                "fr": "rejected", 
+                "en": ""
+            }
+        }
+    ], 
+    "activityTypes": [
+        {
+            "value": "partenariat", 
+            "label": {
+                "fr": "partenariat", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doctorat", 
+            "label": {
+                "fr": "doctorat", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "projetderecherche", 
+            "label": {
+                "fr": "projet de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mob_entrante", 
+            "label": {
+                "fr": "invit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mob_sortante", 
+            "label": {
+                "fr": "s\u00e9jour \u00e0 l'\u00e9tranger", 
+                "en": ""
+            }
+        }
+    ], 
+    "academicMembershipType": [
+        {
+            "value": "membre", 
+            "label": {
+                "fr": "membre", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "associ\u00e9", 
+            "label": {
+                "fr": "associ\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "rattach\u00e9", 
+            "label": {
+                "fr": "rattach\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "affili\u00e9", 
+            "label": {
+                "fr": "affili\u00e9", 
+                "en": ""
+            }
+        }
+    ], 
+    "personalActivityTypes": [
+        {
+            "value": "editorial", 
+            "label": {
+                "fr": "activit\u00e9s \u00e9ditoriales", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "collaborationsscientifiques", 
+            "label": {
+                "fr": "collaborations scientifiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "expertise", 
+            "label": {
+                "fr": "expertise", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "jurys", 
+            "label": {
+                "fr": "jurys", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "encadrement", 
+            "label": {
+                "fr": "encadrement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "responsabilit\u00e9setmandats", 
+            "label": {
+                "fr": "responsabilit\u00e9s et mandats", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "\u00e9valuations", 
+            "label": {
+                "fr": "\u00e9valuations", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "enseignement", 
+            "label": {
+                "fr": "enseignement", 
+                "en": ""
+            }
+        }
+    ], 
+    "activityOrganizationRoles": [
+        {
+            "value": "inscription", 
+            "label": {
+                "fr": "inscription", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "leader", 
+            "label": {
+                "fr": "leader", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "partenaire", 
+            "label": {
+                "fr": "partenaire", 
+                "en": ""
+            }
+        }
+    ], 
+    "aeres2012": [
+        {
+            "value": "aireg\u00e9ographique1", 
+            "label": {
+                "fr": "Afrique subsaharienne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique2", 
+            "label": {
+                "fr": "Afrique du nord", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique3", 
+            "label": {
+                "fr": "Afrique de l'est", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique4", 
+            "label": {
+                "fr": "Afrique de l'ouest", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique5", 
+            "label": {
+                "fr": "Afrique centrale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique6", 
+            "label": {
+                "fr": "Afrique australe", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique7", 
+            "label": {
+                "fr": "Afrique saharienne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique8", 
+            "label": {
+                "fr": "Proche, Moyen-Orient", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique9", 
+            "label": {
+                "fr": "Monde m\u00e9diterran\u00e9en", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique10", 
+            "label": {
+                "fr": "Europe m\u00e9diterran\u00e9enne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique11", 
+            "label": {
+                "fr": "Europe occidentale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique12", 
+            "label": {
+                "fr": "France", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique13", 
+            "label": {
+                "fr": "Italie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique14", 
+            "label": {
+                "fr": "Espagne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique15", 
+            "label": {
+                "fr": "Portugal", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique16", 
+            "label": {
+                "fr": "Gr\u00e8ce, Balkans", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique17", 
+            "label": {
+                "fr": "Europe du nord", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique18", 
+            "label": {
+                "fr": "Europe centrale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique19", 
+            "label": {
+                "fr": "Russie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique20", 
+            "label": {
+                "fr": "Mondes slaves", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique21", 
+            "label": {
+                "fr": "Mondes anglophones", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique22", 
+            "label": {
+                "fr": "Mondes germaniques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique23", 
+            "label": {
+                "fr": "Am\u00e9rique du nord", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique24", 
+            "label": {
+                "fr": "Am\u00e9rique centrale et Am\u00e9rique du sud", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique25", 
+            "label": {
+                "fr": "Pacifique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique26", 
+            "label": {
+                "fr": "Oc\u00e9anie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique27", 
+            "label": {
+                "fr": "Australie, Nouvelle Z\u00e9lande", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique28", 
+            "label": {
+                "fr": "Extr\u00eame orient", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique29", 
+            "label": {
+                "fr": "Asie du sud", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique30", 
+            "label": {
+                "fr": "Asie du sud-est", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique31", 
+            "label": {
+                "fr": "Pays himalayens", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "aireg\u00e9ographique32", 
+            "label": {
+                "fr": "Asie centrale", 
+                "en": ""
+            }
+        }
+    ], 
+    "iso6391": [
+        "aa", 
+        "ab", 
+        "ae", 
+        "af", 
+        "ak", 
+        "am", 
+        "an", 
+        "ar", 
+        "as", 
+        "av", 
+        "ay", 
+        "az", 
+        "ba", 
+        "be", 
+        "bg", 
+        "bh", 
+        "bi", 
+        "bm", 
+        "bn", 
+        "bo", 
+        "br", 
+        "bs", 
+        "ca", 
+        "ce", 
+        "ch", 
+        "co", 
+        "cr", 
+        "cs", 
+        "cu", 
+        "cv", 
+        "cy", 
+        "da", 
+        "de", 
+        "dv", 
+        "dz", 
+        "ee", 
+        "el", 
+        "en", 
+        "eo", 
+        "es", 
+        "et", 
+        "eu", 
+        "fa", 
+        "ff", 
+        "fi", 
+        "fj", 
+        "fo", 
+        "fr", 
+        "fy", 
+        "ga", 
+        "gd", 
+        "gl", 
+        "gn", 
+        "gu", 
+        "gv", 
+        "ha", 
+        "he", 
+        "hi", 
+        "ho", 
+        "hr", 
+        "ht", 
+        "hu", 
+        "hy", 
+        "hz", 
+        "ia", 
+        "id", 
+        "ie", 
+        "ig", 
+        "ii", 
+        "ik", 
+        "io", 
+        "is", 
+        "it", 
+        "iu", 
+        "ja", 
+        "jv", 
+        "ka", 
+        "kg", 
+        "ki", 
+        "kj", 
+        "kk", 
+        "kl", 
+        "km", 
+        "kn", 
+        "ko", 
+        "kr", 
+        "ks", 
+        "ku", 
+        "kv", 
+        "kw", 
+        "ky", 
+        "la", 
+        "lb", 
+        "lg", 
+        "li", 
+        "ln", 
+        "lo", 
+        "lt", 
+        "lu", 
+        "lv", 
+        "mg", 
+        "mh", 
+        "mi", 
+        "mk", 
+        "ml", 
+        "mn", 
+        "mr", 
+        "ms", 
+        "mt", 
+        "my", 
+        "na", 
+        "nb", 
+        "nd", 
+        "ne", 
+        "ng", 
+        "nl", 
+        "nn", 
+        "no", 
+        "nr", 
+        "nv", 
+        "ny", 
+        "oc", 
+        "oj", 
+        "om", 
+        "or", 
+        "os", 
+        "pa", 
+        "pi", 
+        "pl", 
+        "ps", 
+        "pt", 
+        "qu", 
+        "rc", 
+        "rm", 
+        "rn", 
+        "ro", 
+        "ru", 
+        "rw", 
+        "sa", 
+        "sc", 
+        "sd", 
+        "se", 
+        "sg", 
+        "sh", 
+        "si", 
+        "sk", 
+        "sl", 
+        "sm", 
+        "sn", 
+        "so", 
+        "sq", 
+        "sr", 
+        "ss", 
+        "st", 
+        "su", 
+        "sv", 
+        "sw", 
+        "ta", 
+        "te", 
+        "tg", 
+        "th", 
+        "ti", 
+        "tk", 
+        "tl", 
+        "tn", 
+        "to", 
+        "tr", 
+        "ts", 
+        "tt", 
+        "tw", 
+        "ty", 
+        "ug", 
+        "uk", 
+        "ur", 
+        "uz", 
+        "ve", 
+        "vi", 
+        "vo", 
+        "wa", 
+        "wo", 
+        "xh", 
+        "yi", 
+        "yo", 
+        "za", 
+        "zh", 
+        "zu"
+    ], 
+    "jobTitle": [
+        {
+            "value": "chercheur", 
+            "label": {
+                "fr": "chercheur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chercheurenseignant", 
+            "label": {
+                "fr": "chercheur enseignant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "enseignantchercheur", 
+            "label": {
+                "fr": "enseignant chercheur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "enseignant", 
+            "label": {
+                "fr": "enseignant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "appuiadministratif", 
+            "label": {
+                "fr": "appui administratif", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "appuitechnique", 
+            "label": {
+                "fr": "appui technique", 
+                "en": ""
+            }
+        }
+    ], 
+    "enum": [
+        {
+            "value": "value", 
+            "label": {
+                "fr": "label_fr", 
+                "en": "label_en"
+            }
+        }
+    ], 
+    "activityPeopleRoles": [
+        {
+            "value": "professor", 
+            "label": {
+                "fr": "professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "PI", 
+            "label": {
+                "fr": "responsable scientifique (PI)", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "participant", 
+            "label": {
+                "fr": "participant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doctorant(role)", 
+            "label": {
+                "fr": "doctorant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurdeth\u00e8se", 
+            "label": {
+                "fr": "directeur de th\u00e8se", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "membrecomit\u00e9suivi", 
+            "label": {
+                "fr": "membre comit\u00e9 suivi", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "membredujury", 
+            "label": {
+                "fr": "membre du jury", 
+                "en": ""
+            }
+        }
+    ], 
+    "gradeAcademic": [
+        {
+            "value": "assistantprofessor", 
+            "label": {
+                "fr": "Assistant professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "associateprofessor", 
+            "label": {
+                "fr": "Associate professor", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professeur", 
+            "label": {
+                "fr": "Professeur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "profuniv", 
+            "label": {
+                "fr": "Professeur des universit\u00e9s", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "profunivemerite", 
+            "label": {
+                "fr": "Professeur des universit\u00e9s \u00e9m\u00e9rite", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mconf", 
+            "label": {
+                "fr": "Ma\u00eetre de conf\u00e9rences", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chargederecherche", 
+            "label": {
+                "fr": "Charg\u00e9 de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurderecherche", 
+            "label": {
+                "fr": "Directeur de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurderechercheremerite", 
+            "label": {
+                "fr": "Directeur de recherche \u00e9m\u00e9rite", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "charg\u00e9d\u00e9tudes", 
+            "label": {
+                "fr": "Charg\u00e9 d'\u00e9tudes", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "postdoc", 
+            "label": {
+                "fr": "Postdoc", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chercheurcontractuel", 
+            "label": {
+                "fr": "Chercheur contractuel", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "invit\u00e9", 
+            "label": {
+                "fr": "Invit\u00e9", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doctorant(grade)", 
+            "label": {
+                "fr": "Doctorant", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "past", 
+            "label": {
+                "fr": "PAST", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "prag", 
+            "label": {
+                "fr": "PRAG", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ater", 
+            "label": {
+                "fr": "ATER", 
+                "en": ""
+            }
+        }
+    ], 
+    "nationalities": [
+        "AD", 
+        "AE", 
+        "AF", 
+        "AG", 
+        "AI", 
+        "AL", 
+        "AM", 
+        "AO", 
+        "AR", 
+        "AS", 
+        "AT", 
+        "AU", 
+        "AZ", 
+        "BA", 
+        "BB", 
+        "BD", 
+        "BE", 
+        "BF", 
+        "BG", 
+        "BH", 
+        "BI", 
+        "BJ", 
+        "BM", 
+        "BN", 
+        "BO", 
+        "BR", 
+        "BS", 
+        "BT", 
+        "BW", 
+        "BY", 
+        "BZ", 
+        "CA", 
+        "CD", 
+        "CF", 
+        "CG", 
+        "CH", 
+        "CI", 
+        "CL", 
+        "CM", 
+        "CN", 
+        "CO", 
+        "CR", 
+        "CU", 
+        "CV", 
+        "CZ", 
+        "DE", 
+        "DJ", 
+        "DK", 
+        "DM", 
+        "DO", 
+        "DZ", 
+        "EC", 
+        "EE", 
+        "EG", 
+        "EH", 
+        "ER", 
+        "ES", 
+        "ET", 
+        "FI", 
+        "FJ", 
+        "FK", 
+        "FM", 
+        "FO", 
+        "FR", 
+        "GA", 
+        "GB", 
+        "GD", 
+        "GE", 
+        "GG", 
+        "GH", 
+        "GI", 
+        "GL", 
+        "GM", 
+        "GN", 
+        "GQ", 
+        "GR", 
+        "GS", 
+        "GT", 
+        "GU", 
+        "GW", 
+        "GY", 
+        "HK", 
+        "HN", 
+        "HR", 
+        "HT", 
+        "HU", 
+        "ID", 
+        "IE", 
+        "IL", 
+        "IM", 
+        "IN", 
+        "IO", 
+        "IQ", 
+        "IR", 
+        "IS", 
+        "IT", 
+        "JE", 
+        "JM", 
+        "JO", 
+        "JP", 
+        "KE", 
+        "KG", 
+        "KH", 
+        "KI", 
+        "KM", 
+        "KN", 
+        "KP", 
+        "KR", 
+        "KW", 
+        "KY", 
+        "KZ", 
+        "LA", 
+        "LB", 
+        "LC", 
+        "LI", 
+        "LK", 
+        "LR", 
+        "LS", 
+        "LT", 
+        "LU", 
+        "LV", 
+        "LY", 
+        "MA", 
+        "MC", 
+        "MD", 
+        "ME", 
+        "MG", 
+        "MH", 
+        "MK", 
+        "ML", 
+        "MM", 
+        "MN", 
+        "MO", 
+        "MP", 
+        "MR", 
+        "MS", 
+        "MT", 
+        "MU", 
+        "MV", 
+        "MW", 
+        "MX", 
+        "MY", 
+        "MZ", 
+        "NA", 
+        "NE", 
+        "NG", 
+        "NI", 
+        "NL", 
+        "NO", 
+        "NP", 
+        "NR", 
+        "NZ", 
+        "OM", 
+        "PA", 
+        "PE", 
+        "PG", 
+        "PH", 
+        "PK", 
+        "PL", 
+        "PN", 
+        "PS", 
+        "PT", 
+        "PW", 
+        "PY", 
+        "QA", 
+        "RO", 
+        "RS", 
+        "RU", 
+        "RW", 
+        "SA", 
+        "SB", 
+        "SC", 
+        "SD", 
+        "SE", 
+        "SG", 
+        "SH", 
+        "SI", 
+        "SK", 
+        "SL", 
+        "SM", 
+        "SN", 
+        "SO", 
+        "SR", 
+        "SS", 
+        "ST", 
+        "SV", 
+        "SY", 
+        "SZ", 
+        "TC", 
+        "TD", 
+        "TG", 
+        "TH", 
+        "TJ", 
+        "TL", 
+        "TM", 
+        "TN", 
+        "TO", 
+        "TR", 
+        "TT", 
+        "TV", 
+        "TW", 
+        "TZ", 
+        "UA", 
+        "UG", 
+        "US", 
+        "UY", 
+        "UZ", 
+        "VA", 
+        "VC", 
+        "VE", 
+        "VG", 
+        "VN", 
+        "VU", 
+        "WS", 
+        "YE", 
+        "ZA", 
+        "ZM", 
+        "ZW"
+    ], 
+    "sectionCnu": [
+        {
+            "value": "cnu01", 
+            "label": {
+                "fr": "section 01 - Droit priv\u00e9 et sciences criminelles", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu02", 
+            "label": {
+                "fr": "section 02 - Droit public", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu03", 
+            "label": {
+                "fr": "section 03 - Histoire du droit et des institutions", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu04", 
+            "label": {
+                "fr": "section 04 - Science politique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu05", 
+            "label": {
+                "fr": "section 05 - Sciences \u00e9conomiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu06", 
+            "label": {
+                "fr": "section 06 - Sciences de gestion", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu17", 
+            "label": {
+                "fr": "section 17 - Philosophie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu19", 
+            "label": {
+                "fr": "section 19 - Sociologie, d\u00e9mographie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu20", 
+            "label": {
+                "fr": "section 20 - Ethnologie, pr\u00e9histoire, anthropologie biologique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu22", 
+            "label": {
+                "fr": "section 22 - Histoire et civilisations : histoire des mondes modernes, histoire du monde contemporain ; de l'art ; de la musique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu23", 
+            "label": {
+                "fr": "section 23 - G\u00e9ographie physique, humaine, \u00e9conomique et r\u00e9gionale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu24", 
+            "label": {
+                "fr": "section 24 - Am\u00e9nagement de l'espace, urbanisme", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cnu27", 
+            "label": {
+                "fr": "section 27 - Informatique", 
+                "en": ""
+            }
+        }
+    ], 
+    "distinctionTypes": [
+        {
+            "value": "dipl\u00f4me", 
+            "label": {
+                "fr": "dipl\u00f4me", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "doubledipl\u00f4me", 
+            "label": {
+                "fr": "double-dipl\u00f4me", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cotutelle", 
+            "label": {
+                "fr": "cotutelle", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "distinction", 
+            "label": {
+                "fr": "distinction", 
+                "en": ""
+            }
+        }
+    ], 
+    "iso4217": [
+        "AED", 
+        "AFN", 
+        "ALL", 
+        "AMD", 
+        "ANG", 
+        "AOA", 
+        "ARS", 
+        "AUD", 
+        "AWG", 
+        "AZN", 
+        "BAM", 
+        "BBD", 
+        "BDT", 
+        "BGN", 
+        "BHD", 
+        "BIF", 
+        "BMD", 
+        "BND", 
+        "BOB", 
+        "BOV", 
+        "BRL", 
+        "BSD", 
+        "BTN", 
+        "BWP", 
+        "BYN", 
+        "BZD", 
+        "CAD", 
+        "CDF", 
+        "CHF", 
+        "CLF", 
+        "CLP", 
+        "CNH", 
+        "CNY", 
+        "COP", 
+        "COU", 
+        "CRC", 
+        "CUC", 
+        "CUP", 
+        "CVE", 
+        "CZK", 
+        "DJF", 
+        "DKK", 
+        "DOP", 
+        "DZD", 
+        "EGP", 
+        "ERN", 
+        "ETB", 
+        "EUR", 
+        "FJD", 
+        "FKP", 
+        "GBP", 
+        "GEL", 
+        "GGP", 
+        "GHS", 
+        "GIP", 
+        "GMD", 
+        "GNF", 
+        "GTQ", 
+        "GYD", 
+        "HKD", 
+        "HNL", 
+        "HRK", 
+        "HTG", 
+        "HUF", 
+        "IDR", 
+        "ILS", 
+        "IMP", 
+        "INR", 
+        "IQD", 
+        "IRR", 
+        "ISK", 
+        "JEP", 
+        "JMD", 
+        "JOD", 
+        "JPY", 
+        "KES", 
+        "KGS", 
+        "KHR", 
+        "KMF", 
+        "KPW", 
+        "KRW", 
+        "KWD", 
+        "KYD", 
+        "KZT", 
+        "LAK", 
+        "LBP", 
+        "LKR", 
+        "LRD", 
+        "LSL", 
+        "LYD", 
+        "MAD", 
+        "MDL", 
+        "MGA", 
+        "MKD", 
+        "MMK", 
+        "MNT", 
+        "MRO", 
+        "MUR", 
+        "MVR", 
+        "MWK", 
+        "MXN", 
+        "MXV", 
+        "MYR", 
+        "MZN", 
+        "NAD", 
+        "NGN", 
+        "NIO", 
+        "NOK", 
+        "NPR", 
+        "NZD", 
+        "OMR", 
+        "PAB", 
+        "PEN", 
+        "PGK", 
+        "PHP", 
+        "PKR", 
+        "PLN", 
+        "PYG", 
+        "QAR", 
+        "RON", 
+        "RSD", 
+        "RUB", 
+        "RWF", 
+        "SAR", 
+        "SBD", 
+        "SCR", 
+        "SDG", 
+        "SEK", 
+        "SGD", 
+        "SHP", 
+        "SLL", 
+        "SOS", 
+        "SPL", 
+        "SRD", 
+        "STD", 
+        "SVC", 
+        "SYP", 
+        "SZL", 
+        "THB", 
+        "TJS", 
+        "TMT", 
+        "TND", 
+        "TOP", 
+        "TRY", 
+        "TTD", 
+        "TVD", 
+        "TWD", 
+        "TZS", 
+        "UAH", 
+        "UGX", 
+        "USD", 
+        "UYU", 
+        "UZS", 
+        "VEF", 
+        "VND", 
+        "VUV", 
+        "WST", 
+        "XAF", 
+        "XAG", 
+        "XAU", 
+        "XCD", 
+        "XDR", 
+        "XOF", 
+        "XPD", 
+        "XPF", 
+        "XPT", 
+        "YER", 
+        "ZAR", 
+        "ZMW", 
+        "ZWD"
+    ], 
+    "countries": [
+        "AF", 
+        "AX", 
+        "AL", 
+        "DZ", 
+        "AS", 
+        "AD", 
+        "AO", 
+        "AI", 
+        "AQ", 
+        "AG", 
+        "AR", 
+        "AM", 
+        "AW", 
+        "AU", 
+        "AT", 
+        "AZ", 
+        "BS", 
+        "BH", 
+        "BD", 
+        "BB", 
+        "BY", 
+        "BE", 
+        "BZ", 
+        "BJ", 
+        "BM", 
+        "BT", 
+        "BO", 
+        "BQ", 
+        "BA", 
+        "BW", 
+        "BV", 
+        "BR", 
+        "IO", 
+        "BN", 
+        "BG", 
+        "BF", 
+        "BI", 
+        "KH", 
+        "CM", 
+        "CA", 
+        "CV", 
+        "KY", 
+        "CF", 
+        "TD", 
+        "CL", 
+        "CN", 
+        "CX", 
+        "CC", 
+        "CO", 
+        "KM", 
+        "CG", 
+        "CD", 
+        "CK", 
+        "CR", 
+        "CI", 
+        "HR", 
+        "CU", 
+        "CW", 
+        "CY", 
+        "CZ", 
+        "DK", 
+        "DJ", 
+        "DM", 
+        "DO", 
+        "EC", 
+        "EG", 
+        "SV", 
+        "GQ", 
+        "ER", 
+        "EE", 
+        "ET", 
+        "FK", 
+        "FO", 
+        "FJ", 
+        "FI", 
+        "FR", 
+        "GF", 
+        "PF", 
+        "TF", 
+        "GA", 
+        "GM", 
+        "GE", 
+        "DE", 
+        "GH", 
+        "GI", 
+        "GR", 
+        "GL", 
+        "GD", 
+        "GP", 
+        "GU", 
+        "GT", 
+        "GG", 
+        "GN", 
+        "GW", 
+        "GY", 
+        "HT", 
+        "HM", 
+        "VA", 
+        "HN", 
+        "HK", 
+        "HU", 
+        "IS", 
+        "IN", 
+        "ID", 
+        "IR", 
+        "IQ", 
+        "IE", 
+        "IM", 
+        "IL", 
+        "IT", 
+        "JM", 
+        "JP", 
+        "JE", 
+        "JO", 
+        "KZ", 
+        "KE", 
+        "KI", 
+        "KP", 
+        "KR", 
+        "KW", 
+        "KG", 
+        "LA", 
+        "LV", 
+        "LB", 
+        "LS", 
+        "LR", 
+        "LY", 
+        "LI", 
+        "LT", 
+        "LU", 
+        "MO", 
+        "MK", 
+        "MG", 
+        "MW", 
+        "MY", 
+        "MV", 
+        "ML", 
+        "MT", 
+        "MH", 
+        "MQ", 
+        "MR", 
+        "MU", 
+        "YT", 
+        "MX", 
+        "FM", 
+        "MD", 
+        "MC", 
+        "MN", 
+        "ME", 
+        "MS", 
+        "MA", 
+        "MZ", 
+        "MM", 
+        "NA", 
+        "NR", 
+        "NP", 
+        "NL", 
+        "NC", 
+        "NZ", 
+        "NI", 
+        "NE", 
+        "NG", 
+        "NU", 
+        "NF", 
+        "MP", 
+        "NO", 
+        "OM", 
+        "PK", 
+        "PW", 
+        "PS", 
+        "PA", 
+        "PG", 
+        "PY", 
+        "PE", 
+        "PH", 
+        "PN", 
+        "PL", 
+        "PT", 
+        "PR", 
+        "QA", 
+        "RE", 
+        "RO", 
+        "RU", 
+        "RW", 
+        "BL", 
+        "SH", 
+        "KN", 
+        "LC", 
+        "MF", 
+        "PM", 
+        "VC", 
+        "WS", 
+        "SM", 
+        "ST", 
+        "SA", 
+        "SN", 
+        "RS", 
+        "SC", 
+        "SL", 
+        "SG", 
+        "SX", 
+        "SK", 
+        "SI", 
+        "SB", 
+        "SO", 
+        "ZA", 
+        "GS", 
+        "SS", 
+        "ES", 
+        "LK", 
+        "SD", 
+        "SR", 
+        "SJ", 
+        "SZ", 
+        "SE", 
+        "CH", 
+        "SY", 
+        "TW", 
+        "TJ", 
+        "TZ", 
+        "TH", 
+        "TL", 
+        "TG", 
+        "TK", 
+        "TO", 
+        "TT", 
+        "TN", 
+        "TR", 
+        "TM", 
+        "TC", 
+        "TV", 
+        "UG", 
+        "UA", 
+        "AE", 
+        "GB", 
+        "US", 
+        "UM", 
+        "UY", 
+        "UZ", 
+        "VU", 
+        "VE", 
+        "VN", 
+        "VG", 
+        "VI", 
+        "WF", 
+        "EH", 
+        "YE", 
+        "ZM", 
+        "ZW"
+    ], 
+    "researchThemes": [
+        {
+            "value": "scpo1", 
+            "label": {
+                "fr": "aires", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo2", 
+            "label": {
+                "fr": "analyse des march\u00e9s", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo3", 
+            "label": {
+                "fr": "criminalit\u00e9, d\u00e9linquance", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo4", 
+            "label": {
+                "fr": "culture, arts", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo5", 
+            "label": {
+                "fr": "d\u00e9mocratie, nations, nationalismes", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo6", 
+            "label": {
+                "fr": "\u00e9ducation, enseignement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo7", 
+            "label": {
+                "fr": "\u00e9lites", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo8", 
+            "label": {
+                "fr": "environnement, climat, \u00e9nergie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo9", 
+            "label": {
+                "fr": "Etat, administration, politiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo10", 
+            "label": {
+                "fr": "expertise et savoirs", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo11", 
+            "label": {
+                "fr": "finances", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo12", 
+            "label": {
+                "fr": "genre et sexualit\u00e9s", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo13", 
+            "label": {
+                "fr": "gouvernance globale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo14", 
+            "label": {
+                "fr": "in\u00e9galit\u00e9s et discriminations", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo15", 
+            "label": {
+                "fr": "int\u00e9gration europ\u00e9enne", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo16", 
+            "label": {
+                "fr": "m\u00e9dias et communication", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo17", 
+            "label": {
+                "fr": "m\u00e9moire, futurs", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo18", 
+            "label": {
+                "fr": "m\u00e9thodes", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo19", 
+            "label": {
+                "fr": "migrations, immigration", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo20", 
+            "label": {
+                "fr": "modes de vie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo21", 
+            "label": {
+                "fr": "num\u00e9rique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo22", 
+            "label": {
+                "fr": "participation, comportements politiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo23", 
+            "label": {
+                "fr": "ph\u00e9nom\u00e8nes juridiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo24", 
+            "label": {
+                "fr": "politiques et acteurs \u00e9conomiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo25", 
+            "label": {
+                "fr": "religion(s)", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo26", 
+            "label": {
+                "fr": "sant\u00e9, risques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo27", 
+            "label": {
+                "fr": "sciences et (bio)technologies", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo28", 
+            "label": {
+                "fr": "s\u00e9curit\u00e9, d\u00e9fense", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo29", 
+            "label": {
+                "fr": "social, travail", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo30", 
+            "label": {
+                "fr": "th\u00e9orie \u00e9conomique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo31", 
+            "label": {
+                "fr": "villes et territoires", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "scpo32", 
+            "label": {
+                "fr": "violence politique, guerre, conflits, pacification", 
+                "en": ""
+            }
+        }
+    ], 
+    "organizationStatuses": [
+        {
+            "value": "public", 
+            "label": {
+                "fr": "public", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "private", 
+            "label": {
+                "fr": "priv\u00e9", 
+                "en": ""
+            }
+        }
+    ], 
+    "erc": [
+        {
+            "value": "pe1", 
+            "label": {
+                "fr": "PE1 Mathematical foundations", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe2", 
+            "label": {
+                "fr": "PE2 Fundamental constituents of matter", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe3", 
+            "label": {
+                "fr": "PE3 Condensed matter physics", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe4", 
+            "label": {
+                "fr": "PE4 Physical and analytical chemical sciences", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe5", 
+            "label": {
+                "fr": "PE5 Materials and synthesis", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe6", 
+            "label": {
+                "fr": "PE6 Computer science and informatics", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe7", 
+            "label": {
+                "fr": "PE7 Systems and communication engineering", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe8", 
+            "label": {
+                "fr": "PE8 Products and processes engineering", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe9", 
+            "label": {
+                "fr": "PE9 Universe sciences", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "pe10", 
+            "label": {
+                "fr": "PE10 Earth system science", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh1", 
+            "label": {
+                "fr": "SH1 Individuals, institutions and markets : economics, finance and management", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh2", 
+            "label": {
+                "fr": "SH2 Institutions, values and beliefs and behaviour : sociology, social anthropology, political science, law, communication, social studies of science and technology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh3", 
+            "label": {
+                "fr": "SH3 Environment and society : environmental studies, demography, social geography, urban and regional studies", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh4", 
+            "label": {
+                "fr": "SH4 The Human Mind and its complexity : cognition, psychology, linguistics, philosophy and education", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh5", 
+            "label": {
+                "fr": "SH5 Cultures and cultural production : literature, visual and performing arts, music, cultural and comparative studies", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "sh6", 
+            "label": {
+                "fr": "SH6 The study of the human past : archaeology, history and memory", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls1", 
+            "label": {
+                "fr": "LS1 Molecular and Structural Biology and Biochemistry", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls2", 
+            "label": {
+                "fr": "LS2 Genetics, Genomics, Bioinformatics and Systems Biology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls3", 
+            "label": {
+                "fr": "LS3 Cellular and Developmental Biology, Physiology, Pathophysiology and Endocrinology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls4", 
+            "label": {
+                "fr": "LS4 Physiology, Pathophysiology and Endocrinology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls5", 
+            "label": {
+                "fr": "LS5 Neurosciences and neural disorders", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls6", 
+            "label": {
+                "fr": "LS6 Immunity and infection", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls7", 
+            "label": {
+                "fr": "LS7 Diagnostic tools, therapies and public health", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls8", 
+            "label": {
+                "fr": "LS8 Evolutionary, population and environmental biology", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ls9", 
+            "label": {
+                "fr": "LS9 Applied life sciences and biotechnology", 
+                "en": ""
+            }
+        }
+    ], 
+    "genders": [
+        {
+            "value": "m", 
+            "label": {
+                "fr": "Masculin", 
+                "en": "Male"
+            }
+        }, 
+        {
+            "value": "f", 
+            "label": {
+                "fr": "F\u00e9minin", 
+                "en": "Female"
+            }
+        }, 
+        {
+            "value": "o", 
+            "label": {
+                "fr": "Autre", 
+                "en": "Other"
+            }
+        }
+    ]
+}
