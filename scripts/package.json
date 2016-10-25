@@ -1,0 +1,33 @@
+{
+  "name": "isari-scripts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Collection of scripts for ISARI.",
+  "main": "index.js",
+  "scripts": {
+    "import:init": "node ./import/init.js",
+    "import:test": "node ./import/test.js",
+    "lint": "eslint *.js import"
+  },
+  "dependencies": {
+    "async": "^2.1.2",
+    "csv": "^1.1.0",
+    "yargs": "^6.3.0"
+  },
+  "author": {
+    "name": "Guillaume Plique",
+    "url": "http://github.com/Yomguithereal"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@yomguithereal/eslint-config": "^3.0.0",
+    "eslint": "^3.8.1",
+    "winston": "^2.2.0"
+  },
+  "eslintConfig": {
+    "extends": "@yomguithereal/eslint-config/es6",
+    "rules": {
+      "no-console": 0
+    }
+  }
+}
