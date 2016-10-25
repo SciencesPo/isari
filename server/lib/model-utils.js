@@ -49,6 +49,8 @@ function _applyTemplates (object, meta, depth) {
 
 	fields.forEach(f => result[f] = _applyTemplates(object[f], meta[f], depth - 1))
 
+	result._id = object._id
+
 	return result
 }
 
