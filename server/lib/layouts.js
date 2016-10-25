@@ -3,7 +3,7 @@
 const { getFrontSchema, RESERVED_FIELDS, FRONT_KEPT_FIELDS } = require('./schemas')
 const { readdirSync } = require('fs')
 const path = require('path')
-const { pick, merge, map, difference, isArray, isObject, isString, flatten } = require('lodash/fp')
+const { pick, merge, map, difference, isArray, isObject, isString, flatten, filter, identity, uniq } = require('lodash/fp')
 const util = require('util')
 
 
@@ -43,12 +43,25 @@ const _getLayout = (name, schema) => {
 	const rowsFields = flatten(rows.map(row => map('name', row.fields)))
 	const expectedFields = difference(Object.keys(schema), RESERVED_FIELDS)
 	const missingFields = difference(expectedFields, rowsFields)
-	const completeRows = rows.concat(missingFields.map(getRow(name, schema)))
-	// Remove ignored fields
-	const filteredRows = completeRows.map(row => Object.assign(row, {
-		fields: row.fields.filter(field => !field.ignored) // Remove ignored fields
-	})).filter(row => row.fields.length > 0) // Remove empty rows
-	return filteredRows
+	return rows.concat(missingFields.map(getRow(name, schema)))
+		// Ignored fields
+		.map(row => Object.assign(row, {
+			fields: row.fields.filter(field => !field.ignored) // Remove ignored fields
+		})).filter(row => row.fields.length > 0) // Remove empty rows
+		// Add missing labels
+		.map(row => {
+			if (row.label || !row.fields) {
+				return row
+			}
+			// Grab sub-labels
+			const labels = filter(identity, map('label', row.fields))
+			const langs = uniq(flatten(map(Object.keys, labels)))
+			row.label = langs.reduce((label, lang) => {
+				label[lang] = map(lang, labels).join(', ')
+				return label
+			}, {})
+			return row
+		})
 }
 
 const getRow = (name, schema) => row => {
