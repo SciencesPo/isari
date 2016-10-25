@@ -113,6 +113,10 @@
             },
             "accessMonitoring": "corporate",
             "organization": {
+                "label": {
+                    "fr": "Centre de recherche",
+                    "en": "Research unit"
+                },
                 "requirement": "mandatory",
                 "suggestions": "top_10",
                 "description": {
@@ -374,7 +378,7 @@
                 },
                 "type": "date"
             },
-            "template":"organizationDates",
+            "template":"organizationDates"
         }
     ],
     "ORCID": {
