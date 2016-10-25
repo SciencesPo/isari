@@ -17,24 +17,29 @@ module.exports = {
         path: 'default_organizations.csv',
         delimiter: ',',
         consumer(line) {
-          return {
+          const info = {
             name: line.name,
-            acronym: line.acronym || null,
             address: line.address,
             country: line.country,
             status: line.status,
             organizationTypes: [line.organizationType],
-            url: line.url || null,
             parentOrganizations: line.parent_organisations ?
               [line.parent_organisations] :
               []
           };
+
+          if (line.acronym)
+            info.acronym = line.acronym;
+          if (line.url)
+            info.url = line.url;
+
+          return line;
         },
         indexer(indexes, org) {
           if (org.acronym)
-            indexes[org.acronym] = org;
+            indexes.Organization[org.acronym] = org;
           if (org.name)
-            indexes[org.name] = org;
+            indexes.Organization[org.name] = org;
         }
       }
     ]

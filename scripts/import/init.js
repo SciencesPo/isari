@@ -160,7 +160,7 @@ const tasks = FILES.organizations.files.map(file => next => {
     });
 
     // Indexing
-    lines.forEach(file.indexer.bind(null, INDEXES.Organization));
+    lines.forEach(file.indexer.bind(null, INDEXES));
 
     next();
   });
