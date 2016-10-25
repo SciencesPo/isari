@@ -106,5 +106,26 @@ module.exports = {
         }
       }
     ]
+  },
+
+  /**
+   * People Files.
+   * ---------------------------------------------------------------------------
+   */
+  people: {
+    folder: 'people',
+    files: [
+
+      /**
+       * SIRH.csv
+       */
+
+      // TODO: years are still floats
+      {
+        name: 'sirh',
+        path: 'SIRH.csv',
+        delimiter: ','
+      }
+    ]
   }
 };
