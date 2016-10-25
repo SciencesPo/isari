@@ -9,10 +9,12 @@ const winston = require('winston'),
 
 const CONFIG = {
   levels: {
+    error: 0,
     info: 0,
     success: 0
   },
   colors: {
+    error: 'red',
     info: 'blue',
     success: 'green'
   }
@@ -32,7 +34,7 @@ class ConsoleTransport extends winston.Transport {
     const color = CONFIG.colors[lvl];
 
     console.log(
-      `${chalk[color]('[Import]')}: ${msg}`
+      `${chalk[color]('[•]')} ${msg}`
     );
   }
 }

@@ -29,12 +29,14 @@ module.exports = {
               [line.parent_organisations] :
               []
           };
+        },
+        indexer(indexes, org) {
+          if (org.acronym)
+            indexes[org.acronym] = org;
+          if (org.name)
+            indexes[org.name] = org;
         }
-      },
-      // {
-      //   name: 'researchUnits'
-      //   path: 'sciencespo_research_units.csv'
-      // }
+      }
     ]
   }
 };
