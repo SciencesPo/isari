@@ -139,7 +139,11 @@ const tasks = FILES.organizations.files.map(file => next => {
 
         // Dumping errors
         for (const key in errors) {
-          const error = errors[key];
+          let error = errors[key];
+
+          while (error.reason) {
+            error = error.reason;
+          }
 
           const meta = {
             line: i + 1,
