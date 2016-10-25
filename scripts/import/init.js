@@ -71,7 +71,7 @@ const INDEXES = {
 /**
  * State.
  */
-let HAS_ERRORS = false;
+let ERRORS = 0;
 
 /**
  * Helpers.
@@ -134,7 +134,7 @@ const tasks = FILES.organizations.files.map(file => next => {
       const validationError = (new Organization(line, false)).validateSync();
 
       if (validationError) {
-        HAS_ERRORS = true;
+        ERRORS++;
         const errors = validationError.errors;
 
         // Dumping errors
@@ -163,6 +163,8 @@ const tasks = FILES.organizations.files.map(file => next => {
     // Indexing
     lines.forEach(file.indexer.bind(null, INDEXES));
 
+    // TODO: log found entities
+
     next();
   });
 });
@@ -172,8 +174,11 @@ async.series(tasks, err => {
     throw err;
 
   console.log();
-  if (HAS_ERRORS)
+  if (ERRORS) {
+    log.error(`${ERRORS} total errors.`);
     log.error('Files were erroneous. Importation was not done. Please fix and import again.');
-  else
+  }
+  else {
     log.success('Done!')
+  }
 });
