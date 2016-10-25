@@ -2,7 +2,7 @@
 
 const { Router } = require('express')
 const { ServerError, ClientError, NotFoundError } = require('./errors')
-const { identity, set, map, compose } = require('lodash/fp')
+const { identity, set, map, compose, pick } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 
@@ -43,7 +43,7 @@ exports.restRouter = (Model, format = identity, esIndex = null) => {
 		router.get('/search', restHandler(searchModel(esIndex, map(compose(format, Model)))))
 	}
 
-	router.get('/', restHandler(listModel(Model, map(format))))
+	router.get('/', restHandler(listModel(Model, format)))
 	router.get('/:id', restHandler(getModel(Model, format)))
 	router.put('/:id', restHandler(updateModel(Model, save)))
 	router.post('/', restHandler(createModel(Model, save)))
@@ -52,8 +52,14 @@ exports.restRouter = (Model, format = identity, esIndex = null) => {
 	return router
 }
 
-const listModel = (Model, formatAll) => () =>
-	Model.find().then(formatAll)
+const listModel = (Model, format) => req => {
+	const selectFields = req.query.fields ? pick(req.query.fields.split(',')) : identity
+	// Note: we don't apply field selection directly in query as some fields may be not asked, but
+	// required for some other fields' templates to be correctly calculated
+	return Model.find().then(peoples => Promise.all(peoples.map(people =>
+		people.populateAll().then(p => req.query.applyTemplates ? p.applyTemplates() : p).then(format).then(selectFields)
+	)))
+}
 
 const getModel = (Model, format) => req =>
 	Model.findById(req.params.id)
