@@ -38,9 +38,9 @@ module.exports = {
         },
         indexer(indexes, org) {
           if (org.acronym)
-            indexes.Organization[org.acronym] = org;
+            indexes.acronym[org.acronym] = org;
           if (org.name)
-            indexes.Organization[org.name] = org;
+            indexes.name[org.name] = org;
         }
       },
 
@@ -90,8 +90,11 @@ module.exports = {
 
           return info;
         },
-        indexer() {
-
+        indexer(indexes, org) {
+          if (org.acronym)
+            indexes.acronym[org.acronym] = org;
+          if (org.name)
+            indexes.name[org.name] = org;
         }
       }
     ]

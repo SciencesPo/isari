@@ -170,7 +170,7 @@ const tasks = FILES.organizations.files.map(file => next => {
     });
 
     // Indexing
-    lines.forEach(file.indexer.bind(null, INDEXES));
+    lines.forEach(file.indexer.bind(null, INDEXES.Organization));
 
     // TODO: log found entities
 
