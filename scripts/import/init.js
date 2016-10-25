@@ -134,7 +134,6 @@ const tasks = FILES.organizations.files.map(file => next => {
       const validationError = (new Organization(line, false)).validateSync();
 
       if (validationError) {
-        ERRORS++;
         const errors = validationError.errors;
 
         // Dumping errors
@@ -144,6 +143,12 @@ const tasks = FILES.organizations.files.map(file => next => {
           while (error.reason) {
             error = error.reason;
           }
+
+          // Don't display ObjectId errors for we will solve the relations later
+          if (error.kind === 'ObjectId')
+            return;
+
+          ERRORS++;
 
           const meta = {
             line: i + 1,
