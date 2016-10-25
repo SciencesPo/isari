@@ -7,23 +7,18 @@ import { Observable } from 'rxjs/Rx';
   styleUrls: ['data-table.component.css']
 })
 export class DataTableComponent implements OnInit {
+  page: any[];
 
-  @Input('data') dataObs: Observable<any>;
-
-  @Output() change = new EventEmitter();
-
-  data: Array<any>;
+  @Input() data: any[];
+  @Input() cols: any[];
 
   constructor() { }
 
   ngOnInit() {
-    this.dataObs.subscribe(
-      data => { this.data = data; }
-    );
   }
 
-  filter () {
-    this.change.emit({ filter: 'yeah!' });
+  pageChanged($event) {
+    this.page = this.data.slice(($event.page - 1) * $event.itemPerPage, $event.page * $event.itemPerPage);
   }
 
 }

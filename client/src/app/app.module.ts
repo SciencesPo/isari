@@ -23,6 +23,7 @@ import { DisabledDirective } from './fields/disabled.directive';
 import { IsariInputComponent } from './fields/isari-input/isari-input.component';
 import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
 import { IsariDateComponent } from './fields/isari-date/isari-date.component';
+import { IsariPaginationComponent } from './data-table/isari-pagination/isari-pagination.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { IsariDateComponent } from './fields/isari-date/isari-date.component';
     DisabledDirective,
     IsariInputComponent,
     IsariSelectComponent,
-    IsariDateComponent
+    IsariDateComponent,
+    IsariPaginationComponent
   ],
   imports: [
     BrowserModule,

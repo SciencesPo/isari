@@ -1,0 +1,21 @@
+ul {
+  float: right;
+}
+
+ul li {
+  display: inline-block;
+  border-radius: 2px;
+  text-align: center;
+  vertical-align: top;
+  height: 30px;
+}
+
+ul li a {
+  min-width: 0;
+  padding: 0 12px;
+}
+
+ul li a md-icon {
+  font-size: 24px;
+  line-height: 36px;
+}
