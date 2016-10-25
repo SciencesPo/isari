@@ -36,6 +36,8 @@ class ConsoleTransport extends winston.Transport {
     console.log(
       `${chalk[color]('[•]')} ${msg}`
     );
+
+    return callback();
   }
 }
 

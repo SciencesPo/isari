@@ -4,6 +4,8 @@
  *
  * Defining the various files to import as well as their line consumers.
  */
+const moment = require('moment');
+
 module.exports = {
 
   /**
@@ -22,16 +24,15 @@ module.exports = {
             address: line.address,
             country: line.country,
             status: line.status,
-            organizationTypes: [line.organizationType],
-            parentOrganizations: line.parent_organisations ?
-              [line.parent_organisations] :
-              []
+            organizationTypes: [line.organizationType]
           };
 
           if (line.acronym)
             info.acronym = line.acronym;
           if (line.url)
             info.url = line.url;
+          if (line.parent_organisations)
+            line.parentOrganizations = [line.parent_organisations];
 
           return info;
         },
@@ -43,39 +44,56 @@ module.exports = {
         }
       },
 
-      // {
-      //   name: 'research_units',
-      //   path: 'sciencespo_research_units.csv',
-      //   delimiter: ',',
-      //   consumer(line) {
+      {
+        name: 'research_units',
+        path: 'sciencespo_research_units.csv',
+        delimiter: ',',
+        consumer(line) {
 
-      //     // TODO: what if no research unit code?
-      //     // TODO: this is no JSON
-      //     let researchUnitCodes = [];
+          // TODO: what to do with English name?
 
-      //     if (line.researchunit_codes) {
-      //       researchUnitCodes = JSON.parse(line.researchunit_codes);
-      //     }
+          let researchUnitCodes = [];
 
-      //     researchUnitCodes.forEach(item => {
-      //       item.start_date = item.startDate;
-      //       delete item.start_date;
-      //     });
+          if (line.researchUnitCodes) {
+            researchUnitCodes = JSON.parse(line.researchUnitCodes);
+          }
 
-      //     const info = {
-      //       researchUnitCodes,
-      //       name: line.name
-      //     };
+          // Normalizing dates
+          researchUnitCodes.forEach(item => {
+            item.startDate = moment(item.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            if (item.endDate)
+              item.endDate = moment(item.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+          });
 
-      //     if (line.acronym)
-      //       info.acronym = line.acronym;
+          const info = {
+            researchUnitCodes,
+            name: line.name,
+            address: line.address,
+            url: line.url,
+            status: line.status
+          };
 
-      //     return info;
-      //   },
-      //   indexer() {
+          if (line.acronym)
+            info.acronym = line.acronym;
 
-      //   }
-      // }
+          if (line.idRnsr)
+            info.idRnsr = line.idRnsr;
+
+          if (line.parentOrganizations)
+            info.parentOrganizations = line.parentOrganizations.split(',');
+
+          if (line.idScopus)
+            info.idScopus = line.idScopus;
+
+          if (line.organizationTypes)
+            info.organizationTypes = line.organizationTypes.split(',');
+
+          return info;
+        },
+        indexer() {
+
+        }
+      }
     ]
   }
 };

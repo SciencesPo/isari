@@ -12,11 +12,11 @@ const async = require('async'),
       path = require('path'),
       yargs = require('yargs'),
       mongoose = require('../../server/node_modules/mongoose'),
-      inspect = require('util').inspect
+      inspect = require('util').inspect,
       chalk = require('chalk');
 
 const FILES = require('./files'),
-      clean = require('./clean');
+      clean = require('./clean'),
       helpers = require('./helpers'),
       log = require('./logger')();
 
@@ -180,7 +180,7 @@ const tasks = FILES.organizations.files.map(file => next => {
 
 async.series(tasks, err => {
   if (err)
-    throw err;
+    return console.error(err);
 
   console.log();
   if (ERRORS) {
@@ -188,6 +188,6 @@ async.series(tasks, err => {
     log.error('Files were erroneous. Importation was not done. Please fix and import again.');
   }
   else {
-    log.success('Done!')
+    log.success('Done!');
   }
 });
