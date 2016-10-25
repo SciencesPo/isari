@@ -43,7 +43,7 @@ function _applyTemplates (object, meta, depth) {
 
 	// Depth: generate string representations for fields
 	let result = {
-		_string: string
+		// _string: string // TODO maybe include self-representation too?
 	}
 	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f))
 
