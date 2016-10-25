@@ -10,6 +10,7 @@
     "test-server": "cd server && npm test",
     "postinstall": "npm-run-all install-*",
     "install-client": "cd client && npm install",
+    "install-scripts": "cd scripts && npm install",
     "install-server": "cd server && npm install"
   },
   "author": "Philippe Hubert",
@@ -22,10 +23,10 @@
   "license": "AGPL-3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/8ctambules/isari.git"
+    "url": "git+https://github.com/SciencesPo/isari.git"
   },
   "bugs": {
-    "url": "https://github.com/8ctambules/isari/issues"
+    "url": "https://github.com/SciencesPo/isari/issues"
   },
-  "homepage": "https://github.com/8ctambules/isari#readme"
+  "homepage": "https://github.com/SciencesPo/isari#readme"
 }
