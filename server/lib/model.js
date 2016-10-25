@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose')
 const { getMongooseSchema } = require('./schemas')
+const { populateAll, applyTemplates } = require('./model-utils')
 const config = require('config')
 const { EditLog, middleware: editLogMiddleware } = require('./edit-logs')
 
@@ -31,6 +32,14 @@ function model (modelName, collectionName) {
 
 	schema.static('removeById', function (id) {
 		return this.remove({ _id: id })
+	})
+
+	schema.method('populateAll', function () {
+		return populateAll(this, modelName)
+	})
+
+	schema.method('applyTemplates', function (depth = 1) {
+		return applyTemplates(this, modelName, depth)
 	})
 
 	return mongoose.model(modelName, schema)

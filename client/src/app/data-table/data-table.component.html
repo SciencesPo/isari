@@ -1,4 +1,22 @@
-<pre>
-  {{ data }}
-</pre>
-<button (click)="filter()">Filtre</button>
+<md-card-content>
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th *ngFor="let col of cols">{{ col.label }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of page">
+        <td *ngFor="let col of cols">{{ row[col.key] || '' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <isari-pagination
+    [totalItems]="data.length"
+    [itemsPerPage]="5"
+    [currentPage]="1"
+    (onPageChange)="pageChanged($event)"></isari-pagination>
+
+</md-card-content>
