@@ -33,7 +33,7 @@ module.exports = {
           if (line.url)
             info.url = line.url;
 
-          return line;
+          return info;
         },
         indexer(indexes, org) {
           if (org.acronym)
@@ -41,7 +41,41 @@ module.exports = {
           if (org.name)
             indexes.Organization[org.name] = org;
         }
-      }
+      },
+
+      // {
+      //   name: 'research_units',
+      //   path: 'sciencespo_research_units.csv',
+      //   delimiter: ',',
+      //   consumer(line) {
+
+      //     // TODO: what if no research unit code?
+      //     // TODO: this is no JSON
+      //     let researchUnitCodes = [];
+
+      //     if (line.researchunit_codes) {
+      //       researchUnitCodes = JSON.parse(line.researchunit_codes);
+      //     }
+
+      //     researchUnitCodes.forEach(item => {
+      //       item.start_date = item.startDate;
+      //       delete item.start_date;
+      //     });
+
+      //     const info = {
+      //       researchUnitCodes,
+      //       name: line.name
+      //     };
+
+      //     if (line.acronym)
+      //       info.acronym = line.acronym;
+
+      //     return info;
+      //   },
+      //   indexer() {
+
+      //   }
+      // }
     ]
   }
 };

@@ -104,6 +104,7 @@ const tasks = FILES.organizations.files.map(file => next => {
     file.path
   );
 
+  console.log();
   log.info(`Reading ${filePath}`);
 
   const options = {
