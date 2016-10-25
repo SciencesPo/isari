@@ -9,11 +9,16 @@ const moment = require('moment');
 module.exports = {
 
   /**
-   * Organization files.
+   * Organization Files.
+   * ---------------------------------------------------------------------------
    */
   organizations: {
     folder: 'organizations',
     files: [
+
+      /**
+       * default_organizations.csv
+       */
       {
         name: 'default',
         path: 'default_organizations.csv',
@@ -44,6 +49,9 @@ module.exports = {
         }
       },
 
+      /**
+       * sciencespo_research_units.csv
+       */
       {
         name: 'research_units',
         path: 'sciencespo_research_units.csv',
