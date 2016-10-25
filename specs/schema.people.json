@@ -37,6 +37,7 @@
         },
         "accessMonitoring": "corporate"
     },
+    "template":"peopleName",
     "birthName": {
         "label": {
             "fr": "Nom de naissance",
@@ -136,6 +137,7 @@
                 },
                 "type": "date"
             },
+            "template":"organizationDates",
             "jobName": {
                 "label": {
                     "fr": "Emploi personnalisé",
@@ -168,6 +170,36 @@
                 },
                 "enum": "jobTitle"
             },
+            "gradeSirh": [
+                {
+                    "accessType": "confidential",
+                    "label": {
+                        "fr": "grade DRH Sciences Po",
+                        "en": "Sciences Po HR grade"
+                    },
+                    "grade": {
+                        "requirement": "mandatory",
+                        "label": {
+                            "fr": "Grade",
+                            "en": "Grade"
+                        }
+                    },
+                    "startDate": {
+                        "label": {
+                            "fr": "Date de début",
+                            "en": "Start date"
+                        },
+                        "type": "date"
+                    },
+                    "endDate": {
+                        "label": {
+                            "fr": "Date de fin",
+                            "en": "End date"
+                        },
+                        "type": "date"
+                    }
+                }
+            ],
             "gradesAcademic": [
                 {
                     "label": {
@@ -188,7 +220,6 @@
                         "enum": "gradeAcademic"
                     },
                     "startDate": {
-                        "requirement": "mandatory",
                         "label": {
                             "fr": "Date de début",
                             "en": "Start date"
@@ -224,7 +255,6 @@
                         "enum": "gradeAdmin"
                     },
                     "startDate": {
-                        "requirement": "mandatory",
                         "label": {
                             "fr": "Date de début",
                             "en": "Start date"
@@ -305,6 +335,7 @@
                 },
                 "type": "date"
             },
+            "template":"organizationDates",
             "membershipType": {
                 "label": {
                     "fr": "Type d'affiliation",
@@ -342,7 +373,8 @@
                     "en": "End date"
                 },
                 "type": "date"
-            }
+            },
+            "template":"organizationDates",
         }
     ],
     "ORCID": {
@@ -476,6 +508,7 @@
                 },
                 "type": "date"
             },
+            "template":"personalActivity",
             "role": {
                 "label": {
                     "fr": "Rôle",
@@ -515,6 +548,14 @@
                 "fr": "Diplômes et distinctions",
                 "en": "Diplomas and awards"
             },
+            "title": {
+                "label": {
+                    "fr": "Titre",
+                    "en": "Title"
+                },
+                "requirement": "mandatory"
+            },
+            "template":"distinction",
             "organizations": [
                 {
                     "label": {
@@ -530,13 +571,6 @@
                     "en": "Date"
                 },
                 "type": "date"
-            },
-            "title": {
-                "label": {
-                    "fr": "Titre",
-                    "en": "Title"
-                },
-                "requirement": "mandatory"
             },
             "countries": [
                 {

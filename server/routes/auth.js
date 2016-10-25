@@ -6,7 +6,9 @@ const bodyParser = require('body-parser')
 const router = module.exports = Router()
 
 router.use(bodyParser.json())
-router.use(bodyParser.urlencoded())
+router.use(bodyParser.urlencoded({
+	extended: true
+}))
 
 router.post('/login', (req, res) => {
 	req.session.user = 'ok'

@@ -51,6 +51,7 @@ mongodb version >3.2 pour $lookup aggregate function
     "langCode": "label for this language",
     "…": "…"
   },
+  "template": "name of template function in templates.js",
   "requirement": "'mandatory' or 'recommended'",
   "accessMonitoring": "this field has special focus for logs analysis",
   "suggestions": "What type of autocomplete?",

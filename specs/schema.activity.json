@@ -6,12 +6,12 @@
             "en": "Name"
         }
     },
+    "template":"name",
     "activityType": {
         "label": {
             "fr": "Type d'activité",
             "en": "Activity type"
         },
-        "requirement": "mandatory",
         "enum": "activityTypes"
     },
     "startDate": {
@@ -61,7 +61,8 @@
                     "en": "End date"
                 },
                 "type": "date"
-            }
+            },
+            "template":"organizationDates"
         }
     ],
     "people": [
@@ -70,6 +71,7 @@
                 "fr": "Personnes impliquées",
                 "en": "Collaborators"
             },
+            "template": "peopleDates",
             "people": {
                 "label": {
                     "fr": "participant",
@@ -218,6 +220,7 @@
                 },
                 "ref": "Organization"
             },
+            "template":"organizationDates",
             "name": {
                 "label": {
                     "fr": "Nom",

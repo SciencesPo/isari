@@ -22,6 +22,7 @@ const RESERVED_FIELDS = [
 	'comment',
 	'service',
 	'softenum',
+	'template',
 	// Schema fields
 	'type',
 	'enum',
@@ -30,6 +31,8 @@ const RESERVED_FIELDS = [
 	'default',
 	'min',
 	'max',
+	// Additional generated technical fields
+	'multiple'
 ]
 
 const FRONT_KEPT_FIELDS = [
@@ -43,7 +46,8 @@ const FRONT_KEPT_FIELDS = [
 	'default',
 	'min',
 	'max',
-	'regex'
+	'regex',
+	'multiple'
 ]
 
 module.exports = {
