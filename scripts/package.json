@@ -5,6 +5,7 @@
   "description": "Collection of scripts for ISARI.",
   "main": "index.js",
   "scripts": {
+    "import:init": "node ./import/init.js",
     "import:test": "node ./import/test.js",
     "lint": "eslint *.js import"
   },

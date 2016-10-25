@@ -9,6 +9,7 @@ const path = require('path'),
       async = require('async'),
       mongoose = require('../../server/node_modules/mongoose');
 
+// Altering the NODE_CONFIG_DIR env variable so that `config` can resolve
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
 
 const helpers = require('./helpers');

@@ -10,10 +10,35 @@ const async = require('async'),
       csv = require('csv'),
       fs = require('fs'),
       path = require('path'),
-      yargs = require('yargs');
+      yargs = require('yargs'),
+      mongoose = require('../../server/node_modules/mongoose');
 
 const FILES = require('./files'),
       clean = require('./clean');
+      helpers = require('./helpers');
+
+// Altering the NODE_CONFIG_DIR env variable so that `config` can resolve
+process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
+
+const {
+  connect,
+  People,
+  Organization,
+  Activity
+} = require('../../server/lib/model');
+
+// Creating relations iteration helpers
+const relations = {
+  Organization: helpers.processRelations.bind(null,
+    helpers.findRelations(Organization.schema)
+  ),
+  People: helpers.processRelations.bind(null,
+    helpers.findRelations(People.schema)
+  ),
+  Activity: helpers.processRelations.bind(null,
+    helpers.findRelations(Activity.schema)
+  )
+};
 
 /**
  * Reading command line.
@@ -26,6 +51,13 @@ const argv = yargs
   })
   .help()
   .argv;
+
+/**
+ * Indexes.
+ */
+const INDEXES = {
+  Organization: {}
+};
 
 /**
  * Helpers.
