@@ -76,13 +76,7 @@ function getMongooseSchema (name) {
 		throw Error(`${name}: Unknonwn schema`)
 	}
 
-	// Root description: every key is a field description here
-	return cache[name] = Object.keys(meta).reduce(
-		(schema, field) => Object.assign(schema, {
-			[field]: getField(`${name}.${field}`, meta[field], meta)
-		}),
-		{}
-	)
+	return cache[name] = getField(name, meta, meta)
 }
 
 // Get schema for a field or sub-field…
