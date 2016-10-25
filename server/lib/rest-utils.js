@@ -40,7 +40,7 @@ exports.restRouter = (Model, format = identity, esIndex = null) => {
 	router.use(bodyParser.json())
 
 	if (esIndex) {
-		router.get('/search', restHandler(searchModel(esIndex, map(compose(format, Model)))))
+		router.get('/search', restHandler(searchModel(esIndex, Model, format)))
 	}
 
 	router.get('/', restHandler(listModel(Model, format)))
@@ -114,13 +114,17 @@ const deleteModel = Model => (req, res) =>
 		return null
 	})
 
-const searchModel = (esIndex, formatAll) => req => {
+const searchModel = (esIndex, Model, format) => req => {
 	const query = req.query.q
 	const fields = req.query.fields ? req.query.fields.split(',') : undefined
+	const full = Boolean(Number(req.query.full))
 
 	if (!query) {
 		throw new ClientError({ title: 'Missing query string (field "q")' })
 	}
 
-	return es.q(esIndex, { query, fields }).then(formatAll)
+	return es.q(esIndex, { query, fields }).then(map(Model)).then(map(o => full
+		? format(o)
+		: { value: o.id, label: o.applyTemplates(0) }
+	))
 }
