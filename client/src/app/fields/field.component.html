@@ -20,6 +20,7 @@
     <isari-select *ngSwitchCase="'select'"
       (onUpdate)="update($event)"
       [src]="field.src"
+      [stringValue]="field.stringValue"
       [extensible]="!!field.softenum"
       [name]="field.name"
       [label]="field.label"

@@ -4,7 +4,9 @@ export class InMemoryDataService implements InMemoryDbService {
 
     let people = [
       { id: 1, opts: { editable: true }, firstname: 'John', name: 'Doe', gender: 'm', birthdate: '1978-8',
-        tag: [{bla: 'un' }, {bla: 'deux'}]},
+        tag: [{bla: 'un' }, {bla: 'deux'}],
+        friend: 2
+      },
       { id: 2, opts: { editable: false }, firstname: 'Kyle', name: 'Dixon', gender: 'f' },
       { id: 3, opts: { editable: true }, firstname: 'Michael', name: 'Stein', composed: { subField: 'test sous champ' } }
     ];
@@ -36,7 +38,7 @@ export class InMemoryDataService implements InMemoryDbService {
             label: { fr: 'Genre, Date de naissance', en: 'Gender, Birthdate' },
             fields: [
               { name: 'gender', 'requirement': 'recommended', 'label': { 'fr': 'Genre', 'en': 'Gender' }, 'enum': 'genders' },
-              {name: 'birthdate', 'requirement': 'recommended', 'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' }, 'type': 'date' }
+              { name: 'birthdate', 'requirement': 'recommended', 'label': { 'fr': 'Date de naissance', 'en': 'Birthdate' }, 'type': 'date' }
             ]
           },
           {
@@ -51,7 +53,8 @@ export class InMemoryDataService implements InMemoryDbService {
                     label: {fr: 'sous', en: 'sub' },
                     fields: [
                       { 'name': 'subField', 'label': { 'fr': 'sous', 'en': 'sub' } },
-                      { name: 'xgender', 'requirement': 'recommended', 'label': { 'fr': 'Genre', 'en': 'Gender' }, 'softenum': 'genders' }
+                      { name: 'xgender', 'label': { 'fr': 'Genre', 'en': 'Gender' }, 'softenum': 'genders' },
+                      { name: 'friend', label: { fr: 'ami', en: 'friend' }, ref: 'people' }
                     ]
                   }
                 ]
@@ -67,7 +70,13 @@ export class InMemoryDataService implements InMemoryDbService {
                 multiple: true,
                 type: 'object',
                 layout: [
-                  { label: { fr: 'tag', en: 'tag' }, fields: [{ 'name': 'bla', label: { 'fr': 'bla', 'en': 'bla' } }] }
+                  {
+                    label: { fr: 'tag', en: 'tag' },
+                    fields: [
+                      { 'name': 'bla', label: { 'fr': 'bla', 'en': 'bla' } },
+                      { 'name': 'ygender', label: { 'fr': 'ygender', 'en': 'ygender' }, enum: 'genders' }
+                    ]
+                  }
                 ]
               }
             ]

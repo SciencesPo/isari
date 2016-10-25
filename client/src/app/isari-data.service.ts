@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/combineLatest';
 
 @Injectable()
 export class IsariDataService {
@@ -10,14 +14,14 @@ export class IsariDataService {
   // private layoutUrl = 'http://localhost:8080/layouts';
   // private enumUrl = 'http://localhost:8080/enums';
 
-  private dataUrl = 'api/people';
+  private dataUrl = 'api';
   private layoutUrl = 'api/layouts';
   private enumUrl = 'api/enums';
 
   constructor(private http: Http, private fb: FormBuilder) { }
 
-  getPeople (id: string) {
-    const url = `${this.dataUrl}/${id}`;
+  getPeople(id: string) {
+    const url = `${this.dataUrl}/people/${id}`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data)
@@ -25,11 +29,11 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  getData (feature: string, id: string) {
+  getData(feature: string, id: string) {
     return this['get' + feature.charAt(0).toUpperCase() + feature.slice(1).toLowerCase()](id);
   }
 
-  getLayout (feature: string) {
+  getLayout(feature: string) {
     const url = `${this.layoutUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
@@ -38,17 +42,52 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  getEnum (en: string) {
-    // cas non gérés pour le moment
-    if (en === 'KEYS(personalActivityTypes)' || en === 'personalActivityTypes.$personalActivityType') {
-      return Promise.resolve([]);
-    }
-    const url = `${this.enumUrl}/${en}`;
+  srcEnumBuilder(src: string) {
+    const enum$ = this.getEnum(src);
+    return function(terms$: Observable<string>, max) {
+      return terms$
+        .startWith('')
+        .distinctUntilChanged()
+        .combineLatest(enum$)
+        .map(([term, values]) => {
+          term = this.normalize(term.toLowerCase());
+          return (term
+            ? values.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(term) !== -1)
+            : values)
+            .slice(0, max);
+        });
+    }.bind(this);
+  }
+
+  getEnumLabel(src: string, value: string, lang: string) {
+    return this.getEnum(src)
+      .map(values => {
+        const found = values.find(entry => entry.value === value);
+        return found ? found.label[lang] : '';
+      });
+  }
+
+  srcForeignBuilder(src: string) {
+    return function(terms$: Observable<string>, max) {
+      return terms$
+        .startWith('')
+        .debounceTime(400) // pass as parameter ?
+        .distinctUntilChanged()
+        .switchMap(term => this.rawSearch(src, term));
+    }.bind(this);
+  }
+
+  getForeignLabel(src: string, value: string) {
+    return Observable.of('John');
+  }
+
+  rawSearch(feature: string, query: string) {
+    const url = `${this.dataUrl}/${feature}`;
+    // @TODO complete with var search = new URLSearchParams() && search.set('query', query);
     return this.http.get(url)
-      .toPromise()
-      .then(response => response.json().data.enum)
-      // .then(response => response.json())
-      .catch(this.handleError);
+      .map(response => response.json().data)
+      .map(items => items.map(item => ({ id: item.id, stringValue: item.name }))); // useless with api server
+      // .map(response => response.json())
   }
 
   buildForm(layout, data): FormGroup {
@@ -104,11 +143,11 @@ export class IsariDataService {
     });
   }
 
-  getControlType (field): string {
+  getControlType(field): string {
     if (field.type) {
       return field.type;
     }
-    if (field.enum || field.softenum) {
+    if (field.enum || field.softenum || field.ref) {
       return 'select';
     }
     return  'input';
@@ -124,6 +163,21 @@ export class IsariDataService {
       return [Validators.required];
     }
     return null;
+  }
+
+  private normalize(str: string): string {
+    return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
+  }
+
+  private getEnum(src: string) {
+    // // cas non gérés pour le moment
+    // if (en === 'KEYS(personalActivityTypes)' || en === 'personalActivityTypes.$personalActivityType') {
+    //   return Promise.resolve([]);
+    // }
+    const url = `${this.enumUrl}/${src}`;
+    return this.http.get(url)
+      .map(response => response.json().data.enum);
+      // .map(response => response.json());
   }
 
 }

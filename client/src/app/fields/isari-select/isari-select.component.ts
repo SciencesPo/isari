@@ -1,12 +1,11 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+
 const UP_ARROW = 38;
 const DOWN_ARROW = 40;
-const RIGHT_ARROW = 39;
-const LEFT_ARROW = 37;
 const ENTER = 13;
-const TAB = 9;
 
 @Component({
   selector: 'isari-select',
@@ -19,8 +18,9 @@ export class IsariSelectComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() label: string;
   @Output() onUpdate = new EventEmitter<any>();
-  @Input() src: Promise<any>;
+  @Input() src: Function;
   @Input() extensible = false;
+  @Input() stringValue: Observable<string>;
 
   max: number = 20;
   values: any[] = [];
@@ -39,26 +39,16 @@ export class IsariSelectComponent implements OnInit {
       disabled: this.form.controls[this.name].disabled
     });
 
-    this.src.then()
-      .then(values => {
-        this.allValues = values;
-        this.values = this.findValues();
-
-        this.setDisplayValue();
-
-        this.selectControl.valueChanges
-          .subscribe((value: string) => {
-            if (this.form.controls[this.name].value !== this.findValue(value)) {
-              this.values = this.findValues(value);
-              if (this.extensible && this.values.length === 0) {
-                this.extend = true;
-              } else {
-                this.extend = false;
-              }
-            }
-          });
-
+    this.src(this.selectControl.valueChanges, this.max)
+      .subscribe(values => {
+        this.values = values;
+        this.setExtend();
       });
+
+    this.stringValue.subscribe(stringValue => {
+      this.selectControl.setValue(stringValue);
+    });
+
   }
 
   onFocus($event) {
@@ -71,9 +61,13 @@ export class IsariSelectComponent implements OnInit {
 
   onSelect(idx: number) {
     this.currentIndex = idx;
-    this.form.controls[this.name].setValue(this.values[this.currentIndex].value);
+
+    this.form.controls[this.name].setValue(this.values[this.currentIndex].id || this.values[this.currentIndex].value);
     this.form.controls[this.name].markAsDirty();
-    this.setDisplayValue();
+
+    this.selectControl.setValue(this.values[this.currentIndex].stringValue || this.values[this.currentIndex].label.fr);
+    this.selectControl.markAsDirty();
+
     this.update({});
   }
 
@@ -95,29 +89,15 @@ export class IsariSelectComponent implements OnInit {
 
   update($event) {
     this.onUpdate.emit($event);
-    this.values = this.findValues(); // reset values displayed (for reopening)
+    // this.values = this.findValues(); // reset values displayed (for reopening)
   }
 
-  private setDisplayValue () {
-    const found = this.allValues.find(entry => entry.value === this.form.controls[this.name].value);
-    this.selectControl.setValue(found ? found.label.fr : '');
-    this.selectControl.markAsDirty();
-  }
-
-  private findValue(label: string): string {
-    const item = this.allValues.find(entry => entry.label.fr === label);
-    return item ? item.value : null;
-  }
-
-  private findValues(query = ''): string[] {
-    query = this.normalize(query.toLowerCase());
-    return (query
-      ? this.allValues.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(query) !== -1)
-      : this.allValues).slice(0, this.max);
-  }
-
-  private normalize(str: string): string {
-    return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
+  private setExtend() {
+    if (this.extensible && this.values.length === 0) {
+      this.extend = true;
+    } else {
+      this.extend = false;
+    }
   }
 
 }

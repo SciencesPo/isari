@@ -30,7 +30,13 @@ export class FieldComponent implements OnInit, OnChanges {
     if (changes['form'] && changes['form'].isFirstChange()) {
       this.field.controlType = this.isariDataService.getControlType(this.field);
       if (this.field.enum || this.field.softenum) {
-        this.field.src = this.isariDataService.getEnum(this.field.enum || this.field.softenum);
+        const src = this.field.enum || this.field.softenum;
+        this.field.src = this.isariDataService.srcEnumBuilder(src);
+        this.field.stringValue = this.isariDataService.getEnumLabel(src, this.form.controls[this.field.name].value, 'fr');
+      }
+      if (this.field.ref) {
+        this.field.src = this.isariDataService.srcForeignBuilder(this.field.ref);
+        this.field.stringValue = this.isariDataService.getForeignLabel(this.field.ref, this.form.controls[this.field.name].value);
       }
     }
   }
