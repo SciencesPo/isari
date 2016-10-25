@@ -1,5 +1,12 @@
 'use strict'
 
+// Date parsing
+const date = string => {
+	const [ year, month, day ] = string.split('-')
+	return { year, month, day }
+}
+const year = string => date(string).year
+
 // People
 const peopleName = p => `${p.firstname} ${p.name}`
 
@@ -10,10 +17,10 @@ const objectName = o => o.name
 function organizationDates(p){
 	let label = p.organization.name
 	if(p.startDate){
-		label += " "+p.startDate.year
+		label += " "+year(p.startDate)
 	}
 	if(p.endDate){
-		label+=`-${p.endDate.year}`
+		label+=`-${year(p.endDate)}`
 	}
 	return label
 }
@@ -22,25 +29,25 @@ function organizationDates(p){
 function personalActivity(p){
 	let label = p.personalActivityType
 	if(p.startDate){
-		label += " "+p.startDate.year
+		label += " "+year(p.startDate)
 	}
 	if(p.endDate){
-		label+=`-${p.endDate.year}`
+		label+=`-${year(p.endDate)}`
 	}
 	return label
 }
 
 // distinctions
-const distinction = d => d.organization.name + (d.date ? " "+d.date.year : "")
+const distinction = d => d.organizations.map(objectName).join(' & ') + (d.date ? " "+year(d.date) : "")
 
 // oraganizationDates
 function researchUnitCode(p){
 	let label = p.code
 	if(p.startDate){
-		label += " "+p.startDate.year
+		label += " "+year(p.startDate)
 	}
 	if(p.endDate){
-		label += `-${p.endDate.year}`
+		label += `-${year(p.endDate)}`
 	}
 	return label
 }
@@ -49,16 +56,13 @@ function researchUnitCode(p){
 function peopleDates(p){
 	let label = peopleName(p.people)
 	if(p.startDate){
-		label += " "+p.startDate.year
+		label += " "+year(p.startDate)
 	}
 	if(p.endDate){
-		label+=`-${p.endDate.year}`
+		label+=`-${year(p.endDate)}`
 	}
 	return label
 }
-
-// Exemple complexe
-// exports.date = ({ year, month, day }) => day ? `${day}/${month}/${year}` : month ? `${month}/${year}` : `${year}`
 
 exports.peopleName = peopleName
 exports.objectName = objectName
