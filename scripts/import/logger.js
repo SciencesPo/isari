@@ -1,0 +1,50 @@
+/**
+ * ISARI Init Import Winston Logger
+ * =================================
+ *
+ * Logger able to dump to multiple outputs for convenience.
+ */
+const winston = require('winston'),
+      chalk = require('chalk');
+
+const CONFIG = {
+  levels: {
+    info: 0,
+    success: 0
+  },
+  colors: {
+    info: 'blue',
+    success: 'green'
+  }
+};
+
+/**
+ * Custom console transport.
+ */
+class ConsoleTransport extends winston.Transport {
+  constructor() {
+    super();
+    this.name = 'custom-console';
+    this.level = 'success';
+  }
+
+  log(lvl, msg, meta, callback) {
+    const color = CONFIG.colors[lvl];
+
+    console.log(
+      `${chalk[color]('[Import]')}: ${msg}`
+    );
+  }
+}
+
+module.exports = function createLogger() {
+
+  const log = new winston.Logger({
+    levels: CONFIG.levels,
+    transports: [
+      new ConsoleTransport()
+    ]
+  });
+
+  return log;
+};

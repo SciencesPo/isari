@@ -15,7 +15,8 @@ const async = require('async'),
 
 const FILES = require('./files'),
       clean = require('./clean');
-      helpers = require('./helpers');
+      helpers = require('./helpers'),
+      log = require('./logger')();
 
 // Altering the NODE_CONFIG_DIR env variable so that `config` can resolve
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
@@ -71,6 +72,8 @@ function cleanLine(line) {
   return line;
 }
 
+log.info('Starting...');
+
 /**
  * Processing organization files.
  */
@@ -105,4 +108,4 @@ const tasks = FILES.organizations.files.map(file => next => {
   });
 });
 
-async.series(tasks, err => console.log('Done!'));
+async.series(tasks, err => log.success('Done!'));

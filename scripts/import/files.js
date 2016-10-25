@@ -5,6 +5,10 @@
  * Defining the various files to import as well as their line consumers.
  */
 module.exports = {
+
+  /**
+   * Organization files.
+   */
   organizations: {
     folder: 'organizations',
     files: [
