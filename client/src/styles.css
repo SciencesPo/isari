@@ -17,3 +17,10 @@ md-hint.error {
 
 [hidden] { display: none !important;}
 
+isari-multi-input {
+  display: inline-block;
+  position: relative;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  text-align: left;
+}
+

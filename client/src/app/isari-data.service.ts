@@ -13,14 +13,15 @@ import 'rxjs/add/operator/switchMap';
 @Injectable()
 export class IsariDataService {
 
-  // private dataUrl = 'http://localhost:8080/people';
-  // private layoutUrl = 'http://localhost:8080/layouts';
-  // private enumUrl = 'http://localhost:8080/enums';
+  private dataUrl = 'http://localhost:8080';
+  private layoutUrl = 'http://localhost:8080/layouts';
+  private enumUrl = 'http://localhost:8080/enums';
+  private schemaUrl = 'http://localhost:8080/schemas';
 
-  private dataUrl = 'api';
-  private layoutUrl = 'api/layouts';
-  private enumUrl = 'api/enums';
-  private schemaUrl = 'api/schemas';
+  // private dataUrl = 'api';
+  // private layoutUrl = 'api/layouts';
+  // private enumUrl = 'api/enums';
+  // private schemaUrl = 'api/schemas';
 
   constructor(private http: Http, private fb: FormBuilder) { }
 
@@ -28,8 +29,8 @@ export class IsariDataService {
     const url = `${this.dataUrl}/people/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data)
-      // .then(response => response.json())
+      // .then(response => response.json().data)
+      .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -41,8 +42,8 @@ export class IsariDataService {
     const url = `${this.layoutUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data.layout)
-      // .then(response => response.json())
+      // .then(response => response.json().data.layout)
+      .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -50,8 +51,8 @@ export class IsariDataService {
     const url = `${this.schemaUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data.schema)
-      // .then(response => respons.json());
+      // .then(response => response.json().data.schema)
+      .then(response => response.json())
       .then(schema => Object.keys(schema).map(key => ({
         key,
         label: schema[key].label
@@ -110,7 +111,7 @@ export class IsariDataService {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
     fields.forEach(field => {
-      if (field.multiple) {
+      if (field.multiple && field.type === 'object') {
         let fa = new FormArray([]);
         // fa.disable(disabled);
         (data[field.name] || []).forEach(d => {
@@ -132,16 +133,16 @@ export class IsariDataService {
   addFormControlToArray(fa: FormArray, field, data = {}) {
     let fieldClone = Object.assign({}, field);
     delete fieldClone.multiple;
-    if (field.type === 'object') {
+//    if (field.type === 'object') {
       fa.push(this.buildForm(field.layout, data));
-    } else {
-      fa.push(new FormGroup({
-        [field.name]: new FormControl({
-          value: data || '',
-          disabled: false
-        })
-      }));
-    }
+    // } else {
+    //   fa.push(new FormGroup({
+    //     [field.name]: new FormControl({
+    //       value: data || '',
+    //       disabled: false
+    //     })
+    //   }));
+    // }
   }
 
   translate(layout, lang) {

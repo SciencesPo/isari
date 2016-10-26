@@ -34,7 +34,17 @@
 
   </span>
 
-  <span *ngIf="field.multiple && form.enabled" [formArrayName]="field.name">
+  <span *ngIf="field.multiple && field.type !== 'object'" [ngSwitch]="field.controlType">
+
+    <isari-multi-input *ngSwitchDefault
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label"
+      [form]="form"></isari-multi-input>
+
+  </span>
+
+  <span *ngIf="field.multiple && field.type === 'object' && form.enabled" [formArrayName]="field.name">
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
       (onUpdate)="update($event)"
       [index]="i"
