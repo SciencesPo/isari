@@ -148,13 +148,19 @@ const searchModel = (esIndex, Model, format) => req => {
 	const query = req.query.q
 	const fields = req.query.fields ? req.query.fields.split(',') : undefined
 	const full = Boolean(Number(req.query.full))
+	const fuzzy = !Number(req.query.raw)
 
 	if (!query) {
 		throw new ClientError({ title: 'Missing query string (field "q")' })
 	}
 
-	return es.q(esIndex, { query, fields }).then(map(Model)).then(map(o => full
-		? format(o)
-		: { value: o.id, label: o.applyTemplates(0) }
-	))
+	return (fuzzy
+			? es.q.forSuggestions(esIndex, { query, fields })
+			: es.q(esIndex, { query_string: { query, fields } })
+		)
+		.then(map(Model))
+		.then(map(o => full
+			? format(o)
+			: { value: o.id, label: o.applyTemplates(0) }
+		))
 }
