@@ -58,11 +58,11 @@ exports.restRouter = (Model, format = identity, esIndex = null, getPermissions =
 	}
 
 	router.get('/', restHandler(listModel(Model, format, getPermissions)))
-	router.get('/:id', restHandler(getModel(Model, format, getPermissions)))
-	router.get('/:id/string', restHandler(getModelString(Model)))
-	router.put('/:id', restHandler(updateModel(Model, save, getPermissions)))
+	router.get('/:id([A-Za-f0-9]{24})', restHandler(getModel(Model, format, getPermissions)))
+	router.get('/:id([A-Za-f0-9]{24})/string', restHandler(getModelString(Model)))
+	router.put('/:id([A-Za-f0-9]{24})', restHandler(updateModel(Model, save, getPermissions)))
 	router.post('/', restHandler(createModel(Model, save)))
-	router.delete('/:id', restHandler(deleteModel(Model, getPermissions)))
+	router.delete('/:id([A-Za-f0-9]{24})', restHandler(deleteModel(Model, getPermissions)))
 
 	return router
 }
