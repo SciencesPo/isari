@@ -37,7 +37,7 @@
         },
         "accessMonitoring": "corporate"
     },
-    "template":"peopleName",
+    "template": "peopleName",
     "birthName": {
         "label": {
             "fr": "Nom de naissance",
@@ -140,7 +140,7 @@
                 },
                 "type": "date"
             },
-            "template":"organizationDates",
+            "template": "organizationDates",
             "jobName": {
                 "label": {
                     "fr": "Emploi personnalisé",
@@ -186,41 +186,6 @@
                             "fr": "Grade",
                             "en": "Grade"
                         }
-                    },
-                    "startDate": {
-                        "label": {
-                            "fr": "Date de début",
-                            "en": "Start date"
-                        },
-                        "type": "date"
-                    },
-                    "endDate": {
-                        "label": {
-                            "fr": "Date de fin",
-                            "en": "End date"
-                        },
-                        "type": "date"
-                    }
-                }
-            ],
-            "gradesAcademic": [
-                {
-                    "label": {
-                        "fr": "Grades",
-                        "en": "Grades"
-                    },
-                    "description": {
-                        "fr": "Grades académiques DR1, CR1...",
-                        "en": "Academic Grade Associate Prof, Full Prof..."
-                    },
-                    "grade": {
-                        "requirement": "mandatory",
-                        "label": {
-                            "fr": "Grade",
-                            "en": "Grade"
-                        },
-                        "type": "string",
-                        "enum": "gradeAcademic"
                     },
                     "startDate": {
                         "label": {
@@ -309,6 +274,41 @@
             ]
         }
     ],
+    "gradesAcademic": [
+        {
+            "label": {
+                "fr": "Grades",
+                "en": "Grades"
+            },
+            "description": {
+                "fr": "Grades académiques DR1, CR1...",
+                "en": "Academic Grade Associate Prof, Full Prof..."
+            },
+            "grade": {
+                "requirement": "mandatory",
+                "label": {
+                    "fr": "Grade",
+                    "en": "Grade"
+                },
+                "type": "string",
+                "enum": "gradeAcademic"
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            }
+        }
+    ],
     "academicMemberships": [
         {
             "label": {
@@ -338,7 +338,7 @@
                 },
                 "type": "date"
             },
-            "template":"organizationDates",
+            "template": "organizationDates",
             "membershipType": {
                 "label": {
                     "fr": "Type d'affiliation",
@@ -377,7 +377,7 @@
                 },
                 "type": "date"
             },
-            "template":"organizationDates"
+            "template": "organizationDates"
         }
     ],
     "ORCID": {
@@ -511,7 +511,7 @@
                 },
                 "type": "date"
             },
-            "template":"personalActivity",
+            "template": "personalActivity",
             "role": {
                 "label": {
                     "fr": "Rôle",
@@ -558,7 +558,7 @@
                 },
                 "requirement": "mandatory"
             },
-            "template":"distinction",
+            "template": "distinction",
             "organizations": [
                 {
                     "label": {
