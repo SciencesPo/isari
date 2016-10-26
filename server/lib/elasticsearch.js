@@ -26,7 +26,7 @@ client.q = (type, query, includeInfo = false) => {
 	return client.search(options)
 		.then(res => res.hits.hits.map(({ _index, _type, _id, _score, _source }) => merge(includeInfo
 			? { _index, _type, _id, _score }
-			: {}, _source))
+			: { _id }, _source))
 		)
 		.catch(err => Promise.reject(ElasticSearchError(Error(err))))
 }

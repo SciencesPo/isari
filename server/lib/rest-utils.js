@@ -5,6 +5,7 @@ const { ServerError, ClientError, NotFoundError } = require('./errors')
 const { identity, set, map, pick } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
+const { applyTemplates } = require('./model-utils')
 
 
 const restHandler = exports.restHandler = fn => (req, res, next) => {
@@ -158,9 +159,8 @@ const searchModel = (esIndex, Model, format) => req => {
 			? es.q.forSuggestions(esIndex, { query, fields })
 			: es.q(esIndex, { query_string: { query, fields } })
 		)
-		.then(map(Model))
 		.then(map(o => full
 			? format(o)
-			: { value: o.id, label: o.applyTemplates(0) }
+			: { value: o._id, label: applyTemplates(o, Model.modelName, 0) }
 		))
 }
