@@ -163,7 +163,7 @@ function validate(Model, line, index) {
 
     if (error.kind === 'ObjectId')
       continue;
-
+console.log(error);
     const meta = {
       line: index + 1,
       type: error.name,
@@ -207,7 +207,7 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
       const errors = validate(Organization, line, i);
 
       errors.forEach(error => {
-        log.error(`Line ${error.line}: ${error.type} => ${error.coloredMessage}`, error);
+        // log.error(`Line ${error.line}: ${error.type} => ${error.coloredMessage}`, error);
       });
 
       ERRORS += errors.length;
@@ -216,9 +216,7 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
     // Indexing
     lines.forEach(file.indexer.bind(null, INDEXES.Organization));
 
-    // TODO: log found entities
-
-    next();
+    return next();
   });
 });
 
@@ -230,8 +228,22 @@ const peopleTasks = FILES.people.files.map(file => next => {
     if (err)
       return next(err);
 
-    if (file.resolver)
-      file.resolver.call(log, lines);
+    const persons = file.resolver.call(log, lines);
+
+    log.info(`Extracted ${chalk.cyan(persons.length)} persons.`);
+
+    // Validating
+    persons.forEach((person, i) => {
+      const errors = validate(People, person, i);
+
+      errors.forEach(error => {
+        log.error(`Line ${error.line}: ${error.type} => ${error.coloredMessage}`, error);
+      });
+
+      ERRORS += errors.length;
+    });
+
+    return next();
   });
 });
 

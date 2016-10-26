@@ -167,7 +167,7 @@ module.exports = {
             endDate = moment.min(
               moment(line['Date fin présumée'], 'YYYY-MM-DD'),
               moment(line['Date de sortie adm'], 'YYYY-MM-DD')
-            )
+            );
           else if (line['Date fin présumée'])
             endDate = moment(line['Date fin présumée'], 'YYYY-MM-DD');
           else if (line['Date de sortie adm'])
@@ -182,8 +182,6 @@ module.exports = {
 
           // First we need to group the person by matricule
           let persons = _.values(_.groupBy(lines, 'sirhMatricule'));
-
-          this.info(`Extracted ${chalk.cyan(persons.length)} persons.`);
 
           // Sorting lines by year
           persons = persons.map(years => {
@@ -206,11 +204,11 @@ module.exports = {
             };
 
             // Computing positions
-            const slices = _.groupBy(years, y => `${y.startDate}§${y.endDate || ''}`),
+            const slices = _.groupBy(years, y => `${y.startDate}§${y.endDate || ''}`),
                   positions = [];
 
-            _.values(slices).forEach((slice, i) => {
-              const nextSlice = slices[i + 1],
+            _.values(slices).forEach((slice, sliceIndex) => {
+              const nextSlice = slices[sliceIndex + 1],
                     contract = slice[0],
                     nextContract = (nextSlice || [])[0] || {};
 
@@ -238,24 +236,26 @@ module.exports = {
                 .values()
                 .map(grades => grades[0])
                 .map((grade, i, grades) => {
-                  const previousGrade = grades[i - 1],
-                        nextGrade = grades[i + 1];
+                  const nextGrade = grades[i + 1];
 
                   const info = {
                     grade: grade.gradeSirh
                   };
 
-                  if (grade.startDate) {
+                  if (grade.startDate) {
                     if (!i)
                       info.startDate = grade.startDate.format('YYYY');
                     else
                       info.startDate = grade.year;
                   }
-                  if (grade.endDate) {
-                    if (!previousGrade && nextGrade)
-                      info.endDate = nextGrade.year;
-                    else
+
+                  if (grades.length === 1) {
+                    if (grade.endDate)
                       info.endDate = grade.endDate.format('YYYY');
+                  }
+                  else {
+                    if (nextGrade)
+                      info.endDate = nextGrade.year;
                   }
 
                   return info;
@@ -271,28 +271,39 @@ module.exports = {
             person.academicMemberships = _(years)
               .groupBy('academicMembership')
               .values()
-              .map(memberships => memberships[0])
-              .map(membership => {
+              .map(memberships => _.last(memberships))
+              .map((membership, i, memberships) => {
+                const nextMembership = memberships[i + 1];
+
                 const info = {
                   organization: membership.academicMembership
                 };
 
-                if (membership.startDate)
-                  info.startDate = membership.startDate.format('YYYY-MM-DD');
-                if (membership.endDate)
-                  info.endDate = membership.endDate.format('YYYY-MM-DD');
+                if (membership.startDate) {
+                    if (!i)
+                      info.startDate = membership.startDate.format('YYYY');
+                    else
+                      info.startDate = membership.year;
+                  }
+
+                  if (memberships.length === 1) {
+                    if (membership.endDate)
+                      info.endDate = membership.endDate.format('YYYY');
+                  }
+                  else {
+                    if (nextMembership)
+                      info.endDate = nextMembership.year;
+                  }
 
                 return info;
               })
+              .filter(membership => {
+                return !!membership.organization;
+              })
               .value();
-
-
-            // TODO: here...
 
             return person;
           });
-
-          console.log(objects[0]);
 
           return objects;
         }
@@ -300,6 +311,3 @@ module.exports = {
     ]
   }
 };
-
-// academicMembership lien org temps split simple
-// TODO: grossmann changement de grade même start date dans le contrat
