@@ -36,12 +36,20 @@
 
   <span *ngIf="field.multiple && field.type !== 'object'" [ngSwitch]="field.controlType">
 
+    <isari-multi-select *ngSwitchCase="'select'"
+      (onUpdate)="update($event)"
+      [src]="field.src"
+      [stringValue]="field.stringValue"
+      [extensible]="!!field.softenum"
+      [name]="field.name"
+      [label]="field.label"
+      [form]="form"></isari-multi-select>
+
     <isari-multi-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
       [form]="form"></isari-multi-input>
-
   </span>
 
   <span *ngIf="field.multiple && field.type === 'object' && form.enabled" [formArrayName]="field.name">

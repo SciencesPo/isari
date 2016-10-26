@@ -76,11 +76,17 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  getEnumLabel(src: string, value: string, lang: string) {
+  getEnumLabel(src: string, value: string | string[], lang: string) {
     return this.getEnum(src)
       .map(values => {
-        const found = values.find(entry => entry.value === value);
-        return found ? found.label[lang] : '';
+        if (value instanceof Array) {
+          return value.map(v => {
+            return values.find(entry => entry.value === v);
+          }).filter(v => !!v);
+        } else {
+          const found = values.find(entry => entry.value === value);
+          return found ? found.label[lang] : '';
+        }
       });
   }
 
@@ -133,16 +139,7 @@ export class IsariDataService {
   addFormControlToArray(fa: FormArray, field, data = {}) {
     let fieldClone = Object.assign({}, field);
     delete fieldClone.multiple;
-//    if (field.type === 'object') {
-      fa.push(this.buildForm(field.layout, data));
-    // } else {
-    //   fa.push(new FormGroup({
-    //     [field.name]: new FormControl({
-    //       value: data || '',
-    //       disabled: false
-    //     })
-    //   }));
-    // }
+    fa.push(this.buildForm(field.layout, data));
   }
 
   translate(layout, lang) {
@@ -161,11 +158,11 @@ export class IsariDataService {
   }
 
   getControlType(field): string {
-    if (field.type) {
-      return field.type;
-    }
     if (field.enum || field.softenum || field.ref) {
       return 'select';
+    }
+    if (field.type) {
+      return field.type;
     }
     return  'input';
   }
@@ -193,8 +190,7 @@ export class IsariDataService {
     // }
     const url = `${this.enumUrl}/${src}`;
     return this.http.get(url)
-      .map(response => response.json().data.enum);
-      // .map(response => response.json());
+      .map(response => response.json());
   }
 
 }
