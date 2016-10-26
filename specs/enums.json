@@ -580,63 +580,35 @@
             "value": "institutionpublique", 
             "label": {
                 "fr": "institution publique (ministère, institution internationale...)", 
-                "en": ""
+                "en": "public institution"
             }
         }, 
         {
             "value": "chaire", 
             "label": {
                 "fr": "chaire", 
-                "en": ""
+                "en": "chair"
             }
         }, 
         {
             "value": "écoleetautre", 
             "label": {
                 "fr": "écoles et autres établissements", 
-                "en": ""
+                "en": "higher education institution"
             }
         }, 
         {
             "value": "organismederecherche", 
             "label": {
                 "fr": "organismes de recherche", 
-                "en": ""
+                "en": "research institution"
             }
         }, 
         {
             "value": "comue", 
             "label": {
                 "fr": "COMUE", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "autreinstitution", 
-            "label": {
-                "fr": "autres institutions", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "orgarecherchepublic", 
-            "label": {
-                "fr": "Organisme de recherche public", 
-                "en": "Public research institution"
-            }
-        }, 
-        {
-            "value": "ministere", 
-            "label": {
-                "fr": "Ministère", 
-                "en": "Ministry"
-            }
-        }, 
-        {
-            "value": "etablssementenseignementsuperieur", 
-            "label": {
-                "fr": "Établissement d'enseignement supérieur", 
-                "en": "Higher education institution"
+                "en": "COMUE"
             }
         }, 
         {
@@ -644,6 +616,13 @@
             "label": {
                 "fr": "Service interne", 
                 "en": "Internal department"
+            }
+        }, 
+        {
+            "value": "autreinstitution", 
+            "label": {
+                "fr": "autres institutions", 
+                "en": "other institution"
             }
         }
     ], 
