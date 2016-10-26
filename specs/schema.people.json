@@ -173,7 +173,7 @@
                 },
                 "enum": "jobTitle"
             },
-            "gradeSirh": [
+            "gradesSirh": [
                 {
                     "accessType": "confidential",
                     "label": {
