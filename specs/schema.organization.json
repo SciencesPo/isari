@@ -6,7 +6,7 @@
             "en": "Name"
         }
     },
-    "template":"name",
+    "template": "name",
     "researchUnitCodes": [
         {
             "label": {
@@ -33,7 +33,7 @@
                 },
                 "type": "date"
             },
-            "template":"researchUnitCode"
+            "template": "researchUnitCode"
         }
     ],
     "idBanner": {
@@ -60,10 +60,10 @@
             "en": "Scopus identifier"
         }
     },
-    "idHCERES": {
+    "codeUAI": {
         "label": {
-            "fr": "Identifiant HCERES",
-            "en": "HCERES identifier"
+            "fr": "code UAI",
+            "en": "code UAI"
         }
     },
     "UG": {
@@ -102,13 +102,24 @@
         },
         "enum": "organizationStatuses"
     },
-    "organizationTypes": [{
-        "label": {
-            "fr": "Type d'organisation",
-            "en": "Organization type"
-        },
-        "enum": "organizationTypes"
-    }],
+    "organizationTypes": [
+        {
+            "label": {
+                "fr": "Type d'organisation",
+                "en": "Organization type"
+            },
+            "enum": "organizationTypes"
+        }
+    ],
+    "HCERESorganizationTypes": [
+        {
+            "label": {
+                "fr": "nomenclature HCERES 2017",
+                "en": "HCERES 2017 classification"
+            },
+            "enum": "HCERESorganizationTypes"
+        }
+    ],
     "url": {
         "label": {
             "fr": "Site web",

@@ -2761,6 +2761,155 @@
             }
         }
     ], 
+    "HCERESorganizationTypes": [
+        {
+            "value": "Organismes, fondations…", 
+            "label": {
+                "fr": "Organismes, fondations…", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "COMUE", 
+            "label": {
+                "fr": "COMUE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Universités", 
+            "label": {
+                "fr": "Universités", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Instituts d'études politiques", 
+            "label": {
+                "fr": "Instituts d'études politiques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles normales supérieures", 
+            "label": {
+                "fr": "Ecoles normales supérieures", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Rectorats", 
+            "label": {
+                "fr": "Rectorats", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles françaises à l'étranger", 
+            "label": {
+                "fr": "Ecoles françaises à l'étranger", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Centres hospitaliers universitaires, régionaux et Assistance publique", 
+            "label": {
+                "fr": "Centres hospitaliers universitaires, régionaux et Assistance publique", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Centres de lutte contre le cancer", 
+            "label": {
+                "fr": "Centres de lutte contre le cancer", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles et établissements sous tutelle du ministère en charge de l'Enseignement Supérieur et de la recherche", 
+            "label": {
+                "fr": "Ecoles et établissements sous tutelle du ministère en charge de l'Enseignement Supérieur et de la recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles et établissements sous tutelle du ministère en charge de l'Agriculture", 
+            "label": {
+                "fr": "Ecoles et établissements sous tutelle du ministère en charge de l'Agriculture", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles et établissements sous tutelle du ministère en charge du Développement Durable", 
+            "label": {
+                "fr": "Ecoles et établissements sous tutelle du ministère en charge du Développement Durable", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles et établissements sous tutelle du ministère en charge de la Défense", 
+            "label": {
+                "fr": "Ecoles et établissements sous tutelle du ministère en charge de la Défense", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles et établissements sous tutelle du ministère en charge de l'Economie et de l'Industrie", 
+            "label": {
+                "fr": "Ecoles et établissements sous tutelle du ministère en charge de l'Economie et de l'Industrie", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles d'Ingénieurs de la ville de Paris", 
+            "label": {
+                "fr": "Ecoles d'Ingénieurs de la ville de Paris", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles d'Ingénieurs sous tutelle consulaire", 
+            "label": {
+                "fr": "Ecoles d'Ingénieurs sous tutelle consulaire", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles d'Architecture", 
+            "label": {
+                "fr": "Ecoles d'Architecture", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles d'Art", 
+            "label": {
+                "fr": "Ecoles d'Art", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles de Commerce", 
+            "label": {
+                "fr": "Ecoles de Commerce", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Ecoles et établissements privés", 
+            "label": {
+                "fr": "Ecoles et établissements privés", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "Autres (Agences, associations, instituts, entreprises privées, établissements étrangers, …)", 
+            "label": {
+                "fr": "Autres (Agences, associations, instituts, entreprises privées, établissements étrangers, …)", 
+                "en": ""
+            }
+        }
+    ], 
     "organizationStatuses": [
         {
             "value": "public", 
