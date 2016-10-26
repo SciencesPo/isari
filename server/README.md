@@ -36,16 +36,19 @@ npm install --production
 
 * `npm start` starts `server.js` in *production* environment
 
-## REST API (**WIP**)
+## REST API
 
 ### Collection endpoints:
 
 * `GET /:collection`
-  * input: none
   * output: Array(Item) or 404
+  * options:
+    * `fields`: comma-separated list of fields to include in response (default: all)
+    * `applyTemplates`: set to 1 will transform response's fields into their string representations (default: 0)
 * `GET /:collection/:id`
-  * input: none
   * output: Item or 404
+* `GET /:collection/:id/string`
+  * output: `{id, value}` with string representation of item or 404
 * `POST /:collection`
   * input: full Item
   * output: Item + 201 or 400
@@ -53,14 +56,15 @@ npm install --production
   * input: partial Item (id + fields to update)
   * output: Item + 200 or 400
 * `DELETE /:collection/:id`
-  * input: none
   * output: 204
 * `GET /:collection/search`
-  * Fuzzy-matching endpoint for autocomple
-  * input:
-    * `?q=…` specifies the query, like input's value (mandatory)
-    * `?fields=…` lists the fields we're supposed to look into (optional)
-  * output: Array(AutoCompleteItem)
+  * Endpoint for autocomplete suggestions
+  * output: Array(AutoCompleteItem) or Array(Item)
+  * options:
+    * `q`: search terms, note that quotes are not supported in current version (mandatory)
+    * `fields`: comma-separated list of fields to limit search to (default: all)
+    * `full`: set to 1 to get full items instead of auto-complete items (default: 0)
+    * `raw`: set to 1 to use query-string as-is (default: 0, query-string is transformed to enable prefix-search and fuzziness)
 
 **Valid collections**:
 
@@ -75,11 +79,14 @@ npm install --production
 * Add `opts` which includes frontend-metadata:
   * `editable` (boolean) indicates if user has permission to edit the fetched object
 
-#### Format: `AutoComplete`
+#### Format: `AutoCompleteItem`
 
-WIP
-
-Should be the same as Item
+```json
+{
+  "value": "ID",
+  "label": "string representation"
+}
+```
 
 ### Meta endpoints
 
