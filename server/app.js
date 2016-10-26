@@ -41,6 +41,8 @@ if (errors.length > 0) {
 
 const app = module.exports = express()
 
+app.settings['x-powered-by'] = false
+
 app.use(cors())
 
 if (config.log.format) {
