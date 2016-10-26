@@ -1,0 +1,11 @@
+.md-menu button {
+  width: 100%;
+}
+
+.md-menu button span {
+  width: 100%;
+}
+
+.md-menu button md-icon {
+  vertical-align: middle;
+}

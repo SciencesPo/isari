@@ -20,6 +20,7 @@ export class IsariDataService {
   private dataUrl = 'api';
   private layoutUrl = 'api/layouts';
   private enumUrl = 'api/enums';
+  private schemaUrl = 'api/schemas';
 
   constructor(private http: Http, private fb: FormBuilder) { }
 
@@ -43,6 +44,18 @@ export class IsariDataService {
       .then(response => response.json().data.layout)
       // .then(response => response.json())
       .catch(this.handleError);
+  }
+
+  getColumns(feature: string) {
+    const url = `${this.schemaUrl}/${feature}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data.schema)
+      // .then(response => respons.json());
+      .then(schema => Object.keys(schema).map(key => ({
+        key,
+        label: schema[key].label
+      })));
   }
 
   srcEnumBuilder(src: string) {
