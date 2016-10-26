@@ -1,0 +1,20 @@
+<div class="md-input-wrapper" (keyup)="onKey($event)">
+  <div class="md-input-table">
+
+    <div class="md-input-prefix" *ngFor="let value of _values">
+      {{ value }}
+      <md-icon (click)="removeValue(value, $event)">close</md-icon>
+    </div>
+
+    <div class="md-input-infix" [ngClass]="{'md-empty': empty }">
+      <input class="md-input-element" spellcheck="false" type="text"
+        [formControl]="selectControl"
+        (focus)="onFocus($event)"
+        (blur)="onBlur($event)">
+      <label class="md-input-placeholder md-float" [ngClass]="{'md-empty': empty }">  ??? </label>
+    </div>
+  </div>
+  <div class="md-input-underline">
+    <span class="md-input-ripple"></span>
+  </div>
+</div>

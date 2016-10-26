@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule }           from '@angular/http';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryDataService }  from './in-memory-data.service';
 
 import { MaterialModule } from '@angular/material';
 
@@ -25,6 +25,7 @@ import { IsariSelectComponent } from './fields/isari-select/isari-select.compone
 import { IsariDateComponent } from './fields/isari-date/isari-date.component';
 import { IsariPaginationComponent } from './data-table/isari-pagination/isari-pagination.component';
 import { IsariColsSelectorComponent } from './list-page/isari-cols-selector/isari-cols-selector.component';
+import { IsariMultiInputComponent } from './fields/isari-multi-input/isari-multi-input.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { IsariColsSelectorComponent } from './list-page/isari-cols-selector/isar
     IsariSelectComponent,
     IsariDateComponent,
     IsariPaginationComponent,
-    IsariColsSelectorComponent
+    IsariColsSelectorComponent,
+    IsariMultiInputComponent
   ],
   imports: [
     BrowserModule,
@@ -47,8 +49,8 @@ import { IsariColsSelectorComponent } from './list-page/isari-cols-selector/isar
     ReactiveFormsModule,
     MaterialModule.forRoot(),
     routing,
-    HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService)
+    HttpModule
+    // InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [
     IsariDataService,
