@@ -1128,6 +1128,20 @@
                 "fr": "partenaire", 
                 "en": ""
             }
+        }, 
+        {
+            "value": "orgadorigine", 
+            "label": {
+                "fr": "établissement d'origine", 
+                "en": "from organisation"
+            }
+        }, 
+        {
+            "value": "orgadaccueil", 
+            "label": {
+                "fr": "établissement d'accueil", 
+                "en": "welcoming organisation"
+            }
         }
     ], 
     "aeres2012": [
