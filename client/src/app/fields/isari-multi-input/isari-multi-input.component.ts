@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 const ENTER = 13;
+const BACKSPACE = 8;
 
 @Component({
   selector: 'isari-multi-input',
@@ -58,6 +59,9 @@ export class IsariMultiInputComponent implements OnInit {
   onKey($event) {
     if ($event.keyCode === ENTER) {
       this.addValue(this.selectControl.value);
+    }
+    if ($event.keyCode === BACKSPACE && this.selectControl.value === '' && this.values.length > 0) {
+      this.removeValue(this.values[this.values.length - 1], {});
     }
   }
 
