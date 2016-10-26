@@ -95,15 +95,15 @@ function attachMongoId(line) {
 }
 
 // Function taking a file descriptor and returning the parsed lines
-function parseFile(file, callback) {
+function parseFile(folder, file, callback) {
   const filePath = path.join(
     argv.path,
-    FILES.organizations.folder,
+    folder,
     file.path
   );
 
   console.log();
-  log.info(`Reading ${filePath}`);
+  log.info(`Reading ${chalk.cyan(filePath)}`);
 
   const options = {
     delimiter: file.delimiter,
@@ -123,6 +123,24 @@ function parseFile(file, callback) {
 
     // Consuming the lines
     lines = lines.map(file.consumer.bind(log));
+
+    // Dropping null values
+    lines.forEach((line, index) => {
+      for (const k in line) {
+        const value = line[k];
+
+        if (
+          value === null ||
+          value === undefined ||
+          value === '' ||
+          Array.isArray(value) && !value.length
+        )
+          delete line[k];
+
+        if (Number.isNaN(value))
+          log.error(`Line ${index + 1}: NaN value for ${chalk.cyan(k)}`);
+      }
+    });
 
     return callback(null, lines);
   });
@@ -176,8 +194,8 @@ function validate(Model, line, index) {
 /**
  * Processing organization files.
  */
-let organizationTasks = FILES.organizations.files.map(file => next => {
-  parseFile(file, (err, lines) => {
+const organizationTasks = FILES.organizations.files.map(file => next => {
+  parseFile(FILES.organizations.folder, file, (err, lines) => {
     if (err)
       return next(err);
 
@@ -205,14 +223,31 @@ let organizationTasks = FILES.organizations.files.map(file => next => {
 });
 
 /**
+ * Processing people files.
+ */
+const peopleTasks = FILES.people.files.map(file => next => {
+  parseFile(FILES.people.folder, file, (err, lines) => {
+    if (err)
+      return next(err);
+
+    // TODO: continue here
+  });
+});
+
+/**
  * Process outline.
  * -----------------------------------------------------------------------------
  */
 log.info('Starting...');
 async.series({
   organizations(next) {
-    log.info('Processing organization files...');
+    log.success('Processing organization files...');
     return async.series(organizationTasks, next);
+  },
+  people(next) {
+    console.log();
+    log.success('Processing people files...');
+    return async.series(peopleTasks, next);
   }
 }, err => {
   if (err)

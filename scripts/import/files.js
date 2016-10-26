@@ -4,7 +4,10 @@
  *
  * Defining the various files to import as well as their line consumers.
  */
-const moment = require('moment');
+const moment = require('moment'),
+      chalk = require('chalk');
+
+const ENUM_INDEXES = require('./indexes.js').ENUM_INDEXES;
 
 module.exports = {
 
@@ -120,11 +123,48 @@ module.exports = {
         name: 'sirh',
         path: 'SIRH.csv',
         delimiter: ',',
-        consumer(line) {
+        consumer(line, index) {
           const info = {
+            year: +line.Année,
             name: line['Nom usuel'],
-            firstname: line.Prénom
+            firstName: line.Prénom,
+            birthName: line['Nom de naissance'],
+            sirhMatricule: line.Matricule,
+            birthDate: line['Date de naissance'],
+            gender: line.gender,
+            startDate: line['Date de début'],
+            jobType: line['Type de contrat'],
+            gradeSirh: line['Code_Emploi Repère'],
+            jobName: line['Emploi Personnalisé'],
+            academicMembership: line.Affiliation
           };
+
+          if (line['%ETP'])
+            info.timepart = +line['%ETP'].replace(/,/g, '.');
+
+          let nationality = line.Nationalité;
+
+          if (nationality) {
+            nationality = ENUM_INDEXES.countries.alpha3[nationality];
+
+            if (!nationality)
+              this.error(`Line ${index + 1}: unknown nationality ${chalk.cyan(line.Nationalité)}`);
+            else
+              info.nationality = nationality.alpha2;
+          }
+
+          // Handling endDate
+          let endDate;
+
+          if (line['Date fin présumée'])
+            endDate = line['Date fin présumée'];
+          else if (line['Date de sortie adm'])
+            endDate = line['Date de sortie adm'];
+
+          if (endDate)
+            info.endDate = endDate;
+
+          return info;
         }
       }
     ]
