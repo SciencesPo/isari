@@ -22,7 +22,7 @@
             }
         }
     ],
-    "firstname": {
+    "firstName": {
         "label": {
             "fr": "Prénom",
             "en": "Firstname"
@@ -54,7 +54,7 @@
         "accessMonitoring": "corporate",
         "enum": "genders"
     },
-    "birthdate": {
+    "birthDate": {
         "requirement": "recommended",
         "label": {
             "fr": "Date de naissance",
