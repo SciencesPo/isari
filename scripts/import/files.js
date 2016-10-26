@@ -7,7 +7,14 @@
 const moment = require('moment'),
       chalk = require('chalk');
 
+const _ = require('lodash');
+
 const ENUM_INDEXES = require('./indexes.js').ENUM_INDEXES;
+
+moment.prototype.inspect = function() {
+  return 'Moment{' + this.format('YYYY-MM-DD') + '}';
+};
+moment.prototype.toString = moment.prototype.inspect;
 
 module.exports = {
 
@@ -125,16 +132,16 @@ module.exports = {
         delimiter: ',',
         consumer(line, index) {
           const info = {
-            year: +line.Année,
+            year: line.Année,
             name: line['Nom usuel'],
             firstName: line.Prénom,
-            birthName: line['Nom de naissance'],
+            birthName: line['Nom de naissance'] || line['Nom usuel'],
             sirhMatricule: line.Matricule,
             birthDate: line['Date de naissance'],
             gender: line.gender,
-            startDate: line['Date de début'],
+            startDate: moment(line['Date de début'], 'YYYY-MM-DD'),
             jobType: line['Type de contrat'],
-            gradeSirh: line['Code_Emploi Repère'],
+            gradeSirh: line['Emploi Repère'],
             jobName: line['Emploi Personnalisé'],
             academicMembership: line.Affiliation
           };
@@ -156,17 +163,143 @@ module.exports = {
           // Handling endDate
           let endDate;
 
-          if (line['Date fin présumée'])
-            endDate = line['Date fin présumée'];
+          if (line['Date fin présumée'] && line['Date de sortie adm'])
+            endDate = moment.min(
+              moment(line['Date fin présumée'], 'YYYY-MM-DD'),
+              moment(line['Date de sortie adm'], 'YYYY-MM-DD')
+            )
+          else if (line['Date fin présumée'])
+            endDate = moment(line['Date fin présumée'], 'YYYY-MM-DD');
           else if (line['Date de sortie adm'])
-            endDate = line['Date de sortie adm'];
+            endDate = moment(line['Date de sortie adm'], 'YYYY-MM-DD');
 
           if (endDate)
             info.endDate = endDate;
 
           return info;
+        },
+        resolver(lines) {
+
+          // First we need to group the person by matricule
+          let persons = _.values(_.groupBy(lines, 'sirhMatricule'));
+
+          this.info(`Extracted ${chalk.cyan(persons.length)} persons.`);
+
+          // Sorting lines by year
+          persons = persons.map(years => {
+            return _.sortBy(years, 'year');
+          });
+
+          // Creating people objects
+          // .filter(p => p[0].name === 'OLIVIER')
+          const objects = persons.map(years => {
+            const first = years[0],
+                  last = years[years.length - 1];
+
+            const person = {
+              firstName: first.firstName,
+              name: last.name,
+              birthName: first.birthName,
+              sirhMatricule: first.sirhMatricule,
+              gender: last.gender,
+              nationalities: [last.nationality]
+            };
+
+            // Computing positions
+            const slices = _.groupBy(years, y => `${y.startDate}§${y.endDate || ''}`),
+                  positions = [];
+
+            _.values(slices).forEach((slice, i) => {
+              const nextSlice = slices[i + 1],
+                    contract = slice[0],
+                    nextContract = (nextSlice || [])[0] || {};
+
+              const position = {
+                organization: 'FNSP',
+                jobName: contract.jobName,
+                jobType: contract.jobType,
+                timepart: contract.timepart
+              };
+
+              // Dates
+              if (nextContract.startDate && contract.endDate) {
+                if (nextContract.startDate.isBefore(contract.endDate))
+                  contract.endDate = nextContract.startDate.substract(1, 'days');
+              }
+
+              if (contract.startDate)
+                position.startDate = contract.startDate.format('YYYY-MM-DD');
+              if (contract.endDate)
+                position.endDate = contract.endDate.format('YYYY-MM-DD');
+
+              // Grades
+              position.grades = _(slice)
+                .groupBy('gradeSirh')
+                .values()
+                .map(grades => grades[0])
+                .map((grade, i, grades) => {
+                  const previousGrade = grades[i - 1],
+                        nextGrade = grades[i + 1];
+
+                  const info = {
+                    grade: grade.gradeSirh
+                  };
+
+                  if (grade.startDate) {
+                    if (!i)
+                      info.startDate = grade.startDate.format('YYYY');
+                    else
+                      info.startDate = grade.year;
+                  }
+                  if (grade.endDate) {
+                    if (!previousGrade && nextGrade)
+                      info.endDate = nextGrade.year;
+                    else
+                      info.endDate = grade.endDate.format('YYYY');
+                  }
+
+                  return info;
+                })
+                .value();
+
+              positions.push(position);
+            });
+
+            person.positions = positions;
+
+            // Computing academic memberships
+            person.academicMemberships = _(years)
+              .groupBy('academicMembership')
+              .values()
+              .map(memberships => memberships[0])
+              .map(membership => {
+                const info = {
+                  organization: membership.academicMembership
+                };
+
+                if (membership.startDate)
+                  info.startDate = membership.startDate.format('YYYY-MM-DD');
+                if (membership.endDate)
+                  info.endDate = membership.endDate.format('YYYY-MM-DD');
+
+                return info;
+              })
+              .value();
+
+
+            // TODO: here...
+
+            return person;
+          });
+
+          console.log(objects[0]);
+
+          return objects;
         }
       }
     ]
   }
 };
+
+// academicMembership lien org temps split simple
+// TODO: grossmann changement de grade même start date dans le contrat

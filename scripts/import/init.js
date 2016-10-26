@@ -116,7 +116,7 @@ function parseFile(folder, file, callback) {
     if (err)
       return callback(err);
 
-    log.info(`Parsed ${lines.length} lines.`);
+    log.info(`Parsed ${chalk.cyan(lines.length)} lines.`);
 
     // Cleaning the lines
     lines.forEach(cleanLine);
@@ -230,7 +230,8 @@ const peopleTasks = FILES.people.files.map(file => next => {
     if (err)
       return next(err);
 
-    // TODO: continue here
+    if (file.resolver)
+      file.resolver.call(log, lines);
   });
 });
 
