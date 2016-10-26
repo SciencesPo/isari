@@ -57,9 +57,6 @@ module.exports = {
         path: 'sciencespo_research_units.csv',
         delimiter: ',',
         consumer(line) {
-
-          // TODO: what to do with English name?
-
           let researchUnitCodes = [];
 
           if (line.researchUnitCodes) {
@@ -119,8 +116,6 @@ module.exports = {
       /**
        * SIRH.csv
        */
-
-      // TODO: years are still floats
       {
         name: 'sirh',
         path: 'SIRH.csv',

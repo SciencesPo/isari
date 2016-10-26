@@ -1,1 +1,4 @@
-<isari-data-table [data]="data" [cols]="cols"></isari-data-table>
+<md-card-content>
+  <isari-data-table [data]="data" [cols]="selectedColumns"></isari-data-table>
+  <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
+</md-card-content>

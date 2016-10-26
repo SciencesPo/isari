@@ -1,0 +1,12 @@
+<button md-button (click)="toggleMenu($event)">
+  <md-icon>settings</md-icon>
+</button>
+
+<div class="md-menu" [hidden]="!open">
+  <md-checkbox md-menu-item *ngFor="let col of cols;let i = index" [checked]="col.selected" (change)="col.selected = !col.selected">
+    {{ col.label['fr'] }}
+  </md-checkbox>
+  <button md-button color="primary" (click)="useColumns($event)">
+    <md-icon>done</md-icon> Apply
+  </button>
+</div>
