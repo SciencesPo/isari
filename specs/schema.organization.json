@@ -60,6 +60,12 @@
             "en": "Scopus identifier"
         }
     },
+    "idHal": {
+        "label": {
+            "fr": "Identifiant HAL",
+            "en": "HAL identifier"
+        }
+    },
     "codeUAI": {
         "label": {
             "fr": "code UAI",
