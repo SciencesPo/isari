@@ -154,36 +154,7 @@ function validate(Model, line, index) {
   if (!result)
     return errors;
 
-  for (const k in result.errors) {
-    let error = result.errors[k];
-
-    while (error.reason) {
-      error = error.reason;
-    }
-
-    if (error.kind === 'ObjectId')
-      continue;
-console.log(error);
-    const meta = {
-      line: index + 1,
-      type: error.name,
-      message: error.message
-    };
-
-    const coloredMessage = meta.message
-      .replace(/`(.*?)`/g, function(_, m) {
-        return chalk.cyan(m);
-      })
-      .replace(/".*?"/g, function(m) {
-        return chalk.green(m);
-      });
-
-    meta.coloredMessage = coloredMessage;
-
-    errors.push(meta);
-  }
-
-  return errors;
+  return helpers.collectErrors(result, index);
 }
 
 /**
@@ -207,7 +178,7 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
       const errors = validate(Organization, line, i);
 
       errors.forEach(error => {
-        // log.error(`Line ${error.line}: ${error.type} => ${error.coloredMessage}`, error);
+        log.error(error.formattedMessage, error);
       });
 
       ERRORS += errors.length;
@@ -237,7 +208,7 @@ const peopleTasks = FILES.people.files.map(file => next => {
       const errors = validate(People, person, i);
 
       errors.forEach(error => {
-        log.error(`Line ${error.line}: ${error.type} => ${error.coloredMessage}`, error);
+        log.error(error.formattedMessage, error);
       });
 
       ERRORS += errors.length;
