@@ -6,6 +6,7 @@
   "scripts": {
     "start-db": "docker-compose -f dev_docker/docker-compose.yml -p isari up",
     "clean-db": "docker-compose -f dev_docker/docker-compose.yml -p isari down",
+    "logs-db": "docker-compose -f dev_docker/docker-compose.yml -p isari logs -f",
     "start": "cross-env NODE_ENV=production node server",
     "test": "mocha --check-leaks -R spec",
     "pretest": "npm run lint",
