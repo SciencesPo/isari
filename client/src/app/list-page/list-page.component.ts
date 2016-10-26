@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs/Rx';
+
+import { IsariDataService } from '../isari-data.service';
 
 
 @Component({
@@ -13,13 +14,17 @@ export class ListPageComponent implements OnInit {
   feature: string;
   data: any[];
   cols: any[];
+  selectedColumns: any[];
 
-  constructor (private route: ActivatedRoute) {}
+  constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
   ngOnInit() {
     this.route.params
       .subscribe(({ feature }) => {
-        this.feature = feature;
+        this.isariDataService.getColumns(feature)
+          .then(columns => {
+            this.cols = columns;
+          });
       });
 
     this.data = [
@@ -58,23 +63,15 @@ export class ListPageComponent implements OnInit {
       { id: 33, name: 'René', age: 55 }
     ];
 
-    this.cols = [
-      { key: 'name', label: 'Nom' },
-      { key: 'age', label: 'Age' }
+    this.selectedColumns = [
+      { key: 'name', label: {fr: 'Nom'} },
+      { key: 'age', label: {fr: 'Age'} }
     ];
 
-    // this.data = new Subject();
-
-    // Observable
-    //   .timer(2500)
-    //   .combineLatest(Observable.from([ [ 1, 2, 3 ] ]))
-    //   .subscribe(([ , data ]) => {
-    //     this.data.next(data);
-    //   });
   }
 
-  // reloadData ($event) {
-  //   this.data.next([ 2, 3, 4 ]);
-  // }
+  colSelected($event) {
+    this.selectedColumns = $event.cols;
+  }
 
 }

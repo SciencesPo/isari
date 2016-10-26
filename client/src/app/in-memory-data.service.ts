@@ -85,10 +85,25 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
+    let schemas = [
+      {
+        id: 'people',
+        schema: {
+          name: {
+            label: { fr: 'Nom', en: 'Name' }
+          },
+          age: {
+            label: { fr: 'Age', en: 'Age' }
+          }
+        }
+      }
+    ];
+
     return {
       people,
       enums,
-      layouts
+      layouts,
+      schemas
     };
   }
 }

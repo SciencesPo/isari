@@ -24,6 +24,7 @@ import { IsariInputComponent } from './fields/isari-input/isari-input.component'
 import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
 import { IsariDateComponent } from './fields/isari-date/isari-date.component';
 import { IsariPaginationComponent } from './data-table/isari-pagination/isari-pagination.component';
+import { IsariColsSelectorComponent } from './list-page/isari-cols-selector/isari-cols-selector.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { IsariPaginationComponent } from './data-table/isari-pagination/isari-pa
     IsariInputComponent,
     IsariSelectComponent,
     IsariDateComponent,
-    IsariPaginationComponent
+    IsariPaginationComponent,
+    IsariColsSelectorComponent
   ],
   imports: [
     BrowserModule,
