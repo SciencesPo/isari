@@ -3,14 +3,14 @@
         {
             "value": "cnrs02", 
             "label": {
-                "fr": "section 02 - Th\u00e9ories physiques : m\u00e9thodes, mod\u00e8les et applications", 
+                "fr": "section 02 - Théories physiques : méthodes, modèles et applications", 
                 "en": ""
             }
         }, 
         {
             "value": "cnrs06", 
             "label": {
-                "fr": "section 06 - Sciences de l'information : fondements de l'informatique, calculs, algorithmes, repr\u00e9sentations, exploitations", 
+                "fr": "section 06 - Sciences de l'information : fondements de l'informatique, calculs, algorithmes, représentations, exploitations", 
                 "en": ""
             }
         }, 
@@ -24,7 +24,7 @@
         {
             "value": "cnrs31", 
             "label": {
-                "fr": "section 31 - Hommes et milieux : \u00e9volution, interactions", 
+                "fr": "section 31 - Hommes et milieux : évolution, interactions", 
                 "en": ""
             }
         }, 
@@ -66,14 +66,14 @@
         {
             "value": "cnrs38", 
             "label": {
-                "fr": "section 38 - Anthropologie et \u00e9tude comparative des soci\u00e9t\u00e9s contemporaines", 
+                "fr": "section 38 - Anthropologie et étude comparative des sociétés contemporaines", 
                 "en": ""
             }
         }, 
         {
             "value": "cnrs39", 
             "label": {
-                "fr": "section 39 - Espaces, territoires et soci\u00e9t\u00e9s\u201d,\u201dsection 40 - Politique, pouvoir, organisation", 
+                "fr": "section 39 - Espaces, territoires et sociétés”,”section 40 - Politique, pouvoir, organisation", 
                 "en": ""
             }
         }, 
@@ -119,14 +119,14 @@
         {
             "value": "discipline622", 
             "label": {
-                "fr": "\u00c9pist\u00e9mologie, histoire des sciences et des techniques", 
+                "fr": "Épistémologie, histoire des sciences et des techniques", 
                 "en": ""
             }
         }, 
         {
             "value": "discipline623", 
             "label": {
-                "fr": "Ethique et d\u00e9ontologie", 
+                "fr": "Ethique et déontologie", 
                 "en": ""
             }
         }, 
@@ -140,14 +140,14 @@
         {
             "value": "discipline645", 
             "label": {
-                "fr": "G\u00e9ographie physique, humaine, \u00e9conomique et r\u00e9gionale", 
+                "fr": "Géographie physique, humaine, économique et régionale", 
                 "en": ""
             }
         }, 
         {
             "value": "discipline646", 
             "label": {
-                "fr": "Am\u00e9nagement de l'espace, urbanisme\u201d,\u201dDroit priv\u00e9 et sciences criminelles", 
+                "fr": "Aménagement de l'espace, urbanisme”,”Droit privé et sciences criminelles", 
                 "en": ""
             }
         }, 
@@ -175,7 +175,7 @@
         {
             "value": "discipline721", 
             "label": {
-                "fr": "Science \u00e9conomique", 
+                "fr": "Science économique", 
                 "en": ""
             }
         }, 
@@ -189,7 +189,7 @@
         {
             "value": "discipline731", 
             "label": {
-                "fr": "Sociologie, d\u00e9mographie", 
+                "fr": "Sociologie, démographie", 
                 "en": ""
             }
         }, 
@@ -212,28 +212,28 @@
         {
             "value": "CMission", 
             "label": {
-                "fr": "CM : charg\u00e9(e) de mission", 
+                "fr": "CM : chargé(e) de mission", 
                 "en": ""
             }
         }, 
         {
             "value": "CM1", 
             "label": {
-                "fr": "CM1 : charg\u00e9(e) de mission niveau 1", 
+                "fr": "CM1 : chargé(e) de mission niveau 1", 
                 "en": ""
             }
         }, 
         {
             "value": "CM2", 
             "label": {
-                "fr": "CM2 : charg\u00e9(e) de mission niveau 2", 
+                "fr": "CM2 : chargé(e) de mission niveau 2", 
                 "en": ""
             }
         }, 
         {
             "value": "CM3", 
             "label": {
-                "fr": "CM3 : charg\u00e9(e) de mission niveau 3", 
+                "fr": "CM3 : chargé(e) de mission niveau 3", 
                 "en": ""
             }
         }, 
@@ -247,49 +247,49 @@
         {
             "value": "S1", 
             "label": {
-                "fr": "S1 : secr\u00e9taire de niveau 1", 
+                "fr": "S1 : secrétaire de niveau 1", 
                 "en": ""
             }
         }, 
         {
             "value": "S2", 
             "label": {
-                "fr": "S2 : secr\u00e9taire de niveau 2", 
+                "fr": "S2 : secrétaire de niveau 2", 
                 "en": ""
             }
         }, 
         {
             "value": "ABS", 
             "label": {
-                "fr": "ABS : agent de biblioth\u00e8que sp\u00e9cialis\u00e9", 
+                "fr": "ABS : agent de bibliothèque spécialisé", 
                 "en": ""
             }
         }, 
         {
             "value": "B1", 
             "label": {
-                "fr": "B1 : biblioth\u00e9caire de niveau 1", 
+                "fr": "B1 : bibliothécaire de niveau 1", 
                 "en": ""
             }
         }, 
         {
             "value": "B2", 
             "label": {
-                "fr": "B2 : biblioth\u00e9caire de niveau 2", 
+                "fr": "B2 : bibliothécaire de niveau 2", 
                 "en": ""
             }
         }, 
         {
             "value": "B3", 
             "label": {
-                "fr": "B3 : biblioth\u00e9caire de niveau 3", 
+                "fr": "B3 : bibliothécaire de niveau 3", 
                 "en": ""
             }
         }, 
         {
             "value": "APCE", 
             "label": {
-                "fr": "APCE : appariteur chef d'\u00e9quipe", 
+                "fr": "APCE : appariteur chef d'équipe", 
                 "en": ""
             }
         }, 
@@ -317,14 +317,14 @@
         {
             "value": "IGE", 
             "label": {
-                "fr": "IGE : ing\u00e9nieur d'\u00e9tudes", 
+                "fr": "IGE : ingénieur d'études", 
                 "en": ""
             }
         }, 
         {
             "value": "IGR", 
             "label": {
-                "fr": "IGR : ing\u00e9nieur de recherche", 
+                "fr": "IGR : ingénieur de recherche", 
                 "en": ""
             }
         }, 
@@ -338,7 +338,7 @@
         {
             "value": "TCS", 
             "label": {
-                "fr": "TCS : technicien de classe sup\u00e9rieure", 
+                "fr": "TCS : technicien de classe supérieure", 
                 "en": ""
             }
         }, 
@@ -352,7 +352,7 @@
         {
             "value": "AING", 
             "label": {
-                "fr": "AI : assistant ing\u00e9nieur", 
+                "fr": "AI : assistant ingénieur", 
                 "en": ""
             }
         }, 
@@ -380,9 +380,9 @@
             }
         }, 
         {
-            "value": "Pr\u00e9sidence", 
+            "value": "Présidence", 
             "label": {
-                "fr": "Pr\u00e9sidence", 
+                "fr": "Présidence", 
                 "en": ""
             }
         }, 
@@ -396,9 +396,9 @@
     ], 
     "grantTypes": [
         {
-            "value": "lev\u00e9edefond", 
+            "value": "levéedefond", 
             "label": {
-                "fr": "lev\u00e9e de fond", 
+                "fr": "levée de fond", 
                 "en": "fundraising"
             }
         }, 
@@ -463,14 +463,14 @@
         {
             "value": "central_reader", 
             "label": {
-                "fr": "direction g\u00e9n\u00e9rale", 
+                "fr": "direction générale", 
                 "en": "central reader"
             }
         }, 
         {
             "value": "center_editor", 
             "label": {
-                "fr": "\u00e9diteur du centre", 
+                "fr": "éditeur du centre", 
                 "en": "unit editor"
             }
         }, 
@@ -512,9 +512,9 @@
             }
         }, 
         {
-            "value": "disponibilit\u00e9", 
+            "value": "disponibilité", 
             "label": {
-                "fr": "disponibilit\u00e9", 
+                "fr": "disponibilité", 
                 "en": ""
             }
         }, 
@@ -533,9 +533,9 @@
             }
         }, 
         {
-            "value": "d\u00e9tachement", 
+            "value": "détachement", 
             "label": {
-                "fr": "d\u00e9tachement", 
+                "fr": "détachement", 
                 "en": ""
             }
         }, 
@@ -549,38 +549,10 @@
     ], 
     "organizationTypes": [
         {
-            "value": "d\u00e9partement", 
+            "value": "département", 
             "label": {
-                "fr": "d\u00e9partement", 
-                "en": "teaching department"
-            }
-        }, 
-        {
-            "value": "service", 
-            "label": {
-                "fr": "service", 
+                "fr": "département", 
                 "en": "department"
-            }
-        }, 
-        {
-            "value": "etablssementenseignementsuperieur", 
-            "label": {
-                "fr": "\u00e9tablissement d'enseignement sup\u00e9rieur", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "ministere", 
-            "label": {
-                "fr": "minist\u00e8re", 
-                "en": "governemental ministry"
-            }
-        }, 
-        {
-            "value": "orgarecherchepublic", 
-            "label": {
-                "fr": "organisme de recherche public", 
-                "en": "public research organisation"
             }
         }, 
         {
@@ -593,21 +565,21 @@
         {
             "value": "entreprise", 
             "label": {
-                "fr": "entreprise", 
+                "fr": "entreprise, institution privée (fondations…)", 
                 "en": "company"
             }
         }, 
         {
-            "value": "universit\u00e9", 
+            "value": "université", 
             "label": {
-                "fr": "universit\u00e9", 
+                "fr": "université", 
                 "en": "university"
             }
         }, 
         {
-            "value": "institutioninternationale", 
+            "value": "institutionpublique", 
             "label": {
-                "fr": "institution internationale", 
+                "fr": "institution publique (ministère, institution internationale...)", 
                 "en": ""
             }
         }, 
@@ -616,6 +588,62 @@
             "label": {
                 "fr": "chaire", 
                 "en": ""
+            }
+        }, 
+        {
+            "value": "écoleetautre", 
+            "label": {
+                "fr": "écoles et autres établissements", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "organismederecherche", 
+            "label": {
+                "fr": "organismes de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "comue", 
+            "label": {
+                "fr": "COMUE", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "autreinstitution", 
+            "label": {
+                "fr": "autres institutions", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "orgarecherchepublic", 
+            "label": {
+                "fr": "Organisme de recherche public", 
+                "en": "Public research institution"
+            }
+        }, 
+        {
+            "value": "ministere", 
+            "label": {
+                "fr": "Ministère", 
+                "en": "Ministry"
+            }
+        }, 
+        {
+            "value": "etablssementenseignementsuperieur", 
+            "label": {
+                "fr": "Établissement d'enseignement supérieur", 
+                "en": "Higher education institution"
+            }
+        }, 
+        {
+            "value": "service", 
+            "label": {
+                "fr": "Service interne", 
+                "en": "Internal department"
             }
         }
     ], 
@@ -630,7 +658,7 @@
         {
             "value": "primeDepartement", 
             "label": {
-                "fr": "Prime direction de d\u00e9partement", 
+                "fr": "Prime direction de département", 
                 "en": ""
             }
         }, 
@@ -686,7 +714,7 @@
         {
             "value": "primeComplement", 
             "label": {
-                "fr": "Prime en compl\u00e9ment", 
+                "fr": "Prime en complément", 
                 "en": ""
             }
         }, 
@@ -709,7 +737,7 @@
         {
             "value": "st1", 
             "label": {
-                "fr": "ST1 Math\u00e9matiques", 
+                "fr": "ST1 Mathématiques", 
                 "en": ""
             }
         }, 
@@ -737,7 +765,7 @@
         {
             "value": "st5", 
             "label": {
-                "fr": "ST5 Sciences pour l'ing\u00e9nieur", 
+                "fr": "ST5 Sciences pour l'ingénieur", 
                 "en": ""
             }
         }, 
@@ -751,21 +779,21 @@
         {
             "value": "sve1", 
             "label": {
-                "fr": "SVE1 Agronomie, Biologie V\u00e9g\u00e9tale, Ecologie, Environnement, Evolution", 
+                "fr": "SVE1 Agronomie, Biologie Végétale, Ecologie, Environnement, Evolution", 
                 "en": ""
             }
         }, 
         {
             "value": "sve2", 
             "label": {
-                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Mol\u00e9culaire, Biochimie, G\u00e9nomique, Biologie Syst\u00e9mique, D\u00e9veloppement, Biologie Structurale", 
+                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Moléculaire, Biochimie, Génomique, Biologie Systémique, Développement, Biologie Structurale", 
                 "en": ""
             }
         }, 
         {
             "value": "sve3", 
             "label": {
-                "fr": "SVE3 Microbiologie, Immunit\u00e9", 
+                "fr": "SVE3 Microbiologie, Immunité", 
                 "en": ""
             }
         }, 
@@ -779,14 +807,14 @@
         {
             "value": "sve5", 
             "label": {
-                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies M\u00e9dicales", 
+                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies Médicales", 
                 "en": ""
             }
         }, 
         {
             "value": "sve6", 
             "label": {
-                "fr": "SVE6 Sant\u00e9 Publique, Epid\u00e9miologie, Recherche Clinique", 
+                "fr": "SVE6 Santé Publique, Epidémiologie, Recherche Clinique", 
                 "en": ""
             }
         }, 
@@ -828,28 +856,28 @@
         {
             "value": "shs24", 
             "label": {
-                "fr": "SHS2_4 Sociologie, d\u00e9mographie", 
+                "fr": "SHS2_4 Sociologie, démographie", 
                 "en": ""
             }
         }, 
         {
             "value": "shs25", 
             "label": {
-                "fr": "SHS2_5 Sciences de l\u2019information et de la communication", 
+                "fr": "SHS2_5 Sciences de l’information et de la communication", 
                 "en": ""
             }
         }, 
         {
             "value": "shs31", 
             "label": {
-                "fr": "SHS3_1 G\u00e9ographie", 
+                "fr": "SHS3_1 Géographie", 
                 "en": ""
             }
         }, 
         {
             "value": "shs32", 
             "label": {
-                "fr": "SHS3_2 Am\u00e9nagement et urbanisme", 
+                "fr": "SHS3_2 Aménagement et urbanisme", 
                 "en": ""
             }
         }, 
@@ -877,28 +905,28 @@
         {
             "value": "shs43", 
             "label": {
-                "fr": "SHS4_3 Sciences de l'\u00e9ducation", 
+                "fr": "SHS4_3 Sciences de l'éducation", 
                 "en": ""
             }
         }, 
         {
             "value": "shs44", 
             "label": {
-                "fr": "SHS4_4 Sciences et techniques des activit\u00e9s physiques et sportives", 
+                "fr": "SHS4_4 Sciences et techniques des activités physiques et sportives", 
                 "en": ""
             }
         }, 
         {
             "value": "shs51", 
             "label": {
-                "fr": "SHS5_1 Langues / litt\u00e9ratures anciennes et fran\u00e7aises, litt\u00e9rature compar\u00e9e", 
+                "fr": "SHS5_1 Langues / littératures anciennes et françaises, littérature comparée", 
                 "en": ""
             }
         }, 
         {
             "value": "shs52", 
             "label": {
-                "fr": "SHS5_2 Litt\u00e9ratures et langues \u00e9trang\u00e8res, civilisations, cultures et langues r\u00e9gionales", 
+                "fr": "SHS5_2 Littératures et langues étrangères, civilisations, cultures et langues régionales", 
                 "en": ""
             }
         }, 
@@ -912,7 +940,7 @@
         {
             "value": "shs54", 
             "label": {
-                "fr": "SHS5_4 Philosophie, sciences des religions, th\u00e9ologie", 
+                "fr": "SHS5_4 Philosophie, sciences des religions, théologie", 
                 "en": ""
             }
         }, 
@@ -933,7 +961,7 @@
         {
             "value": "shs63", 
             "label": {
-                "fr": "SHS6_3 Arch\u00e9ologie", 
+                "fr": "SHS6_3 Archéologie", 
                 "en": ""
             }
         }
@@ -1000,14 +1028,14 @@
         {
             "value": "mob_entrante", 
             "label": {
-                "fr": "invit\u00e9", 
+                "fr": "invité", 
                 "en": ""
             }
         }, 
         {
             "value": "mob_sortante", 
             "label": {
-                "fr": "s\u00e9jour \u00e0 l'\u00e9tranger", 
+                "fr": "séjour à l'étranger", 
                 "en": ""
             }
         }
@@ -1021,23 +1049,23 @@
             }
         }, 
         {
-            "value": "associ\u00e9", 
+            "value": "associé", 
             "label": {
-                "fr": "associ\u00e9", 
+                "fr": "associé", 
                 "en": ""
             }
         }, 
         {
-            "value": "rattach\u00e9", 
+            "value": "rattaché", 
             "label": {
-                "fr": "rattach\u00e9", 
+                "fr": "rattaché", 
                 "en": ""
             }
         }, 
         {
-            "value": "affili\u00e9", 
+            "value": "affilié", 
             "label": {
-                "fr": "affili\u00e9", 
+                "fr": "affilié", 
                 "en": ""
             }
         }
@@ -1046,7 +1074,7 @@
         {
             "value": "editorial", 
             "label": {
-                "fr": "activit\u00e9s \u00e9ditoriales", 
+                "fr": "activités éditoriales", 
                 "en": ""
             }
         }, 
@@ -1079,16 +1107,16 @@
             }
         }, 
         {
-            "value": "responsabilit\u00e9setmandats", 
+            "value": "responsabilitésetmandats", 
             "label": {
-                "fr": "responsabilit\u00e9s et mandats", 
+                "fr": "responsabilités et mandats", 
                 "en": ""
             }
         }, 
         {
-            "value": "\u00e9valuations", 
+            "value": "évaluations", 
             "label": {
-                "fr": "\u00e9valuations", 
+                "fr": "évaluations", 
                 "en": ""
             }
         }, 
@@ -1125,224 +1153,224 @@
     ], 
     "aeres2012": [
         {
-            "value": "aireg\u00e9ographique1", 
+            "value": "airegéographique1", 
             "label": {
                 "fr": "Afrique subsaharienne", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique2", 
+            "value": "airegéographique2", 
             "label": {
                 "fr": "Afrique du nord", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique3", 
+            "value": "airegéographique3", 
             "label": {
                 "fr": "Afrique de l'est", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique4", 
+            "value": "airegéographique4", 
             "label": {
                 "fr": "Afrique de l'ouest", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique5", 
+            "value": "airegéographique5", 
             "label": {
                 "fr": "Afrique centrale", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique6", 
+            "value": "airegéographique6", 
             "label": {
                 "fr": "Afrique australe", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique7", 
+            "value": "airegéographique7", 
             "label": {
                 "fr": "Afrique saharienne", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique8", 
+            "value": "airegéographique8", 
             "label": {
                 "fr": "Proche, Moyen-Orient", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique9", 
+            "value": "airegéographique9", 
             "label": {
-                "fr": "Monde m\u00e9diterran\u00e9en", 
+                "fr": "Monde méditerranéen", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique10", 
+            "value": "airegéographique10", 
             "label": {
-                "fr": "Europe m\u00e9diterran\u00e9enne", 
+                "fr": "Europe méditerranéenne", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique11", 
+            "value": "airegéographique11", 
             "label": {
                 "fr": "Europe occidentale", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique12", 
+            "value": "airegéographique12", 
             "label": {
                 "fr": "France", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique13", 
+            "value": "airegéographique13", 
             "label": {
                 "fr": "Italie", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique14", 
+            "value": "airegéographique14", 
             "label": {
                 "fr": "Espagne", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique15", 
+            "value": "airegéographique15", 
             "label": {
                 "fr": "Portugal", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique16", 
+            "value": "airegéographique16", 
             "label": {
-                "fr": "Gr\u00e8ce, Balkans", 
+                "fr": "Grèce, Balkans", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique17", 
+            "value": "airegéographique17", 
             "label": {
                 "fr": "Europe du nord", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique18", 
+            "value": "airegéographique18", 
             "label": {
                 "fr": "Europe centrale", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique19", 
+            "value": "airegéographique19", 
             "label": {
                 "fr": "Russie", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique20", 
+            "value": "airegéographique20", 
             "label": {
                 "fr": "Mondes slaves", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique21", 
+            "value": "airegéographique21", 
             "label": {
                 "fr": "Mondes anglophones", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique22", 
+            "value": "airegéographique22", 
             "label": {
                 "fr": "Mondes germaniques", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique23", 
+            "value": "airegéographique23", 
             "label": {
-                "fr": "Am\u00e9rique du nord", 
+                "fr": "Amérique du nord", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique24", 
+            "value": "airegéographique24", 
             "label": {
-                "fr": "Am\u00e9rique centrale et Am\u00e9rique du sud", 
+                "fr": "Amérique centrale et Amérique du sud", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique25", 
+            "value": "airegéographique25", 
             "label": {
                 "fr": "Pacifique", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique26", 
+            "value": "airegéographique26", 
             "label": {
-                "fr": "Oc\u00e9anie", 
+                "fr": "Océanie", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique27", 
+            "value": "airegéographique27", 
             "label": {
-                "fr": "Australie, Nouvelle Z\u00e9lande", 
+                "fr": "Australie, Nouvelle Zélande", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique28", 
+            "value": "airegéographique28", 
             "label": {
-                "fr": "Extr\u00eame orient", 
+                "fr": "Extrême orient", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique29", 
+            "value": "airegéographique29", 
             "label": {
                 "fr": "Asie du sud", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique30", 
+            "value": "airegéographique30", 
             "label": {
                 "fr": "Asie du sud-est", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique31", 
+            "value": "airegéographique31", 
             "label": {
                 "fr": "Pays himalayens", 
                 "en": ""
             }
         }, 
         {
-            "value": "aireg\u00e9ographique32", 
+            "value": "airegéographique32", 
             "label": {
                 "fr": "Asie centrale", 
                 "en": ""
@@ -1620,16 +1648,16 @@
             }
         }, 
         {
-            "value": "directeurdeth\u00e8se", 
+            "value": "directeurdethèse", 
             "label": {
-                "fr": "directeur de th\u00e8se", 
+                "fr": "directeur de thèse", 
                 "en": ""
             }
         }, 
         {
-            "value": "membrecomit\u00e9suivi", 
+            "value": "membrecomitésuivi", 
             "label": {
-                "fr": "membre comit\u00e9 suivi", 
+                "fr": "membre comité suivi", 
                 "en": ""
             }
         }, 
@@ -1666,28 +1694,28 @@
         {
             "value": "profuniv", 
             "label": {
-                "fr": "Professeur des universit\u00e9s", 
+                "fr": "Professeur des universités", 
                 "en": ""
             }
         }, 
         {
             "value": "profunivemerite", 
             "label": {
-                "fr": "Professeur des universit\u00e9s \u00e9m\u00e9rite", 
+                "fr": "Professeur des universités émérite", 
                 "en": ""
             }
         }, 
         {
             "value": "mconf", 
             "label": {
-                "fr": "Ma\u00eetre de conf\u00e9rences", 
+                "fr": "Maître de conférences", 
                 "en": ""
             }
         }, 
         {
             "value": "chargederecherche", 
             "label": {
-                "fr": "Charg\u00e9 de recherche", 
+                "fr": "Chargé de recherche", 
                 "en": ""
             }
         }, 
@@ -1701,14 +1729,14 @@
         {
             "value": "directeurderechercheremerite", 
             "label": {
-                "fr": "Directeur de recherche \u00e9m\u00e9rite", 
+                "fr": "Directeur de recherche émérite", 
                 "en": ""
             }
         }, 
         {
-            "value": "charg\u00e9d\u00e9tudes", 
+            "value": "chargédétudes", 
             "label": {
-                "fr": "Charg\u00e9 d'\u00e9tudes", 
+                "fr": "Chargé d'études", 
                 "en": ""
             }
         }, 
@@ -1727,9 +1755,9 @@
             }
         }, 
         {
-            "value": "invit\u00e9", 
+            "value": "invité", 
             "label": {
-                "fr": "Invit\u00e9", 
+                "fr": "Invité", 
                 "en": ""
             }
         }, 
@@ -1986,7 +2014,7 @@
         {
             "value": "cnu01", 
             "label": {
-                "fr": "section 01 - Droit priv\u00e9 et sciences criminelles", 
+                "fr": "section 01 - Droit privé et sciences criminelles", 
                 "en": ""
             }
         }, 
@@ -2014,7 +2042,7 @@
         {
             "value": "cnu05", 
             "label": {
-                "fr": "section 05 - Sciences \u00e9conomiques", 
+                "fr": "section 05 - Sciences économiques", 
                 "en": ""
             }
         }, 
@@ -2035,14 +2063,14 @@
         {
             "value": "cnu19", 
             "label": {
-                "fr": "section 19 - Sociologie, d\u00e9mographie", 
+                "fr": "section 19 - Sociologie, démographie", 
                 "en": ""
             }
         }, 
         {
             "value": "cnu20", 
             "label": {
-                "fr": "section 20 - Ethnologie, pr\u00e9histoire, anthropologie biologique", 
+                "fr": "section 20 - Ethnologie, préhistoire, anthropologie biologique", 
                 "en": ""
             }
         }, 
@@ -2056,14 +2084,14 @@
         {
             "value": "cnu23", 
             "label": {
-                "fr": "section 23 - G\u00e9ographie physique, humaine, \u00e9conomique et r\u00e9gionale", 
+                "fr": "section 23 - Géographie physique, humaine, économique et régionale", 
                 "en": ""
             }
         }, 
         {
             "value": "cnu24", 
             "label": {
-                "fr": "section 24 - Am\u00e9nagement de l'espace, urbanisme", 
+                "fr": "section 24 - Aménagement de l'espace, urbanisme", 
                 "en": ""
             }
         }, 
@@ -2077,16 +2105,16 @@
     ], 
     "distinctionTypes": [
         {
-            "value": "dipl\u00f4me", 
+            "value": "diplôme", 
             "label": {
-                "fr": "dipl\u00f4me", 
+                "fr": "diplôme", 
                 "en": ""
             }
         }, 
         {
-            "value": "doubledipl\u00f4me", 
+            "value": "doublediplôme", 
             "label": {
-                "fr": "double-dipl\u00f4me", 
+                "fr": "double-diplôme", 
                 "en": ""
             }
         }, 
@@ -2539,14 +2567,14 @@
         {
             "value": "scpo2", 
             "label": {
-                "fr": "analyse des march\u00e9s", 
+                "fr": "analyse des marchés", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo3", 
             "label": {
-                "fr": "criminalit\u00e9, d\u00e9linquance", 
+                "fr": "criminalité, délinquance", 
                 "en": ""
             }
         }, 
@@ -2560,28 +2588,28 @@
         {
             "value": "scpo5", 
             "label": {
-                "fr": "d\u00e9mocratie, nations, nationalismes", 
+                "fr": "démocratie, nations, nationalismes", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo6", 
             "label": {
-                "fr": "\u00e9ducation, enseignement", 
+                "fr": "éducation, enseignement", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo7", 
             "label": {
-                "fr": "\u00e9lites", 
+                "fr": "élites", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo8", 
             "label": {
-                "fr": "environnement, climat, \u00e9nergie", 
+                "fr": "environnement, climat, énergie", 
                 "en": ""
             }
         }, 
@@ -2609,7 +2637,7 @@
         {
             "value": "scpo12", 
             "label": {
-                "fr": "genre et sexualit\u00e9s", 
+                "fr": "genre et sexualités", 
                 "en": ""
             }
         }, 
@@ -2623,35 +2651,35 @@
         {
             "value": "scpo14", 
             "label": {
-                "fr": "in\u00e9galit\u00e9s et discriminations", 
+                "fr": "inégalités et discriminations", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo15", 
             "label": {
-                "fr": "int\u00e9gration europ\u00e9enne", 
+                "fr": "intégration européenne", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo16", 
             "label": {
-                "fr": "m\u00e9dias et communication", 
+                "fr": "médias et communication", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo17", 
             "label": {
-                "fr": "m\u00e9moire, futurs", 
+                "fr": "mémoire, futurs", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo18", 
             "label": {
-                "fr": "m\u00e9thodes", 
+                "fr": "méthodes", 
                 "en": ""
             }
         }, 
@@ -2672,7 +2700,7 @@
         {
             "value": "scpo21", 
             "label": {
-                "fr": "num\u00e9rique", 
+                "fr": "numérique", 
                 "en": ""
             }
         }, 
@@ -2686,14 +2714,14 @@
         {
             "value": "scpo23", 
             "label": {
-                "fr": "ph\u00e9nom\u00e8nes juridiques", 
+                "fr": "phénomènes juridiques", 
                 "en": ""
             }
         }, 
         {
             "value": "scpo24", 
             "label": {
-                "fr": "politiques et acteurs \u00e9conomiques", 
+                "fr": "politiques et acteurs économiques", 
                 "en": ""
             }
         }, 
@@ -2707,7 +2735,7 @@
         {
             "value": "scpo26", 
             "label": {
-                "fr": "sant\u00e9, risques", 
+                "fr": "santé, risques", 
                 "en": ""
             }
         }, 
@@ -2721,7 +2749,7 @@
         {
             "value": "scpo28", 
             "label": {
-                "fr": "s\u00e9curit\u00e9, d\u00e9fense", 
+                "fr": "sécurité, défense", 
                 "en": ""
             }
         }, 
@@ -2735,7 +2763,7 @@
         {
             "value": "scpo30", 
             "label": {
-                "fr": "th\u00e9orie \u00e9conomique", 
+                "fr": "théorie économique", 
                 "en": ""
             }
         }, 
@@ -2765,7 +2793,7 @@
         {
             "value": "private", 
             "label": {
-                "fr": "priv\u00e9", 
+                "fr": "privé", 
                 "en": ""
             }
         }
@@ -2958,7 +2986,7 @@
         {
             "value": "f", 
             "label": {
-                "fr": "F\u00e9minin", 
+                "fr": "Féminin", 
                 "en": "Female"
             }
         }, 
