@@ -81,8 +81,6 @@ let ERRORS = 0;
 function cleanLine(line) {
   for (const k in line)
     line[k] = clean.default(line[k]);
-
-  return line;
 }
 
 // Function attributing a mongo id to a line
@@ -90,14 +88,8 @@ function attachMongoId(line) {
   line._id = mongoose.Types.ObjectId();
 }
 
-log.info('Starting...');
-
-/**
- * Processing organization files.
- */
-log.info('Processing organization files...');
-const tasks = FILES.organizations.files.map(file => next => {
-  // Read and parse CSV
+// Function taking a file descriptor and returning the parsed lines
+function parseFile(file, callback) {
   const filePath = path.join(
     argv.path,
     FILES.organizations.folder,
@@ -114,59 +106,84 @@ const tasks = FILES.organizations.files.map(file => next => {
 
   const data = fs.readFileSync(filePath, 'utf-8');
 
-  csv.parse(data, options, (err, lines) => {
+  return csv.parse(data, options, (err, lines) => {
     if (err)
-      return next(err);
+      return callback(err);
 
     log.info(`Parsed ${lines.length} lines.`);
 
-    // Cleaning
-    lines = lines.map(cleanLine);
+    // Cleaning the lines
+    lines.forEach(cleanLine);
 
-    // Consuming
-    lines = lines.map(file.consumer);
+    // Consuming the lines
+    lines = lines.map(file.consumer.bind(log));
+
+    return callback(null, lines);
+  });
+}
+
+// Function using the Mongoose models to validate an entity
+function validate(Model, line, index) {
+  const result = (new Model(line, false)).validateSync(),
+        errors = [];
+
+  if (!result)
+    return errors;
+
+  for (const k in result.errors) {
+    let error = result.errors[k];
+
+    while (error.reason) {
+      error = error.reason;
+    }
+
+    if (error.kind === 'ObjectId')
+      continue;
+
+    const meta = {
+      line: index + 1,
+      type: error.name,
+      message: error.message
+    };
+
+    const coloredMessage = meta.message
+      .replace(/`(.*?)`/g, function(_, m) {
+        return chalk.cyan(m);
+      })
+      .replace(/".*?"/g, function(m) {
+        return chalk.green(m);
+      });
+
+    meta.coloredMessage = coloredMessage;
+
+    errors.push(meta);
+  }
+
+  return errors;
+}
+
+/**
+ * Processing organization files.
+ */
+log.info('Starting...');
+log.info('Processing organization files...');
+let tasks = FILES.organizations.files.map(file => next => {
+  parseFile(file, (err, lines) => {
+    if (err)
+      return next(err);
 
     // Giving unique identifier
     lines.forEach(attachMongoId);
 
     // Validating
     lines.forEach((line, i) => {
-      const validationError = (new Organization(line, false)).validateSync();
+      const errors = validate(Organization, line, i);
 
-      if (validationError) {
-        const errors = validationError.errors;
+      errors.forEach(error => {
+        log.error(`Line ${error.line}: ${error.type} => ${error.coloredMessage}`, error);
+      });
 
-        // Dumping errors
-        for (const key in errors) {
-          let error = errors[key];
-
-          while (error.reason) {
-            error = error.reason;
-          }
-
-          // Don't display ObjectId errors for we will solve the relations later
-          if (error.kind === 'ObjectId')
-            return;
-
-          ERRORS++;
-
-          const meta = {
-            line: i + 1,
-            type: error.name,
-            message: error.message
-          };
-
-          const coloredMessage = meta.message
-            .replace(/`(.*?)`/g, function(_, m) {
-              return chalk.cyan(m);
-            })
-            .replace(/".*?"/g, function(m) {
-              return chalk.green(m);
-            });
-
-          log.error(`Line ${meta.line}: ${meta.type} => ${coloredMessage}`, meta);
-        }
-      }
+      ERRORS += errors.length;
     });
 
     // Indexing

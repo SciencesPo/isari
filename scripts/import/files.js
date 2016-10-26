@@ -119,7 +119,13 @@ module.exports = {
       {
         name: 'sirh',
         path: 'SIRH.csv',
-        delimiter: ','
+        delimiter: ',',
+        consumer(line) {
+          const info = {
+            name: line['Nom usuel'],
+            firstname: line.Prénom
+          };
+        }
       }
     ]
   }
