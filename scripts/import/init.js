@@ -47,6 +47,11 @@ const relations = {
 };
 
 /**
+ * Command line & constants.
+ * -----------------------------------------------------------------------------
+ */
+
+/**
  * Reading command line.
  */
 const argv = yargs
@@ -75,6 +80,7 @@ let ERRORS = 0;
 
 /**
  * Helpers.
+ * -----------------------------------------------------------------------------
  */
 
 // Function taking a parsed CSV line and cleaning it.
@@ -163,11 +169,14 @@ function validate(Model, line, index) {
 }
 
 /**
+ * Tasks (Organizations, People, Activities)
+ * -----------------------------------------------------------------------------
+ */
+
+/**
  * Processing organization files.
  */
-log.info('Starting...');
-log.info('Processing organization files...');
-let tasks = FILES.organizations.files.map(file => next => {
+let organizationTasks = FILES.organizations.files.map(file => next => {
   parseFile(file, (err, lines) => {
     if (err)
       return next(err);
@@ -195,7 +204,17 @@ let tasks = FILES.organizations.files.map(file => next => {
   });
 });
 
-async.series(tasks, err => {
+/**
+ * Process outline.
+ * -----------------------------------------------------------------------------
+ */
+log.info('Starting...');
+async.series({
+  organizations(next) {
+    log.info('Processing organization files...');
+    return async.series(organizationTasks, next);
+  }
+}, err => {
   if (err)
     return console.error(err);
 
