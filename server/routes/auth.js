@@ -14,9 +14,10 @@ router.use(bodyParser.urlencoded({
 router.post('/login', (req, res) => {
 	const { login, password } = req.body
 	auth(login, password)
-	.then(() => {
-		req.session.user = login
-		res.send({ login })
+	.then(people => {
+		req.session.login = login
+		req.session.peopleId = people.id
+		res.send({ login, peopleId: people.id })
 	})
 	.catch(err => {
 		return res.status(403).send({
@@ -26,19 +27,20 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/logout', (req, res) => {
-	const was = req.session.user
-	req.session.user = null
+	const was = req.session.login
+	req.session.login = null
 	res.send({ was })
 })
 
 router.get('/myself', (req, res) => {
-	if (!req.session.user) {
+	if (!req.session.login) {
 		return res.status(401).send({
 			redirect: req.baseUrl + '/login',
 			message: 'Not authenticated'
 		})
 	}
 	res.send({
-		login: req.session.user
+		login: req.session.login,
+		peopleId: req.session.peopleId
 	})
 })

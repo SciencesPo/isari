@@ -13,7 +13,7 @@
     "dev": "npm-run-all -p watch:*",
     "watch:test": "npm test -- --watch --growl -R dot",
     "watch:lint": "esw --watch",
-    "watch:server": "cross-env NODE_ENV=development DEBUG=isari:* nodemon server.js",
+    "watch:server": "cross-env NODE_ENV=development DEBUG=isari:* nodemon -e js,json,toml -w . -w ../specs server.js",
     "lint": "eslint ."
   },
   "author": "Byte Club",
