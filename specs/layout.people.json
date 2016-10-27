@@ -2,9 +2,9 @@
   {
     "label": { "fr": "groupe 1", "en": "group 1" },
     "collapsable": true,
-    "fields": ["firstname", "name"]
+    "fields": ["firstName", "name"]
   },
-  ["gender", "birthdate", "nationalities"],
+  ["gender", "birthDate", "nationalities"],
   "tags",
   "-ORCID"
 ]
