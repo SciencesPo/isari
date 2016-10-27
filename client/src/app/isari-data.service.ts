@@ -26,18 +26,12 @@ export class IsariDataService {
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
 
-  // private dataUrl = 'api';
-  // private layoutUrl = 'api/layouts';
-  // private enumUrl = 'api/enums';
-  // private schemaUrl = 'api/schemas';
-
   constructor(private http: Http, private fb: FormBuilder) { }
 
   getPeople(id: string) {
     const url = `${this.dataUrl}/people/${id}`;
     return this.http.get(url)
       .toPromise()
-      // .then(response => response.json().data)
       .then(response => response.json())
       .catch(this.handleError);
   }
@@ -50,7 +44,6 @@ export class IsariDataService {
     const url = `${this.layoutUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      // .then(response => response.json().data.layout)
       .then(response => response.json())
       .catch(this.handleError);
   }
@@ -59,7 +52,6 @@ export class IsariDataService {
     const url = `${this.schemaUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      // .then(response => response.json().data.schema)
       .then(response => response.json())
       .then(schema => Object.keys(schema).map(key => ({
         key,
