@@ -11,6 +11,7 @@ import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/cache';
 
 import DEFAULT_COLUMNS from '../../../specs/columns.json';
 
@@ -22,6 +23,8 @@ const mongoSchema2Api = {
 
 @Injectable()
 export class IsariDataService {
+
+  private enumsCache = {};
 
   private dataUrl = `${environment.API_BASE_URL}`;
   private layoutUrl = `${environment.API_BASE_URL}/layouts`;
@@ -252,9 +255,16 @@ export class IsariDataService {
     if (src === 'KEYS(personalActivityTypes)' || src === 'personalActivityTypes.$personalActivityType') {
       return Observable.of([]);
     }
+
+    // check for cached results
+    if (this.enumsCache[src]) {
+      return this.enumsCache[src];
+    }
+
     const url = `${this.enumUrl}/${src}`;
-    return this.http.get(url)
-      .map(response => response.json());
+    let $enum = this.http.get(url).map(response => response.json());
+    this.enumsCache[src] = $enum.cache();
+    return $enum;
   }
 
 }
