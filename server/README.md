@@ -38,7 +38,20 @@ npm install --production
 
 ## REST API
 
-### Collection endpoints:
+### Authentication
+
+* `GET /auth/myself`
+  * output: `{ login, people }`
+    * `login` = LDAP UID
+    * `people` = populated matching People
+* `POST /auth/login`
+  * input: `{ login, password }`
+  * output: `{ login, people }` (cf. route `/auth/myself`)
+ * `POST /auth/logout`
+  * output: `{ was }`
+    * `was` = login of previously logged in user
+
+### Collection endpoints
 
 * `GET /:collection`
   * output: Array(Item) or 404
