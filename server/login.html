@@ -1,0 +1,83 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>Sample Login Form</title>
+</head>
+
+<body>
+
+<h1>Sample Isari Login Form</h1>
+<div id="error" style="display:none">
+	<h2>Error</h2>
+	<p id="error-message"></p>
+</div>
+
+<div id="logged-in" style="display:none">
+	<h2>Connected successfully</h2>
+	<p>Login: <span id="login"></span> <button id="logout-button">Log Out</button></p>
+</div>
+
+<form id="login-form" style="display:none">
+	<input name="login" placeholder="LDAP UID">
+	<input type="password" name="password" placeholder="Password">
+	<button>Log In</button>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>/* eslint-env browser *//* eslint no-var:0 *//* global $ */
+
+var loginUrl = 'http://localhost:8080/auth/login'
+var logoutUrl = 'http://localhost:8080/auth/logout'
+var statusUrl = 'http://localhost:8080/auth/myself'
+
+// 1. check current login status
+$.get(statusUrl)
+.then(function (body) {
+	$('#login').text(body.login)
+	$('#logged-in').show()
+})
+.catch(function () {
+	$('#login-form').show()
+})
+
+// 2. Handle login form
+$('#login-form').on('submit', function (e) {
+	e.preventDefault()
+	$.post(loginUrl, {
+		login: this.elements.login.value,
+		password: this.elements.password.value
+	})
+	.then(function (body) {
+		// Show result
+		$('#login').text(body.login)
+		$('#error').hide()
+		$('#login-form').hide()
+		$('#logged-in').show()
+	})
+	.catch(function (res, error) {
+		// Show error
+		$('#error-message').text(res.responseJSON ? res.responseJSON.error : res.responseText || String(error))
+		$('#logged-in').hide()
+		$('#error').show()
+	})
+})
+
+// 3. Handle logout button
+$('#logout-button').on('click', function (e) {
+	e.preventDefault()
+	$.post(logoutUrl)
+	.then(function () {
+		$('#logged-in').hide()
+		$('#error').hide()
+		$('#login-form').show()
+	})
+	.catch(function (res, error) {
+		// Note: should not happen, except network errors
+		$('#error-message').text(res.responseJSON ? res.responseJSON.error : res.responseText || String(error))
+		$('#error').show()
+	})
+})
+</script>
+
+</body>

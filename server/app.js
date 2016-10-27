@@ -59,6 +59,9 @@ app.use(session({
 	})
 }))
 
+// Dev only: to be replaced by NG2 version
+app.use('/login', (req, res) => res.sendfile(__dirname + '/login.html'))
+
 app.use('/', routes.index)
 app.use('/auth', routes.auth)
 app.use('/people', routes.people)

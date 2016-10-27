@@ -9,3 +9,6 @@ url = 'mongodb://localhost/isaridev'
 
 [elasticsearch]
 index = 'isaridev'
+
+[ldap]
+url = 'ldap://ldapdevl.sciences-po.fr'
