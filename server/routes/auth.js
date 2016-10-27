@@ -2,6 +2,7 @@
 
 const { Router } = require('express')
 const bodyParser = require('body-parser')
+const auth = require('../lib/auth')
 
 const router = module.exports = Router()
 
@@ -11,10 +12,23 @@ router.use(bodyParser.urlencoded({
 }))
 
 router.post('/login', (req, res) => {
-	req.session.user = 'ok'
-	res.send({
-		username: 'ok'
+	const { login, password } = req.body
+	auth(login, password)
+	.then(() => {
+		req.session.user = login
+		res.send({ login })
 	})
+	.catch(err => {
+		return res.status(403).send({
+			error: err.message
+		})
+	})
+})
+
+router.post('/logout', (req, res) => {
+	const was = req.session.user
+	req.session.user = null
+	res.send({ was })
 })
 
 router.get('/myself', (req, res) => {
@@ -25,6 +39,6 @@ router.get('/myself', (req, res) => {
 		})
 	}
 	res.send({
-		username: req.session.user
+		login: req.session.user
 	})
 })

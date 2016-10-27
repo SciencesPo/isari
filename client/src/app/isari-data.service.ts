@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 import { environment } from '../environments/environment';
 
@@ -26,18 +26,12 @@ export class IsariDataService {
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
 
-  // private dataUrl = 'api';
-  // private layoutUrl = 'api/layouts';
-  // private enumUrl = 'api/enums';
-  // private schemaUrl = 'api/schemas';
-
   constructor(private http: Http, private fb: FormBuilder) { }
 
   getPeople(id: string) {
     const url = `${this.dataUrl}/people/${id}`;
     return this.http.get(url)
       .toPromise()
-      // .then(response => response.json().data)
       .then(response => response.json())
       .catch(this.handleError);
   }
@@ -50,7 +44,6 @@ export class IsariDataService {
     const url = `${this.layoutUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      // .then(response => response.json().data.layout)
       .then(response => response.json())
       .catch(this.handleError);
   }
@@ -59,7 +52,6 @@ export class IsariDataService {
     const url = `${this.schemaUrl}/${feature}`;
     return this.http.get(url)
       .toPromise()
-      // .then(response => response.json().data.schema)
       .then(response => response.json())
       .then(schema => Object.keys(schema).map(key => ({
         key,
@@ -108,8 +100,14 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  getForeignLabel(src: string, value: string) {
-    return Observable.of('John');
+  getForeignLabel(feature: string, value: string) {
+    if (!value) {
+      return Observable.of('');
+    }
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${value}/string`;
+    return this.http.get(url)
+      .map(response => response.json())
+      .map(item => item.value);
   }
 
   rawSearch(feature: string, query: string) {
@@ -175,6 +173,42 @@ export class IsariDataService {
     }
     return  'input';
   }
+
+
+  save(feature: string, data: any) {
+    console.log('save', data);
+    const url = `${this.dataUrl}/${feature}/${data.id}`;
+    return this.http.put(url, data)
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
+  }
+
+  // getErrors(form: FormGroup) {
+  //   return this.getErrorsFromControls(form.controls);
+  // }
+
+  // getErrorsFromControls(controls: { [key: string]: AbstractControl}) {
+  //   let errors = [];
+  //   for (let fieldName of Object.keys(controls)){
+  //     let control = controls[fieldName];
+  //     if (control instanceof FormGroup) {
+  //       errors = [...errors, ...this.getErrorsFromControls(control.controls)];
+  //       this.getErrorsFromControls(control.controls);
+  //     }
+  //     if (control instanceof FormArray) {
+  //       control.controls
+  //         .filter(ctrl => ctrl.invalid)
+  //         .forEach(ctrl => {
+  //           errors = [...errors, ...this.getErrorsFromControls( (<FormGroup>ctrl).controls)];
+  //         });
+  //     }
+  //     if (control.errors) {
+  //       errors.push(fieldName);
+  //     }
+  //   }
+  //   return errors;
+  // }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
