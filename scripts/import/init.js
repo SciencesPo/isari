@@ -56,9 +56,16 @@ const relations = {
  */
 const argv = yargs
   .usage('$0 --path ./path/to/isari_data')
-  .option('p', {
-    alias: 'path',
+  .option('path', {
     demand: true
+  })
+  .option('dry-run', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to perform a dry run.'
+  })
+  .option('json', {
+    describe: 'JSON dump path.'
   })
   .help()
   .argv;
