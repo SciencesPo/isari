@@ -95,7 +95,6 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   addValue(value) {
-    console.log(value);
     this.selectControl.setValue('');
     if (value && this.values.indexOf(value) === -1) { // uniq
       this.values = [...this.values, value];
