@@ -5,7 +5,7 @@ const { Activity } = require('../lib/model')
 const { clone } = require('lodash/fp')
 
 
-module.exports = restRouter(Activity, formatActivity, 'activity')
+module.exports = restRouter(Activity, formatActivity, 'activities')
 
 
 function formatActivity (activity) {

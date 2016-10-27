@@ -58,11 +58,11 @@ exports.restRouter = (Model, format = identity, esIndex = null, getPermissions =
 	}
 
 	router.get('/', restHandler(listModel(Model, format, getPermissions)))
-	router.get('/:id', restHandler(getModel(Model, format, getPermissions)))
-	router.get('/:id/string', restHandler(getModelString(Model)))
-	router.put('/:id', restHandler(updateModel(Model, save, getPermissions)))
+	router.get('/:id([A-Za-f0-9]{24})', restHandler(getModel(Model, format, getPermissions)))
+	router.get('/:id([A-Za-f0-9]{24})/string', restHandler(getModelString(Model)))
+	router.put('/:id([A-Za-f0-9]{24})', restHandler(updateModel(Model, save, getPermissions)))
 	router.post('/', restHandler(createModel(Model, save)))
-	router.delete('/:id', restHandler(deleteModel(Model, getPermissions)))
+	router.delete('/:id([A-Za-f0-9]{24})', restHandler(deleteModel(Model, getPermissions)))
 
 	return router
 }
@@ -146,14 +146,10 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 	})
 
 const searchModel = (esIndex, Model, format) => req => {
-	const query = req.query.q
+	const query = req.query.q || '*'
 	const fields = req.query.fields ? req.query.fields.split(',') : undefined
 	const full = Boolean(Number(req.query.full))
 	const fuzzy = !Number(req.query.raw)
-
-	if (!query) {
-		throw new ClientError({ title: 'Missing query string (field "q")' })
-	}
 
 	return (fuzzy
 			? es.q.forSuggestions(esIndex, { query, fields })

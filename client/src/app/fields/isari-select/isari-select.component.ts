@@ -22,7 +22,7 @@ export class IsariSelectComponent implements OnInit {
   @Input() extensible = false;
   @Input() stringValue: Observable<string>;
 
-  max: number = 20;
+  max = 20;
   values: any[] = [];
   allValues: any[] = [];
   selectControl: FormControl;

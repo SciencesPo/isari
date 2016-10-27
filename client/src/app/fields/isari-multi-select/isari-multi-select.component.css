@@ -1,0 +1,45 @@
+.md-input-infix { position: initial; }
+.md-input-placeholder { top: 16px; }
+
+.md-input-infix.md-empty { position: relative; }
+.md-input-placeholder.md-empty { top: 0px; }
+
+.md-input-prefix {
+    position: relative;
+    padding: 0 30px 0 10px;
+    background: #ddd;
+    margin-right: 5px;
+    border: 1px solid #777;
+    display: inline-block;
+    border-radius: 22px;
+    line-height: 22px;
+}
+
+.md-input-prefix md-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  top: 2px;
+  color: #777;
+  cursor: pointer;
+}
+
+.md-menu {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    z-index: 100000;
+}
+
+.md-menu button.active:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: '';
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: inherit;
+  pointer-events: none;
+}

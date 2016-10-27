@@ -6,7 +6,7 @@ import { DetailPageComponent } from './detail-page/detail-page.component';
 const isariRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/people/1',
+    redirectTo: '/people',
     pathMatch: 'full'
   },
   {

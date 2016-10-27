@@ -34,6 +34,10 @@ function _applyTemplates (object, meta, depth) {
 		return null
 	}
 
+	if (!templates[meta.template]) {
+		throw new Error(`Unknown template ${meta.template}`)
+	}
+
 	const string = templates[meta.template](object)
 
 	// No depth: simple string representation

@@ -6,7 +6,7 @@
             "en": "Name"
         }
     },
-    "template":"name",
+    "template": "objectName",
     "activityType": {
         "label": {
             "fr": "Type d'activité",

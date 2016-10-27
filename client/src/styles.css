@@ -17,7 +17,7 @@ md-hint.error {
 
 [hidden] { display: none !important;}
 
-isari-multi-input {
+isari-multi-input, isari-multi-select {
   display: inline-block;
   position: relative;
   font-family: Roboto, "Helvetica Neue", sans-serif;

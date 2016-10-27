@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, URLSearchParams } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+
+import { environment } from '../environments/environment';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
@@ -10,13 +12,19 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 
+const mongoSchema2Api = {
+  'Organization': 'organizations',
+  'People': 'people',
+  'Activities': 'activities'
+};
+
 @Injectable()
 export class IsariDataService {
 
-  private dataUrl = 'http://localhost:8080';
-  private layoutUrl = 'http://localhost:8080/layouts';
-  private enumUrl = 'http://localhost:8080/enums';
-  private schemaUrl = 'http://localhost:8080/schemas';
+  private dataUrl = `${environment.API_BASE_URL}`;
+  private layoutUrl = `${environment.API_BASE_URL}/layouts`;
+  private enumUrl = `${environment.API_BASE_URL}/enums`;
+  private schemaUrl = `${environment.API_BASE_URL}/schemas`;
 
   // private dataUrl = 'api';
   // private layoutUrl = 'api/layouts';
@@ -76,11 +84,17 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  getEnumLabel(src: string, value: string, lang: string) {
+  getEnumLabel(src: string, value: string | string[], lang: string) {
     return this.getEnum(src)
       .map(values => {
-        const found = values.find(entry => entry.value === value);
-        return found ? found.label[lang] : '';
+        if (value instanceof Array) {
+          return value.map(v => {
+            return values.find(entry => entry.value === v);
+          }).filter(v => !!v);
+        } else {
+          const found = values.find(entry => entry.value === value);
+          return found ? found.label[lang] : '';
+        }
       });
   }
 
@@ -99,12 +113,13 @@ export class IsariDataService {
   }
 
   rawSearch(feature: string, query: string) {
-    const url = `${this.dataUrl}/${feature}`;
-    // @TODO complete with var search = new URLSearchParams() && search.set('query', query);
-    return this.http.get(url)
-      .map(response => response.json().data)
-      .map(items => items.map(item => ({ id: item.id, stringValue: item.name }))); // useless with api server
-      // .map(response => response.json())
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/search`;
+    const search = new URLSearchParams();
+    search.set('q', query || '*');
+    // search.set('fields', 'name');
+    return this.http.get(url, { search })
+      .map(response => response.json())
+      .map(items => items.map(item => ({ id: item.value, stringValue: item.label })));
   }
 
   buildForm(layout, data): FormGroup {
@@ -133,16 +148,7 @@ export class IsariDataService {
   addFormControlToArray(fa: FormArray, field, data = {}) {
     let fieldClone = Object.assign({}, field);
     delete fieldClone.multiple;
-//    if (field.type === 'object') {
-      fa.push(this.buildForm(field.layout, data));
-    // } else {
-    //   fa.push(new FormGroup({
-    //     [field.name]: new FormControl({
-    //       value: data || '',
-    //       disabled: false
-    //     })
-    //   }));
-    // }
+    fa.push(this.buildForm(field.layout, data));
   }
 
   translate(layout, lang) {
@@ -161,11 +167,11 @@ export class IsariDataService {
   }
 
   getControlType(field): string {
-    if (field.type) {
-      return field.type;
-    }
     if (field.enum || field.softenum || field.ref) {
       return 'select';
+    }
+    if (field.type) {
+      return field.type;
     }
     return  'input';
   }
@@ -193,8 +199,7 @@ export class IsariDataService {
     // }
     const url = `${this.enumUrl}/${src}`;
     return this.http.get(url)
-      .map(response => response.json().data.enum);
-      // .map(response => response.json());
+      .map(response => response.json());
   }
 
 }
