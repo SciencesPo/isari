@@ -2,13 +2,14 @@
 
 const config = require('config')
 const { connect, search, bind, unbind } = require('./ldap')
+const { People } = require('./model')
 
 
 module.exports = config.ldap.skip ? magicAuth() : connectedAuth()
 
 
 function magicAuth () {
-	return () => Promise.resolve()
+	return login => Promise.resolve(login).then(ldapUidToPeople)
 }
 
 function connectedAuth () {
@@ -19,7 +20,7 @@ function connectedAuth () {
 		.then(search(config.ldap.dn, { scope: 'sub', filter: `(uid=${login})` }))
 		// Found user?
 		.then(entries => entries.length === 0
-			? Promise.reject(Error('User Not Found'))
+			? Promise.reject(Error('LDAP User Not Found'))
 			: entries.find(e => e.uid === login)
 		)
 		// Is user active?
@@ -29,4 +30,10 @@ function connectedAuth () {
 		)
 		// Try to use user's password to bind a new client
 		.then(entry => connect().then(bind(entry.dn, password)).then(unbind))
+		// Then try to find associated People entry
+		.then(() => ldapUidToPeople(login))
+}
+
+function ldapUidToPeople (ldapUid) {
+	return People.findOne({ ldapUid }).then(found => found || Promise.reject(Error('People Not Found')))
 }
