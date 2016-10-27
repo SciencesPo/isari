@@ -308,6 +308,7 @@ function processRelations() {
  * Process outline.
  * -----------------------------------------------------------------------------
  */
+// TODO: refactor to let the series die if errors are found in the way.
 log.info('Starting...');
 async.series({
   organizations(next) {
@@ -320,6 +321,11 @@ async.series({
     return async.series(peopleTasks, next);
   },
   relations(next) {
+
+    // If we have validation errors, let's call it a day
+    if (NB_VALIDATION_ERRORS)
+      return next();
+
     const nbOrganization = Object.keys(INDEXES.Organization.id).length,
           nbPeople = Object.keys(INDEXES.People.id).length;
 
