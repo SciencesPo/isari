@@ -41,6 +41,7 @@ export class IsariDataService {
   getDatas(feature: string, { fields, applyTemplates }: { fields: string[], applyTemplates: boolean }) {
     const url = `${this.dataUrl}/${feature}`;
     const search = new URLSearchParams();
+    fields.push('id'); // force id
     search.set('fields', fields.join(','));
     search.set('applyTemplates', (applyTemplates ? 1 : 0).toString());
     return this.http.get(url, { search })
@@ -120,6 +121,7 @@ export class IsariDataService {
     }.bind(this);
   }
 
+  // @TODO handle multiple values (array of ids)
   getForeignLabel(feature: string, value: string) {
     if (!value) {
       return Observable.of('');
@@ -247,9 +249,9 @@ export class IsariDataService {
 
   private getEnum(src: string) {
     // // cas non gérés pour le moment
-    // if (en === 'KEYS(personalActivityTypes)' || en === 'personalActivityTypes.$personalActivityType') {
-    //   return Promise.resolve([]);
-    // }
+    if (src === 'KEYS(personalActivityTypes)' || src === 'personalActivityTypes.$personalActivityType') {
+      return Observable.of([]);
+    }
     const url = `${this.enumUrl}/${src}`;
     return this.http.get(url)
       .map(response => response.json());

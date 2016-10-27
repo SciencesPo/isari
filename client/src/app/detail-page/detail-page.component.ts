@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
+
 import { IsariDataService } from '../isari-data.service';
 
 @Component({
@@ -28,7 +31,14 @@ export class DetailPageComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.mdSnackBarConfig = new MdSnackBarConfig(this.viewContainerRef);
-    this.route.params
+
+    let $routeParams = this.route.parent
+      ? Observable
+        .combineLatest(this.route.parent.params, this.route.params)
+        .map(([x, y]) => Object.assign({}, x, y))
+      : this.route.params;
+
+    $routeParams
       .subscribe(({ feature, id }) => {
         this.feature = feature;
         this.id = id;

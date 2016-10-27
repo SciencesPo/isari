@@ -27,6 +27,9 @@ import { IsariPaginationComponent } from './data-table/isari-pagination/isari-pa
 import { IsariColsSelectorComponent } from './list-page/isari-cols-selector/isari-cols-selector.component';
 import { IsariMultiInputComponent } from './fields/isari-multi-input/isari-multi-input.component';
 import { IsariMultiSelectComponent } from './fields/isari-multi-select/isari-multi-select.component';
+import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
+import { ListComponent } from './list/list.component';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { IsariMultiSelectComponent } from './fields/isari-multi-select/isari-mul
     IsariPaginationComponent,
     IsariColsSelectorComponent,
     IsariMultiInputComponent,
-    IsariMultiSelectComponent
+    IsariMultiSelectComponent,
+    IsariLayoutComponent,
+    ListComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,

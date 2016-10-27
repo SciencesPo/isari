@@ -2,3 +2,4 @@
   <isari-data-table [data]="data" [cols]="selectedColumns"></isari-data-table>
   <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
 </md-card-content>
+<router-outlet name="editor"></router-outlet>

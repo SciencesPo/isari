@@ -51,6 +51,10 @@ export class IsariMultiSelectComponent implements OnInit {
       });
 
     this.stringValue.subscribe(stringValue => {
+       // bad should give us an array
+      if (!(stringValue instanceof Array)) {
+        stringValue = [stringValue];
+      }
       this.values = stringValue || [];
     });
   }

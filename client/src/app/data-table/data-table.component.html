@@ -1,11 +1,13 @@
 <table class="striped">
   <thead>
     <tr>
+      <th></th>
       <th *ngFor="let col of cols">{{ col.label['fr'] }}</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of page">
+      <td><a [routerLink]="[{outlets: {editor: row['id']} }]">edit</a></td>
       <td *ngFor="let col of cols">{{ row[col.key] || '' }}</td>
     </tr>
   </tbody>
