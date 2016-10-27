@@ -5,7 +5,7 @@
  * Miscellaneous helpers used by the import scripts such as foreign key
  * finders.
  */
-var chalk = require('chalk');
+const chalk = require('chalk');
 
 // Recursive function handling each schema level
 function parseSchemaLevel(relations, level, path) {

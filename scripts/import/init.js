@@ -250,7 +250,7 @@ function processRelations() {
 
   //-- 1) Intra organization relations
   indexes = INDEXES.Organization;
-  index = indexes.id
+  index = indexes.id;
 
   for (const id in index) {
     relations.Organization(index[id], rel => {
@@ -263,7 +263,7 @@ function processRelations() {
         related = indexes.name[rel];
 
       // If we still have nothing, we should yell
-      if (!related) {
+      if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} org->org relation.`);
         // NB_RELATION_ERRORS++;
 
@@ -277,7 +277,7 @@ function processRelations() {
   }
 
   //-- 2) People's relations
-  index = INDEXES.People.id
+  index = INDEXES.People.id;
 
   for (const id in index) {
     relations.People(index[id], rel => {
@@ -290,7 +290,7 @@ function processRelations() {
         related = INDEXES.Organization.name[rel];
 
       // If we still have nothing, we should yell
-      if (!related) {
+      if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} people->org.`);
         // NB_RELATION_ERRORS++;
 
@@ -308,7 +308,8 @@ function processRelations() {
  * Process outline.
  * -----------------------------------------------------------------------------
  */
-// TODO: refactor to let the series die if errors are found in the way.
+function ProcessError() {}
+
 log.info('Starting...');
 async.series({
   organizations(next) {
@@ -324,7 +325,7 @@ async.series({
 
     // If we have validation errors, let's call it a day
     if (NB_VALIDATION_ERRORS)
-      return next();
+      return next(new ProcessError());
 
     const nbOrganization = Object.keys(INDEXES.Organization.id).length,
           nbPeople = Object.keys(INDEXES.People.id).length;
@@ -358,6 +359,14 @@ async.series({
     return next();
   },
   mongoConnect(next) {
+
+    // If we have relation errors, let's call it a day
+    if (NB_RELATION_ERRORS)
+      return next(new ProcessError());
+
+    if (argv.dryRun)
+      return next();
+
     return connect()
       .catch(err => next(err))
       .then(connection => {
@@ -369,10 +378,7 @@ async.series({
   },
   mongoInsert(next) {
 
-    // Don't do it if dry run or any error
-    if (NB_VALIDATION_ERRORS || NB_RELATION_ERRORS)
-      return next();
-
+    // Don't do it if dry run
     if (argv.dryRun) {
       console.log();
       log.info('This is a dry run. Items will not be inserted in the database.');
@@ -393,18 +399,25 @@ async.series({
   if (CONNECTION)
     CONNECTION.close();
 
-  if (err)
-    return console.error(err);
-
   console.log();
-  if (NB_VALIDATION_ERRORS) {
-    log.error(`${NB_VALIDATION_ERRORS} total validation errors.`);
-    log.error('Files were erroneous. Importation was not done. Please fix and import again.');
+
+  if (err) {
+
+    if (err instanceof ProcessError) {
+      if (NB_VALIDATION_ERRORS)
+        log.error(`${NB_VALIDATION_ERRORS} total validation errors.`);
+      if (NB_RELATION_ERRORS)
+        log.error(`${NB_RELATION_ERRORS} total relation errors.`);
+
+      log.error('Files were erroneous. Importation was not done. Please fix and import again.');
+    }
+    else {
+      console.error(err);
+    }
+
+    return;
   }
-  else if (NB_RELATION_ERRORS) {
-    log.error(`${NB_RELATION_ERRORS} total relation errors.`);
-    log.error('Files were erroneous. Importation was not done. Please fix and import again.');
-  }
+
   else {
     log.success('Done!');
   }
