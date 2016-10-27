@@ -8,7 +8,7 @@
       }
     ],
     "biography": "ma vie mon oeuvre",
-    "birthdate": "1976-09-03",
+    "birthDate": "1976-09-03",
     "contacts": [
       {
         "email": "paul.bismuth@sciencespo.fr",
@@ -29,7 +29,7 @@
         "title": "médaille de cristal"
       }
     ],
-    "firstname": "Paul",
+    "firstName": "Paul",
     "gender": "m",
     "isariAuthorizedCenters": [
       {
@@ -104,7 +104,7 @@
       }
     ],
     "biography": "La vie de Henri",
-    "birthdate": "1966",
+    "birthDate": "1966",
     "contacts": [
       {
         "email": "henri.bergero@sciencespo.fr",
@@ -125,7 +125,7 @@
         "title": "doctorat en sciences politiques"
       }
     ],
-    "firstname": "Henri",
+    "firstName": "Henri",
     "gender": "m",
     "isariAuthorizedCenters": [
       {
@@ -191,7 +191,7 @@
       }
     ],
     "biography": "La vie de Richard",
-    "birthdate": "1957",
+    "birthDate": "1957",
     "contacts": [
       {
         "email": "richard.dupont@sciencespo.fr",
@@ -218,7 +218,7 @@
         "title": "doctorat en économie"
       }
     ],
-    "firstname": "Richard",
+    "firstName": "Richard",
     "gender": "h",
     "isariAuthorizedCenters": [
       {
@@ -274,7 +274,7 @@
   },
   {
     "name": "Cornilleau",
-    "firstname": "Anne",
+    "firstName": "Anne",
     "gender": "f",
     "nationalities": [
       "FR"
@@ -282,7 +282,7 @@
   },
   {
     "name": "Da Silva",
-    "firstname": "Daniel Afonso",
+    "firstName": "Daniel Afonso",
     "gender": "h",
     "nationalities": [
       "FR"
@@ -290,7 +290,7 @@
   },
   {
     "name": "Dubois",
-    "firstname": "Marc",
+    "firstName": "Marc",
     "gender": "h",
     "nationalities": [
       "FR"
@@ -298,7 +298,7 @@
   },
   {
     "name": "Ichou",
-    "firstname": "Matthieu",
+    "firstName": "Matthieu",
     "gender": "h",
     "nationalities": [
       "FR"
@@ -306,7 +306,7 @@
   },
   {
     "name": "Heath",
-    "firstname": "Anthony",
+    "firstName": "Anthony",
     "gender": "h",
     "nationalities": [
       "FR"
@@ -314,7 +314,7 @@
   },
   {
     "name": "Van Zanten",
-    "firstname": "Agnès",
+    "firstName": "Agnès",
     "gender": "f",
     "nationalities": [
       "FR"
@@ -322,7 +322,7 @@
   },
   {
     "name": "Felouzis",
-    "firstname": "Goerges",
+    "firstName": "Goerges",
     "gender": "h",
     "nationalities": [
       "FR"
@@ -330,7 +330,7 @@
   },
   {
     "name": "Kastoryano",
-    "firstname": "Riva",
+    "firstName": "Riva",
     "gender": "f",
     "nationalities": [
       "FR"
