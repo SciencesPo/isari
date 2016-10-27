@@ -15,6 +15,9 @@ const objectName = o => o.name
 
 // oraganizationDates
 function organizationDates(p){
+	if (!p.organization) {
+		return ''
+	}
 	let label = p.organization.name
 	if(p.startDate){
 		label += " "+year(p.startDate)
@@ -54,7 +57,7 @@ function researchUnitCode(p){
 
 // peopleDates
 function peopleDates(p){
-	let label = peopleName(p.people)
+	let label = p.people ? peopleName(p.people) : ''
 	if(p.startDate){
 		label += " "+year(p.startDate)
 	}
