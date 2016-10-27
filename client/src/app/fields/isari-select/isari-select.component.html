@@ -1,4 +1,4 @@
-<span [formGroup]="form" [ngClass]="{ error: !form.controls[name]?.valid }" (keyup)="onKey($event)" class="isari-input-wrapper">
+<span [formGroup]="form" (keyup)="onKey($event)" class="isari-input-wrapper">
   <input type="hidden" [formControlName]="name">
 
   <div style="display: inline-block;text-align: left;">
@@ -19,6 +19,7 @@
       <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
         <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>
       </div>
+      <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">Obligatoire</md-hint>
     </div>
   </div>
 
