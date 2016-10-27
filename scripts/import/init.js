@@ -76,14 +76,19 @@ const argv = yargs
 const INDEXES = {
   Organization: {
     acronym: Object.create(null),
-    name: Object.create(null)
+    name: Object.create(null),
+    id: Object.create(null)
+  },
+  People: {
+    id: Object.create(null)
   }
 };
 
 /**
  * State.
  */
-let ERRORS = 0;
+let NB_ERRORS = 0,
+    NB_FILES = 0;
 
 /**
  * Helpers.
@@ -96,9 +101,9 @@ function cleanLine(line) {
     line[k] = clean.default(line[k]);
 }
 
-// Function attributing a mongo id to a line
-function attachMongoId(line) {
-  line._id = mongoose.Types.ObjectId();
+// Function attributing a mongo id to an arbitrary item
+function attachMongoId(item) {
+  item._id = mongoose.Types.ObjectId();
 }
 
 // Function taking a file descriptor and returning the parsed lines
@@ -108,6 +113,8 @@ function parseFile(folder, file, callback) {
     folder,
     file.path
   );
+
+  NB_FILES++;
 
   console.log();
   log.info(`Reading ${chalk.cyan(filePath)}`);
@@ -188,7 +195,7 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
         log.error(error.formattedMessage, error);
       });
 
-      ERRORS += errors.length;
+      NB_ERRORS += errors.length;
     });
 
     // Indexing
@@ -218,8 +225,14 @@ const peopleTasks = FILES.people.files.map(file => next => {
         log.error(error.formattedMessage, error);
       });
 
-      ERRORS += errors.length;
+      NB_ERRORS += errors.length;
     });
+
+    // Giving unique identifier
+    persons.forEach(attachMongoId);
+
+    // Indexing
+    persons.forEach(file.indexer.bind(null, INDEXES.People));
 
     return next();
   });
@@ -239,14 +252,25 @@ async.series({
     console.log();
     log.success('Processing people files...');
     return async.series(peopleTasks, next);
+  },
+  relations(next) {
+    const nbOrganization = Object.keys(INDEXES.Organization.id).length,
+          nbPeople = Object.keys(INDEXES.People.id).length;
+
+    console.log();
+    log.success(`Finished processing ${chalk.cyan(NB_FILES)} files!`);
+    log.info(`Collected ${chalk.cyan(nbOrganization)} unique organizations.`);
+    log.info(`Collected ${chalk.cyan(nbPeople)} unique people.`);
+
+    return next();
   }
 }, err => {
   if (err)
     return console.error(err);
 
   console.log();
-  if (ERRORS) {
-    log.error(`${ERRORS} total errors.`);
+  if (NB_ERRORS) {
+    log.error(`${NB_ERRORS} total errors.`);
     log.error('Files were erroneous. Importation was not done. Please fix and import again.');
   }
   else {

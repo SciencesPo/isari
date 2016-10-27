@@ -56,6 +56,8 @@ module.exports = {
             indexes.acronym[org.acronym] = org;
           if (org.name)
             indexes.name[org.name] = org;
+
+          indexes.id[org._id] = org;
         }
       },
 
@@ -110,6 +112,8 @@ module.exports = {
             indexes.acronym[org.acronym] = org;
           if (org.name)
             indexes.name[org.name] = org;
+
+          indexes.id[org._id] = org;
         }
       }
     ]
@@ -306,6 +310,9 @@ module.exports = {
           });
 
           return objects;
+        },
+        indexer(indexes, person) {
+          indexes.id[person._id] = person;
         }
       }
     ]
