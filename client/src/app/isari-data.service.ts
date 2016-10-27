@@ -108,8 +108,11 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  getForeignLabel(src: string, value: string) {
-    return Observable.of('John');
+  getForeignLabel(feature: string, value: string) {
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/string`;
+    return this.http.get(url)
+      .map(response => response.json())
+      .map(item => item.value);
   }
 
   rawSearch(feature: string, query: string) {
