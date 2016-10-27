@@ -13,7 +13,8 @@ const async = require('async'),
       yargs = require('yargs'),
       mongoose = require('../../server/node_modules/mongoose'),
       inspect = require('util').inspect,
-      chalk = require('chalk');
+      chalk = require('chalk'),
+      _ = require('lodash');
 
 const FILES = require('./files'),
       clean = require('./clean'),
@@ -239,6 +240,39 @@ const peopleTasks = FILES.people.files.map(file => next => {
 });
 
 /**
+ * Processing relations.
+ */
+function processRelations() {
+  let indexes,
+      index;
+
+  //-- 1) Intra organization relations
+  indexes = INDEXES.Organization;
+  index = indexes.id
+
+  for (const id in index) {
+    relations.Organization(index[id], rel => {
+
+      // Solving those relations should be a matter of finding the
+      // organization by acronym or plain name.
+      let related = indexes.acronym[rel];
+
+      if (!related)
+        related = indexes.name[rel];
+
+      // If we still have nothing, we should yell
+      if (!related) {
+        log.error(`Could not match the ${chalk.cyan(rel)} parent organization.`);
+        return `NOT MATCHED {${rel}}`;
+      }
+      else {
+        return related._id;
+      }
+    });
+  }
+}
+
+/**
  * Process outline.
  * -----------------------------------------------------------------------------
  */
@@ -261,6 +295,27 @@ async.series({
     log.success(`Finished processing ${chalk.cyan(NB_FILES)} files!`);
     log.info(`Collected ${chalk.cyan(nbOrganization)} unique organizations.`);
     log.info(`Collected ${chalk.cyan(nbPeople)} unique people.`);
+
+    processRelations();
+
+    return next();
+  },
+  jsonDump(next) {
+    if (!argv.json)
+      return next();
+
+    console.log();
+    log.info(`Dumping JSON result to ${argv.json}...`);
+
+    fs.writeFileSync(
+      path.join(argv.json, 'organizations.json'),
+      JSON.stringify(_.values(INDEXES.Organization.id), null, 2)
+    );
+
+    fs.writeFileSync(
+      path.join(argv.json, 'people.json'),
+      JSON.stringify(_.values(INDEXES.People.id), null, 2)
+    );
 
     return next();
   }

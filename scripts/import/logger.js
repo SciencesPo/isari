@@ -11,12 +11,14 @@ const CONFIG = {
   levels: {
     error: 0,
     info: 0,
-    success: 0
+    success: 0,
+    warning: 0
   },
   colors: {
     error: 'red',
     info: 'blue',
-    success: 'green'
+    success: 'green',
+    warning: 'yellow'
   }
 };
 
