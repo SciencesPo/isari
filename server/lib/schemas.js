@@ -2,7 +2,7 @@
 
 const { Schema } = require('mongoose')
 const enums = require('../../specs/enums.json')
-const { get, padCharsStart, map, filter, identity } = require('lodash/fp')
+const { get, map, filter, identity } = require('lodash/fp')
 const { getMeta } = require('./specs')
 
 // TODO use proper logger

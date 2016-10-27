@@ -15,7 +15,6 @@ router.post('/login', (req, res) => {
 	const { login, password } = req.body
 	auth(login, password)
 	.then(people => {
-		console.log({ people })
 		req.session.login = login
 		req.session.peopleId = people.id
 		res.send({ login, peopleId: people.id })
