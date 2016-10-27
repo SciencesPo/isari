@@ -21,3 +21,8 @@ url = 'mongodb://localhost/isari'
 host = 'localhost:9200'
 apiVersion = '2.3'
 index = 'isari'
+
+[ldap]
+url = 'ldap://ldap.sciences-po.fr'
+dn = 'ou=Users,o=sciences-po,c=fr'
+activeFlag = 'scpoActifSI'

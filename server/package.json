@@ -38,6 +38,7 @@
     "error": "^7.0.2",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "ldapjs": "^1.0.0",
     "lodash": "^4.15.0",
     "mongoose": "^4.5.10",
     "morgan": "^1.7.0",
