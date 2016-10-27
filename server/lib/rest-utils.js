@@ -91,7 +91,7 @@ const getModelString = Model => req =>
 	.then(o => ({ id: String(o._id), value: o.applyTemplates(0) }))
 
 const updateModel = (Model, save, getPermissions) => {
-	const get = getModel(Model, identity)
+	const get = getModel(Model, identity, getPermissions)
 	return req =>
 		get(req)
 		.then(doc => getPermissions(req, doc)
