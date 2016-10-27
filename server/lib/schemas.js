@@ -151,29 +151,29 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	}
 
 	// Validation rule: enum
-	const enumKey = desc.enum ? 'enum' : 'softenum'
-	if (typeof desc[enumKey] === 'string') {
+	// Note: softenum does not come with any validation, it's only about suggestions
+	if (typeof desc.enum === 'string') {
 		// As a string: enums key or complex rule "KEYS(name)" or "name.$field"
-		const matchKeys = desc[enumKey].match(/^KEYS\((.*)\)$/)
-		const matchDot = desc[enumKey].match(/^(.*?)\.\$(.*)$/)
+		const matchKeys = desc.enum.match(/^KEYS\((.*)\)$/)
+		const matchDot = desc.enum.match(/^(.*?)\.\$(.*)$/)
 		const getKeys = !!matchKeys
 		const getSubKey = !!matchDot
 		const subKey = getSubKey ? matchDot[2] : null
-		const enumName = getKeys ? matchKeys[1] : getSubKey ? matchDot[1] : desc[enumKey]
+		const enumName = getKeys ? matchKeys[1] : getSubKey ? matchDot[1] : desc.enum
 
 		const values = getEnumValues(enumName)
 		if (!values) {
-			throw Error(`${name}: Unknown enum "${enumName}" (in "${desc[enumKey]}")`)
+			throw Error(`${name}: Unknown enum "${enumName}" (in "${desc.enum}")`)
 		}
 
 		if (subKey && !parentDesc[subKey]) {
-			throw Error(`${name}: Unknown field "${subKey}" (required by enum "${desc[enumKey]}"`)
+			throw Error(`${name}: Unknown field "${subKey}" (required by enum "${desc.enum}"`)
 		}
 
 		if (getSubKey) {
 			// Context-dependent enum validation: use a custom validator
 			if (typeof values !== 'object') {
-				throw Error(`${name}: context-dependent enum must be an object (in "${desc[enumKey]}")`)
+				throw Error(`${name}: context-dependent enum must be an object (in "${desc.enum}")`)
 			}
 			const getRefValue = get(subKey)
 			// 'function' is used on purpose, "this" will be defined as the validated document
@@ -183,7 +183,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 				// Beware of 'runValidators' on update methods, as "this" will not be defined then
 				// More info: http://mongoosejs.com/docs/api.html#schematype_SchemaType-validate
 				if (!this) {
-					process.stderr.write(chalk.yellow(`${name}: validator cannot be run in update context (enum "${desc[enumKey]}")`))
+					process.stderr.write(chalk.yellow(`${name}: validator cannot be run in update context (enum "${desc.enum}")`))
 					// Just pass
 					return true
 				}
@@ -196,17 +196,17 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 				}
 				return allowedValues.includes(value)
 			}
-			const message = `{PATH} does not allow "{VALUE}" as of enum "${desc[enumKey]}"`
+			const message = `{PATH} does not allow "{VALUE}" as of enum "${desc.enum}"`
 			schema.validate = { validator, message }
 		} else {
 			// Use basic enum validation
-			schema[enumKey] = getKeys ? Object.keys(values) : values
+			schema.enum = getKeys ? Object.keys(values) : values
 		}
-	} else if (Array.isArray(desc[enumKey])) {
+	} else if (Array.isArray(desc.enum)) {
 		// As an array: direct values not exported into enums module
-		schema[enumKey] = getEnumValues(desc[enumKey])
-	} else if (desc[enumKey]) {
-		throw Error(`${name}: Invalid enum value "${desc[enumKey]}"`)
+		schema.enum = getEnumValues(desc.enum)
+	} else if (desc.enum) {
+		throw Error(`${name}: Invalid enum value "${desc.enum}"`)
 	}
 
 	// Validation rule: regex
