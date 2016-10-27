@@ -12,6 +12,8 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 
+import DEFAULT_COLUMNS from '../../../specs/columns.json';
+
 const mongoSchema2Api = {
   'Organization': 'organizations',
   'People': 'people',
@@ -26,7 +28,7 @@ export class IsariDataService {
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
 
-  constructor(private http: Http, private fb: FormBuilder) { }
+  constructor(private http: Http, private fb: FormBuilder) {}
 
   getData(feature: string, id: string) {
     const url = `${this.dataUrl}/${feature}/${id}`;
@@ -55,9 +57,15 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
+  getDefaultColumns(feature: string) {
+    return this.getColumns(feature)
+      .then(cols => cols.filter(col => DEFAULT_COLUMNS[feature].indexOf(col.key) !== -1));
+  }
+
   getColumns(feature: string) {
     const url = `${this.schemaUrl}/${feature}`;
     return this.http.get(url)
+      .distinctUntilChanged()
       .toPromise()
       .then(response => response.json())
       // @TODO : wtf is that type property ?

@@ -27,16 +27,21 @@ export class ListPageComponent implements OnInit {
             this.cols = columns;
           });
 
-        // @TODO : default cols
-        // this.isariDataService.getDatas(feature)
-        //   .then(data => {
-        //     this.data = data;
-        //   });
+        this.isariDataService.getDefaultColumns(feature)
+          .then(defaultColumns => {
+            this.selectedColumns = defaultColumns;
+            this.loadDatas();
+          });
+
       });
   }
 
   colSelected($event) {
     this.selectedColumns = $event.cols;
+    this.loadDatas();
+  }
+
+  private loadDatas() {
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
       applyTemplates: true
