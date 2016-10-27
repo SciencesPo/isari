@@ -5,7 +5,7 @@ const { Organization } = require('../lib/model')
 const { clone } = require('lodash/fp')
 
 
-module.exports = restRouter(Organization, formatOrganization, 'organization')
+module.exports = restRouter(Organization, formatOrganization, 'organizations')
 
 
 function formatOrganization (organization) {
