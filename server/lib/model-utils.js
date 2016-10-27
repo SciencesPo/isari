@@ -50,7 +50,7 @@ function _applyTemplates (object, meta, depth) {
 	let result = {
 		// _string: string // TODO maybe include self-representation too?
 	}
-	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f))
+	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 
 	fields.forEach(f => result[f] = _applyTemplates(object[f], meta[f], depth - 1))
 

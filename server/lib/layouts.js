@@ -41,7 +41,7 @@ const _getLayout = (name, schema) => {
 	}
 	const rows = (layouts[name] || []).map(getRow(name, schema))
 	const rowsFields = flatten(rows.map(row => map('name', row.fields)))
-	const expectedFields = difference(Object.keys(schema), RESERVED_FIELDS)
+	const expectedFields = Object.keys(schema).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 	const missingFields = difference(expectedFields, rowsFields)
 	return rows.concat(missingFields.map(getRow(name, schema)))
 		// Ignored fields
