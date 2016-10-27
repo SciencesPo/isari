@@ -180,6 +180,10 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 			// in case of sub-documents, it's the sub-document (not the root document)
 			// we can go up using "this.parent()" (behavior not implemented in current schema DSL)
 			const validator = function (value) {
+				// Allow empty value?
+				if (!schema.required && !value) {
+					return true
+				}
 				// Beware of 'runValidators' on update methods, as "this" will not be defined then
 				// More info: http://mongoosejs.com/docs/api.html#schematype_SchemaType-validate
 				if (!this) {
@@ -207,6 +211,11 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		schema.enum = getEnumValues(desc.enum)
 	} else if (desc.enum) {
 		throw Error(`${name}: Invalid enum value "${desc.enum}"`)
+	}
+
+	// Basic enum validation set? Add support for empty values if field is not required
+	if (schema.enum && !schema.required) {
+		schema.enum = schema.enum.slice().concat([ '', null ])
 	}
 
 	// Validation rule: regex
