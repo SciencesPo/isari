@@ -368,13 +368,12 @@ async.series({
       return next();
 
     return connect()
-      .catch(err => next(err))
       .then(connection => {
         console.log();
         log.info('Connected to Mongo database.');
         CONNECTION = connection;
         return next();
-      });
+      }, err => next(err));
   },
   mongoInsert(next) {
 
