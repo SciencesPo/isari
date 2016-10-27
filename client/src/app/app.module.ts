@@ -13,8 +13,8 @@ import { IsariDataService } from './isari-data.service';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { ListPageComponent } from './list-page/list-page.component';
-import { DetailPageComponent } from './detail-page/detail-page.component';
+import { IsariListComponent } from './isari-list/isari-list.component';
+import { IsariEditorComponent } from './isari-editor/isari-editor.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DataEditorComponent } from './data-editor/data-editor.component';
 import { FieldComponent } from './fields/field.component';
@@ -24,18 +24,16 @@ import { IsariInputComponent } from './fields/isari-input/isari-input.component'
 import { IsariSelectComponent } from './fields/isari-select/isari-select.component';
 import { IsariDateComponent } from './fields/isari-date/isari-date.component';
 import { IsariPaginationComponent } from './data-table/isari-pagination/isari-pagination.component';
-import { IsariColsSelectorComponent } from './list-page/isari-cols-selector/isari-cols-selector.component';
+import { IsariColsSelectorComponent } from './isari-list/isari-cols-selector/isari-cols-selector.component';
 import { IsariMultiInputComponent } from './fields/isari-multi-input/isari-multi-input.component';
 import { IsariMultiSelectComponent } from './fields/isari-multi-select/isari-multi-select.component';
 import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
-import { ListComponent } from './list/list.component';
-import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListPageComponent,
-    DetailPageComponent,
+    IsariListComponent,
+    IsariEditorComponent,
     DataTableComponent,
     DataEditorComponent,
     FieldComponent,
@@ -47,9 +45,7 @@ import { EditorComponent } from './editor/editor.component';
     IsariColsSelectorComponent,
     IsariMultiInputComponent,
     IsariMultiSelectComponent,
-    IsariLayoutComponent,
-    ListComponent,
-    EditorComponent
+    IsariLayoutComponent
   ],
   imports: [
     BrowserModule,

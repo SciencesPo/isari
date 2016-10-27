@@ -9,12 +9,12 @@ import 'rxjs/add/observable/combineLatest';
 import { IsariDataService } from '../isari-data.service';
 
 @Component({
-  selector: 'isari-detail-page',
-  templateUrl: 'detail-page.component.html',
-  styleUrls: ['detail-page.component.css'],
+  selector: 'isari-editor',
+  templateUrl: 'isari-editor.component.html',
+  styleUrls: ['isari-editor.component.css'],
   providers: [MdSnackBar]
 })
-export class DetailPageComponent implements OnInit, OnChanges {
+export class IsariEditorComponent implements OnInit, OnChanges {
 
   id: number;
   feature: string;

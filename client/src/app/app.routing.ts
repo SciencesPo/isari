@@ -1,15 +1,8 @@
 import { Routes, RouterModule }   from '@angular/router';
 
-import { ListPageComponent } from './list-page/list-page.component';
-import { DetailPageComponent } from './detail-page/detail-page.component';
-
 import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
-import { ListComponent } from './list/list.component';
-import { EditorComponent } from './editor/editor.component';
-
-// http://localhost:4200/people
-// http://localhost:4200/people/(editor:581069e37865963dde42cad6)
-// http://localhost:4200/people/581069e37865963dde42cad6
+import { IsariListComponent } from './isari-list/isari-list.component';
+import { IsariEditorComponent } from './isari-editor/isari-editor.component';
 
 const isariRoutes: Routes = [
   {
@@ -21,9 +14,9 @@ const isariRoutes: Routes = [
     path: ':feature',
     component: IsariLayoutComponent,
     children: [
-      { path: '', component: ListPageComponent },
-      { path: ':id', component: DetailPageComponent, outlet: 'editor' },
-      { path: ':id', component: DetailPageComponent }
+      { path: '', component: IsariListComponent },
+      { path: ':id', component: IsariEditorComponent, outlet: 'editor' },
+      { path: ':id', component: IsariEditorComponent }
     ]
   }
 ];

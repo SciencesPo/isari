@@ -5,11 +5,11 @@ import { IsariDataService } from '../isari-data.service';
 
 
 @Component({
-  selector: 'isari-list-page',
-  templateUrl: 'list-page.component.html',
-  styleUrls: ['list-page.component.css']
+  selector: 'isari-list',
+  templateUrl: 'isari-list.component.html',
+  styleUrls: ['isari-list.component.css']
 })
-export class ListPageComponent implements OnInit {
+export class IsariListComponent implements OnInit {
 
   feature: string;
   data: any[] = [];
