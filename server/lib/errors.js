@@ -29,3 +29,8 @@ exports.ElasticSearchError = WrappedError({
 	message: 'ElasticSearch server error ({status}): {origMessage}',
 	status: 500
 })
+
+exports.UnauthorizedError = TypedError(merge(ClientError, {
+	message: 'Unauthorized: {title}',
+	status: 401
+}))
