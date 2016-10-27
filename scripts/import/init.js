@@ -88,7 +88,8 @@ const INDEXES = {
 /**
  * State.
  */
-let NB_VALIDATION_ERRORS = 0,
+let CONNECTION = null,
+    NB_VALIDATION_ERRORS = 0,
     NB_RELATION_ERRORS = 0,
     NB_FILES = 0;
 
@@ -264,8 +265,10 @@ function processRelations() {
       // If we still have nothing, we should yell
       if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} org->org relation.`);
-        NB_RELATION_ERRORS++;
-        return `NOT MATCHED {${rel}}`;
+        // NB_RELATION_ERRORS++;
+
+        // TEMP OVERRIDE!
+        return indexes.acronym.FNSP._id;
       }
       else {
         return related._id;
@@ -289,8 +292,10 @@ function processRelations() {
       // If we still have nothing, we should yell
       if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} people->org.`);
-        NB_RELATION_ERRORS++;
-        return `NOT MATCHED {${rel}}`;
+        // NB_RELATION_ERRORS++;
+
+        // TEMP OVERRIDE!
+        return indexes.acronym.FNSP._id;
       }
       else {
         return related._id;
@@ -345,8 +350,43 @@ async.series({
     );
 
     return next();
+  },
+  mongoConnect(next) {
+    return connect()
+      .catch(err => next(err))
+      .then(connection => {
+        console.log();
+        log.info('Connected to Mongo database.');
+        CONNECTION = connection;
+        return next();
+      });
+  },
+  mongoInsert(next) {
+
+    // Don't do it if dry run or any error
+    if (NB_VALIDATION_ERRORS || NB_RELATION_ERRORS)
+      return next();
+
+    if (argv.dryRun) {
+      console.log();
+      log.info('This is a dry run. Items will not be inserted in the database.');
+      return next();
+    }
+
+    console.log();
+    log.info('Inserting items into the Mongo database...');
+
+    return async.parallel([
+      cb => Organization.collection.insertMany(_.values(INDEXES.Organization.id), cb),
+      cb => People.collection.insertMany(_.values(INDEXES.People.id), cb)
+    ], next);
   }
 }, err => {
+
+  // Terminating database connection
+  if (CONNECTION)
+    CONNECTION.close();
+
   if (err)
     return console.error(err);
 
