@@ -63,7 +63,6 @@ let cache = {}
 
 const extractValue = map('value')
 const removeEmpty = filter(identity)
-const pad0 = padCharsStart('0', 2)
 
 // Get schema description from metadata
 function getMongooseSchema (name) {
@@ -138,18 +137,6 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		// Special type date, not translated into Date because we want support for partial dates
 		schema.type = String
 		schema.match = /^[12][0-9]{3}(?:-(?:0[1-9]|1[0-2]))?(?:-(?:0[1-9]|[12]\d|3[01]))?$/
-		const validator = v => {
-			v = String(v)
-			const [ year, month = '', day = '' ] = v.split('-')
-			const s1 = `${year}-${pad0(month)}-${pad0(day)}`
-			const d = new Date(v)
-			const s2 = `${d.getFullYear()}-${pad0(month ? d.getMonth() + 1 : 0)}-${pad0(day ? d.getDate() : 0)}`
-			return s1 === s2
-		}
-		const message = 'Invalid date'
-		schema.year = { type: Number, validate: { validator, message } }
-		schema.month = { type: Number, min: 1, max: 12 }
-		schema.day = { type: Number, min: 1, max: 31 }
 	} else if (type === 'ref') {
 		schema.type = Schema.Types.ObjectId
 		if (!desc.ref) {
