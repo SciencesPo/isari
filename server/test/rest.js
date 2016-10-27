@@ -4,7 +4,7 @@ const { expect } = require('chai')
 const { connect, People, Organization, Activity } = require('../lib/model')
 const app = require('../app')
 const request = require('supertest-as-promised')(Promise)
-const { merge } = require('lodash/fp')
+const { merge, omit, map } = require('lodash/fp')
 
 
 describe('REST', () => {
@@ -44,7 +44,10 @@ function describeModelRestApi (root, Model, create, update) {
 		before(() => Model.remove())
 
 		it('GET / (empty)', () =>
-			query('get', root).then(({ body }) => expect(body).to.be.an('array').and.have.length(0))
+			query('get', root).then(({ body, status }) => {
+				expect(status).to.equal(200)
+				expect(body).to.be.an('array').and.have.length(0)
+			})
 		)
 
 		it('POST / (create)', () =>
@@ -57,18 +60,28 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET / (1 element)', () =>
-			query('get', root).then(({ body }) => expect(body).to.eql([doc]))
+			query('get', root).then(({ body, status }) => {
+				expect(status).to.equal(200)
+				expect(body).to.be.an('array').and.have.length(1)
+				expect(map(omit('opts'), body)).to.eql([doc])
+			})
 		)
 
 		it('GET /:id (find)', () =>
 			query('get', root + '/' + doc.id)
-			.then(({ body }) => expect(body).to.eql(doc))
+			.then(({ body, status }) => {
+				expect(status).to.equal(200)
+				expect(omit('opts', body)).to.eql(doc)
+			})
 		)
 
 		it('PUT /:id (update)', () => {
 			const updates = update()
 			return query('put', root + '/' + doc.id, updates)
-			.then(({ body }) => expect(body).to.eql(merge(doc, updates)))
+			.then(({ body, status }) => {
+				expect(status).to.equal(200)
+				expect(omit('opts', body)).to.eql(merge(doc, updates))
+			})
 		})
 
 		it('DELETE /:id (remove)', () =>
@@ -77,7 +90,10 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET / (empty)', () =>
-			query('get', root).then(({ body }) => expect(body).to.be.an('array').and.have.length(0))
+			query('get', root).then(({ body, status }) => {
+				expect(status).to.equal(200)
+				expect(body).to.be.an('array').and.have.length(0)
+			})
 		)
 
 	})

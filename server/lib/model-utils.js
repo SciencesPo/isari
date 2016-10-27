@@ -95,7 +95,7 @@ function getRefFields (baseName, object, meta, depth) {
 		meta = meta[0]
 	}
 
-	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f))
+	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 	const refFields = fields.filter(f => meta[f].ref)
 
 	let result = {}
