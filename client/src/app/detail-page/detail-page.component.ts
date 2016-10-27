@@ -29,13 +29,6 @@ export class DetailPageComponent implements OnInit, OnChanges {
           this.isariDataService.getLayout(this.feature)
         ]).then(([data, layout]) => {
           this.data = data;
-
-          if (!this.data.opts) {
-            this.data.opts = {
-              writable: true
-            };
-          }
-
           this.layout = this.isariDataService.translate(layout, 'en');
           this.form = this.isariDataService.buildForm(this.layout, this.data);
           // disabled all form
