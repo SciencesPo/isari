@@ -97,10 +97,10 @@
     "subject": "Séjour de recherche",
     "summary": "Pourquoi le ciel est bleu ?",
     "tags": {
-      "discipline": "Sociologie, démographie",
+      "discipline": "discipline731",
       "researchTheme": [
-        "aires",
-        "villes et territoires"
+        "scpo1",
+        "scpo31"
       ]
     },
     "grants": [

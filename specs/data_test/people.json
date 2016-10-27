@@ -85,10 +85,10 @@
       }
     ],
     "tags": {
-      "erc": "SH2 Institutions, values and beliefs and behaviours",
+      "erc": "sh2",
       "hceres2017": [
-        "SHS2_4 Sociologie, démographie",
-        "SHS2_5 Sciences de l'information et de la communications"
+        "shs24",
+        "shs25"
       ],
       "methods": [
         "mixte"
@@ -177,8 +177,8 @@
     ],
     "tags": {
       "hceres2017": [
-        "SHS2_2 Science politique",
-        "SHS2_4 Sociologie, démographie"
+        "shs22",
+        "shs24"
       ]
     }
   },
@@ -263,8 +263,8 @@
     ],
     "tags": {
       "hceres2017": [
-        "SHSH2_1 Droit",
-        "SHS2_2 Science politique"
+        "shs21",
+        "shs22"
       ],
       "methods": [
         "quantitative",
