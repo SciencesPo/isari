@@ -2,19 +2,7 @@
 
 const { restRouter } = require('../lib/rest-utils')
 const { Activity } = require('../lib/model')
-const { clone } = require('lodash/fp')
+const { format } = require('../lib/model-utils')
 
 
-module.exports = restRouter(Activity, formatActivity, 'activities')
-
-
-function formatActivity (activity) {
-	let o = activity.toObject ? activity.toObject() : clone(activity)
-
-	o.id = o._id
-
-	delete o._id
-	delete o.__v
-
-	return o
-}
+module.exports = restRouter(Activity, a => format('Activity', a), 'activities')

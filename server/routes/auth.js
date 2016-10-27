@@ -3,6 +3,8 @@
 const { Router } = require('express')
 const bodyParser = require('body-parser')
 const auth = require('../lib/auth')
+const { People } = require('../lib/model')
+const { format } = require('../lib/model-utils')
 
 const router = module.exports = Router()
 
@@ -16,8 +18,7 @@ router.post('/login', (req, res) => {
 	auth(login, password)
 	.then(people => {
 		req.session.login = login
-		req.session.peopleId = people.id
-		res.send({ login, peopleId: people.id })
+		res.send({ login, people: format(people) })
 	})
 	.catch(err => {
 		return res.status(403).send({
@@ -32,15 +33,19 @@ router.post('/logout', (req, res) => {
 	res.send({ was })
 })
 
-router.get('/myself', (req, res) => {
+const formatPeople = p => format('People', p)
+
+router.get('/myself', (req, res, next) => {
 	if (!req.session.login) {
 		return res.status(401).send({
 			redirect: req.baseUrl + '/login',
 			message: 'Not authenticated'
 		})
 	}
-	res.send({
-		login: req.session.login,
-		peopleId: req.session.peopleId
-	})
+	const login = req.session.login
+	People.findById(req.session.peopleId)
+	.then(p => p.populateAll())
+	.then(formatPeople)
+	.then(people => res.send({ login, people }))
+	.catch(next)
 })

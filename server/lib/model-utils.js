@@ -3,12 +3,13 @@
 const templates = require('../../specs/templates')
 const { getMeta } = require('./specs')
 const { RESERVED_FIELDS } = require('./schemas')
-const { difference, get } = require('lodash/fp')
+const { difference, get, clone, isObject, isArray } = require('lodash/fp')
 
 
 module.exports = {
 	applyTemplates,
-	populateAll
+	populateAll,
+	format
 }
 
 
@@ -102,4 +103,57 @@ function getRefFields (baseName, object, meta, depth) {
 	difference(fields, refFields).forEach(f => Object.assign(result, getRefFields(baseName ? (baseName + '.' + f) : f, object, meta[f], depth - 1)))
 
 	return result
+}
+
+
+function format (modelName, object) {
+	return _format(object, getMeta(modelName), true)
+}
+
+function _format (object, schema, keepId) {
+	// Multi-valued field: format recursively
+	if (isArray(object)) {
+		if (schema && !isArray(schema)) {
+			throw new Error('Schema Inconsistency: Array expected')
+		}
+		return object.map(o => _format(o, schema[0], keepId))
+	}
+
+	// Scalar value? Nothing to format
+	if (!isObject(object)) {
+		if (schema && schema.type === 'object') {
+			throw new Error('Schema Inconsistency: Object expected')
+		}
+		return object
+	}
+
+	// Work on a POJO: formatting must have no side-effect
+	let o = object.toObject ? object.toObject() : clone(object)
+
+	// Keep ID for later use (if keepId is set)
+	const id = o._id
+
+	// Remove Mongoose technical fields
+	delete o._id
+	delete o.__v
+	delete o._bsontype
+
+	// Format each sub-element recursively
+	Object.keys(o).forEach(f => {
+		// If the value is a ref to another model, grab schema and format accordingly
+		const ref = schema && schema[f] && schema[f].ref
+		const s = ref ? getMeta(ref) : schema[f] || null
+		// If ref has been populated, it will return a properly formatted object
+		// If ref has not been populated, it's just a string, left untouched
+		// If not a ref, formatting just goes on
+		// Note: keepId only for refs, ids in arrays of sub-docs can be dropped
+		o[f] = _format(o[f], s, Boolean(ref))
+	})
+
+	// Keep ID
+	if (id && keepId) {
+		o.id = String(id)
+	}
+
+	return o
 }

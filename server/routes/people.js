@@ -2,19 +2,7 @@
 
 const { restRouter } = require('../lib/rest-utils')
 const { People } = require('../lib/model')
-const { clone } = require('lodash/fp')
+const { format } = require('../lib/model-utils')
 
 
-module.exports = restRouter(People, formatPeople, 'people')
-
-
-function formatPeople (people) {
-	let o = people.toObject ? people.toObject() : clone(people)
-
-	o.id = o._id
-
-	delete o._id
-	delete o.__v
-
-	return o
-}
+module.exports = restRouter(People, p => format('People', p), 'people')
