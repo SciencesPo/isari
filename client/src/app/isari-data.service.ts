@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 import { environment } from '../environments/environment';
 
@@ -101,6 +101,9 @@ export class IsariDataService {
   }
 
   getForeignLabel(feature: string, value: string) {
+    if (!value) {
+      return Observable.of('');
+    }
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/string`;
     return this.http.get(url)
       .map(response => response.json())
