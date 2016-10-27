@@ -8,18 +8,14 @@ const es = require('./elasticsearch')
 const { applyTemplates } = require('./model-utils')
 
 
-const restHandler = exports.restHandler = fn => (req, res) => {
+const restHandler = exports.restHandler = fn => (req, res, next) => {
 	Promise.resolve().then(() => fn(req, res))
 	.then(data => res.send(data))
 	.catch(err => {
 		if (!err.status) {
 			err.status = err.errors ? 400 : 500
 		}
-		res.status(err.status).send({
-			error: err.message,
-			stack: req.app.get('env') === 'production' ? undefined : err.stack,
-			errors: err.errors
-		})
+		next(err)
 	})
 }
 
