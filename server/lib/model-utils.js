@@ -116,7 +116,7 @@ function _format (object, schema, keepId) {
 		if (schema && !isArray(schema)) {
 			throw new Error('Schema Inconsistency: Array expected')
 		}
-		return object.map(o => _format(o, schema[0], keepId))
+		return object.map(o => _format(o, schema && schema[0], keepId))
 	}
 
 	// Scalar value? Nothing to format
@@ -142,7 +142,7 @@ function _format (object, schema, keepId) {
 	Object.keys(o).forEach(f => {
 		// If the value is a ref to another model, grab schema and format accordingly
 		const ref = schema && schema[f] && schema[f].ref
-		const s = ref ? getMeta(ref) : schema[f] || null
+		const s = ref ? getMeta(ref) : schema ? schema[f] : null
 		// If ref has been populated, it will return a properly formatted object
 		// If ref has not been populated, it's just a string, left untouched
 		// If not a ref, formatting just goes on
