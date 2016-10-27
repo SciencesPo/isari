@@ -104,7 +104,7 @@ export class IsariDataService {
     if (!value) {
       return Observable.of('');
     }
-    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/string`;
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${value}/string`;
     return this.http.get(url)
       .map(response => response.json())
       .map(item => item.value);
@@ -173,6 +173,42 @@ export class IsariDataService {
     }
     return  'input';
   }
+
+
+  save(feature: string, data: any) {
+    console.log('save', data);
+    const url = `${this.dataUrl}/${feature}/${data.id}`;
+    return this.http.put(url, data)
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
+  }
+
+  // getErrors(form: FormGroup) {
+  //   return this.getErrorsFromControls(form.controls);
+  // }
+
+  // getErrorsFromControls(controls: { [key: string]: AbstractControl}) {
+  //   let errors = [];
+  //   for (let fieldName of Object.keys(controls)){
+  //     let control = controls[fieldName];
+  //     if (control instanceof FormGroup) {
+  //       errors = [...errors, ...this.getErrorsFromControls(control.controls)];
+  //       this.getErrorsFromControls(control.controls);
+  //     }
+  //     if (control instanceof FormArray) {
+  //       control.controls
+  //         .filter(ctrl => ctrl.invalid)
+  //         .forEach(ctrl => {
+  //           errors = [...errors, ...this.getErrorsFromControls( (<FormGroup>ctrl).controls)];
+  //         });
+  //     }
+  //     if (control.errors) {
+  //       errors.push(fieldName);
+  //     }
+  //   }
+  //   return errors;
+  // }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
