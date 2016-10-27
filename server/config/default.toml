@@ -26,3 +26,6 @@ index = 'isari'
 url = 'ldap://ldap.sciences-po.fr'
 dn = 'ou=Users,o=sciences-po,c=fr'
 activeFlag = 'scpoActifSI'
+# WARNING! USE WITH CAUTION!
+# Set to true to fully disable LDAP, meaning login/password will be automatically accepted with no check
+skip = false

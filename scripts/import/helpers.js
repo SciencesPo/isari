@@ -5,6 +5,7 @@
  * Miscellaneous helpers used by the import scripts such as foreign key
  * finders.
  */
+const chalk = require('chalk');
 
 // Recursive function handling each schema level
 function parseSchemaLevel(relations, level, path) {
@@ -85,3 +86,46 @@ exports.processRelations = function(relations, item, callback) {
     recurseIntoItem(path, item, callback);
   }
 };
+
+// Function used to recursively collect schema validation errors
+const collectErrors = function(error, index, path = [], acc = []) {
+
+  // Leaf?
+  if (!error.reason && !error.errors && error.kind !== 'ObjectId') {
+    const meta = {
+      line: index + 1,
+      type: error.name,
+      message: error.message || '',
+      path
+    };
+
+    const coloredMessage = meta.message
+      .replace(/`(.*?)`/g, function(_, m) {
+        return chalk.cyan(m);
+      })
+      .replace(/".*?"/g, function(m) {
+        return chalk.green(m);
+      });
+
+    meta.formattedMessage = `Line ${meta.line}: ${meta.type} => ${coloredMessage}`;
+
+    acc.push(meta);
+  }
+
+  // Recurse
+  else {
+    if (error.reason) {
+      collectErrors(error.reason, index, path.concat(error.path), acc);
+    }
+    else if (error.errors) {
+      for (const k in error.errors) {
+        collectErrors(error.errors[k], index, path.concat(error.errors[k].path), acc);
+      }
+    }
+  }
+
+
+  return acc;
+};
+
+exports.collectErrors = collectErrors;

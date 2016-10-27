@@ -1,12 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'isari-data-table',
   templateUrl: 'data-table.component.html',
   styleUrls: ['data-table.component.css']
 })
-export class DataTableComponent implements OnInit {
+export class DataTableComponent implements OnInit, OnChanges {
   page: any[];
 
   @Input() data: any[];
@@ -15,6 +14,10 @@ export class DataTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.page = this.data.slice(0, 5);
   }
 
   pageChanged($event) {

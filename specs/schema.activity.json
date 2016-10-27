@@ -131,7 +131,8 @@
         "label": {
             "fr": "Description",
             "en": "Description"
-        }
+        },
+        "type":"text"
     },
     "url": {
         "label": {

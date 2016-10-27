@@ -28,16 +28,23 @@ export class IsariDataService {
 
   constructor(private http: Http, private fb: FormBuilder) { }
 
-  getPeople(id: string) {
-    const url = `${this.dataUrl}/people/${id}`;
+  getData(feature: string, id: string) {
+    const url = `${this.dataUrl}/${feature}/${id}`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
   }
 
-  getData(feature: string, id: string) {
-    return this['get' + feature.charAt(0).toUpperCase() + feature.slice(1).toLowerCase()](id);
+  getDatas(feature: string, { fields, applyTemplates }: { fields: string[], applyTemplates: boolean }) {
+    const url = `${this.dataUrl}/${feature}`;
+    const search = new URLSearchParams();
+    search.set('fields', fields.join(','));
+    search.set('applyTemplates', (applyTemplates ? 1 : 0).toString());
+    return this.http.get(url, { search })
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
   }
 
   getLayout(feature: string) {
@@ -53,6 +60,11 @@ export class IsariDataService {
     return this.http.get(url)
       .toPromise()
       .then(response => response.json())
+      // @TODO : wtf is that type property ?
+      .then(schema => {
+        delete schema.type;
+        return schema;
+      })
       .then(schema => Object.keys(schema).map(key => ({
         key,
         label: schema[key].label
@@ -176,7 +188,6 @@ export class IsariDataService {
 
 
   save(feature: string, data: any) {
-    console.log('save', data);
     const url = `${this.dataUrl}/${feature}/${data.id}`;
     return this.http.put(url, data)
       .toPromise()

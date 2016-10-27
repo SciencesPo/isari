@@ -19,7 +19,6 @@ export class IsariColsSelectorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.cols && this.cols.length && this.selectedColumns && this.selectedColumns.length) {
-      console.log(this.cols, this.selectedColumns);
       this.cols = this.cols.map(col => Object.assign(col, {
         selected: !!this.selectedColumns.find(selectedCol => selectedCol.key === col.key)
       }));

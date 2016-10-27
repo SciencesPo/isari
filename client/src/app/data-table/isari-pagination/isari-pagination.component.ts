@@ -42,14 +42,14 @@ export class IsariPaginationComponent implements OnInit, OnChanges {
 
   private getPages(currentPage: number): any[] {
     const pages = [];
-    const visibleLinks = this.visiblePages - 1;
+    const visibleLinks = Math.min(this.visiblePages - 1, this.totalPages);
     let startPage = Math.max(currentPage - visibleLinks / 2, 1);
     let endPage = Math.min(currentPage + visibleLinks / 2, this.totalPages);
     if (startPage === 1) {
-      endPage = this.visiblePages;
+      endPage = Math.min(this.visiblePages, this.totalPages);
     }
     if (endPage === this.totalPages) {
-      startPage = this.totalPages - visibleLinks;
+      startPage = Math.max(1, this.totalPages - visibleLinks);
     }
     for (let i = startPage; i <= endPage; i++) {
       pages.push(this.createPage(i, null, i === currentPage));

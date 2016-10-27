@@ -11,11 +11,18 @@ const async = require('async'),
       fs = require('fs'),
       path = require('path'),
       yargs = require('yargs'),
-      mongoose = require('../../server/node_modules/mongoose');
+      mongoose = require('../../server/node_modules/mongoose'),
+      inspect = require('util').inspect,
+      chalk = require('chalk'),
+      _ = require('lodash');
 
 const FILES = require('./files'),
-      clean = require('./clean');
-      helpers = require('./helpers');
+      clean = require('./clean'),
+      helpers = require('./helpers'),
+      log = require('./logger')();
+
+if (inspect.defaultOptions)
+  inspect.defaultOptions.depth = null;
 
 // Altering the NODE_CONFIG_DIR env variable so that `config` can resolve
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
@@ -41,13 +48,25 @@ const relations = {
 };
 
 /**
+ * Command line & constants.
+ * -----------------------------------------------------------------------------
+ */
+
+/**
  * Reading command line.
  */
 const argv = yargs
   .usage('$0 --path ./path/to/isari_data')
-  .option('p', {
-    alias: 'path',
+  .option('path', {
     demand: true
+  })
+  .option('dry-run', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to perform a dry run.'
+  })
+  .option('json', {
+    describe: 'JSON dump path.'
   })
   .help()
   .argv;
@@ -56,32 +75,52 @@ const argv = yargs
  * Indexes.
  */
 const INDEXES = {
-  Organization: {}
+  Organization: {
+    acronym: Object.create(null),
+    name: Object.create(null),
+    id: Object.create(null)
+  },
+  People: {
+    id: Object.create(null)
+  }
 };
 
 /**
+ * State.
+ */
+let CONNECTION = null,
+    NB_VALIDATION_ERRORS = 0,
+    NB_RELATION_ERRORS = 0,
+    NB_FILES = 0;
+
+/**
  * Helpers.
+ * -----------------------------------------------------------------------------
  */
 
 // Function taking a parsed CSV line and cleaning it.
 function cleanLine(line) {
   for (const k in line)
     line[k] = clean.default(line[k]);
-
-  return line;
 }
 
-/**
- * Processing organization files.
- */
-const tasks = FILES.organizations.files.map(file => next => {
+// Function attributing a mongo id to an arbitrary item
+function attachMongoId(item) {
+  item._id = mongoose.Types.ObjectId();
+}
 
-  // Read and parse CSV
+// Function taking a file descriptor and returning the parsed lines
+function parseFile(folder, file, callback) {
   const filePath = path.join(
     argv.path,
-    FILES.organizations.folder,
+    folder,
     file.path
   );
+
+  NB_FILES++;
+
+  console.log();
+  log.info(`Reading ${chalk.cyan(filePath)}`);
 
   const options = {
     delimiter: file.delimiter,
@@ -90,19 +129,295 @@ const tasks = FILES.organizations.files.map(file => next => {
 
   const data = fs.readFileSync(filePath, 'utf-8');
 
-  csv.parse(data, options, (err, lines) => {
+  return csv.parse(data, options, (err, lines) => {
+    if (err)
+      return callback(err);
+
+    log.info(`Parsed ${chalk.cyan(lines.length)} lines.`);
+
+    // Cleaning the lines
+    lines.forEach(cleanLine);
+
+    // Consuming the lines
+    lines = lines.map(file.consumer.bind(log));
+
+    // Dropping null values
+    lines.forEach((line, index) => {
+      for (const k in line) {
+        const value = line[k];
+
+        if (
+          value === null ||
+          value === undefined ||
+          value === '' ||
+          Array.isArray(value) && !value.length
+        )
+          delete line[k];
+
+        if (Number.isNaN(value))
+          log.error(`Line ${index + 1}: NaN value for ${chalk.cyan(k)}`);
+      }
+    });
+
+    return callback(null, lines);
+  });
+}
+
+// Function using the Mongoose models to validate an entity
+function validate(Model, line, index) {
+  const result = (new Model(line, false)).validateSync(),
+        errors = [];
+
+  if (!result)
+    return errors;
+
+  return helpers.collectErrors(result, index);
+}
+
+/**
+ * Tasks (Organizations, People, Activities)
+ * -----------------------------------------------------------------------------
+ */
+
+/**
+ * Processing organization files.
+ */
+const organizationTasks = FILES.organizations.files.map(file => next => {
+  parseFile(FILES.organizations.folder, file, (err, lines) => {
     if (err)
       return next(err);
 
-    // Cleaning
-    lines = lines.map(cleanLine);
+    // Giving unique identifier
+    lines.forEach(attachMongoId);
 
-    // Consuming
-    lines = lines.map(file.consumer);
+    // Validating
+    lines.forEach((line, i) => {
+      const errors = validate(Organization, line, i);
 
-    console.log(lines);
-    next();
+      errors.forEach(error => {
+        log.error(error.formattedMessage, error);
+      });
+
+      NB_VALIDATION_ERRORS += errors.length;
+    });
+
+    // Indexing
+    lines.forEach(file.indexer.bind(null, INDEXES.Organization));
+
+    return next();
   });
 });
 
-async.series(tasks, err => console.log('Done!'));
+/**
+ * Processing people files.
+ */
+const peopleTasks = FILES.people.files.map(file => next => {
+  parseFile(FILES.people.folder, file, (err, lines) => {
+    if (err)
+      return next(err);
+
+    const persons = file.resolver.call(log, lines);
+
+    log.info(`Extracted ${chalk.cyan(persons.length)} persons.`);
+
+    // Validating
+    persons.forEach((person, i) => {
+      const errors = validate(People, person, i);
+
+      errors.forEach(error => {
+        log.error(error.formattedMessage, error);
+      });
+
+      NB_VALIDATION_ERRORS += errors.length;
+    });
+
+    // Giving unique identifier
+    persons.forEach(attachMongoId);
+
+    // Indexing
+    persons.forEach(file.indexer.bind(null, INDEXES.People));
+
+    return next();
+  });
+});
+
+/**
+ * Processing relations.
+ */
+function processRelations() {
+  let indexes,
+      index;
+
+  //-- 1) Intra organization relations
+  indexes = INDEXES.Organization;
+  index = indexes.id;
+
+  for (const id in index) {
+    relations.Organization(index[id], rel => {
+
+      // Solving those relations should be a matter of finding the
+      // organization by acronym or plain name.
+      let related = indexes.acronym[rel];
+
+      if (!related)
+        related = indexes.name[rel];
+
+      // If we still have nothing, we should yell
+      if (!related) {
+        log.error(`Could not match the ${chalk.cyan(rel)} org->org relation.`);
+        // NB_RELATION_ERRORS++;
+
+        // TEMP OVERRIDE!
+        return indexes.acronym.FNSP._id;
+      }
+      else {
+        return related._id;
+      }
+    });
+  }
+
+  //-- 2) People's relations
+  index = INDEXES.People.id;
+
+  for (const id in index) {
+    relations.People(index[id], rel => {
+
+      // Solving those relations by acronym
+      let related = INDEXES.Organization.acronym[rel];
+
+      // Else solving the relation by name
+      if (!related)
+        related = INDEXES.Organization.name[rel];
+
+      // If we still have nothing, we should yell
+      if (!related) {
+        log.error(`Could not match the ${chalk.cyan(rel)} people->org.`);
+        // NB_RELATION_ERRORS++;
+
+        // TEMP OVERRIDE!
+        return indexes.acronym.FNSP._id;
+      }
+      else {
+        return related._id;
+      }
+    });
+  }
+}
+
+/**
+ * Process outline.
+ * -----------------------------------------------------------------------------
+ */
+function ProcessError() {}
+
+log.info('Starting...');
+async.series({
+  organizations(next) {
+    log.success('Processing organization files...');
+    return async.series(organizationTasks, next);
+  },
+  people(next) {
+    console.log();
+    log.success('Processing people files...');
+    return async.series(peopleTasks, next);
+  },
+  relations(next) {
+
+    // If we have validation errors, let's call it a day
+    if (NB_VALIDATION_ERRORS)
+      return next(new ProcessError());
+
+    const nbOrganization = Object.keys(INDEXES.Organization.id).length,
+          nbPeople = Object.keys(INDEXES.People.id).length;
+
+    console.log();
+    log.success(`Finished processing ${chalk.cyan(NB_FILES)} files!`);
+    log.info(`Collected ${chalk.cyan(nbOrganization)} unique organizations.`);
+    log.info(`Collected ${chalk.cyan(nbPeople)} unique people.`);
+
+    processRelations();
+
+    return next();
+  },
+  jsonDump(next) {
+    if (!argv.json)
+      return next();
+
+    console.log();
+    log.info(`Dumping JSON result to ${argv.json}...`);
+
+    fs.writeFileSync(
+      path.join(argv.json, 'organizations.json'),
+      JSON.stringify(_.values(INDEXES.Organization.id), null, 2)
+    );
+
+    fs.writeFileSync(
+      path.join(argv.json, 'people.json'),
+      JSON.stringify(_.values(INDEXES.People.id), null, 2)
+    );
+
+    return next();
+  },
+  mongoConnect(next) {
+
+    // If we have relation errors, let's call it a day
+    if (NB_RELATION_ERRORS)
+      return next(new ProcessError());
+
+    if (argv.dryRun)
+      return next();
+
+    return connect()
+      .then(connection => {
+        console.log();
+        log.info('Connected to Mongo database.');
+        CONNECTION = connection;
+        return next();
+      }, err => next(err));
+  },
+  mongoInsert(next) {
+
+    // Don't do it if dry run
+    if (argv.dryRun) {
+      console.log();
+      log.info('This is a dry run. Items will not be inserted in the database.');
+      return next();
+    }
+
+    console.log();
+    log.info('Inserting items into the Mongo database...');
+
+    return async.parallel([
+      cb => Organization.collection.insertMany(_.values(INDEXES.Organization.id), cb),
+      cb => People.collection.insertMany(_.values(INDEXES.People.id), cb)
+    ], next);
+  }
+}, err => {
+
+  // Terminating database connection
+  if (CONNECTION)
+    CONNECTION.close();
+
+  console.log();
+
+  if (err) {
+
+    if (err instanceof ProcessError) {
+      if (NB_VALIDATION_ERRORS)
+        log.error(`${NB_VALIDATION_ERRORS} total validation errors.`);
+      if (NB_RELATION_ERRORS)
+        log.error(`${NB_RELATION_ERRORS} total relation errors.`);
+
+      log.error('Files were erroneous. Importation was not done. Please fix and import again.');
+    }
+    else {
+      console.error(err);
+    }
+
+    return;
+  }
+
+  else {
+    log.success('Done!');
+  }
+});
