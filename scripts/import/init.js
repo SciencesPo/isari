@@ -88,7 +88,8 @@ const INDEXES = {
 /**
  * State.
  */
-let NB_ERRORS = 0,
+let NB_VALIDATION_ERRORS = 0,
+    NB_RELATION_ERRORS = 0,
     NB_FILES = 0;
 
 /**
@@ -196,7 +197,7 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
         log.error(error.formattedMessage, error);
       });
 
-      NB_ERRORS += errors.length;
+      NB_VALIDATION_ERRORS += errors.length;
     });
 
     // Indexing
@@ -226,7 +227,7 @@ const peopleTasks = FILES.people.files.map(file => next => {
         log.error(error.formattedMessage, error);
       });
 
-      NB_ERRORS += errors.length;
+      NB_VALIDATION_ERRORS += errors.length;
     });
 
     // Giving unique identifier
@@ -262,7 +263,33 @@ function processRelations() {
 
       // If we still have nothing, we should yell
       if (!related) {
-        log.error(`Could not match the ${chalk.cyan(rel)} parent organization.`);
+        log.error(`Could not match the ${chalk.cyan(rel)} org->org relation.`);
+        NB_RELATION_ERRORS++;
+        return `NOT MATCHED {${rel}}`;
+      }
+      else {
+        return related._id;
+      }
+    });
+  }
+
+  //-- 2) People's relations
+  index = INDEXES.People.id
+
+  for (const id in index) {
+    relations.People(index[id], rel => {
+
+      // Solving those relations by acronym
+      let related = INDEXES.Organization.acronym[rel];
+
+      // Else solving the relation by name
+      if (!related)
+        related = INDEXES.Organization.name[rel];
+
+      // If we still have nothing, we should yell
+      if (!related) {
+        log.error(`Could not match the ${chalk.cyan(rel)} people->org.`);
+        NB_RELATION_ERRORS++;
         return `NOT MATCHED {${rel}}`;
       }
       else {
@@ -324,8 +351,12 @@ async.series({
     return console.error(err);
 
   console.log();
-  if (NB_ERRORS) {
-    log.error(`${NB_ERRORS} total errors.`);
+  if (NB_VALIDATION_ERRORS) {
+    log.error(`${NB_VALIDATION_ERRORS} total validation errors.`);
+    log.error('Files were erroneous. Importation was not done. Please fix and import again.');
+  }
+  else if (NB_RELATION_ERRORS) {
+    log.error(`${NB_RELATION_ERRORS} total relation errors.`);
     log.error('Files were erroneous. Importation was not done. Please fix and import again.');
   }
   else {
