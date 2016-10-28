@@ -32,18 +32,14 @@ const EditLogSchema = new mongoose.Schema({
 const EditLog = mongoose.model('EditLog', EditLogSchema)
 
 
-// DESTRUCTIVE API
-// doc is modified, _elWho will be removed after call
 const getWho = doc => {
 	const modelName = doc.constructor.modelName
-	const who = doc._elWho
-
-	delete doc._elWho
+	const who = doc.latestChangeBy
 
 	if (!who) {
 		// TODO use proper logger
 		const stack = Error().stack.split('\n').slice(2).join('\n')
-		process.stderr.write(chalk.yellow(`[EditLog][${modelName}] No _elWho set, operation will be logged anonymously\n`))
+		process.stderr.write(chalk.yellow(`[EditLog][${modelName}] Field 'latestChangeBy' not set, operation will be logged anonymously\n`))
 		process.stderr.write(chalk.yellow(stack) + '\n\n')
 	}
 
@@ -51,6 +47,13 @@ const getWho = doc => {
 }
 
 const middleware = schema => {
+
+	schema.add({
+		latestChangeBy: {
+			type: String,
+			required: true
+		}
+	})
 
 	schema.pre('save', function (next) {
 		const [modelName, who] = getWho(this)

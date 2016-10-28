@@ -36,4 +36,4 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 server/config/local.toml
-server/config/local-test.toml
+server/config/local-*.toml

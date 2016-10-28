@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { ServerError, ClientError, NotFoundError } = require('./errors')
+const { ServerError, ClientError, NotFoundError, UnauthorizedError } = require('./errors')
 const { identity, set, map, pick, difference } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
@@ -20,18 +20,20 @@ const restHandler = exports.restHandler = fn => (req, res, next) => {
 }
 
 
-const saveDocument = (format = identity) => doc => doc.save()
-	.then(format)
-	.catch(e => {
-		let err = new ClientError({ title: 'Validation error' })
-		if (e.name === 'ValidationError') {
-			err.errors = Object.keys(e.errors).reduce(
-				(errors, error) => set(error, e.errors[error].message, errors),
-				{}
-			)
-		}
-		return Promise.reject(err)
-	})
+const saveDocument = (format = identity) => doc => {
+	return doc.save()
+		.then(format)
+		.catch(e => {
+			let err = new ClientError({ title: 'Validation error' })
+			if (e.name === 'ValidationError') {
+				err.errors = Object.keys(e.errors).reduce(
+					(errors, error) => set(error, e.errors[error].message, errors),
+					{}
+				)
+			}
+			return Promise.reject(err)
+		})
+}
 
 
 // http.ServerRequest, mongoose.Model => Promise<{ editable }>
@@ -46,23 +48,30 @@ const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	])
 	.then(([ { editable }, o ]) => set('opts', { editable })(o))
 
+const requiresAuthentication = (req, res, next) => {
+	if (req.session.login) {
+		next()
+	} else {
+		next(UnauthorizedError({ title: 'Authentication required for this API' }))
+	}
+}
 
 exports.restRouter = (Model, format = identity, esIndex = null, getPermissions = defaultGetPermissions) => {
 	const save = saveDocument(format)
 	const router = Router()
 
-	router.use(bodyParser.json())
+	const parseJson = bodyParser.json()
 
 	if (esIndex) {
-		router.get('/search', restHandler(searchModel(esIndex, Model, format, getPermissions)))
+		router.get('/search', parseJson, requiresAuthentication, restHandler(searchModel(esIndex, Model, format, getPermissions)))
 	}
 
-	router.get('/', restHandler(listModel(Model, format, getPermissions)))
-	router.get('/:id([A-Za-f0-9]{24})', restHandler(getModel(Model, format, getPermissions)))
-	router.get('/:ids([A-Za-f0-9,]+)/string', restHandler(getModelStrings(Model)))
-	router.put('/:id([A-Za-f0-9]{24})', restHandler(updateModel(Model, save, getPermissions)))
-	router.post('/', restHandler(createModel(Model, save)))
-	router.delete('/:id([A-Za-f0-9]{24})', restHandler(deleteModel(Model, getPermissions)))
+	router.get('/', parseJson, requiresAuthentication, restHandler(listModel(Model, format, getPermissions)))
+	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(getModel(Model, format, getPermissions)))
+	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, restHandler(getModelStrings(Model)))
+	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(updateModel(Model, save, getPermissions)))
+	router.post('/', parseJson, requiresAuthentication, restHandler(createModel(Model, save)))
+	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(deleteModel(Model, getPermissions)))
 
 	return router
 }
@@ -117,7 +126,7 @@ const updateModel = (Model, save, getPermissions) => {
 					doc[field] = req.body[field]
 				})
 				// Sign for EditLogs
-				doc._elWho = 'TODO GET USERNAME FROM WEB SESSION (update)'
+				doc.latestChangeBy = req.session.login
 				return doc
 			})
 		)
@@ -136,7 +145,7 @@ const createModel = (Model, save) => (req, res) => {
 			return Promise.reject(ServerError({ title: e.message }))
 		}
 	}
-	o._elWho = 'TODO GET USERNAME FROM WEB SESSION (create)'
+	o.latestChangeBy = req.session.login
 	return save(o).then(saved => {
 		res.status(201)
 		return saved
@@ -150,7 +159,7 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 		.then(({ editable }) => editable ? doc : Promise.reject(ClientError({ message: 'Permission refused' })))
 	)
 	.then(doc => {
-		doc._elWho = 'TODO GET USERNAME FROM WEB SESSION (delete)'
+		doc.latestChangeBy = req.session.login
 		return doc.remove()
 	})
 	.then(() => {

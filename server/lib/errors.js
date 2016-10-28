@@ -12,17 +12,19 @@ exports.ServerError = TypedError({
 	status: 500
 })
 
-const ClientError = exports.ClientError = TypedError({
+exports.ClientError = TypedError({
 	type: 'http.error.client',
 	message: 'Client error ({status}): {title}',
 	title: null,
 	status: 400
 })
 
-exports.NotFoundError = TypedError(merge(ClientError, {
+exports.NotFoundError = TypedError({
+	type: 'http.error.client.notfound',
+	title: null,
 	message: 'Not Found: {title}',
 	status: 404
-}))
+})
 
 exports.ElasticSearchError = WrappedError({
 	type: 'http.error.elasticsearch',
@@ -30,7 +32,9 @@ exports.ElasticSearchError = WrappedError({
 	status: 500
 })
 
-exports.UnauthorizedError = TypedError(merge(ClientError, {
+exports.UnauthorizedError = TypedError({
+	type: 'http.error.client.unauthorized',
+	titile: 'Authentication Required',
 	message: 'Unauthorized: {title}',
 	status: 401
-}))
+})

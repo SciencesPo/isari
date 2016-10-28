@@ -12,12 +12,12 @@ const router = module.exports = Router()
 const formatPeople = p => format('People', p)
 const populateAndFormatPeople = p => p.populateAll().then(formatPeople)
 
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({
+const parseJson = bodyParser.json()
+const parseForm = bodyParser.urlencoded({
 	extended: true
-}))
+})
 
-router.post('/login', (req, res, next) => {
+router.post('/login', parseJson, parseForm, (req, res, next) => {
 	const { login, password } = req.body
 	auth(login, password)
 	.then(populateAndFormatPeople)
@@ -28,13 +28,13 @@ router.post('/login', (req, res, next) => {
 	.catch(err => next(UnauthorizedError({ title: err.message })))
 })
 
-router.post('/logout', (req, res) => {
+router.post('/logout', parseJson, parseForm, (req, res) => {
 	const was = req.session.login
 	req.session.login = null
 	res.send({ was })
 })
 
-router.get('/myself', (req, res, next) => {
+router.get('/myself', parseJson, parseForm, (req, res, next) => {
 	Promise.resolve(req.session.login)
 	.then(login => login || Promise.reject(UnauthorizedError({ title: 'Not logged in' })))
 	.then(login =>
