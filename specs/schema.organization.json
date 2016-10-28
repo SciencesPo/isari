@@ -94,13 +94,15 @@
             "en": "Address"
         }
     },
-    "country": {
-        "label": {
-            "fr": "Pays",
-            "en": "Country"
-        },
-        "enum": "countries"
-    },
+    "countries": [
+        {
+            "label": {
+                "fr": "Pays",
+                "en": "Country"
+            },
+            "enum": "countries"
+        }
+    ],
     "status": {
         "label": {
             "fr": "Statut",

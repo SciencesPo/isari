@@ -37,7 +37,7 @@ module.exports = {
           const info = {
             name: line.name,
             address: line.address,
-            country: line.country,
+            countries: [line.country],
             status: line.status,
             organizationTypes: [line.organizationType]
           };
@@ -90,7 +90,8 @@ module.exports = {
             name: line.name,
             address: line.address,
             url: line.url,
-            status: line.status
+            status: line.status,
+            countries: ['FR']
           };
 
           if (line.acronym)
@@ -147,6 +148,9 @@ module.exports = {
             researchUnitCodes: [],
             idHal: line['SPIRE ID hal']
           };
+
+          if (line['Country ISO'])
+            line.countries = [line['Country ISO']];
 
           if (line['SPIRE ID cnrs'])
             info.researchUnitCodes.push({code: line['SPIRE ID cnrs']});
