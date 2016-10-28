@@ -105,17 +105,15 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  getEnumLabel(src: string, value: string | string[], lang: string) {
+  getEnumLabel(src: string, values: string | string[], lang: string) {
+    if (!(values instanceof Array)) {
+      values = [values];
+    }
     return this.getEnum(src)
-      .map(values => {
-        if (value instanceof Array) {
-          return value.map(v => {
-            return values.find(entry => entry.value === v);
-          }).filter(v => !!v);
-        } else {
-          const found = values.find(entry => entry.value === value);
-          return found ? found.label[lang] : '';
-        }
+      .map(enumValues => {
+        return (<string[]>values).map(v => {
+          return enumValues.find(entry => entry.value === v);
+        }).filter(v => !!v);
       });
   }
 
@@ -130,14 +128,17 @@ export class IsariDataService {
   }
 
   // @TODO handle multiple values (array of ids)
-  getForeignLabel(feature: string, value: string) {
-    if (!value) {
-      return Observable.of('');
+  getForeignLabel(feature: string, values: string | string[]) {
+    if (!(values instanceof Array)) {
+      values = [values];
     }
-    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${value}/string`;
+    if (values.length === 0) {
+      return Observable.of([]);
+    }
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${values.join(',')}/string`;
     return this.http.get(url)
       .map(response => response.json())
-      .map(item => item.value);
+      // .map(item => item.value);
   }
 
   rawSearch(feature: string, query: string) {

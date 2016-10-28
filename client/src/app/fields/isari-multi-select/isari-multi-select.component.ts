@@ -50,19 +50,15 @@ export class IsariMultiSelectComponent implements OnInit {
         // this.setExtend();
       });
 
-    this.stringValue.subscribe(stringValue => {
-       // bad should give us an array
-      if (!(stringValue instanceof Array)) {
-        stringValue = [stringValue];
-      }
-      this.values = stringValue || [];
+    this.stringValue.subscribe(stringValues => {
+      this.values = stringValues;
     });
   }
 
   set values(values: any[]) {
     this._values = values;
     this.empty = this.values.length === 0;
-    this.form.controls[this.name].setValue(values.map(v => v.value));
+    this.form.controls[this.name].setValue(values.map(v => v.label ? v.value : v.id));
     this.onUpdate.emit({});
   }
 

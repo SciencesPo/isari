@@ -2,7 +2,7 @@
   <div class="md-input-table">
 
     <div class="md-input-prefix" *ngFor="let item of _values">
-      {{ item.label ? item.label['fr'] : item }}
+      {{ item.label ? item.label['fr'] : item.value }}
       <md-icon (click)="removeValue(item, $event)">close</md-icon>
     </div>
 

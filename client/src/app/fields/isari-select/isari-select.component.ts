@@ -20,7 +20,7 @@ export class IsariSelectComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<any>();
   @Input() src: Function;
   @Input() extensible = false;
-  @Input() stringValue: Observable<string>;
+  @Input() stringValue: Observable<any>;
 
   max = 20;
   values: any[] = [];
@@ -45,7 +45,11 @@ export class IsariSelectComponent implements OnInit {
         this.setExtend();
       });
 
-    this.stringValue.subscribe(stringValue => {
+    this.stringValue.subscribe(stringValues => {
+      let stringValue = '';
+      if (stringValues.length > 0) {
+        stringValue = stringValues[0].label ? stringValues[0].label['fr'] : stringValues[0].value;
+      }
       this.selectControl.setValue(stringValue);
     });
 
