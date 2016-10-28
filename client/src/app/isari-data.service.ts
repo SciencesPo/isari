@@ -183,7 +183,7 @@ export class IsariDataService {
   translate(layout, lang) {
     return layout.map(group => {
       let grp = Object.assign({}, group, {
-        label: group.label[lang]
+        label: group.label ? group.label[lang] : ''
       });
       if (grp.fields) {
         grp.fields = this.translate(grp.fields, lang);
