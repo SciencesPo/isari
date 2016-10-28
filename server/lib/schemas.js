@@ -136,7 +136,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	} else if (type === 'date') {
 		// Special type date, not translated into Date because we want support for partial dates
 		schema.type = String
-		schema.match = /^[12][0-9]{3}(?:-(?:0[1-9]|1[0-2]))?(?:-(?:0[1-9]|[12]\d|3[01]))?$/
+		schema.match = /^[12][0-9]{3}(?:-(?:0?[1-9]|1[0-2]))?(?:-(?:0?[1-9]|[12]\d|3[01]))?$/
 	} else if (type === 'ref') {
 		schema.type = Schema.Types.ObjectId
 		if (!desc.ref) {
