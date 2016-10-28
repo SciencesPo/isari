@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { Http, URLSearchParams, RequestOptions } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 import { environment } from '../environments/environment';
@@ -36,7 +36,8 @@ export class IsariDataService {
 
   getData(feature: string, id: string) {
     const url = `${this.dataUrl}/${feature}/${id}`;
-    return this.http.get(url)
+    let options = new RequestOptions({ withCredentials: true });
+    return this.http.get(url, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -48,7 +49,13 @@ export class IsariDataService {
     fields.push('id'); // force id
     search.set('fields', fields.join(','));
     search.set('applyTemplates', (applyTemplates ? 1 : 0).toString());
-    return this.http.get(url, { search })
+
+    let options = new RequestOptions({
+      withCredentials: true,
+      search
+    });
+
+    return this.http.get(url, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -136,7 +143,8 @@ export class IsariDataService {
       return Observable.of([]);
     }
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${values.join(',')}/string`;
-    return this.http.get(url)
+    let options = new RequestOptions({ withCredentials: true });
+    return this.http.get(url, options)
       .map(response => response.json())
       // .map(item => item.value);
   }
@@ -146,7 +154,8 @@ export class IsariDataService {
     const search = new URLSearchParams();
     search.set('q', query || '*');
     // search.set('fields', 'name');
-    return this.http.get(url, { search })
+    let options = new RequestOptions({ withCredentials: true, search });
+    return this.http.get(url, options)
       .map(response => response.json())
       .map(items => items.map(item => ({ id: item.value, value: item.label })));
   }
@@ -208,7 +217,8 @@ export class IsariDataService {
 
   save(feature: string, data: any) {
     const url = `${this.dataUrl}/${feature}/${data.id}`;
-    return this.http.put(url, data)
+    let options = new RequestOptions({ withCredentials: true });
+    return this.http.put(url, data, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
