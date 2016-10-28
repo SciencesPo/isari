@@ -19,7 +19,7 @@
           md-button
           style="width:100%;display:flex;"
           (mousedown)="onSelect(i)">
-          {{ entry.stringValue || entry.label['fr'] }}
+          {{ entry.label ? entry.label['fr'] : entry.value }}
         </button>
         <button md-button color="primary" *ngIf="extend" (mousedown)="createValue()">
           Créer cette valeur ?
