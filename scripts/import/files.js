@@ -383,8 +383,30 @@ module.exports = {
        */
       {
         name: 'DS_admtech',
-        file: 'DS_admtech.csv',
-        skip: true
+        path: 'DS_admtech.csv',
+        delimiter: ',',
+        consumer(line) {
+          const info = {
+            name: line.Nom,
+            firstName: line.Prénom,
+            gender: line.Genre,
+            birthDate: line['Année naissance']
+          };
+
+          if (line.Mail)
+            info.contacts = {
+              email: line.Mail
+            };
+
+          // jobName -> position
+          return info;
+        },
+        resolver() {
+          return [];
+        },
+        indexer() {
+
+        }
       }
     ]
   }
