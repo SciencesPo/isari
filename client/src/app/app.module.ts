@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule }           from '@angular/http';
 
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -10,6 +10,8 @@ import { HttpModule }           from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { IsariDataService } from './isari-data.service';
+import { UserService } from './user.service';
+import { LoggedInGuard } from './logged-in.guard';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
@@ -28,6 +30,7 @@ import { IsariColsSelectorComponent } from './isari-list/isari-cols-selector/isa
 import { IsariMultiInputComponent } from './fields/isari-multi-input/isari-multi-input.component';
 import { IsariMultiSelectComponent } from './fields/isari-multi-select/isari-multi-select.component';
 import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -45,12 +48,14 @@ import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
     IsariColsSelectorComponent,
     IsariMultiInputComponent,
     IsariMultiSelectComponent,
-    IsariLayoutComponent
+    IsariLayoutComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     MaterialModule.forRoot(),
     routing,
     HttpModule
@@ -58,6 +63,8 @@ import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
   ],
   providers: [
     IsariDataService,
+    UserService,
+    LoggedInGuard
   ],
   entryComponents: [
     AppComponent,
