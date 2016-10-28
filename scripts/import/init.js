@@ -80,6 +80,11 @@ const argv = yargs
   .option('json', {
     describe: 'JSON dump path.'
   })
+  .option('skip-ldap', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to skip LDAP resolution.'
+  })
   .help()
   .argv;
 
@@ -435,6 +440,12 @@ async.series({
   },
   ldap(next) {
     console.log();
+
+    if (argv.skipLdap) {
+      log.warning('Skipping LDAP resolution due to --skip-ldap.');
+      return next();
+    }
+
     log.info('Retrieving LDAP information...');
 
     return retrieveLDAPInformation(next);
