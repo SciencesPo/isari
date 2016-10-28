@@ -73,4 +73,4 @@ app.use('/enums', routes.enums)
 
 // Error handlers
 app.use(routes.errors.notFound)
-app.use(routes.errors.serverError(app.get('env') === 'development'))
+app.use(routes.errors.serverError(config.http.detailedErrors))

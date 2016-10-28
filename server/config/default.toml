@@ -5,6 +5,7 @@ Organization = 'organizations'
 
 [http]
 port = 8080
+detailedErrors = false
 
 [log]
 format = 'combined'
