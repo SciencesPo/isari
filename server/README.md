@@ -42,14 +42,14 @@ npm install --production
 
 * `GET /auth/myself`
   * output: `{ login, people }`
-    * `login` = LDAP UID
-    * `people` = populated matching People
+    * `login`: LDAP UID
+    * `people`: populated matching People
 * `POST /auth/login`
   * input: `{ login, password }`
   * output: `{ login, people }` (cf. route `/auth/myself`)
  * `POST /auth/logout`
   * output: `{ was }`
-    * `was` = login of previously logged in user
+    * `was`: login of previously logged in user
 
 ### Collection endpoints
 
@@ -60,8 +60,14 @@ npm install --production
     * `applyTemplates`: set to 1 will transform response's fields into their string representations (default: 0)
 * `GET /:collection/:id`
   * output: Item or 404
-* `GET /:collection/:id/string`
-  * output: `{id, value}` with string representation of item or 404
+* `GET /:collection/:ids/string`
+  * `ids`: comma-separated list of valid objectIds
+  * output: `Array({id, value})`
+    * `id`: object's id
+    * `value`: object's string representation
+    * throws 404 if *any* ID can't be found
+    * throws 400 if *any* ID is syntactically invalid
+    * order is not preserved
 * `POST /:collection`
   * input: full Item
   * output: Item + 201 or 400

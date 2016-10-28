@@ -2,7 +2,7 @@
 
 const { Router } = require('express')
 const { ServerError, ClientError, NotFoundError } = require('./errors')
-const { identity, set, map, pick } = require('lodash/fp')
+const { identity, set, map, pick, difference } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 const { applyTemplates } = require('./model-utils')
@@ -59,7 +59,7 @@ exports.restRouter = (Model, format = identity, esIndex = null, getPermissions =
 
 	router.get('/', restHandler(listModel(Model, format, getPermissions)))
 	router.get('/:id([A-Za-f0-9]{24})', restHandler(getModel(Model, format, getPermissions)))
-	router.get('/:id([A-Za-f0-9]{24})/string', restHandler(getModelString(Model)))
+	router.get('/:ids([A-Za-f0-9,]+)/string', restHandler(getModelStrings(Model)))
 	router.put('/:id([A-Za-f0-9]{24})', restHandler(updateModel(Model, save, getPermissions)))
 	router.post('/', restHandler(createModel(Model, save)))
 	router.delete('/:id([A-Za-f0-9]{24})', restHandler(deleteModel(Model, getPermissions)))
@@ -85,10 +85,22 @@ const getModel = (Model, format, getPermissions) => req =>
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
 	.then(formatWithOpts(req, format, getPermissions, false))
 
-const getModelString = Model => req =>
-	Model.findById(req.params.id)
-	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
-	.then(o => ({ id: String(o._id), value: o.applyTemplates(0) }))
+const getModelStrings = Model => req => {
+	const ids = req.params.ids.split(',')
+	const invalids = ids.filter(id => !id.match(/^[A-Za-f0-9]{24}$/))
+	if (invalids.length > 0) {
+		return Promise.reject(ClientError({ title: `Invalid ObjectId: ${invalids.join(', ')}` }))
+	}
+	return Model.find({ _id: { $in: ids } })
+		.then(founds => {
+			const missing = difference(ids, map('id', founds))
+			if (missing.length > 0) {
+				return Promise.reject(NotFoundError({ title: `Model "${Model.modelName}" returned nothing for IDs ${missing.join(', ')}` }))
+			}
+			return Promise.all(founds.map(o => o.populateAll()))
+		})
+		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(0) })))
+}
 
 const updateModel = (Model, save, getPermissions) => {
 	const get = getModel(Model, identity, getPermissions)
