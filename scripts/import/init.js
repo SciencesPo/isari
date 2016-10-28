@@ -383,10 +383,10 @@ function retrieveLDAPInformation(callback) {
       res.on('searchEntry', entry => {
         people.ldapUid = entry.object.uid;
       });
-      res.on('error', err => {
-        return next(err);
+      res.on('error', responseError => {
+        return next(responseError);
       });
-      res.on('end', result => {
+      res.on('end', () => {
         return next();
       });
     });
