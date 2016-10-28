@@ -20,18 +20,20 @@ const restHandler = exports.restHandler = fn => (req, res, next) => {
 }
 
 
-const saveDocument = (format = identity) => doc => doc.save()
-	.then(format)
-	.catch(e => {
-		let err = new ClientError({ title: 'Validation error' })
-		if (e.name === 'ValidationError') {
-			err.errors = Object.keys(e.errors).reduce(
-				(errors, error) => set(error, e.errors[error].message, errors),
-				{}
-			)
-		}
-		return Promise.reject(err)
-	})
+const saveDocument = (format = identity) => doc => {
+	return doc.save()
+		.then(format)
+		.catch(e => {
+			let err = new ClientError({ title: 'Validation error' })
+			if (e.name === 'ValidationError') {
+				err.errors = Object.keys(e.errors).reduce(
+					(errors, error) => set(error, e.errors[error].message, errors),
+					{}
+				)
+			}
+			return Promise.reject(err)
+		})
+}
 
 
 // http.ServerRequest, mongoose.Model => Promise<{ editable }>
@@ -117,7 +119,7 @@ const updateModel = (Model, save, getPermissions) => {
 					doc[field] = req.body[field]
 				})
 				// Sign for EditLogs
-				doc._elWho = 'TODO GET USERNAME FROM WEB SESSION (update)'
+				doc.latestChangeBy = 'TODO GET USERNAME FROM WEB SESSION (update)'
 				return doc
 			})
 		)
@@ -136,7 +138,7 @@ const createModel = (Model, save) => (req, res) => {
 			return Promise.reject(ServerError({ title: e.message }))
 		}
 	}
-	o._elWho = 'TODO GET USERNAME FROM WEB SESSION (create)'
+	o.latestChangeBy = 'TODO GET USERNAME FROM WEB SESSION (create)'
 	return save(o).then(saved => {
 		res.status(201)
 		return saved
@@ -150,7 +152,7 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 		.then(({ editable }) => editable ? doc : Promise.reject(ClientError({ message: 'Permission refused' })))
 	)
 	.then(doc => {
-		doc._elWho = 'TODO GET USERNAME FROM WEB SESSION (delete)'
+		doc.latestChangeBy = 'TODO GET USERNAME FROM WEB SESSION (delete)'
 		return doc.remove()
 	})
 	.then(() => {
