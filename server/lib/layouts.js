@@ -47,21 +47,8 @@ const _getLayout = (name, schema) => {
 		// Ignored fields
 		.map(row => Object.assign(row, {
 			fields: row.fields.filter(field => !field.ignored) // Remove ignored fields
-		})).filter(row => row.fields.length > 0) // Remove empty rows
-		// Add missing labels
-		.map(row => {
-			if (row.label || !row.fields) {
-				return row
-			}
-			// Grab sub-labels
-			const labels = filter(identity, map('label', row.fields))
-			const langs = uniq(flatten(map(Object.keys, labels)))
-			row.label = langs.reduce((label, lang) => {
-				label[lang] = map(lang, labels).join(', ')
-				return label
-			}, {})
-			return row
-		})
+		}))
+		.filter(row => row.fields.length > 0) // Remove empty rows
 }
 
 const getRow = (name, schema) => row => {

@@ -63,7 +63,7 @@ function describeModelRestApi (root, Model, create, update) {
 			query('get', root).then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(body).to.be.an('array').and.have.length(1)
-				expect(map(omit('opts'), body)).to.eql([doc])
+				expect(map(omit(['opts', 'updatedAt']), body)).to.eql([omit('updatedAt', doc)])
 			})
 		)
 
@@ -71,7 +71,7 @@ function describeModelRestApi (root, Model, create, update) {
 			query('get', root + '/' + doc.id)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(omit('opts', body)).to.eql(doc)
+				expect(omit(['opts', 'updatedAt'], body)).to.eql(omit('updatedAt', doc))
 			})
 		)
 
@@ -80,7 +80,7 @@ function describeModelRestApi (root, Model, create, update) {
 			return query('put', root + '/' + doc.id, updates)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(omit('opts', body)).to.eql(merge(doc, updates))
+				expect(omit(['opts', 'updatedAt'], body)).to.eql(omit('updatedAt', merge(doc, updates)))
 			})
 		})
 
