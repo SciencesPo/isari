@@ -5,9 +5,9 @@
  * Defining the various files to import as well as their line consumers.
  */
 const moment = require('moment'),
-      chalk = require('chalk');
-
-const _ = require('lodash');
+      chalk = require('chalk'),
+      fingerprint = require('talisman/keyers/fingerprint').default,
+      _ = require('lodash');
 
 const ENUM_INDEXES = require('./indexes.js').ENUM_INDEXES;
 
@@ -54,8 +54,11 @@ module.exports = {
         indexer(indexes, org) {
           if (org.acronym)
             indexes.acronym[org.acronym] = org;
-          if (org.name)
+
+          if (org.name) {
             indexes.name[org.name] = org;
+            indexes.fingerprint[fingerprint(org.name)] = org;
+          }
 
           indexes.id[org._id] = org;
         }
@@ -110,8 +113,11 @@ module.exports = {
         indexer(indexes, org) {
           if (org.acronym)
             indexes.acronym[org.acronym] = org;
-          if (org.name)
+
+          if (org.name) {
             indexes.name[org.name] = org;
+            indexes.fingerprint[fingerprint(org.name)] = org;
+          }
 
           indexes.id[org._id] = org;
         }
@@ -149,7 +155,23 @@ module.exports = {
 
           return info;
         },
-        indexer() {
+        resolver(lines) {
+
+          return lines;
+
+          // Here we're gonna merge lines internally to this file
+          // TODO: choose the keying method
+          const organizations = _.values(_.groupBy(lines, 'line => `${line.acronym}§${line.name}`'));
+
+          // 1) country européen
+          // 2) intra banner duplicates
+          // 3) intra spire duplicates
+          console.log(organizations.filter(o => o.length > 2));
+          // console.log(organizations.filter(o => o.filter(i => i.source === 'Banner').length > 1).length)
+
+          return lines;
+        },
+        indexer(indexes, org) {
 
         }
       }

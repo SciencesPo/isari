@@ -78,6 +78,7 @@ const INDEXES = {
   Organization: {
     acronym: Object.create(null),
     name: Object.create(null),
+    fingerprint: Object.create(null),
     id: Object.create(null)
   },
   People: {
@@ -186,6 +187,10 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
   parseFile(FILES.organizations.folder, file, (err, lines) => {
     if (err)
       return next(err);
+
+    // Optionally resolving
+    if (file.resolver)
+      lines = file.resolver.call(log, lines);
 
     // Giving unique identifier
     lines.forEach(attachMongoId);
