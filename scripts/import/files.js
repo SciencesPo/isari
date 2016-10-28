@@ -199,7 +199,7 @@ module.exports = {
             year: line.Année,
             name: line['Nom usuel'],
             firstName: line.Prénom,
-            birthName: line['Nom de naissance'] || line['Nom usuel'],
+            birthName: line['Nom de naissance'],
             sirhMatricule: line.Matricule,
             birthDate: line['Date de naissance'],
             gender: line.gender,
@@ -261,11 +261,13 @@ module.exports = {
             const person = {
               firstName: first.firstName,
               name: last.name,
-              birthName: first.birthName,
               sirhMatricule: first.sirhMatricule,
               gender: last.gender,
               nationalities: [last.nationality]
             };
+
+            if (first.birthName)
+              person.birthName = first.birthName;
 
             // Computing positions
             const slices = _.groupBy(years, y => `${y.startDate}§${y.endDate || ''}`),

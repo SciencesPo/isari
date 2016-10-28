@@ -31,6 +31,9 @@ if (inspect.defaultOptions)
 // Altering the NODE_CONFIG_DIR env variable so that `config` can resolve
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
 
+const ldapConfig = require('../../server/node_modules/config').ldap,
+      ldapClient = require('ldapjs').createClient({url: ldapConfig.url});
+
 const {
   connect,
   People,
@@ -338,6 +341,39 @@ function addTechnicalFields() {
 }
 
 /**
+ * Retrieving LDAP information.
+ */
+function retrieveLDAPInformation(callback) {
+
+  log.info(`Hitting "${ldapConfig.url}".`);
+  log.info(`Using "${ldapConfig.dn}" dn.`);
+
+  return async.eachOfLimit(INDEXES.People.id, 10, (people, id, next) => {
+
+    if (!people.sirhMatricule)
+      return next();
+
+    const options = {
+      scope: 'sub',
+      filter: `(employeenumber=${people.sirhMatricule})`
+    };
+
+    ldapClient.search(ldapConfig.dn, options, (err, res) => {
+      res.on('searchEntry', entry => {
+        people.ldapUid = entry.object.uid;
+      });
+      res.on('error', err => {
+        return next(err);
+      });
+      res.on('end', result => {
+        return next();
+      });
+    });
+
+  }, callback);
+}
+
+/**
  * Process outline.
  * -----------------------------------------------------------------------------
  */
@@ -380,6 +416,12 @@ async.series({
     addTechnicalFields();
 
     return next();
+  },
+  ldap(next) {
+    console.log();
+    log.info('Retrieving LDAP information...');
+
+    return retrieveLDAPInformation(next);
   },
   jsonDump(next) {
     if (!argv.json)
@@ -439,6 +481,9 @@ async.series({
   // Terminating database connection
   if (CONNECTION)
     CONNECTION.close();
+
+  // Terminating LDAP connection
+  ldapClient.destroy();
 
   console.log();
 
