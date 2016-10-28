@@ -207,6 +207,9 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
 
     // Validating
     lines.forEach((line, i) => {
+
+      // TODO: find more elegant way to deal with this.
+      line.latestChangeBy = 'IMPORT';
       const errors = validate(Organization, line, i);
 
       errors.forEach(error => {
@@ -237,6 +240,9 @@ const peopleTasks = FILES.people.files.map(file => next => {
 
     // Validating
     persons.forEach((person, i) => {
+
+      // TODO: find more elegant way to deal with this.
+      person.latestChangeBy = 'IMPORT';
       const errors = validate(People, person, i);
 
       errors.forEach(error => {
@@ -324,14 +330,6 @@ function processRelations() {
  */
 function addTechnicalFields() {
 
-  // Organization
-  for (const k in INDEXES.Organization.id) {
-    const org = INDEXES.Organization.id[k];
-
-    // Spy
-    org.latestChangeBy = 'IMPORT';
-  }
-
   // People
   for (const k in INDEXES.People.id) {
     const person = INDEXES.People.id[k];
@@ -345,9 +343,6 @@ function addTechnicalFields() {
         };
       });
     }
-
-    // Spy
-    person.latestChangeBy = 'IMPORT';
   }
 }
 
