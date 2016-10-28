@@ -7,6 +7,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 })
 export class DataTableComponent implements OnInit, OnChanges {
   page: any[];
+  itemsPerPage = 10;
 
   @Input() data: any[];
   @Input() cols: any[];
@@ -17,11 +18,12 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.page = this.data.slice(0, 5);
+    this.page = this.data.slice(0, this.itemsPerPage);
   }
 
   pageChanged($event) {
-    this.page = this.data.slice(($event.page - 1) * $event.itemPerPage, $event.page * $event.itemPerPage);
+    this.itemsPerPage = $event.itemsPerPage;
+    this.page = this.data.slice(($event.page - 1) * $event.itemsPerPage, $event.page * $event.itemsPerPage);
   }
 
 }
