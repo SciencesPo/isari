@@ -114,7 +114,7 @@ function cleanLine(line) {
 
 // Function attributing a mongo id to an arbitrary item
 function attachMongoId(item) {
-  item._id = '' + mongoose.Types.ObjectId();
+  item._id = mongoose.Types.ObjectId();
 }
 
 // Function taking a file descriptor and returning the parsed lines
