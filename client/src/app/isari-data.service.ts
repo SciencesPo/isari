@@ -25,6 +25,7 @@ const mongoSchema2Api = {
 export class IsariDataService {
 
   private enumsCache = {};
+  private layoutsCache = {};
 
   private dataUrl = `${environment.API_BASE_URL}`;
   private layoutUrl = `${environment.API_BASE_URL}/layouts`;
@@ -54,11 +55,15 @@ export class IsariDataService {
   }
 
   getLayout(feature: string) {
+    // check for cached results
+    if (this.layoutsCache[feature]) {
+      return this.layoutsCache[feature].toPromise();
+    }
+
     const url = `${this.layoutUrl}/${feature}`;
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
+    let $layout = this.http.get(url).map(response => response.json());
+    this.layoutsCache[feature] = $layout.cache();
+    return $layout.toPromise();
   }
 
   getDefaultColumns(feature: string) {
