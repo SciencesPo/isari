@@ -172,7 +172,7 @@ module.exports = {
 
           return lines;
         },
-        indexer(indexes, org) {
+        indexer() {
 
         }
       }

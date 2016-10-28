@@ -324,6 +324,14 @@ function processRelations() {
  */
 function addTechnicalFields() {
 
+  // Organization
+  for (const k in INDEXES.Organization.id) {
+    const org = INDEXES.Organization.id[k];
+
+    // Spy
+    org.latestChangeBy = 'IMPORT';
+  }
+
   // People
   for (const k in INDEXES.People.id) {
     const person = INDEXES.People.id[k];
@@ -337,6 +345,9 @@ function addTechnicalFields() {
         };
       });
     }
+
+    // Spy
+    person.latestChangeBy = 'IMPORT';
   }
 }
 
