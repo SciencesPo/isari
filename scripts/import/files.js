@@ -142,10 +142,10 @@ module.exports = {
           };
 
           if (line['SPIRE ID cnrs'])
-            info.researchUnitCodes.push(line['SPIRE ID cnrs']);
+            info.researchUnitCodes.push({code: line['SPIRE ID cnrs']});
 
           if (line['SPIRE ID ministry'])
-            info.researchUnitCodes.push(line['SPIRE ID ministry']);
+            info.researchUnitCodes.push({code: line['SPIRE ID ministry']});
 
           return info;
         },

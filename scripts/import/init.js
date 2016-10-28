@@ -317,7 +317,6 @@ async.series({
     return async.series(organizationTasks, next);
   },
   people(next) {
-    throw Error('Temporary stop');
     console.log();
     log.success('Processing people files...');
     return async.series(peopleTasks, next);
