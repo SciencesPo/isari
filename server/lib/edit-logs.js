@@ -48,6 +48,13 @@ const getWho = doc => {
 
 const middleware = schema => {
 
+	schema.add({
+		latestChangeBy: {
+			type: String,
+			required: true
+		}
+	})
+
 	schema.pre('save', function (next) {
 		const [modelName, who] = getWho(this)
 
