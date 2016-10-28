@@ -11,7 +11,7 @@ export class IsariPaginationComponent implements OnInit, OnChanges {
   visiblePages = 5;
   pages: any[];
 
-  @Input() itemsPerPage: number = 5;
+  @Input() itemsPerPage: number = 10;
   @Input() totalItems: number;
   @Input() set currentPage(page: number) {
     this.navigate(page);
@@ -24,7 +24,7 @@ export class IsariPaginationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['itemPerPage'] || changes['totalItems']) {
+    if (changes['itemsPerPage'] || changes['totalItems']) {
       this.totalPages = this.calculateTotalPages();
       this.pages = this.getPages(1);
     }
@@ -32,7 +32,13 @@ export class IsariPaginationComponent implements OnInit, OnChanges {
 
   navigate(page: number) {
     this.pages = this.getPages(page);
-    this.onPageChange.emit({ page, itemPerPage: this.itemsPerPage, totalItems: this.totalItems });
+    this.onPageChange.emit({ page, itemsPerPage: this.itemsPerPage, totalItems: this.totalItems });
+  }
+
+  setItemsPerPage(ipp: number) {
+    this.itemsPerPage = ipp;
+    this.totalPages = this.calculateTotalPages();
+    this.navigate(1);
   }
 
   private calculateTotalPages(): number {

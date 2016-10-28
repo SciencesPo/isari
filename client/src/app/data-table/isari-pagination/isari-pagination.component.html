@@ -1,4 +1,9 @@
 <ul>
+  <li>
+    <button md-button [md-menu-trigger-for]="menu">
+      {{ itemsPerPage }} items / page
+    </button>
+  </li>
   <li><a md-button (click)="navigate(1)"><md-icon>navigate_before</md-icon></a>
   <li *ngFor="let page of pages">
     <a md-button *ngIf="!page.active" (click)="navigate(page.number)">{{ page.text }}</a>
@@ -6,3 +11,9 @@
   </li>
   <li><a md-button (click)="navigate(totalPages)"><md-icon>navigate_next</md-icon></a>
 </ul>
+
+<md-menu #menu="mdMenu">
+  <a md-menu-item (click)="setItemsPerPage(10)">10</a>
+  <a md-menu-item (click)="setItemsPerPage(20)">20</a>
+  <a md-menu-item (click)="setItemsPerPage(50)">50</a>
+</md-menu>

@@ -1,3 +1,7 @@
+.md-menu {
+  max-width: 400px;
+}
+
 .md-menu button {
   width: 100%;
 }
