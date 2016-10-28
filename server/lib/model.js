@@ -5,6 +5,8 @@ const { getMongooseSchema } = require('./schemas')
 const { populateAll, applyTemplates } = require('./model-utils')
 const config = require('config')
 const { EditLog, middleware: editLogMiddleware } = require('./edit-logs')
+const timestamps = require('mongoose-timestamp')
+
 
 // Use native promises with Mongoose
 mongoose.Promise = Promise
@@ -29,6 +31,7 @@ function model (modelName, collectionName) {
 	})
 
 	schema.plugin(editLogMiddleware)
+	schema.plugin(timestamps)
 
 	schema.static('removeById', function (id) {
 		return this.remove({ _id: id })
