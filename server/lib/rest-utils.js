@@ -78,7 +78,7 @@ exports.restRouter = (Model, format = identity, esIndex = null, getPermissions =
 }
 
 const listModel = (Model, format, getPermissions) => req => {
-	debug('List: start', req.url)
+	debug('List: start', req.originalUrl)
 	// Always keep 'opts' technical field
 	const selectFields = req.query.fields ? pick(req.query.fields.split(',').concat([ 'opts' ])) : identity
 	const applyTemplates = Boolean(Number(req.query.applyTemplates))
@@ -86,7 +86,6 @@ const listModel = (Model, format, getPermissions) => req => {
 	const formatOne = formatWithOpts(req, format, getPermissions, applyTemplates)
 	// Note: we don't apply field selection directly in query as some fields may be not asked, but
 	// required for some other fields' templates to be correctly calculated
-	debug('Start', req.method, req.url)
 	return Model.find()
 		.then(data => { debug('List: Model.find', data.length + ' result(s)'); return data })
 		// Populate before applying templats (if applicable)
