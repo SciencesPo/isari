@@ -43,12 +43,10 @@ const app = module.exports = express()
 
 app.settings['x-powered-by'] = false
 
-var corsOptions = {
-  origin: 'http://localhost:4200',
+app.use(cors({
+  origin: true,
 	credentials: true
-}
-
-app.use(cors(corsOptions))
+}))
 
 if (config.log.format) {
 	app.use(logger(config.log.format))
