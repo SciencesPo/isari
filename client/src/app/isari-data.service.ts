@@ -148,7 +148,7 @@ export class IsariDataService {
     // search.set('fields', 'name');
     return this.http.get(url, { search })
       .map(response => response.json())
-      .map(items => items.map(item => ({ id: item.value, stringValue: item.label })));
+      .map(items => items.map(item => ({ id: item.value, value: item.label })));
   }
 
   buildForm(layout, data): FormGroup {

@@ -69,7 +69,7 @@ export class IsariSelectComponent implements OnInit {
     this.form.controls[this.name].setValue(this.values[this.currentIndex].id || this.values[this.currentIndex].value);
     this.form.controls[this.name].markAsDirty();
 
-    this.selectControl.setValue(this.values[this.currentIndex].stringValue || this.values[this.currentIndex].label.fr);
+    this.selectControl.setValue(this.values[this.currentIndex].value || this.values[this.currentIndex].label.fr);
     this.selectControl.markAsDirty();
 
     this.update({});
