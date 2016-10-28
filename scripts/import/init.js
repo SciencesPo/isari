@@ -356,8 +356,8 @@ function addTechnicalFields() {
  */
 function retrieveLDAPInformation(callback) {
 
-  log.info(`Hitting "${ldapConfig.url}".`);
-  log.info(`Using "${ldapConfig.dn}" dn.`);
+  log.info(`Hitting ${chalk.cyan(ldapConfig.url)}.`);
+  log.info(`Using ${chalk.cyan(ldapConfig.dn)} dn.`);
 
   return async.eachOfLimit(INDEXES.People.id, 10, (people, id, next) => {
 
@@ -439,7 +439,7 @@ async.series({
       return next();
 
     console.log();
-    log.info(`Dumping JSON result to ${argv.json}...`);
+    log.info(`Dumping JSON result to ${chalk.cyan(argv.json)}...`);
 
     fs.writeFileSync(
       path.join(argv.json, 'organizations.json'),
@@ -475,7 +475,7 @@ async.series({
     // Don't do it if dry run
     if (argv.dryRun) {
       console.log();
-      log.info('This is a dry run. Items will not be inserted in the database.');
+      log.warning('This is a dry run. Items will not be inserted in the database.');
       return next();
     }
 
