@@ -374,6 +374,15 @@ module.exports = {
         indexer(indexes, person) {
           indexes.id[person._id] = person;
         }
+      },
+
+      /**
+       * DS_admtech.csv
+       */
+      {
+        name: 'DS_admtech',
+        file: 'DS_admtech.csv',
+        skip: true
       }
     ]
   }

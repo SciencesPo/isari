@@ -317,6 +317,27 @@ function processRelations() {
 }
 
 /**
+ * Adding technical fields.
+ */
+function addTechnicalFields() {
+
+  // People
+  for (const k in INDEXES.People.id) {
+    const person = INDEXES.People.id[k];
+
+    // ISARI authorized centers
+    if (person.academicMemberships) {
+      person.isariAuthorizedCenters = person.academicMemberships.map(membership => {
+        return {
+          organization: membership.organization,
+          isariRole: 'center_member'
+        };
+      });
+    }
+  }
+}
+
+/**
  * Process outline.
  * -----------------------------------------------------------------------------
  */
@@ -348,6 +369,15 @@ async.series({
     log.info(`Collected ${chalk.cyan(nbPeople)} unique people.`);
 
     processRelations();
+
+    return next();
+  },
+  technicalFields(next) {
+
+    console.log();
+    log.info('Adding technical fields...');
+
+    addTechnicalFields();
 
     return next();
   },
