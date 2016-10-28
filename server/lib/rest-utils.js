@@ -60,19 +60,18 @@ exports.restRouter = (Model, format = identity, esIndex = null, getPermissions =
 	const save = saveDocument(format)
 	const router = Router()
 
-	router.use(bodyParser.json())
-	router.use(requiresAuthentication)
+	const parseJson = bodyParser.json()
 
 	if (esIndex) {
-		router.get('/search', restHandler(searchModel(esIndex, Model, format, getPermissions)))
+		router.get('/search', parseJson, requiresAuthentication, restHandler(searchModel(esIndex, Model, format, getPermissions)))
 	}
 
-	router.get('/', restHandler(listModel(Model, format, getPermissions)))
-	router.get('/:id([A-Za-f0-9]{24})', restHandler(getModel(Model, format, getPermissions)))
-	router.get('/:ids([A-Za-f0-9,]+)/string', restHandler(getModelStrings(Model)))
-	router.put('/:id([A-Za-f0-9]{24})', restHandler(updateModel(Model, save, getPermissions)))
-	router.post('/', restHandler(createModel(Model, save)))
-	router.delete('/:id([A-Za-f0-9]{24})', restHandler(deleteModel(Model, getPermissions)))
+	router.get('/', parseJson, requiresAuthentication, restHandler(listModel(Model, format, getPermissions)))
+	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(getModel(Model, format, getPermissions)))
+	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, restHandler(getModelStrings(Model)))
+	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(updateModel(Model, save, getPermissions)))
+	router.post('/', parseJson, requiresAuthentication, restHandler(createModel(Model, save)))
+	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(deleteModel(Model, getPermissions)))
 
 	return router
 }
