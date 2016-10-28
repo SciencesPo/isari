@@ -1,5 +1,6 @@
 [http]
 port = 8080
+detailedErrors = true
 
 [log]
 format = 'dev'

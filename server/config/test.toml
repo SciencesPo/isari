@@ -1,11 +1,12 @@
 [http]
 port = 0 # should not be used
+detailedErrors = true
 
 [mongo]
 url = 'mongodb://localhost/isaritest'
 
 [log]
-format = false
+format = false # disable HTTP logs (too verbose)
 
 [elasticsearch]
 index = 'isaritest'
