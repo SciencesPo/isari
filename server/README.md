@@ -47,7 +47,7 @@ npm install --production
 * `POST /auth/login`
   * input: `{ login, password }`
   * output: `{ login, people }` (cf. route `/auth/myself`)
- * `POST /auth/logout`
+* `POST /auth/logout`
   * output: `{ was }`
     * `was`: login of previously logged in user
 
