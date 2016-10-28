@@ -75,7 +75,14 @@ function getMongooseSchema (name) {
 		throw Error(`${name}: Unknonwn schema`)
 	}
 
-	return cache[name] = getField(name, meta, meta)
+	const schema = getField(name, meta, meta)
+
+	schema.latestChangeBy = {
+		type: String,
+		required: true
+	}
+
+	return cache[name] = schema
 }
 
 // Get schema for a field or sub-field…
