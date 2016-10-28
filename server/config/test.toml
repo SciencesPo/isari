@@ -10,3 +10,6 @@ format = false # disable HTTP logs (too verbose)
 
 [elasticsearch]
 index = 'isaritest'
+
+[ldap]
+skip = true # Do not use real LDAP authentication

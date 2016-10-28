@@ -2,9 +2,8 @@
 
 const { expect } = require('chai')
 const { connect, People, Organization, Activity } = require('../lib/model')
-const app = require('../app')
-const request = require('supertest-as-promised')(Promise)
 const { merge, omit, map } = require('lodash/fp')
+const { agent } = require('./http-utils')
 
 
 describe('REST', () => {
@@ -37,16 +36,53 @@ describe('REST', () => {
 
 
 function describeModelRestApi (root, Model, create, update) {
+	const query = agent()
+
 	describe(`${root} (basics)`, () => {
 
-		let doc
+		let initialCount = Model === People ? 1 : 0 // increment initial count if People, as we add the REST user
+		let doc = null
+		let adminLogin = 'test.test'
 
 		before(() => Model.remove())
+
+		// Add a user for authentication
+		before(() => {
+			const admin = new People({
+				name: 'Test User',
+				ldapUid: adminLogin,
+				latestChangeBy: 'UnitTests'
+			})
+			return admin.save()
+		})
+		after(() => People.findOne({ ldapUid: adminLogin }).then(o => o ? o.remove() : Promise.reject('Admin not found for cleanup')))
+
+		// Authenticate first
+		it('should authenticate', () =>
+			query('post', '/auth/login', { login: adminLogin, password: 'whatever' }).then(({ body, status }) => {
+				expect(status).to.equal(200)
+				expect(body).to.be.an('object').and.have.property('login').to.equal(adminLogin)
+				expect(body).to.have.property('people').to.be.an('object').to.have.property('ldapUid').to.equal(adminLogin)
+			})
+		)
+		// Log out at the end
+		after(() => query('post', '/auth/logout').then(({ body, status }) => {
+			expect(status).to.equal(200)
+			expect(body).to.eql({ was: adminLogin })
+		}))
+
+		it('should be authenticated', () =>
+			query('get', '/auth/myself').then(({ body, status }) => {
+				expect(status).to.equal(200)
+				expect(body).to.be.an('object').and.have.property('login').to.equal(adminLogin)
+				expect(body).to.have.property('people').to.be.an('object').to.have.property('ldapUid').to.equal(adminLogin)
+			})
+		)
 
 		it('GET / (empty)', () =>
 			query('get', root).then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(body).to.be.an('array').and.have.length(0)
+				expect(body).to.be.an('array').and.have.length(0 + initialCount)
 			})
 		)
 
@@ -62,7 +98,10 @@ function describeModelRestApi (root, Model, create, update) {
 		it('GET / (1 element)', () =>
 			query('get', root).then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(body).to.be.an('array').and.have.length(1)
+				expect(body).to.be.an('array').and.have.length(1 + initialCount)
+				if (Model === People) {
+					body = body.filter(({ ldapUid }) => ldapUid !== adminLogin)
+				}
 				expect(map(omit('opts'), body)).to.eql([doc])
 			})
 		)
@@ -92,23 +131,9 @@ function describeModelRestApi (root, Model, create, update) {
 		it('GET / (empty)', () =>
 			query('get', root).then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(body).to.be.an('array').and.have.length(0)
+				expect(body).to.be.an('array').and.have.length(0 + initialCount)
 			})
 		)
 
-	})
-}
-
-function query (method, url, data) {
-	let req = request(app)[method](url)
-	if (data) {
-		req = req.send(data)
-	}
-	return req.then(res => {
-		if (String(res.status)[0] !== '2' && res.status !== 301 && res.status !== 302) {
-			throw new Error(`[${res.status}] ${res.text}`)
-		} else {
-			return res
-		}
 	})
 }
