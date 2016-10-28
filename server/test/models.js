@@ -49,7 +49,7 @@ function describeModel (name, Model, create) {
 
 		it('should add element', () => {
 			const o = new Model(create())
-			o._elWho = 'Test User'
+			o.latestChangeBy = 'Test User'
 			return o.save()
 				.then(o => id = o.id)
 				.catch(e => {
