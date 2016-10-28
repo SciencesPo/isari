@@ -130,6 +130,7 @@ module.exports = {
         name: 'organizations_hceres_banner_spire',
         path: 'organizations_hceres_banner_spire.csv',
         delimiter: ',',
+        skip: true,
         consumer(line) {
           const info = {
             source: line.Source,

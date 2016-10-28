@@ -21,6 +21,10 @@ const FILES = require('./files'),
       helpers = require('./helpers'),
       log = require('./logger')();
 
+// Skipping some files
+FILES.organizations.files = FILES.organizations.files.filter(file => !file.skip);
+FILES.people.files = FILES.people.files.filter(file => !file.skip);
+
 if (inspect.defaultOptions)
   inspect.defaultOptions.depth = null;
 
@@ -184,6 +188,9 @@ function validate(Model, line, index) {
  * Processing organization files.
  */
 const organizationTasks = FILES.organizations.files.map(file => next => {
+  if (file.skip)
+    return next();
+
   parseFile(FILES.organizations.folder, file, (err, lines) => {
     if (err)
       return next(err);
