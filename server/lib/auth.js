@@ -29,7 +29,7 @@ function connectedAuth () {
 			: entry
 		)
 		// Try to use user's password to bind a new client
-		.then(entry => connect().then(bind(entry.dn, password)).then(unbind))
+		.then(entry => connect().then(bind(entry.dn, password)).then(c => unbind(c).then(() => c.destroy())))
 		// Then try to find associated People entry
 		.then(() => ldapUidToPeople(login))
 }
