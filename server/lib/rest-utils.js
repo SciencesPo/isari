@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { ServerError, ClientError, NotFoundError } = require('./errors')
+const { ServerError, ClientError, NotFoundError, UnauthorizedError } = require('./errors')
 const { identity, set, map, pick, difference } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
@@ -48,12 +48,20 @@ const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	])
 	.then(([ { editable }, o ]) => set('opts', { editable })(o))
 
+const requiresAuthentication = (req, res, next) => {
+	if (req.session.login) {
+		next()
+	} else {
+		next(UnauthorizedError({ title: 'Authentication required for this API' }))
+	}
+}
 
 exports.restRouter = (Model, format = identity, esIndex = null, getPermissions = defaultGetPermissions) => {
 	const save = saveDocument(format)
 	const router = Router()
 
 	router.use(bodyParser.json())
+	router.use(requiresAuthentication)
 
 	if (esIndex) {
 		router.get('/search', restHandler(searchModel(esIndex, Model, format, getPermissions)))
