@@ -119,7 +119,7 @@ const updateModel = (Model, save, getPermissions) => {
 					doc[field] = req.body[field]
 				})
 				// Sign for EditLogs
-				doc.latestChangeBy = 'TODO GET USERNAME FROM WEB SESSION (update)'
+				doc.latestChangeBy = req.session.login
 				return doc
 			})
 		)
@@ -138,7 +138,7 @@ const createModel = (Model, save) => (req, res) => {
 			return Promise.reject(ServerError({ title: e.message }))
 		}
 	}
-	o.latestChangeBy = 'TODO GET USERNAME FROM WEB SESSION (create)'
+	o.latestChangeBy = req.session.login
 	return save(o).then(saved => {
 		res.status(201)
 		return saved
@@ -152,7 +152,7 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 		.then(({ editable }) => editable ? doc : Promise.reject(ClientError({ message: 'Permission refused' })))
 	)
 	.then(doc => {
-		doc.latestChangeBy = 'TODO GET USERNAME FROM WEB SESSION (delete)'
+		doc.latestChangeBy = req.session.login
 		return doc.remove()
 	})
 	.then(() => {
