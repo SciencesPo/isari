@@ -44,7 +44,7 @@ const app = module.exports = express()
 app.settings['x-powered-by'] = false
 
 app.use(cors({
-  origin: true,
+	origin: true,
 	credentials: true
 }))
 
