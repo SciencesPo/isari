@@ -67,7 +67,7 @@ npm install --production
     * `value`: object's string representation
     * throws 404 if *any* ID can't be found
     * throws 400 if *any* ID is syntactically invalid
-    * order is not preserved
+    * order is preserved
 * `POST /:collection`
   * input: full Item
   * output: Item + 201 or 400

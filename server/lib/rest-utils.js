@@ -97,7 +97,8 @@ const getModelStrings = Model => req => {
 			if (missing.length > 0) {
 				return Promise.reject(NotFoundError({ title: `Model "${Model.modelName}" returned nothing for IDs ${missing.join(', ')}` }))
 			}
-			return Promise.all(founds.map(o => o.populateAll()))
+			// Map over ids instead of found object to keep initial order
+			return Promise.all(ids.map(id => founds.find(o => o.id === id).populateAll()))
 		})
 		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(0) })))
 }
