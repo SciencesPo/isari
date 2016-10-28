@@ -115,6 +115,43 @@ module.exports = {
 
           indexes.id[org._id] = org;
         }
+      },
+
+      /**
+       * organizations_hceres_banner_spire.csv
+       */
+      {
+        name: 'organizations_hceres_banner_spire',
+        path: 'organizations_hceres_banner_spire.csv',
+        delimiter: ',',
+        consumer(line) {
+          const info = {
+            source: line.Source,
+            HCERESorganizationType: line['TAGS HCERES'],
+            codeUAI: line['code UAI'],
+            acronym: line.Sigle,
+            name: line['Nom d\'usage 1'],
+            country: line['Country ISO'],
+            idBanner: line['ID Banner'],
+            address: line['ADRESSE BANNER'] || line['ADRESSE SPIRE'],
+            idSpire: line['SPIRE rec_id'],
+            organizationType: line['organizationType (ENUMS)'],
+            parentOrganization: line['SPIRE ORGA Parent REC ID'],
+            researchUnitCodes: [],
+            idHal: line['SPIRE ID hal']
+          };
+
+          if (line['SPIRE ID cnrs'])
+            info.researchUnitCodes.push(line['SPIRE ID cnrs']);
+
+          if (line['SPIRE ID ministry'])
+            info.researchUnitCodes.push(line['SPIRE ID ministry']);
+
+          return info;
+        },
+        indexer() {
+
+        }
       }
     ]
   },

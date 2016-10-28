@@ -106,7 +106,7 @@ function cleanLine(line) {
 
 // Function attributing a mongo id to an arbitrary item
 function attachMongoId(item) {
-  item._id = mongoose.Types.ObjectId();
+  item._id = '' + mongoose.Types.ObjectId();
 }
 
 // Function taking a file descriptor and returning the parsed lines
@@ -265,7 +265,7 @@ function processRelations() {
       // If we still have nothing, we should yell
       if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} org->org relation.`);
-        // NB_RELATION_ERRORS++;
+        NB_RELATION_ERRORS++;
 
         // TEMP OVERRIDE!
         return indexes.acronym.FNSP._id;
@@ -292,7 +292,7 @@ function processRelations() {
       // If we still have nothing, we should yell
       if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} people->org.`);
-        // NB_RELATION_ERRORS++;
+        NB_RELATION_ERRORS++;
 
         // TEMP OVERRIDE!
         return indexes.acronym.FNSP._id;
@@ -317,6 +317,7 @@ async.series({
     return async.series(organizationTasks, next);
   },
   people(next) {
+    throw Error('Temporary stop');
     console.log();
     log.success('Processing people files...');
     return async.series(peopleTasks, next);
