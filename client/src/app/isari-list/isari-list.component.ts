@@ -27,7 +27,7 @@ export class IsariListComponent implements OnInit {
             this.cols = columns;
           });
 
-        this.isariDataService.getDefaultColumns(feature)
+        this.isariDataService.getColumnsWithDefault(feature)
           .then(defaultColumns => {
             this.selectedColumns = defaultColumns;
             this.loadDatas();

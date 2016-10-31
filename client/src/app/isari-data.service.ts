@@ -89,7 +89,7 @@ export class IsariDataService {
       .then(response => response.json())
       .then(columns => {
         this.columnsCache = columns;
-        return columns;
+        return columns[feature];
       })
       .catch(this.handleError);
   }
