@@ -391,10 +391,16 @@ module.exports = {
         delimiter: ',',
         consumer(line) {
           const info = {
+            year: line.Année,
             name: line.Nom,
             firstName: line.Prénom,
             gender: line.Genre,
-            birthDate: line['Année naissance']
+            jobName: line.Fonction,
+            academicMembership: line.Unité,
+            gradeAdmin: line['Grade académique'],
+            organization: line.Tutelle,
+            birthDate: line['Année naissance'],
+            startDate: line['Entré(e) en']
           };
 
           if (line.Mail)
@@ -405,7 +411,7 @@ module.exports = {
           // jobName -> position
           return info;
         },
-        resolver() {
+        resolver(lines) {
           return [];
         },
         indexer() {
