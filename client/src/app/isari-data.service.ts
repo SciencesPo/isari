@@ -19,6 +19,12 @@ const mongoSchema2Api = {
   'Activities': 'activities'
 };
 
+const singular = {
+  'organizations': 'organization',
+  'people': 'people',
+  'activities': 'activity'
+};
+
 @Injectable()
 export class IsariDataService {
 
@@ -67,7 +73,7 @@ export class IsariDataService {
       return this.layoutsCache[feature].toPromise();
     }
 
-    const url = `${this.layoutUrl}/${feature}`;
+    const url = `${this.layoutUrl}/${singular[feature]}`;
     let $layout = this.http.get(url).map(response => response.json());
     this.layoutsCache[feature] = $layout.cache();
     return $layout.toPromise();
@@ -95,7 +101,7 @@ export class IsariDataService {
   }
 
   getColumns(feature: string) {
-    const url = `${this.schemaUrl}/${feature}`;
+    const url = `${this.schemaUrl}/${singular[feature]}`;
     return this.http.get(url)
       .distinctUntilChanged()
       .toPromise()
