@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { UserService } from '../user.service';
 
@@ -12,14 +12,22 @@ import { UserService } from '../user.service';
 export class LoginComponent implements OnInit {
 
   message: string;
+  loginForm: FormGroup;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.loginForm = this.fb.group({
+      login: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
-  login(username, password) {
-    this.userService.login(username, password)
+  onSubmit(form) {
+    this.userService.login(form.value.login, form.value.password)
 //      .catch(this.handleError)
       .subscribe(res => {
         this.router.navigate(['']);
