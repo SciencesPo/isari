@@ -73,6 +73,7 @@ app.use('/activities', routes.activities)
 app.use('/schemas', routes.schemas)
 app.use('/layouts', routes.layouts)
 app.use('/enums', routes.enums)
+app.use('/columns', routes.columns)
 
 // Error handlers
 app.use(routes.errors.notFound)
