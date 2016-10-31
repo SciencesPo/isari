@@ -96,6 +96,11 @@ export class IsariMultiSelectComponent implements OnInit {
 
   addValue(value) {
     this.selectControl.setValue('');
+
+    if (!this.extensible && !this.options.find(option => option.value === value)) {
+      value = null;
+    }
+
     if (value && this.values.indexOf(value) === -1) { // uniq
       this.values = [...this.values, value];
     }
