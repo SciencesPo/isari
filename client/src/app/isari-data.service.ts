@@ -13,8 +13,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/cache';
 
-import DEFAULT_COLUMNS from '../../../specs/columns.json';
-
 const mongoSchema2Api = {
   'Organization': 'organizations',
   'People': 'people',
@@ -26,11 +24,13 @@ export class IsariDataService {
 
   private enumsCache = {};
   private layoutsCache = {};
+  private columnsCache = null;
 
   private dataUrl = `${environment.API_BASE_URL}`;
   private layoutUrl = `${environment.API_BASE_URL}/layouts`;
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
+  private columnsUrl = `${environment.API_BASE_URL}/columns`;
 
   constructor(private http: Http, private fb: FormBuilder) {}
 
@@ -73,9 +73,25 @@ export class IsariDataService {
     return $layout.toPromise();
   }
 
+  getColumnsWithDefault(feature: string) {
+    return Promise.all([
+      this.getColumns(feature),
+      this.getDefaultColumns(feature)
+    ]).then(([cols, default_cols]) => cols.filter(col => default_cols.indexOf(col.key) !== -1));
+  }
+
   getDefaultColumns(feature: string) {
-    return this.getColumns(feature)
-      .then(cols => cols.filter(col => DEFAULT_COLUMNS[feature].indexOf(col.key) !== -1));
+    if (this.columnsCache) {
+      return Observable.of(this.columnsCache[feature]).toPromise();
+    }
+    return this.http.get(this.columnsUrl)
+      .toPromise()
+      .then(response => response.json())
+      .then(columns => {
+        this.columnsCache = columns;
+        return columns;
+      })
+      .catch(this.handleError);
   }
 
   getColumns(feature: string) {
@@ -84,7 +100,6 @@ export class IsariDataService {
       .distinctUntilChanged()
       .toPromise()
       .then(response => response.json())
-      // @TODO : wtf is that type property ?
       .then(schema => {
         delete schema.type;
         return schema;
