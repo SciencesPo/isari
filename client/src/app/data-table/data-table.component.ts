@@ -8,6 +8,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 export class DataTableComponent implements OnInit, OnChanges {
   page: any[];
   itemsPerPage = 10;
+  sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
 
   @Input() data: any[];
   @Input() cols: any[];
@@ -18,12 +19,32 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.page = this.data.slice(0, this.itemsPerPage);
+    this.calculPage(1);
   }
 
   pageChanged($event) {
     this.itemsPerPage = $event.itemsPerPage;
-    this.page = this.data.slice(($event.page - 1) * $event.itemsPerPage, $event.page * $event.itemsPerPage);
+    this.calculPage($event.page);
   }
+
+  sortBy(col, $event) {
+    $event.preventDefault();
+    this.data.sort(this.dynamicSort(col.key, this.sortedState.key === col.key && !this.sortedState.reverse));
+    this.sortedState.reverse = (this.sortedState.key === col.key) ? !this.sortedState.reverse : false;
+    this.sortedState.key = col.key;
+    this.calculPage(1);
+  }
+
+  private calculPage(page: number) {
+    this.page = this.data.slice((page - 1) * this.itemsPerPage, page * this.itemsPerPage);
+  }
+
+  private dynamicSort(property, reverse) {
+    let sortOrder = reverse ? -1 : 1;
+    return function (a, b) {
+        let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    };
+}
 
 }

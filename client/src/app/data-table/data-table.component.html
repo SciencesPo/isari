@@ -1,8 +1,10 @@
-<table class="striped">
+<table class="striped" *ngIf="data.length">
   <thead>
     <tr>
       <th></th>
-      <th *ngFor="let col of cols">{{ col.label['fr'] }}</th>
+      <th *ngFor="let col of cols">
+        <a href (click)="sortBy(col, $event)">{{ col.label['fr'] }}</a>
+      </th>
     </tr>
   </thead>
   <tbody>
