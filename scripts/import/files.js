@@ -408,7 +408,6 @@ module.exports = {
               email: line.Mail
             };
 
-          // jobName -> position
           return info;
         },
         resolver(lines) {
