@@ -30,3 +30,4 @@ npm run import:init -- --path /path/to/isari_data
 * `--dry-run`: to perform a dry run that won't insert the items in the database.
 * `--json`: path of a folder to dump JSON files.
 * `--path`: path of ISARI data.
+* `--skip-ldap`: skip LDAP resolution?

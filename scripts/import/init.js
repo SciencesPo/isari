@@ -41,6 +41,11 @@ const {
   Activity
 } = require('../../server/lib/model');
 
+// Removing some required fields to ease validation process
+People.schema.remove('latestChangeBy');
+Organization.schema.remove('latestChangeBy');
+Activity.schema.remove('latestChangeBy');
+
 // Creating relations iteration helpers
 const relations = {
   Organization: helpers.processRelations.bind(null,
@@ -74,6 +79,11 @@ const argv = yargs
   })
   .option('json', {
     describe: 'JSON dump path.'
+  })
+  .option('skip-ldap', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to skip LDAP resolution.'
   })
   .help()
   .argv;
@@ -207,9 +217,6 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
 
     // Validating
     lines.forEach((line, i) => {
-
-      // TODO: find more elegant way to deal with this.
-      line.latestChangeBy = 'IMPORT';
       const errors = validate(Organization, line, i);
 
       errors.forEach(error => {
@@ -240,9 +247,6 @@ const peopleTasks = FILES.people.files.map(file => next => {
 
     // Validating
     persons.forEach((person, i) => {
-
-      // TODO: find more elegant way to deal with this.
-      person.latestChangeBy = 'IMPORT';
       const errors = validate(People, person, i);
 
       errors.forEach(error => {
@@ -330,6 +334,14 @@ function processRelations() {
  */
 function addTechnicalFields() {
 
+  // Organization
+  for (const k in INDEXES.Organization.id) {
+    const org = INDEXES.Organization.id[k];
+
+    // Spy
+    org.latestChangeBy = 'IMPORT';
+  }
+
   // People
   for (const k in INDEXES.People.id) {
     const person = INDEXES.People.id[k];
@@ -343,6 +355,9 @@ function addTechnicalFields() {
         };
       });
     }
+
+    // Spy
+    person.latestChangeBy = 'IMPORT';
   }
 }
 
@@ -368,10 +383,10 @@ function retrieveLDAPInformation(callback) {
       res.on('searchEntry', entry => {
         people.ldapUid = entry.object.uid;
       });
-      res.on('error', err => {
-        return next(err);
+      res.on('error', responseError => {
+        return next(responseError);
       });
-      res.on('end', result => {
+      res.on('end', () => {
         return next();
       });
     });
@@ -425,6 +440,12 @@ async.series({
   },
   ldap(next) {
     console.log();
+
+    if (argv.skipLdap) {
+      log.warning('Skipping LDAP resolution due to --skip-ldap.');
+      return next();
+    }
+
     log.info('Retrieving LDAP information...');
 
     return retrieveLDAPInformation(next);

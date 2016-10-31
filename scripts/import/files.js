@@ -37,7 +37,7 @@ module.exports = {
           const info = {
             name: line.name,
             address: line.address,
-            country: line.country,
+            countries: [line.country],
             status: line.status,
             organizationTypes: [line.organizationType]
           };
@@ -90,7 +90,8 @@ module.exports = {
             name: line.name,
             address: line.address,
             url: line.url,
-            status: line.status
+            status: line.status,
+            countries: ['FR']
           };
 
           if (line.acronym)
@@ -147,6 +148,9 @@ module.exports = {
             researchUnitCodes: [],
             idHal: line['SPIRE ID hal']
           };
+
+          if (line['Country ISO'])
+            line.countries = [line['Country ISO']];
 
           if (line['SPIRE ID cnrs'])
             info.researchUnitCodes.push({code: line['SPIRE ID cnrs']});
@@ -383,8 +387,35 @@ module.exports = {
        */
       {
         name: 'DS_admtech',
-        file: 'DS_admtech.csv',
-        skip: true
+        path: 'DS_admtech.csv',
+        delimiter: ',',
+        consumer(line) {
+          const info = {
+            year: line.Année,
+            name: line.Nom,
+            firstName: line.Prénom,
+            gender: line.Genre,
+            jobName: line.Fonction,
+            academicMembership: line.Unité,
+            gradeAdmin: line['Grade académique'],
+            organization: line.Tutelle,
+            birthDate: line['Année naissance'],
+            startDate: line['Entré(e) en']
+          };
+
+          if (line.Mail)
+            info.contacts = {
+              email: line.Mail
+            };
+
+          return info;
+        },
+        resolver(lines) {
+          return [];
+        },
+        indexer() {
+
+        }
       }
     ]
   }
