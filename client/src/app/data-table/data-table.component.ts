@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'isari-data-table',
@@ -9,6 +10,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   page: any[];
   itemsPerPage = 10;
   sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
+  unfilteredData: any[];
 
   @Input() data: any[];
   @Input() cols: any[];
@@ -19,6 +21,19 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['cols'] && this.cols && this.cols.length) {
+      // @TODO : destroy old filters ?
+      this.cols = this.cols.map(col => {
+        let filterControl = new FormControl('');
+        filterControl.valueChanges.subscribe(value => {
+          this.applyFilter(col.key, value);
+        });
+        return Object.assign({}, col, { filterControl });
+      });
+    }
+    if (changes['data'] && this.data) {
+      this.unfilteredData = this.data;
+    }
     this.calculPage(1);
   }
 
@@ -32,6 +47,12 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.data.sort(this.dynamicSort(col.key, this.sortedState.key === col.key && !this.sortedState.reverse));
     this.sortedState.reverse = (this.sortedState.key === col.key) ? !this.sortedState.reverse : false;
     this.sortedState.key = col.key;
+    this.calculPage(1);
+  }
+
+  private applyFilter(key: string, value: string) {
+    this.data = this.unfilteredData
+      .filter(item => String(item[key]).toLowerCase().indexOf(value.toLowerCase()) !== -1);
     this.calculPage(1);
   }
 
