@@ -1,3 +1,8 @@
 [
-  ["researchTheme", "discipline"]
-]
+	  ["researchTheme", "discipline", "methods"],
+	  ["erc", "aeres2012","hceres2017"],
+	  "free"
+	]
+
+
+
