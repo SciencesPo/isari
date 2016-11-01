@@ -1,5 +1,5 @@
 {
-  "people": ["name"],
+  "people": ["firstName","name","academicMemberships","positions"],
   "activities": ["name"],
-  "organizations": ["name"]
+  "organizations": ["name","organizationTypes","researchUnitCodes"]
 }
