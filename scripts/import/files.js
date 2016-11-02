@@ -16,6 +16,10 @@ moment.prototype.inspect = function() {
 };
 moment.prototype.toString = moment.prototype.inspect;
 
+function partitionBy(collection, predicate) {
+  return _.values(_.groupBy(collection, predicate));
+}
+
 module.exports = {
 
   /**
@@ -162,11 +166,9 @@ module.exports = {
         },
         resolver(lines) {
 
-          return lines;
-
           // Here we're gonna merge lines internally to this file
           // TODO: choose the keying method
-          const organizations = _.values(_.groupBy(lines, 'line => `${line.acronym}§${line.name}`'));
+          const organizations = partitionBy(lines, line => `${line.acronym}§${line.name}`);
 
           // 1) country européen
           // 2) intra banner duplicates
@@ -249,7 +251,7 @@ module.exports = {
         resolver(lines) {
 
           // First we need to group the person by matricule
-          let persons = _.values(_.groupBy(lines, 'sirhMatricule'));
+          let persons = partitionBy(lines, 'sirhMatricule');
 
           // Sorting lines by year
           persons = persons.map(years => {
@@ -270,14 +272,14 @@ module.exports = {
               nationalities: [last.nationality]
             };
 
-            if (first.birthName)
+            if (first.birthName && first.birthName !== first.name)
               person.birthName = first.birthName;
 
             // Computing positions
-            const slices = _.groupBy(years, y => `${y.startDate}§${y.endDate || ''}`),
+            const slices = partitionBy(years, y => `${y.startDate}§${y.endDate || ''}`),
                   positions = [];
 
-            _.values(slices).forEach((slice, sliceIndex) => {
+            slices.forEach((slice, sliceIndex) => {
               const nextSlice = slices[sliceIndex + 1],
                     contract = slice[0],
                     nextContract = (nextSlice || [])[0] || {};
@@ -292,7 +294,7 @@ module.exports = {
               // Dates
               if (nextContract.startDate && contract.endDate) {
                 if (nextContract.startDate.isBefore(contract.endDate))
-                  contract.endDate = nextContract.startDate.substract(1, 'days');
+                  contract.endDate = nextContract.startDate.subtract(1, 'days');
               }
 
               if (contract.startDate)
@@ -412,14 +414,18 @@ module.exports = {
           return info;
         },
         resolver(lines) {
+
+          // group by nom,prénom,birthdate
+          // tester doublons cross tutelle
+
           return [];
         },
         indexer() {
 
-          // Questions:
-          // 1) Dedupe with SIRH?
-          // 2) Job type
-          // 3) Drop lines with FNSP -> SIRH
+          // Si tutelle FNSP -> match SIRH (ajouter grade académique)
+          // Si autre tutelle -> match SIRH (grade academique + positions non-FNSP)
+          // nom-prenom-birthdate (lowercase -> strip tiret -> deburr)
+          // else insert
         }
       }
     ]
