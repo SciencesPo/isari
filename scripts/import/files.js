@@ -11,15 +11,24 @@ const moment = require('moment'),
 
 const ENUM_INDEXES = require('./indexes.js').ENUM_INDEXES;
 
+/**
+ * Overriding some Moment.js things for convenience.
+ */
 moment.prototype.inspect = function() {
   return 'Moment{' + this.format('YYYY-MM-DD') + '}';
 };
 moment.prototype.toString = moment.prototype.inspect;
 
+/**
+ * Helpers.
+ */
 function partitionBy(collection, predicate) {
   return _.values(_.groupBy(collection, predicate));
 }
 
+/**
+ * File definitions.
+ */
 module.exports = {
 
   /**
@@ -173,7 +182,10 @@ module.exports = {
           // 1) country européen
           // 2) intra banner duplicates
           // 3) intra spire duplicates
-          console.log(organizations.filter(o => o.length > 2));
+          // let pb = organizations.filter(o => partitionBy(o, 'source').some(s => s.length > 1));
+
+          // require('fs').writeFileSync('pb.json', JSON.stringify(pb, null, 2));
+
           // console.log(organizations.filter(o => o.filter(i => i.source === 'Banner').length > 1).length)
 
           return lines;
