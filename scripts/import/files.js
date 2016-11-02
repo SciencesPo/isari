@@ -389,6 +389,7 @@ module.exports = {
         name: 'DS_admtech',
         path: 'DS_admtech.csv',
         delimiter: ',',
+        skip: true,
         consumer(line) {
           const info = {
             year: line.Année,
@@ -415,6 +416,10 @@ module.exports = {
         },
         indexer() {
 
+          // Questions:
+          // 1) Dedupe with SIRH?
+          // 2) Job type
+          // 3) Drop lines with FNSP -> SIRH
         }
       }
     ]
