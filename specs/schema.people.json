@@ -148,7 +148,7 @@
                 }
             },
             "jobType": {
-                "requirement": "mandatory",
+                "requirement": "recommended",
                 "label": {
                     "fr": "Type de contrat",
                     "en": "Contract type"

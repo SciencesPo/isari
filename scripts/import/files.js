@@ -26,11 +26,17 @@ function partitionBy(collection, predicate) {
   return _.values(_.groupBy(collection, predicate));
 }
 
-function hashPeople(p) {
-  const name = _.deburr(p.name.toUpperCase()),
-        firstName = _.deburr(p.firstName.toUpperCase());
+function normalizeName(name) {
+  return _.deburr(name)
+    .toUpperCase()
+    .replace(/-/g, ' ');
+}
 
-  return `${name}§${firstName}§${p.birthDate}`;
+function hashPeople(p) {
+  const name = normalizeName(p.name),
+        firstName = normalizeName(p.firstName);
+
+  return `${name}§${firstName}§${(p.birthDate || '').slice(0, 4)}`;
 }
 
 /**
@@ -323,7 +329,7 @@ module.exports = {
                 position.endDate = contract.endDate.format('YYYY-MM-DD');
 
               // Grades
-              position.grades = _(slice)
+              position.gradesSirh = _(slice)
                 .groupBy('gradeSirh')
                 .values()
                 .map(grades => grades[0])
@@ -412,7 +418,7 @@ module.exports = {
         name: 'DS_admtech',
         path: 'DS_admtech.csv',
         delimiter: ',',
-        skip: true,
+        skip: false,
         consumer(line) {
           const info = {
             year: line.Année,
@@ -436,17 +442,107 @@ module.exports = {
         },
         resolver(lines) {
 
-          // group by nom,prénom,birthdate
-          // tester doublons cross tutelle
+          let persons = partitionBy(lines, hashPeople);
 
-          return [];
+          // Sort by years
+          persons = persons.map(years => {
+            return _.sortBy(years, 'year');
+          });
+
+          const objects = persons.map(years => {
+            const first = years[0],
+                  job = _.find(_.reverse(years), year => !!year.jobName);
+
+            const person = {
+              name: first.name,
+              firstName: first.firstName,
+              gender: first.gender,
+              birthDate: first.birthDate
+            };
+
+            if (first.contacts)
+              person.contacts = first.contacts;
+
+            // So, here, we create a single position using the last job name
+            // found, and then we create temporal grades.
+            if (job) {
+              person.positions = [{
+                jobName: job.jobName,
+                organization: job.organization,
+                startDate: job.startDate
+              }];
+
+              // Admin grades
+              person.positions[0].gradesAdmin = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
+                .map((slice, i, slices) => {
+                  const nextSlice = slices[i + 1];
+
+                  const info = {
+                    grade: slice[0].gradeAdmin
+                  };
+
+                  if (!i)
+                    info.startDate = slice[0].startDate;
+                  else
+                    info.startDate = slice[0].year;
+
+                  if (nextSlice && nextSlice[0])
+                    info.endDate = nextSlice[0].year;
+
+                  return info;
+                });
+            }
+
+            person.academicMemberships = partitionBy(years.filter(year => !!year.academicMembership), 'academicMembership')
+              .map((slice, i, slices) => {
+                const nextSlice = slices[i + 1];
+
+                const info = {
+                  organization: slice[0].academicMembership
+                };
+
+                if (!i)
+                  info.startDate = slice[0].startDate;
+                else
+                  info.startDate = slice[0].year;
+
+                if (nextSlice && nextSlice[0])
+                  info.endDate = nextSlice[0].year;
+
+                return info;
+              });
+
+            return person;
+          });
+
+          return objects;
         },
-        indexer() {
+        indexer(indexes, person) {
 
-          // Si tutelle FNSP -> match SIRH (ajouter grade académique)
-          // Si autre tutelle -> match SIRH (grade academique + positions non-FNSP)
-          // nom-prenom-birthdate (lowercase -> strip tiret -> deburr)
-          // else insert
+          // Here, we are trying to match someone in the previous SIRH file.
+          // If we found one & we have a FNSP position, we add grade & email
+          // If we found one & we hava another position, we push position + grade + email
+          // Else, we just insert the person.
+          const fuzzyKey = hashPeople(person),
+                match = indexes.fuzzySirh[fuzzyKey];
+
+          if (match && !!person.positions) {
+            const org = person.positions[0].organization;
+
+            if (org === 'FNSP') {
+              // Whaddup?
+            }
+            else {
+              match.positions.push(person.positions);
+            }
+
+            if (person.contacts)
+              match.contacts = person.contacts;
+
+            return;
+          }
+
+          indexes.id[person._id] = person;
         }
       }
     ]
