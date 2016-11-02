@@ -39,6 +39,16 @@ function hashPeople(p) {
   return `${name}§${firstName}§${(p.birthDate || '').slice(0, 4)}`;
 }
 
+function overlap(A, B) {
+  if (!A.endDate && !B.endDate)
+    return true;
+  if (A.endDate > B.startDate)
+    return true;
+  if (A.startDate < B.startDate && A.endDate > B.endDate)
+    return true;
+  return false;
+}
+
 /**
  * File definitions.
  */
@@ -530,7 +540,23 @@ module.exports = {
             const org = person.positions[0].organization;
 
             if (org === 'FNSP') {
-              // Whaddup?
+
+              match.positions.forEach(position => {
+
+                // Finding the first overlapping grade
+                const grades = _.filter(person.positions[0].gradesAdmin, g => {
+                  return overlap(
+                    {
+                      startDate: position.startDate.slice(0, 4),
+                      endDate: position.endDate ? position.endDate.slice(0, 4) : null
+                    },
+                    g
+                  );
+                });
+
+                if (grades)
+                  position.gradesAdmin = grades;
+              });
             }
             else {
               match.positions.push(person.positions);
