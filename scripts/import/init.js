@@ -99,7 +99,8 @@ const INDEXES = {
     id: Object.create(null)
   },
   People: {
-    id: Object.create(null)
+    id: Object.create(null),
+    fuzzySirh: Object.create(null)
   }
 };
 

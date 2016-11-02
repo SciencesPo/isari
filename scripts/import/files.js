@@ -26,6 +26,13 @@ function partitionBy(collection, predicate) {
   return _.values(_.groupBy(collection, predicate));
 }
 
+function hashPeople(p) {
+  const name = _.deburr(p.name.toUpperCase()),
+        firstName = _.deburr(p.firstName.toUpperCase());
+
+  return `${name}§${firstName}§${p.birthDate}`;
+}
+
 /**
  * File definitions.
  */
@@ -281,7 +288,8 @@ module.exports = {
               name: last.name,
               sirhMatricule: first.sirhMatricule,
               gender: last.gender,
-              nationalities: [last.nationality]
+              nationalities: [last.nationality],
+              birthDate: first.birthDate
             };
 
             if (first.birthName && first.birthName !== first.name)
@@ -393,6 +401,7 @@ module.exports = {
         },
         indexer(indexes, person) {
           indexes.id[person._id] = person;
+          indexes.fuzzySirh[hashPeople(person)] = person;
         }
       },
 
