@@ -93,7 +93,7 @@ const listModel = (Model, format, getPermissions) => req => {
 		.then(data => { debug('List: applyTemplates', applyTemplates); return data })
 		.then(peoples => Promise.all(peoples.map(formatOne)))
 		.then(data => { debug('List: formatWithOpts'); return data })
-		.then(selectFields)
+		.then(data => data.map(selectFields))
 		.then(data => { debug('List: selectFields', req.query.fields); return data })
 }
 

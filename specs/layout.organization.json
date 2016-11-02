@@ -1,0 +1,17 @@
+[
+	["name","acronym"],
+	["url","address","countries"],
+	["organizationTypes","status","HCERESorganizationType"],
+	"parentOrganizations",
+	"researchUnitCodes",
+	{
+		"fields":["idRnsr","idScopus","idHal","codeUAI"],
+		"label":{"fr":"identifiants","en":"identifiers"},
+		"collapsabled": true
+	},
+	{
+		"fields":["UG","idBanner","idSpire"],
+		"label":{"fr":"identifiants FNSP","en":"FNSP identifiers"},
+		"collapsabled": true
+	}
+]

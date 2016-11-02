@@ -1,6 +1,6 @@
-<form (submit)="login(username.value, password.value)">
-  <md-input #username placeholder="Username"></md-input>
-  <md-input type="password" #password placeholder="Password"></md-input>
+<form novalidate (submit)="onSubmit(loginForm)" [formGroup]="loginForm">
+  <md-input type="text" placeholder="Username" formControlName="login"></md-input>
+  <md-input type="password" placeholder="Password" formControlName="password"></md-input>
   <button type="submit" md-button>login</button>
   <p *ngIf="message">{{ message }}</p>
 </form>

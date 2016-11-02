@@ -2,7 +2,17 @@
   <thead>
     <tr>
       <th></th>
-      <th *ngFor="let col of cols">{{ col.label['fr'] }}</th>
+      <th *ngFor="let col of cols">
+        <a href (click)="sortBy(col, $event)">{{ col.label['fr'] }}</a>
+        <md-icon *ngIf="col.key === sortedState.key && sortedState.reverse">arrow_upward</md-icon>
+        <md-icon *ngIf="col.key === sortedState.key && !sortedState.reverse">arrow_downward</md-icon>
+      </th>
+    </tr>
+    <tr>
+      <td></td>
+      <td *ngFor="let col of cols">
+        <md-input type="text" [formControl]="col.filterControl">></md-input>
+      </td>
     </tr>
   </thead>
   <tbody>

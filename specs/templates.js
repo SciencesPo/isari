@@ -58,12 +58,20 @@ const distinction = d => d.organizations.map(objectName).join(' & ') + (d.date ?
 // oraganizationDates
 function researchUnitCode(p){
 	let label = p.code
+	if(p.startDate || p.enDate)
+		label+=" ("
 	if(p.startDate){
-		label += " "+year(p.startDate)
+		label += year(p.startDate)
 	}
 	if(p.endDate){
 		label += `-${year(p.endDate)}`
 	}
+	else{
+		if(p.starDate)
+			label += "..."
+	}
+	if(p.startDate || p.enDate)
+		label+=")"
 	return label
 }
 

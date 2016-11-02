@@ -1,10 +1,38 @@
 [
-  {
-    "label": { "fr": "groupe 1", "en": "group 1" },
-    "collapsable": true,
-    "fields": ["firstName", "name"]
-  },
-  ["gender", "birthDate", "nationalities"],
-  "tags",
-  "-ORCID"
+    [
+        "firstName",
+        "name",
+        "birthName"
+    ],
+    [
+        "gender",
+        "birthDate",
+        "nationalities"
+    ],
+    ["academicMemberships","gradesAcademic"],
+    {
+        "fields": ["positions"],
+        "label": {"fr":"Contrats","en":"Positions"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["tags"],
+        "label": {"fr":"Tags","en":"Tags"},
+        "collapsabled": true
+    },
+    {
+        "fields": [
+        "ldapUid",
+        "sirhMatricule",
+        "bannerUid",
+        "spireID"
+    ],
+        "label": {"fr":"identifiants FNSP","en":"FNSP identifiers"},
+        "collapsabled": true
+    },
+    [
+        "ORCID",
+        "IDREF"
+    ],
+    "-ORCID"
 ]

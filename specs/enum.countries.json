@@ -1,5 +1,28 @@
 [
     {
+        "nationalityLabel": {
+            "fr": ""
+        },
+        "region": "Europe",
+        "regionCode": "150",
+        "countryLabel": {
+            "fr": "Union europ\u00e9enne",
+            "en": "European Union"
+        },
+        "alpha2": "EU"
+    },
+    {
+        "nationalityLabel": {
+            "fr": ""
+        },
+        "region": "World",
+        "countryLabel": {
+            "fr": "International",
+            "en": "International"
+        },
+        "alpha2": "WO"
+    },
+    {
         "countryCode": "004",
         "nationalityLabel": {
             "fr": "afghane"

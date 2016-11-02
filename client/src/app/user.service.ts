@@ -8,18 +8,19 @@ export class UserService {
 
   private loggedIn = false;
   private loginUrl = `${environment.API_BASE_URL}/auth/login`;
+  private checkUrl = `${environment.API_BASE_URL}/auth/myself`;
+  private httpOptions: RequestOptions;
 
   constructor(private http: Http) {
+    this.httpOptions = new RequestOptions({
+      withCredentials: true
+    });
   }
 
   login(username, password) {
 
-    let options = new RequestOptions({
-      withCredentials: true
-    });
-
     return this.http
-      .post(this.loginUrl, { login: username, password }, options)
+      .post(this.loginUrl, { login: username, password }, this.httpOptions)
       .map(res => res.json())
       .map(res => {
         this.loggedIn = true;
@@ -32,6 +33,7 @@ export class UserService {
   // }
 
   isLoggedIn() {
-    return this.loggedIn;
+    return this.http.get(this.checkUrl, this.httpOptions)
+      .map(response => response.json).cache();
   }
 }
