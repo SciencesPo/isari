@@ -205,7 +205,8 @@ module.exports = {
           // 1) country européen
           // 2) intra banner duplicates
           // 3) intra spire duplicates
-          // let pb = organizations.filter(o => partitionBy(o, 'source').some(s => s.length > 1));
+          let pb = organizations.filter(o => partitionBy(o, 'source').some(s => s.length > 1));
+          console.log(organizations.length - pb.length);
 
           // require('fs').writeFileSync('pb.json', JSON.stringify(pb, null, 2));
 
@@ -384,7 +385,8 @@ module.exports = {
                 const nextMembership = memberships[i + 1];
 
                 const info = {
-                  organization: membership.academicMembership
+                  organization: membership.academicMembership,
+                  membershipType: 'membre'
                 };
 
                 if (membership.startDate) {
@@ -428,7 +430,6 @@ module.exports = {
         name: 'DS_admtech',
         path: 'DS_admtech.csv',
         delimiter: ',',
-        skip: false,
         consumer(line) {
           const info = {
             year: line.Année,
@@ -569,6 +570,110 @@ module.exports = {
           }
 
           indexes.id[person._id] = person;
+        }
+      },
+
+      /**
+       * DS_academic.csv
+       */
+      {
+        name: 'DS_academic',
+        path: 'DS_academic.csv',
+        delimiter: ',',
+        consumer(line) {
+          const info = {
+            year: line.Année,
+            name: line.Nom,
+            firstName: line.Prénom,
+            gender: line.GENRE,
+            birthDate: line.Âge,
+            jobTitle: line.Statut,
+            organization: line.Tutelle
+          };
+
+          if (line.Mail)
+            info.contacts = {
+              email: line.Mail
+            };
+
+          if (line.Nationalité)
+            info.nationalities = line.Nationalité.split(',');
+
+          if (line['Entré(e) en'])
+            info.startDate = line['Entré(e) en'].slice(0, 4);
+
+          if (line.Grade) {
+            if (/^appui/.test(line.jobTitle))
+              info.gradeAdmin = line.Grade;
+            else
+              info.gradeAcademic = line.Grade;
+          }
+
+          if (line['Prime Incitation / Convergence']) {
+            info.bonuses = line['Prime Incitation / Convergence']
+              .split(';')
+              .map(string => {
+                const [startDate, endDate] = string.trim().split('-');
+
+                return {
+                  bonusType: 'primeConvergence',
+                  startDate,
+                  endDate
+                };
+              });
+          }
+
+          if (line['Paysd\'obtentionduPhD'] || line['Année d\'obtention du PhD']) {
+            const countries = line['Paysd\'obtentionduPhD'].split(',');
+
+            info.distinctions = [{
+              countries,
+              distinctionType: 'diplôme',
+              subject: 'Doctorat'
+            }];
+
+            if (line['Année d\'obtention du PhD'])
+              info.distinctions[0].date = line['Année d\'obtention du PhD'];
+
+            if (line['PhdSciencesPo'] === 'oui')
+              info.distinctions[0].organizations = ['IEP Paris'];
+          }
+
+          if (line['HDRouéquivalent']) {
+            info.distinctions = info.distinctions || [];
+            info.distinctions.push({
+              distinctionType: 'diplôme',
+              subject: 'HDR'
+            });
+          }
+
+          if (line.Dpmt)
+            info.deptMembership = line.Dpmt;
+
+          if (line['Unité de recherche'])
+            info.academicMemberships = [{
+              organization: line['Unité de recherche'],
+              membershipType: 'membre'
+            }];
+
+          if (line['Autres affiliations']) {
+            info.academicMemberships = info.academicMemberships || [];
+            info.academicMemberships.push({
+              organization: line['Autres affiliations'],
+              membershipType: 'membre'
+            });
+          }
+
+          return info;
+        },
+        resolver(lines) {
+
+          // Gender is not set for every year. Must find the correct line or 'o'
+          // Idem for nationalities and for bonuses
+          return [];
+        },
+        indexer() {
+
         }
       }
     ]
