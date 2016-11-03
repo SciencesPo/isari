@@ -783,15 +783,47 @@ module.exports = {
               delete info.deptMemberships;
 
             // Academic memberships
+            info.academicMemberships = [];
+            years
+              .filter(year => !!year.academicMemberships)
+              .forEach((year, i, relevantYears) => {
+
+                year.academicMemberships.forEach(membership => {
+                  let relevantMembership = info.academicMemberships.find(m => m.organization === membership.organization);
+
+                  // If no relevant membership was found, we add it
+                  if (!relevantMembership) {
+                    relevantMembership = {
+                      organization: membership.organization,
+                      startDate: !i ? year.startDate : year.year,
+                      endDate: year.year
+                    };
+
+                    info.academicMemberships.push(relevantMembership);
+                  }
+
+                  // Else we update the endDate if not final year
+                  else if (relevantYears[i + 1]) {
+                    relevantMembership.endDate = year.year;
+                  }
+
+                  else {
+                    delete relevantMembership.endDate;
+                  }
+                });
+              });
+
+            if (!info.academicMemberships.length)
+              delete info.academicMemberships;
 
             return info;
           });
 
-          // console.log(objects.filter(o => o.name === 'LEMERCIER'));
           return objects;
         },
         indexer() {
 
+          // TODO: index & merge!
         }
       }
     ]
