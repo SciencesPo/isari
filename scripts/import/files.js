@@ -603,7 +603,7 @@ module.exports = {
             info.startDate = line['Entré(e) en'].slice(0, 4);
 
           if (line.Grade) {
-            if (/^appui/.test(line.jobTitle))
+            if (/^appui/.test(info.jobTitle))
               info.gradeAdmin = line.Grade;
             else
               info.gradeAcademic = line.Grade;
@@ -629,7 +629,7 @@ module.exports = {
             info.distinctions = [{
               countries,
               distinctionType: 'diplôme',
-              subject: 'Doctorat'
+              title: 'Doctorat'
             }];
 
             if (line['Année d\'obtention du PhD'])
@@ -643,7 +643,7 @@ module.exports = {
             info.distinctions = info.distinctions || [];
             info.distinctions.push({
               distinctionType: 'diplôme',
-              subject: 'HDR'
+              title: 'HDR'
             });
           }
 
@@ -693,9 +693,102 @@ module.exports = {
               firstName: firstYear.firstName,
               contacts: firstYear.contacts
             };
+
+            // Finding gender
+            const genderYear = years.find(year => !!year.gender);
+
+            if (genderYear)
+              info.gender = genderYear.gender;
+
+            // Finding birthDate
+            const birthDateYear = years.find(year => !!year.birthDate);
+
+            if (birthDateYear)
+              info.birthDate = birthDateYear.birthDate;
+
+            // Finding distinctions (get the year with most distinctions)
+            const distinctionYear = _(years)
+              .sortBy(year => year.distinctions && year.distinctions.length)
+              .first();
+
+            if (distinctionYear.distinctions)
+              info.distinctions = distinctionYear.distinctions;
+
+            // Chronologies: positions, dpt, academic memberships
+            const positionSlices = partitionBy(years, 'jobTitle');
+
+            // Positions
+            info.positions = positionSlices.map((slice, i) => {
+              const nextSlice = positionSlices[i + 1];
+
+              const jobInfo = {
+                jobTitle: slice[0].jobTitle,
+                organization: slice[0].organization
+              };
+
+              // Dates
+              if (!i)
+                jobInfo.startDate = slice[0].startDate;
+              else
+                jobInfo.startDate = slice[0].year;
+
+              if (nextSlice)
+                jobInfo.endDate = nextSlice[0].startDate;
+
+              // Grade Admin
+              if (slice[0].gradeAdmin) {
+                jobInfo.gradesAdmin = [
+                  {
+                    grade: slice[0].gradeAdmin,
+                    startDate: jobInfo.startDate
+                  }
+                ];
+              }
+
+              return jobInfo;
+            });
+
+            // Departement memberships
+            info.deptMemberships = [];
+            years
+              .filter(year => !!year.deptMemberships)
+              .forEach((year, i, relevantYears) => {
+
+                year.deptMemberships.forEach(membership => {
+                  let relevantMembership = info.deptMemberships.find(m => m.organization === membership.organization);
+
+                  // If no relevant membership was found, we add it
+                  if (!relevantMembership) {
+                    relevantMembership = {
+                      organization: membership.organization,
+                      startDate: !i ? year.startDate : year.year,
+                      endDate: year.year
+                    };
+
+                    info.deptMemberships.push(relevantMembership);
+                  }
+
+                  // Else we update the endDate if not final year
+                  else if (relevantYears[i + 1]) {
+                    relevantMembership.endDate = year.year;
+                  }
+
+                  else {
+                    delete relevantMembership.endDate;
+                  }
+                });
+              });
+
+            if (!info.deptMemberships.length)
+              delete info.deptMemberships;
+
+            // Academic memberships
+
+            return info;
           });
 
-          return [];
+          // console.log(objects.filter(o => o.name === 'LEMERCIER'));
+          return objects;
         },
         indexer() {
 
