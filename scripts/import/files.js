@@ -647,8 +647,15 @@ module.exports = {
             });
           }
 
-          if (line.Dpmt)
-            info.deptMembership = line.Dpmt;
+          if (line.Dpmt) {
+            info.deptMemberships = line.Dpmt
+              .split(',')
+              .map(dept => {
+                return {
+                  organization: dept.trim()
+                };
+              });
+          }
 
           if (line['Unité de recherche'])
             info.academicMemberships = [{
@@ -668,8 +675,26 @@ module.exports = {
         },
         resolver(lines) {
 
-          // Gender is not set for every year. Must find the correct line or 'o'
-          // Idem for nationalities and for bonuses
+          // For unit information, find a line where the information is given
+          // Need to chronologically order memberships
+          let persons = partitionBy(lines, line => `${line.name}§${line.firstName}`);
+
+          // Sort by years
+          persons = persons.map(years => {
+            return _.sortBy(years, 'year');
+          });
+
+          // Building objects
+          const objects = persons.map(years => {
+            const firstYear = years[0];
+
+            const info = {
+              name: firstYear.name,
+              firstName: firstYear.firstName,
+              contacts: firstYear.contacts
+            };
+          });
+
           return [];
         },
         indexer() {
