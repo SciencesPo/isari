@@ -42,6 +42,12 @@ const {
   Activity
 } = require('../../server/lib/model');
 
+const models = {
+  People,
+  Organization,
+  Activity
+};
+
 // Removing some required fields to ease validation process
 People.schema.remove('latestChangeBy');
 Organization.schema.remove('latestChangeBy');
@@ -278,6 +284,38 @@ const activityTasks = FILES.activities.files.map(file => next => {
   parseFile(FILES.activities.folder, file, (err, lines) => {
     if (err)
       return next(err);
+
+    const items = file.resolver.call(log, lines);
+
+    if (items.Organization && items.Organization.length)
+      log.info(`Extracted ${chalk.cyan(items.Organization.length)} organizations.`);
+
+    if (items.People && items.People.length)
+      log.info(`Extracted ${chalk.cyan(items.People.length)} persons.`);
+
+    if (items.Activity && items.Activity.length)
+      log.info(`Extracted ${chalk.cyan(items.Activity.length)} activities.`);
+
+    // Validating
+    for (const Model in items) {
+      items[Model].forEach((item, i) => {
+        const errors = validate(models[Model], item, i);
+
+        errors.forEach(error => {
+          log.error(error.formattedMessage, error);
+        });
+
+        NB_VALIDATION_ERRORS += errors.length;
+      });
+    }
+
+    // Giving unique identifier
+    for (const Model in items)
+      items[Model].forEach(attachMongoId);
+
+    // Indexing
+    for (const Model in items)
+      items[Model].forEach(file.indexer.bind(null, INDEXES[Model]));
 
     return next();
   });

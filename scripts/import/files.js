@@ -883,6 +883,23 @@ module.exports = {
     folder: 'activities',
     files: [
 
+      /**
+       * invites.csv
+       */
+      {
+        name: 'invites',
+        path: 'invites.csv',
+        delimiter: ',',
+        consumer(line) {
+          return line;
+        },
+        resolver(lines) {
+          return {};
+        },
+        indexer() {
+
+        }
+      }
     ]
   }
 };
