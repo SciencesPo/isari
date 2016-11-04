@@ -458,6 +458,7 @@ function retrieveLDAPInformation(callback) {
 function ProcessError() {}
 
 log.info('Starting...');
+console.log();
 async.series({
   organizations(next) {
     log.success('Processing organization files...');

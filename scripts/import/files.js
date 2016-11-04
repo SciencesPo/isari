@@ -1011,22 +1011,107 @@ module.exports = {
           // NOTE: don't forget phantom organization if !origin && country
           // (address would be the city if we have it)
           const activities = lines.map(line => {
-            const person = people[hashPeople(line)];
+
+            // People
+            const personKey = hashPeople(line),
+                  person = people[personKey];
 
             const activityInfo = {
               activityType: 'mob_entrante',
-              name: `Invité: ${person.firstName} ${person.name}`
+              name: `Invité: ${person.firstName} ${person.name}`,
+              organizations: [],
+              people: [{
+                people: personKey
+              }]
             };
+
+            // TODO: add a role
+
+            if (line.startDate)
+              activityInfo.people[0].startDate = line.startDate;
+            if (line.endDate)
+              activityInfo.people[0].endDate = line.endDate;
+
+            // Target organization
+            if (line.organizations) {
+              line.organizations.forEach(org => {
+                const linkInfo = {
+                  organization: org,
+                  role: 'orgadaccueil'
+                };
+
+                if (line.startDate)
+                  linkInfo.startDate = line.startDate;
+                if (line.endDate)
+                  linkInfo.endDate = line.endDate;
+
+                activityInfo.organizations.push(linkInfo);
+              });
+            }
+
+            // Origin organization
+            if (line.origin) {
+              const linkInfo = {
+                organization: line.origin,
+                role: 'orgadorigine'
+              };
+
+              if (line.startDate)
+                linkInfo.startDate = line.startDate;
+              if (line.endDate)
+                linkInfo.endDate = line.endDate;
+
+              activityInfo.organizations.push(linkInfo);
+            }
+
+            // Phantom organization
+            if (!line.origin && !!line.originCountry) {
+              const name = `Invité - Organisation inconnue (${line.originCountry})`;
+
+              const org = {name};
+              organizations[name] = org;
+
+              const linkInfo = {
+                organization: name,
+                role: 'orgadorigine',
+                organizationTypes: ['inconnue']
+              };
+
+              if (line.startDate)
+                linkInfo.startDate = line.startDate;
+              if (line.endDate)
+                linkInfo.endDate = line.endDate;
+
+              activityInfo.organizations.push(linkInfo);
+            }
+
+            // Subject
+            const subject = [];
+
+            if (line.subject)
+              subject.push(`Sujet de recherche : ${line.subject}`);
+            if (line.course)
+              subject.push(`Cours : ${line.course}`);
+            if (line.type)
+              subject.push(`Type de séjour : ${line.type}`);
+
+            if (subject.length)
+              activityInfo.subject = subject.join(' ');
+
+            // Summary
+            const summary = [];
+
+            if (line.inviting)
+              summary.push(`Contact/Invitant : ${line.inviting}`);
+            if (line.financing)
+              summary.push(`Type de financement : ${line.financing}`);
+
+            if (summary.length)
+              activityInfo.summary = summary.join(' ');
 
             return activityInfo;
           });
 
-          // console.log(activities);
-
-          // TODO: phantom enum type
-
-          // TODO: create unique unknow org in some cases
-          // TODO: generate activity type
           return {
             People: _.values(people),
             Organization: _.values(organizations),
