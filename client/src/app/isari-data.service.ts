@@ -83,7 +83,7 @@ export class IsariDataService {
     return Promise.all([
       this.getColumns(feature),
       this.getDefaultColumns(feature)
-    ]).then(([cols, default_cols]) => cols.filter(col => default_cols.indexOf(col.key) !== -1));
+    ]).then(([cols, default_cols]) => default_cols.map(default_col => cols.find(col => col.key === default_col)));
   }
 
   getDefaultColumns(feature: string) {
