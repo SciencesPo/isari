@@ -902,6 +902,7 @@ module.exports = {
             course: line.Cours,
             discipline: line.Discipline,
             origin: line['Etablissement d\'origine'],
+            originParent: line['Orga d\'origine PARENT'],
             originCountry: line.Pays,
             type: line['Type de séjour'],
             financing: line['Type de financement '],
