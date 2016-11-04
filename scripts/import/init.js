@@ -149,7 +149,7 @@ function parseFile(folder, file, callback) {
   NB_FILES++;
 
   console.log();
-  log.info(`Reading ${chalk.cyan(filePath)}`);
+  log.info(`Reading ${chalk.grey(filePath)}`);
 
   const options = {
     delimiter: file.delimiter,
@@ -314,8 +314,10 @@ const activityTasks = FILES.activities.files.map(file => next => {
       items[Model].forEach(attachMongoId);
 
     // Indexing
-    for (const Model in items)
-      items[Model].forEach(file.indexer.bind(null, INDEXES[Model]));
+    for (const Model in items) {
+      if (file.indexers[Model])
+        items[Model].forEach(file.indexers[Model].bind(null, INDEXES[Model]));
+    }
 
     return next();
   });

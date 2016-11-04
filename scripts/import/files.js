@@ -896,7 +896,9 @@ module.exports = {
         consumer(line) {
           const info = {
             source: line.Source,
-            organization: line['Orga qui accueille'],
+            organizations: line['Orga qui accueille']
+              .split(',')
+              .map(org => org.trim()),
             name: line['Nom Invité'],
             firstName: line['Prénom Invité'],
             nationality: line['Nationalité Invité'],
@@ -974,16 +976,6 @@ module.exports = {
           // 2) Generating organizations
           const organizations = {};
 
-          // NOTE: normally, we already have the target organization.
-          // partitionBy(lines, 'organization')
-          //   .forEach(organizationLines => {
-          //     const org = organizationLines[0].organization;
-
-          //     organizations[org] = {
-          //       name: org
-          //     };
-          //   });
-
           partitionBy(lines.filter(line => !!line.origin), 'origin')
             .forEach(organizationLines => {
               const org = organizationLines[0].origin;
@@ -1018,20 +1010,33 @@ module.exports = {
           // 3) Generating activities
           // NOTE: don't forget phantom organization if !origin && country
           // (address would be the city if we have it)
+          const activities = lines.map(line => {
+            const person = people[hashPeople(line)];
 
+            const activityInfo = {
+              activityType: 'mob_entrante',
+              name: `Invité: ${person.firstName} ${person.name}`
+            };
+
+            return activityInfo;
+          });
+
+          // console.log(activities);
 
           // TODO: phantom enum type
 
           // TODO: create unique unknow org in some cases
           // TODO: generate activity type
-
           return {
             People: _.values(people),
-            Organization: _.values(organizations)
+            Organization: _.values(organizations),
+            Activity: activities
           };
         },
-        indexer() {
-
+        indexers: {
+          Activity(indexes, activity) {
+            indexes.id[activity._id] = activity;
+          }
         }
       }
     ]
