@@ -272,6 +272,18 @@ const peopleTasks = FILES.people.files.map(file => next => {
 });
 
 /**
+ * Processing people files.
+ */
+const activityTasks = FILES.activities.files.map(file => next => {
+  parseFile(FILES.activities.folder, file, (err, lines) => {
+    if (err)
+      return next(err);
+
+    return next();
+  });
+});
+
+/**
  * Processing relations.
  */
 function processRelations() {
@@ -416,6 +428,11 @@ async.series({
     log.success('Processing people files...');
     return async.series(peopleTasks, next);
   },
+  activities(next) {
+    console.log();
+    log.success('Processing activity files...');
+    return async.series(activityTasks, next);
+  },
   relations(next) {
 
     // If we have validation errors, let's call it a day
@@ -423,12 +440,14 @@ async.series({
       return next(new ProcessError());
 
     const nbOrganization = Object.keys(INDEXES.Organization.id).length,
-          nbPeople = Object.keys(INDEXES.People.id).length;
+          nbPeople = Object.keys(INDEXES.People.id).length,
+          nbActivity = Object.keys(INDEXES.Activity.id).length;
 
     console.log();
     log.success(`Finished processing ${chalk.cyan(NB_FILES)} files!`);
     log.info(`Collected ${chalk.cyan(nbOrganization)} unique organizations.`);
     log.info(`Collected ${chalk.cyan(nbPeople)} unique people.`);
+    log.info(`Collected ${chalk.cyan(nbActivity)} unique activities.`);
 
     processRelations();
 
@@ -472,6 +491,11 @@ async.series({
       JSON.stringify(_.values(INDEXES.People.id), null, 2)
     );
 
+    fs.writeFileSync(
+      path.join(argv.json, 'activities.json'),
+      JSON.stringify(_.values(INDEXES.Activity.id), null, 2)
+    );
+
     return next();
   },
   mongoConnect(next) {
@@ -505,7 +529,8 @@ async.series({
 
     return async.parallel([
       cb => Organization.collection.insertMany(_.values(INDEXES.Organization.id), cb),
-      cb => People.collection.insertMany(_.values(INDEXES.People.id), cb)
+      cb => People.collection.insertMany(_.values(INDEXES.People.id), cb),
+      cb => Activity.collection.insertMany(_.values(INDEXES.Activity.id), cb)
     ], next);
   }
 }, err => {
