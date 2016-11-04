@@ -104,7 +104,7 @@
             "value": "mixte", 
             "label": {
                 "fr": "mixte", 
-                "en": "mixt"
+                "en": ""
             }
         }
     ], 
@@ -623,6 +623,13 @@
             "label": {
                 "fr": "autres institutions", 
                 "en": "other institution"
+            }
+        }, 
+        {
+            "value": "inconnue", 
+            "label": {
+                "fr": "inconnue", 
+                "en": "unknown"
             }
         }
     ], 
