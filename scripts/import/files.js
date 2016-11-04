@@ -891,9 +891,37 @@ module.exports = {
         path: 'invites.csv',
         delimiter: ',',
         consumer(line) {
-          return line;
+          const info = {
+            source: line.Source,
+            organization: line['Orga qui accueille'],
+            name: line['Nom Invité'],
+            firstName: line['Prénom Invité'],
+            nationality: line['Nationalité Invité'],
+            gradeAcademic: line.Statut,
+            subject: line['Sujet de recherche'],
+            course: line.Cours,
+            discipline: line.Discipline,
+            origin: line['Etablissement d\'origine'],
+            originCountry: line.Pays,
+            type: line['Type de séjour'],
+            financing: line['Type de financement '],
+            startDate: line['Date début'],
+            endDate: line['Date fin'],
+            inviting: line['Invitant/Contact']
+          };
+
+          if (line['email adress'])
+            info.contacts = {
+              email: line['email adress']
+            };
+
+          // TODO: add city
+          return info;
         },
         resolver(lines) {
+
+          // TODO: create unique unknow org in some cases
+          // TODO: generate activity type
           return {};
         },
         indexer() {
