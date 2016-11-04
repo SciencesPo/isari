@@ -834,6 +834,7 @@ module.exports = {
         name: 'BANNER_DOCTORANT_HDR',
         path: 'banner/BANNER_DOCTORANT_HDR.csv',
         delimiter: ',',
+        skip: true,
         consumer(line) {
           const info = {
             bannerUid: line.ID,
@@ -871,6 +872,17 @@ module.exports = {
 
         }
       }
+    ]
+  },
+
+  /**
+   * Activitiy Files.
+   * ---------------------------------------------------------------------------
+   */
+  activities: {
+    folder: 'activities',
+    files: [
+
     ]
   }
 };

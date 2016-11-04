@@ -24,6 +24,7 @@ const FILES = require('./files'),
 // Skipping some files
 FILES.organizations.files = FILES.organizations.files.filter(file => !file.skip);
 FILES.people.files = FILES.people.files.filter(file => !file.skip);
+FILES.activities.files = FILES.activities.files.filter(file => !file.skip);
 
 if (inspect.defaultOptions)
   inspect.defaultOptions.depth = null;
@@ -101,6 +102,9 @@ const INDEXES = {
   People: {
     id: Object.create(null),
     fuzzySirh: Object.create(null)
+  },
+  Activity: {
+    id: Object.create(null)
   }
 };
 
