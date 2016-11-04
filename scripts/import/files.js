@@ -36,7 +36,10 @@ function hashPeople(p) {
   const name = normalizeName(p.name),
         firstName = normalizeName(p.firstName);
 
-  return `${name}§${firstName}§${(p.birthDate || '').slice(0, 4)}`;
+  if (p.birthDate)
+    return `${name}§${firstName}§${(p.birthDate || '').slice(0, 4)}`;
+  else
+    return `${name}§${firstName}`;
 }
 
 function overlap(A, B) {
@@ -904,6 +907,7 @@ module.exports = {
             origin: line['Etablissement d\'origine'],
             originParent: line['Orga d\'origine PARENT'],
             originCountry: line.Pays,
+            originCity: line.Ville,
             type: line['Type de séjour'],
             financing: line['Type de financement '],
             startDate: line['Date début'],
@@ -916,14 +920,115 @@ module.exports = {
               email: line['email adress']
             };
 
-          // TODO: add city
           return info;
         },
         resolver(lines) {
 
+          // 1) Generating people
+          const people = {};
+
+          partitionBy(lines, hashPeople)
+            .forEach(personLines => {
+              const firstLine = personLines[0];
+
+              const peopleInfo = {
+                name: firstLine.name,
+                firstName: firstLine.firstName
+              };
+
+              // Contact
+              const contactLine = personLines.find(line => !!line.contacts);
+
+              if (contactLine)
+                peopleInfo.contacts = contactLine.contacts;
+
+              // Nationality
+              const nationalityLine = personLines.find(line => !!line.nationality);
+
+              if (nationalityLine)
+                peopleInfo.nationalities = [nationalityLine.nationality];
+
+              // Grade
+              const gradeLine = personLines.find(line => !!line.gradeAcademic);
+
+              if (gradeLine) {
+                peopleInfo.gradesAcademic = [{grade: gradeLine.gradeAcademic}];
+
+                peopleInfo.academicMemberships = [{
+                  organization: gradeLine.origin,
+                  membershipType: 'membre'
+                }];
+              }
+
+              // Discipline
+              const disciplineLine = personLines.find(line => !!line.discipline);
+
+              if (disciplineLine)
+                peopleInfo.tags = {
+                  free: [disciplineLine.discipline]
+                };
+
+              people[hashPeople(firstLine)] = peopleInfo;
+            });
+
+          // 2) Generating organizations
+          const organizations = {};
+
+          // NOTE: normally, we already have the target organization.
+          // partitionBy(lines, 'organization')
+          //   .forEach(organizationLines => {
+          //     const org = organizationLines[0].organization;
+
+          //     organizations[org] = {
+          //       name: org
+          //     };
+          //   });
+
+          partitionBy(lines.filter(line => !!line.origin), 'origin')
+            .forEach(organizationLines => {
+              const org = organizationLines[0].origin;
+
+              const orgInfo = {
+                name: org
+              };
+
+              // Parent
+              const parentLine = organizationLines.find(line => !!line.originParent);
+
+              if (parentLine)
+                orgInfo.parentOrganizations = [
+                  parentLine.originParent
+                ];
+
+              // Country
+              const countryLine = organizationLines.find(line => !!line.originCountry);
+
+              if (countryLine)
+                orgInfo.countries = [countryLine.originCountry];
+
+              // Address
+              const cityLine = organizationLines.find(line => !!line.originCity);
+
+              if (cityLine)
+                orgInfo.address = cityLine.originCountry;
+
+              organizations[org] = orgInfo;
+            });
+
+          // 3) Generating activities
+          // NOTE: don't forget phantom organization if !origin && country
+          // (address would be the city if we have it)
+
+
+          // TODO: phantom enum type
+
           // TODO: create unique unknow org in some cases
           // TODO: generate activity type
-          return {};
+
+          return {
+            People: _.values(people),
+            Organization: _.values(organizations)
+          };
         },
         indexer() {
 
