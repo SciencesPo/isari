@@ -168,54 +168,58 @@ module.exports = {
        */
       {
         name: 'organizations_hceres_banner_spire',
-        path: 'organizations_hceres_banner_spire.csv',
+        path: 'organizations_hceres_banner_spire/organizations_hceres_banner_spire.csv',
         delimiter: ',',
-        skip: true,
         consumer(line) {
           const info = {
             source: line.Source,
-            HCERESorganizationType: line['TAGS HCERES'],
             codeUAI: line['code UAI'],
-            acronym: line.Sigle,
-            name: line['Nom d\'usage 1'],
-            country: line['Country ISO'],
+            name: line.name,
+            acronym: line.acronym,
             idBanner: line['ID Banner'],
-            address: line['ADRESSE BANNER'] || line['ADRESSE SPIRE'],
             idSpire: line['SPIRE rec_id'],
-            organizationType: line['organizationType (ENUMS)'],
-            parentOrganization: line['SPIRE ORGA Parent REC ID'],
-            researchUnitCodes: [],
-            idHal: line['SPIRE ID hal']
+            url: line.url,
+            idHal: line.idHAL
           };
 
-          if (line['Country ISO'])
-            line.countries = [line['Country ISO']];
+          if (line['Organisation Type (HCERES, SPIRE)'])
+            info.organizationTypes = [line['Organisation Type (HCERES, SPIRE)']];
 
-          if (line['SPIRE ID cnrs'])
-            info.researchUnitCodes.push({code: line['SPIRE ID cnrs']});
+          if (line['HCERESOrganizationType'])
+            info.HCERESorganizationType = line['HCERESOrganizationType'];
 
-          if (line['SPIRE ID ministry'])
-            info.researchUnitCodes.push({code: line['SPIRE ID ministry']});
+          if (line['adresse banner'])
+            info.address = line['adresse banner'];
+
+          if (line['SPIRE adresse'])
+            info.address = line['SPIRE adresse'];
+
+          if (line['banner country alpha3']) {
+            const match = ENUM_INDEXES.countries.alpha3[line['banner country alpha3']];
+
+            if (!match)
+              this.error(`Could not find the country for alpha3 "${line['banner country alpha3']}"`);
+            else
+              info.countries = [match.alpha2];
+          }
+
+          if (line['SPIRE country alpha2'])
+            info.countries = [line['SPIRE country alpha2']];
+
+          if (line['SPIRE ORGA Parent REC ID'])
+            info.spireParent = line['SPIRE ORGA Parent REC ID'];
+
+          info.researchUnitCodes = [];
+
+          if (line['idMinistry'])
+            info.researchUnitCodes.push({code: line['idMinistry']});
+          if (line['idCNRS'])
+            info.researchUnitCodes.push({code: line['idCNRS']});
 
           return info;
         },
         resolver(lines) {
-
-          // Here we're gonna merge lines internally to this file
-          // TODO: choose the keying method
-          const organizations = partitionBy(lines, line => `${line.acronym}§${line.name}`);
-
-          // 1) country européen
-          // 2) intra banner duplicates
-          // 3) intra spire duplicates
-          let pb = organizations.filter(o => partitionBy(o, 'source').some(s => s.length > 1));
-          console.log(organizations.length - pb.length);
-
-          // require('fs').writeFileSync('pb.json', JSON.stringify(pb, null, 2));
-
-          // console.log(organizations.filter(o => o.filter(i => i.source === 'Banner').length > 1).length)
-
-          return lines;
+          return [];
         },
         indexer() {
 
