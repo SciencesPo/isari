@@ -254,9 +254,10 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
     // Indexing
     const before = counter.Organization();
     lines.forEach(file.indexer.bind(log, INDEXES.Organization));
-    const after = counter.Organization();
+    const after = counter.Organization(),
+          added = after - before;
 
-    log.info(`Added ${chalk.cyan(after - before)} unique organizations (total: ${chalk.cyan(after)}).`);
+    log.info(`Added ${chalk.cyan(added)} unique organizations (matches: ${chalk.cyan(lines.length - added)}, total: ${chalk.cyan(after)}).`);
 
     return next();
   });
@@ -291,9 +292,10 @@ const peopleTasks = FILES.people.files.map(file => next => {
     // Indexing
     const before = counter.People();
     persons.forEach(file.indexer.bind(log, INDEXES.People));
-    const after = counter.People();
+    const after = counter.People(),
+          added = after - before;
 
-    log.info(`Added ${chalk.cyan(after - before)} unique people (total: ${chalk.cyan(after)}).`);
+    log.info(`Added ${chalk.cyan(added)} unique people (matches: ${chalk.cyan(persons.length - added)}, total: ${chalk.cyan(after)}).`);
 
     return next();
   });
@@ -340,9 +342,10 @@ const activityTasks = FILES.activities.files.map(file => next => {
       if (file.indexers[Model]) {
         const before = counter[Model]();
         items[Model].forEach(file.indexers[Model].bind(log, INDEXES[Model]));
-        const after = counter[Model]();
+        const after = counter[Model](),
+              added = after - before;
 
-        log.info(`Added ${chalk.cyan(after - before)} unique ${Model.toLowerCase()} (total: ${chalk.cyan(after)}).`);
+        log.info(`Added ${chalk.cyan(added)} unique ${Model.toLowerCase()} (matches: ${chalk.cyan(items[Model].length - added)}, total: ${chalk.cyan(after)}).`);
       }
     }
 

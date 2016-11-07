@@ -219,10 +219,73 @@ module.exports = {
           return info;
         },
         resolver(lines) {
-          return [];
-        },
-        indexer() {
 
+          // Priority: HCERES > Banner > Spire
+          return partitionBy(lines, line => `${line.acronym}§${line.name}`)
+            .map(sources => {
+              if (sources.length > 3)
+                this.error(`Too many different sources for organization: "${line.name}".`);
+
+              sources = _.keyBy(sources, 'source');
+
+              const merged = Object.assign({},
+                sources.HCERES || {},
+                sources.Banner || {},
+                sources.SPIRE || {}
+              );
+
+              // Unit codes
+              const codes = new Set();
+
+              for (const k in sources) {
+                if (sources[k].researchUnitCodes)
+                  sources[k].researchUnitCodes
+                    .forEach(ruc => (codes.add(ruc.code)));
+              }
+
+              merged.researchUnitCodes = Array.from(codes).map(code => ({code}));
+
+              return merged;
+            });
+        },
+        indexer(indexes, org) {
+
+          // Attempting to find the organization
+          let match = indexes.name[org.name];
+
+          if (match) {
+            // TODO: merge
+
+            return;
+          }
+
+          if (org.acronym)
+            match = indexes.acronym[org.acronym];
+
+          if (match) {
+            // TODO: merge
+
+            return;
+          }
+
+          const key = fingerprint(org.name);
+
+          match = indexes.fingerprint[key];
+
+          if (match) {
+            // TODO: merge
+
+            this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`);
+            return;
+          }
+
+          // Does not exist yet, let's add it
+          indexes.id[org._id] = org;
+          indexes.name[org.name] = org;
+          indexes.fingerprint[key] = org;
+
+          if (org.acronym)
+            indexes.acronym[org.acronym] = org;
         }
       }
     ]
@@ -1135,8 +1198,11 @@ module.exports = {
 
             match = indexes.fingerprint[key];
 
-            if (match)
+            if (match) {
+
+              this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`)
               return;
+            }
 
             indexes.fingerprint[key] = org;
             indexes.name[org.name] = org;
