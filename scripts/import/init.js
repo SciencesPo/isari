@@ -541,7 +541,7 @@ async.series({
     console.log();
 
     if (argv.skipLdap) {
-      log.warning('Skipping LDAP resolution due to --skip-ldap.');
+      log.warning(`Skipping LDAP resolution due to ${chalk.grey('--skip-ldap')}.`);
       return next();
     }
 

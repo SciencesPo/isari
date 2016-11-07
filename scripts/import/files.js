@@ -1054,10 +1054,17 @@ module.exports = {
               // Parent
               const parentLine = organizationLines.find(line => !!line.originParent);
 
-              if (parentLine)
+              if (parentLine) {
                 orgInfo.parentOrganizations = [
                   parentLine.originParent
                 ];
+
+                // Adding the parent organization just in case
+                if (!organizations[parentLine.originParent])
+                  organizations[parentLine.originParent] = {
+                    name: parentLine.originParent
+                  };
+              }
 
               // Country
               const countryLine = organizationLines.find(line => !!line.originCountry);
