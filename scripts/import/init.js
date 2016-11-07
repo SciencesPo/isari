@@ -107,7 +107,7 @@ const INDEXES = {
   },
   People: {
     id: Object.create(null),
-    fuzzySirh: Object.create(null)
+    hashed: Object.create(null)
   },
   Activity: {
     id: Object.create(null)
@@ -238,7 +238,7 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
     });
 
     // Indexing
-    lines.forEach(file.indexer.bind(null, INDEXES.Organization));
+    lines.forEach(file.indexer.bind(log, INDEXES.Organization));
 
     return next();
   });
@@ -271,7 +271,7 @@ const peopleTasks = FILES.people.files.map(file => next => {
     persons.forEach(attachMongoId);
 
     // Indexing
-    persons.forEach(file.indexer.bind(null, INDEXES.People));
+    persons.forEach(file.indexer.bind(log, INDEXES.People));
 
     return next();
   });
@@ -316,7 +316,7 @@ const activityTasks = FILES.activities.files.map(file => next => {
     // Indexing
     for (const Model in items) {
       if (file.indexers[Model])
-        items[Model].forEach(file.indexers[Model].bind(null, INDEXES[Model]));
+        items[Model].forEach(file.indexers[Model].bind(log, INDEXES[Model]));
     }
 
     return next();
@@ -326,6 +326,8 @@ const activityTasks = FILES.activities.files.map(file => next => {
 /**
  * Processing relations.
  */
+
+// TODO: activities!
 function processRelations() {
   let indexes,
       index;

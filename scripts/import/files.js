@@ -422,7 +422,7 @@ module.exports = {
         },
         indexer(indexes, person) {
           indexes.id[person._id] = person;
-          indexes.fuzzySirh[hashPeople(person)] = person;
+          indexes.hashed[hashPeople(person)] = person;
         }
       },
 
@@ -538,7 +538,7 @@ module.exports = {
           // If we found one & we hava another position, we push position + grade + email
           // Else, we just insert the person.
           const fuzzyKey = hashPeople(person),
-                match = indexes.fuzzySirh[fuzzyKey];
+                match = indexes.hashed[fuzzyKey];
 
           if (match && !!person.positions) {
             const org = person.positions[0].organization;
@@ -1112,8 +1112,6 @@ module.exports = {
             return activityInfo;
           });
 
-          // TODO: indexing & relation solving
-
           return {
             People: _.values(people),
             Organization: _.values(organizations),
@@ -1121,6 +1119,32 @@ module.exports = {
           };
         },
         indexers: {
+          Organization(indexes, org) {
+
+            // Attempting to match the organization
+            let match = indexes.name[org.name];
+
+            if (match)
+              return;
+
+            const key = fingerprint(org.name);
+
+            match = indexes.fingerprint[key];
+
+            if (match)
+              return;
+
+            indexes.fingerprint[key] = org;
+            indexes.name[org.name] = org;
+            indexes.id[org._id] = org;
+          },
+          People(indexes, person) {
+            const key = hashPeople(person);
+
+            // TODO: be sure we don't have to match people here
+            indexes.id[person._id] = person;
+            indexes.hashed[key] = person;
+          },
           Activity(indexes, activity) {
             indexes.id[activity._id] = activity;
           }
