@@ -1112,6 +1112,8 @@ module.exports = {
             return activityInfo;
           });
 
+          // TODO: indexing & relation solving
+
           return {
             People: _.values(people),
             Organization: _.values(organizations),
