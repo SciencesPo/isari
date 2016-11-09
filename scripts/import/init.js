@@ -109,7 +109,8 @@ const INDEXES = {
   },
   People: {
     id: Object.create(null),
-    hashed: Object.create(null)
+    hashed: Object.create(null),
+    hashedWithYear: Object.create(null)
   },
   Activity: {
     id: Object.create(null)
@@ -610,7 +611,7 @@ async.series({
       return next();
 
     console.log();
-    log.info(`Dumping JSON result to ${chalk.cyan(argv.json)}...`);
+    log.info(`Dumping JSON result to ${chalk.cyan(argv.json)}`);
 
     fs.writeFileSync(
       path.join(argv.json, 'organizations.json'),

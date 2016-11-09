@@ -25,8 +25,15 @@ exports.hashPeople = function(p) {
   const name = normalizeName(p.name),
         firstName = normalizeName(p.firstName);
 
+  return `${name}§${firstName}`;
+};
+
+exports.hashPeopleWithYear = function(p) {
+  const name = normalizeName(p.name),
+        firstName = normalizeName(p.firstName);
+
   if (p.birthDate)
-    return `${name}§${firstName}§${(p.birthDate || '').slice(0, 4)}`;
+    return `${name}§${firstName}§${p.birthDate.slice(0, 4)}`;
   else
     return `${name}§${firstName}`;
 };

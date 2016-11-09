@@ -390,30 +390,40 @@ module.exports = {
         // We must group lines per person
         partitionBy(lines, 'bannerUid')
           .forEach(personLines => {
-            const first = personLines[0];
+            const phd = personLines.find(person => !person.hdr),
+                  hdr = personLines.find(person => person.hdr),
+                  ref = phd || hdr;
 
             if (personLines.length > 2)
-              this.warning(`Found ${personLines.length} lines for "${chalk.green(first.firstName + ' ' + first.name)}".`);
+              this.warning(`Found ${personLines.length} lines for "${chalk.green(ref.firstName + ' ' + ref.name)}".`);
 
             const peopleInfo = {
-              bannerUid: first.bannerUid,
-              birthDate: first.birthDate,
-              name: first.name,
-              firstName: first.firstName,
-              gender: first.gender
+              bannerUid: ref.bannerUid,
+              birthDate: ref.birthDate,
+              name: ref.name,
+              firstName: ref.firstName,
+              gender: ref.gender
             };
 
-            if (first.sirhMatricule)
-              peopleInfo.sirhMatricule = first.sirhMatricule;
+            if (ref.sirhMatricule)
+              peopleInfo.sirhMatricule = ref.sirhMatricule;
 
-            if (first.contacts)
-              peopleInfo.contacts = first.contacts;
+            if (ref.contacts)
+              peopleInfo.contacts = ref.contacts;
 
-            if (first.nationalities)
-              peopleInfo.nationalities = first.nationalities;
+            if (ref.nationalities)
+              peopleInfo.nationalities = ref.nationalities;
 
             // Adding people to the local index
             people[hashPeople(peopleInfo)] = peopleInfo;
+
+            // Adding jury & directors to the local index
+            // phd.jury.concat(hdr.jury).forEach(juryMember => {
+            //   const juryInfo = {
+            //     name: juryMember.name,
+            //     firstName: juryMember.firstName
+            //   };
+            // });
           });
 
         return {
