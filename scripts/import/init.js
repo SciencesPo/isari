@@ -110,7 +110,6 @@ const INDEXES = {
   People: {
     id: Object.create(null),
     hashed: Object.create(null),
-    hashedWithYear: Object.create(null),
     sirh: Object.create(null)
   },
   Activity: {

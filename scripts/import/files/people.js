@@ -320,10 +320,10 @@ module.exports = {
 
         // Here, we are trying to match someone in the previous SIRH file.
         // If we found one & we have a FNSP position, we add grade & email
-        // If we found one & we hava another position, we push position + grade + email
+        // If we found one & we haveg another position, we push position + grade + email
         // Else, we just insert the person.
-        const fuzzyKey = hashPeople(person),
-              match = indexes.hashed[fuzzyKey];
+        const key = hashPeople(person),
+              match = indexes.hashed[key];
 
         if (match && !!person.positions) {
           const org = person.positions[0].organization;
@@ -357,6 +357,7 @@ module.exports = {
           return;
         }
 
+        indexes.hashed[key] = person;
         indexes.id[person._id] = person;
       }
     },
@@ -446,7 +447,7 @@ module.exports = {
             });
         }
 
-        if (line['Unité de recherche'])
+        if (line['Unité de recherche'] !== 'Non affilié')
           info.academicMemberships = [{
             organization: line['Unité de recherche'],
             membershipType: 'membre'
@@ -610,9 +611,21 @@ module.exports = {
 
         return objects;
       },
-      indexer() {
+      indexer(indexes, person) {
+        const key = hashPeople(person);
 
-        // TODO: index & merge!
+        // We attempt to match by hash
+        const match = indexes.hashed[key];
+
+        if (match) {
+
+          // TODO: merge
+          return;
+        }
+
+        // Else we create the person
+        indexes.hashed[key] = person;
+        indexes.id[person._id] = person;
       }
     }
   ]
