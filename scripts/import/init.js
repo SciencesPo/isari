@@ -398,8 +398,7 @@ function processRelations() {
         log.error(`Could not match the ${chalk.cyan(rel)} org->org relation.`);
         NB_RELATION_ERRORS++;
 
-        // TEMP OVERRIDE!
-        return indexes.acronym.FNSP._id;
+        return rel;
       }
       else {
         return related._id;
@@ -413,23 +412,66 @@ function processRelations() {
   for (const id in index) {
     relations.People(index[id], rel => {
 
-      // Solving those relations by acronym
-      let related = INDEXES.Organization.acronym[rel];
+      // Solving those relations by name
+      let related = INDEXES.Organization.name[rel];
 
-      // Else solving the relation by name
+      // Else solving the relation by acronym
       if (!related)
-        related = INDEXES.Organization.name[rel];
+        related = INDEXES.Organization.acronym[rel];
 
       // If we still have nothing, we should yell
       if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} people->org.`);
         NB_RELATION_ERRORS++;
 
-        // TEMP OVERRIDE!
-        return indexes.acronym.FNSP._id;
+        return rel;
       }
       else {
         return related._id;
+      }
+    });
+  }
+
+  //-- 3) Activities' relations
+  index = INDEXES.Activity.id;
+
+  for (const id in index) {
+    relations.Activity(index[id], (rel, Model) => {
+      if (Model === 'Organization') {
+
+        // Solving those relations by name
+        let related = INDEXES.Organization.name[rel];
+
+        // Else solving the relation by acronym
+        if (!related)
+          related = INDEXES.Organization.acronym[rel];
+
+        // If we still have nothing, we should yell
+        if (!related) {
+          log.error(`Could not match the ${chalk.cyan(rel)} activity->org.`);
+          NB_RELATION_ERRORS++;
+
+          return rel;
+        }
+        else {
+          return related._id;
+        }
+      }
+      else if (Model === 'People') {
+
+        // Solving the relation by hash
+        const related = INDEXES.People.hashed[rel];
+
+        // If we still have nothing, we should yell
+        if (!related) {
+          log.error(`Could not match the ${chalk.cyan(rel)} activity->people.`);
+          NB_RELATION_ERRORS++;
+
+          return rel;
+        }
+        else {
+          return related._id;
+        }
       }
     });
   }
