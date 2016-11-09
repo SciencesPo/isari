@@ -206,6 +206,7 @@ module.exports = {
       indexer(indexes, person) {
         indexes.id[person._id] = person;
         indexes.hashed[hashPeople(person)] = person;
+        indexes.sirh[person.sirhMatricule] = person;
       }
     },
 
