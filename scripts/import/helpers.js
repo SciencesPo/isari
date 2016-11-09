@@ -5,7 +5,42 @@
  * Miscellaneous helpers used by the import scripts such as foreign key
  * finders.
  */
-const chalk = require('chalk');
+const chalk = require('chalk'),
+      _ = require('lodash');
+
+// Simple partition by helper
+exports.partitionBy = function(collection, predicate) {
+  return _.values(_.groupBy(collection, predicate));
+};
+
+// Function normalizing a single name
+function normalizeName(name) {
+  return _.deburr(name)
+    .toUpperCase()
+    .replace(/-/g, ' ');
+}
+
+// Function used to hash people
+exports.hashPeople = function(p) {
+  const name = normalizeName(p.name),
+        firstName = normalizeName(p.firstName);
+
+  if (p.birthDate)
+    return `${name}§${firstName}§${(p.birthDate || '').slice(0, 4)}`;
+  else
+    return `${name}§${firstName}`;
+}
+
+// Function checking overlap of two potentially non-ending periods.
+exports.overlap = function(A, B) {
+  if (!A.endDate && !B.endDate)
+    return true;
+  if (A.endDate > B.startDate)
+    return true;
+  if (A.startDate < B.startDate && A.endDate > B.endDate)
+    return true;
+  return false;
+}
 
 // Recursive function handling each schema level
 function parseSchemaLevel(relations, level, path) {

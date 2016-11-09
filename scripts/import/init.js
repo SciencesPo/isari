@@ -7,6 +7,7 @@
  * database.
  */
 const async = require('async'),
+      moment = require('moment'),
       csv = require('csv'),
       fs = require('fs'),
       path = require('path'),
@@ -31,6 +32,12 @@ if (inspect.defaultOptions)
 
 // Altering the NODE_CONFIG_DIR env variable so that `config` can resolve
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
+
+// Overriding some Moment.js things for convenience.
+moment.prototype.inspect = function() {
+  return 'Moment{' + this.format('YYYY-MM-DD') + '}';
+};
+moment.prototype.toString = moment.prototype.inspect;
 
 const ldapConfig = require('../../server/node_modules/config').ldap,
       ldapClient = require('ldapjs').createClient({url: ldapConfig.url});
