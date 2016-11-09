@@ -298,13 +298,13 @@ module.exports = {
       path: 'people/banner/BANNER_DOCTORANT_HDR.csv',
       delimiter: ',',
       peopleFile: true,
-      skip: true,
       consumer(line) {
         const info = {
           bannerUid: line.ID,
           birthDate: moment(line.DATE_NAISSANCE, 'DD/MM/YYYY').format('YYYY-MM-DD'),
           sirhMatricule: line.MATRICULE_PAIE,
-          discipline: line.DISCIPLINE
+          discipline: line.DISCIPLINE,
+          hdr: line.CODE_NIVEAU === '9'
         };
 
         const [name, firstName] = line.NOM_COMPLET.split(',');
@@ -325,19 +325,108 @@ module.exports = {
         else
           info.gender = 'f';
 
+        // Retrieving jury members:
+        const jury = [];
+
+        for (let i = 1; i < 11; i++) {
+          const fullName = line['MEMBRE_JURY_' + i];
+
+          if (!fullName)
+            break;
+
+          const [name, firstName] = fullName.split(',');
+
+          const juryMember = {
+            name,
+            firstName
+          };
+
+          if (line['FONCTION_MEMBRE_JURY_' + i])
+            juryMember.quality = line['FONCTION_MEMBRE_JURY_' + i];
+
+          if (line[`MEMBRE_JURY_${i}_PR_IND`] === 'Oui')
+            juryMember.president = true;
+
+          if (line[`MEMBRE_JURY_${i}_DT_IND`] === 'Oui')
+            juryMember.director = true;
+
+          if (line[`MEMBRE_JURY_${i}_RA_IND`] === 'Oui')
+            juryMember.reporter = true;
+
+          jury.push(juryMember);
+        }
+
+        info.jury = jury;
+
+        // Retrieving directors
+        const directors = [];
+
+        for (let i = 1; i < 3; i++) {
+          const fullName = line['DIR_THESE_' + i];
+
+          if (!fullName)
+            break;
+
+          const [name, firstName] = fullName.split(',');
+
+          const director = {
+            name,
+            firstName
+          };
+
+          if (line['TYP_DIR_THESE_' + i] === 'Co-directeur de thèse')
+            director.co = true;
+
+          directors.push(director);
+        }
+
+        info.directors = directors;
+
         return info;
       },
       resolver(lines) {
+        const people = Object.create(null);
 
-        // Lines are unique, except for persons having both PhD & HDR
+        // We must group lines per person
+        partitionBy(lines, 'bannerUid')
+          .forEach(personLines => {
+            const first = personLines[0];
 
-        console.log(lines);
+            if (personLines.length > 2)
+              this.warning(`Found ${personLines.length} lines for "${chalk.green(first.firstName + ' ' + first.name)}".`);
 
-        return [];
+            const peopleInfo = {
+              bannerUid: first.bannerUid,
+              birthDate: first.birthDate,
+              name: first.name,
+              firstName: first.firstName,
+              gender: first.gender
+            };
+
+            if (first.sirhMatricule)
+              peopleInfo.sirhMatricule = first.sirhMatricule;
+
+            if (first.contacts)
+              peopleInfo.contacts = first.contacts;
+
+            if (first.nationalities)
+              peopleInfo.nationalities = first.nationalities;
+
+            // Adding people to the local index
+            people[hashPeople(peopleInfo)] = peopleInfo;
+          });
+
+        return {
+          People: _.values(people)
+        };
       },
-      indexer() {
+      indexers: {
+        People() {
 
-        // We should try to match people here
+        },
+        Activity() {
+
+        }
       }
     }
   ]
