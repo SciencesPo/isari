@@ -29,7 +29,7 @@ exports.hashPeople = function(p) {
     return `${name}§${firstName}§${(p.birthDate || '').slice(0, 4)}`;
   else
     return `${name}§${firstName}`;
-}
+};
 
 // Function checking overlap of two potentially non-ending periods.
 exports.overlap = function(A, B) {
@@ -40,7 +40,7 @@ exports.overlap = function(A, B) {
   if (A.startDate < B.startDate && A.endDate > B.endDate)
     return true;
   return false;
-}
+};
 
 // Recursive function handling each schema level
 function parseSchemaLevel(relations, level, path) {
@@ -135,7 +135,7 @@ const collectErrors = function(error, index, path = [], acc = []) {
     };
 
     const coloredMessage = meta.message
-      .replace(/`(.*?)`/g, function(_, m) {
+      .replace(/`(.*?)`/g, function($, m) {
         return chalk.cyan(m);
       })
       .replace(/".*?"/g, function(m) {

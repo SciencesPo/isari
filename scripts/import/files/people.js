@@ -424,7 +424,7 @@ module.exports = {
           if (line['Année d\'obtention du PhD'])
             info.distinctions[0].date = line['Année d\'obtention du PhD'];
 
-          if (line['PhdSciencesPo'] === 'oui')
+          if (line.PhdSciencesPo === 'oui')
             info.distinctions[0].organizations = ['IEP Paris'];
         }
 
@@ -547,7 +547,7 @@ module.exports = {
                 let relevantMembership = info.deptMemberships.find(m => m.organization === membership.organization);
 
                 // If no relevant membership was found, we add it
-                if (!relevantMembership) {
+                if (!relevantMembership) {
                   relevantMembership = {
                     organization: membership.organization,
                     startDate: !i ? year.startDate : year.year,
@@ -581,7 +581,7 @@ module.exports = {
                 let relevantMembership = info.academicMemberships.find(m => m.organization === membership.organization);
 
                 // If no relevant membership was found, we add it
-                if (!relevantMembership) {
+                if (!relevantMembership) {
                   relevantMembership = {
                     organization: membership.organization,
                     startDate: !i ? year.startDate : year.year,

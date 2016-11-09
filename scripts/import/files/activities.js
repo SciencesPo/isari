@@ -4,6 +4,7 @@
  */
 const fingerprint = require('talisman/keyers/fingerprint').default,
       chalk = require('chalk'),
+      moment = require('moment'),
       helpers = require('../helpers'),
       partitionBy = helpers.partitionBy,
       hashPeople = helpers.hashPeople,
@@ -268,7 +269,7 @@ module.exports = {
 
           if (match) {
 
-            this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`)
+            this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`);
             return;
           }
 

@@ -137,8 +137,8 @@ module.exports = {
         if (line['Organisation Type (HCERES, SPIRE)'])
           info.organizationTypes = [line['Organisation Type (HCERES, SPIRE)']];
 
-        if (line['HCERESOrganizationType'])
-          info.HCERESorganizationType = line['HCERESOrganizationType'];
+        if (line.HCERESOrganizationType)
+          info.HCERESorganizationType = line.HCERESOrganizationType;
 
         if (line['adresse banner'])
           info.address = line['adresse banner'];
@@ -163,10 +163,10 @@ module.exports = {
 
         info.researchUnitCodes = [];
 
-        if (line['idMinistry'])
-          info.researchUnitCodes.push({code: line['idMinistry']});
-        if (line['idCNRS'])
-          info.researchUnitCodes.push({code: line['idCNRS']});
+        if (line.idMinistry)
+          info.researchUnitCodes.push({code: line.idMinistry});
+        if (line.idCNRS)
+          info.researchUnitCodes.push({code: line.idCNRS});
 
         return info;
       },
@@ -176,7 +176,7 @@ module.exports = {
         return partitionBy(lines, line => `${line.acronym}§${line.name}`)
           .map(sources => {
             if (sources.length > 3)
-              this.error(`Too many different sources for organization: "${line.name}".`);
+              this.error(`Too many different sources for organization: "${sources[0].name}".`);
 
             sources = _.keyBy(sources, 'source');
 
@@ -214,7 +214,7 @@ module.exports = {
         if (org.acronym)
           match = indexes.acronym[org.acronym];
 
-        if (match) {
+        if (match) {
           // TODO: merge
 
           return;
