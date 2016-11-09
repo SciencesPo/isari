@@ -337,8 +337,8 @@ module.exports = {
           const [name, firstName] = fullName.split(',');
 
           const juryMember = {
-            name,
-            firstName
+            name: name.trim(),
+            firstName: firstName.trim()
           };
 
           if (line['FONCTION_MEMBRE_JURY_' + i])
@@ -370,8 +370,8 @@ module.exports = {
           const [name, firstName] = fullName.split(',');
 
           const director = {
-            name,
-            firstName
+            name: name.trim(),
+            firstName: firstName.trim()
           };
 
           if (line['TYP_DIR_THESE_' + i] === 'Co-directeur de thèse')
@@ -418,12 +418,21 @@ module.exports = {
             people[hashPeople(peopleInfo)] = peopleInfo;
 
             // Adding jury & directors to the local index
-            // phd.jury.concat(hdr.jury).forEach(juryMember => {
-            //   const juryInfo = {
-            //     name: juryMember.name,
-            //     firstName: juryMember.firstName
-            //   };
-            // });
+            ((phd || {}).jury || [])
+              .concat((hdr || {}).jury || [])
+              .concat((phd || {}).directors || [])
+              .concat((hdr || {}).directors || [])
+              .forEach(member => {
+                const memberInfo = {
+                  name: member.name,
+                  firstName: member.firstName
+                };
+
+                const key = hashPeople(memberInfo);
+
+                if (!people[key])
+                  people[key] = memberInfo;
+              });
           });
 
         return {
@@ -431,8 +440,30 @@ module.exports = {
         };
       },
       indexers: {
-        People() {
+        People(indexes, person) {
+          const key = hashPeople(person);
 
+          let match;
+
+          // First, we try to match through SIRH
+          if (person.sirhMatricule)
+            match = indexes.sirh[person.sirhMatricule];
+
+          // Else we attempt the hash
+          if (!match)
+            match = indexes.hashed[key];
+
+          if (match) {
+
+            // TODO: merge
+            return;
+          }
+
+          // Else we index the people
+          if (person.sirhMatricule)
+            indexes.sirh[person.sirhMatricule] = person;
+          indexes.hashed[key] = person;
+          indexes.id[person._id] = person;
         },
         Activity() {
 

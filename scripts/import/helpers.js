@@ -17,7 +17,8 @@ exports.partitionBy = function(collection, predicate) {
 function normalizeName(name) {
   return _.deburr(name)
     .toUpperCase()
-    .replace(/-/g, ' ');
+    .replace(/-+/g, ' ')
+    .replace(/’‘`‛'/g, '');
 }
 
 // Function used to hash people
