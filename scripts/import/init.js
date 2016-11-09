@@ -22,11 +22,6 @@ const FILES = require('./files'),
       helpers = require('./helpers'),
       log = require('./logger')();
 
-// Skipping some files
-FILES.organizations.files = FILES.organizations.files.filter(file => !file.skip);
-FILES.people.files = FILES.people.files.filter(file => !file.skip);
-FILES.activities.files = FILES.activities.files.filter(file => !file.skip);
-
 if (inspect.defaultOptions)
   inspect.defaultOptions.depth = null;
 
@@ -231,8 +226,11 @@ function validate(Model, line, index) {
  * Processing organization files.
  */
 const organizationTasks = FILES.organizations.files.map(file => next => {
-  if (file.skip)
+  if (file.skip) {
+    console.log();
+    log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
     return next();
+  }
 
   parseFile(FILES.organizations.folder, file, (err, lines) => {
     if (err)
@@ -274,6 +272,12 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
  * Processing people files.
  */
 const peopleTasks = FILES.people.files.map(file => next => {
+  if (file.skip) {
+    console.log();
+    log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
+    return next();
+  }
+
   parseFile(FILES.people.folder, file, (err, lines) => {
     if (err)
       return next(err);
@@ -312,6 +316,12 @@ const peopleTasks = FILES.people.files.map(file => next => {
  * Processing activity files.
  */
 const activityTasks = FILES.activities.files.map(file => next => {
+  if (file.skip) {
+    console.log();
+    log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
+    return next();
+  }
+
   parseFile(FILES.activities.folder, file, (err, lines) => {
     if (err)
       return next(err);

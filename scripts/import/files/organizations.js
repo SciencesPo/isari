@@ -6,6 +6,7 @@ const fingerprint = require('talisman/keyers/fingerprint').default,
       moment = require('moment'),
       ENUM_INDEXES = require('../indexes').ENUM_INDEXES,
       helpers = require('../helpers'),
+      chalk = require('chalk'),
       partitionBy = helpers.partitionBy,
       _ = require('lodash');
 

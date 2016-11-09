@@ -5,6 +5,7 @@
 const moment = require('moment'),
       ENUM_INDEXES = require('../indexes').ENUM_INDEXES,
       helpers = require('../helpers'),
+      chalk = require('chalk'),
       partitionBy = helpers.partitionBy,
       hashPeople = helpers.hashPeople,
       overlap = helpers.overlap,
@@ -612,53 +613,6 @@ module.exports = {
       indexer() {
 
         // TODO: index & merge!
-      }
-    },
-
-    /**
-     * BANNER_DOCTORANT_HDR.csv
-     * -------------------------------------------------------------------------
-     */
-    {
-      name: 'BANNER_DOCTORANT_HDR',
-      path: 'banner/BANNER_DOCTORANT_HDR.csv',
-      delimiter: ',',
-      skip: true,
-      consumer(line) {
-        const info = {
-          bannerUid: line.ID,
-          birthDate: moment(line.DATE_NAISSANCE, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-          sirhMatricule: line.MATRICULE_PAIE
-        };
-
-        const [name, firstName] = line.NOM_COMPLET.split(',');
-
-        info.name = name.trim();
-        info.firstName = firstName.trim();
-
-        if (line.EMAIL)
-          info.contacts = {
-            email: line.EMAIL
-          };
-
-        if (line.CODE_NATIONALITE)
-          info.nationalities = [line.CODE_NATIONALITE];
-
-        if (line.LIB_SEXE === 'Mr' || line.LIB_SEXE === 'Monsieur')
-          info.gender = 'm';
-        else
-          info.gender = 'f';
-
-        return info;
-      },
-      resolver(lines) {
-
-        // Lines are unique, except for persons having both PhD & HDR
-        // console.log(lines);
-        return [];
-      },
-      indexer() {
-
       }
     }
   ]
