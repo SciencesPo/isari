@@ -11,7 +11,6 @@ const fingerprint = require('talisman/keyers/fingerprint').default,
       _ = require('lodash');
 
 module.exports = {
-  folder: 'organizations',
   files: [
 
     /**
@@ -20,7 +19,7 @@ module.exports = {
      */
     {
       name: 'default',
-      path: 'default_organizations.csv',
+      path: 'organizations/default_organizations.csv',
       delimiter: ',',
       consumer(line) {
         const info = {
@@ -59,7 +58,7 @@ module.exports = {
      */
     {
       name: 'research_units',
-      path: 'sciencespo_research_units.csv',
+      path: 'organizations/sciencespo_research_units.csv',
       delimiter: ',',
       consumer(line) {
         let researchUnitCodes = [];
@@ -120,7 +119,7 @@ module.exports = {
      */
     {
       name: 'organizations_hceres_banner_spire',
-      path: 'organizations_hceres_banner_spire/organizations_hceres_banner_spire.csv',
+      path: 'organizations/organizations_hceres_banner_spire/organizations_hceres_banner_spire.csv',
       delimiter: ',',
       consumer(line) {
         const info = {

@@ -11,7 +11,6 @@ const fingerprint = require('talisman/keyers/fingerprint').default,
       _ = require('lodash');
 
 module.exports = {
-  folder: 'activities',
   files: [
 
     /**
@@ -20,7 +19,7 @@ module.exports = {
      */
     {
       name: 'invites',
-      path: 'invites.csv',
+      path: 'activities/invites.csv',
       delimiter: ',',
       consumer(line) {
         const info = {
@@ -296,7 +295,7 @@ module.exports = {
      */
     {
       name: 'BANNER_DOCTORANT_HDR',
-      path: 'banner/BANNER_DOCTORANT_HDR.csv',
+      path: 'people/banner/BANNER_DOCTORANT_HDR.csv',
       delimiter: ',',
       peopleFile: true,
       skip: true,
@@ -304,7 +303,8 @@ module.exports = {
         const info = {
           bannerUid: line.ID,
           birthDate: moment(line.DATE_NAISSANCE, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-          sirhMatricule: line.MATRICULE_PAIE
+          sirhMatricule: line.MATRICULE_PAIE,
+          discipline: line.DISCIPLINE
         };
 
         const [name, firstName] = line.NOM_COMPLET.split(',');
@@ -330,7 +330,9 @@ module.exports = {
       resolver(lines) {
 
         // Lines are unique, except for persons having both PhD & HDR
-        // console.log(lines);
+
+        console.log(lines);
+
         return [];
       },
       indexer() {

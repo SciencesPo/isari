@@ -153,10 +153,9 @@ function attachMongoId(item) {
 }
 
 // Function taking a file descriptor and returning the parsed lines
-function parseFile(folder, file, callback) {
+function parseFile(file, callback) {
   const filePath = path.join(
     argv.path,
-    folder,
     file.path
   );
 
@@ -232,7 +231,7 @@ const organizationTasks = FILES.organizations.files.map(file => next => {
     return next();
   }
 
-  parseFile(FILES.organizations.folder, file, (err, lines) => {
+  parseFile(file, (err, lines) => {
     if (err)
       return next(err);
 
@@ -278,7 +277,7 @@ const peopleTasks = FILES.people.files.map(file => next => {
     return next();
   }
 
-  parseFile(FILES.people.folder, file, (err, lines) => {
+  parseFile(file, (err, lines) => {
     if (err)
       return next(err);
 
@@ -322,7 +321,7 @@ const activityTasks = FILES.activities.files.map(file => next => {
     return next();
   }
 
-  parseFile(FILES.activities.folder, file, (err, lines) => {
+  parseFile(file, (err, lines) => {
     if (err)
       return next(err);
 
@@ -373,8 +372,6 @@ const activityTasks = FILES.activities.files.map(file => next => {
 /**
  * Processing relations.
  */
-
-// TODO: activities!
 function processRelations() {
   let indexes,
       index;

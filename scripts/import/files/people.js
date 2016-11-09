@@ -12,7 +12,6 @@ const moment = require('moment'),
       _ = require('lodash');
 
 module.exports = {
-  folder: 'people',
   files: [
 
     /**
@@ -21,7 +20,7 @@ module.exports = {
      */
     {
       name: 'sirh',
-      path: 'SIRH.csv',
+      path: 'people/SIRH.csv',
       delimiter: ',',
       consumer(line, index) {
         const info = {
@@ -216,7 +215,7 @@ module.exports = {
      */
     {
       name: 'DS_admtech',
-      path: 'DS_admtech.csv',
+      path: 'people/DS_admtech.csv',
       delimiter: ',',
       consumer(line) {
         const info = {
@@ -367,7 +366,7 @@ module.exports = {
      */
     {
       name: 'DS_academic',
-      path: 'DS_academic.csv',
+      path: 'people/DS_academic.csv',
       delimiter: ',',
       consumer(line) {
         const info = {
