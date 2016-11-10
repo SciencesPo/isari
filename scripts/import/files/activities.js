@@ -385,7 +385,8 @@ module.exports = {
         return info;
       },
       resolver(lines) {
-        const people = Object.create(null);
+        const people = Object.create(null),
+              activities = [];
 
         // We must group lines per person
         partitionBy(lines, 'bannerUid')
@@ -433,10 +434,18 @@ module.exports = {
                 if (!people[key])
                   people[key] = memberInfo;
               });
+
+            // Creating activities
+            if (phd) {
+              const activity = {};
+            }
           });
 
+        // TODO: compute activities from there
+
         return {
-          People: _.values(people)
+          People: _.values(people),
+          Activity: activities
         };
       },
       indexers: {
