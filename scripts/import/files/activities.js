@@ -491,6 +491,7 @@ module.exports = {
       consumer(line) {
         const info = {
           organization: line['Nom Orga'],
+          acronym: line.acronym,
           name: line.Nom,
           firstName: line.Prénom,
           title: line['Dénomination du prix'],
@@ -518,7 +519,7 @@ module.exports = {
           org = indexes.Organization.name[line.organization];
 
           if (!org)
-            org = indexes.Organization.acronym[line.organization];
+            org = indexes.Organization.acronym[line.acronym];
 
           const key = fingerprint(line.organization);
 
@@ -533,6 +534,9 @@ module.exports = {
               name: line.organization,
               countries: line.countries
             };
+
+            if (line.acronym)
+              org.acronym = line.acronym;
 
             indexes.Organization.name[org.name] = org;
             indexes.Organization.fingerprint[key] = org;
