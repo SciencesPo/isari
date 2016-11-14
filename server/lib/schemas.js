@@ -40,6 +40,7 @@ const FRONT_KEPT_FIELDS = [
 	'label',
 	'requirement',
 	'suggestions',
+	'description',
 	'type',
 	'ref',
 	'enum',
