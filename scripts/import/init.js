@@ -1,3 +1,4 @@
+/* eslint no-loop-func: 0 */
 /**
  * ISARI Init Import Script
  * =========================
@@ -317,14 +318,42 @@ const peopleTasks = FILES.people.files.map(file => next => {
  */
 const activityTasks = FILES.activities.files.map(file => next => {
   if (file.skip) {
-    console.log();
     log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
+
     return next();
   }
 
   parseFile(file, (err, lines) => {
     if (err)
       return next(err);
+
+    // Resolving or overloading?
+    if (typeof file.overloader === 'function') {
+      log.info('Overloading...');
+
+      const before = {
+        Organization: counter.Organization(),
+        People: counter.People(),
+        Activity: counter.Activity()
+      };
+
+      lines.forEach(file.overloader.bind(log, INDEXES, mongoose.Types.ObjectId));
+
+      const after = {
+        Organization: counter.Organization(),
+        People: counter.People(),
+        Activity: counter.Activity()
+      };
+
+      for (const Model in counter) {
+        const difference = after[Model] - before[Model];
+
+        if (difference)
+          log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
+      }
+
+      return next();
+    }
 
     const items = file.resolver.call(log, lines);
 
@@ -374,22 +403,20 @@ const activityTasks = FILES.activities.files.map(file => next => {
  * Processing relations.
  */
 function processRelations() {
-  let indexes,
-      index;
+  let index;
 
   //-- 1) Intra organization relations
-  indexes = INDEXES.Organization;
-  index = indexes.id;
+  index = INDEXES.Organization.id;
 
   for (const id in index) {
     relations.Organization(index[id], rel => {
 
       // Solving those relations should be a matter of finding the
       // organization by acronym or plain name.
-      let related = indexes.acronym[rel];
+      let related = INDEXES.Organization.acronym[rel];
 
       if (!related)
-        related = indexes.name[rel];
+        related = INDEXES.Organization.name[rel];
 
       // If we still have nothing, we should yell
       if (!related) {
