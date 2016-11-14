@@ -28,3 +28,16 @@ isari-multi-input, isari-multi-select {
   max-width: 400px;
   height: auto !important;
 }
+
+md-toolbar.md-primary {
+  background: #fff !important;
+  color: #333 !important;
+  border-bottom: 1px solid #E6142D;
+}
+
+md-toolbar.md-primary h2 {
+  font-size: 1.7em;
+  margin-left: 1em;
+  /* color: #E6142D; */
+  padding-top: 6px;
+}
