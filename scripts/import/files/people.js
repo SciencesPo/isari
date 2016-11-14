@@ -109,10 +109,14 @@ module.exports = {
 
             const position = {
               organization: 'FNSP',
-              jobName: contract.jobName,
               jobType: contract.jobType,
               timepart: contract.timepart
             };
+
+            const jobNameLine = slice.find(line => !!line.jobName);
+
+            if (jobNameLine)
+              position.jobName = jobNameLine.jobName;
 
             // Dates
             if (nextContract.startDate && contract.endDate) {

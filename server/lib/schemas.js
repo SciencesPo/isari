@@ -4,6 +4,7 @@ const { Schema } = require('mongoose')
 const enums = require('../../specs/enums.json')
 const { get, map, filter, identity } = require('lodash/fp')
 const { getMeta } = require('./specs')
+const memoize = require('memoizee')
 
 // TODO use proper logger
 const debug = require('debug')('isari:schema')
@@ -51,14 +52,11 @@ const FRONT_KEPT_FIELDS = [
 ]
 
 module.exports = {
-	getMongooseSchema,
-	getFrontSchema,
+	getMongooseSchema: memoize(getMongooseSchema),
+	getFrontSchema: memoize(getFrontSchema),
 	RESERVED_FIELDS,
 	FRONT_KEPT_FIELDS
 }
-
-
-let cache = {}
 
 
 const extractValue = map('value')
@@ -66,16 +64,12 @@ const removeEmpty = filter(identity)
 
 // Get schema description from metadata
 function getMongooseSchema (name) {
-	if (name in cache) {
-		return cache[name]
-	}
-
 	const meta = getMeta(name)
 	if (!meta) {
 		throw Error(`${name}: Unknonwn schema`)
 	}
 
-	return cache[name] = getField(name, meta, meta)
+	return getField(name, meta, meta)
 }
 
 // Get schema for a field or sub-field…

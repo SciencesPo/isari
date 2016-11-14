@@ -12,6 +12,7 @@ export class IsariPaginationComponent implements OnInit, OnChanges {
   pages: any[];
 
   @Input() itemsPerPage: number = 10;
+  @Input() selectItemsPerPage: number[] = [3, 5, 10, 20, 50];
   @Input() totalItems: number;
   @Input() set currentPage(page: number) {
     this.navigate(page);
