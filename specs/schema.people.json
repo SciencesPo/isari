@@ -640,5 +640,24 @@
             },
             "enum": "iso6391"
         }
-    ]
+    ],
+    "office":{
+        "building":{
+            "label":{
+                "fr": "bâtiment",
+                "en": "building"
+            },
+            "enum": "sciencesPoBuildings"
+        },
+        "label": {
+            "fr": "Bureau occupé à Sciences Po",
+            "en": "Office occupied at Sciences Po"
+        },
+        "office":{
+            "label":{
+                "fr": "bureau",
+                "en": "office"
+            }
+        }
+    }
 }
