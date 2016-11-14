@@ -4,6 +4,7 @@ const templates = require('../../specs/templates')
 const { getMeta } = require('./specs')
 const { RESERVED_FIELDS } = require('./schemas')
 const { get, clone, isObject, isArray } = require('lodash/fp')
+const memoize = require('memoizee')
 
 
 module.exports = {
@@ -12,6 +13,9 @@ module.exports = {
 	populateAllQuery,
 	format
 }
+
+
+const getRefFields = memoize((meta, depth) => _getRefFields('', meta, depth))
 
 
 function applyTemplates (object, name, depth = 0) {
@@ -99,16 +103,6 @@ function _populateAll (object, meta, depth, passes) {
 	} else {
 		return populated
 	}
-}
-
-getRefFields.cache = new WeakMap()
-function getRefFields (meta, depth) {
-	const cache = getRefFields.cache.get(meta) || {}
-	if (!cache[depth]) {
-		cache[depth] = _getRefFields('', meta, depth)
-		getRefFields.cache.set(meta, cache)
-	}
-	return cache[depth]
 }
 
 function _getRefFields (baseName, meta, depth) {
