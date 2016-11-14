@@ -562,6 +562,47 @@ module.exports = {
 
         return true;
       }
+    },
+
+    /**
+     * sejours_etranger.csv
+     * -------------------------------------------------------------------------
+     */
+    {
+      name: 'sejours_etranger',
+      path: 'activities/sejours_etranger.csv',
+      delimiter: ',',
+      consumer(line) {
+        const info = {
+          researchUnit: line.UR,
+          organization: line.Organisation,
+          name: line.Nom,
+          firstName: line.Prénom,
+          subject: line['Type de séjour'],
+          summary: line.Mission,
+          address: line.Lieu,
+          country: line.Pays
+        };
+
+        if (line['date début'])
+          info.starDate = line['date début'].split('T')[0];
+
+        if (line['date fin'])
+          info.endDate = line['date fin'].split('T')[0];
+
+        return info;
+      },
+      resolver(lines) {
+
+        // Si le People n'est pas trouvé, le créer avec une academicMembership sur l'UR.
+        // Organisation : pas toujours renseignée voir presque pas. Si renseigné, l'import va créer l'Organisation si elle n'existe pas dans la base, avec le Pays s'il est renseigné. La relier à l'Activity avec le rôle "orgadaccueil".
+        return {};
+      },
+      indexers: {
+        Activity() {
+
+        }
+      }
     }
   ]
 };
