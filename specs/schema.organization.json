@@ -146,7 +146,7 @@
             "fr": "communauté académique de Sciences Po",
             "en": "Sciences Po's academic community"
         },
-        "accesType": "confidential",
-        "type": "Boolean"
+        "accessType": "confidential",
+        "type": "boolean"
     }
 }

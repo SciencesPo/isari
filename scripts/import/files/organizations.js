@@ -80,7 +80,8 @@ module.exports = {
           address: line.address,
           url: line.url,
           status: line.status,
-          countries: ['FR']
+          countries: ['FR'],
+          isariMonitored: true
         };
 
         if (line.acronym)
