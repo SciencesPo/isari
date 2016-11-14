@@ -1,3 +1,4 @@
+/* eslint no-loop-func: 0 */
 /**
  * ISARI Init Import Script
  * =========================
@@ -402,22 +403,20 @@ const activityTasks = FILES.activities.files.map(file => next => {
  * Processing relations.
  */
 function processRelations() {
-  let indexes,
-      index;
+  let index;
 
   //-- 1) Intra organization relations
-  indexes = INDEXES.Organization;
-  index = indexes.id;
+  index = INDEXES.Organization.id;
 
   for (const id in index) {
     relations.Organization(index[id], rel => {
 
       // Solving those relations should be a matter of finding the
       // organization by acronym or plain name.
-      let related = indexes.acronym[rel];
+      let related = INDEXES.Organization.acronym[rel];
 
       if (!related)
-        related = indexes.name[rel];
+        related = INDEXES.Organization.name[rel];
 
       // If we still have nothing, we should yell
       if (!related) {

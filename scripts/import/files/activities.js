@@ -334,11 +334,11 @@ module.exports = {
           if (!fullName)
             break;
 
-          const [name, firstName] = fullName.split(',');
+          const [juryName, juryFirstName] = fullName.split(',');
 
           const juryMember = {
-            name: name.trim(),
-            firstName: firstName.trim()
+            name: juryName.trim(),
+            firstName: juryFirstName.trim()
           };
 
           if (line['FONCTION_MEMBRE_JURY_' + i])
@@ -367,11 +367,11 @@ module.exports = {
           if (!fullName)
             break;
 
-          const [name, firstName] = fullName.split(',');
+          const [directorName, directorFirstName] = fullName.split(',');
 
           const director = {
-            name: name.trim(),
-            firstName: firstName.trim()
+            name: directorName.trim(),
+            firstName: directorFirstName.trim()
           };
 
           if (line['TYP_DIR_THESE_' + i] === 'Co-directeur de thèse')
@@ -419,10 +419,10 @@ module.exports = {
             people[hashPeople(peopleInfo)] = peopleInfo;
 
             // Adding jury & directors to the local index
-            ((phd || {}).jury || [])
-              .concat((hdr || {}).jury || [])
-              .concat((phd || {}).directors || [])
-              .concat((hdr || {}).directors || [])
+            ((phd || {}).jury || [])
+              .concat((hdr || {}).jury || [])
+              .concat((phd || {}).directors || [])
+              .concat((hdr || {}).directors || [])
               .forEach(member => {
                 const memberInfo = {
                   name: member.name,
@@ -521,10 +521,10 @@ module.exports = {
           if (!org)
             org = indexes.Organization.acronym[line.acronym];
 
-          const key = fingerprint(line.organization);
+          const orgKey = fingerprint(line.organization);
 
           if (!org)
-            org = indexes.Organization.fingerprint[key];
+            org = indexes.Organization.fingerprint[orgKey];
 
           if (!org) {
 
@@ -539,7 +539,7 @@ module.exports = {
               org.acronym = line.acronym;
 
             indexes.Organization.name[org.name] = org;
-            indexes.Organization.fingerprint[key] = org;
+            indexes.Organization.fingerprint[orgKey] = org;
             indexes.Organization.id[org._id] = org;
           }
         }
