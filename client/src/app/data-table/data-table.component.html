@@ -1,3 +1,4 @@
+<div *ngIf="!loading">
 <table class="striped">
   <thead>
     <tr>
@@ -28,3 +29,6 @@
   [itemsPerPage]="itemsPerPage"
   [currentPage]="1"
   (onPageChange)="pageChanged($event)"></isari-pagination>
+
+</div>
+<isari-spinner *ngIf="loading"></isari-spinner>

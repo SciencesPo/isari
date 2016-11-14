@@ -31,6 +31,7 @@ import { IsariMultiInputComponent } from './fields/isari-multi-input/isari-multi
 import { IsariMultiSelectComponent } from './fields/isari-multi-select/isari-multi-select.component';
 import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
 import { LoginComponent } from './login/login.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { LoginComponent } from './login/login.component';
     IsariMultiInputComponent,
     IsariMultiSelectComponent,
     IsariLayoutComponent,
-    LoginComponent
+    LoginComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

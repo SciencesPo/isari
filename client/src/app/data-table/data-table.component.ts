@@ -11,6 +11,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   itemsPerPage = 10;
   sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
   unfilteredData: any[];
+  loading = true;
 
   @Input() data: any[];
   @Input() cols: any[];
@@ -31,8 +32,9 @@ export class DataTableComponent implements OnInit, OnChanges {
         return Object.assign({}, col, { filterControl });
       });
     }
-    if (changes['data'] && this.data) {
+    if (changes['data'] && this.data && this.data.length) {
       this.unfilteredData = this.data;
+      this.loading = false;
     }
     this.calculPage(1);
   }
