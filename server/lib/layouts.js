@@ -3,12 +3,13 @@
 const { getFrontSchema, RESERVED_FIELDS, FRONT_KEPT_FIELDS } = require('./schemas')
 const { readdirSync } = require('fs')
 const path = require('path')
-const { pick, merge, map, difference, isArray, isObject, isString, flatten, filter, identity, uniq } = require('lodash/fp')
+const { pick, merge, map, difference, isArray, isObject, isString, flatten } = require('lodash/fp')
 const util = require('util')
+const memoize = require('memoizee')
 
 
 module.exports = {
-	getLayout
+	getLayout: memoize(name => _getLayout(name, getFrontSchema(name)))
 }
 
 
@@ -16,9 +17,6 @@ module.exports = {
 // TODO make it more dynamic?
 const root = path.join(__dirname, '..', '..', 'specs')
 const layouts = readLayoutJSONs()
-
-let cache = {}
-
 
 
 function readLayoutJSONs () {
@@ -29,10 +27,6 @@ function readLayoutJSONs () {
 			const data = require(path.join(root, f))
 			return Object.assign(o, { [key]: data })
 		}, {})
-}
-
-function getLayout (name) {
-	return cache[name] || (cache[name] = _getLayout(name, getFrontSchema(name)))
 }
 
 const _getLayout = (name, schema) => {

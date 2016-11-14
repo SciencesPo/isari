@@ -5,7 +5,7 @@ const { ServerError, ClientError, NotFoundError, UnauthorizedError } = require('
 const { identity, set, map, pick, difference } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
-const { applyTemplates } = require('./model-utils')
+const { applyTemplates, populateAllQuery } = require('./model-utils')
 const debug = require('debug')('isari:rest')
 
 
@@ -82,14 +82,15 @@ const listModel = (Model, format, getPermissions) => req => {
 	// Always keep 'opts' technical field
 	const selectFields = req.query.fields ? pick(req.query.fields.split(',').concat([ 'opts' ])) : identity
 	const applyTemplates = Boolean(Number(req.query.applyTemplates))
-	const populateOne = p => p.populateAll()
 	const formatOne = formatWithOpts(req, format, getPermissions, applyTemplates)
 	// Note: we don't apply field selection directly in query as some fields may be not asked, but
 	// required for some other fields' templates to be correctly calculated
-	return Model.find()
+	let query = Model.find()
+	if (applyTemplates) {
+		query = populateAllQuery(query, Model.modelName)
+	}
+	return query.exec()
 		.then(data => { debug('List: Model.find', data.length + ' result(s)'); return data })
-		// Populate before applying templats (if applicable)
-		.then(peoples => applyTemplates ? Promise.all(peoples.map(populateOne)) : peoples)
 		.then(data => { debug('List: applyTemplates', applyTemplates); return data })
 		.then(peoples => Promise.all(peoples.map(formatOne)))
 		.then(data => { debug('List: formatWithOpts'); return data })
