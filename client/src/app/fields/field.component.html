@@ -28,6 +28,13 @@
       [description]="field.description"
       [form]="form"></isari-select>
 
+    <isari-checkbox *ngSwitchCase="'boolean'"
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label"
+      [description]="field.description"
+      [form]="form"></isari-checkbox>
+
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
