@@ -1,76 +1,36 @@
 'use strict'
 
+/* Sample usage
 
-// Activity.people[].role
-// people = Activity.people[$index]
-// output depends on people's personalActivityType (???)
-exports.activityPeopleRole = (activity, people) => {
-  // TODO
+// Returning directly values (or promise of values)
+exports.fakeEnum1 = {
+  modelName: 'Fake',
+  values: (object, field, objectId, fieldPath) => {
+    return [ { value: "v1", label: { fr: 'v1 fr', en: 'v2 en' } } ]
+  }
 }
-// This is required by The System © to resolve activity from id (WARNING: CASE SENSITIVE)
-exports.activityPeopleRole.modelName = 'Activity'
 
-
-// People.personalActivities[].personalActivitySubtype
-// personalActivity = people.personalActivities[$index]
-exports.personalActivitySubtype = (people, personalActivity) => {
-  // Grab personal activity type, if applicable
-  const type = personalActivity && personalActivity.personalActivityType
-  // Returns suggestions, can be empty (null, undefined, & co will be converted into []) by The System ©
-  return activitySubTypes[type]
+// Shortcut: returning name of a sub-key in 'enums.json', key being name of special enum
+// in enums.json: "fakeEnum2": { "k1": […], "k2": […], … }
+exports.fakeEnum2 = {
+  modelName: 'Fake',
+  values: (object, field) => 'k1'
 }
-exports.personalActivitySubtype.modelName = 'People'
+
+*/
 
 
-// DATA (may be require'd from an external module for better decoupling?)
+// Activity.people[].role ← Activity.activityType
+// @see enums.json/activityPeopleRole
+exports.activityPeopleRole = {
+  modelName: 'Activity',
+  key: (activity) => activity && activity.activityType
+}
 
-const activitySubTypes = {
-  "editorial": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for editorial", "en": "subtype for editorial" }
-    }
-  ],
-  "collaborationsscientifiques": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for collaborationsscientifiques", "en": "subtype for collaborationsscientifiques" }
-    }
-  ],
-  "expertise": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for expertise", "en": "subtype for expertise" }
-    }
-  ],
-  "jurys": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for jurys", "en": "subtype for jurys" }
-    }
-  ],
-  "encadrement": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for encadrement", "en": "subtype for encadrement" }
-    }
-  ],
-  "responsabilitésetmandats": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for responsabilitésetmandats", "en": "subtype for responsabilitésetmandats" }
-    }
-  ],
-  "évaluations": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for évaluations", "en": "subtype for évaluations" }
-    }
-  ],
-  "enseignement": [
-    {
-      "value": "test",
-      "label": { "fr": "subtype for enseignement", "en": "subtype for enseignement" }
-    }
-  ]
+
+// People.personalActivities[].personalActivitySubtype ← People.personalActivities[].personalActivityType
+// @see enums.json/personalActivitySubtype
+exports.personalActivitySubtype = {
+  modelName: 'People',
+  key: (people, personalActivity) => personalActivity && personalActivity.personalActivityType
 }

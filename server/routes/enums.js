@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { ClientError } = require('../lib/errors')
+const { ClientError, ServerError } = require('../lib/errors')
 const enums = require('../../specs/enums.json')
 const specials = require('../../specs/enums.special.js')
 const { restHandler } = require('../lib/rest-utils')
@@ -71,14 +71,20 @@ function formatEnum (name, data) {
 function getSpecialEnum (req) {
 	const getEnumValues = specials[req.params.name]
 
-	if (typeof getEnumValues !== 'function') {
+	if (typeof getEnumValues !== 'object') {
 		throw new ClientError({ title: `Unknown special enum "${req.params.name}"`, status: 404 })
 	}
 	if (!getEnumValues.modelName) {
-		throw new ClientError({ title: `Invalid special enum "${req.params.name}", modelName not provided in specs/enums.special.js`, status: 500 })
+		throw new ServerError({ title: `Invalid special enum "${req.params.name}", modelName not provided in specs/enums.special.js` })
 	}
 	if (!model[getEnumValues.modelName] || typeof model[getEnumValues.modelName].findById !== 'function') {
-		throw new ClientError({ title: `Invalid special enum "${req.params.name}", invalid modelName "${getEnumValues.modelName}" provided in specs/enums.special.js`, status: 500 })
+		throw new ServerError({ title: `Invalid special enum "${req.params.name}", invalid modelName "${getEnumValues.modelName}" provided in specs/enums.special.js` })
+	}
+	if (typeof getEnumValues.key !== 'function' && typeof getEnumValues.values !== 'function') {
+		throw new ServerError({ title: `Invalid special enum "${req.params.name}", key() or values() not provided in specs/enums.special.js` })
+	}
+	if (typeof getEnumValues.values !== 'function' && typeof enums[req.params.name] !== 'object') {
+		throw new ServerError({ title: `Invalid special enum "${req.params.name}", key() provided but invalid enum values type "${typeof enums[req.params.name]}" in specs/enums.json` })
 	}
 
 	// Special enums are expected to be provided a context: object id, and field's full path
@@ -95,6 +101,13 @@ function getSpecialEnum (req) {
 	// Note path is the name of final field, we must go one level upper
 	const path = req.query.path.replace(/\.[^\.]*$/, '')
 	const id = req.query.id
+
+	// Generate values getter
+	if (!getEnumValues.values) {
+		getEnumValues.values = (object, field, objectId, fieldPath) => Promise.resolve()
+			.then(() => getEnumValues.key(object, field, objectId, fieldPath))
+			.then(key => enums[req.params.name][key] || [])
+	}
 
 	// Now resolve object, field, and call special enum
 	return model[getEnumValues.modelName].findById(id)

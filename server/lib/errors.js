@@ -2,7 +2,6 @@
 
 const TypedError = require('error/typed')
 const WrappedError = require('error/wrapped')
-const { merge } = require('lodash/fp')
 
 
 exports.ServerError = TypedError({

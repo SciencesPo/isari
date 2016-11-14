@@ -1851,64 +1851,6 @@
             }
         }
     ],
-    "activityPeopleRoles": [
-        {
-            "value": "professor",
-            "label": {
-                "fr": "professor",
-                "en": ""
-            }
-        },
-        {
-            "value": "PI",
-            "label": {
-                "fr": "responsable scientifique (PI)",
-                "en": ""
-            }
-        },
-        {
-            "value": "participant",
-            "label": {
-                "fr": "participant",
-                "en": ""
-            }
-        },
-        {
-            "value": "doctorant(role)",
-            "label": {
-                "fr": "doctorant",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurdethèse",
-            "label": {
-                "fr": "directeur de thèse",
-                "en": ""
-            }
-        },
-        {
-            "value": "membrecomitésuivi",
-            "label": {
-                "fr": "membre comité suivi",
-                "en": ""
-            }
-        },
-        {
-            "value": "membredujury",
-            "label": {
-                "fr": "membre du jury",
-                "en": ""
-            }
-        },
-        {
-            "value": "invite",
-            "label": {
-                "fr": "invité",
-                "en": ""
-            }
-        }
-    ],
     "gradeAcademic": [
         {
             "value": "professeuruniv",
@@ -3500,5 +3442,123 @@
                 "en": "Other"
             }
         }
-    ]
+    ],
+    "personalActivitySubtype": {
+        "editorial": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for editorial", "en": "subtype for editorial" }
+            }
+        ],
+        "collaborationsscientifiques": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for collaborationsscientifiques", "en": "subtype for collaborationsscientifiques" }
+            }
+        ],
+        "expertise": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for expertise", "en": "subtype for expertise" }
+            }
+        ],
+        "jurys": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for jurys", "en": "subtype for jurys" }
+            }
+        ],
+        "encadrement": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for encadrement", "en": "subtype for encadrement" }
+            }
+        ],
+        "responsabilitésetmandats": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for responsabilitésetmandats", "en": "subtype for responsabilitésetmandats" }
+            }
+        ],
+        "évaluations": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for évaluations", "en": "subtype for évaluations" }
+            }
+        ],
+        "enseignement": [
+            {
+                "value": "test",
+                "label": { "fr": "subtype for enseignement", "en": "subtype for enseignement" }
+            }
+        ]
+    },
+    "activityPeopleRole": {
+        "partenariat": [
+        ],
+        "doctorat": [
+            {
+                "value": "professor",
+                "label": {
+                    "fr": "professor",
+                    "en": ""
+                }
+            },
+            {
+                "value": "PI",
+                "label": {
+                    "fr": "responsable scientifique (PI)",
+                    "en": ""
+                }
+            },
+            {
+                "value": "participant",
+                "label": {
+                    "fr": "participant",
+                    "en": ""
+                }
+            },
+            {
+                "value": "doctorant(role)",
+                "label": {
+                    "fr": "doctorant",
+                    "en": ""
+                }
+            },
+            {
+                "value": "directeurdethèse",
+                "label": {
+                    "fr": "directeur de thèse",
+                    "en": ""
+                }
+            },
+            {
+                "value": "membrecomitésuivi",
+                "label": {
+                    "fr": "membre comité suivi",
+                    "en": ""
+                }
+            },
+            {
+                "value": "membredujury",
+                "label": {
+                    "fr": "membre du jury",
+                    "en": ""
+                }
+            },
+            {
+                "value": "invite",
+                "label": {
+                    "fr": "invité",
+                    "en": ""
+                }
+            }
+        ],
+        "projetderecherche": [
+        ],
+        "mob_entrante": [
+        ],
+        "mob_sortante": [
+        ]
+    }
 }
