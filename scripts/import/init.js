@@ -317,8 +317,8 @@ const peopleTasks = FILES.people.files.map(file => next => {
  */
 const activityTasks = FILES.activities.files.map(file => next => {
   if (file.skip) {
-    console.log();
     log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
+
     return next();
   }
 
@@ -329,8 +329,28 @@ const activityTasks = FILES.activities.files.map(file => next => {
     // Resolving or overloading?
     if (typeof file.overloader === 'function') {
       log.info('Overloading...');
-      // TODO: log about added items
+
+      const before = {
+        Organization: counter.Organization(),
+        People: counter.People(),
+        Activity: counter.Activity()
+      };
+
       lines.forEach(file.overloader.bind(log, INDEXES, mongoose.Types.ObjectId));
+
+      const after = {
+        Organization: counter.Organization(),
+        People: counter.People(),
+        Activity: counter.Activity()
+      };
+
+      for (const Model in counter) {
+        const difference = after[Model] - before[Model];
+
+        if (difference)
+          log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
+      }
+
       return next();
     }
 
