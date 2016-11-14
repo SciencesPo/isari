@@ -85,7 +85,7 @@
                     "en": "Role"
                 },
                 "//TODO": "refactor this field, 'suggestions' should become 'enum' but additional intel has been requested",
-                "//": "this field is guided through the suggestions field depending on activityType value",
+                "//": "this field is guided through the suggestions field depending on personalActivityType value",
                 "suggestions": {
                     "research": [
                         "PI",
