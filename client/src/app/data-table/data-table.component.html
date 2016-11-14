@@ -3,11 +3,11 @@
   <thead>
     <tr>
       <th></th>
-      <th *ngFor="let col of cols">
+      <isari-col *ngFor="let col of cols">
         <a href (click)="sortBy(col, $event)">{{ col.label['fr'] }}</a>
         <md-icon *ngIf="col.key === sortedState.key && sortedState.reverse">arrow_upward</md-icon>
         <md-icon *ngIf="col.key === sortedState.key && !sortedState.reverse">arrow_downward</md-icon>
-      </th>
+      </isari-col>
     </tr>
     <tr>
       <td></td>

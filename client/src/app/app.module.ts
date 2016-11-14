@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule }           from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 // import { InMemoryDataService }  from './in-memory-data.service';
@@ -32,6 +32,7 @@ import { IsariMultiSelectComponent } from './fields/isari-multi-select/isari-mul
 import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
 import { LoginComponent } from './login/login.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { IsariColComponent } from './data-table/isari-col/isari-col.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     IsariMultiSelectComponent,
     IsariLayoutComponent,
     LoginComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    IsariColComponent
   ],
   imports: [
     BrowserModule,
