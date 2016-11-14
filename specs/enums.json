@@ -212,35 +212,35 @@
         {
             "value": "CMission", 
             "label": {
-                "fr": "CM : chargé(e) de mission", 
+                "fr": "CM : chargé.e de mission", 
                 "en": ""
             }
         }, 
         {
             "value": "CM1", 
             "label": {
-                "fr": "CM1 : chargé(e) de mission niveau 1", 
+                "fr": "CM1 : chargé.e de mission niveau 1", 
                 "en": ""
             }
         }, 
         {
             "value": "CM2", 
             "label": {
-                "fr": "CM2 : chargé(e) de mission niveau 2", 
+                "fr": "CM2 : chargé.e de mission niveau 2", 
                 "en": ""
             }
         }, 
         {
             "value": "CM3", 
             "label": {
-                "fr": "CM3 : chargé(e) de mission niveau 3", 
+                "fr": "CM3 : chargé.e de mission niveau 3", 
                 "en": ""
             }
         }, 
         {
             "value": "AGEST", 
             "label": {
-                "fr": "AG : assistant(e) de gestion", 
+                "fr": "AG : assistant.e de gestion", 
                 "en": ""
             }
         }, 
@@ -259,9 +259,135 @@
             }
         }, 
         {
+            "value": "IGE", 
+            "label": {
+                "fr": "IGE : ingénieur.e d'études", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IGR", 
+            "label": {
+                "fr": "IGR : ingénieur.e de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AING", 
+            "label": {
+                "fr": "AI : assistant.e ingénieur.e", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CBIB", 
+            "label": {
+                "fr": "Conservateur.trice des bibliothèques", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CPAT", 
+            "label": {
+                "fr": "Conservateur.trice du patrimoine", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCH", 
+            "label": {
+                "fr": "Technicien.ne de recherche, quelle que soit la classe", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "AJT", 
+            "label": {
+                "fr": "Adjoint.e.s et agent.e.s techniques de recherche, adjoint.e.s et agent.e.s administratifs, quelle que soit la classe", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ADMAENES", 
+            "label": {
+                "fr": "Administrateur.trice de l'éducation nationale et de l'enseignement supérieur, Conseiller.e d'administration scolaire et universitaire", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ADAENES", 
+            "label": {
+                "fr": "Attaché.e et Attaché.e principal d'administration de l'éducation nationale et de l'enseignement supérieur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "SAENES", 
+            "label": {
+                "fr": "Secrétaire administratif.ve de l'éducation nationale et de l'enseignement supérieur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "ADJAENES", 
+            "label": {
+                "fr": "Adjoint.e d'administration de l'éducation nationale et de l'enseignement supérieur", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "APCE", 
+            "label": {
+                "fr": "APCE : appariteur.e chef.fe d'équipe", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "APAB", 
+            "label": {
+                "fr": "APAB : appariteur.e agent.e de bureau", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IENC", 
+            "label": {
+                "fr": "IE : informatique encadrement", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "IEX", 
+            "label": {
+                "fr": "IEX : informatique exploitation", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCN", 
+            "label": {
+                "fr": "TCN : technicien.ne de classe normale", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCS", 
+            "label": {
+                "fr": "TCS : technicien.ne de classe supérieure", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "TCE", 
+            "label": {
+                "fr": "TCE : technicien.ne de classe exceptionnelle", 
+                "en": ""
+            }
+        }, 
+        {
             "value": "ABS", 
             "label": {
-                "fr": "ABS : agent de bibliothèque spécialisé", 
+                "fr": "ABS : agent.e de bibliothèque spécialisé.e", 
                 "en": ""
             }
         }, 
@@ -287,79 +413,16 @@
             }
         }, 
         {
-            "value": "APCE", 
+            "value": "ASSPEC", 
             "label": {
-                "fr": "APCE : appariteur chef d'équipe", 
+                "fr": "Assistant.e spécialisé.e", 
                 "en": ""
             }
         }, 
         {
-            "value": "APAB", 
+            "value": "ASDIREC", 
             "label": {
-                "fr": "APAB : appariteur agent de bureau", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IENC", 
-            "label": {
-                "fr": "IE : informatique encadrement", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IEX", 
-            "label": {
-                "fr": "IEX : informatique exploitation", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IGE", 
-            "label": {
-                "fr": "IGE : ingénieur d'études", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "IGR", 
-            "label": {
-                "fr": "IGR : ingénieur de recherche", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TCN", 
-            "label": {
-                "fr": "TCN : technicien de classe normale", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TCS", 
-            "label": {
-                "fr": "TCS : technicien de classe supérieure", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "TCE", 
-            "label": {
-                "fr": "TCE : technicien de classe exceptionnelle", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "AING", 
-            "label": {
-                "fr": "AI : assistant ingénieur", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "CASSIST", 
-            "label": {
-                "fr": "CA : chercheur assistant", 
+                "fr": "Assistant.e direction", 
                 "en": ""
             }
         }
@@ -391,6 +454,29 @@
             "label": {
                 "fr": "reviewer", 
                 "en": ""
+            }
+        }
+    ], 
+    "sciencesPoBuildings": [
+        {
+            "value": "27", 
+            "label": {
+                "fr": "27 rue Saint Guillaume", 
+                "en": "27 rue Saint Guillaume"
+            }
+        }, 
+        {
+            "value": "84", 
+            "label": {
+                "fr": "84 rue de grenelle", 
+                "en": "84 rue de grenelle"
+            }
+        }, 
+        {
+            "value": "13U", 
+            "label": {
+                "fr": "13 rue de l'université", 
+                "en": "13 rue de l'université"
             }
         }
     ], 
@@ -1667,9 +1753,72 @@
                 "fr": "membre du jury", 
                 "en": ""
             }
+        }, 
+        {
+            "value": "invite", 
+            "label": {
+                "fr": "invité", 
+                "en": ""
+            }
         }
     ], 
     "gradeAcademic": [
+        {
+            "value": "professeuruniv", 
+            "label": {
+                "fr": "Professeur.e des universités", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professeur", 
+            "label": {
+                "fr": "Professeur.e", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professeurex", 
+            "label": {
+                "fr": "Professeur.e classe exceptionnelle", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professeur1", 
+            "label": {
+                "fr": "Professeur.e des universités niv1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professeur2", 
+            "label": {
+                "fr": "Professeur.e des universités niv2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurétudes", 
+            "label": {
+                "fr": "Directeur.trice d'études", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mconf", 
+            "label": {
+                "fr": "Maître.sse de conférences", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "mconfHC", 
+            "label": {
+                "fr": "Maître.sse de conférences Hors classe", 
+                "en": ""
+            }
+        }, 
         {
             "value": "assistantprofessor", 
             "label": {
@@ -1685,51 +1834,86 @@
             }
         }, 
         {
-            "value": "professeur", 
+            "value": "profémérite", 
             "label": {
-                "fr": "Professeur", 
+                "fr": "Professeur.e émérite", 
                 "en": ""
             }
         }, 
         {
-            "value": "profuniv", 
+            "value": "profunivémérite", 
             "label": {
-                "fr": "Professeur des universités", 
+                "fr": "Professeur.e des universités émérite", 
                 "en": ""
             }
         }, 
         {
-            "value": "profunivemerite", 
+            "value": "enseicherchcontractuel", 
             "label": {
-                "fr": "Professeur des universités émérite", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "mconf", 
-            "label": {
-                "fr": "Maître de conférences", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "chargederecherche", 
-            "label": {
-                "fr": "Chargé de recherche", 
+                "fr": "Enseignant-chercheur.e contractuel.le (dont contrats LRU)", 
                 "en": ""
             }
         }, 
         {
             "value": "directeurderecherche", 
             "label": {
-                "fr": "Directeur de recherche", 
+                "fr": "Directeur.trice de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurderecherche1", 
+            "label": {
+                "fr": "Directeur.trice de recherche niv1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurderecherche2", 
+            "label": {
+                "fr": "Directeur.trice de recherche niv2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "directeurderechercheex", 
+            "label": {
+                "fr": "Directeur.trice de recherche classe exceptionnelle", 
                 "en": ""
             }
         }, 
         {
             "value": "directeurderechercheremerite", 
             "label": {
-                "fr": "Directeur de recherche émérite", 
+                "fr": "Directeur.trice de recherche émérite", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chargederecherche", 
+            "label": {
+                "fr": "Chargé.e de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chargederecherche1", 
+            "label": {
+                "fr": "Chargé.e de recherche niv1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chargederecherche2", 
+            "label": {
+                "fr": "Chargé.e de recherche niv2", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "cherchcontractuel", 
+            "label": {
+                "fr": "Chercheur.e contractuel.le", 
                 "en": ""
             }
         }, 
@@ -1741,6 +1925,20 @@
             }
         }, 
         {
+            "value": "chargédétudes1", 
+            "label": {
+                "fr": "Chargé d'études niv1", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "chargédétudes2", 
+            "label": {
+                "fr": "Chargé d'études niv2", 
+                "en": ""
+            }
+        }, 
+        {
             "value": "postdoc", 
             "label": {
                 "fr": "Postdoc", 
@@ -1748,30 +1946,16 @@
             }
         }, 
         {
-            "value": "chercheurcontractuel", 
-            "label": {
-                "fr": "Chercheur contractuel", 
-                "en": ""
-            }
-        }, 
-        {
             "value": "invité", 
             "label": {
-                "fr": "Invité", 
+                "fr": "Invité.e", 
                 "en": ""
             }
         }, 
         {
             "value": "doctorant(grade)", 
             "label": {
-                "fr": "Doctorant", 
-                "en": ""
-            }
-        }, 
-        {
-            "value": "past", 
-            "label": {
-                "fr": "PAST", 
+                "fr": "Doctorant.e", 
                 "en": ""
             }
         }, 
@@ -1783,9 +1967,30 @@
             }
         }, 
         {
+            "value": "past", 
+            "label": {
+                "fr": "PAST", 
+                "en": ""
+            }
+        }, 
+        {
             "value": "ater", 
             "label": {
                 "fr": "ATER", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "CASSIST", 
+            "label": {
+                "fr": "assistant.e de recherche", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "professeurassocié", 
+            "label": {
+                "fr": "Professeur.e associé.e", 
                 "en": ""
             }
         }
@@ -2554,7 +2759,9 @@
         "EH", 
         "YE", 
         "ZM", 
-        "ZW"
+        "ZW", 
+        "EU", 
+        "WO"
     ], 
     "researchThemes": [
         {
