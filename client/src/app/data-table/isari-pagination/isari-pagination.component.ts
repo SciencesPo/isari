@@ -36,6 +36,16 @@ export class IsariPaginationComponent implements OnInit, OnChanges {
     this.onPageChange.emit({ page, itemsPerPage: this.itemsPerPage, totalItems: this.totalItems });
   }
 
+  navigateNext() {
+    let currentPage = this.pages.find(page => page.active);
+    this.navigate(Math.min(this.totalPages, currentPage ? currentPage.number + 1 : 1));
+  }
+
+  navigatePrev() {
+    let currentPage = this.pages.find(page => page.active);
+    this.navigate(Math.max(1, currentPage ? currentPage.number - 1 : 1));
+  }
+
   setItemsPerPage(ipp: number) {
     this.itemsPerPage = ipp;
     this.totalPages = this.calculateTotalPages();
