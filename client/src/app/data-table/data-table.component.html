@@ -3,17 +3,11 @@
   <thead>
     <tr>
       <th></th>
-      <isari-col *ngFor="let col of cols">
-        <a href (click)="sortBy(col, $event)">{{ col.label['fr'] }}</a>
-        <md-icon *ngIf="col.key === sortedState.key && sortedState.reverse">arrow_upward</md-icon>
-        <md-icon *ngIf="col.key === sortedState.key && !sortedState.reverse">arrow_downward</md-icon>
+      <isari-col *ngFor="let col of cols"
+        (onSort)="sortBy(col)"
+        [sorted]="sortedState.key === col.key ? sortedState.reverse : null">
+        <md-input type="text" [formControl]="col.filterControl" [placeholder]="col.label['fr']"></md-input>
       </isari-col>
-    </tr>
-    <tr>
-      <td></td>
-      <td *ngFor="let col of cols">
-        <md-input type="text" [formControl]="col.filterControl">></md-input>
-      </td>
     </tr>
   </thead>
   <tbody>

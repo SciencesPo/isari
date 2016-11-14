@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Renderer, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild,
+  AfterViewInit, Renderer, HostListener, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'isari-col',
@@ -9,6 +10,9 @@ export class IsariColComponent implements OnInit, AfterViewInit {
   dragActive = false;
   orgX: number;
   orgWidth: number;
+
+  @Input() sorted: boolean | null;
+  @Output() onSort = new EventEmitter<any>();
 
   @ViewChild('resizeHandle') handle: ElementRef;
   @ViewChild('column') column: ElementRef;
@@ -44,6 +48,11 @@ export class IsariColComponent implements OnInit, AfterViewInit {
       this.orgX = event.clientX;
       this.orgWidth = this.column.nativeElement.parentElement.clientWidth;
     });
+  }
+
+  sortBy ($event) {
+    $event.preventDefault();
+    this.onSort.emit();
   }
 
 }

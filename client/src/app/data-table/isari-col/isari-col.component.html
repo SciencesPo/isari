@@ -1,4 +1,10 @@
 <th #column>
   <div #resizeHandle class="handle"></div>
   <ng-content></ng-content>
+
+  <a href (click)="sortBy($event)">
+    <md-icon *ngIf="sorted === true">arrow_upward</md-icon>
+    <md-icon *ngIf="sorted === false">arrow_downward</md-icon>
+    <md-icon *ngIf="sorted === null">swap_vert</md-icon>
+  </a>
 </th>
