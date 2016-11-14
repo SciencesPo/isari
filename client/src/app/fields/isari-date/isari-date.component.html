@@ -1,4 +1,4 @@
-<span [formGroup]="form" class="isari-input-wrapper" (blur)="onBlur($event)">
+<span [formGroup]="form" class="isari-input-wrapper" (blur)="onBlur($event)" [md-tooltip]="description">
   <input type="hidden" [formControlName]="name">
 
   <div class="md-input-wrapper">

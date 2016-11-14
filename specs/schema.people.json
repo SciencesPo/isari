@@ -271,6 +271,32 @@
                         "type": "date"
                     }
                 }
+            ],
+            "tenureTrack": [
+                {
+                    "label": {
+                        "fr": "Tenure track",
+                        "en": "Tenure track"
+                    },
+                    "description": {
+                        "fr": "Informations relatives à une tenure track",
+                        "en": "Tenure track information"
+                    },
+                    "accessType": "confidential",
+                    "reviewDate": {
+                        "label": {
+                            "fr": "Date d'évaluation",
+                            "en": "Review date"
+                        },
+                        "type": "date"
+                    },
+                    "comment": {
+                        "label": {
+                            "fr": "Commentaires à propos de l'évaluation",
+                            "en": "Comments about the review"
+                        }
+                    }
+                }
             ]
         }
     ],
@@ -641,9 +667,9 @@
             "enum": "iso6391"
         }
     ],
-    "office":{
-        "building":{
-            "label":{
+    "office": {
+        "building": {
+            "label": {
                 "fr": "bâtiment",
                 "en": "building"
             },
@@ -653,8 +679,8 @@
             "fr": "Bureau occupé à Sciences Po",
             "en": "Office occupied at Sciences Po"
         },
-        "office":{
-            "label":{
+        "office": {
+            "label": {
                 "fr": "bureau",
                 "en": "office"
             }

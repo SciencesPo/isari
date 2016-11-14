@@ -44,8 +44,8 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.calculPage($event.page);
   }
 
-  sortBy(col, $event) {
-    $event.preventDefault();
+  sortBy(col) {
+    // $event.preventDefault();
     this.data.sort(this.dynamicSort(col.key, this.sortedState.key === col.key && !this.sortedState.reverse));
     this.sortedState.reverse = (this.sortedState.key === col.key) ? !this.sortedState.reverse : false;
     this.sortedState.key = col.key;

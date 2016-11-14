@@ -33,6 +33,7 @@ import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
 import { LoginComponent } from './login/login.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { IsariColComponent } from './data-table/isari-col/isari-col.component';
+import { IsariCheckboxComponent } from './fields/isari-checkbox/isari-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { IsariColComponent } from './data-table/isari-col/isari-col.component';
     IsariLayoutComponent,
     LoginComponent,
     SpinnerComponent,
-    IsariColComponent
+    IsariColComponent,
+    IsariCheckboxComponent
   ],
   imports: [
     BrowserModule,

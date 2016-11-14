@@ -2,10 +2,10 @@ import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'isari-input',
-  templateUrl: 'isari-input.component.html'
+  selector: 'isari-checkbox',
+  templateUrl: 'isari-checkbox.component.html'
 })
-export class IsariInputComponent implements OnInit {
+export class IsariCheckboxComponent implements OnInit {
 
   @Input() name: string;
   @Input() form: FormGroup;

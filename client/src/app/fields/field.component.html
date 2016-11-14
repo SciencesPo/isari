@@ -15,6 +15,7 @@
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
+      [description]="field.description"
       [form]="form"></isari-date>
 
     <isari-select *ngSwitchCase="'select'"
@@ -24,12 +25,21 @@
       [extensible]="!!field.softenum"
       [name]="field.name"
       [label]="field.label"
+      [description]="field.description"
       [form]="form"></isari-select>
+
+    <isari-checkbox *ngSwitchCase="'boolean'"
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label"
+      [description]="field.description"
+      [form]="form"></isari-checkbox>
 
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
+      [description]="field.description"
       [form]="form"></isari-input>
 
   </span>
@@ -43,12 +53,14 @@
       [extensible]="!!field.softenum"
       [name]="field.name"
       [label]="field.label"
+      [description]="field.description"
       [form]="form"></isari-multi-select>
 
     <isari-multi-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
+      [description]="field.description"
       [form]="form"></isari-multi-input>
   </span>
 
