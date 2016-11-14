@@ -13,7 +13,5 @@
 </ul>
 
 <md-menu #menu="mdMenu">
-  <a md-menu-item (click)="setItemsPerPage(10)">10</a>
-  <a md-menu-item (click)="setItemsPerPage(20)">20</a>
-  <a md-menu-item (click)="setItemsPerPage(50)">50</a>
+  <a *ngFor="let item of selectItemsPerPage" md-menu-item (click)="setItemsPerPage(item)">{{ item }}</a>
 </md-menu>
