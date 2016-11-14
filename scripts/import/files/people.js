@@ -461,17 +461,24 @@ module.exports = {
         }
 
         if (line['Unité de recherche'] !== 'Non affilié')
-          info.academicMemberships = [{
-            organization: line['Unité de recherche'],
-            membershipType: 'membre'
-          }];
+          info.academicMemberships = line['Unité de recherche']
+            .split(',')
+            .map(org => ({
+              organization: org.trim(),
+              membershipType: 'membre'
+            }));
 
         if (line['Autres affiliations']) {
           info.academicMemberships = info.academicMemberships || [];
-          info.academicMemberships.push({
-            organization: line['Autres affiliations'],
-            membershipType: 'membre'
-          });
+          info.academicMemberships.push.apply(
+            info.academicMemberships,
+            line['Autres affiliations']
+              .split(',')
+              .map(org => ({
+                organization: org.trim(),
+                membershipType: 'membre'
+              }))
+          );
         }
 
         return info;
@@ -502,6 +509,12 @@ module.exports = {
 
           if (genderYear)
             info.gender = genderYear.gender;
+
+          // Finding nationalities
+          const nationalitiesYear = years.find(year => !!(year.nationalities || []).length);
+
+          if (nationalitiesYear)
+            info.nationalities = nationalitiesYear.nationalities;
 
           // Finding birthDate
           const birthDateYear = years.find(year => !!year.birthDate);
@@ -638,8 +651,19 @@ module.exports = {
 
         if (match) {
 
-          // TODO: merge
-          // merge: mail, nationalities (ecrase), bonus, distinctions, deptMemberships, academic (ecrase)
+          // Overrides
+          [
+            'contacts',
+            'nationalities',
+            'bonuses',
+            'distinctions',
+            'deptMemberships',
+            'academicMemberships'
+          ].forEach(prop => {
+            if (person[prop])
+              match[prop] = person[prop];
+          });
+
           return;
         }
 
