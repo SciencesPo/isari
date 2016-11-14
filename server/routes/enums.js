@@ -3,7 +3,11 @@
 const { Router } = require('express')
 const { ClientError } = require('../lib/errors')
 const enums = require('../../specs/enums.json')
+const specials = require('../../specs/enums.special.js')
 const { restHandler } = require('../lib/rest-utils')
+const debug = require('debug')('isari:rest:enums')
+const model = require('../lib/model')
+const { get } = require('lodash/fp')
 
 const countries = require('../../specs/enum.countries.json')
 const currencies = require('../../specs/enum.currencies.json')
@@ -11,6 +15,7 @@ const languages = require('../../specs/enum.languages.json')
 
 
 module.exports = Router()
+.get('/special/:name', restHandler(getSpecialEnum))
 .get('/:name', restHandler(getEnum))
 
 
@@ -60,4 +65,41 @@ function formatEnum (name, data) {
 
 	// Other cases: no need to reformat
 	return data
+}
+
+
+function getSpecialEnum (req) {
+	const getEnumValues = specials[req.params.name]
+
+	if (typeof getEnumValues !== 'function') {
+		throw new ClientError({ title: `Unknown special enum "${req.params.name}"`, status: 404 })
+	}
+	if (!getEnumValues.modelName) {
+		throw new ClientError({ title: `Invalid special enum "${req.params.name}", modelName not provided in specs/enums.special.js`, status: 500 })
+	}
+	if (!model[getEnumValues.modelName] || typeof model[getEnumValues.modelName].findById !== 'function') {
+		throw new ClientError({ title: `Invalid special enum "${req.params.name}", invalid modelName "${getEnumValues.modelName}" provided in specs/enums.special.js`, status: 500 })
+	}
+
+	// Special enums are expected to be provided a context: object id, and field's full path
+	// If any information is missing, we just provide empty suggestions as response
+	if (!req.query.id) {
+		debug('Missing "id" for special enum', req.url)
+		return []
+	}
+	if (!req.query.path) {
+		debug('Missing "path" for special enum', req.url)
+		return []
+	}
+
+	// Note path is the name of final field, we must go one level upper
+	const path = req.query.path.replace(/\.[^\.]*$/, '')
+	const id = req.query.id
+
+	// Now resolve object, field, and call special enum
+	return model[getEnumValues.modelName].findById(id)
+		// Grab field from object (everything can be undefined in the end) and call special enum resolver
+		.then(object => getEnumValues(object, get(path, object), req.query.id, req.query.path))
+		// Convert any falsey value to empty array
+		.then(values => values || [])
 }
