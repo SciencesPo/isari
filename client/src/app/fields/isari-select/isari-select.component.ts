@@ -17,6 +17,7 @@ export class IsariSelectComponent implements OnInit {
   @Input() name: string;
   @Input() form: FormGroup;
   @Input() label: string;
+  @Input() description: string;
   @Output() onUpdate = new EventEmitter<any>();
   @Input() src: Function;
   @Input() extensible = false;

@@ -1,4 +1,4 @@
-<div class="md-input-wrapper" (keyup)="onKey($event)">
+<div class="md-input-wrapper" (keyup)="onKey($event)" [md-tooltip]="description">
   <div class="md-input-table">
 
     <div class="md-input-prefix" *ngFor="let value of _values">
