@@ -355,6 +355,11 @@ module.exports = {
             match.positions.push(person.positions);
           }
 
+          // Overriding academic memberships
+          if (person.academicMemberships)
+            match.academicMemberships = person.academicMemberships;
+
+          // Mail
           if (person.contacts)
             match.contacts = person.contacts;
 
@@ -409,8 +414,12 @@ module.exports = {
             .map(string => {
               const [startDate, endDate] = string.trim().split('-');
 
+              const bonusType = info.organization === 'FNSP' ?
+                'primeConvergence' :
+                'primeIncitation';
+
               return {
-                bonusType: 'primeConvergence',
+                bonusType,
                 startDate,
                 endDate
               };
@@ -502,11 +511,17 @@ module.exports = {
 
           // Finding distinctions (get the year with most distinctions)
           const distinctionYear = _(years)
-            .sortBy(year => year.distinctions && year.distinctions.length)
+            .sortBy(year => -(year.distinctions || []).length)
             .first();
 
           if (distinctionYear.distinctions)
             info.distinctions = distinctionYear.distinctions;
+
+          // Finding bonuses
+          const bonusesYear = years.find(year => !!(year.bonuses || []).length);
+
+          if (bonusesYear)
+            info.bonuses = bonusesYear.bonuses;
 
           // Chronologies: positions, dpt, academic memberships
           const positionSlices = partitionBy(years, 'jobTitle');
@@ -624,6 +639,7 @@ module.exports = {
         if (match) {
 
           // TODO: merge
+          // merge: mail, nationalities (ecrase), bonus, distinctions, deptMemberships, academic (ecrase)
           return;
         }
 
