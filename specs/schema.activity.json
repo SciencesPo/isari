@@ -84,26 +84,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "//TODO": "refactor this field, 'suggestions' should become 'enum' but additional intel has been requested",
-                "//": "this field is guided through the suggestions field depending on personalActivityType value",
-                "suggestions": {
-                    "research": [
-                        "PI",
-                        "partenaire"
-                    ],
-                    "invitation": [
-                        "invité",
-                        "référent"
-                    ],
-                    "séjour": [
-                        "invité",
-                        "référent"
-                    ],
-                    "doctorat": [
-                        "directeur de thèse",
-                        "rapporteur"
-                    ]
-                }
+                "enum": "special/activityPeopleRole"
             },
             "startDate": {
                 "label": {

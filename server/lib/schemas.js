@@ -147,7 +147,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 
 	// Validation rule: enum
 	// Note: softenum does not come with any validation, it's only about suggestions
-	if (typeof desc.enum === 'string') {
+	if (typeof desc.enum === 'string' && desc.enum.substring(0, 8) !== 'special/') {
 		// As a string: enums key or complex rule "KEYS(name)" or "name.$field"
 		const matchKeys = desc.enum.match(/^KEYS\((.*)\)$/)
 		const matchDot = desc.enum.match(/^(.*?)\.\$(.*)$/)
@@ -204,6 +204,9 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	} else if (Array.isArray(desc.enum)) {
 		// As an array: direct values not exported into enums module
 		schema.enum = getEnumValues(desc.enum)
+	} else if (desc.enum && desc.enum.substring(0, 8) === 'special/') {
+		// Special enums are handled in a specific module like templates
+		debug('TODO handle special enums validation', desc.enum)
 	} else if (desc.enum) {
 		throw Error(`${name}: Invalid enum value "${desc.enum}"`)
 	}

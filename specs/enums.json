@@ -898,7 +898,7 @@
         {
             "value": "primeCnrs", 
             "label": {
-                "fr": "PES/MESR ou CNRS", 
+                "fr": "Prime à l'Excellence Scientifique", 
                 "en": ""
             }
         }, 
@@ -917,7 +917,7 @@
             }
         }, 
         {
-            "value": "primeFontion", 
+            "value": "primeFonction", 
             "label": {
                 "fr": "Prime de fonction", 
                 "en": ""
@@ -932,6 +932,13 @@
         }, 
         {
             "value": "primeConvergence", 
+            "label": {
+                "fr": "Prime de convergence", 
+                "en": ""
+            }
+        }, 
+        {
+            "value": "primeIncitation", 
             "label": {
                 "fr": "Prime incitation enseignement", 
                 "en": ""
