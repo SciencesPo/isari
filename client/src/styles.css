@@ -24,3 +24,7 @@ isari-multi-input, isari-multi-select {
   text-align: left;
 }
 
+.md-tooltip {
+  max-width: 400px;
+  height: auto !important;
+}

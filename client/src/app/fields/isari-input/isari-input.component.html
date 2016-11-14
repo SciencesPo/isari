@@ -1,4 +1,6 @@
-<span [formGroup]="form">
+<span
+  [formGroup]="form"
+  [md-tooltip]="description">
   <md-input
     [placeholder]="label"
     (blur)="update($event)"
