@@ -119,7 +119,7 @@
             "enum": "organizationTypes"
         }
     ],
-    "HCERESorganizationType": {
+    "HCERESOrganizationType": {
         "label": {
             "fr": "nomenclature HCERES 2017",
             "en": "HCERES 2017 classification"

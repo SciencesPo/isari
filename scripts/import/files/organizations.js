@@ -138,7 +138,7 @@ module.exports = {
           info.organizationTypes = [line['Organisation Type (HCERES, SPIRE)']];
 
         if (line.HCERESOrganizationType)
-          info.HCERESorganizationType = line.HCERESOrganizationType;
+          info.HCERESOrganizationType = line.HCERESOrganizationType;
 
         if (line['adresse banner'])
           info.address = line['adresse banner'];
@@ -205,29 +205,32 @@ module.exports = {
         // Attempting to find the organization
         let match = indexes.name[org.name];
 
-        if (match) {
-          // TODO: merge
-
-          return;
-        }
-
-        if (org.acronym)
+        if (!match && org.acronym)
           match = indexes.acronym[org.acronym];
-
-        if (match) {
-          // TODO: merge
-
-          return;
-        }
 
         const key = fingerprint(org.name);
 
-        match = indexes.fingerprint[key];
+        if (!match) {
+          match = indexes.fingerprint[key];
+
+          if (match)
+            this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`);
+        }
 
         if (match) {
-          // TODO: merge
 
-          this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`);
+          // Merging...
+          [
+            'codeUAI',
+            'idBanner',
+            'idSpire',
+            'idHal',
+            'HCERESOrganizationType'
+          ].forEach(prop => {
+            if (org[prop])
+              match[prop] = org[prop];
+          });
+
           return;
         }
 

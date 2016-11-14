@@ -334,11 +334,11 @@ module.exports = {
           if (!fullName)
             break;
 
-          const [name, firstName] = fullName.split(',');
+          const [juryName, juryFirstName] = fullName.split(',');
 
           const juryMember = {
-            name: name.trim(),
-            firstName: firstName.trim()
+            name: juryName.trim(),
+            firstName: juryFirstName.trim()
           };
 
           if (line['FONCTION_MEMBRE_JURY_' + i])
@@ -367,11 +367,11 @@ module.exports = {
           if (!fullName)
             break;
 
-          const [name, firstName] = fullName.split(',');
+          const [directorName, directorFirstName] = fullName.split(',');
 
           const director = {
-            name: name.trim(),
-            firstName: firstName.trim()
+            name: directorName.trim(),
+            firstName: directorFirstName.trim()
           };
 
           if (line['TYP_DIR_THESE_' + i] === 'Co-directeur de thèse')
@@ -419,10 +419,10 @@ module.exports = {
             people[hashPeople(peopleInfo)] = peopleInfo;
 
             // Adding jury & directors to the local index
-            ((phd || {}).jury || [])
-              .concat((hdr || {}).jury || [])
-              .concat((phd || {}).directors || [])
-              .concat((hdr || {}).directors || [])
+            ((phd || {}).jury || [])
+              .concat((hdr || {}).jury || [])
+              .concat((phd || {}).directors || [])
+              .concat((hdr || {}).directors || [])
               .forEach(member => {
                 const memberInfo = {
                   name: member.name,
@@ -477,6 +477,90 @@ module.exports = {
         Activity() {
 
         }
+      }
+    },
+
+    /**
+     * prix.csv
+     * -------------------------------------------------------------------------
+     */
+    {
+      name: 'prix',
+      path: 'activities/prix.csv',
+      delimiter: ',',
+      consumer(line) {
+        const info = {
+          organization: line['Nom Orga'],
+          acronym: line.acronym,
+          name: line.Nom,
+          firstName: line.Prénom,
+          title: line['Dénomination du prix'],
+          date: line.Année,
+          countries: line['Pays ISO'].split(',').map(c => c.trim())
+        };
+
+        return info;
+      },
+      overloader(indexes, id, line) {
+        const key = hashPeople(line);
+
+        // Matching the person
+        const person = indexes.People.hashed[key];
+
+        if (!person) {
+          this.warning(`Could not match ${chalk.green(line.firstName + ' ' + line.name)}.`);
+          return false;
+        }
+
+        // Checking whether the organization exists
+        let org;
+
+        if (line.organization) {
+          org = indexes.Organization.name[line.organization];
+
+          if (!org)
+            org = indexes.Organization.acronym[line.acronym];
+
+          const orgKey = fingerprint(line.organization);
+
+          if (!org)
+            org = indexes.Organization.fingerprint[orgKey];
+
+          if (!org) {
+
+            // We therefore create it
+            org = {
+              _id: id(),
+              name: line.organization,
+              countries: line.countries
+            };
+
+            if (line.acronym)
+              org.acronym = line.acronym;
+
+            indexes.Organization.name[org.name] = org;
+            indexes.Organization.fingerprint[orgKey] = org;
+            indexes.Organization.id[org._id] = org;
+          }
+        }
+
+        // Building the distinction
+        const distinction = {
+          distinctionType: 'distinction',
+          countries: line.countries,
+          title: line.title
+        };
+
+        if (org)
+          distinction.organizations = [org.name];
+
+        if (line.date)
+          distinction.date = line.date;
+
+        person.distinctions = person.distinctions || [];
+        person.distinctions.push(distinction);
+
+        return true;
       }
     }
   ]
