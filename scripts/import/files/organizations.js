@@ -205,29 +205,21 @@ module.exports = {
         // Attempting to find the organization
         let match = indexes.name[org.name];
 
-        if (match) {
-          // TODO: merge
-
-          return;
-        }
-
-        if (org.acronym)
+        if (!match && org.acronym)
           match = indexes.acronym[org.acronym];
-
-        if (match) {
-          // TODO: merge
-
-          return;
-        }
 
         const key = fingerprint(org.name);
 
-        match = indexes.fingerprint[key];
+        if (!match) {
+          match = indexes.fingerprint[key];
+
+          if (match)
+            this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`);
+        }
 
         if (match) {
-          // TODO: merge
+          // TODO: merge...
 
-          this.warning(`Matched "${chalk.green(org.name)}" with "${chalk.green(match.name)}".`);
           return;
         }
 
