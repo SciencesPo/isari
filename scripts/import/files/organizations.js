@@ -138,7 +138,7 @@ module.exports = {
           info.organizationTypes = [line['Organisation Type (HCERES, SPIRE)']];
 
         if (line.HCERESOrganizationType)
-          info.HCERESorganizationType = line.HCERESOrganizationType;
+          info.HCERESOrganizationType = line.HCERESOrganizationType;
 
         if (line['adresse banner'])
           info.address = line['adresse banner'];
@@ -218,7 +218,18 @@ module.exports = {
         }
 
         if (match) {
-          // TODO: merge...
+
+          // Merging...
+          [
+            'codeUAI',
+            'idBanner',
+            'idSpire',
+            'idHal',
+            'HCERESOrganizationType'
+          ].forEach(prop => {
+            if (org[prop])
+              match[prop] = org[prop];
+          });
 
           return;
         }
