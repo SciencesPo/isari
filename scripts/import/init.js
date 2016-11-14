@@ -326,6 +326,14 @@ const activityTasks = FILES.activities.files.map(file => next => {
     if (err)
       return next(err);
 
+    // Resolving or overloading?
+    if (typeof file.overloader === 'function') {
+      log.info('Overloading...');
+      // TODO: log about added items
+      lines.forEach(file.overloader.bind(log, INDEXES, mongoose.Types.ObjectId));
+      return next();
+    }
+
     const items = file.resolver.call(log, lines);
 
     if (items.Organization && items.Organization.length)
