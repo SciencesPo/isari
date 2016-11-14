@@ -459,17 +459,101 @@
     ], 
     "sciencesPoBuildings": [
         {
-            "value": "27", 
+            "value": "27SG", 
             "label": {
-                "fr": "27 rue Saint Guillaume", 
-                "en": "27 rue Saint Guillaume"
+                "fr": "27 rue SaintGuillaume", 
+                "en": "27 rue SaintGuillaume"
             }
         }, 
         {
-            "value": "84", 
+            "value": "30SG", 
             "label": {
-                "fr": "84 rue de grenelle", 
-                "en": "84 rue de grenelle"
+                "fr": "30 rue SaintGuillaume", 
+                "en": "30 rue SaintGuillaume"
+            }
+        }, 
+        {
+            "value": "9C", 
+            "label": {
+                "fr": "9 rue de la chaise", 
+                "en": "9 rue de la chaise"
+            }
+        }, 
+        {
+            "value": "10C", 
+            "label": {
+                "fr": "10 rue de la chaise", 
+                "en": "10 rue de la chaise"
+            }
+        }, 
+        {
+            "value": "84G", 
+            "label": {
+                "fr": "84 rue de Grenelle", 
+                "en": "84 rue de Grenelle"
+            }
+        }, 
+        {
+            "value": "199BSG", 
+            "label": {
+                "fr": "199 boulevard SaintGermain", 
+                "en": "199 boulevard SaintGermain"
+            }
+        }, 
+        {
+            "value": "28SP", 
+            "label": {
+                "fr": "28 rue des SaintsPères", 
+                "en": "28 rue des SaintsPères"
+            }
+        }, 
+        {
+            "value": "56SP", 
+            "label": {
+                "fr": "56 rue des SaintsPères", 
+                "en": "56 rue des SaintsPères"
+            }
+        }, 
+        {
+            "value": "56J", 
+            "label": {
+                "fr": "56 rue Jacob", 
+                "en": "56 rue Jacob"
+            }
+        }, 
+        {
+            "value": "224BSG", 
+            "label": {
+                "fr": "224 boulevard SaintGermain", 
+                "en": "224 boulevard SaintGermain"
+            }
+        }, 
+        {
+            "value": "254BSG", 
+            "label": {
+                "fr": "254 boulevard SaintGermain", 
+                "en": "254 boulevard SaintGermain"
+            }
+        }, 
+        {
+            "value": "13PAC", 
+            "label": {
+                "fr": "13, rue du Pré aux Clercs", 
+                "en": "13, rue du Pré aux Clercs"
+            }
+        }, 
+        {
+            "value": "artillerie", 
+            "label": {
+                "fr": "Artillerie", 
+                "en": "Artillerie"
+            }
+        }, 
+        {
+            "value": "2SL", 
+            "label": {
+                "fr": "2 square de Luynes", 
+                "en": "2 square de Luynes"
             }
         }, 
         {
@@ -477,6 +561,62 @@
             "label": {
                 "fr": "13 rue de l'université", 
                 "en": "13 rue de l'université"
+            }
+        }, 
+        {
+            "value": "117BSG", 
+            "label": {
+                "fr": "117 boulevard SaintGermain", 
+                "en": "117 boulevard SaintGermain"
+            }
+        }, 
+        {
+            "value": "26SG", 
+            "label": {
+                "fr": "26 rue SaintGuillaume", 
+                "en": "26 rue SaintGuillaume"
+            }
+        }, 
+        {
+            "value": "33SG", 
+            "label": {
+                "fr": "33 rue SaintGuillaume", 
+                "en": "33 rue SaintGuillaume"
+            }
+        }, 
+        {
+            "value": "41F", 
+            "label": {
+                "fr": "41 rue du Four", 
+                "en": "41 rue du Four"
+            }
+        }, 
+        {
+            "value": "98U", 
+            "label": {
+                "fr": "98 rue de l'université", 
+                "en": "98 rue de l'université"
+            }
+        }, 
+        {
+            "value": "19A", 
+            "label": {
+                "fr": "19 rue Amélie", 
+                "en": "19 rue Amélie"
+            }
+        }, 
+        {
+            "value": "54BR", 
+            "label": {
+                "fr": "54 boulevard Raspail", 
+                "en": "54 boulevard Raspail"
+            }
+        }, 
+        {
+            "value": "69QO", 
+            "label": {
+                "fr": "69 quai d'Orsay", 
+                "en": "69 quai d'Orsay"
             }
         }
     ], 
