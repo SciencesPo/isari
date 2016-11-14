@@ -116,8 +116,8 @@ export class IsariDataService {
       })));
   }
 
-  srcEnumBuilder(src: string) {
-    const enum$ = this.getEnum(src);
+  srcEnumBuilder(src: string, path: string) {
+    const enum$ = this.getEnum(src, path);
     return function(terms$: Observable<string>, max) {
       return terms$
         .startWith('')
@@ -288,7 +288,7 @@ export class IsariDataService {
     return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
   }
 
-  private getEnum(src: string) {
+  private getEnum(src: string, path = '') {
     // // cas non gérés pour le moment
     if (src === 'KEYS(personalActivityTypes)' || src === 'personalActivityTypes.$personalActivityType') {
       return Observable.of([]);
@@ -299,7 +299,10 @@ export class IsariDataService {
       return this.enumsCache[src];
     }
 
-    const url = `${this.enumUrl}/${src}`;
+    let url = `${this.enumUrl}/${src}`;
+    // if (path) {
+    //   url += '?path=' + path;
+    // }
     let $enum = this.http.get(url).map(response => response.json());
     this.enumsCache[src] = $enum.cache();
     return $enum;

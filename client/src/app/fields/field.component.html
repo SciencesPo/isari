@@ -6,6 +6,7 @@
       <isari-data-editor
         (onDelete)="remove($event)"
         (onUpdate)="update($event)"
+        [path]="path + (multiple ? '' : '.' + field.name)"
         [deletable]="index !== null"
         [form]="getForm()"
         [layout]="field.layout"></isari-data-editor>
@@ -69,6 +70,8 @@
       (onUpdate)="update($event)"
       [index]="i"
       [form]="form"
+      [path]="path + '.' + i"
+      [multiple]="true"
       [field]="getField(field)"></isari-field>
     <md-card-subtitle>
       <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>

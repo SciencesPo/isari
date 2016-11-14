@@ -66,11 +66,12 @@ export class IsariSelectComponent implements OnInit {
 
   onSelect(idx: number) {
     this.currentIndex = idx;
+    const v = this.values[this.currentIndex];
 
-    this.form.controls[this.name].setValue(this.values[this.currentIndex].id || this.values[this.currentIndex].value);
+    this.form.controls[this.name].setValue(v.id || v.value);
     this.form.controls[this.name].markAsDirty();
 
-    this.selectControl.setValue(this.values[this.currentIndex].value || this.values[this.currentIndex].label.fr);
+    this.selectControl.setValue(v.label && v.label['fr'] ? v.label['fr'] : (v.id || v.value));
     this.selectControl.markAsDirty();
 
     this.update({});

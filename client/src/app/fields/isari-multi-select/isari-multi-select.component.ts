@@ -59,8 +59,7 @@ export class IsariMultiSelectComponent implements OnInit {
   set values(values: any[]) {
     this._values = values;
     this.empty = this.values.length === 0;
-    this.form.controls[this.name].setValue(values.map(v => v.label ? v.value : v.id));
-    this.onUpdate.emit({});
+    this.form.controls[this.name].setValue(values.map(v => v.id || v.value));
   }
 
   get values() {
@@ -89,6 +88,8 @@ export class IsariMultiSelectComponent implements OnInit {
 
   removeValue(value, $event) {
     this.values = this.values.filter(v => v !== value);
+    this.form.controls[this.name].markAsDirty();
+    this.onUpdate.emit({});
   }
 
   onSelect(index) {
@@ -97,14 +98,19 @@ export class IsariMultiSelectComponent implements OnInit {
 
   addValue(value) {
     this.selectControl.setValue('');
-
-    if (!this.extensible && !this.options.find(option => option.value === value)) {
+    if (!this.extensible && !this.findOption(value)) {
       value = null;
     }
 
     if (value && this.values.indexOf(value) === -1) { // uniq
       this.values = [...this.values, value];
+      this.form.controls[this.name].markAsDirty();
+      this.onUpdate.emit({});
     }
+  }
+
+  private findOption(item) {
+    return this.options.find(option => (option.value && option.value === item.value) || (option.id && option.id === item.id));
   }
 
 }

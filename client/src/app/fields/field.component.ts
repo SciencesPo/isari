@@ -20,18 +20,21 @@ export class FieldComponent implements OnInit, OnChanges {
   @Input() field: any;
   @Input() form: FormGroup;
   @Input() index: number | null = null;
+  @Input() path: string = '';
+  @Input() multiple = false;
   @Output() onUpdate = new EventEmitter<any>();
 
   constructor(private isariDataService: IsariDataService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
       this.field.controlType = this.isariDataService.getControlType(this.field);
       if (this.field.enum || this.field.softenum) {
         const src = this.field.enum || this.field.softenum;
-        this.field.src = this.isariDataService.srcEnumBuilder(src);
+        this.field.src = this.isariDataService.srcEnumBuilder(src, this.path);
         this.field.stringValue = this.isariDataService.getEnumLabel(src, this.form.controls[this.field.name].value, 'fr');
       }
       if (this.field.ref) {
