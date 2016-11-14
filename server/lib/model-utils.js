@@ -3,12 +3,13 @@
 const templates = require('../../specs/templates')
 const { getMeta } = require('./specs')
 const { RESERVED_FIELDS } = require('./schemas')
-const { difference, get, clone, isObject, isArray } = require('lodash/fp')
+const { get, clone, isObject, isArray } = require('lodash/fp')
 
 
 module.exports = {
 	applyTemplates,
 	populateAll,
+	populateAllQuery,
 	format
 }
 
@@ -59,6 +60,19 @@ function _applyTemplates (object, meta, depth) {
 	return result
 }
 
+// One pass only when done from query
+function populateAllQuery (query, name, depth = Math.Infinity) {
+	let meta = getMeta(name)
+
+	if (Array.isArray(meta)) {
+		meta = meta[0]
+	}
+
+	const populates = getRefFields(meta, depth)
+	const fields = Object.keys(populates)
+
+	return fields.length > 0 ? query.populate(fields.join(' ')) : query
+}
 
 function populateAll (object, name, depth = Math.Infinity, passes = 1) {
 	const meta = getMeta(name)
@@ -73,7 +87,7 @@ function _populateAll (object, meta, depth, passes) {
 		return null
 	}
 
-	const populates = getRefFields('', object, meta, depth)
+	const populates = getRefFields(meta, depth)
 	const fields = Object.keys(populates)
 
 	const populated = fields.length > 0
@@ -87,8 +101,18 @@ function _populateAll (object, meta, depth, passes) {
 	}
 }
 
-function getRefFields (baseName, object, meta, depth) {
-	if (depth === 0 || !object) {
+getRefFields.cache = new WeakMap()
+function getRefFields (meta, depth) {
+	const cache = getRefFields.cache.get(meta) || {}
+	if (!cache[depth]) {
+		cache[depth] = _getRefFields('', meta, depth)
+		getRefFields.cache.set(meta, cache)
+	}
+	return cache[depth]
+}
+
+function _getRefFields (baseName, meta, depth) {
+	if (depth === 0) {
 		return []
 	}
 	if (Array.isArray(meta)) {
@@ -97,10 +121,11 @@ function getRefFields (baseName, object, meta, depth) {
 
 	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 	const refFields = fields.filter(f => meta[f].ref)
+	const notRefFields = fields.filter(f => !meta[f].ref)
 
 	let result = {}
-	refFields.filter(f => !object.populated(f)).forEach(f => result[baseName ? (baseName + '.' + f) : f] = meta[f].ref)
-	difference(fields, refFields).forEach(f => Object.assign(result, getRefFields(baseName ? (baseName + '.' + f) : f, object, meta[f], depth - 1)))
+	refFields.forEach(f => result[baseName ? (baseName + '.' + f) : f] = meta[f].ref)
+	notRefFields.forEach(f => Object.assign(result, _getRefFields(baseName ? (baseName + '.' + f) : f, meta[f], depth - 1)))
 
 	return result
 }
