@@ -1,5 +1,10 @@
 <md-card-content>
+  <md-toolbar [color]="primary">
+    <span>{{ feature }}</span>
+    <span class="filer"></span>
+    <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
+    <button md-raised-button>Add people</button>
+  </md-toolbar>
   <isari-data-table [data]="data" [cols]="selectedColumns"></isari-data-table>
-  <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
 </md-card-content>
 <router-outlet name="editor"></router-outlet>
