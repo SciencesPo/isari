@@ -239,6 +239,15 @@ export class IsariDataService {
     }
   }
 
+  closeAll(layout) {
+    return layout.map(group => {
+      if (group.collapsabled) {
+        group.collapsed = true; // by default all collapsable groups are closed
+      }
+      return group;
+    });
+  }
+
   translate(layout, lang) {
     return layout.map(group => {
       let grp = Object.assign({}, group, {
