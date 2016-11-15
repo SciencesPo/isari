@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+// import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
@@ -12,7 +12,7 @@ import { IsariDataService } from '../isari-data.service';
   selector: 'isari-editor',
   templateUrl: 'isari-editor.component.html',
   styleUrls: ['isari-editor.component.css'],
-  providers: [MdSnackBar]
+  // providers: [MdSnackBar]
 })
 export class IsariEditorComponent implements OnInit, OnChanges {
 
@@ -21,16 +21,16 @@ export class IsariEditorComponent implements OnInit, OnChanges {
   data: any;
   layout: any;
   form: FormGroup;
-  mdSnackBarConfig: MdSnackBarConfig;
+  // mdSnackBarConfig: MdSnackBarConfig;
 
   constructor(
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
-    private snackBar: MdSnackBar,
+    // private snackBar: MdSnackBar,
     private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit() {
-    this.mdSnackBarConfig = new MdSnackBarConfig(this.viewContainerRef);
+    // this.mdSnackBarConfig = new MdSnackBarConfig(this.viewContainerRef);
 
     let $routeParams = this.route.parent
       ? Observable
@@ -67,11 +67,13 @@ export class IsariEditorComponent implements OnInit, OnChanges {
     if (!this.form.disabled && this.form.valid && this.form.dirty) {
       this.isariDataService.save(this.feature, Object.assign({}, this.form.value, { id: this.id }))
         .then(() => {
-          this.snackBar.open('Saved', null, this.mdSnackBarConfig);
+          console.log('SAVED');
+          // this.snackBar.open('Saved', null, this.mdSnackBarConfig);
         });
     }
     if (!this.form.valid) {
-      this.snackBar.open('It didn\'t quite work!', 'Try Again', this.mdSnackBarConfig);
+      console.error('ERROR');
+      // this.snackBar.open('It didn\'t quite work!', 'Try Again', this.mdSnackBarConfig);
     }
   }
 
