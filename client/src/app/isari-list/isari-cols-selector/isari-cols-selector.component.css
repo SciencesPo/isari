@@ -1,5 +1,5 @@
 .md-menu {
-  max-width: 400px;
+  max-width: 50%;
 }
 
 .md-menu button {
@@ -12,4 +12,10 @@
 
 .md-menu button md-icon {
   vertical-align: middle;
+}
+
+md-checkbox {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 1em .2em 0;
+  display: inline-block;
 }
