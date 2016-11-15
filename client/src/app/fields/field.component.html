@@ -36,6 +36,13 @@
       [description]="field.description"
       [form]="form"></isari-checkbox>
 
+    <isari-textarea *ngSwitchCase="'text'"
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label"
+      [description]="field.description"
+      [form]="form"></isari-textarea>
+
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
