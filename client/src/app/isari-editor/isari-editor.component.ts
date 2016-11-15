@@ -49,6 +49,7 @@ export class IsariEditorComponent implements OnInit, OnChanges {
         ]).then(([data, layout]) => {
           this.data = data;
           this.layout = this.isariDataService.translate(layout, 'en');
+          this.layout = this.isariDataService.closeAll(this.layout);
           this.form = this.isariDataService.buildForm(this.layout, this.data);
           // disabled all form
           if (this.data.opts && this.data.opts.editable === false) {

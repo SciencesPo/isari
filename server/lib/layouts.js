@@ -66,7 +66,7 @@ const getRowArray = (baseName, schema, fields) => getRowObject(baseName, schema,
 })
 
 const getRowObject = (baseName, schema, row) => merge(
-	pick([ 'label', 'collapsable' ].concat(FRONT_KEPT_FIELDS), row),
+	pick([ 'label', 'collapsabled' ].concat(FRONT_KEPT_FIELDS), row),
 	{
 		fields: row.fields.map(getFieldsDescription(baseName, schema))
 	}

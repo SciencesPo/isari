@@ -2,7 +2,6 @@
 <table class="striped">
   <thead>
     <tr>
-      <th></th>
       <isari-col *ngFor="let col of cols"
         (onSort)="sortBy(col)"
         [sorted]="sortedState.key === col.key ? sortedState.reverse : null">
@@ -11,8 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of page">
-      <td><a [routerLink]="[{outlets: {editor: row['id']} }]">edit</a></td>
+    <tr *ngFor="let row of page" [routerLink]="[{outlets: {editor: row['id']} }]">
       <td *ngFor="let col of cols">{{ row[col.key] || '' }}</td>
     </tr>
   </tbody>

@@ -8,6 +8,7 @@
         (onUpdate)="update($event)"
         [path]="path + (multiple ? '' : '.' + field.name)"
         [deletable]="index !== null"
+        [label]="field.label"
         [form]="getForm()"
         [layout]="field.layout"></isari-data-editor>
     </div>

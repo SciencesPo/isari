@@ -163,13 +163,14 @@ export class IsariDataService {
     if (!(values instanceof Array)) {
       values = [values];
     }
+    values = values.filter(v => !!v);
     if (values.length === 0) {
       return Observable.of([]);
     }
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${values.join(',')}/string`;
     let options = new RequestOptions({ withCredentials: true });
     return this.http.get(url, options)
-      .map(response => response.json())
+      .map(response => response.json());
       // .map(item => item.value);
   }
 
@@ -207,10 +208,44 @@ export class IsariDataService {
     return form;
   }
 
-  addFormControlToArray(fa: FormArray, field, data = {}) {
+  addFormControlToArray(fa: FormArray, field, data = null) {
     let fieldClone = Object.assign({}, field);
     delete fieldClone.multiple;
+    if (!data) {
+      data = this.buildData(fieldClone);
+    }
     fa.push(this.buildForm(field.layout, data));
+  }
+
+  // recursively construct empty data following types
+  private buildData(field) {
+    if (field.type === 'object') {
+      let data = field.layout
+        .reduce((acc, row) => [...acc, ...row.fields], [])
+        .reduce((acc, f) => Object.assign(acc, {
+          [f.name]: this.buildData(f)
+        }), {});
+      if (field.multiple) {
+        return [data];
+      } else {
+        return data;
+      }
+    } else {
+     if (field.multiple) {
+       return [];
+     } else {
+       return null;
+     }
+    }
+  }
+
+  closeAll(layout) {
+    return layout.map(group => {
+      if (group.collapsabled) {
+        group.collapsed = true; // by default all collapsable groups are closed
+      }
+      return group;
+    });
   }
 
   translate(layout, lang) {

@@ -67,7 +67,7 @@ export class FieldComponent implements OnInit, OnChanges {
     $event.preventDefault();
     const parentFormControl = this.form.controls[this.field.name];
     if (parentFormControl instanceof FormArray) {
-      this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field, {});
+      this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field);
       this.update($event);
     }
   }

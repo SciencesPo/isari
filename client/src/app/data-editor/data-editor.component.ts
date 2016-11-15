@@ -13,6 +13,7 @@ export class DataEditorComponent implements OnInit {
   @Input() name: string | null;
   @Input() deletable: false;
   @Input() path: string = '';
+  @Input() label: string = '';
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
 

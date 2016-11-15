@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'isari-data-table',
@@ -16,7 +17,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input() data: any[];
   @Input() cols: any[];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -50,6 +51,11 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.sortedState.reverse = (this.sortedState.key === col.key) ? !this.sortedState.reverse : false;
     this.sortedState.key = col.key;
     this.calculPage(1);
+  }
+
+  edit(row) {
+    this.router.navigate([{outlets: { editor: row['id'] }}]);
+      // <td><a [routerLink]="[{outlets: {editor: row['id']} }]">edit</a></td>
   }
 
   private applyFilter(key: string, value: string) {
