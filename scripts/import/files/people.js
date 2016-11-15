@@ -460,7 +460,8 @@ module.exports = {
             });
         }
 
-        if (line['Unité de recherche'] !== 'Non affilié')
+        if (line['Unité de recherche'] &&
+            line['Unité de recherche'] !== 'Non affilié')
           info.academicMemberships = line['Unité de recherche']
             .split(',')
             .map(org => ({
