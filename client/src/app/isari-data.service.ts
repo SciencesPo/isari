@@ -163,13 +163,14 @@ export class IsariDataService {
     if (!(values instanceof Array)) {
       values = [values];
     }
+    values = values.filter(v => !!v);
     if (values.length === 0) {
       return Observable.of([]);
     }
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${values.join(',')}/string`;
     let options = new RequestOptions({ withCredentials: true });
     return this.http.get(url, options)
-      .map(response => response.json())
+      .map(response => response.json());
       // .map(item => item.value);
   }
 
