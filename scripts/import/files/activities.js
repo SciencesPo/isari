@@ -486,7 +486,7 @@ module.exports = {
      */
     {
       name: 'prix',
-      path: 'activities/prix.csv',
+      path: 'people/prix.csv',
       delimiter: ',',
       consumer(line) {
         const info = {
@@ -693,6 +693,8 @@ module.exports = {
 
           if (match)
             return;
+
+          console.log(`${person.firstName} ${person.name}`);
 
           // Let's add the person
           indexes.hashed[key] = person;
