@@ -593,14 +593,111 @@ module.exports = {
         return info;
       },
       resolver(lines) {
+        const organizations = {},
+              people = {},
+              activities = [];
 
-        // Si le People n'est pas trouvé, le créer avec une academicMembership sur l'UR.
-        // Organisation : pas toujours renseignée voir presque pas. Si renseigné, l'import va créer l'Organisation si elle n'existe pas dans la base, avec le Pays s'il est renseigné. La relier à l'Activity avec le rôle "orgadaccueil".
-        return {};
+        // TODO: forgot something?
+        lines.forEach(line => {
+
+          // Handling the person
+          const person = {
+            name: line.name,
+            firstName: line.firstName
+          };
+
+          const key = hashPeople(person);
+
+          if (line.researchUnit)
+            person.academicMemberships = [{organization: line.researchUnit}];
+
+          people[key] = person;
+
+          // Handling the organization
+          let org;
+
+          if (line.organization) {
+            org = {
+              name: line.organization
+            };
+
+            if (line.country)
+              org.countries = [line.country];
+
+            if (line.address)
+              org.address = line.address;
+
+            organizations[org.name] = org;
+          }
+
+          // Handling the activity
+          const activity = {
+            name: `Séjour de recherche : ${person.firstName} ${person.name}`,
+            people: [
+              {people: key}
+            ]
+          };
+
+          if (org)
+            activity.organizations = [
+              {
+                organization: org.name,
+                role: 'orgadaccueil'
+              }
+            ];
+
+          [
+            'subject',
+            'summary',
+            'startDate',
+            'endDate'
+          ].forEach(prop => {
+            if (line[prop])
+              activity[prop] = line[prop];
+          });
+
+          activities.push(activity);
+        });
+
+        return {
+          Organization: _.values(organizations),
+          People: _.values(people),
+          Activity: activities
+        };
       },
       indexers: {
-        Activity() {
+        Organization(indexes, org) {
+          const key = fingerprint(org.name);
 
+          // Let's attempt to match the organization
+          let match = indexes.name[org.name]
+
+          if (!match)
+            match = indexes.fingerprint[key];
+
+          if (match)
+            return;
+
+          // Let's add the organization
+          indexes.name[org.name] = org;
+          indexes.fingerprint[key] = org;
+          indexes.id[org._id] = org;
+        },
+        People(indexes, person) {
+          const key = hashPeople(person);
+
+          // Let's attempt to match the person
+          const match = indexes.hashed[key];
+
+          if (match)
+            return;
+
+          // Let's add the person
+          indexes.hashed[key] = person;
+          indexes.id[person._id] = person;
+        },
+        Activity(indexes, activity) {
+          indexes.id[activity._id] = activity;
         }
       }
     }
