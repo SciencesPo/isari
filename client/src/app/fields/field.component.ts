@@ -7,6 +7,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 import { IsariDataService } from '../isari-data.service';
 
@@ -36,10 +37,12 @@ export class FieldComponent implements OnInit, OnChanges {
         const src = this.field.enum || this.field.softenum;
         this.field.src = this.isariDataService.srcEnumBuilder(src, this.path);
         this.field.stringValue = this.isariDataService.getEnumLabel(src, this.form.controls[this.field.name].value, 'fr');
+        this.field.create = function (x) { return Observable.of(x); };
       }
       if (this.field.ref) {
         this.field.src = this.isariDataService.srcForeignBuilder(this.field.ref);
         this.field.stringValue = this.isariDataService.getForeignLabel(this.field.ref, this.form.controls[this.field.name].value);
+        this.field.create = this.isariDataService.getForeignCreate(this.field.ref);
       }
     }
   }

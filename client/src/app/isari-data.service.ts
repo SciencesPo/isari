@@ -174,6 +174,16 @@ export class IsariDataService {
       // .map(item => item.value);
   }
 
+
+  getForeignCreate(feature) {
+    return function (name: string) {
+      const url = `${this.dataUrl}/${mongoSchema2Api[feature]}`;
+      let options = new RequestOptions({ withCredentials: true });
+      return this.http.post(url, { name }, options)
+        .map(response => response.json());
+    }.bind(this);
+  }
+
   rawSearch(feature: string, query: string) {
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/search`;
     const search = new URLSearchParams();
