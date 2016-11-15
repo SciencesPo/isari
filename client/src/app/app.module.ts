@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
+
+
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 // import { InMemoryDataService }  from './in-memory-data.service';
 
@@ -65,7 +68,8 @@ import { IsariTextareaComponent } from './fields/isari-textarea/isari-textarea.c
     ReactiveFormsModule,
     MaterialModule.forRoot(),
     routing,
-    HttpModule
+    HttpModule,
+    Ng2PageScrollModule.forRoot()
     // InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [

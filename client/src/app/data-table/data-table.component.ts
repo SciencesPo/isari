@@ -1,6 +1,9 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/platform-browser';
+
+import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
 
 @Component({
   selector: 'isari-data-table',
@@ -18,7 +21,13 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input() cols: any[];
   @Input() editedId: string;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private pageScrollService: PageScrollService,
+    @Inject(DOCUMENT) private document: any) {
+    PageScrollConfig.defaultScrollOffset = 50;
+    PageScrollConfig.defaultDuration = 500;
+  }
 
   ngOnInit() {}
 
@@ -59,7 +68,13 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   edit(id) {
+    // highlight row
     this.editedId = id;
+
+    // scroll to form
+    let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
+    this.pageScrollService.start(pageScrollInstance);
+
   // je ne sais pas pquoi ça marche pas
   //   this.router.navigate([{ outlets: { editor: [ id ] } }]);
   }
