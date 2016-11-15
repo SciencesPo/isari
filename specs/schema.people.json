@@ -67,7 +67,7 @@
         {
             "label": {
                 "fr": "Nationalité(s)",
-                "en": "Nationanality(ies)"
+                "en": "Nationality(ies)"
             },
             "accessMonitoring": "corporate",
             "enum": "nationalities"
