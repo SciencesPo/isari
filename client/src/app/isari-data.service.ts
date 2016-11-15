@@ -207,10 +207,35 @@ export class IsariDataService {
     return form;
   }
 
-  addFormControlToArray(fa: FormArray, field, data = {}) {
+  addFormControlToArray(fa: FormArray, field, data = null) {
     let fieldClone = Object.assign({}, field);
     delete fieldClone.multiple;
+    if (!data) {
+      data = this.buildData(fieldClone);
+    }
     fa.push(this.buildForm(field.layout, data));
+  }
+
+  // recursively construct empty data following types
+  private buildData(field) {
+    if (field.type === 'object') {
+      let data = field.layout
+        .reduce((acc, row) => [...acc, ...row.fields], [])
+        .reduce((acc, f) => Object.assign(acc, {
+          [f.name]: this.buildData(f)
+        }), {});
+      if (field.multiple) {
+        return [data];
+      } else {
+        return data;
+      }
+    } else {
+     if (field.multiple) {
+       return [];
+     } else {
+       return null;
+     }
+    }
   }
 
   translate(layout, lang) {
