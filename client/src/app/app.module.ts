@@ -6,10 +6,6 @@ import { HttpModule } from '@angular/http';
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
-
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService }  from './in-memory-data.service';
-
 import { MaterialModule } from '@angular/material';
 
 import { IsariDataService } from './isari-data.service';
@@ -70,7 +66,6 @@ import { IsariTextareaComponent } from './fields/isari-textarea/isari-textarea.c
     routing,
     HttpModule,
     Ng2PageScrollModule.forRoot()
-    // InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [
     IsariDataService,
