@@ -1,5 +1,5 @@
 <div *ngIf="!loading">
-<table class="striped">
+<table class="striped bordered">
   <thead>
     <tr>
       <isari-col *ngFor="let col of cols"
@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of page" [routerLink]="[{outlets: {editor: row['id']} }]">
+    <tr *ngFor="let row of page" [routerLink]="[{outlets: {editor: row['id']} }]" (click)="edit(row.id)" [class.active]="row['id'] === editedId">
       <td *ngFor="let col of cols">{{ row[col.key] || '' }}</td>
     </tr>
   </tbody>

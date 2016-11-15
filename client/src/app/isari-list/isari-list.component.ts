@@ -14,6 +14,7 @@ export class IsariListComponent implements OnInit {
   feature: string;
   data: any[] = [];
   cols: any[] = [];
+  editedId: string = '';
   selectedColumns: any[] = [];
 
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
@@ -34,6 +35,14 @@ export class IsariListComponent implements OnInit {
           });
 
       });
+
+    // get activated item in editor
+    let editorRoute = this.route.parent.children.find(route => route.outlet === 'editor');
+    if (editorRoute) {
+      editorRoute.params.subscribe(({ id }) => {
+        this.editedId = id;
+      });
+    }
   }
 
   colSelected($event) {

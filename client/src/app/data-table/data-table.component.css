@@ -35,12 +35,9 @@ table.striped > tbody > tr > td {
   border-radius: 0;
 }
 
-table.highlight > tbody > tr {
-  transition: background-color .25s ease;
-}
-
-table.highlight > tbody > tr:hover {
-  background-color: #f2f2f2;
+table.striped > tbody > tr.active {
+  background-color: #b0bec5;
+  color: #fff;
 }
 
 table.centered thead tr th, table.centered tbody tr td {

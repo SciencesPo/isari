@@ -5,6 +5,6 @@
     <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
     <a md-raised-button href="/{{ feature }}/new" [disabled]="false" target="_blank">Add people</a>
   </md-toolbar>
-  <isari-data-table [data]="data" [cols]="selectedColumns"></isari-data-table>
+  <isari-data-table [data]="data" [cols]="selectedColumns" [editedId]="editedId"></isari-data-table>
 </md-card>
 <router-outlet name="editor"></router-outlet>

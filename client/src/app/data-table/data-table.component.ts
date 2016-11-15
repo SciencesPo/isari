@@ -16,13 +16,14 @@ export class DataTableComponent implements OnInit, OnChanges {
 
   @Input() data: any[];
   @Input() cols: any[];
+  @Input() editedId: string;
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
+    let navigateToFirstPage = false;
     if (changes['cols'] && this.cols && this.cols.length) {
       // @TODO : destroy old filters ?
       this.cols = this.cols.map(col => {
@@ -32,12 +33,16 @@ export class DataTableComponent implements OnInit, OnChanges {
         });
         return Object.assign({}, col, { filterControl });
       });
+      navigateToFirstPage = true;
     }
     if (changes['data'] && this.data && this.data.length) {
       this.unfilteredData = this.data;
       this.loading = false;
+      navigateToFirstPage = true;
     }
-    this.calculPage(1);
+    if (navigateToFirstPage) {
+      this.calculPage(1);
+    }
   }
 
   pageChanged($event) {
@@ -53,9 +58,10 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.calculPage(1);
   }
 
-  edit(row) {
-    this.router.navigate([{outlets: { editor: row['id'] }}]);
-      // <td><a [routerLink]="[{outlets: {editor: row['id']} }]">edit</a></td>
+  edit(id) {
+    this.editedId = id;
+  // je ne sais pas pquoi ça marche pas
+  //   this.router.navigate([{ outlets: { editor: [ id ] } }]);
   }
 
   private applyFilter(key: string, value: string) {
