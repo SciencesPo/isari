@@ -22,6 +22,7 @@ const isariRoutes: Routes = [
     component: IsariLayoutComponent,
     children: [
       { path: '', component: IsariListComponent },
+      { path: 'new', component: IsariEditorComponent },
       { path: ':id', component: IsariEditorComponent, outlet: 'editor' },
       { path: ':id', component: IsariEditorComponent }
     ],

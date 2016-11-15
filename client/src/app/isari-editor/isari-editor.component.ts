@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 // import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 
@@ -24,6 +24,7 @@ export class IsariEditorComponent implements OnInit, OnChanges {
   // mdSnackBarConfig: MdSnackBarConfig;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     // private snackBar: MdSnackBar,
@@ -50,7 +51,7 @@ export class IsariEditorComponent implements OnInit, OnChanges {
           this.layout = this.isariDataService.translate(layout, 'en');
           this.form = this.isariDataService.buildForm(this.layout, this.data);
           // disabled all form
-          if (this.data.opts.editable === false) {
+          if (this.data.opts && this.data.opts.editable === false) {
             this.form.disable();
           }
         });
@@ -66,8 +67,10 @@ export class IsariEditorComponent implements OnInit, OnChanges {
   save($event) {
     if (!this.form.disabled && this.form.valid && this.form.dirty) {
       this.isariDataService.save(this.feature, Object.assign({}, this.form.value, { id: this.id }))
-        .then(() => {
-          console.log('SAVED');
+        .then(data => {
+          if (this.id !== data.id) {
+            this.router.navigate([this.feature, data.id]);
+          }
           // this.snackBar.open('Saved', null, this.mdSnackBarConfig);
         });
     }

@@ -40,7 +40,10 @@ export class IsariDataService {
 
   constructor(private http: Http, private fb: FormBuilder) {}
 
-  getData(feature: string, id: string) {
+  getData(feature: string, id: string | undefined) {
+    if (id === undefined) {
+      return Promise.resolve({});
+    }
     const url = `${this.dataUrl}/${feature}/${id}`;
     let options = new RequestOptions({ withCredentials: true });
     return this.http.get(url, options)
@@ -238,10 +241,16 @@ export class IsariDataService {
 
 
   save(feature: string, data: any) {
-    const url = `${this.dataUrl}/${feature}/${data.id}`;
     let options = new RequestOptions({ withCredentials: true });
-    return this.http.put(url, data, options)
-      .toPromise()
+    let query: Observable<any>;
+    if (data.id) {
+      const url = `${this.dataUrl}/${feature}/${data.id}`;
+      query = this.http.put(url, data, options);
+    } else {
+      const url = `${this.dataUrl}/${feature}`;
+      query = this.http.post(url, data, options);
+    }
+    return query.toPromise()
       .then(response => response.json())
       .catch(this.handleError);
   }
