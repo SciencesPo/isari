@@ -10,12 +10,16 @@
         <md-icon>{{ group.collapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</md-icon>
       </a>
     </md-card-subtitle>
-    <div [hidden]="group.collapsed">
-      <isari-field *ngFor="let field of group.fields"
-        (onUpdate)="update($event)"
-        [form]="form"
-        [field]="field"
-        [path]="(path ? path + '.' : '') + field.name"></isari-field>
-    </div>
+    <table [hidden]="group.collapsed" style="width: 100%;">
+      <tr>
+        <td *ngFor="let field of group.fields">
+          <isari-field
+            (onUpdate)="update($event)"
+            [form]="form"
+            [field]="field"
+            [path]="(path ? path + '.' : '') + field.name"></isari-field>
+        </td>
+      </tr>
+    </table>
   </md-card-content>
 </div>
