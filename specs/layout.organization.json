@@ -1,7 +1,7 @@
 [
 	["name","acronym"],
 	["url","address","countries"],
-	["organizationTypes","status","HCERESorganizationType"],
+	["organizationTypes","status","HCERESOrganizationType"],
 	"parentOrganizations",
 	"researchUnitCodes",
 	{
