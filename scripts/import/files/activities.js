@@ -633,11 +633,13 @@ module.exports = {
           // Handling the activity
           const activity = {
             name: `Séjour de recherche : ${person.firstName} ${person.name}`,
+            activityType: 'mob_sortante',
             people: [
               {people: key}
             ]
           };
 
+          // TODO: phantom
           if (org)
             activity.organizations = [
               {
