@@ -13,6 +13,7 @@ const async = require('async'),
       fs = require('fs'),
       path = require('path'),
       yargs = require('yargs'),
+      fingerprint = require('talisman/keyers/fingerprint').default,
       mongoose = require('../../server/node_modules/mongoose'),
       inspect = require('util').inspect,
       chalk = require('chalk'),
@@ -470,6 +471,10 @@ function processRelations() {
         // Else solving the relation by acronym
         if (!related)
           related = INDEXES.Organization.acronym[rel];
+
+        // Else solving by fingerprint
+        if (!related)
+          related = INDEXES.Organization.fingerprint[fingerprint(rel)];
 
         // If we still have nothing, we should yell
         if (!related) {
