@@ -20,6 +20,20 @@ const restHandler = exports.restHandler = fn => (req, res, next) => {
 	})
 }
 
+const extractMongooseValidationError = err => {
+	let errors = {}
+	for (let k in err.errors) {
+		if (err.errors.hasOwnProperty(k)) {
+			const fieldError = err.errors[k]
+			errors[k] = !fieldError.errors
+				? // Field error: extract message
+					fieldError.message
+				: // Recursive errors, for a change
+					extractMongooseValidationError(fieldError)
+		}
+	}
+	return errors
+}
 
 const saveDocument = (format = identity) => doc => {
 	return doc.save()
@@ -27,10 +41,7 @@ const saveDocument = (format = identity) => doc => {
 		.catch(e => {
 			let err = new ClientError({ title: 'Validation error' })
 			if (e.name === 'ValidationError') {
-				err.errors = Object.keys(e.errors).reduce(
-					(errors, error) => set(error, e.errors[error].message, errors),
-					{}
-				)
+				err.errors = extractMongooseValidationError(e)
 			}
 			return Promise.reject(err)
 		})
