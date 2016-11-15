@@ -8,6 +8,7 @@ export class UserService {
 
   private loggedIn = false;
   private loginUrl = `${environment.API_BASE_URL}/auth/login`;
+  private logoutUrl = `${environment.API_BASE_URL}/auth/logout`;
   private checkUrl = `${environment.API_BASE_URL}/auth/myself`;
   private httpOptions: RequestOptions;
 
@@ -18,7 +19,6 @@ export class UserService {
   }
 
   login(username, password) {
-
     return this.http
       .post(this.loginUrl, { login: username, password }, this.httpOptions)
       .map(res => res.json())
@@ -27,10 +27,13 @@ export class UserService {
       });
   }
 
-  // logout() {
-  //   localStorage.removeItem('auth_token');
-  //   this.loggedIn = false;
-  // }
+  logout() {
+    return this.http
+      .post(this.logoutUrl, null, this.httpOptions)
+      .map(res => {
+        this.loggedIn = false;
+      });
+  }
 
   isLoggedIn() {
     return this.http.get(this.checkUrl, this.httpOptions)

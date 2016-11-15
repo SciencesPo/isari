@@ -14,6 +14,7 @@
     <md-menu x-position="before" #menu="mdMenu">
       <a md-menu-item routerLink="/people">People</a>
       <a md-menu-item routerLink="/organizations">Organizations</a>
+      <a md-menu-item href (click)="onLogout($event)">Logout</a>
     </md-menu>
   </md-toolbar>
 
