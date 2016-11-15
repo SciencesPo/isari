@@ -1,5 +1,6 @@
-ul {
-  float: right;
+:host {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 ul li {
