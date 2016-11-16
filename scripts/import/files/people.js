@@ -352,7 +352,7 @@ module.exports = {
             });
           }
           else {
-            match.positions.push(person.positions);
+            match.positions = match.positions.concat(person.positions);
           }
 
           // Overriding academic memberships
