@@ -5,7 +5,7 @@
       <isari-col *ngFor="let col of cols"
         (onSort)="sortBy(col)"
         [sorted]="sortedState.key === col.key ? sortedState.reverse : null">
-        <md-input type="text" [formControl]="col.filterControl" [placeholder]="col.label['fr']"></md-input>
+        <md-input type="text" [formControl]="col.filterControl" [placeholder]="col.label[lang]"></md-input>
       </isari-col>
     </tr>
   </thead>

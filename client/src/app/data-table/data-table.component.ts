@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@ang
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
+import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
 
@@ -16,6 +17,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
   unfilteredData: any[];
   loading = true;
+  lang: string;
 
   @Input() data: any[];
   @Input() cols: any[];
@@ -24,12 +26,18 @@ export class DataTableComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private pageScrollService: PageScrollService,
+    private translate: TranslateService,
     @Inject(DOCUMENT) private document: any) {
     PageScrollConfig.defaultScrollOffset = 50;
     PageScrollConfig.defaultDuration = 500;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     let navigateToFirstPage = false;

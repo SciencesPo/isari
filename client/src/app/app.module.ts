@@ -5,8 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
-
 import { MaterialModule } from '@angular/material';
+import { TranslateModule } from 'ng2-translate';
 
 import { IsariDataService } from './isari-data.service';
 import { UserService } from './user.service';
@@ -65,7 +65,8 @@ import { IsariTextareaComponent } from './fields/isari-textarea/isari-textarea.c
     MaterialModule.forRoot(),
     routing,
     HttpModule,
-    Ng2PageScrollModule.forRoot()
+    Ng2PageScrollModule.forRoot(),
+    TranslateModule.forRoot()
   ],
   providers: [
     IsariDataService,

@@ -7,14 +7,14 @@
 
     <span class="app-toolbar-filler"></span>
 
-    <button md-button [md-menu-trigger-for]="menu">
-      MENU
-    </button>
+    <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
 
     <md-menu x-position="before" #menu="mdMenu">
-      <a md-menu-item routerLink="/people">People</a>
-      <a md-menu-item routerLink="/organizations">Organizations</a>
-      <a md-menu-item href (click)="onLogout($event)">Logout</a>
+      <a md-menu-item routerLink="/people">{{ 'people' | translate }}</a>
+      <a md-menu-item routerLink="/organizations">{{ 'organizations' | translate }}</a>
+      <a md-menu-item href (click)="logout($event)">{{ 'logout' | translate }}</a>
+      <a md-menu-item href *ngIf="lang !== 'fr'" (click)="setLang('fr', $event)">{{ 'french' | translate }}</a>
+      <a md-menu-item href *ngIf="lang !== 'en'" (click)="setLang('en', $event)">{{ 'english' | translate }}</a>
     </md-menu>
   </md-toolbar>
 

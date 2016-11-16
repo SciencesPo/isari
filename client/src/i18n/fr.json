@@ -1,0 +1,13 @@
+{
+  "menu": "Menu",
+  "people": "Personnes",
+  "organizations": "Organisations",
+  "logout": "Déconnexion",
+  "french": "Français",
+  "english": "Anglais",
+  "btn_add_people": "Ajouter une personne",
+  "btn_add_organizations": "Ajouter une organisation",
+  "columns_select": "Choix des colonnes",
+  "btn_apply": "Appliquer",
+  "items_per_page": "{{ value }} objet par page"
+}

@@ -1,10 +1,10 @@
-<button md-raised-button (click)="toggleMenu($event)">Columns select</button>
+<button md-raised-button (click)="toggleMenu($event)">{{ 'columns_select' | translate }}</button>
 
 <div class="md-menu" [hidden]="!open" x-position="before">
   <md-checkbox *ngFor="let col of cols;let i = index" [checked]="col.selected" (change)="col.selected = !col.selected">
-  {{ col.label['fr'] }}
+  {{ col.label[lang] }}
   </md-checkbox>
   <button md-button color="primary" (click)="useColumns($event)">
-    <md-icon>done</md-icon> Apply
+    <md-icon>done</md-icon> {{ 'btn_apply' | translate }}
   </button>
 </div>

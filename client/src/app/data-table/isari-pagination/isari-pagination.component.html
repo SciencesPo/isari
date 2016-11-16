@@ -1,7 +1,7 @@
 <ul>
   <li>
     <button md-button [md-menu-trigger-for]="menu">
-      {{ itemsPerPage }} items / page
+      {{ 'items_per_page' | translate:{ value: itemsPerPage} }}
     </button>
   </li>
   <li><a md-button (click)="navigate(1)"><md-icon>first_page</md-icon></a>

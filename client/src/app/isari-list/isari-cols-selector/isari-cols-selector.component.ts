@@ -1,4 +1,5 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, HostListener, ElementRef, EventEmitter } from '@angular/core';
+import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 @Component({
   selector: 'isari-cols-selector',
@@ -6,16 +7,21 @@ import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, HostListene
   styleUrls: ['./isari-cols-selector.component.css']
 })
 export class IsariColsSelectorComponent implements OnInit, OnChanges {
-
+  lang: string;
   open = false;
 
   @Input() cols: any[] = [];
   @Input() selectedColumns: any[] = [];
   @Output() onColSeleted = new EventEmitter<any>();
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef, private translate: TranslateService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.cols && this.cols.length && this.selectedColumns && this.selectedColumns.length) {
