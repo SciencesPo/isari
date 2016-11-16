@@ -1,6 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const deepDiff = require('deep-diff').diff
 const chalk = require('chalk')
 
 
@@ -18,8 +19,16 @@ const EditLogSchema = new mongoose.Schema({
 		enum: ['create', 'update', 'delete'],
 		required: true
 	},
+	item: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true
+	},
 	data: {
 		type: mongoose.Schema.Types.Mixed,
+		required: false
+	},
+	diff: {
+		type: mongoose.Schema.Types.Array,
 		required: false
 	},
 	who: {
@@ -55,19 +64,36 @@ const middleware = schema => {
 		}
 	})
 
+	schema.post('init', function () {
+		this._original = this.toObject()
+	})
+
 	schema.pre('save', function (next) {
 		const [modelName, who] = getWho(this)
+		const data = this.toObject()
 
 		// Create a EditLog instance
 		// Store for post-save
 		// We need to create it in pre-save to have a working 'isNew' attr
-		this._elLogToBeSaved = new EditLog({
+		const editLog = {
 			model: modelName,
+			item: data._id,
 			date: new Date(),
 			action: this.isNew ? 'create' : 'update',
-			who,
-			data: this.toObject()
-		})
+			who
+		}
+
+		if (this.isNew) {
+			editLog.data = data
+		}
+		else {
+
+			// If the model was updated, we only store a diff
+			const diff = deepDiff(this._original, data)
+			editLog.diff = diff
+		}
+
+		this._elLogToBeSaved = new EditLog(editLog)
 
 		next()
 	})
@@ -79,16 +105,17 @@ const middleware = schema => {
 		}
 	})
 
+	// TODO: this will be handled differently when we solve the delete conundrum
 	schema.post('remove', doc => {
 		const [modelName, who] = getWho(doc)
 
 		// Create a EditLog instance
 		const log = new EditLog({
 			model: modelName,
+			item: doc.id,
 			date: new Date(),
 			action: 'delete',
-			who,
-			data: doc.toObject()
+			who
 		})
 
 		// Save it asynchronously
