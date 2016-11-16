@@ -70,7 +70,12 @@ function getMongooseSchema (name) {
 		throw Error(`${name}: Unknonwn schema`)
 	}
 
-	return getField(name, meta, meta)
+	const schema = getField(name, meta, meta)
+
+	// Re-enable automatic _id for root document schema
+	delete schema._id
+
+	return schema
 }
 
 // Get schema for a field or sub-field…
@@ -227,6 +232,9 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 			schema[k] = desc[k]
 		}
 	})
+
+	// Disable automatic _id field
+	schema._id = false
 
 	return isArray ? [schema] : schema
 }
