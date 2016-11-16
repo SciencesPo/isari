@@ -9,5 +9,6 @@
   "btn_add_organizations": "Add organization",
   "columns_select": "Column selection",
   "btn_apply": "Apply",
-  "items_per_page": "{{ value }} items per page"
+  "items_per_page": "{{ value }} items per page",
+  "btn_create_value": "Create ?"
 }
