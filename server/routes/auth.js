@@ -80,6 +80,7 @@ router.rolesMiddleware = (req, res, next) => {
 			return next()
 		}
 
+		req.userId = people.id
 		req.userPeople = people
 		req.userRoles = getPeopleRoles(people)
 		req.userIsCentral = isPeopleCentral(people)

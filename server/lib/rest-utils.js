@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery } = require('./model-utils')
 const debug = require('debug')('isari:rest')
+const { rolesMiddleware } = require('../routes/auth')
+const { scopeOrganizationMiddleware } = require('./permissions')
 
 
 const restHandler = exports.restHandler = fn => (req, res, next) => {
@@ -68,27 +70,29 @@ const requiresAuthentication = (req, res, next) => {
 	}
 }
 
-exports.restRouter = (Model, format = identity, esIndex = null, getPermissions = defaultGetPermissions) => {
+// buildListQuery can be a function returning an object { query: PromiseOfMongooseQuery } (embedding in an object to not accidentally convert query into a promise of Results)
+exports.restRouter = (Model, format = identity, esIndex = null, getPermissions = defaultGetPermissions, buildListQuery = null) => {
 	const save = saveDocument(format)
 	const router = Router()
 
 	const parseJson = bodyParser.json()
 
 	if (esIndex) {
+		// TODO apply permissions in /search ? (NOT FUNNY AT ALL)
 		router.get('/search', parseJson, requiresAuthentication, restHandler(searchModel(esIndex, Model, format, getPermissions)))
 	}
 
-	router.get('/', parseJson, requiresAuthentication, restHandler(listModel(Model, format, getPermissions)))
-	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(getModel(Model, format, getPermissions)))
-	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, restHandler(getModelStrings(Model)))
-	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(updateModel(Model, save, getPermissions)))
-	router.post('/', parseJson, requiresAuthentication, restHandler(createModel(Model, save)))
-	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(deleteModel(Model, getPermissions)))
+	router.get('/', parseJson, requiresAuthentication, rolesMiddleware, scopeOrganizationMiddleware, restHandler(listModel(Model, format, getPermissions, buildListQuery)))
+	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, rolesMiddleware, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
+	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(getModelStrings(Model)))
+	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(updateModel(Model, save, getPermissions)))
+	router.post('/', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(createModel(Model, save)))
+	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(deleteModel(Model, getPermissions)))
 
 	return router
 }
 
-const listModel = (Model, format, getPermissions) => req => {
+const listModel = (Model, format, getPermissions, buildListQuery = null) => req => {
 	debug('List: start', req.originalUrl)
 	// Always keep 'opts' technical field
 	const selectFields = req.query.fields ? pick(req.query.fields.split(',').concat([ 'opts' ])) : identity
@@ -96,11 +100,11 @@ const listModel = (Model, format, getPermissions) => req => {
 	const formatOne = formatWithOpts(req, format, getPermissions, applyTemplates)
 	// Note: we don't apply field selection directly in query as some fields may be not asked, but
 	// required for some other fields' templates to be correctly calculated
-	let query = Model.find()
-	if (applyTemplates) {
-		query = populateAllQuery(query, Model.modelName)
-	}
-	return query.exec()
+	const withPopulate = q => (applyTemplates ? populateAllQuery(q, Model.modelName) : q).exec()
+	const query = buildListQuery
+		? buildListQuery(req).then(({ query }) => withPopulate(query))
+		: withPopulate(Model.find())
+	return query
 		.then(data => { debug('List: Model.find', data.length + ' result(s)'); return data })
 		.then(data => { debug('List: applyTemplates', applyTemplates); return data })
 		.then(peoples => Promise.all(peoples.map(formatOne)))
