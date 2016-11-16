@@ -2,7 +2,7 @@
   <div class="md-input-table" style="width:auto;">
 
     <div class="md-input-prefix" *ngFor="let item of _values">
-      {{ item.label ? item.label[lang] : item.value }}
+      {{ item.label }}
       <md-icon (click)="removeValue(item, $event)">close</md-icon>
     </div>
 
@@ -19,7 +19,7 @@
           md-button
           style="width:100%;display:flex;"
           (mousedown)="onSelect(i)">
-          {{ entry.label ? entry.label[lang] : entry.value }}
+          {{ entry.label }}
         </button>
         <button md-button color="primary" *ngIf="extend" (mousedown)="createValue()">
           Créer cette valeur ?

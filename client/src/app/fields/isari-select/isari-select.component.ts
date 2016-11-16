@@ -45,11 +45,17 @@ export class IsariSelectComponent implements OnInit {
       disabled: this.form.controls[this.name].disabled
     });
 
-    this.src(this.selectControl.valueChanges, this.max)
-      .subscribe(values => {
-        this.values = values;
-        this.setExtend();
-      });
+    Observable.combineLatest(
+      this.src(this.selectControl.valueChanges, this.max),
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ).subscribe(([items, lang]) => {
+      this.lang = lang;
+      this.values = (<any[]>items).map(this.translateItem.bind(this));
+// console.log(this.values, items, this.lang);
+      this.setExtend();
+    });
 
     Observable.combineLatest(
       this.stringValue,
@@ -60,7 +66,7 @@ export class IsariSelectComponent implements OnInit {
       this.lang = lang;
       let stringValue = '';
       if (stringValues.length > 0) {
-        stringValue = stringValues[0].label ? stringValues[0].label[this.lang] : stringValues[0].value;
+        stringValue = this.translateItem(stringValues[0]).label;
       }
       stringValue = stringValue || this.form.controls[this.name].value;
       this.selectControl.setValue(stringValue);
@@ -82,8 +88,7 @@ export class IsariSelectComponent implements OnInit {
 
     this.form.controls[this.name].setValue(v.id || v.value);
     this.form.controls[this.name].markAsDirty();
-
-    this.selectControl.setValue(v.label && v.label[this.lang] ? v.label[this.lang] : (v.value || v.id));
+    this.selectControl.setValue(v.label || v.value || v.id);
     // this.selectControl.markAsDirty();
 
     this.update({});
@@ -110,6 +115,16 @@ export class IsariSelectComponent implements OnInit {
   update($event) {
     this.onUpdate.emit($event);
     // this.values = this.findValues(); // reset values displayed (for reopening)
+  }
+
+  private translateItem (item) {
+    let label = item.value;
+    if (item.label && item.label[this.lang]) {
+      label = item.label[this.lang];
+    } else if (item.label && item.label['fr']) {
+      label = item.label['fr'];
+    }
+    return Object.assign({}, item, { label });
   }
 
   private setExtend() {

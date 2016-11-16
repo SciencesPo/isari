@@ -42,24 +42,30 @@ export class IsariMultiSelectComponent implements OnInit {
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
-    });
 
     this.selectControl = new FormControl({
       value: '',
       disabled: false
     });
 
-    this.src(this.selectControl.valueChanges, this.max)
-      .subscribe(values => {
-        this.options = values;
-        // this.values = values;
-        // this.setExtend();
-      });
+    Observable.combineLatest(
+      this.src(this.selectControl.valueChanges, this.max),
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ).subscribe(([items, lang]) => {
+      this.lang = lang;
+      this.options = (<any[]>items).map(this.translateItem.bind(this));
+    });
 
-    this.stringValue.subscribe(stringValues => {
-      this.values = stringValues;
+    Observable.combineLatest(
+      this.stringValue,
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ).subscribe(([stringValues, lang]) => {
+      this.lang = lang;
+      this.values = stringValues.map(this.translateItem.bind(this));
     });
   }
 
@@ -114,6 +120,16 @@ export class IsariMultiSelectComponent implements OnInit {
       this.form.controls[this.name].markAsDirty();
       this.onUpdate.emit({});
     }
+  }
+
+  private translateItem (item) {
+    let label = item.value;
+    if (item.label && item.label[this.lang]) {
+      label = item.label[this.lang];
+    } else if (item.label && item.label['fr']) {
+      label = item.label['fr'];
+    }
+    return Object.assign({}, item, { label });
   }
 
   private findOption(item) {
