@@ -12,6 +12,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/cache';
+import 'rxjs/add/operator/publishReplay';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -357,8 +358,10 @@ export class IsariDataService {
     // if (path) {
     //   url += '?path=' + path;
     // }
-    let $enum = this.http.get(url).map(response => response.json());
-    this.enumsCache[src] = $enum.cache();
+    let $enum = this.http.get(url).map(response => response.json())
+      .publishReplay(1)
+      .refCount();
+    this.enumsCache[src] = $enum;
     return $enum;
   }
 
