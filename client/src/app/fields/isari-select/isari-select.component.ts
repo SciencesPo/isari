@@ -1,7 +1,9 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/startWith';
+import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 const UP_ARROW = 38;
 const DOWN_ARROW = 40;
@@ -32,10 +34,12 @@ export class IsariSelectComponent implements OnInit {
   disabled: boolean = false;
   currentIndex = -1;
   extend = false;
+  lang: string;
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
     this.selectControl = new FormControl({
       value: this.form.controls[this.name].value ? ' ' : '',
       disabled: this.form.controls[this.name].disabled
@@ -47,10 +51,16 @@ export class IsariSelectComponent implements OnInit {
         this.setExtend();
       });
 
-    this.stringValue.subscribe(stringValues => {
+    Observable.combineLatest(
+      this.stringValue,
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ).subscribe(([stringValues, lang]) => {
+      this.lang = lang;
       let stringValue = '';
       if (stringValues.length > 0) {
-        stringValue = stringValues[0].label ? stringValues[0].label['fr'] : stringValues[0].value;
+        stringValue = stringValues[0].label ? stringValues[0].label[this.lang] : stringValues[0].value;
       }
       stringValue = stringValue || this.form.controls[this.name].value;
       this.selectControl.setValue(stringValue);
@@ -73,7 +83,7 @@ export class IsariSelectComponent implements OnInit {
     this.form.controls[this.name].setValue(v.id || v.value);
     this.form.controls[this.name].markAsDirty();
 
-    this.selectControl.setValue(v.label && v.label['fr'] ? v.label['fr'] : (v.value || v.id));
+    this.selectControl.setValue(v.label && v.label[this.lang] ? v.label[this.lang] : (v.value || v.id));
     // this.selectControl.markAsDirty();
 
     this.update({});

@@ -2,7 +2,6 @@ import {
   Component,
   Input,
   Output,
-  OnInit,
   OnChanges, SimpleChanges,
   EventEmitter
 } from '@angular/core';
@@ -16,7 +15,7 @@ import { IsariDataService } from '../isari-data.service';
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.css']
 })
-export class FieldComponent implements OnInit, OnChanges {
+export class FieldComponent implements OnChanges {
 
   @Input() field: any;
   @Input() form: FormGroup;
@@ -27,16 +26,13 @@ export class FieldComponent implements OnInit, OnChanges {
 
   constructor(private isariDataService: IsariDataService) {}
 
-  ngOnInit() {
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
       this.field.controlType = this.isariDataService.getControlType(this.field);
-      if (this.field.enum || this.field.softenum) {
-        const src = this.field.enum || this.field.softenum;
+      const src = this.field.enum || this.field.softenum;
+      if (src) {
         this.field.src = this.isariDataService.srcEnumBuilder(src, this.path);
-        this.field.stringValue = this.isariDataService.getEnumLabel(src, this.form.controls[this.field.name].value, 'fr');
+        this.field.stringValue = this.isariDataService.getEnumLabel(src, this.form.controls[this.field.name].value);
         this.field.create = function (x) { return Observable.of(x); };
       }
       if (this.field.ref) {

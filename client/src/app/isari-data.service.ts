@@ -137,7 +137,7 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  getEnumLabel(src: string, values: string | string[], lang: string) {
+  getEnumLabel(src: string, values: string | string[]) {
     if (!(values instanceof Array)) {
       values = [values];
     }

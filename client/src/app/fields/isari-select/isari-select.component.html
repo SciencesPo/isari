@@ -24,7 +24,7 @@
   </div>
 
   <div class="md-menu" [hidden]="!focused">
-    <button [ngClass]="{active: currentIndex === i}" *ngFor="let entry of values;let i = index"  md-button style="width:100%;display:flex;" (mousedown)="onSelect(i)">{{ entry.label ? entry.label['fr'] : entry.value }}</button>
+    <button [ngClass]="{active: currentIndex === i}" *ngFor="let entry of values;let i = index"  md-button style="width:100%;display:flex;" (mousedown)="onSelect(i)">{{ entry.label ? entry.label[lang] : entry.value }}</button>
     <button md-button color="primary" *ngIf="extend" (mousedown)="createValue()">
       Créer cette valeur ?
     </button>

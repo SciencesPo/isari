@@ -1,10 +1,13 @@
-import { Component, OnInit, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
+import { TranslateService, LangChangeEvent } from 'ng2-translate';
+
 // import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/startWith';
 
 import { IsariDataService } from '../isari-data.service';
 
@@ -14,7 +17,7 @@ import { IsariDataService } from '../isari-data.service';
   styleUrls: ['isari-editor.component.css'],
   // providers: [MdSnackBar]
 })
-export class IsariEditorComponent implements OnInit, OnChanges {
+export class IsariEditorComponent implements OnInit {
 
   id: number;
   feature: string;
@@ -27,6 +30,7 @@ export class IsariEditorComponent implements OnInit, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
+    private translate: TranslateService,
     // private snackBar: MdSnackBar,
     private viewContainerRef: ViewContainerRef) {}
 
@@ -39,8 +43,12 @@ export class IsariEditorComponent implements OnInit, OnChanges {
         .map(([x, y]) => Object.assign({}, x, y))
       : this.route.params;
 
-    $routeParams
-      .subscribe(({ feature, id }) => {
+    Observable.combineLatest(
+      $routeParams,
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ).subscribe(([{ feature, id }, lang]) => {
         this.feature = feature;
         this.id = id;
         Promise.all([
@@ -48,7 +56,7 @@ export class IsariEditorComponent implements OnInit, OnChanges {
           this.isariDataService.getLayout(this.feature)
         ]).then(([data, layout]) => {
           this.data = data;
-          this.layout = this.isariDataService.translate(layout, 'en');
+          this.layout = this.isariDataService.translate(layout, lang);
           this.layout = this.isariDataService.closeAll(this.layout);
           this.form = this.isariDataService.buildForm(this.layout, this.data);
           // disabled all form
@@ -57,12 +65,6 @@ export class IsariEditorComponent implements OnInit, OnChanges {
           }
         });
       });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['lang']) {
-      console.log(changes['lang']);
-    }
   }
 
   save($event) {
