@@ -25,6 +25,7 @@ export class IsariEditorComponent implements OnInit {
   layout: any;
   form: FormGroup;
   // mdSnackBarConfig: MdSnackBarConfig;
+  organization: string | undefined;
 
   constructor(
     private router: Router,
@@ -39,8 +40,8 @@ export class IsariEditorComponent implements OnInit {
 
     let $routeParams = this.route.parent
       ? Observable
-        .combineLatest(this.route.parent.params, this.route.params)
-        .map(([x, y]) => Object.assign({}, x, y))
+        .combineLatest(this.route.parent.params, this.route.params, this.route.queryParams)
+        .map(([x, y, z]) => Object.assign({}, x, y, z))
       : this.route.params;
 
     Observable.combineLatest(
@@ -48,11 +49,12 @@ export class IsariEditorComponent implements OnInit {
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ).subscribe(([{ feature, id }, lang]) => {
+    ).subscribe(([{ feature, id, organization }, lang]) => {
+        this.organization = organization;
         this.feature = feature;
         this.id = id;
         Promise.all([
-          this.isariDataService.getData(this.feature, id),
+          this.isariDataService.getData(this.feature, id, this.organization),
           this.isariDataService.getLayout(this.feature)
         ]).then(([data, layout]) => {
           this.data = data;
@@ -69,8 +71,11 @@ export class IsariEditorComponent implements OnInit {
 
   save($event) {
     if (!this.form.disabled && this.form.valid && this.form.dirty) {
-      this.isariDataService.save(this.feature, Object.assign({}, this.form.value, { id: this.id }))
-        .then(data => {
+      this.isariDataService.save(
+        this.feature,
+        Object.assign({}, this.form.value, { id: this.id }),
+        this.organization
+      ).then(data => {
           if (this.id !== data.id) {
             this.router.navigate([this.feature, data.id]);
           }

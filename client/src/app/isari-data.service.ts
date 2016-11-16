@@ -42,25 +42,35 @@ export class IsariDataService {
 
   constructor(private http: Http, private fb: FormBuilder) {}
 
-  getData(feature: string, id: string | undefined) {
+  getData(feature: string, id: string | undefined, organization: string | undefined) {
     if (id === undefined) {
       return Promise.resolve({});
     }
     this.id = id;
     const url = `${this.dataUrl}/${feature}/${id}`;
     let options = new RequestOptions({ withCredentials: true });
+
+    if (organization) {
+      options.search = new URLSearchParams();
+      options.search.set('organization', organization);
+    }
+
     return this.http.get(url, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
   }
 
-  getDatas(feature: string, { fields, applyTemplates }: { fields: string[], applyTemplates: boolean }) {
+  getDatas(feature: string,
+    { fields, applyTemplates, organization }: { fields: string[], applyTemplates: boolean, organization: string | undefined }) {
     const url = `${this.dataUrl}/${feature}`;
     const search = new URLSearchParams();
     fields.push('id'); // force id
     search.set('fields', fields.join(','));
     search.set('applyTemplates', (applyTemplates ? 1 : 0).toString());
+    if (organization) {
+      search.set('organization', organization);
+    }
 
     let options = new RequestOptions({
       withCredentials: true,
@@ -288,8 +298,14 @@ export class IsariDataService {
   }
 
 
-  save(feature: string, data: any) {
+  save(feature: string, data: any, organization: string | undefined = undefined) {
     let options = new RequestOptions({ withCredentials: true });
+
+    if (organization) {
+      options.search = new URLSearchParams();
+      options.search.set('organization', organization);
+    }
+
     let query: Observable<any>;
     if (data.id) {
       const url = `${this.dataUrl}/${feature}/${data.id}`;

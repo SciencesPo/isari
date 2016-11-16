@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
 
 
@@ -16,12 +18,14 @@ export class IsariListComponent implements OnInit {
   cols: any[] = [];
   editedId: string = '';
   selectedColumns: any[] = [];
+  organization: string | undefined;
 
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
   ngOnInit() {
-    this.route.params
-      .subscribe(({ feature }) => {
+    Observable.combineLatest(this.route.params, this.route.queryParams)
+      .subscribe(([{ feature }, { organization }]) => {
+        this.organization = organization;
         this.feature = feature;
         this.isariDataService.getColumns(feature)
           .then(columns => {
@@ -53,7 +57,8 @@ export class IsariListComponent implements OnInit {
   private loadDatas() {
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
-      applyTemplates: true
+      applyTemplates: true,
+      organization: this.organization
     }).then(data => {
       this.data = data;
     });
