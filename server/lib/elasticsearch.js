@@ -36,9 +36,9 @@ client.q.forSuggestions = (type, { query, fields = [] }, includeInfo = false) =>
 	query =
 	// Extract terms from query string
 	// TODO support complex queries with quotes 'n co
-	query.split(/\d+/)
+	query.split(/\s+/)
 	// Duplicate each term to create a query based on prefixes + fuzzy matching
-	.reduce((terms, term) => term.match(/(\*|\~\d+?)$/)
+	.reduce((terms, term) => term.match(/(\*|\~.+?)$/)
 		? terms.concat([term]) // already an advanced term, don't modify
 		: terms.concat([term + '*', term + '~']) // prefix + fuzzy
 	, [])

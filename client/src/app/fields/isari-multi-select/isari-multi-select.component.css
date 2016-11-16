@@ -1,3 +1,6 @@
+:host {
+  width: 100%;
+}
 .md-input-infix { position: initial; }
 .md-input-placeholder { top: 16px; }
 

@@ -2,6 +2,7 @@
   [formGroup]="form"
   [md-tooltip]="description">
   <md-input
+    style="width: 100%"
     [placeholder]="label"
     (blur)="update($event)"
     [isariDisabled]="form.controls[name].disabled"

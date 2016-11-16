@@ -18,10 +18,11 @@ export class IsariSelectComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() description: string;
-  @Output() onUpdate = new EventEmitter<any>();
   @Input() src: Function;
   @Input() extensible = false;
   @Input() stringValue: Observable<any>;
+  @Input() create: Function;
+  @Output() onUpdate = new EventEmitter<any>();
 
   max = 20;
   values: any[] = [];
@@ -51,6 +52,7 @@ export class IsariSelectComponent implements OnInit {
       if (stringValues.length > 0) {
         stringValue = stringValues[0].label ? stringValues[0].label['fr'] : stringValues[0].value;
       }
+      stringValue = stringValue || this.form.controls[this.name].value;
       this.selectControl.setValue(stringValue);
     });
 
@@ -71,8 +73,8 @@ export class IsariSelectComponent implements OnInit {
     this.form.controls[this.name].setValue(v.id || v.value);
     this.form.controls[this.name].markAsDirty();
 
-    this.selectControl.setValue(v.label && v.label['fr'] ? v.label['fr'] : (v.id || v.value));
-    this.selectControl.markAsDirty();
+    this.selectControl.setValue(v.label && v.label['fr'] ? v.label['fr'] : (v.value || v.id));
+    // this.selectControl.markAsDirty();
 
     this.update({});
   }
@@ -88,9 +90,11 @@ export class IsariSelectComponent implements OnInit {
   }
 
   createValue() {
-    this.form.controls[this.name].setValue(this.selectControl.value);
-    this.form.controls[this.name].markAsDirty();
-    this.update({});
+    this.create(this.selectControl.value).subscribe(item => {
+      this.form.controls[this.name].setValue(item.id || item);
+      this.form.controls[this.name].markAsDirty();
+      this.update({});
+    });
   }
 
   update($event) {
