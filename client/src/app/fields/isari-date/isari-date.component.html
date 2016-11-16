@@ -24,7 +24,7 @@
   <div class="md-menu" [hidden]="!focused">
     <span md-menu-item disabled>
       <button tabindex="-1" md-button (mousedown)="display('days')">{{ day || '-' }}</button>
-      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months['fr'][month - 1] || '-' }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months[lang][month - 1] || '-' }}</button>
       <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || '-' }}</button>
     </span>
 
@@ -35,7 +35,7 @@
 
     <div *ngIf="displayed === 'months'" class="calendar">
       <button tabindex="-1" (mousedown)="setMonth(null, $event)" md-button>-</button>
-      <button tabindex="-1" *ngFor="let m of months['fr']; let i = index" (mousedown)="setMonth(i+1, $event)" md-button>{{ m }}</button>
+      <button tabindex="-1" *ngFor="let m of months[lang]; let i = index" (mousedown)="setMonth(i+1, $event)" md-button>{{ m }}</button>
     </div>
 
     <div *ngIf="displayed === 'years'" class="calendar years">

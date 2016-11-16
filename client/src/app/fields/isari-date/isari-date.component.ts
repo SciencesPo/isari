@@ -1,5 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 @Component({
   selector: 'isari-date',
@@ -22,17 +23,26 @@ export class IsariDateComponent implements OnInit {
   month: number | null;
   day: number | null;
   days: any[];
-  months: any = {
-    fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
-  };
+  months: any = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    .map(i => new Date(1, i + 1))
+    .reduce((acc, d) => Object.assign(acc, {
+      fr: [...acc.fr,  d.toLocaleString('fr', { month: 'long' })],
+      en: [...acc.en,  d.toLocaleString('en', { month: 'long' })]
+    }), {fr: [], en: []});
   years: number[];
   runningClick = false;
+  lang: string;
 
-  constructor() {
+  constructor(private translate: TranslateService) {
     this.year = (new Date()).getFullYear();
   }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+
     [this.year, this.month, this.day] = this.form.controls[this.name].value.split('-').map(v => Number(v));
 
     this.selectControl = new FormControl({
@@ -124,7 +134,7 @@ export class IsariDateComponent implements OnInit {
       return '';
     }
     return (day ? day + ' ' : '')
-      + (month ? this.months['fr'][month - 1] + ' ' : '')
+      + (month ? this.months[this.lang][month - 1] + ' ' : '')
       + year;
   }
 
