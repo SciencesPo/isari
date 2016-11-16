@@ -38,6 +38,7 @@ export class IsariDataService {
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
   private columnsUrl = `${environment.API_BASE_URL}/columns`;
+  private id: string;
 
   constructor(private http: Http, private fb: FormBuilder) {}
 
@@ -45,6 +46,7 @@ export class IsariDataService {
     if (id === undefined) {
       return Promise.resolve({});
     }
+    this.id = id;
     const url = `${this.dataUrl}/${feature}/${id}`;
     let options = new RequestOptions({ withCredentials: true });
     return this.http.get(url, options)
@@ -120,8 +122,8 @@ export class IsariDataService {
       })));
   }
 
-  srcEnumBuilder(src: string, path: string) {
-    const enum$ = this.getEnum(src, path);
+  srcEnumBuilder(src: string, path: string, id: boolean) {
+    const enum$ = this.getEnum(src, path, id);
     return function(terms$: Observable<string>, max) {
       return terms$
         .startWith('')
@@ -343,7 +345,7 @@ export class IsariDataService {
     return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
   }
 
-  private getEnum(src: string, path = '') {
+  private getEnum(src: string, path = '', id = false) {
     // // cas non gérés pour le moment
     if (src === 'KEYS(personalActivityTypes)' || src === 'personalActivityTypes.$personalActivityType') {
       return Observable.of([]);
@@ -355,9 +357,16 @@ export class IsariDataService {
     }
 
     let url = `${this.enumUrl}/${src}`;
-    // if (path) {
-    //   url += '?path=' + path;
-    // }
+    let query = [];
+    if (path) {
+      query.push('path=' + path);
+    }
+    if (id) {
+      query.push('id=' + this.id);
+    }
+    if (query.length) {
+      url += '?' + query.join('&');
+    }
     let $enum = this.http.get(url).map(response => response.json())
       .publishReplay(1)
       .refCount();

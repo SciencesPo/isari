@@ -31,7 +31,7 @@ export class FieldComponent implements OnChanges {
       this.field.controlType = this.isariDataService.getControlType(this.field);
       const src = this.field.enum || this.field.softenum;
       if (src) {
-        this.field.src = this.isariDataService.srcEnumBuilder(src, this.path);
+        this.field.src = this.isariDataService.srcEnumBuilder(src, this.path, true);
         this.field.stringValue = this.isariDataService.getEnumLabel(src, this.form.controls[this.field.name].value);
         this.field.create = function (x) { return Observable.of(x); };
       }
