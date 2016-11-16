@@ -1,7 +1,9 @@
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/startWith';
+import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 const ENTER = 13;
 const BACKSPACE = 8;
@@ -19,6 +21,7 @@ export class IsariMultiSelectComponent implements OnInit {
   selectControl: FormControl;
   empty: boolean;
   focused: boolean = false;
+  lang: string;
 
   @Input() name: string;
   @Input() form: FormGroup;
@@ -29,7 +32,7 @@ export class IsariMultiSelectComponent implements OnInit {
   @Input() extensible = false;
   @Input() stringValue: Observable<string[]>;
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   update($event) {
     if (this.onUpdate) {
@@ -38,6 +41,10 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
 
     this.selectControl = new FormControl({
       value: '',
