@@ -50,6 +50,10 @@ npm install --production
 * `POST /auth/logout`
   * output: `{ was }`
     * `was`: login of previously logged in user
+* `GET /auth/permissions`
+  * output: `{ central, organizations }`
+    * `central`: boolean telling if logged user is central
+    * `organizations`: array of organizations (see schema) with added `isariRole` item, telling which role user has in this organization
 
 ### Collection endpoints
 
