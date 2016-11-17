@@ -1,1 +1,6 @@
-<pre>{{ data.length }}{{ feature }}</pre>
+<div [ngSwitch]="feature">
+  <isari-chart-people *ngSwitchCase="'people'">Hello People</isari-chart-people>
+  <div *ngSwitchDefault>
+    Unknown Chart!
+  </div>
+</div>
