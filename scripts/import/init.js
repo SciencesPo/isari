@@ -22,7 +22,7 @@ const async = require('async'),
 const FILES = require('./files'),
       clean = require('./clean'),
       helpers = require('./helpers'),
-      log = require('./logger')();
+      log = require('../logger')();
 
 if (inspect.defaultOptions)
   inspect.defaultOptions.depth = null;

@@ -5,6 +5,7 @@
   "description": "Collection of scripts for ISARI.",
   "main": "index.js",
   "scripts": {
+    "dump": "node ./dump",
     "import:init": "node ./import/init.js",
     "import:test": "node ./import/test.js",
     "lint": "eslint *.js import"
@@ -15,6 +16,7 @@
     "csv": "^1.1.0",
     "ldapjs": "^1.0.0",
     "lodash": "^4.16.4",
+    "mkdirp": "^0.5.1",
     "moment": "^2.15.2",
     "talisman": "^0.12.0",
     "yargs": "^6.3.0"
@@ -23,7 +25,7 @@
     "name": "Guillaume Plique",
     "url": "http://github.com/Yomguithereal"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@yomguithereal/eslint-config": "^3.0.0",
     "eslint": "^3.8.1",
