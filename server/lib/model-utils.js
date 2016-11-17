@@ -162,7 +162,7 @@ function _format (object, schema, keepId) {
 
 	// Format each sub-element recursively
 	Object.keys(o).forEach(f => {
-		if (f[0] === '_') {
+		if (f[0] === '_' || f === 'id') { // Since mongoose 4.6 ObjectIds have a method toObject() returning { _bsontype, id } object
 			// Technical field: ignore
 			return
 		}
