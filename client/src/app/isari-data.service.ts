@@ -319,6 +319,10 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
+  getSchemaApi(feature) {
+    return mongoSchema2Api[feature];
+  }
+
   // getErrors(form: FormGroup) {
   //   return this.getErrorsFromControls(form.controls);
   // }

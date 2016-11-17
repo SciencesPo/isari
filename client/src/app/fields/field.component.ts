@@ -36,6 +36,7 @@ export class FieldComponent implements OnChanges {
         this.field.create = function (x) { return Observable.of(x); };
       }
       if (this.field.ref) {
+        this.field.api = this.isariDataService.getSchemaApi(this.field.ref);
         this.field.src = this.isariDataService.srcForeignBuilder(this.field.ref);
         this.field.stringValue = this.isariDataService.getForeignLabel(this.field.ref, this.form.controls[this.field.name].value);
         this.field.create = this.isariDataService.getForeignCreate(this.field.ref);

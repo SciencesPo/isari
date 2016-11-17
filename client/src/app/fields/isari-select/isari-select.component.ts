@@ -21,6 +21,7 @@ export class IsariSelectComponent implements OnInit {
   @Input() label: string;
   @Input() description: string;
   @Input() src: Function;
+  @Input() api: string;
   @Input() extensible = false;
   @Input() stringValue: Observable<any>;
   @Input() create: Function;
@@ -35,6 +36,7 @@ export class IsariSelectComponent implements OnInit {
   currentIndex = -1;
   extend = false;
   lang: string;
+  id: string | undefined;
 
   constructor(private translate: TranslateService) { }
 
@@ -66,6 +68,7 @@ export class IsariSelectComponent implements OnInit {
       let stringValue = '';
       if (stringValues.length > 0) {
         stringValue = this.translateItem(stringValues[0]).label;
+        this.id = stringValues[0].id;
       }
       stringValue = stringValue || this.form.controls[this.name].value;
       this.selectControl.setValue(stringValue);

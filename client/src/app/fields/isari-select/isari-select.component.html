@@ -4,7 +4,9 @@
   <div style="display: inline-block;text-align: left;width:100%;">
     <div class="md-input-wrapper">
       <div class="md-input-table">
-        <div class="md-input-prefix"></div>
+        <div class="md-input-prefix">
+          <a *ngIf="id" routerLink="/{{ api }}/{{ id }}" target="_blank" preserveQueryParams><md-icon>create</md-icon></a>
+        </div>
         <div class="md-input-infix">
           <input class="md-input-element"
             (focus)="onFocus($event)"
