@@ -28,6 +28,7 @@ export class IsariMultiSelectComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() description: string;
+  @Input() api: string;
   @Output() onUpdate = new EventEmitter<any>();
   @Input() src: Function;
   @Input() create: Function;

@@ -1,8 +1,9 @@
 <div class="md-input-wrapper" (keyup)="onKey($event)" [md-tooltip]="description">
   <div class="md-input-table" style="width:auto;">
 
-    <div class="md-input-prefix" *ngFor="let item of _values">
+    <div class="md-input-prefix" *ngFor="let item of _values" [class.edit]="item.id">
       {{ item.label }}
+      <a *ngIf="item.id" routerLink="/{{ api }}/{{ item.id }}" target="_blank" preserveQueryParams><md-icon>create</md-icon></a>
       <md-icon (click)="removeValue(item, $event)">close</md-icon>
     </div>
 

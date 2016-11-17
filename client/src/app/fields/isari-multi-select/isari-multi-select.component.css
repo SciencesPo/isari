@@ -18,7 +18,7 @@
     line-height: 22px;
 }
 
-.md-input-prefix md-icon {
+.md-input-prefix md-icon, .md-input-prefix a {
   font-size: 18px;
   vertical-align: middle;
   position: absolute;
@@ -26,6 +26,14 @@
   top: 2px;
   color: #777;
   cursor: pointer;
+}
+
+.md-input-prefix a {
+  right: 20px;
+}
+
+.md-input-prefix.edit {
+  padding-right: 60px;
 }
 
 .md-menu {
