@@ -168,7 +168,7 @@ function parseFile(file, callback) {
   log.info(`Reading ${chalk.grey(filePath)}`);
 
   const options = {
-    delimiter: file.delimiter,
+    delimiter: file.delimiter || ',',
     columns: true
   };
 
@@ -184,7 +184,8 @@ function parseFile(file, callback) {
     lines.forEach(cleanLine);
 
     // Consuming the lines
-    lines = lines.map(file.consumer.bind(log));
+    if (typeof file.consumer === 'function')
+      lines = lines.map(file.consumer.bind(log));
 
     // Dropping null values
     lines.forEach((line, index) => {
@@ -637,6 +638,69 @@ async.series({
     log.info('Retrieving LDAP information...');
 
     return retrieveLDAPInformation(next);
+  },
+  adminRoles(next) {
+    if (argv.skipLdap)
+      return next();
+
+    log.info('Attributing admin roles...');
+
+    // Indexing
+    const index = _.keyBy(INDEXES.People.id, 'ldapUid');
+
+    // Loading the file
+    return parseFile({path: 'people/admin_roles.csv'}, (err, lines) => {
+      if (err)
+        return next(err);
+
+      // Matching
+      for (let i = 0, l = lines.length; i < l; i++) {
+        const {ldapUid, orgaAcronym, isariRole} = lines[i]
+
+        const person = index[ldapUid];
+
+        if (!person) {
+          log.error(`Could not match person with LDAP id ${chalk.green(ldapUid)}.`);
+          return next(new ProcessError());
+        }
+
+        let org;
+
+        if (orgaAcronym) {
+          org = INDEXES.Organization.acronym[orgaAcronym.toUpperCase()];
+
+          if (!org)
+            org = INDEXES.Organization.name[orgaAcronym];
+
+          if (!org) {
+            log.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
+            return next(new ProcessError());
+          }
+        }
+        else if (!/^central_/.test(isariRole)) {
+          log.error(`Inconsistent role for id ${chalk.green(ldapUid)}. Cannot be ${chalk.grey(isariRole)} and be attached to an organization.`);
+          return next(new ProcessError());
+        }
+
+        person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
+
+        let authorization = org && person.isariAuthorizedCenters.find(a => a.organization === org._id);
+
+        if (authorization) {
+          authorization.isariRole = isariRole;
+        }
+        else {
+          authorization = {isariRole};
+
+          if (org)
+            authorization.organization = org._id;
+
+          person.isariAuthorizedCenters.push(authorization);
+        }
+      }
+
+      return next();
+    });
   },
   jsonDump(next) {
     if (!argv.json)
