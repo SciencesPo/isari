@@ -76,6 +76,8 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userRoles = getRoles(people)
 		req.userCentralRole = getCentralRole(people)
 
+		debug('logged in: add credentials helpers', req.userRoles)
+
 		// Credential helpers
 		req.userCanEditPeople = p => canEditPeople(req, p)
 		req.userListViewablePeople = () => listViewablePeople(req)
