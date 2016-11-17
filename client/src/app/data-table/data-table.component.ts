@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
+import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, Inject, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
@@ -22,6 +22,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input() data: any[];
   @Input() cols: any[];
   @Input() editedId: string;
+  @Output() onFilter = new EventEmitter<any>();
 
   constructor(
     private router: Router,
@@ -91,6 +92,7 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.data = this.unfilteredData
       .filter(item => String(item[key]).toLowerCase().indexOf(value.toLowerCase()) !== -1);
     this.calculPage(1);
+    this.onFilter.emit({ data: this.data });
   }
 
   private calculPage(page: number) {

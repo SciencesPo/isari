@@ -1,10 +1,13 @@
 <md-card>
+  <isari-chart [data]="filteredData"></isari-chart>
+</md-card>
+<md-card>
   <md-toolbar [color]="primary">
     <span>{{ feature | translate }}</span>
     <span class="filer"></span>
     <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
     <a md-raised-button href="/{{ feature }}/new" [disabled]="false" target="_blank">{{ ('btn_add_' + feature) | translate }}</a>
   </md-toolbar>
-  <isari-data-table [data]="data" [cols]="selectedColumns" [editedId]="editedId"></isari-data-table>
+  <isari-data-table (onFilter)="filtered($event)" [data]="data" [cols]="selectedColumns" [editedId]="editedId"></isari-data-table>
 </md-card>
 <router-outlet name="editor"></router-outlet>

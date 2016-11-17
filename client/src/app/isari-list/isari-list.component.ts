@@ -15,6 +15,7 @@ export class IsariListComponent implements OnInit {
 
   feature: string;
   data: any[] = [];
+  filteredData: any[] = [];
   cols: any[] = [];
   editedId: string = '';
   selectedColumns: any[] = [];
@@ -55,6 +56,10 @@ export class IsariListComponent implements OnInit {
     this.loadDatas();
   }
 
+  filtered($event) {
+    this.filteredData = $event.data;
+  }
+
   private loadDatas() {
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
@@ -62,6 +67,7 @@ export class IsariListComponent implements OnInit {
       organization: this.organization
     }).then(data => {
       this.data = data;
+      this.filteredData = [...data];
     });
   }
 
