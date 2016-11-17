@@ -33,7 +33,7 @@ exports.ElasticSearchError = WrappedError({
 
 exports.UnauthorizedError = TypedError({
 	type: 'http.error.client.unauthorized',
-	titile: 'Authentication Required',
+	title: 'Authentication Required',
 	message: 'Unauthorized: {title}',
 	status: 401
 })
