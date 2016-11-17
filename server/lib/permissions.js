@@ -1,15 +1,11 @@
 'use strict'
 
 const { map, reduce, flow, toPairs, filter, intersection } = require('lodash/fp')
-const { mongo } = require('mongoose')
 const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
 const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
+const { mongoID } = require('./model-utils')
 
-
-// Helper to safely get a string from Mongoose instance, ObjectId, or direct string (populate-proof)
-// Object|ObjectID|String => String
-const mongoID = o => (o instanceof mongo.ObjectID) ? o.toHexString() : (o ? (o.id ? o.id : (o._id ? o._id.toHexString() : o)) : null)
 
 // Helper returning a YYYY-MM-DD string for today
 // TODO cache (it shouldn't change more than once a day, right)
