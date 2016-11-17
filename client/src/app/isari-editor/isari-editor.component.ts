@@ -40,8 +40,8 @@ export class IsariEditorComponent implements OnInit {
 
     let $routeParams = this.route.parent
       ? Observable
-        .combineLatest(this.route.parent.params, this.route.params, this.route.data)
-        .map(([x, y, z]) => Object.assign({}, x, y, z))
+        .combineLatest(this.route.parent.params, this.route.parent.data, this.route.params, this.route.data)
+        .map(([a, b, c, d]) => Object.assign({}, a, b, c, d))
       : this.route.params;
 
     Observable.combineLatest(
