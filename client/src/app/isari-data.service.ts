@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, RequestOptions } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
-
 import { environment } from '../environments/environment';
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/debounceTime';
@@ -13,6 +11,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/cache';
 import 'rxjs/add/operator/publishReplay';
+import { UserService } from './user.service';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -40,41 +39,42 @@ export class IsariDataService {
   private columnsUrl = `${environment.API_BASE_URL}/columns`;
   private id: string; // for imbricated fields (useless ????)
 
-  constructor(private http: Http, private fb: FormBuilder) {}
+  constructor(private http: Http, private fb: FormBuilder, private userService: UserService) {}
 
-  getData(feature: string, id: string | undefined, organization: string | undefined) {
+  getHttpOptions (search: {} | null = null) {
+    const options = new RequestOptions({ withCredentials: true });
+    options.search = new URLSearchParams();
+    options.search.set('organization', this.userService.getCurrentOrganizationId());
+    if (search) {
+      Object.keys(search).forEach(key => {
+        if (search[key]) {
+          options.search.set(key, search[key]);
+        }
+      });
+    }
+    return options;
+  }
+
+  getData(feature: string, id: string | undefined) {
     if (id === undefined) {
       return Promise.resolve({});
     }
     this.id = id;
     const url = `${this.dataUrl}/${feature}/${id}`;
-    let options = new RequestOptions({ withCredentials: true });
-
-    if (organization) {
-      options.search = new URLSearchParams();
-      options.search.set('organization', organization);
-    }
-
-    return this.http.get(url, options)
+    return this.http.get(url, this.getHttpOptions())
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
   }
 
   getDatas(feature: string,
-    { fields, applyTemplates, organization }: { fields: string[], applyTemplates: boolean, organization: string | undefined }) {
+    { fields, applyTemplates }: { fields: string[], applyTemplates: boolean }) {
     const url = `${this.dataUrl}/${feature}`;
-    const search = new URLSearchParams();
     fields.push('id'); // force id
-    search.set('fields', fields.join(','));
-    search.set('applyTemplates', (applyTemplates ? 1 : 0).toString());
-    if (organization) {
-      search.set('organization', organization);
-    }
 
-    let options = new RequestOptions({
-      withCredentials: true,
-      search
+    let options = this.getHttpOptions({
+      fields: fields.join(','),
+      applyTemplates: (applyTemplates ? 1 : 0).toString()
     });
 
     return this.http.get(url, options)
@@ -90,7 +90,8 @@ export class IsariDataService {
     }
 
     const url = `${this.layoutUrl}/${singular[feature]}`;
-    let $layout = this.http.get(url).map(response => response.json());
+    let $layout = this.http.get(url, this.getHttpOptions())
+      .map(response => response.json());
     this.layoutsCache[feature] = $layout.cache();
     return $layout.toPromise();
   }
@@ -118,7 +119,7 @@ export class IsariDataService {
 
   getColumns(feature: string) {
     const url = `${this.schemaUrl}/${singular[feature]}`;
-    return this.http.get(url)
+    return this.http.get(url, this.getHttpOptions())
       .distinctUntilChanged()
       .toPromise()
       .then(response => response.json())
@@ -180,9 +181,9 @@ export class IsariDataService {
     if (values.length === 0) {
       return Observable.of([]);
     }
+
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${values.join(',')}/string`;
-    let options = new RequestOptions({ withCredentials: true });
-    return this.http.get(url, options)
+    return this.http.get(url, this.getHttpOptions())
       .map(response => response.json());
       // .map(item => item.value);
   }
@@ -190,8 +191,7 @@ export class IsariDataService {
   getForeignCreate(feature) {
     return function (name: string) {
       const url = `${this.dataUrl}/${mongoSchema2Api[feature]}`;
-      let options = new RequestOptions({ withCredentials: true });
-      return this.http.post(url, { name }, options)
+      return this.http.post(url, { name }, this.getHttpOptions())
         .map(response => response.json());
     }.bind(this);
   }
@@ -201,8 +201,7 @@ export class IsariDataService {
     const search = new URLSearchParams();
     search.set('q', query || '*');
     // search.set('fields', 'name');
-    let options = new RequestOptions({ withCredentials: true, search });
-    return this.http.get(url, options)
+    return this.http.get(url, this.getHttpOptions())
       .map(response => response.json())
       .map(items => items.map(item => ({ id: item.value, value: item.label })));
   }
@@ -297,14 +296,8 @@ export class IsariDataService {
   }
 
 
-  save(feature: string, data: any, organization: string | undefined = undefined) {
-    let options = new RequestOptions({ withCredentials: true });
-
-    if (organization) {
-      options.search = new URLSearchParams();
-      options.search.set('organization', organization);
-    }
-
+  save(feature: string, data: any) {
+    let options = this.getHttpOptions();
     let query: Observable<any>;
     if (data.id) {
       const url = `${this.dataUrl}/${feature}/${data.id}`;

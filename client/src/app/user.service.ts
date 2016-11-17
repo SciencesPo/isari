@@ -13,6 +13,7 @@ export class UserService {
   private permissionsUrl = `${environment.API_BASE_URL}/auth/permissions`;
   private httpOptions: RequestOptions;
   private organizations: any;
+  private currentOrganizationId;
 
   constructor(private http: Http) {
     this.httpOptions = new RequestOptions({
@@ -54,8 +55,13 @@ export class UserService {
   }
 
   getOrganization (id: string | undefined) {
+    this.currentOrganizationId = id;
     return this.getOrganizations()
       .map(({organizations}) => organizations.find(organization => organization.id === id));
+  }
+
+  getCurrentOrganizationId() {
+    return this.currentOrganizationId;
   }
 
 }

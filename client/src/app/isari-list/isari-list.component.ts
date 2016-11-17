@@ -19,15 +19,13 @@ export class IsariListComponent implements OnInit {
   cols: any[] = [];
   editedId: string = '';
   selectedColumns: any[] = [];
-  organization: string | undefined;
 
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
   ngOnInit() {
 
-    Observable.combineLatest(this.route.params, this.route.data)
-      .subscribe(([{ feature }, { organization }]) => {
-        this.organization = organization.id;
+    this.route.params
+      .subscribe(({ feature }) => {
         this.feature = feature;
         this.isariDataService.getColumns(feature)
           .then(columns => {
@@ -63,8 +61,7 @@ export class IsariListComponent implements OnInit {
   private loadDatas() {
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
-      applyTemplates: true,
-      organization: this.organization
+      applyTemplates: true
     }).then(data => {
       this.data = data;
       this.filteredData = [...data];
