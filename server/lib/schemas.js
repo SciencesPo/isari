@@ -54,7 +54,7 @@ const FRONT_KEPT_FIELDS = [
 
 module.exports = {
 	getMongooseSchema: memoize(getMongooseSchema),
-	getFrontSchema: memoize(getFrontSchema),
+	getFrontSchema: memoize(getFrontSchema, { length: 2 }),
 	RESERVED_FIELDS,
 	FRONT_KEPT_FIELDS
 }
@@ -255,39 +255,37 @@ function getEnumValues (zenum) {
 
 
 // Formatting for frontend APIs
-function getFrontSchema (name, options = {}) {
+function getFrontSchema (name, includeRestricted = false) {
 	const meta = getMeta(name)
 
-	return meta && formatMeta(meta, options)
+	return meta && formatMeta(meta, includeRestricted)
 }
 
-function formatMeta (meta, options = {}) {
-	const { admin = false } = options
-
+function formatMeta (meta, includeRestricted = false) {
 	const multiple = Array.isArray(meta)
 	const desc = multiple ? meta[0] : meta
 	let isObject = false
 
 	const handleField = (result, name) => {
-		if (name.substring(0, 2) === '//') {
-			return false // Skipped comment field
-		}
-
 		if (!result) {
 			return result // Skipped field
+		}
+
+		if (name.substring(0, 2) === '//') {
+			return false // Skipped comment field
 		}
 
 		if (!RESERVED_FIELDS.includes(name)) {
 			// Sub-field: just include it
 			isObject = true
-			const subres = formatMeta(desc[name], options)
+			const subres = formatMeta(desc[name], includeRestricted)
 			if (subres) {
 				result[name] = subres
 			}
 		}
 
 		// Access type defines if we can see this field
-		else if (name === 'accessType' && !admin) {
+		else if (name === 'accessType' && desc.accessType === 'confidential' && !includeRestricted) {
 			result = null // Skip the field
 		}
 

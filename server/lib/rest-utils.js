@@ -48,12 +48,6 @@ const saveDocument = (format = identity) => doc => {
 		})
 }
 
-
-// http.ServerRequest, mongoose.Model => Promise<{ editable }>
-const defaultGetPermissions = (req, object) => Promise.resolve({ // eslint-disable-line no-unused-vars
-	editable: true // TODO check permissions in req.session against object
-})
-
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	Promise.all([
 		getPermissions(req, o),
@@ -70,23 +64,22 @@ const requiresAuthentication = (req, res, next) => {
 }
 
 // buildListQuery can be a function returning an object { query: PromiseOfMongooseQuery } (embedding in an object to not accidentally convert query into a promise of Results)
-exports.restRouter = (Model, format = identity, esIndex = null, getPermissions = defaultGetPermissions, buildListQuery = null) => {
+exports.restRouter = (Model, format = identity, esIndex, getPermissions, buildListQuery = null) => {
 	const save = saveDocument(format)
 	const router = Router()
 
 	const parseJson = bodyParser.json()
 
 	if (esIndex) {
-		// TODO apply permissions in /search ? (NOT FUNNY AT ALL)
-		router.get('/search', parseJson, requiresAuthentication, restHandler(searchModel(esIndex, Model, format, getPermissions)))
+		router.get('/search', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(searchModel(esIndex, Model, format, getPermissions)))
 	}
 
 	router.get('/', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(listModel(Model, format, getPermissions, buildListQuery)))
 	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
-	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(getModelStrings(Model)))
-	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(updateModel(Model, save, getPermissions)))
-	router.post('/', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(createModel(Model, save)))
-	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(deleteModel(Model, getPermissions)))
+	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModelStrings(Model)))
+	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(updateModel(Model, save, getPermissions)))
+	router.post('/', parseJson, requiresAuthentication, restHandler(createModel(Model, save)))
+	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(deleteModel(Model, getPermissions)))
 
 	return router
 }
@@ -115,8 +108,10 @@ const listModel = (Model, format, getPermissions, buildListQuery = null) => req 
 const getModel = (Model, format, getPermissions) => req =>
 	Model.findById(req.params.id)
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
+	.then(doc => getPermissions(req, doc).then(({ viewable }) => viewable ? doc : Promise.reject(ClientError({ status: 403, title: 'Permission refused' }))))
 	.then(formatWithOpts(req, format, getPermissions, false))
 
+// TODO Check permissions
 const getModelStrings = Model => req => {
 	const ids = req.params.ids.split(',')
 	const invalids = ids.filter(id => !id.match(/^[A-Za-f0-9]{24}$/))
@@ -142,7 +137,7 @@ const updateModel = (Model, save, getPermissions) => {
 		.then(doc => getPermissions(req, doc)
 			.then(({ editable }) => {
 				if (!editable) {
-					return Promise.reject(ClientError({ message: 'Permission refused' }))
+					return Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))
 				}
 				// Update object
 				Object.keys(req.body).forEach(field => {
@@ -156,6 +151,7 @@ const updateModel = (Model, save, getPermissions) => {
 		.then(doc => save(doc))
 }
 
+// TODO Check permissions
 const createModel = (Model, save) => (req, res) => {
 	let o
 	try {
@@ -178,9 +174,7 @@ const createModel = (Model, save) => (req, res) => {
 const deleteModel = (Model, getPermissions) => (req, res) =>
 	Model.findById(req.params.id)
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
-	.then(doc => getPermissions(req, doc)
-		.then(({ editable }) => editable ? doc : Promise.reject(ClientError({ message: 'Permission refused' })))
-	)
+	.then(doc => getPermissions(req, doc).then(({ editable }) => editable ? doc : Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))))
 	.then(doc => {
 		doc.latestChangeBy = req.session.login
 		return doc.remove()
@@ -190,6 +184,7 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 		return null
 	})
 
+// TODO apply permissions
 const searchModel = (esIndex, Model, format) => req => {
 	const query = req.query.q || '*'
 	const fields = req.query.fields ? req.query.fields.split(',') : undefined
