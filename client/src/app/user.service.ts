@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-
 import { environment } from '../environments/environment';
+import 'rxjs/add/operator/publishReplay';
 
 @Injectable()
 export class UserService {
@@ -12,6 +12,7 @@ export class UserService {
   private checkUrl = `${environment.API_BASE_URL}/auth/myself`;
   private permissionsUrl = `${environment.API_BASE_URL}/auth/permissions`;
   private httpOptions: RequestOptions;
+  private organizations: any;
 
   constructor(private http: Http) {
     this.httpOptions = new RequestOptions({
@@ -41,9 +42,20 @@ export class UserService {
       .map(response => response.json).cache();
   }
 
-  getPermissions() {
-    return this.http
-      .get(this.permissionsUrl, this.httpOptions)
-      .map(res => res.json());
+  getOrganizations() {
+    if (!this.organizations) {
+      this.organizations = this.http
+        .get(this.permissionsUrl, this.httpOptions)
+        .map(res => res.json())
+        .publishReplay(1)
+        .refCount();
+    }
+    return this.organizations;
   }
+
+  getOrganization (id: string | undefined) {
+    return this.getOrganizations()
+      .map(({organizations}) => organizations.find(organization => organization.id === id));
+  }
+
 }

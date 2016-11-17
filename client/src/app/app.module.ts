@@ -11,6 +11,7 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 import { IsariDataService } from './isari-data.service';
 import { UserService } from './user.service';
 import { LoggedInGuard } from './logged-in.guard';
+import { OrganizationResolver } from './organization.resolver';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
@@ -77,7 +78,8 @@ import { HomeComponent } from './home/home.component';
   providers: [
     IsariDataService,
     UserService,
-    LoggedInGuard
+    LoggedInGuard,
+    OrganizationResolver
   ],
   entryComponents: [
     AppComponent,

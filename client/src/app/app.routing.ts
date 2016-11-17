@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 
 import { LoggedInGuard } from './logged-in.guard';
+import { OrganizationResolver } from './organization.resolver';
 
 const isariRoutes: Routes = [
   {
@@ -28,7 +29,10 @@ const isariRoutes: Routes = [
       { path: ':id', component: IsariEditorComponent, outlet: 'editor' },
       { path: ':id', component: IsariEditorComponent }
     ],
-    canActivate: [ LoggedInGuard ]
+    canActivate: [ LoggedInGuard ],
+    resolve: {
+      organization: OrganizationResolver
+    }
   }
 ];
 

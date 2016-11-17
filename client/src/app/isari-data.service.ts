@@ -38,7 +38,7 @@ export class IsariDataService {
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
   private columnsUrl = `${environment.API_BASE_URL}/columns`;
-  private id: string;
+  private id: string; // for imbricated fields (useless ????)
 
   constructor(private http: Http, private fb: FormBuilder) {}
 
@@ -186,7 +186,6 @@ export class IsariDataService {
       .map(response => response.json());
       // .map(item => item.value);
   }
-
 
   getForeignCreate(feature) {
     return function (name: string) {
