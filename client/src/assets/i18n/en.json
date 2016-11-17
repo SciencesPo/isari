@@ -10,5 +10,8 @@
   "columns_select": "Column selection",
   "btn_apply": "Apply",
   "items_per_page": "{{ value }} items per page",
-  "btn_create_value": "Create ?"
+  "btn_create_value": "Create ?",
+  "btn_login": "Login",
+  "username": "Username",
+  "password": "Password"
 }

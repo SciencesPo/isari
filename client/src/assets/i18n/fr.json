@@ -10,5 +10,8 @@
   "columns_select": "Choix des colonnes",
   "btn_apply": "Appliquer",
   "items_per_page": "{{ value }} objet par page",
-  "btn_create_value": "Créer cette valeur ?"
+  "btn_create_value": "Créer cette valeur ?",
+  "btn_login": "Connexion",
+  "username": "Identifiant",
+  "password": "Mot de passe"
 }
