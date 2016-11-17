@@ -3,7 +3,7 @@
 const { map, reduce, flow, toPairs, filter, intersection } = require('lodash/fp')
 const { mongo } = require('mongoose')
 const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
-const { Organization, People } = require('./model')
+const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
 
 
@@ -77,6 +77,9 @@ exports.rolesMiddleware = (req, res, next) => {
 		// Credential helpers
 		req.userCanEditPeople = p => canEditPeople(req, p)
 		req.userListViewablePeople = () => listViewablePeople(req)
+		req.userCanEditActivity = a => canEditActivity(req, a)
+		req.userListViewableActivities = () => listViewableActivities(req)
+		req.userCanEditOrganization = o => canEditOrganization(req, o)
 
 		debug(req.userRoles)
 		next()
@@ -132,7 +135,7 @@ Who can *view* a people?
 */
 const listViewablePeople = (req) => {
 	if (!req._scopeOrganizationMiddleware) {
-		return Promise.reject(Error('Invalid usage of "getScopePeople" without prior usage of "scopeOrganizationMiddleware"'))
+		return Promise.reject(Error('Invalid usage of "listViewablePeople" without prior usage of "scopeOrganizationMiddleware"'))
 	}
 
 	const isInScope = req.userScopeOrganizationId
@@ -194,3 +197,41 @@ const canEditPeople = (req, p) =>
 	req.userCentralRole === 'admin' || // central admin or central reader
 	isExternalPeople(p) || // external people
 	hasMatchingCredentials(req.userRoles, map('organization')(p.academicMemberships), ['center_editor', 'center_admin'])
+
+// Return viewable activities for current user, scope included
+/*
+Who can *view* an activity?
+- anyone having access to any of its organizations
+(access has been checked by scope earlier, so it's just about checking if activity.organizations contains requested scope)
+*/
+const listViewableActivities = (req) => {
+	if (!req._scopeOrganizationMiddleware) {
+		return Promise.reject(Error('Invalid usage of "listViewableActivities" without prior usage of "scopeOrganizationMiddleware"'))
+	}
+
+	const filter = req.userScopeOrganizationId
+		? // Scoped: limit to people from this organization
+			{ 'organizations.organization': req.userScopeOrganizationId }
+		: // Unscoped: limit to people from organizations he has access to
+			{ 'organizations.organization': { $in: Object.keys(req.userRoles) } }
+
+	return Promise.resolve({ query: Activity.find(filter) })
+}
+
+// Check if an activity is editable by current user
+/*
+Who can *edit* an activity?
+- central admin
+*/
+const canEditActivity = (req, a) => // eslint-disable-line no-unused-vars
+	req.userCentralRole === 'admin' // central admin or central reader
+
+// Check if an organization is editable by current user
+/*
+Who can *edit* an organization?
+- central admin
+- center admin for this organization
+*/
+const canEditOrganization = (req, o) => // eslint-disable-line no-unused-vars
+	req.userCentralRole === 'admin' || // central admin or central reader
+	hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
