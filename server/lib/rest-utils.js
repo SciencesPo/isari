@@ -7,7 +7,6 @@ const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery } = require('./model-utils')
 const debug = require('debug')('isari:rest')
-const { rolesMiddleware } = require('../routes/auth')
 const { scopeOrganizationMiddleware } = require('./permissions')
 
 
@@ -82,8 +81,8 @@ exports.restRouter = (Model, format = identity, esIndex = null, getPermissions =
 		router.get('/search', parseJson, requiresAuthentication, restHandler(searchModel(esIndex, Model, format, getPermissions)))
 	}
 
-	router.get('/', parseJson, requiresAuthentication, rolesMiddleware, scopeOrganizationMiddleware, restHandler(listModel(Model, format, getPermissions, buildListQuery)))
-	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, rolesMiddleware, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
+	router.get('/', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(listModel(Model, format, getPermissions, buildListQuery)))
+	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
 	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(getModelStrings(Model)))
 	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(updateModel(Model, save, getPermissions)))
 	router.post('/', parseJson, requiresAuthentication, /* TODO check permissions */ restHandler(createModel(Model, save)))

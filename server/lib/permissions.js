@@ -1,21 +1,27 @@
 'use strict'
 
-const { map, some, flowRight: compose } = require('lodash/fp')
+const { map, reduce, flow, toPairs, filter, intersection } = require('lodash/fp')
 const { mongo } = require('mongoose')
 const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
 const { Organization, People } = require('./model')
+const debug = require('debug')('isari:permissions')
 
+
+// Helper to safely get a string from Mongoose instance, ObjectId, or direct string (populate-proof)
 // Object|ObjectID|String => String
 const mongoID = o => (o instanceof mongo.ObjectID) ? o.toHexString() : (o ? (o.id ? o.id : (o._id ? o._id.toHexString() : o)) : null)
 
-// Roles defining a "central" user, who can access unscoped APIs
-const CENTRAL_ROLES = [
-	'central_admin',
-	'central_reader'
-]
+// Helper returning a YYYY-MM-DD string for today
+// TODO cache (it shouldn't change more than once a day, right)
+const today = () => {
+	const d = new Date()
+	const pad = s => String(s).length === 1 ? '0' + s : String(s)
+	return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate)}`
+}
 
+// Extract roles from isariAuthorizedCenters
 // People => Object(OrganizationID, Role)
-const getRoles = exports.getPeopleRoles = (people) => {
+const getRoles = (people) => {
 	const roles = {}
 	people.isariAuthorizedCenters.forEach(({ organization, isariRole: role }) => {
 		roles[mongoID(organization)] = role
@@ -23,11 +29,62 @@ const getRoles = exports.getPeopleRoles = (people) => {
 	return roles
 }
 
-// People => Boolean
-exports.isPeopleCentral = compose(some(role => CENTRAL_ROLES.includes(role)), getRoles)
+// Extract "central_*" roles, keep only highest
+// People => null|'admin'|'reader'
+const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((result, role) => {
+	if (role.isariRole === 'central_admin') {
+		return 'admin'
+	} else if (!result && role.isariRole === 'central_reader') {
+		return 'reader'
+	}
+}, null))
 
-// Sets "req.userScopeOrganizationId"
-// IMPORTANT: requires "rolesMiddleware" to be executed BEFORE
+// Returns matched expectedCredentials by user roles for given organization ids
+// Object({ OrganizationId: Role }), Array(OrganizationId), Array(Role) => Array(Role)
+const getMatchingCredentials = (userRoles, organizationIds, expectedRoles) => {
+	organizationIds = map(mongoID)(organizationIds)
+	return flow(
+		toPairs, // Array([OrganizationId, Role])
+		filter(([id]) => organizationIds.includes(id)), // Scope
+		map(1), // Array(Role)
+		intersection(expectedRoles) // Array(Role), only the ones matching
+	)(userRoles)
+}
+const hasMatchingCredentials = (u, o, e) => getMatchingCredentials(u, o, e).length > 0
+
+// Credentials middleware
+// sets a bunch of user* properties easing permissions checking
+exports.rolesMiddleware = (req, res, next) => {
+	req._rolesMiddleware = true
+
+	if (!req.session.login) {
+		debug('not logged in')
+		return next()
+	}
+
+	People.findOne({ ldapUid: req.session.login }).then(people => {
+		if (!people) {
+			debug('invalid login: force-disconnect!')
+			req.session.login = null
+			return next()
+		}
+
+		req.userId = people.id
+		req.userPeople = people
+		req.userRoles = getRoles(people)
+		req.userCentralRole = getCentralRole(people)
+
+		// Credential helpers
+		req.userCanEditPeople = p => canEditPeople(req, p)
+		req.userListViewablePeople = () => listViewablePeople(req)
+
+		debug(req.userRoles)
+		next()
+	})
+}
+
+// scope middleware
+// Sets "req.userScopeOrganizationId" and check its validity
 exports.scopeOrganizationMiddleware = (req, res, next) => {
 	if (!req._rolesMiddleware) {
 		return next(ServerError({ title: 'Invalid usage of "scopeOrganizationMiddleware" without prior usage of "rolesMiddleware"' }))
@@ -38,7 +95,7 @@ exports.scopeOrganizationMiddleware = (req, res, next) => {
 	const orgId = req.query.organization // maybe change later, part of URL, different name…
 
 	// Scope requested: check if it is valid for connected user
-	if (orgId && !req.userRoles[orgId] && !req.userIsCentral) {
+	if (orgId && !req.userRoles[orgId] && !req.userCentralRole) {
 		return next(UnauthorizedError({ title: `Specified invalid scope (organization id) "${orgId}" (user is not central and has no permission on this organization)` }))
 	}
 
@@ -59,8 +116,8 @@ exports.scopeOrganizationMiddleware = (req, res, next) => {
 	}
 
 	// Global scope requested: check if it is valid for connected user
-	if (!orgId && !req.userIsCentral) {
-		return next(UnauthorizedError({ title: `Access to global scope refused for non central people, please add "?organization=…" to scope your queries` }))
+	if (!orgId && !req.userCentralRole) {
+		return next(UnauthorizedError({ title: 'Access to global scope refused for non central people, please add "?organization=…" to scope your queries' }))
 	}
 
 	// Global scope requested for central user: set scope and let go
@@ -68,18 +125,15 @@ exports.scopeOrganizationMiddleware = (req, res, next) => {
 	next()
 }
 
-
-// People, Organization => Boolean
-// IMPORTANT: requires "scopeOrganizationMiddleware" to be executed BEFORE
-exports.getScopePeopleIds = (req) => {
+// Return viewable people for current user, scope included
+/*
+Who can *view* a people?
+- anyone sharing academicMembership (done by lookup below)
+*/
+const listViewablePeople = (req) => {
 	if (!req._scopeOrganizationMiddleware) {
-		throw new Error('Invalid usage of "getScopePeople" without prior usage of "scopeOrganizationMiddleware"')
+		return Promise.reject(Error('Invalid usage of "getScopePeople" without prior usage of "scopeOrganizationMiddleware"'))
 	}
-
-	// TODO refactor "today"
-	const d = new Date()
-	const pad = s => String(s).length === 1 ? '0' + s : String(s)
-	const today = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate)}`
 
 	const isInScope = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
@@ -89,7 +143,7 @@ exports.getScopePeopleIds = (req) => {
 
 	// External people = ALL memberships are either expired or linked to an unmonitored organization
 	const isExternal = { memberships: { $not: { $elemMatch: {
-		$or: [ { endDate: { $gte: today } }, { endDate: { $exists: false } } ],
+		$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
 		orgMonitored: true
 	} } } }
 
@@ -106,7 +160,7 @@ exports.getScopePeopleIds = (req) => {
 		.group({ _id: '$_id', memberships: { $push: '$membership' }, people: { $first: '$people' } }) // Now regroup membership data to single people
 		.match({ $or: [ isInScope, isExternal ] }) // Finally apply filters
 		.then(map(p => Object.assign(p.people, { // And keep only People (untouched) data with additional membership info
-			_external: !p.memberships.some(m => m.endDate && m.endDate >= today && m.orgMonitored)
+			_external: !p.memberships.some(m => m.endDate && m.endDate >= today() && m.orgMonitored)
 		})))
 	*/
 	return People.aggregate()
@@ -119,8 +173,24 @@ exports.getScopePeopleIds = (req) => {
 		.match({ $or: [ isInScope, isExternal ] }) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
+		.then(ids => ({
+			// Populate to allow getPeoplePermissions to work
+			query: People.find({ _id: { $in: ids } }).populate('academicMemberships.organization')
+		}))
 }
 
-exports.getScopeActivities = (req) => {
-
-}
+// Check if a people is editable by current user
+/*
+Who can *write* a people?
+- himself
+- central admin
+- anyone if people is external
+- center admin of people's centers (academicMemberships)
+- center editor of people's centers (academicMemberships)
+*/
+const isExternalPeople = p => !p.academicMemberships.some(m => m.endDate && m.endDate >= today() && m.organization.isariMonitored)
+const canEditPeople = (req, p) =>
+	req.userId === String(p._id) || // himself
+	req.userCentralRole === 'admin' || // central admin or central reader
+	isExternalPeople(p) || // external people
+	hasMatchingCredentials(req.userRoles, map('organization')(p.academicMemberships), ['center_editor', 'center_admin'])
