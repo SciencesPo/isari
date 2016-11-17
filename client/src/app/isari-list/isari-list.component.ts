@@ -26,6 +26,13 @@ export class IsariListComponent implements OnInit {
     Observable.combineLatest(this.route.params, this.route.queryParams)
       .subscribe(([{ feature }, { organization }]) => {
         this.organization = organization;
+
+this.isariDataService.getForeignLabel('Organization', organization)
+  .subscribe(org => {
+    console.log(org);
+  });
+
+
         this.feature = feature;
         this.isariDataService.getColumns(feature)
           .then(columns => {
