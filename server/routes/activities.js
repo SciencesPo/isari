@@ -5,15 +5,16 @@ const { Activity } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 
 
-const formatObject = a => format('Activity', a)
+const formatObject = (a, perms) => format('Activity', a, perms)
 
 const getPermissions = (req, a) => Promise.all([
 	req.userCanViewActivity(a),
-	req.userCanEditActivity(a)
-]).then(([ viewable, editable ]) => ({
+	req.userCanEditActivity(a),
+	req.userComputeRestrictedFields('Activity')
+]).then(([ viewable, editable, confidentials ]) => ({
 	viewable,
-	editable
-	// TODO confidentialFields
+	editable,
+	confidentials
 }))
 
 const buildListQuery = (req) => req.userListViewableActivities()

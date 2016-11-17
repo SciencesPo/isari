@@ -2,7 +2,7 @@
 
 const { Schema } = require('mongoose')
 const enums = require('../../specs/enums.json')
-const { get, map, filter, identity } = require('lodash/fp')
+const { get, map, filter, identity, isArray } = require('lodash/fp')
 const { getMeta } = require('./specs')
 const memoize = require('memoizee')
 
@@ -55,6 +55,7 @@ const FRONT_KEPT_FIELDS = [
 module.exports = {
 	getMongooseSchema: memoize(getMongooseSchema),
 	getFrontSchema: memoize(getFrontSchema, { length: 2 }),
+	computeConfidentialPaths: memoize(computeConfidentialPaths),
 	RESERVED_FIELDS,
 	FRONT_KEPT_FIELDS
 }
@@ -323,4 +324,26 @@ function formatMeta (meta, includeRestricted = false) {
 	}
 
 	return result
+}
+
+function computeConfidentialPaths (name) {
+	const meta = getMeta(name)
+	if (!meta) {
+		throw Error(`${name}: Unknonwn schema`)
+	}
+
+	return map(s => s.substring(1), _computeConfidentialPaths(meta, ''))
+}
+
+function _computeConfidentialPaths (desc, currPath = '') {
+	if (isArray(desc)) {
+		return _computeConfidentialPaths(desc[0], currPath + '.*')
+	}
+	const result = desc.accessType === 'confidential' ? [ currPath ] : []
+	return Object.keys(desc).reduce((result, field) => {
+		if (RESERVED_FIELDS.includes(field) || field.substring(0, 2) === '//') {
+			return result
+		}
+		return result.concat(_computeConfidentialPaths(desc[field], currPath + '.' + field))
+	}, result)
 }

@@ -132,18 +132,36 @@ function _getRefFields (baseName, meta, depth) {
 	return result
 }
 
+const pathToRegExp = memoize(path => new RegExp('^' + path.replace('.', '\\.').replace('.*', '..+') + '$'))
 
-function format (modelName, object) {
-	return _format(object, getMeta(modelName), true)
+const pathsTester = paths => {
+	const res = paths.map(pathToRegExp)
+	return path => res.some(re => re.test(path))
 }
 
-function _format (object, schema, keepId) {
+const retFalse = () => false
+
+function format (modelName, object, perms) {
+	const shouldRemove = perms.confidentials.viewable ? retFalse : pathsTester(perms && perms.confidentials && perms.confidentials.paths || [])
+	return _format(object, getMeta(modelName), shouldRemove, '')
+}
+
+const REMOVED_CONFIDENTIAL_FIELD = Symbol()
+
+function _format (object, schema, shouldRemove, path) {
+	const keepId = path !== ''
+
+	// Confidential not-viewable field: remove from output
+	if (shouldRemove(path)) {
+		return REMOVED_CONFIDENTIAL_FIELD
+	}
+
 	// Multi-valued field: format recursively
 	if (isArray(object)) {
 		if (schema && !isArray(schema)) {
 			throw new Error('Schema Inconsistency: Array expected')
 		}
-		return object.map(o => _format(o, schema && schema[0], keepId))
+		return object.map((o, i) => _format(o, schema && schema[0], shouldRemove, path ? path + '.' + i : String(i))).filter(f => f !== REMOVED_CONFIDENTIAL_FIELD)
 	}
 
 	// Scalar value? Nothing to format
@@ -173,7 +191,10 @@ function _format (object, schema, keepId) {
 		if (ref) {
 			o[f] = mongoID(o[f])
 		} else {
-			o[f] = _format(o[f], schema[f], false)
+			const res = _format(o[f], schema[f], shouldRemove, path ? path + '.' + f : f)
+			if (res !== REMOVED_CONFIDENTIAL_FIELD) {
+				o[f] = res
+			}
 		}
 	})
 

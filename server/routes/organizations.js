@@ -5,17 +5,18 @@ const { Organization } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 
 
-const formatObject = o => format('Organization', o)
+const formatObject = (o, perms) => format('Organization', o, perms)
 
 const pTrue = Promise.resolve(true)
 
 const getPermissions = (req, o) => Promise.all([
 	pTrue,
-	req.userCanEditOrganization(o)
-]).then(([ viewable, editable ]) => ({
+	req.userCanEditOrganization(o),
+	req.userComputeRestrictedFields('Organization')
+]).then(([ viewable, editable, confidentials ]) => ({
 	viewable,
-	editable
-	// TODO confidentialFields
+	editable,
+	confidentials
 }))
 
 // No buildListQuery here: all organizations are viewable by anyone

@@ -49,11 +49,10 @@ const saveDocument = (format = identity) => doc => {
 }
 
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
-	Promise.all([
-		getPermissions(req, o),
-		format(applyTemplates ? o.applyTemplates() : o)
-	])
-	.then(([ { editable }, o ]) => set('opts', { editable })(o))
+	getPermissions(req, o).then(perms =>
+		Promise.resolve(format(applyTemplates ? o.applyTemplates() : o, perms))
+		.then(set('opts', { editable: perms.editable, restrictedFields: perms.confidentials.paths }))
+	)
 
 const requiresAuthentication = (req, res, next) => {
 	if (req.session.login) {
@@ -130,6 +129,7 @@ const getModelStrings = Model => req => {
 		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(0) })))
 }
 
+// TODO check confidential fields
 const updateModel = (Model, save, getPermissions) => {
 	const get = getModel(Model, identity, getPermissions)
 	return req =>
@@ -151,7 +151,7 @@ const updateModel = (Model, save, getPermissions) => {
 		.then(doc => save(doc))
 }
 
-// TODO Check permissions
+// TODO check confidential fields
 const createModel = (Model, save) => (req, res) => {
 	let o
 	try {
@@ -171,6 +171,7 @@ const createModel = (Model, save) => (req, res) => {
 	})
 }
 
+// TODO check permissions
 const deleteModel = (Model, getPermissions) => (req, res) =>
 	Model.findById(req.params.id)
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
@@ -184,7 +185,7 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 		return null
 	})
 
-// TODO apply permissions
+// TODO apply permissions filter & co
 const searchModel = (esIndex, Model, format) => req => {
 	const query = req.query.q || '*'
 	const fields = req.query.fields ? req.query.fields.split(',') : undefined

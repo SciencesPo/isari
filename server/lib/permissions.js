@@ -5,6 +5,7 @@ const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
 const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
 const { mongoID } = require('./model-utils')
+const { computeConfidentialPaths } = require('./schemas')
 
 
 // Helper returning a YYYY-MM-DD string for today
@@ -75,6 +76,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		debug('logged in: add credentials helpers', req.userRoles)
 
 		// Credential helpers
+		// TODO maybe they should be declared in scopeOrganizationMiddleware, as it's needed for most of them? Sort it out
 		req.userCanEditPeople = p => canEditPeople(req, p)
 		req.userCanViewPeople = p => canViewPeople(req, p)
 		req.userListViewablePeople = () => listViewablePeople(req)
@@ -83,6 +85,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userListViewableActivities = () => listViewableActivities(req)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
 		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
+		req.userComputeRestrictedFields = modelName => computeRestrictedFields(modelName, req)
 
 		debug(req.userRoles)
 		next()
@@ -314,11 +317,10 @@ All this can get calculated from 'req' only, so that /schemas and /layouts can w
 
 - /schemas: remove confidential fields for "others"
 - /layouts: idem
-- /model: include
-From that we have two missions:
-
-1. Compute restricted fields patterns
-2. For last case, REMOVE restricted fields from output
+- GET /model: include additional information
+  1. Compute restricted fields patterns
+  2. For "others" case, REMOVE restricted fields from output
+- PUT/POST /model: check field permissions
 */
 
 const canViewConfidentialFields = (req) => Promise.resolve(
@@ -326,3 +328,31 @@ const canViewConfidentialFields = (req) => Promise.resolve(
 	req.userCentralRole === 'reader' ||
 	hasMatchingCredentials(req.userRoles, [ req.userScopeOrganizationId ], [ 'center_admin' ])
 )
+
+const computeRestrictedFields = (modelName, req) => {
+	// Central admin → no restriction
+	if (req.userCentralRole === 'admin') {
+		return Promise.resolve({
+			viewable: true,
+			editable: true,
+			paths: [] // Do not bother calculate paths
+		})
+	}
+
+	// Central reader → readonly
+	// Center admin → readonly
+	if (req.userCentralRole === 'reader' || hasMatchingCredentials(req.userRoles, [req.userScopeOrganizationId], ['center_admin'])) {
+		return Promise.resolve({
+			viewable: true,
+			editable: false,
+			paths: computeConfidentialPaths(modelName) // paths will be passed to frontend in opts.restrictedFields
+		})
+	}
+
+	// General case → omit fields
+	return Promise.resolve({
+		viewable: false,
+		editable: false,
+		paths: computeConfidentialPaths(modelName) // paths will be used to *remove* fields from object
+	})
+}
