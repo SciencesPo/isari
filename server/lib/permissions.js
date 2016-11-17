@@ -145,8 +145,12 @@ const listViewablePeople = (req) => {
 	const isInScope = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
 			{ 'memberships.orgId': req.userScopeOrganizationId }
-		: // Unscoped: limit to people from organizations he has access to
-			{ 'memberships.orgId': { $in: Object.keys(req.userRoles) } }
+		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
+			req.userCentralRole
+			? // Central user: access to EVERYTHING
+				{}
+			: // Limit to people from organizations he has access to
+				{ 'memberships.orgId': { $in: Object.keys(req.userRoles) } }
 
 	// External people = ALL memberships are either expired or linked to an unmonitored organization
 	const isExternal = { memberships: { $not: { $elemMatch: {
@@ -217,8 +221,12 @@ const listViewableActivities = (req) => {
 	const filter = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
 			{ 'organizations.organization': req.userScopeOrganizationId }
-		: // Unscoped: limit to people from organizations he has access to
-			{ 'organizations.organization': { $in: Object.keys(req.userRoles) } }
+		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
+			req.userCentralRole
+			? // Central user: access to EVERYTHING
+				{}
+			: // Limit to activities of organizations he has access to
+				{ 'organizations.organization': { $in: Object.keys(req.userRoles) } }
 
 	return Promise.resolve({ query: Activity.find(filter) })
 }
