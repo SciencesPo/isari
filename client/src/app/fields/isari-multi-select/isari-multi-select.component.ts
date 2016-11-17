@@ -21,6 +21,7 @@ export class IsariMultiSelectComponent implements OnInit {
   selectControl: FormControl;
   empty: boolean;
   focused: boolean = false;
+  extend = false;
   lang: string;
 
   @Input() name: string;
@@ -29,6 +30,7 @@ export class IsariMultiSelectComponent implements OnInit {
   @Input() description: string;
   @Output() onUpdate = new EventEmitter<any>();
   @Input() src: Function;
+  @Input() create: Function;
   @Input() extensible = false;
   @Input() stringValue: Observable<string[]>;
 
@@ -56,6 +58,7 @@ export class IsariMultiSelectComponent implements OnInit {
     ).subscribe(([items, lang]) => {
       this.lang = lang;
       this.options = (<any[]>items).map(this.translateItem.bind(this));
+      this.setExtend();
     });
 
     Observable.combineLatest(
@@ -122,6 +125,18 @@ export class IsariMultiSelectComponent implements OnInit {
     }
   }
 
+  createValue() {
+    this.create(this.selectControl.value).subscribe(item => {
+      if (typeof item === 'string') {
+        item = {
+          value: item,
+          label: item
+        };
+      }
+      this.addValue(item);
+    });
+  }
+
   private translateItem (item) {
     let label = item.value;
     if (item.label && item.label[this.lang]) {
@@ -134,6 +149,14 @@ export class IsariMultiSelectComponent implements OnInit {
 
   private findOption(item) {
     return this.options.find(option => (option.value && option.value === item.value) || (option.id && option.id === item.id));
+  }
+
+  private setExtend() {
+    if (this.extensible && (this.options.length !== 1 && !this.options.find(item => item.label === this.selectControl.value))) {
+      this.extend = true;
+    } else {
+      this.extend = false;
+    }
   }
 
 }
