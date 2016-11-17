@@ -10,6 +10,7 @@ import { UserService }  from '../user.service';
 })
 export class IsariHeaderComponent implements OnInit {
   organization: any;
+  lang: string;
 
   constructor(
     private router: Router,
@@ -21,6 +22,7 @@ export class IsariHeaderComponent implements OnInit {
     this.route.data.subscribe(({ organization }) => {
       this.organization = organization;
     });
+    this.lang = this.translate.currentLang;
   }
 
   logout($event) {
@@ -33,7 +35,8 @@ export class IsariHeaderComponent implements OnInit {
 
   setLang(lang, $event) {
     $event.preventDefault();
-    this.translate.use(lang);
+    this.lang = lang;
+    this.translate.use(this.lang);
   }
 
 
