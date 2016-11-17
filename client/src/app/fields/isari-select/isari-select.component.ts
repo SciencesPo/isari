@@ -53,7 +53,6 @@ export class IsariSelectComponent implements OnInit {
     ).subscribe(([items, lang]) => {
       this.lang = lang;
       this.values = (<any[]>items).map(this.translateItem.bind(this));
-// console.log(this.values, items, this.lang);
       this.setExtend();
     });
 
@@ -128,7 +127,7 @@ export class IsariSelectComponent implements OnInit {
   }
 
   private setExtend() {
-    if (this.extensible && this.values.length === 0) {
+    if (this.extensible && (this.values.length !== 1 && !this.values.find(item => item.label === this.selectControl.value))) {
       this.extend = true;
     } else {
       this.extend = false;
