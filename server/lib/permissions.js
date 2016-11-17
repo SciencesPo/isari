@@ -80,8 +80,10 @@ exports.rolesMiddleware = (req, res, next) => {
 
 		// Credential helpers
 		req.userCanEditPeople = p => canEditPeople(req, p)
+		req.userCanViewPeople = p => canViewPeople(req, p)
 		req.userListViewablePeople = () => listViewablePeople(req)
 		req.userCanEditActivity = a => canEditActivity(req, a)
+		req.userCanViewActivity = a => canViewActivity(req, a)
 		req.userListViewableActivities = () => listViewableActivities(req)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
 
@@ -200,12 +202,52 @@ Who can *write* a people?
 - center admin of people's centers (academicMemberships)
 - center editor of people's centers (academicMemberships)
 */
-const isExternalPeople = p => !p.academicMemberships.some(m => m.endDate && m.endDate >= today() && m.organization.isariMonitored)
-const canEditPeople = (req, p) =>
-	req.userId === String(p._id) || // himself
-	req.userCentralRole === 'admin' || // central admin or central reader
-	isExternalPeople(p) || // external people
-	hasMatchingCredentials(req.userRoles, map('organization')(p.academicMemberships), ['center_editor', 'center_admin'])
+const isExternalPeople = p => p.populate('academicMemberships.organization').execPopulate().then(() => {
+	return !p.academicMemberships.some(m => m.endDate && m.endDate >= today() && m.organization.isariMonitored)
+})
+const canEditPeople = (req, p) => {
+	// Direct tests: himself or central admin
+	if (req.userId === String(p._id) || req.userCentralRole === 'admin') {
+		return Promise.resolve(true)
+	}
+	// Center editor/admin of any common organization
+	if (hasMatchingCredentials(req.userRoles, map('organization')(p.academicMemberships), ['center_editor', 'center_admin'])) {
+		return Promise.resolve(true)
+	}
+	return isExternalPeople(p)
+}
+
+// See conditions to view a people above
+const canViewPeople = (req, p) => {
+	if (req.userCentralRole) {
+		return true
+	}
+	if (isExternalPeople(p)) {
+		return true
+	}
+	/*
+	if ()
+	const isInScope = req.userScopeOrganizationId
+		? // Scoped: limit to people from this organization
+			{ 'memberships.orgId': req.userScopeOrganizationId }
+		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
+			req.userCentralRole
+			? // Central user: access to EVERYTHING
+				{}
+			: // Limit to people from organizations he has access to
+				{ 'memberships.orgId': { $in: Object.keys(req.userRoles) } }
+
+	// External people = ALL memberships are either expired or linked to an unmonitored organization
+	const isExternal = { memberships: { $not: { $elemMatch: {
+		$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
+		orgMonitored: true
+	} } } }
+
+	const activityOrganizations = map(o => mongoID(o.organization), a.organizations)
+	const userOrganizations = Object.keys(req.userRoles)
+	return intersection(activityOrganizations, userOrganizations).length > 0
+	*/
+}
 
 // Return viewable activities for current user, scope included
 /*
@@ -237,7 +279,17 @@ Who can *edit* an activity?
 - central admin
 */
 const canEditActivity = (req, a) => // eslint-disable-line no-unused-vars
-	req.userCentralRole === 'admin' // central admin or central reader
+	Promise.resolve(req.userCentralRole === 'admin') // central admin or central reader
+
+// I can view an activity iff I have an organization in common (or I'm central)
+const canViewActivity = (req, a) => {
+	if (req.userCentralRole) {
+		return true
+	}
+	const activityOrganizations = map(o => mongoID(o.organization), a.organizations)
+	const userOrganizations = Object.keys(req.userRoles)
+	return intersection(activityOrganizations, userOrganizations).length > 0
+}
 
 // Check if an organization is editable by current user
 /*
@@ -246,5 +298,7 @@ Who can *edit* an organization?
 - center admin for this organization
 */
 const canEditOrganization = (req, o) => // eslint-disable-line no-unused-vars
-	req.userCentralRole === 'admin' || // central admin or central reader
-	hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
+	Promise.resolve(
+		req.userCentralRole === 'admin' || // central admin or central reader
+		hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
+	)

@@ -7,10 +7,14 @@ const { format } = require('../lib/model-utils')
 
 const formatObject = p => format('People', p)
 
-const getPermissions = (req, p) => Promise.resolve({
-	editable: req.userCanEditPeople(p)
+const getPermissions = (req, p) => Promise.all([
+	req.userCanViewPeople(p),
+	req.userCanEditPeople(p)
+]).then(([ viewable, editable ]) => ({
+	viewable,
+	editable
 	// TODO confidentialFields
-})
+}))
 
 const buildListQuery = (req) => req.userListViewablePeople()
 
