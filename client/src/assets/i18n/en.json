@@ -13,5 +13,7 @@
   "btn_create_value": "Create ?",
   "btn_login": "Login",
   "username": "Username",
-  "password": "Password"
+  "password": "Password",
+  "unknown error": "Unknown error",
+  "Unauthorized: People Not Found": "Invalid username or password"
 }

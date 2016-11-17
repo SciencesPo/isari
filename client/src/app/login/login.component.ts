@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 import { UserService } from '../user.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
-  message: string;
+  errorMessage: string;
   loginForm: FormGroup;
 
   constructor(
@@ -28,15 +29,16 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form) {
     this.userService.login(form.value.login, form.value.password)
-//      .catch(this.handleError)
+      .catch(this.handleError)
       .subscribe(res => {
         this.router.navigate(['']);
+      }, error => {
+        this.errorMessage = error.message || 'unknown error';
       });
   }
 
-  // handleError(error: any) {
-  //   this.message = 'Wrong password / username';
-  //   return Observable.throw('err');
-  // }
+  handleError(error: any) {
+    return Observable.throw(error.json());
+  }
 
 }

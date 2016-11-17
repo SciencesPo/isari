@@ -12,7 +12,7 @@ body {
 }
 
 md-hint.error {
-  color: red;
+  color: #E6142D;
 }
 
 [hidden] { display: none !important;}

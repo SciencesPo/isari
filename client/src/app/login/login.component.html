@@ -9,4 +9,8 @@
     <p *ngIf="message">{{ message }}</p>
   </form>
 
+  <h3 *ngIf="errorMessage" class="error">
+    {{ errorMessage | translate }}
+  </h3>
+
 </div>
