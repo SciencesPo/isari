@@ -23,16 +23,10 @@ export class IsariListComponent implements OnInit {
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
   ngOnInit() {
-    Observable.combineLatest(this.route.params, this.route.queryParams)
+
+    Observable.combineLatest(this.route.params, this.route.data)
       .subscribe(([{ feature }, { organization }]) => {
-        this.organization = organization;
-
-this.isariDataService.getForeignLabel('Organization', organization)
-  .subscribe(org => {
-    console.log(org);
-  });
-
-
+        this.organization = organization.id;
         this.feature = feature;
         this.isariDataService.getColumns(feature)
           .then(columns => {

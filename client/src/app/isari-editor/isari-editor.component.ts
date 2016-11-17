@@ -40,7 +40,7 @@ export class IsariEditorComponent implements OnInit {
 
     let $routeParams = this.route.parent
       ? Observable
-        .combineLatest(this.route.parent.params, this.route.params, this.route.queryParams)
+        .combineLatest(this.route.parent.params, this.route.params, this.route.data)
         .map(([x, y, z]) => Object.assign({}, x, y, z))
       : this.route.params;
 
@@ -50,7 +50,7 @@ export class IsariEditorComponent implements OnInit {
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
     ).subscribe(([{ feature, id, organization }, lang]) => {
-        this.organization = organization;
+        this.organization = organization.id;
         this.feature = feature;
         this.id = id;
         Promise.all([
