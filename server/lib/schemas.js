@@ -54,7 +54,7 @@ const FRONT_KEPT_FIELDS = [
 
 module.exports = {
 	getMongooseSchema: memoize(getMongooseSchema),
-	getFrontSchema: memoize(getFrontSchema),
+	getFrontSchema: memoize(getFrontSchema, { length: 2 }),
 	RESERVED_FIELDS,
 	FRONT_KEPT_FIELDS
 }
@@ -255,15 +255,13 @@ function getEnumValues (zenum) {
 
 
 // Formatting for frontend APIs
-function getFrontSchema (name, options = {}) {
+function getFrontSchema (name, includeRestricted = false) {
 	const meta = getMeta(name)
 
-	return meta && formatMeta(meta, options)
+	return meta && formatMeta(meta, includeRestricted)
 }
 
-function formatMeta (meta, options = {}) {
-	const { includeRestricted = false } = options
-
+function formatMeta (meta, includeRestricted = false) {
 	const multiple = Array.isArray(meta)
 	const desc = multiple ? meta[0] : meta
 	let isObject = false
@@ -280,7 +278,7 @@ function formatMeta (meta, options = {}) {
 		if (!RESERVED_FIELDS.includes(name)) {
 			// Sub-field: just include it
 			isObject = true
-			const subres = formatMeta(desc[name], options)
+			const subres = formatMeta(desc[name], includeRestricted)
 			if (subres) {
 				result[name] = subres
 			}
