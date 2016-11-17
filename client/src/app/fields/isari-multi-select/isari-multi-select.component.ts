@@ -153,7 +153,8 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   private setExtend() {
-    if (this.extensible && (this.options.length !== 1 && !this.options.find(item => item.label === this.selectControl.value))) {
+    if (this.extensible
+      && (this.options.length !== 1 && !this.options.find(item => item.label.toLowerCase() === this.selectControl.value.toLowerCase()))) {
       this.extend = true;
     } else {
       this.extend = false;
