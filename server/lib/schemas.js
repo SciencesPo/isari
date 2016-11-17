@@ -269,12 +269,12 @@ function formatMeta (meta, options = {}) {
 	let isObject = false
 
 	const handleField = (result, name) => {
-		if (name.substring(0, 2) === '//') {
-			return false // Skipped comment field
-		}
-
 		if (!result) {
 			return result // Skipped field
+		}
+
+		if (name.substring(0, 2) === '//') {
+			return false // Skipped comment field
 		}
 
 		if (!RESERVED_FIELDS.includes(name)) {
@@ -287,7 +287,7 @@ function formatMeta (meta, options = {}) {
 		}
 
 		// Access type defines if we can see this field
-		else if (name === 'accessType' && desc[name] === 'confidential' && !includeRestricted) {
+		else if (name === 'accessType' && desc.accessType === 'confidential' && !includeRestricted) {
 			result = null // Skip the field
 		}
 

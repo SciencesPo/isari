@@ -86,6 +86,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userCanViewActivity = a => canViewActivity(req, a)
 		req.userListViewableActivities = () => listViewableActivities(req)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
+		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
 
 		debug(req.userRoles)
 		next()
@@ -302,3 +303,30 @@ const canEditOrganization = (req, o) => // eslint-disable-line no-unused-vars
 		req.userCentralRole === 'admin' || // central admin or central reader
 		hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
 	)
+
+/* Now about restricted fields:
+
+- central_admin (1) has no restriction
+- central_reader (2) and center_admin (3) can VIEW restricted fields
+- others don't get to see them
+
+(1) req.userCentralRole === 'admin'
+(2) req.userCentralRole === 'reader'
+(3) hasMatchingCredentials(req.userRoles, [scopeOrganization], ['center_admin'])
+
+All this can get calculated from 'req' only, so that /schemas and /layouts can work
+
+- /schemas: remove confidential fields for "others"
+- /layouts: idem
+- /model: include
+From that we have two missions:
+
+1. Compute restricted fields patterns
+2. For last case, REMOVE restricted fields from output
+*/
+
+const canViewConfidentialFields = (req) => Promise.resolve(
+	req.userCentralRole === 'admin' ||
+	req.userCentralRole === 'reader' ||
+	hasMatchingCredentials(req.userRoles, [ req.userScopeOrganizationId ], [ 'center_admin' ])
+)
