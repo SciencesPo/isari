@@ -112,7 +112,7 @@ function getSpecialEnum (req) {
 	// Now resolve object, field, and call special enum
 	return model[getEnumValues.modelName].findById(id)
 		// Grab field from object (everything can be undefined in the end) and call special enum resolver
-		.then(object => getEnumValues(object, get(path, object), req.query.id, req.query.path))
+		.then(object => getEnumValues.values(object, get(path, object), req.query.id, req.query.path))
 		// Convert any falsey value to empty array
 		.then(values => values || [])
 }
