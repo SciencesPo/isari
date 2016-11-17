@@ -52,7 +52,7 @@
             "en": "Gender"
         },
         "accessMonitoring": "corporate",
-        "softenum": "genders"
+        "enum": "genders"
     },
     "birthDate": {
         "requirement": "recommended",
@@ -70,7 +70,7 @@
                 "en": "Nationality(ies)"
             },
             "accessMonitoring": "corporate",
-            "softenum": "nationalities"
+            "enum": "nationalities"
         }
     ],
     "ldapUid": {
