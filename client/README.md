@@ -1,23 +1,21 @@
 # IsariNg2Frontend
 
 ## Development server
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Fixtures
+Laucng a dev server :
 
-During development phase, server api are simulated.
+`> npm start`
 
-Fixtures are in `src/app/in-memory-data.service.ts`
+Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-### Server version vs In-memory-data
+## Build
 
-Server api can be activated by :
+Change api path in `src/environments/environment.prod.ts`
 
-#### 1. in ```src/app/isari-data.service.ts```
+`> npm run build`
 
-* Change an uncomment ```dataUrl```, ```layoutUrl```, ```enumUrl```
-* Uncomment / comment response handle in promise return of ```getPeople```, ```getEnum``` and ```getLayout``` methods
+The building application is located in `dist`
 
-#### 2. in ```src/app/app.module.ts```
+## i18n
 
-* Comment usage of ```InMemoryWebApiModule``` : import section of the module ```InMemoryWebApiModule.forRoot(InMemoryDataService)```
+The two dictionnaries (en & fr) are located in `src/assets/i18n/`
