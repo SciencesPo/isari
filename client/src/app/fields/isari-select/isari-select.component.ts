@@ -87,6 +87,7 @@ export class IsariSelectComponent implements OnInit {
   onSelect(idx: number) {
     this.currentIndex = idx;
     const v = this.values[this.currentIndex];
+    this.id = v.id;
 
     this.form.controls[this.name].setValue(v.id || v.value);
     this.form.controls[this.name].markAsDirty();
