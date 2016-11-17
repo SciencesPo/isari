@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~2.1.0",
     "@angular/platform-browser-dynamic": "~2.1.0",
     "@angular/router": "~3.1.0",
+    "angular2-toaster": "^1.0.2",
     "core-js": "^2.4.1",
     "ng2-page-scroll": "^4.0.0-beta.0",
     "ng2-translate": "^4.0.0",

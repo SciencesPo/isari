@@ -7,6 +7,7 @@ import { HttpModule, Http } from '@angular/http';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { MaterialModule } from '@angular/material';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 
 import { IsariDataService } from './isari-data.service';
 import { UserService } from './user.service';
@@ -75,7 +76,8 @@ import { IsariHeaderComponent } from './isari-header/isari-header.component';
       provide: TranslateLoader,
       useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
       deps: [Http]
-    })
+    }),
+    ToasterModule
   ],
   providers: [
     IsariDataService,

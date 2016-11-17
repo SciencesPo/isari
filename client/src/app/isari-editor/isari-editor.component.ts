@@ -2,9 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
-
-// import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
-
+import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
@@ -14,8 +12,7 @@ import { IsariDataService } from '../isari-data.service';
 @Component({
   selector: 'isari-editor',
   templateUrl: 'isari-editor.component.html',
-  styleUrls: ['isari-editor.component.css'],
-  // providers: [MdSnackBar]
+  styleUrls: ['isari-editor.component.css']
 })
 export class IsariEditorComponent implements OnInit {
 
@@ -24,7 +21,6 @@ export class IsariEditorComponent implements OnInit {
   data: any;
   layout: any;
   form: FormGroup;
-  // mdSnackBarConfig: MdSnackBarConfig;
   organization: string | undefined;
 
   constructor(
@@ -32,12 +28,10 @@ export class IsariEditorComponent implements OnInit {
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     private translate: TranslateService,
-    // private snackBar: MdSnackBar,
+    private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit() {
-    // this.mdSnackBarConfig = new MdSnackBarConfig(this.viewContainerRef);
-
     let $routeParams = this.route.parent
       ? Observable
         .combineLatest(this.route.parent.params, this.route.parent.data, this.route.params, this.route.data)
@@ -79,12 +73,16 @@ export class IsariEditorComponent implements OnInit {
           if (this.id !== data.id) {
             this.router.navigate([this.feature, data.id]);
           }
-          // this.snackBar.open('Saved', null, this.mdSnackBarConfig);
+          this.toasterService.pop('success', 'Save', 'Success');
+        })
+        .catch(err => {
+          this.toasterService.pop('error', 'Save', 'Error');
         });
     }
     if (!this.form.valid) {
-      console.error('ERROR');
-      // this.snackBar.open('It didn\'t quite work!', 'Try Again', this.mdSnackBarConfig);
+      // let errors = this.isariDataService.getErrorsFromControls(this.form.controls);
+      // console.log(errors);
+      this.toasterService.pop('error', 'Save', 'Save error');
     }
   }
 

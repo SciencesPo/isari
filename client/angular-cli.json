@@ -19,7 +19,8 @@
       "mobile": false,
       "styles": [
         "styles.css",
-        "material2-app-theme.scss"
+        "material2-app-theme.scss",
+        "../node_modules/angular2-toaster/lib/toaster.css"
       ],
       "scripts": [],
       "environments": {
