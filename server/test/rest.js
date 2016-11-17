@@ -2,7 +2,7 @@
 
 const { expect } = require('chai')
 const { connect, People, Organization, Activity } = require('../lib/model')
-const { merge, pick, map } = require('lodash/fp')
+const { merge, omit, map } = require('lodash/fp')
 const { agent } = require('./http-utils')
 
 
@@ -124,7 +124,7 @@ function describeModelRestApi (root, Model, create, update) {
 				if (Model === Organization) {
 					body = body.filter(({ id }) => id !== organization.id)
 				}
-				expect(map(pick('id'), body)).to.eql([pick('id', doc)])
+				expect(map(omit(['updatedAt', 'opts']), body)).to.eql([omit(['updatedAt'], doc)])
 			})
 		)
 
@@ -132,7 +132,7 @@ function describeModelRestApi (root, Model, create, update) {
 			query('get', root + '/' + doc.id)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(pick('id', body)).to.eql(pick('id', doc))
+				expect(omit(['updatedAt', 'opts'], body)).to.eql(omit(['updatedAt'], doc))
 			})
 		)
 
@@ -141,7 +141,7 @@ function describeModelRestApi (root, Model, create, update) {
 			return query('put', root + '/' + doc.id, updates)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(pick('id', body)).to.eql(pick('id', merge(doc, updates)))
+				expect(omit(['updatedAt', 'opts'], body)).to.eql(omit(['updatedAt'], merge(doc, updates)))
 			})
 		})
 
