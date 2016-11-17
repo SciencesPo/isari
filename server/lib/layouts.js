@@ -9,7 +9,7 @@ const memoize = require('memoizee')
 
 
 module.exports = {
-	getLayout: memoize(name => _getLayout(name, getFrontSchema(name)))
+	getLayout: memoize(name => _getLayout(name, getFrontSchema(name, { includeRestricted: true })))
 }
 
 

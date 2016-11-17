@@ -262,7 +262,7 @@ function getFrontSchema (name, options = {}) {
 }
 
 function formatMeta (meta, options = {}) {
-	const { admin = false } = options
+	const { includeRestricted = false } = options
 
 	const multiple = Array.isArray(meta)
 	const desc = multiple ? meta[0] : meta
@@ -287,7 +287,7 @@ function formatMeta (meta, options = {}) {
 		}
 
 		// Access type defines if we can see this field
-		else if (name === 'accessType' && !admin) {
+		else if (name === 'accessType' && desc[name] === 'confidential' && !includeRestricted) {
 			result = null // Skip the field
 		}
 
