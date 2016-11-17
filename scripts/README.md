@@ -31,3 +31,13 @@ npm run import:init -- --path /path/to/isari_data
 * `--json`: path of a folder to dump JSON files.
 * `--path`: path of ISARI data.
 * `--skip-ldap`: skip LDAP resolution?
+
+### Dumping the Mongo database
+
+```
+npm run dump -- --output /where/to/dump
+```
+
+*Arguments*
+
+* `--output`: folder where data will be dumped.
