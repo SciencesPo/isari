@@ -39,6 +39,7 @@ import { IsariTextareaComponent } from './fields/isari-textarea/isari-textarea.c
 import { HomeComponent } from './home/home.component';
 import { IsariHeaderComponent } from './isari-header/isari-header.component';
 import { IsariChartComponent } from './isari-chart/isari-chart.component';
+import { IsariChartPeopleComponent } from './isari-chart/isari-chart-people/isari-chart-people.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { IsariChartComponent } from './isari-chart/isari-chart.component';
     IsariTextareaComponent,
     HomeComponent,
     IsariHeaderComponent,
-    IsariChartComponent
+    IsariChartComponent,
+    IsariChartPeopleComponent
   ],
   imports: [
     BrowserModule,

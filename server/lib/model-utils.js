@@ -5,15 +5,23 @@ const { getMeta } = require('./specs')
 const { RESERVED_FIELDS } = require('./schemas')
 const { get, clone, isObject, isArray } = require('lodash/fp')
 const memoize = require('memoizee')
+const { mongo } = require('mongoose')
 
 
 module.exports = {
 	applyTemplates,
 	populateAll,
 	populateAllQuery,
-	format
+	format,
+	mongoID,
 }
 
+
+// Helper to safely get a string from Mongoose instance, ObjectId, or direct string (populate-proof)
+// Object|ObjectID|String => String
+function mongoID (o) {
+	return (o instanceof mongo.ObjectID) ? o.toHexString() : (o ? (o.id ? o.id : (o._id ? o._id.toHexString() : o)) : null)
+}
 
 const getRefFields = memoize((meta, depth) => _getRefFields('', meta, depth))
 
@@ -152,21 +160,21 @@ function _format (object, schema, keepId) {
 	// Keep ID for later use (if keepId is set)
 	const id = o._id
 
-	// Remove Mongoose technical fields
-	delete o._id
-	delete o.__v
-	delete o._bsontype
-
 	// Format each sub-element recursively
 	Object.keys(o).forEach(f => {
+		if (f[0] === '_') {
+			// Technical field: ignore
+			return
+		}
 		// If the value is a ref to another model, grab schema and format accordingly
 		const ref = schema && schema[f] && schema[f].ref
-		const s = ref ? getMeta(ref) : schema ? schema[f] : null
-		// If ref has been populated, it will return a properly formatted object
-		// If ref has not been populated, it's just a string, left untouched
-		// If not a ref, formatting just goes on
-		// Note: keepId only for refs, ids in arrays of sub-docs can be dropped
-		o[f] = _format(o[f], s, Boolean(ref))
+
+		// unpopulate all the things
+		if (ref) {
+			o[f] = mongoID(o[f])
+		} else {
+			o[f] = _format(o[f], schema[f], false)
+		}
 	})
 
 	// Keep ID

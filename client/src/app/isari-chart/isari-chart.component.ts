@@ -8,6 +8,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 export class IsariChartComponent implements OnInit, OnChanges {
 
   @Input() data: any[];
+  @Input() feature: string;
 
   constructor() { }
 
