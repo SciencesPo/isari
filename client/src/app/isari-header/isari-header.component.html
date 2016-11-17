@@ -1,0 +1,21 @@
+  <md-toolbar color="primary">
+
+    <a routerLink="/">
+      <img src="http://www.sciencespo.fr/sites/all/themes/SPresponsive/images/ScPo-logo-rouge-400.png" style="height:32px;">
+    </a>
+    <h2>Isari</h2>
+
+    <span class="app-toolbar-filler"></span>
+
+    <h5>{{ organization?.name }}</h5>
+
+    <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
+
+    <md-menu x-position="before" #menu="mdMenu">
+      <a *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams>{{ 'people' | translate }}</a>
+      <a *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>{{ 'organizations' | translate }}</a>
+      <a md-menu-item href (click)="logout($event)">{{ 'logout' | translate }}</a>
+      <a md-menu-item href *ngIf="lang !== 'fr'" (click)="setLang('fr', $event)">{{ 'french' | translate }}</a>
+      <a md-menu-item href *ngIf="lang !== 'en'" (click)="setLang('en', $event)">{{ 'english' | translate }}</a>
+    </md-menu>
+  </md-toolbar>
