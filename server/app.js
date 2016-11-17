@@ -7,6 +7,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const config = require('config')
 const routes = require('./routes')
+const { rolesMiddleware } = require('./lib/permissions')
 
 // Loaded right here to force schema validation at boot time
 const chalk = require('chalk')
@@ -62,7 +63,7 @@ app.use(session({
 	})
 }))
 
-app.use(routes.auth.rolesMiddleware)
+app.use(rolesMiddleware)
 
 // Dev only: to be replaced by NG2 version
 app.use('/login', (req, res) => res.sendfile(__dirname + '/login.html'))

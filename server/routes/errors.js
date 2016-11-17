@@ -6,12 +6,11 @@ exports.notFound = (req, res, next) => {
 	next(err)
 }
 
-exports.serverError = includeErrInfo => (err, req, res, next) => {
+exports.serverError = includeErrInfo => (err, req, res, next) => { // eslint-disable-line no-unused-vars
 	res.status(err.status || 500).send({
 		message: err.message,
 		type: err.type,
 		stack: includeErrInfo ? err.stack : undefined,
 		error: includeErrInfo ? err : null
 	})
-	next(err)
 }

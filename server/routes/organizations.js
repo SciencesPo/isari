@@ -5,4 +5,13 @@ const { Organization } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 
 
-module.exports = restRouter(Organization, o => format('Organization', o), 'organizations')
+const formatObject = o => format('Organization', o)
+
+const getPermissions = (req, p) => Promise.resolve({
+	editable: req.userCanEditOrganization(p)
+	// TODO confidentialFields
+})
+
+// No buildListQuery here: all organizations are viewable by anyone
+
+module.exports = restRouter(Organization, formatObject, 'organizations', getPermissions)

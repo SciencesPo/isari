@@ -6,8 +6,6 @@ const auth = require('../lib/auth')
 const { People, Organization } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 const { UnauthorizedError } = require('../lib/errors')
-const debug = require('debug')('isari:credentials')
-const { getPeopleRoles, isPeopleCentral } = require('../lib/permissions')
 const { map } = require('lodash/fp')
 
 const router = module.exports = Router()
@@ -59,32 +57,7 @@ router.get('/permissions', (req, res, next) => {
 	.then(map(o => Object.assign(o, { isariRole: req.userRoles[o.id] })))
 	.then(organizations => res.send({
 		organizations,
-		central: req.userIsCentral
+		central: req.userCentralRole
 	}))
 	.catch(next)
 })
-
-// Credentials middleware
-router.rolesMiddleware = (req, res, next) => {
-	req._rolesMiddleware = true
-
-	if (!req.session.login) {
-		debug('not logged in')
-		return next()
-	}
-
-	People.findOne({ ldapUid: req.session.login }).then(people => {
-		if (!people) {
-			debug('invalid login: force-disconnect!')
-			req.session.login = null
-			return next()
-		}
-
-		req.userId = people.id
-		req.userPeople = people
-		req.userRoles = getPeopleRoles(people)
-		req.userIsCentral = isPeopleCentral(people)
-		debug(req.userRoles)
-		next()
-	})
-}
