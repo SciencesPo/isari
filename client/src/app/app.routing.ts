@@ -4,14 +4,16 @@ import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
 import { IsariListComponent } from './isari-list/isari-list.component';
 import { IsariEditorComponent } from './isari-editor/isari-editor.component';
 import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 import { LoggedInGuard } from './logged-in.guard';
 
 const isariRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/people',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    component: HomeComponent,
+    canActivate: [ LoggedInGuard ]
   },
   {
     path: 'login',

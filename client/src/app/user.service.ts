@@ -10,6 +10,7 @@ export class UserService {
   private loginUrl = `${environment.API_BASE_URL}/auth/login`;
   private logoutUrl = `${environment.API_BASE_URL}/auth/logout`;
   private checkUrl = `${environment.API_BASE_URL}/auth/myself`;
+  private permissionsUrl = `${environment.API_BASE_URL}/auth/permissions`;
   private httpOptions: RequestOptions;
 
   constructor(private http: Http) {
@@ -38,5 +39,11 @@ export class UserService {
   isLoggedIn() {
     return this.http.get(this.checkUrl, this.httpOptions)
       .map(response => response.json).cache();
+  }
+
+  getPermissions() {
+    return this.http
+      .get(this.permissionsUrl, this.httpOptions)
+      .map(res => res.json());
   }
 }

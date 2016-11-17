@@ -1,0 +1,9 @@
+<div style="display:flex">
+
+  <md-card style="" *ngFor="let organization of organizations">
+    <h3>{{ organization.name }}</h3>
+    <button md-raised-button [routerLink]="[ 'people' ]" [queryParams]="{ organization: organization.id }">{{ 'people' | translate }}</button>
+    <button md-raised-button [routerLink]="[ 'organizations' ]" [queryParams]="{ organization: organization.id }">{{ 'organizations' | translate }}</button>
+  </md-card>
+
+</div>
