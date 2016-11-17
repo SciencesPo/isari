@@ -2,11 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { MaterialModule } from '@angular/material';
-import { TranslateModule } from 'ng2-translate';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 import { IsariDataService } from './isari-data.service';
 import { UserService } from './user.service';
@@ -68,7 +68,11 @@ import { HomeComponent } from './home/home.component';
     routing,
     HttpModule,
     Ng2PageScrollModule.forRoot(),
-    TranslateModule.forRoot()
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+      deps: [Http]
+    })
   ],
   providers: [
     IsariDataService,
