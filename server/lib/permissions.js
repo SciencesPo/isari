@@ -32,10 +32,12 @@ const getRoles = (people) => {
 // Extract "central_*" roles, keep only highest
 // People => null|'admin'|'reader'
 const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((result, role) => {
-	if (role.isariRole === 'central_admin') {
+	if (role === 'central_admin') {
 		return 'admin'
-	} else if (!result && role.isariRole === 'central_reader') {
+	} else if (!result && role === 'central_reader') {
 		return 'reader'
+	} else {
+		return result
 	}
 }, null))
 
