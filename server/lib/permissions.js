@@ -180,6 +180,7 @@ const listViewablePeople = (req) => {
 		.match({ $or: [ isInScope, isExternal ] }) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
+		.then(ids => ids.concat([ req.userId ])) // Ensure I always see myself
 		.then(ids => ({
 			// Populate to allow getPeoplePermissions to work
 			query: People.find({ _id: { $in: ids } }).populate('academicMemberships.organization')
