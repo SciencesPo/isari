@@ -2,7 +2,7 @@
 
 const { expect } = require('chai')
 const { connect, People, Organization, Activity } = require('../lib/model')
-const { merge, omit, map } = require('lodash/fp')
+const { merge, pick, map } = require('lodash/fp')
 const { agent } = require('./http-utils')
 
 
@@ -13,8 +13,9 @@ describe('REST', () => {
 	before(() => connect().then(conn => connection = conn))
 	after(() => connection && connection.close())
 
-	describeModelRestApi('/people', People, () => ({
-		name: 'John Doe'
+	describeModelRestApi('/people', People, ({ organization }) => ({
+		name: 'John Doe',
+		academicMemberships: [ { organization } ] // Without this, user cannot be seen from the creator
 	}), () => ({
 		name: 'John Doe (modified)'
 	}))
@@ -25,9 +26,10 @@ describe('REST', () => {
 		name: 'Missing & co (modified)'
 	}))
 
-	describeModelRestApi('/activities', Activity, () => ({
+	describeModelRestApi('/activities', Activity, ({ organization }) => ({
 		name: 'Find someone',
-		activityType: 'projetderecherche'
+		activityType: 'projetderecherche',
+		organizations: [ { organization } ] // Without this, activity cannot be seen from the creator
 	}), () => ({
 		name: 'Find someone (modified)'
 	}))
@@ -40,21 +42,43 @@ function describeModelRestApi (root, Model, create, update) {
 
 	describe(`${root} (basics)`, () => {
 
-		let initialCount = Model === People ? 1 : 0 // increment initial count if People, as we add the REST user
+		let initialCount = (Model === People || Model === Organization) ? 1 : 0 // increment initial count if People or Organization, as we add some credentials
 		let doc = null
 		let adminLogin = 'test.test'
+		let admin = null
+		let organization = null
 
 		before(() => Model.remove())
 
+		// Add an organization for permissions
+		before(() =>
+			(new Organization({
+				name: 'Test Organization',
+				latestChangeBy: 'UnitTests'
+			})).save().then(o => organization = o)
+		)
+		// Cleanup organization
+		after(() => Organization.findById(organization.id).then(o => o ? o.remove() : Promise.reject('Organization not found for cleanup')))
+
 		// Add a user for authentication
-		before(() => {
-			const admin = new People({
+		before(() =>
+			(new People({
 				name: 'Test User',
 				ldapUid: adminLogin,
-				latestChangeBy: 'UnitTests'
-			})
-			return admin.save()
-		})
+				latestChangeBy: 'UnitTests',
+				// Make this user central admin
+				isariAuthorizedCenters: [{
+					organization,
+					isariRole: 'central_admin'
+				}]
+			})).save().then(o => admin = o)
+		)
+		// Log out at the end, but do it BEFORE deleting user
+		after(() => query('post', '/auth/logout').then(({ body, status }) => {
+			expect(status).to.equal(200)
+			expect(body).to.eql({ was: adminLogin })
+		}))
+		// Cleanup user
 		after(() => People.findOne({ ldapUid: adminLogin }).then(o => o ? o.remove() : Promise.reject('Admin not found for cleanup')))
 
 		// Authenticate first
@@ -65,11 +89,6 @@ function describeModelRestApi (root, Model, create, update) {
 				expect(body).to.have.property('people').to.be.an('object').to.have.property('ldapUid').to.equal(adminLogin)
 			})
 		)
-		// Log out at the end
-		after(() => query('post', '/auth/logout').then(({ body, status }) => {
-			expect(status).to.equal(200)
-			expect(body).to.eql({ was: adminLogin })
-		}))
 
 		it('should be authenticated', () =>
 			query('get', '/auth/myself').then(({ body, status }) => {
@@ -87,7 +106,7 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('POST / (create)', () =>
-			query('post', root, create())
+			query('post', root, create({ admin, organization }))
 			.then(({ body, status }) => {
 				expect(status).to.equal(201)
 				expect(body).to.be.an('object').and.have.property('id')
@@ -102,7 +121,10 @@ function describeModelRestApi (root, Model, create, update) {
 				if (Model === People) {
 					body = body.filter(({ ldapUid }) => ldapUid !== adminLogin)
 				}
-				expect(map(omit(['opts', 'updatedAt']), body)).to.eql([omit('updatedAt', doc)])
+				if (Model === Organization) {
+					body = body.filter(({ id }) => id !== organization.id)
+				}
+				expect(map(pick('id'), body)).to.eql([pick('id', doc)])
 			})
 		)
 
@@ -110,16 +132,16 @@ function describeModelRestApi (root, Model, create, update) {
 			query('get', root + '/' + doc.id)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(omit(['opts', 'updatedAt'], body)).to.eql(omit('updatedAt', doc))
+				expect(pick('id', body)).to.eql(pick('id', doc))
 			})
 		)
 
 		it('PUT /:id (update)', () => {
-			const updates = update()
+			const updates = update({ admin, organization })
 			return query('put', root + '/' + doc.id, updates)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(omit(['opts', 'updatedAt'], body)).to.eql(omit('updatedAt', merge(doc, updates)))
+				expect(pick('id', body)).to.eql(pick('id', merge(doc, updates)))
 			})
 		})
 
