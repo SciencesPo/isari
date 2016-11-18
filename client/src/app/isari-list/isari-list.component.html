@@ -5,8 +5,8 @@
   <md-toolbar [color]="primary">
     <span>{{ feature | translate }}</span>
     &nbsp;
-    <button *ngIf="!externals" md-raised-button [routerLink]="[{ externals: true }]" preserveQueryParams>{{ 'externals' | translate }}</button>
-    <button *ngIf="externals" md-raised-button [routerLink]="['/', feature]" preserveQueryParams>{{ 'members' | translate }}</button>
+    <button *ngIf="feature === 'people' && !externals" md-raised-button [routerLink]="[{ externals: true }]" preserveQueryParams>{{ 'externals' | translate }}</button>
+    <button *ngIf="feature === 'people' && externals" md-raised-button [routerLink]="['/', feature]" preserveQueryParams>{{ 'members' | translate }}</button>
     <span class="filer"></span>
     <isari-download-button [feature]="feature" [data]="filteredData" [selectedColumns]="selectedColumns"></isari-download-button>
     <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
