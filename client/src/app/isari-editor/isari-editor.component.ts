@@ -45,27 +45,26 @@ export class IsariEditorComponent implements OnInit {
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
     ).subscribe(([{ feature, id }, restrictedFields, lang]) => {
-        console.log(restrictedFields);
-        this.feature = feature;
-        this.id = id;
-        Promise.all([
-          this.isariDataService.getData(this.feature, id),
-          this.isariDataService.getLayout(this.feature)
-        ]).then(([data, layout]) => {
-          this.data = data;
-          this.data.opts = Object.assign(this.data.opts, {
-            restrictedFields,
-            path: []
-          });
-          this.layout = this.isariDataService.translate(layout, lang);
-          this.layout = this.isariDataService.closeAll(this.layout);
-          this.form = this.isariDataService.buildForm(this.layout, this.data);
-          // disabled all form
-          if (this.data.opts && this.data.opts.editable === false) {
-            this.form.disable();
-          }
+      this.feature = feature;
+      this.id = id;
+      Promise.all([
+        this.isariDataService.getData(this.feature, id),
+        this.isariDataService.getLayout(this.feature)
+      ]).then(([data, layout]) => {
+        this.data = data;
+        this.data.opts = Object.assign({ editable: true }, this.data.opts || {}, {
+          restrictedFields: restrictedFields[feature],
+          path: []
         });
+        this.layout = this.isariDataService.translate(layout, lang);
+        this.layout = this.isariDataService.closeAll(this.layout);
+        this.form = this.isariDataService.buildForm(this.layout, this.data);
+        // disabled all form
+        if (this.data.opts && this.data.opts.editable === false) {
+          this.form.disable();
+        }
       });
+    });
   }
 
   save($event) {

@@ -207,16 +207,6 @@ export class IsariDataService {
   }
 
   buildForm(layout, data): FormGroup {
-    // if (!data.opts) {
-    //   data.opts = {
-    //     editable: true,
-    //     restrictedFields: [],
-    //     path: []
-    //   };
-    // }
-    // if (data.opts.path === undefined) {
-    //   data.opts.path = [];
-    // }
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
     fields.forEach(field => {
