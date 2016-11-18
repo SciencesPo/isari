@@ -254,7 +254,7 @@ module.exports = {
 
         const objects = persons.map(years => {
           const first = years[0],
-                job = _.find(_.reverse(years), year => !!year.jobName);
+                job = _.find(years.slice().reverse(), year => !!year.jobName);
 
           const person = {
             name: first.name,

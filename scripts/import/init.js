@@ -498,9 +498,24 @@ function processRelations() {
         }
       }
       else if (Model === 'People') {
+        let related;
 
-        // Solving the relation by hash
-        const related = INDEXES.People.hashed[rel];
+        if (typeof rel === 'object') {
+          if (rel.sirh)
+            related = INDEXES.People.sirh[rel.sirh];
+
+          if (!related)
+            related = INDEXES.People.hashed[rel.hash];
+        }
+        else {
+
+          // Solving the relation by id SIRH
+          related = INDEXES.People.sirh[rel];
+
+          // Else, solving the relation by hash
+          if (!related)
+            related = INDEXES.People.hashed[rel];
+        }
 
         // If we still have nothing, we should yell
         if (!related) {
