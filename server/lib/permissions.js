@@ -240,7 +240,7 @@ const canEditPeople = (req, p) => {
 // See conditions to view a people above
 const canViewPeople = (req, p) => { // eslint-disable-line no-unused-vars
 	// Note: every people is viewable, this decision is related to the "edit" button on FKs
-	return true
+	return pTrue
 }
 
 // Return viewable activities for current user, scope included
@@ -273,7 +273,7 @@ Who can *edit* an activity?
 - central admin
 */
 const canEditActivity = (req, a) => // eslint-disable-line no-unused-vars
-	Promise.resolve(req.userCentralRole === 'admin') // central admin or central reader
+	Promise.resolve(req.userCentralRole === 'admin') // central admin
 
 // I can view an activity iff I have an organization in common (or I'm central)
 const canViewActivity = (req, a) => {
@@ -293,7 +293,7 @@ Who can *edit* an organization?
 */
 const canEditOrganization = (req, o) => // eslint-disable-line no-unused-vars
 	Promise.resolve(
-		req.userCentralRole === 'admin' || // central admin or central reader
+		req.userCentralRole === 'admin' || // central admin
 		hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
 	)
 
