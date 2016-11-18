@@ -59,6 +59,7 @@ export class IsariListComponent implements OnInit {
   }
 
   private loadDatas() {
+    this.data = [];
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
       applyTemplates: true

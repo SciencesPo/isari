@@ -7,6 +7,9 @@ const debug = require('debug')('isari:permissions')
 const { mongoID } = require('./model-utils')
 const { computeConfidentialPaths } = require('./schemas')
 
+// Constants for optimization
+const pTrue = Promise.resolve(true)
+const pFalse = Promise.resolve(false)
 
 // Helper returning a YYYY-MM-DD string for today
 // TODO cache (it shouldn't change more than once a day, right)
@@ -21,14 +24,17 @@ const today = () => {
 const getRoles = (people) => {
 	const roles = {}
 	people.isariAuthorizedCenters.forEach(({ organization, isariRole: role }) => {
-		roles[mongoID(organization)] = role
+		// Some isariAuthorizedCenters can have no "organization" set to define a central role
+		if (organization) {
+			roles[mongoID(organization)] = role
+		}
 	})
 	return roles
 }
 
 // Extract "central_*" roles, keep only highest
 // People => null|'admin'|'reader'
-const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((result, role) => {
+const getCentralRole = exports.getPeopleCentralRole = people => people.isariAuthorizedCenters.reduce((result, { isariRole: role }) => {
 	if (role === 'central_admin') {
 		return 'admin'
 	} else if (!result && role === 'central_reader') {
@@ -36,7 +42,7 @@ const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((res
 	} else {
 		return result
 	}
-}, null))
+}, null)
 
 // Returns matched expectedCredentials by user roles for given organization ids
 // Object({ OrganizationId: Role }), Array(OrganizationId), Array(Role) => Array(Role)
@@ -212,13 +218,21 @@ const isExternalPeople = p => p.populate('academicMemberships.organization').exe
 	return !p.academicMemberships.some(m => m.endDate && m.endDate >= today() && m.organization.isariMonitored)
 })
 const canEditPeople = (req, p) => {
-	// Direct tests: himself or central admin
-	if (req.userId === String(p._id) || req.userCentralRole === 'admin') {
-		return Promise.resolve(true)
+	// Himself: writable
+	if (req.userId === String(p._id)) {
+		return pTrue
+	}
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	// Central admin: read/write
+	if (req.userCentralRole === 'admin') {
+		return pTrue
 	}
 	// Center editor/admin of any common organization
 	if (hasMatchingCredentials(req.userRoles, map('organization')(p.academicMemberships), ['center_editor', 'center_admin'])) {
-		return Promise.resolve(true)
+		return pTrue
 	}
 	return isExternalPeople(p)
 }
@@ -357,7 +371,6 @@ const getActivityPermissions = (req, a) => Promise.all([
 	editable,
 	confidentials
 }))
-const pTrue = Promise.resolve(true)
 const getOrganizationPermissions = (req, o) => Promise.all([
 	pTrue,
 	req.userCanEditOrganization(o),

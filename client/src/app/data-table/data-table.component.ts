@@ -58,6 +58,9 @@ export class DataTableComponent implements OnInit, OnChanges {
       this.loading = false;
       navigateToFirstPage = true;
     }
+    if (changes['data'] && !this.data.length) {
+      this.loading = true;
+    }
     if (navigateToFirstPage) {
       this.calculPage(1);
     }

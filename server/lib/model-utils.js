@@ -194,6 +194,10 @@ function _format (object, schema, shouldRemove, path, transform) {
 
 	// Format each sub-element recursively
 	Object.keys(o).forEach(f => {
+		if (f.substring(0, 3) === '$__') {
+			// Mongoose internal cache: ignore, thank you Mongoose for your biiiiiig semver respect
+			return
+		}
 		if (f[0] === '_' || f === 'id') { // Since mongoose 4.6 ObjectIds have a method toObject() returning { _bsontype, id } object
 			if (transform) {
 				delete o[f]
