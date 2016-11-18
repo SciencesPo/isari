@@ -18,8 +18,8 @@ function normalizeName(name) {
   return _.deburr(name)
     .toUpperCase()
     .replace(/[A-Z]\./g, '')
-    .replace(/-+/g, ' ')
-    .replace(/\s+/g, '')
+    .trim()
+    .replace(/[-\s]+/g, ' ')
     .replace(/’‘`‛'/g, '');
 }
 

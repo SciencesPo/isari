@@ -153,7 +153,7 @@ module.exports = {
 
           const activityInfo = {
             activityType: 'mob_entrante',
-            name: `Invité: ${person.firstName} ${person.name}`,
+            name: `Invité : ${person.firstName} ${person.name}`,
             organizations: [],
             people: [{
               people: personKey
@@ -449,7 +449,27 @@ module.exports = {
             peopleInfo.distinctions = [];
 
             if (phd) {
-              const activity = {};
+              const activity = {
+                activityType: 'doctorat',
+                name: `Doctorat : ${peopleInfo.firstName} ${peopleInfo.name}`,
+                organizations: [
+                  {
+                    organization: ['IEP Paris'],
+                    role: 'inscription'
+                  }
+                ],
+                people: [
+                  {
+                    people: {
+                      sirh: peopleInfo.sirhMatricule,
+                      hash: hashPeople(peopleInfo)
+                    },
+                    role: 'doctorant(role)'
+                  }
+                ]
+              };
+
+              activities.push(activity);
 
               // Add previous diploma
               // TODO: solve case of Banner ids starting with Z
@@ -493,7 +513,27 @@ module.exports = {
             }
 
             if (hdr) {
-              const activity = {};
+              const activity = {
+                activityType: 'hdr',
+                name: `HDR : ${peopleInfo.firstName} ${peopleInfo.name}`,
+                organizations: [
+                  {
+                    organization: ['IEP Paris'],
+                    role: 'inscription'
+                  }
+                ],
+                people: [
+                  {
+                    people: {
+                      sirh: peopleInfo.sirhMatricule,
+                      hash: hashPeople(peopleInfo)
+                    },
+                    role: 'doctorant(role)'
+                  }
+                ]
+              };
+
+              activities.push(activity);
 
               const distinction = {
                 distinctionType: 'diplôme',
@@ -511,6 +551,8 @@ module.exports = {
 
         // TODO: compute activities from there
 
+        // TODO: Sorting people by gender to avoid cases where someone would be
+        // referenced first as jury and then as doctorant.
         return {
           People: _.values(people),
           Activity: activities
@@ -542,8 +584,8 @@ module.exports = {
           indexes.hashed[key] = person;
           indexes.id[person._id] = person;
         },
-        Activity() {
-
+        Activity(indexes, activity) {
+          indexes.id[activity._id] = activity;
         }
       }
     },
