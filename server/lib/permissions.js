@@ -153,8 +153,11 @@ const listViewablePeople = (req, options = {}) => {
 	const { includeExternals = true, includeMembers = true } = options
 
 	const isMember = req.userScopeOrganizationId
-		? // Scoped: limit to people from this organization
-			{ 'memberships.orgId': req.userScopeOrganizationId }
+		? { // Scoped: limited to active members
+			{ 'memberships': { $elemMatch: Object.assign({}, testMember, { orgId: req.userScopeOrganizationId }) } },
+				$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
+				orgMonitored: true
+			} } }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
