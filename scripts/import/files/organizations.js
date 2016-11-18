@@ -174,11 +174,11 @@ module.exports = {
 
         // Priority: HCERES > Banner > Spire
         return partitionBy(lines, line => `${line.acronym}§${line.name}`)
-          .map(lines => {
-            if (lines.length > 3)
-              this.error(`Too many different sources for organization: "${lines[0].name}".`);
+          .map(sourceLines => {
+            if (sourceLines.length > 3)
+              this.error(`Too many different sources for organization: "${sourceLines[0].name}".`);
 
-            const sources = _.keyBy(lines, 'source');
+            const sources = _.keyBy(sourceLines, 'source');
 
             const merged = Object.assign({},
               sources.HCERES || {},
@@ -190,7 +190,7 @@ module.exports = {
             delete merged.idSpire;
 
             // Multiplexed ids
-            const idsBanner = _(lines)
+            const idsBanner = _(sourceLines)
               .filter(line => !!line.idBanner)
               .map('idBanner')
               .uniq()
@@ -199,7 +199,7 @@ module.exports = {
             if (idsBanner.length)
               merged.idsBanner = idsBanner;
 
-            const idsSpire = _(lines)
+            const idsSpire = _(sourceLines)
               .filter(line => !!line.idSpire)
               .map('idSpire')
               .uniq()
