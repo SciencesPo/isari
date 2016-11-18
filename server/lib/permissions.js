@@ -24,14 +24,17 @@ const today = () => {
 const getRoles = (people) => {
 	const roles = {}
 	people.isariAuthorizedCenters.forEach(({ organization, isariRole: role }) => {
-		roles[mongoID(organization)] = role
+		// Some isariAuthorizedCenters can have no "organization" set to define a central role
+		if (organization) {
+			roles[mongoID(organization)] = role
+		}
 	})
 	return roles
 }
 
 // Extract "central_*" roles, keep only highest
 // People => null|'admin'|'reader'
-const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((result, role) => {
+const getCentralRole = exports.getPeopleCentralRole = people => people.isariAuthorizedCenters.reduce((result, { isariRole: role }) => {
 	if (role === 'central_admin') {
 		return 'admin'
 	} else if (!result && role === 'central_reader') {
@@ -39,7 +42,7 @@ const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((res
 	} else {
 		return result
 	}
-}, null))
+}, null)
 
 // Returns matched expectedCredentials by user roles for given organization ids
 // Object({ OrganizationId: Role }), Array(OrganizationId), Array(Role) => Array(Role)
