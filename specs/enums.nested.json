@@ -11,7 +11,7 @@
          "collaborationsscientifiques": [
             { "value": "associationprofessionnelle", "label": { "fr": "association professionnelle", "en": "" } },
             { "value": "reseauthematique", "label": { "fr": "réseau thématique", "en": "" } },
-            { "value": "groupe de recherche", "label": { "fr": "groupe de recherche", "en": "" } },
+            { "value": "groupe de recherche", "label": { "fr": "groupe de recherche", "en": "" } }
         ],
         "jurys":[
             { "value": "these", "label": { "fr": "jury de Thèse", "en": "" } },
@@ -36,7 +36,7 @@
             { "value": "evaluationstructure", "label": { "fr": "Evaluation de structures", "en": "" } },
             { "value": "communauteprogrammation", "label": { "fr": "Communauté de programmation scientifique", "en": "" } },
             { "value": "evaluationprojets", "label": { "fr": "Evaluation de projets de recherche", "en": "" } },
-            { "value": "evaluationpairs", "label": { "fr": "Evaluation de pairs", "en": "" } },
+            { "value": "evaluationpairs", "label": { "fr": "Evaluation de pairs", "en": "" } }
         ],
         "enseignement":[
             { "value": "college", "label": { "fr": "niveau collège universitaire", "en": "" } },
