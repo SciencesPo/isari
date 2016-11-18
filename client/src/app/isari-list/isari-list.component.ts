@@ -14,6 +14,7 @@ import { IsariDataService } from '../isari-data.service';
 export class IsariListComponent implements OnInit {
 
   feature: string;
+  externals: boolean;
   data: any[] = [];
   filteredData: any[] = [];
   cols: any[] = [];
@@ -23,10 +24,10 @@ export class IsariListComponent implements OnInit {
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
   ngOnInit() {
-
     this.route.params
-      .subscribe(({ feature }) => {
+      .subscribe(({ feature, externals }) => {
         this.feature = feature;
+        this.externals = !!externals;
         this.isariDataService.getColumns(feature)
           .then(columns => {
             this.cols = columns;
@@ -62,7 +63,8 @@ export class IsariListComponent implements OnInit {
     this.data = [];
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
-      applyTemplates: true
+      applyTemplates: true,
+      externals: this.externals
     }).then(data => {
       this.data = data;
       this.filteredData = [...data];

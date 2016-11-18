@@ -17,5 +17,7 @@
   "username": "Username",
   "password": "Password",
   "unknown error": "Unknown error",
-  "Unauthorized: People Not Found": "Invalid username or password"
+  "Unauthorized: People Not Found": "Invalid username or password",
+  "externals": "Externals",
+  "members": "Members"
 }
