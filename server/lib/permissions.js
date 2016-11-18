@@ -1,6 +1,6 @@
 'use strict'
 
-const { map, reduce, flow, toPairs, filter, intersection } = require('lodash/fp')
+const { map, flow, toPairs, filter, intersection } = require('lodash/fp')
 const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
 const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
