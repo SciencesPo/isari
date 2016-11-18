@@ -452,7 +452,8 @@ module.exports = {
               const activity = {};
 
               // Add previous diploma
-              if (phd.previous.idBanner) {
+              // TODO: solve case of Banner ids starting with Z
+              if (phd.previous.idBanner && !phd.previous.idBanner[0] === 'Z') {
                 const previousDistinction = {
                   distinctionType: 'diplôme',
                   title: phd.previous.title,
