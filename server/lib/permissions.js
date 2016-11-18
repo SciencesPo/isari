@@ -356,3 +356,39 @@ const computeRestrictedFields = (modelName, req) => {
 		paths: computeConfidentialPaths(modelName) // paths will be used to *remove* fields from object
 	})
 }
+
+
+// Permissions getters
+const getPeoplePermissions = (req, p) => Promise.all([
+	req.userCanViewPeople(p),
+	req.userCanEditPeople(p),
+	req.userComputeRestrictedFields('People')
+]).then(([ viewable, editable, confidentials ]) => ({
+	viewable,
+	editable,
+	confidentials
+}))
+const getActivityPermissions = (req, a) => Promise.all([
+	req.userCanViewActivity(a),
+	req.userCanEditActivity(a),
+	req.userComputeRestrictedFields('Activity')
+]).then(([ viewable, editable, confidentials ]) => ({
+	viewable,
+	editable,
+	confidentials
+}))
+const pTrue = Promise.resolve(true)
+const getOrganizationPermissions = (req, o) => Promise.all([
+	pTrue,
+	req.userCanEditOrganization(o),
+	req.userComputeRestrictedFields('Organization')
+]).then(([ viewable, editable, confidentials ]) => ({
+	viewable,
+	editable,
+	confidentials
+}))
+exports.getPermissions = {
+	People: getPeoplePermissions,
+	Activity: getActivityPermissions,
+	Organization: getOrganizationPermissions
+}

@@ -7,6 +7,8 @@ const { People, Organization } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 const { UnauthorizedError } = require('../lib/errors')
 const { map } = require('lodash/fp')
+const { getPermissions } = require('../lib/permissions')
+
 
 const router = module.exports = Router()
 
@@ -14,7 +16,8 @@ const router = module.exports = Router()
 const MY_PERMISSIONS = { viewable: true, editable: false, confidentials: { viewable: true, editable: false, paths: [] } }
 
 const formatPeople = p => format('People', p, MY_PERMISSIONS)
-const formatOrganization = o => format('Organization', o, MY_PERMISSIONS)
+const formatOrganization = req => o => getPermissions.Organization(req, o).then(perms => format('Organization', o, perms))
+const formatOrganizations = req => orgs => Promise.all(map(formatOrganization(req), orgs))
 const populateAndFormatPeople = p => p.populateAll().then(formatPeople)
 
 const parseJson = bodyParser.json()
@@ -56,7 +59,7 @@ router.get('/permissions', (req, res, next) => {
 		return next(UnauthorizedError({ title: 'Not logged in' }))
 	}
 	Organization.find({ _id: { $in: Object.keys(req.userRoles) } })
-	.then(map(formatOrganization))
+	.then(formatOrganizations(req))
 	.then(map(o => Object.assign(o, { isariRole: req.userRoles[o.id] })))
 	.then(organizations => res.send({
 		organizations,
