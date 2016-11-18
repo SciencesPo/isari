@@ -24,11 +24,11 @@
     },
     {
         "fields": [
-        "ldapUid",
-        "sirhMatricule",
-        "bannerUid",
-        "spireID"
-    ],
+            "ldapUid",
+            "sirhMatricule",
+            "bannerUid",
+            "spireID"
+        ],
         "label": {"fr":"identifiants FNSP","en":"FNSP identifiers"},
         "collapsabled": true
     },

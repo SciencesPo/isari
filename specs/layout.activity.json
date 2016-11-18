@@ -1,0 +1,19 @@
+[
+    [
+        "name",
+        "activityType",
+        "startDate",
+        "endDate"
+    ],
+    {
+        "fields": [
+            "organizations"
+        ],
+        "label": {
+            "fr": "organisation(s) impliquée(s)",
+            "en": "related organization(s)"
+        },
+        "collapsabled": true
+    },
+    "people"
+]

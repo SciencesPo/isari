@@ -10,7 +10,7 @@
 		"collapsabled": true
 	},
 	{
-		"fields":["UG","idBanner","idSpire"],
+		"fields":["UG","idsBanner","idsSpire"],
 		"label":{"fr":"identifiants FNSP","en":"FNSP identifiers"},
 		"collapsabled": true
 	}
