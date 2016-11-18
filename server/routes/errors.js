@@ -13,4 +13,9 @@ exports.serverError = includeErrInfo => (err, req, res, next) => { // eslint-dis
 		stack: includeErrInfo ? err.stack : undefined,
 		error: includeErrInfo ? err : null
 	})
+
+	// Weird behaviors in test environment cuts the long error messages and gives invalid JSON
+	if (process.env.NODE_ENV !== 'test') {
+		next(err)
+	}
 }
