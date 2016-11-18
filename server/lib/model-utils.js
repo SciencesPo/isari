@@ -161,7 +161,11 @@ function _format (object, schema, shouldRemove, path) {
 		if (schema && !isArray(schema)) {
 			throw new Error('Schema Inconsistency: Array expected')
 		}
-		return object.map((o, i) => _format(o, schema && schema[0], shouldRemove, path ? path + '.' + i : String(i))).filter(f => f !== REMOVED_CONFIDENTIAL_FIELD)
+		if (shouldRemove(path + '.*')) {
+			// Multiple field marked as confidential: should remove whole array
+			return REMOVED_CONFIDENTIAL_FIELD
+		}
+		return object.map((o, i) => _format(o, schema && schema[0], shouldRemove, path ? path + '.' + i : String(i)))
 	}
 
 	// Scalar value? Nothing to format
