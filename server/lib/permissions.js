@@ -218,35 +218,9 @@ const canEditPeople = (req, p) => {
 }
 
 // See conditions to view a people above
-const canViewPeople = (req, p) => {
-	if (req.userCentralRole) {
-		return true
-	}
-	if (isExternalPeople(p)) {
-		return true
-	}
-	/*
-	if ()
-	const isInScope = req.userScopeOrganizationId
-		? // Scoped: limit to people from this organization
-			{ 'memberships.orgId': req.userScopeOrganizationId }
-		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
-			req.userCentralRole
-			? // Central user: access to EVERYTHING
-				{}
-			: // Limit to people from organizations he has access to
-				{ 'memberships.orgId': { $in: Object.keys(req.userRoles) } }
-
-	// External people = ALL memberships are either expired or linked to an unmonitored organization
-	const isExternal = { memberships: { $not: { $elemMatch: {
-		$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
-		orgMonitored: true
-	} } } }
-
-	const activityOrganizations = map(o => mongoID(o.organization), a.organizations)
-	const userOrganizations = Object.keys(req.userRoles)
-	return intersection(activityOrganizations, userOrganizations).length > 0
-	*/
+const canViewPeople = (req, p) => { // eslint-disable-line no-unused-vars
+	// Note: every people is viewable, this decision is related to the "edit" button on FKs
+	return true
 }
 
 // Return viewable activities for current user, scope included
