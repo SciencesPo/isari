@@ -268,34 +268,34 @@ const listViewableActivities = (req) => {
 }
 
 // Check if an activity is editable by current user
-/*
-Who can *edit* an activity?
-- central admin
-*/
-const canEditActivity = (req, a) => // eslint-disable-line no-unused-vars
-	Promise.resolve(req.userCentralRole === 'admin') // central admin
+const canEditActivity = (req, a) => { // eslint-disable-line no-unused-vars
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	// Other case: activity is editable if one of its organizations is the current one
+	return a.organizations.some(o => mongoID(o.organization) === req.userScopeOrganizationId) ? pTrue : pFalse
+}
 
 // I can view an activity iff I have an organization in common (or I'm central)
 const canViewActivity = (req, a) => {
 	if (req.userCentralRole) {
-		return true
+		return pTrue
 	}
 	const activityOrganizations = map(o => mongoID(o.organization), a.organizations)
 	const userOrganizations = Object.keys(req.userRoles)
-	return intersection(activityOrganizations, userOrganizations).length > 0
+	return intersection(activityOrganizations, userOrganizations).length > 0 ? pTrue : pFalse
 }
 
 // Check if an organization is editable by current user
-/*
-Who can *edit* an organization?
-- central admin
-- center admin for this organization
-*/
-const canEditOrganization = (req, o) => // eslint-disable-line no-unused-vars
-	Promise.resolve(
-		req.userCentralRole === 'admin' || // central admin
-		hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
-	)
+const canEditOrganization = (req, o) => { // eslint-disable-line no-unused-vars
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	// Anyone else can edit organization (sounds weird, to be checked later)
+	return pTrue
+}
 
 /* Now about restricted fields:
 
