@@ -155,7 +155,7 @@ function format (modelName, object, perms) {
 }
 
 function _format (object, schema, shouldRemove, path, transform) {
-	const keepId = path !== ''
+	const keepId = path === ''
 
 	// Confidential not-viewable field: remove from output
 	if (shouldRemove(path)) {
@@ -182,8 +182,12 @@ function _format (object, schema, shouldRemove, path, transform) {
 		return object
 	}
 
+	if (object instanceof mongo.ObjectID) {
+		return String(object)
+	}
+
 	// Work on a POJO: formatting must have no side-effect
-	let o = format ? (object.toObject ? object.toObject() : clone(object)) : object
+	let o = transform ? (object.toObject ? object.toObject() : clone(object)) : object
 
 	// Keep ID for later use (if keepId is set)
 	const id = o._id
@@ -191,8 +195,8 @@ function _format (object, schema, shouldRemove, path, transform) {
 	// Format each sub-element recursively
 	Object.keys(o).forEach(f => {
 		if (f[0] === '_' || f === 'id') { // Since mongoose 4.6 ObjectIds have a method toObject() returning { _bsontype, id } object
-			if (!format) {
-				o[f] = object[f]
+			if (transform) {
+				delete o[f]
 			}
 			// Technical field: ignore
 			return
@@ -212,7 +216,7 @@ function _format (object, schema, shouldRemove, path, transform) {
 	})
 
 	// Keep ID
-	if (!format && id && keepId) {
+	if (transform && id && keepId) {
 		o.id = String(id)
 	}
 
