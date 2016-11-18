@@ -1,6 +1,6 @@
 'use strict'
 
-const { map, reduce, flow, toPairs, filter, intersection } = require('lodash/fp')
+const { map, flow, toPairs, filter, intersection } = require('lodash/fp')
 const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
 const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
@@ -91,7 +91,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userListViewableActivities = () => listViewableActivities(req)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
 		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
-		req.userComputeRestrictedFields = modelName => computeRestrictedFields(modelName, req)
+		req.userComputeRestrictedFields = modelName => computeRestrictedFieldsShort(modelName, req)
 
 		debug(req.userRoles)
 		next()
@@ -240,7 +240,7 @@ const canEditPeople = (req, p) => {
 // See conditions to view a people above
 const canViewPeople = (req, p) => { // eslint-disable-line no-unused-vars
 	// Note: every people is viewable, this decision is related to the "edit" button on FKs
-	return true
+	return pTrue
 }
 
 // Return viewable activities for current user, scope included
@@ -268,34 +268,34 @@ const listViewableActivities = (req) => {
 }
 
 // Check if an activity is editable by current user
-/*
-Who can *edit* an activity?
-- central admin
-*/
-const canEditActivity = (req, a) => // eslint-disable-line no-unused-vars
-	Promise.resolve(req.userCentralRole === 'admin') // central admin or central reader
+const canEditActivity = (req, a) => { // eslint-disable-line no-unused-vars
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	// Other case: activity is editable if one of its organizations is the current one
+	return a.organizations.some(o => mongoID(o.organization) === req.userScopeOrganizationId) ? pTrue : pFalse
+}
 
 // I can view an activity iff I have an organization in common (or I'm central)
 const canViewActivity = (req, a) => {
 	if (req.userCentralRole) {
-		return true
+		return pTrue
 	}
 	const activityOrganizations = map(o => mongoID(o.organization), a.organizations)
 	const userOrganizations = Object.keys(req.userRoles)
-	return intersection(activityOrganizations, userOrganizations).length > 0
+	return intersection(activityOrganizations, userOrganizations).length > 0 ? pTrue : pFalse
 }
 
 // Check if an organization is editable by current user
-/*
-Who can *edit* an organization?
-- central admin
-- center admin for this organization
-*/
-const canEditOrganization = (req, o) => // eslint-disable-line no-unused-vars
-	Promise.resolve(
-		req.userCentralRole === 'admin' || // central admin or central reader
-		hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
-	)
+const canEditOrganization = (req, o) => { // eslint-disable-line no-unused-vars
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	// Anyone else can edit organization (sounds weird, to be checked later)
+	return pTrue
+}
 
 /* Now about restricted fields:
 
@@ -323,9 +323,9 @@ const canViewConfidentialFields = (req) => Promise.resolve(
 	hasMatchingCredentials(req.userRoles, [ req.userScopeOrganizationId ], [ 'center_admin' ])
 )
 
-const computeRestrictedFields = (modelName, req) => {
+const computeRestrictedFieldsLong = (modelName, userCentralRole, userRoles, organizationId) => {
 	// Central admin → no restriction
-	if (req.userCentralRole === 'admin') {
+	if (userCentralRole === 'admin') {
 		return Promise.resolve({
 			viewable: true,
 			editable: true,
@@ -335,7 +335,7 @@ const computeRestrictedFields = (modelName, req) => {
 
 	// Central reader → readonly
 	// Center admin → readonly
-	if (req.userCentralRole === 'reader' || hasMatchingCredentials(req.userRoles, [req.userScopeOrganizationId], ['center_admin'])) {
+	if (userCentralRole === 'reader' || hasMatchingCredentials(userRoles, [ organizationId ], [ 'center_admin' ])) {
 		return Promise.resolve({
 			viewable: true,
 			editable: false,
@@ -349,6 +349,16 @@ const computeRestrictedFields = (modelName, req) => {
 		editable: false,
 		paths: computeConfidentialPaths(modelName) // paths will be used to *remove* fields from object
 	})
+}
+
+const computeRestrictedFieldsShort = (modelName, req) => computeRestrictedFieldsLong(modelName, req.userRoles, req.userScopeOrganizationId)
+
+exports.computeRestrictedFields = (modelName, userCentralRoleOrReq, userRoles = undefined, organizationId = undefined) => {
+	if (userRoles !== undefined && organizationId !== undefined) {
+		return computeRestrictedFieldsLong(modelName, userCentralRoleOrReq, userRoles, organizationId)
+	} else {
+		return computeRestrictedFieldsShort(modelName, userCentralRoleOrReq)
+	}
 }
 
 
