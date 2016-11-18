@@ -6,6 +6,8 @@ const { RESERVED_FIELDS } = require('./schemas')
 const { get, clone, isObject, isArray } = require('lodash/fp')
 const memoize = require('memoizee')
 const { mongo } = require('mongoose')
+const debug = require('debug')('isari:model')
+const chalk = require('chalk')
 
 
 module.exports = {
@@ -142,7 +144,7 @@ const pathsTester = paths => {
 
 const retFalse = () => false
 
-const REMOVED_CONFIDENTIAL_FIELD = Symbol()
+const REMOVED_FIELD = Symbol()
 
 function filterConfidentialFields (modelName, object, perms) {
 	const shouldRemove = perms.confidentials.viewable ? retFalse : pathsTester(perms && perms.confidentials && perms.confidentials.paths || [])
@@ -151,78 +153,95 @@ function filterConfidentialFields (modelName, object, perms) {
 
 function format (modelName, object, perms) {
 	const shouldRemove = perms.confidentials.viewable ? retFalse : pathsTester(perms && perms.confidentials && perms.confidentials.paths || [])
-	return _format(object, getMeta(modelName), shouldRemove, '', true)
+	try {
+		return _format(object, getMeta(modelName), shouldRemove, '', true, modelName + '#' + (object && object.id))
+	} catch (err) {
+		debug('Failed formatting', err.message, object)
+		throw err
+	}
 }
 
-function _format (object, schema, shouldRemove, path, transform) {
-	const keepId = path === ''
+function _format (object, schema, shouldRemove, path, transform, rootDescription) {
+	try {
+		const keepId = path === ''
 
-	// Confidential not-viewable field: remove from output
-	if (shouldRemove(path)) {
-		return REMOVED_CONFIDENTIAL_FIELD
-	}
-
-	// Multi-valued field: format recursively
-	if (isArray(object)) {
-		if (schema && !isArray(schema)) {
-			throw new Error('Schema Inconsistency: Array expected')
+		// Confidential not-viewable field: remove from output
+		if (shouldRemove(path)) {
+			return REMOVED_FIELD
 		}
-		if (shouldRemove(path + '.*')) {
-			// Multiple field marked as confidential: should remove whole array
-			return REMOVED_CONFIDENTIAL_FIELD
-		}
-		return object.map((o, i) => _format(o, schema && schema[0], shouldRemove, path ? path + '.' + i : String(i), transform))
-	}
 
-	// Scalar value? Nothing to format
-	if (!isObject(object)) {
-		if (schema && schema.type === 'object') {
-			throw new Error('Schema Inconsistency: Object expected')
-		}
-		return object
-	}
-
-	if (object instanceof mongo.ObjectID) {
-		return String(object)
-	}
-
-	// Work on a POJO: formatting must have no side-effect
-	let o = transform ? (object.toObject ? object.toObject() : clone(object)) : object
-
-	// Keep ID for later use (if keepId is set)
-	const id = o._id
-
-	// Format each sub-element recursively
-	Object.keys(o).forEach(f => {
-		if (f.substring(0, 3) === '$__') {
-			// Mongoose internal cache: ignore, thank you Mongoose for your biiiiiig semver respect
-			return
-		}
-		if (f[0] === '_' || f === 'id') { // Since mongoose 4.6 ObjectIds have a method toObject() returning { _bsontype, id } object
-			if (transform) {
-				delete o[f]
+		// Multi-valued field: format recursively
+		if (isArray(object)) {
+			if (schema && !isArray(schema)) {
+				throw new Error('Schema Inconsistency: Array expected')
 			}
-			// Technical field: ignore
-			return
-		}
-		// If the value is a ref to another model, grab schema and format accordingly
-		const ref = schema && schema[f] && schema[f].ref
-
-		// unpopulate all the things (even when format = false)
-		if (ref) {
-			o[f] = mongoID(o[f])
-		} else {
-			const res = _format(o[f], schema[f], shouldRemove, path ? path + '.' + f : f, transform)
-			if (res !== REMOVED_CONFIDENTIAL_FIELD) {
-				o[f] = res
+			if (shouldRemove(path + '.*')) {
+				// Multiple field marked as confidential: should remove whole array
+				return REMOVED_FIELD
 			}
+			return object.map((o, i) => _format(o, schema && schema[0], shouldRemove, path ? path + '.' + i : String(i), transform, rootDescription))
 		}
-	})
 
-	// Keep ID
-	if (transform && id && keepId) {
-		o.id = String(id)
+		// Scalar value? Nothing to format
+		if (!isObject(object)) {
+			if (schema && schema.type === 'object') {
+				throw new Error('Schema Inconsistency: Object expected')
+			}
+			return object
+		}
+
+		if (object instanceof mongo.ObjectID) {
+			return String(object)
+		}
+
+		// Work on a POJO: formatting must have no side-effect
+		let o = transform ? (object.toObject ? object.toObject() : clone(object)) : object
+
+		// Keep ID for later use (if keepId is set)
+		const id = o._id
+
+		// Extranous field: ignore it, but with a warning!
+		if (!schema) {
+			// TODO use proper logger
+			console.error(chalk.red(`${chalk.bold('Extraneous field')} in object ${rootDescription}: ${path}`)) // eslint-disable-line no-console
+			return REMOVED_FIELD // Force ignore
+		}
+
+		// Format each sub-element recursively
+		Object.keys(o).forEach(f => {
+			if (f.substring(0, 3) === '$__') {
+				// Mongoose internal cache: ignore, thank you Mongoose for your biiiiiig semver respect
+				return
+			}
+			if (f[0] === '_' || f === 'id') { // Since mongoose 4.6 ObjectIds have a method toObject() returning { _bsontype, id } object
+				if (transform) {
+					delete o[f]
+				}
+				// Technical field: ignore
+				return
+			}
+			// If the value is a ref to another model, grab schema and format accordingly
+			const ref = schema && schema[f] && schema[f].ref
+
+			// unpopulate all the things (even when format = false)
+			if (ref) {
+				o[f] = mongoID(o[f])
+			} else {
+				const res = _format(o[f], schema[f], shouldRemove, path ? path + '.' + f : f, transform, rootDescription)
+				if (res !== REMOVED_FIELD) {
+					o[f] = res
+				}
+			}
+		})
+
+		// Keep ID
+		if (transform && id && keepId) {
+			o.id = String(id)
+		}
+
+		return o
+	} catch (err) {
+		err.message = '[' + path + '] ' + err.message
+		throw err
 	}
-
-	return o
 }
