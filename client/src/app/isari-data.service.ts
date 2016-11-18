@@ -199,10 +199,7 @@ export class IsariDataService {
 
   rawSearch(feature: string, query: string) {
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/search`;
-    const search = new URLSearchParams();
-    search.set('q', query || '*');
-    // search.set('fields', 'name');
-    return this.http.get(url, this.getHttpOptions())
+    return this.http.get(url, this.getHttpOptions({ q: query || '*' }))
       .map(response => response.json())
       .map(items => items.map(item => ({ id: item.value, value: item.label })));
   }
