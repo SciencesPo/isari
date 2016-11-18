@@ -207,26 +207,56 @@ export class IsariDataService {
   }
 
   buildForm(layout, data): FormGroup {
+    if (data.opts.path === undefined) {
+      data.opts.path = [];
+    }
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
     fields.forEach(field => {
       if (field.multiple && field.type === 'object') {
         let fa = new FormArray([]);
-        // fa.disable(disabled);
-        (data[field.name] || []).forEach(d => {
-          this.addFormControlToArray(fa, field, d);
+        if (this.disabled(data.opts, field.name)) {
+          fa.disable(true);
+        }
+        (data[field.name] || []).forEach((d, i) => {
+          let subdata = Object.assign({}, d || {}, {
+            opts: Object.assign({}, data.opts, {
+              path:  [...data.opts.path, field.name, i]
+            })
+          });
+          this.addFormControlToArray(fa, field, subdata);
         });
         form.addControl(field.name, fa);
       } else if (field.type === 'object') {
-        form.addControl(field.name, this.buildForm(field.layout, data[field.name] || {}));
+        let subdata = Object.assign({}, data[field.name] || {}, {
+          opts: Object.assign({}, data.opts, {
+            path: [...data.opts.path, field.name]
+          })
+        });
+        form.addControl(field.name, this.buildForm(field.layout, subdata));
       } else {
         form.addControl(field.name, new FormControl({
           value: data[field.name] || '',
-          disabled: false
+           // add '.x' for multiple fields (for matching fieldName.*)
+          disabled: this.disabled(data.opts, field.name + (field.multiple ? '.x' : ''))
         }, this.getValidators(field)));
       }
     });
     return form;
+  }
+
+  private disabled(opts, fieldName) {
+    // 1. test globale (editable)
+    if (!opts.editable) {
+      return true;
+    }
+
+    // 2. test restrictedFields
+    const path = [...opts.path, fieldName].join('.');
+    const regexps = opts.restrictedFields.map(pattern => new RegExp(pattern.replace('.', '\\.').replace('*', '.*')));
+    return regexps.reduce((acc, r) => {
+      return acc || r.test(path);
+    }, false);
   }
 
   addFormControlToArray(fa: FormArray, field, data = null) {

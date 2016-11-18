@@ -23,6 +23,7 @@ export class IsariMultiSelectComponent implements OnInit {
   focused: boolean = false;
   extend = false;
   lang: string;
+  disabled: boolean;
 
   @Input() name: string;
   @Input() form: FormGroup;
@@ -45,6 +46,7 @@ export class IsariMultiSelectComponent implements OnInit {
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
+    this.disabled = this.form.controls[this.name].disabled;
 
     this.selectControl = new FormControl({
       value: '',
