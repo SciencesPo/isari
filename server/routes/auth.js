@@ -14,7 +14,7 @@ const router = module.exports = Router()
 const MY_PERMISSIONS = { viewable: true, editable: false, confidentials: { viewable: true, editable: false, paths: [] } }
 
 const formatPeople = p => format('People', p, MY_PERMISSIONS)
-const formatOrganization = o => format('Organization', o)
+const formatOrganization = o => format('Organization', o, MY_PERMISSIONS)
 const populateAndFormatPeople = p => p.populateAll().then(formatPeople)
 
 const parseJson = bodyParser.json()
