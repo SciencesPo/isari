@@ -116,7 +116,6 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   addValue(value) {
-    this.selectControl.setValue('');
     if (!this.extensible && !this.findOption(value)) {
       value = null;
     }
@@ -126,6 +125,7 @@ export class IsariMultiSelectComponent implements OnInit {
       this.form.controls[this.name].markAsDirty();
       this.onUpdate.emit({});
     }
+    this.selectControl.setValue('');
   }
 
   createValue() {
@@ -151,6 +151,7 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   private findOption(item) {
+    console.log('fo', this.options, item);
     return this.options.find(option => (option.value && option.value === item.value) || (option.id && option.id === item.id));
   }
 
