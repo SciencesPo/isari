@@ -79,7 +79,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		// TODO maybe they should be declared in scopeOrganizationMiddleware, as it's needed for most of them? Sort it out
 		req.userCanEditPeople = p => canEditPeople(req, p)
 		req.userCanViewPeople = p => canViewPeople(req, p)
-		req.userListViewablePeople = () => listViewablePeople(req)
+		req.userListViewablePeople = options => listViewablePeople(req, options)
 		req.userCanEditActivity = a => canEditActivity(req, a)
 		req.userCanViewActivity = a => canViewActivity(req, a)
 		req.userListViewableActivities = () => listViewableActivities(req)
@@ -139,10 +139,12 @@ exports.scopeOrganizationMiddleware = (req, res, next) => {
 Who can *view* a people?
 - anyone sharing academicMembership (done by lookup below)
 */
-const listViewablePeople = (req) => {
+const listViewablePeople = (req, options = {}) => {
 	if (!req._scopeOrganizationMiddleware) {
 		return Promise.reject(Error('Invalid usage of "listViewablePeople" without prior usage of "scopeOrganizationMiddleware"'))
 	}
+
+	const { includeExternals = true, includeInScope = true } = options
 
 	const isInScope = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
@@ -159,6 +161,10 @@ const listViewablePeople = (req) => {
 		$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
 		orgMonitored: true
 	} } } }
+
+	const filters = (includeExternals && includeInScope)
+		? [ isInScope, isExternal ]
+		: (includeExternals ? [ isExternal ] : [ isInScope ])
 
 	// Use aggregation to lookup organization and calculate union of "in scope" + "externals"
 	/* First version kept for history: much more performant, but we must return a Mongoose.Query to allow proper population,
@@ -183,7 +189,7 @@ const listViewablePeople = (req) => {
 		.unwind('org') // "orgs" can be a zero-or-one-item array, unwind that before grouping
 		.project({ _id: 1, membership: { orgId: '$org._id', endDate: '$academicMemberships.endDate', orgMonitored: '$org.isariMonitored' } }) // Group membership info together
 		.group({ _id: '$_id', memberships: { $push: '$membership' }, people: { $first: '$people' } }) // Now regroup membership data to single people
-		.match({ $or: [ isInScope, isExternal ] }) // Finally apply filters
+		.match({ $or: filters }) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
 		.then(ids => ids.concat([ req.userId ])) // Ensure I always see myself
