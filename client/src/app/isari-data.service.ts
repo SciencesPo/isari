@@ -257,13 +257,23 @@ export class IsariDataService {
     }, false);
   }
 
-  addFormControlToArray(fa: FormArray, field, data = null) {
-    let fieldClone = Object.assign({}, field);
-    delete fieldClone.multiple;
-    if (!data) {
-      data = this.buildData(fieldClone);
-    }
+  addFormControlToArray(fa: FormArray, field, data) {
     fa.push(this.buildForm(field.layout, data));
+  }
+
+  getEmptyDataWith(field, feature, path) {
+    return this.userService.getRestrictedFields()
+      .map(restrictedFields => {
+          let fieldClone = Object.assign({}, field);
+          delete fieldClone.multiple;
+          const data = this.buildData(fieldClone);
+          data.opts = {
+            editable: true,
+            restrictedFields: restrictedFields[feature],
+            path: path.split('.')
+          };
+          return data;
+      });
   }
 
   // recursively construct empty data following types

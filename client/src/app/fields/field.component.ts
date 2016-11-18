@@ -22,6 +22,7 @@ export class FieldComponent implements OnChanges {
   @Input() index: number | null = null;
   @Input() path: string = '';
   @Input() multiple = false;
+  @Input() feature: string;
   @Output() onUpdate = new EventEmitter<any>();
 
   constructor(private isariDataService: IsariDataService) {}
@@ -67,8 +68,11 @@ export class FieldComponent implements OnChanges {
     $event.preventDefault();
     const parentFormControl = this.form.controls[this.field.name];
     if (parentFormControl instanceof FormArray) {
-      this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field);
-      this.update($event);
+      this.isariDataService.getEmptyDataWith(this.field, this.feature, this.path)
+        .subscribe(data => {
+          this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field, data);
+          this.update($event);
+        });
     }
   }
 
