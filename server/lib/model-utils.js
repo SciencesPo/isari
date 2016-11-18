@@ -13,6 +13,7 @@ module.exports = {
 	populateAll,
 	populateAllQuery,
 	format,
+	filterConfidentialFields,
 	mongoID,
 }
 
@@ -141,14 +142,19 @@ const pathsTester = paths => {
 
 const retFalse = () => false
 
-function format (modelName, object, perms) {
-	const shouldRemove = perms.confidentials.viewable ? retFalse : pathsTester(perms && perms.confidentials && perms.confidentials.paths || [])
-	return _format(object, getMeta(modelName), shouldRemove, '')
-}
-
 const REMOVED_CONFIDENTIAL_FIELD = Symbol()
 
-function _format (object, schema, shouldRemove, path) {
+function filterConfidentialFields (modelName, object, perms) {
+	const shouldRemove = perms.confidentials.viewable ? retFalse : pathsTester(perms && perms.confidentials && perms.confidentials.paths || [])
+	return _format(object, getMeta(modelName), shouldRemove, '', false)
+}
+
+function format (modelName, object, perms) {
+	const shouldRemove = perms.confidentials.viewable ? retFalse : pathsTester(perms && perms.confidentials && perms.confidentials.paths || [])
+	return _format(object, getMeta(modelName), shouldRemove, '', true)
+}
+
+function _format (object, schema, shouldRemove, path, transform) {
 	const keepId = path !== ''
 
 	// Confidential not-viewable field: remove from output
@@ -165,7 +171,7 @@ function _format (object, schema, shouldRemove, path) {
 			// Multiple field marked as confidential: should remove whole array
 			return REMOVED_CONFIDENTIAL_FIELD
 		}
-		return object.map((o, i) => _format(o, schema && schema[0], shouldRemove, path ? path + '.' + i : String(i)))
+		return object.map((o, i) => _format(o, schema && schema[0], shouldRemove, path ? path + '.' + i : String(i), transform))
 	}
 
 	// Scalar value? Nothing to format
@@ -177,7 +183,7 @@ function _format (object, schema, shouldRemove, path) {
 	}
 
 	// Work on a POJO: formatting must have no side-effect
-	let o = object.toObject ? object.toObject() : clone(object)
+	let o = format ? (object.toObject ? object.toObject() : clone(object)) : object
 
 	// Keep ID for later use (if keepId is set)
 	const id = o._id
@@ -185,17 +191,20 @@ function _format (object, schema, shouldRemove, path) {
 	// Format each sub-element recursively
 	Object.keys(o).forEach(f => {
 		if (f[0] === '_' || f === 'id') { // Since mongoose 4.6 ObjectIds have a method toObject() returning { _bsontype, id } object
+			if (!format) {
+				o[f] = object[f]
+			}
 			// Technical field: ignore
 			return
 		}
 		// If the value is a ref to another model, grab schema and format accordingly
 		const ref = schema && schema[f] && schema[f].ref
 
-		// unpopulate all the things
+		// unpopulate all the things (even when format = false)
 		if (ref) {
 			o[f] = mongoID(o[f])
 		} else {
-			const res = _format(o[f], schema[f], shouldRemove, path ? path + '.' + f : f)
+			const res = _format(o[f], schema[f], shouldRemove, path ? path + '.' + f : f, transform)
 			if (res !== REMOVED_CONFIDENTIAL_FIELD) {
 				o[f] = res
 			}
@@ -203,7 +212,7 @@ function _format (object, schema, shouldRemove, path) {
 	})
 
 	// Keep ID
-	if (id && keepId) {
+	if (!format && id && keepId) {
 		o.id = String(id)
 	}
 

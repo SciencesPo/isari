@@ -3,9 +3,10 @@
 const { Router } = require('express')
 const { ServerError, ClientError, NotFoundError, UnauthorizedError } = require('./errors')
 const { identity, set, map, pick, difference } = require('lodash/fp')
+const deepExtend = require('deep-extend')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
-const { applyTemplates, populateAllQuery } = require('./model-utils')
+const { applyTemplates, populateAllQuery, filterConfidentialFields } = require('./model-utils')
 const debug = require('debug')('isari:rest')
 const { scopeOrganizationMiddleware } = require('./permissions')
 
@@ -77,7 +78,7 @@ exports.restRouter = (Model, format = identity, esIndex, getPermissions, buildLi
 	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
 	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModelStrings(Model)))
 	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(updateModel(Model, save, getPermissions)))
-	router.post('/', parseJson, requiresAuthentication, restHandler(createModel(Model, save)))
+	router.post('/', parseJson, requiresAuthentication, restHandler(createModel(Model, save, getPermissions)))
 	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(deleteModel(Model, getPermissions)))
 
 	return router
@@ -110,7 +111,7 @@ const getModel = (Model, format, getPermissions) => req =>
 	.then(doc => getPermissions(req, doc).then(({ viewable }) => viewable ? doc : Promise.reject(ClientError({ status: 403, title: 'Permission refused' }))))
 	.then(formatWithOpts(req, format, getPermissions, false))
 
-// TODO Check permissions
+// TODO Check permissions?
 const getModelStrings = Model => req => {
 	const ids = req.params.ids.split(',')
 	const invalids = ids.filter(id => !id.match(/^[A-Za-f0-9]{24}$/))
@@ -129,49 +130,47 @@ const getModelStrings = Model => req => {
 		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(0) })))
 }
 
-// TODO check confidential fields
 const updateModel = (Model, save, getPermissions) => {
 	const get = getModel(Model, identity, getPermissions)
 	return req =>
 		get(req)
 		.then(doc => getPermissions(req, doc)
-			.then(({ editable }) => {
-				if (!editable) {
+			.then(perms => {
+				if (!perms.editable) {
 					return Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))
 				}
 				// Update object
-				Object.keys(req.body).forEach(field => {
-					doc[field] = req.body[field]
-				})
-				// Sign for EditLogs
-				doc.latestChangeBy = req.session.login
+				const updates = filterConfidentialFields(Model.modelName, req.body, perms)
+				delete updates.id // just in case it's been sent by client
+				doc.latestChangeBy = req.session.login // sign for EditLogs
+				deepExtend(doc, updates)
 				return doc
 			})
 		)
 		.then(doc => save(doc))
 }
 
-// TODO check confidential fields
-const createModel = (Model, save) => (req, res) => {
-	let o
-	try {
-		o = new Model(req.body)
-	} catch (e) {
+const createModel = (Model, save, getPermissions) => (req, res) => Promise.resolve()
+	.then(() => new Model(req.body))
+	.then(doc => getPermissions(req, doc).then(perms => filterConfidentialFields(Model.modelName, doc, perms)))
+	.then(doc => {
+		doc.latestChangeBy = req.session.login // sign for EditLogs
+		return doc
+	})
+	.then(save)
+	.then(saved => {
+		res.status(201)
+		return saved
+	})
+	.catch(e => {
 		if (e.name === 'StrictModeError') {
 			// Extra fields
 			return Promise.reject(ClientError({ title: e.message }))
 		} else {
 			return Promise.reject(ServerError({ title: e.message }))
 		}
-	}
-	o.latestChangeBy = req.session.login
-	return save(o).then(saved => {
-		res.status(201)
-		return saved
 	})
-}
 
-// TODO check permissions
 const deleteModel = (Model, getPermissions) => (req, res) =>
 	Model.findById(req.params.id)
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
