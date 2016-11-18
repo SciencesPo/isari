@@ -153,8 +153,9 @@ const listViewablePeople = (req, options = {}) => {
 	const { includeExternals = true, includeMembers = true } = options
 
 	const isMember = req.userScopeOrganizationId
-		? { // Scoped: limited to active members
-			{ 'memberships': { $elemMatch: Object.assign({}, testMember, { orgId: req.userScopeOrganizationId }) } },
+		? { // Scoped: limit to people from this organization
+			'memberships': { $elemMatch: {
+				orgId: req.userScopeOrganizationId,
 				$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
 				orgMonitored: true
 			} } }
