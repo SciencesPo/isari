@@ -70,7 +70,8 @@ function describeModelRestApi (root, Model, create, update, listSuffix = '') {
 				isariAuthorizedCenters: [{
 					organization,
 					isariRole: 'central_admin'
-				}]
+				}],
+				academicMemberships: [{ organization }]
 			})).save().then(o => admin = o)
 		)
 		// Log out at the end, but do it BEFORE deleting user
