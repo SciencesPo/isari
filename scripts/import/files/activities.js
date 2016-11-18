@@ -305,8 +305,17 @@ module.exports = {
           sirhMatricule: line.MATRICULE_PAIE,
           discipline: line.DISCIPLINE,
           hdr: line.CODE_NIVEAU === '9',
-          date: line.DATE_DIPL_ADM
+          startDate: line.ANNEE_UNIV_ADMISSION,
+          title: line.TITRE_THESE,
+          previous: {
+            idBanner: line.CODE_ETAB_ADM,
+            title: [line.LIB_DIPL_ADM_L1, line.LIB_DIPL_ADM_L2].join(' ').trim(),
+            date: line.DATE_DIPL_ADM
+          }
         };
+
+        if (line.DATE_SOUTENANCE)
+          info.endDate = moment(line.DATE_SOUTENANCE, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
         const [name, firstName] = line.NOM_COMPLET.split(',');
 
@@ -442,9 +451,21 @@ module.exports = {
             if (phd) {
               const activity = {};
 
-              // Add previous diploma title + org
+              // Add previous diploma
+              if (phd.previous.idBanner) {
+                const previousDistinction = {
+                  distinctionType: 'diplôme',
+                  title: phd.previous.title,
+                  organizations: [phd.previous.idBanner]
+                };
 
-              // Add date of distinction
+                if (phd.previous.date)
+                  previousDistinction.date = phd.previous.date;
+
+                peopleInfo.distinctions.push(previousDistinction);
+              }
+
+              // Add PHD
               const distinction = {
                 distinctionType: 'diplôme',
                 title: 'Doctorat',
@@ -452,10 +473,22 @@ module.exports = {
                 countries: ['FR']
               };
 
-              if (phd.date)
-                distinction.date = phd.date;
+              if (phd.endDate)
+                distinction.date = phd.endDate;
 
               peopleInfo.distinctions.push(distinction);
+
+              // Add gradesAcademic
+              const grade = {
+                grade: 'doctorant(grade)'
+              };
+
+              if (phd.startDate)
+                grade.startDate = phd.startDate;
+              if (phd.endDate)
+                grade.endDate = phd.endDate;
+
+              peopleInfo.gradesAcademic = [grade];
             }
 
             if (hdr) {
@@ -468,8 +501,8 @@ module.exports = {
                 countries: ['FR']
               };
 
-              if (hdr.date)
-                distinction.date = hdr.date;
+              if (hdr.endDate)
+                distinction.date = hdr.endDate;
 
               peopleInfo.distinctions.push(distinction);
             }

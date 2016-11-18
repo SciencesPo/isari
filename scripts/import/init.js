@@ -443,6 +443,10 @@ function processRelations() {
       // Solving those relations by name
       let related = INDEXES.Organization.name[rel];
 
+      // Else solving the relation by Banner id
+      if (!related)
+        related = INDEXES.Organization.banner[rel];
+
       // Else solving the relation by acronym
       if (!related)
         related = INDEXES.Organization.acronym[rel];
@@ -469,6 +473,10 @@ function processRelations() {
 
         // Solving those relations by name
         let related = INDEXES.Organization.name[rel];
+
+        // Else solving the relation by Banner id
+        if (!related)
+          related = INDEXES.Organization.banner[rel];
 
         // Else solving the relation by acronym
         if (!related)
