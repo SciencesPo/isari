@@ -9,8 +9,10 @@
         "birthDate",
         "nationalities"
     ],
-    ["academicMemberships","gradesAcademic"],
+    "academicMemberships",
+    "gradesAcademic",
     {
+
         "fields": ["positions"],
         "label": {"fr":"Contrats","en":"Positions"},
         "collapsabled": true

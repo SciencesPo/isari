@@ -30,7 +30,7 @@ function organizationDates(p){
 	if (!p.organization) {
 		return ''
 	}
-	let label = p.organization.name
+	let label = p.organization.acronym ? p.organization.acronym : p.organization.name
 	if(p.startDate){
 		label += " "+year(p.startDate)
 	}
