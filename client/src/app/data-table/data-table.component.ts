@@ -96,6 +96,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   private calculPage(page: number) {
+    console.log(this.data);
     this.page = this.data.slice((page - 1) * this.itemsPerPage, page * this.itemsPerPage);
   }
 

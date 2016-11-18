@@ -5,7 +5,7 @@
   <md-toolbar [color]="primary">
     <span>{{ feature | translate }}</span>
     <span class="filer"></span>
-    <isari-download-button></isari-download-button>
+    <isari-download-button [feature]="feature" [data]="filteredData" [selectedColumns]="selectedColumns"></isari-download-button>
     <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
     <a md-raised-button href="/{{ feature }}/new" [disabled]="false" target="_blank">{{ ('btn_add_' + feature) | translate }}</a>
   </md-toolbar>
