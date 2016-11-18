@@ -1,4 +1,42 @@
 {
+     "personalActivitySubTypes": {
+        "editorial": [
+            { "value": "editorial", "label": { "fr": "activités éditoriales", "en": "" } },
+            { "value": "collaborationsscientifiques", "label": { "fr": "collaborations scientifiques", "en": "" } },
+            { "value": "expertise", "label": { "fr": "expertise", "en": "" } },
+            { "value": "jurys", "label": { "fr": "jurys", "en": "" } }
+        ],
+        "expertise": [
+            { "value": "encadrement", "label": { "fr": "encadrement", "en": "" } },
+            { "value": "responsabilitesetmandats", "label": { "fr": "responsabilités et mandats", "en": "" } },
+            { "value": "evaluations", "label": { "fr": "évaluations", "en": "" } },
+            { "value": "enseignement", "label": { "fr": "enseignement", "en": "" } }
+        ],
+         "collaborationsscientifiques": [
+            { "value": "association", "label": { "fr": "association", "en": "" } },
+            { "value": "collaboration", "label": { "fr": "collaboration", "en": "" } }
+        ],
+        "jurys":[
+            { "value": "association", "label": { "fr": "association", "en": "" } },
+            { "value": "collaboration", "label": { "fr": "collaboration", "en": "" } }
+        ],
+        "encadrement":[
+            { "value": "association", "label": { "fr": "association", "en": "" } },
+            { "value": "collaboration", "label": { "fr": "collaboration", "en": "" } }
+        ],
+        "responsabilitésetmandats":[
+            { "value": "association", "label": { "fr": "association", "en": "" } },
+            { "value": "collaboration", "label": { "fr": "collaboration", "en": "" } }
+        ],
+        "évaluations":[
+            { "value": "association", "label": { "fr": "association", "en": "" } },
+            { "value": "collaboration", "label": { "fr": "collaboration", "en": "" } }
+        ],
+        "enseignement":[
+            { "value": "association", "label": { "fr": "association", "en": "" } },
+            { "value": "collaboration", "label": { "fr": "collaboration", "en": "" } }
+        ]
+    },
     "sectionCnrs": [
         {
             "value": "cnrs02", 
