@@ -304,7 +304,8 @@ module.exports = {
           birthDate: moment(line.DATE_NAISSANCE, 'DD/MM/YYYY').format('YYYY-MM-DD'),
           sirhMatricule: line.MATRICULE_PAIE,
           discipline: line.DISCIPLINE,
-          hdr: line.CODE_NIVEAU === '9'
+          hdr: line.CODE_NIVEAU === '9',
+          date: line.DATE_DIPL_ADM
         };
 
         const [name, firstName] = line.NOM_COMPLET.split(',');
@@ -436,8 +437,41 @@ module.exports = {
               });
 
             // Creating activities
+            peopleInfo.distinctions = [];
+
             if (phd) {
               const activity = {};
+
+              // Add previous diploma title + org
+
+              // Add date of distinction
+              const distinction = {
+                distinctionType: 'diplôme',
+                title: 'Doctorat',
+                organizations: ['FNSP'],
+                countries: ['FR']
+              };
+
+              if (phd.date)
+                distinction.date = phd.date;
+
+              peopleInfo.distinctions.push(distinction);
+            }
+
+            if (hdr) {
+              const activity = {};
+
+              const distinction = {
+                distinctionType: 'diplôme',
+                title: 'HDR',
+                organizations: ['FNSP'],
+                countries: ['FR']
+              };
+
+              if (hdr.date)
+                distinction.date = hdr.date;
+
+              peopleInfo.distinctions.push(distinction);
             }
           });
 
@@ -672,7 +706,7 @@ module.exports = {
           const key = fingerprint(org.name);
 
           // Let's attempt to match the organization
-          let match = indexes.name[org.name]
+          let match = indexes.name[org.name];
 
           if (!match)
             match = indexes.fingerprint[key];

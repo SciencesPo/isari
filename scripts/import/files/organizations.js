@@ -241,6 +241,9 @@ module.exports = {
 
         if (org.acronym)
           indexes.acronym[org.acronym] = org;
+
+        if (org.idBanner)
+          indexes.banner[org.idBanner] = org;
       }
     }
   ]
