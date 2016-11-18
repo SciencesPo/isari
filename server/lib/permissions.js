@@ -91,7 +91,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userListViewableActivities = () => listViewableActivities(req)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
 		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
-		req.userComputeRestrictedFields = modelName => computeRestrictedFields(modelName, req)
+		req.userComputeRestrictedFields = modelName => computeRestrictedFieldsShort(modelName, req)
 
 		debug(req.userRoles)
 		next()
@@ -323,9 +323,9 @@ const canViewConfidentialFields = (req) => Promise.resolve(
 	hasMatchingCredentials(req.userRoles, [ req.userScopeOrganizationId ], [ 'center_admin' ])
 )
 
-const computeRestrictedFields = (modelName, req) => {
+const computeRestrictedFieldsLong = (modelName, userCentralRole, userRoles, organizationId) => {
 	// Central admin → no restriction
-	if (req.userCentralRole === 'admin') {
+	if (userCentralRole === 'admin') {
 		return Promise.resolve({
 			viewable: true,
 			editable: true,
@@ -335,7 +335,7 @@ const computeRestrictedFields = (modelName, req) => {
 
 	// Central reader → readonly
 	// Center admin → readonly
-	if (req.userCentralRole === 'reader' || hasMatchingCredentials(req.userRoles, [req.userScopeOrganizationId], ['center_admin'])) {
+	if (userCentralRole === 'reader' || hasMatchingCredentials(userRoles, [ organizationId ], [ 'center_admin' ])) {
 		return Promise.resolve({
 			viewable: true,
 			editable: false,
@@ -349,6 +349,16 @@ const computeRestrictedFields = (modelName, req) => {
 		editable: false,
 		paths: computeConfidentialPaths(modelName) // paths will be used to *remove* fields from object
 	})
+}
+
+const computeRestrictedFieldsShort = (modelName, req) => computeRestrictedFieldsLong(modelName, req.userRoles, req.userScopeOrganizationId)
+
+exports.computeRestrictedFields = (modelName, userCentralRoleOrReq, userRoles = undefined, organizationId = undefined) => {
+	if (userRoles !== undefined && organizationId !== undefined) {
+		return computeRestrictedFieldsLong(modelName, userCentralRoleOrReq, userRoles, organizationId)
+	} else {
+		return computeRestrictedFieldsShort(modelName, userCentralRoleOrReq)
+	}
 }
 
 

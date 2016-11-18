@@ -55,7 +55,7 @@ const saveDocument = format => (doc, perms) => {
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	getPermissions(req, o).then(perms =>
 		Promise.resolve(format(applyTemplates ? o.applyTemplates() : o, perms))
-		.then(set('opts', { editable: perms.editable, restrictedFields: perms.confidentials.paths }))
+		.then(set('opts', { editable: perms.editable }))
 	)
 
 const requiresAuthentication = (req, res, next) => {

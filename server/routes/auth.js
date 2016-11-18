@@ -6,8 +6,7 @@ const auth = require('../lib/auth')
 const { People, Organization } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 const { UnauthorizedError } = require('../lib/errors')
-const { map } = require('lodash/fp')
-const { getPermissions } = require('../lib/permissions')
+const { computeRestrictedFields } = require('../lib/permissions')
 
 
 const router = module.exports = Router()
@@ -16,8 +15,25 @@ const router = module.exports = Router()
 const MY_PERMISSIONS = { viewable: true, editable: false, confidentials: { viewable: true, editable: false, paths: [] } }
 
 const formatPeople = p => format('People', p, MY_PERMISSIONS)
-const formatOrganization = req => o => getPermissions.Organization(req, o).then(perms => format('Organization', o, perms))
-const formatOrganizations = req => orgs => Promise.all(map(formatOrganization(req), orgs))
+const formatOrganizations = req => orgs => Promise.all(orgs.map(o =>
+	Promise.resolve(o)
+	.then(o => format('Organization', o, MY_PERMISSIONS))
+	.then(o => {
+		o.isariRole = req.userRoles[o.id] // Restore 'isariRole' which could have been removed from format
+		return Promise.all([
+			computeRestrictedFields('People', req.userCentralRole, req.userRoles, o.id),
+			computeRestrictedFields('Organization', req.userCentralRole, req.userRoles, o.id),
+			computeRestrictedFields('Activity', req.userCentralRole, req.userRoles, o.id)
+		]).then(([ peopleRestrictedFields, organizationRestrictedFields, activityRestrictedFields ]) => {
+			o.restrictedFields = {
+				people: peopleRestrictedFields.paths,
+				organizations: organizationRestrictedFields.paths,
+				activities: activityRestrictedFields.paths
+			}
+			return o
+		})
+	})
+))
 const populateAndFormatPeople = p => p.populateAll().then(formatPeople)
 
 const parseJson = bodyParser.json()
@@ -60,7 +76,6 @@ router.get('/permissions', (req, res, next) => {
 	}
 	Organization.find({ _id: { $in: Object.keys(req.userRoles) } })
 	.then(formatOrganizations(req))
-	.then(map(o => Object.assign(o, { isariRole: req.userRoles[o.id] })))
 	.then(organizations => res.send({
 		organizations,
 		central: req.userCentralRole
