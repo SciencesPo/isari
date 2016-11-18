@@ -99,14 +99,14 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET / (empty)', () =>
-			query('get', root).then(({ body, status }) => {
+			query('get', root + '?organization=' + organization.id).then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(body).to.be.an('array').and.have.length(0 + initialCount)
 			})
 		)
 
 		it('POST / (create)', () =>
-			query('post', root, create({ admin, organization }))
+			query('post', root + '?organization=' + organization.id, create({ admin, organization }))
 			.then(({ body, status }) => {
 				expect(status).to.equal(201)
 				expect(body).to.be.an('object').and.have.property('id')
@@ -115,7 +115,7 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET / (1 element)', () =>
-			query('get', root).then(({ body, status }) => {
+			query('get', root + '?organization=' + organization.id).then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(body).to.be.an('array').and.have.length(1 + initialCount)
 				if (Model === People) {
@@ -129,7 +129,7 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET /:id (find)', () =>
-			query('get', root + '/' + doc.id)
+			query('get', root + '/' + doc.id + '?organization=' + organization.id)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(omit(['updatedAt', 'opts'], body)).to.eql(omit(['updatedAt'], doc))
@@ -138,7 +138,7 @@ function describeModelRestApi (root, Model, create, update) {
 
 		it('PUT /:id (update)', () => {
 			const updates = update({ admin, organization })
-			return query('put', root + '/' + doc.id, updates)
+			return query('put', root + '/' + doc.id + '?organization=' + organization.id, updates)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(omit(['updatedAt', 'opts'], body)).to.eql(omit(['updatedAt'], merge(doc, updates)))
@@ -146,12 +146,12 @@ function describeModelRestApi (root, Model, create, update) {
 		})
 
 		it('DELETE /:id (remove)', () =>
-			query('delete', root + '/' + doc.id)
+			query('delete', root + '/' + doc.id + '?organization=' + organization.id)
 			.then(({ status }) => expect(status).to.equal(204))
 		)
 
 		it('GET / (empty)', () =>
-			query('get', root).then(({ body, status }) => {
+			query('get', root + '?organization=' + organization.id).then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(body).to.be.an('array').and.have.length(0 + initialCount)
 			})
