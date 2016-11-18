@@ -18,7 +18,7 @@ describe('REST', () => {
 		academicMemberships: [ { organization } ] // Without this, user cannot be seen from the creator
 	}), () => ({
 		name: 'John Doe (modified)'
-	}))
+	}), '&include=externals') // Created people is an external as organization is not monitored
 
 	describeModelRestApi('/organizations', Organization, () => ({
 		name: 'Missing & co'
@@ -37,7 +37,7 @@ describe('REST', () => {
 })
 
 
-function describeModelRestApi (root, Model, create, update) {
+function describeModelRestApi (root, Model, create, update, listSuffix = '') {
 	const query = agent()
 
 	describe(`${root} (basics)`, () => {
@@ -99,7 +99,7 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET / (empty)', () =>
-			query('get', root + '?organization=' + organization.id).then(({ body, status }) => {
+			query('get', root + '?organization=' + organization.id + listSuffix).then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(body).to.be.an('array').and.have.length(0 + initialCount)
 			})
@@ -115,7 +115,7 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET / (1 element)', () =>
-			query('get', root + '?organization=' + organization.id).then(({ body, status }) => {
+			query('get', root + '?organization=' + organization.id + listSuffix).then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(body).to.be.an('array').and.have.length(1 + initialCount)
 				if (Model === People) {
@@ -151,7 +151,7 @@ function describeModelRestApi (root, Model, create, update) {
 		)
 
 		it('GET / (empty)', () =>
-			query('get', root + '?organization=' + organization.id).then(({ body, status }) => {
+			query('get', root + '?organization=' + organization.id + listSuffix).then(({ body, status }) => {
 				expect(status).to.equal(200)
 				expect(body).to.be.an('array').and.have.length(0 + initialCount)
 			})
