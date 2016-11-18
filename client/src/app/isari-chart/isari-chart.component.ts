@@ -17,7 +17,7 @@ export class IsariChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
-      console.log(this.data);
+      // console.log(this.data);
     }
   }
 
