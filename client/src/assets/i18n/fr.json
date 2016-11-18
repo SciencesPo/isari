@@ -8,6 +8,7 @@
   "btn_add_people": "Ajouter une personne",
   "btn_add_organizations": "Ajouter une organisation",
   "columns_select": "Choix des colonnes",
+  "download_select": "Télécharger",
   "btn_apply": "Appliquer",
   "items_per_page": "{{ value }} objet par page",
   "btn_create_value": "Créer cette valeur ?",

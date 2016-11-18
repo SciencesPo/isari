@@ -1,0 +1,7 @@
+<button md-raised-button [md-menu-trigger-for]="menu">{{ 'download_select' | translate }}</button>
+
+<md-menu #menu="mdMenu">
+  <button md-menu-item>XLSX</button>
+  <button md-menu-item>ODS</button>
+  <button md-menu-item>CSV</button>
+</md-menu>

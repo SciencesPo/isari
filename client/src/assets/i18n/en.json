@@ -8,6 +8,7 @@
   "btn_add_people": "Add people",
   "btn_add_organizations": "Add organization",
   "columns_select": "Column selection",
+  "download_select": "Download",
   "btn_apply": "Apply",
   "items_per_page": "{{ value }} items per page",
   "btn_create_value": "Create ?",
