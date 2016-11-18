@@ -14,6 +14,7 @@
     <md-menu x-position="before" #menu="mdMenu">
       <a *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams>{{ 'people' | translate }}</a>
       <a *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>{{ 'organizations' | translate }}</a>
+      <a *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams>{{ 'activities' | translate }}</a>
       <a md-menu-item href (click)="logout($event)">{{ 'logout' | translate }}</a>
       <a md-menu-item href *ngIf="lang !== 'fr'" (click)="setLang('fr', $event)">{{ 'french' | translate }}</a>
       <a md-menu-item href *ngIf="lang !== 'en'" (click)="setLang('en', $event)">{{ 'english' | translate }}</a>
