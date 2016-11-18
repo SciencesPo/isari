@@ -13,10 +13,19 @@ const pFalse = Promise.resolve(false)
 
 // Helper returning a YYYY-MM-DD string for today
 // TODO cache (it shouldn't change more than once a day, right)
+const pad0 = s => String(s).length === 1 ? '0' + s : String(s)
+const isTodayOrLater = s => {
+	const ref = today()
+	const [ y, m, d ] = s.split('-')
+	return y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
+}
 const today = () => {
 	const d = new Date()
-	const pad = s => String(s).length === 1 ? '0' + s : String(s)
-	return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate)}`
+	return {
+		y: d.getFullYear(),
+		m: pad0(d.getMonth() + 1),
+		d: pad0(d.getDate())
+	}
 }
 
 // Extract roles from isariAuthorizedCenters
@@ -152,13 +161,25 @@ const listViewablePeople = (req, options = {}) => {
 
 	const { includeExternals = true, includeMembers = true } = options
 
+	// Note: A && B && (C || D) is not supported by Mongo
+	// i.e. this must be transformed into (A && B && C) || (A && B && D)
+
+	const now = today()
+	// Projected fields, see 'memberships' projection below
+	const isInternal = [
+		{ orgMonitored: true },
+		{ $or: [
+			{ endDate: { $exists: false } },
+			// y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
+			{ endYear: { $gt: now.y } },
+			{ endYear: now.y, endMonth: { $gt: now.m } },
+			{ endYear: now.y, endMonth: now.m, endDay: { $gte: now.d } }
+		] }
+	]
+
 	const isMember = req.userScopeOrganizationId
-		? { // Scoped: limit to people from this organization
-			'memberships': { $elemMatch: {
-				orgId: req.userScopeOrganizationId,
-				$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
-				orgMonitored: true
-			} } }
+		? // Scoped: limit to people from this organization
+			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId: req.userScopeOrganizationId } ]) } } }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
@@ -167,42 +188,39 @@ const listViewablePeople = (req, options = {}) => {
 				{ 'memberships.orgId': { $in: Object.keys(req.userRoles) } }
 
 	// External people = ALL memberships are either expired or linked to an unmonitored organization
-	const isExternal = { memberships: { $not: { $elemMatch: {
-		$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
-		orgMonitored: true
-	} } } }
+	const isExternal = { memberships: { $not: { $elemMatch: { $and: isInternal } } } }
 
 	const filters = (includeExternals && includeMembers)
-		? [ isMember, isExternal ]
-		: (includeExternals ? [ isExternal ] : [ isMember ])
+		? { $or: [ isMember, isExternal ] }
+		: (includeExternals ? isExternal : isMember)
 
 	// Use aggregation to lookup organization and calculate union of "in scope" + "externals"
-	/* First version kept for history: much more performant, but we must return a Mongoose.Query to allow proper population,
-		formatting, templating… in rest-utils. A wide rewrite should be planned to allow using aggregations in REST endpoints
-
-	return People.aggregate()
-		.project({ _id: 1, people: '$$ROOT' }) // Keep original data intact for later use
-		.unwind('people.academicMemberships') // Lookup only works with flat data, unwind array
-		.lookup({ from: Organization.collection.name, localField: 'people.academicMemberships.organization', foreignField: '_id', as: 'orgs' }) // LEFT JOIN Organization
-		.unwind('orgs') // "orgs" can be a zero-or-one-item array, unwind that before grouping
-		.project({ _id: 1, people: 1, membership: { orgId: '$orgs._id', endDate: '$people.academicMemberships.endDate', orgMonitored: '$orgs.isariMonitored' } }) // Group membership info together
-		.group({ _id: '$_id', memberships: { $push: '$membership' }, people: { $first: '$people' } }) // Now regroup membership data to single people
-		.match({ $or: [ isMember, isExternal ] }) // Finally apply filters
-		.then(map(p => Object.assign(p.people, { // And keep only People (untouched) data with additional membership info
-			_external: !p.memberships.some(m => m.endDate && m.endDate >= today() && m.orgMonitored)
-		})))
-	*/
 	return People.aggregate()
 		.project({ _id: 1, academicMemberships: 1 }) // Keep original data intact for later use
 		.unwind('academicMemberships') // Lookup only works with flat data, unwind array
-		.lookup({ from: Organization.collection.name, localField: 'academicMemberships.organization', foreignField: '_id', as: 'org' }) // LEFT JOIN Organization
+		.lookup({
+			from: Organization.collection.name,
+			localField: 'academicMemberships.organization',
+			foreignField: '_id',
+			as: 'org'
+		}) // LEFT JOIN Organization
 		.unwind('org') // "orgs" can be a zero-or-one-item array, unwind that before grouping
-		.project({ _id: 1, membership: { orgId: '$org._id', endDate: '$academicMemberships.endDate', orgMonitored: '$org.isariMonitored' } }) // Group membership info together
-		.group({ _id: '$_id', memberships: { $push: '$membership' }, people: { $first: '$people' } }) // Now regroup membership data to single people
-		.match({ $or: filters }) // Finally apply filters
+		.project({ _id: 1, membership: {
+			orgId: '$org._id',
+			endDate: '$academicMemberships.endDate',
+			orgMonitored: '$org.isariMonitored',
+			endYear: { $substr: [ '$academicMemberships.endDate', 0, 4 ] },
+			endMonth: { $substr: [ '$academicMemberships.endDate', 5, 2 ] },
+			endDay: { $substr: [ '$academicMemberships.endDate', 8, 2 ] }
+		} }) // Group membership info together
+		.group({
+			_id: '$_id',
+			memberships: { $push: '$membership' },
+			people: { $first: '$people' }
+		}) // Now regroup membership data to single people
+		.match(filters) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
-		.then(ids => ids.concat([ req.userId ])) // Ensure I always see myself
 		.then(ids => ({
 			// Populate to allow getPeoplePermissions to work
 			query: People.find({ _id: { $in: ids } }).populate('academicMemberships.organization')
@@ -219,7 +237,7 @@ Who can *write* a people?
 - center editor of people's centers (academicMemberships)
 */
 const isExternalPeople = p => p.populate('academicMemberships.organization').execPopulate().then(() => {
-	return !p.academicMemberships.some(m => m.endDate && m.endDate >= today() && m.organization.isariMonitored)
+	return !p.academicMemberships.some(m => m.endDate && isTodayOrLater(m.endDate) && m.organization.isariMonitored)
 })
 const canEditPeople = (req, p) => {
 	// Himself: writable
