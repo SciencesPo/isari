@@ -174,17 +174,39 @@ module.exports = {
 
         // Priority: HCERES > Banner > Spire
         return partitionBy(lines, line => `${line.acronym}§${line.name}`)
-          .map(sources => {
-            if (sources.length > 3)
-              this.error(`Too many different sources for organization: "${sources[0].name}".`);
+          .map(sourceLines => {
+            if (sourceLines.length > 3)
+              this.error(`Too many different sources for organization: "${sourceLines[0].name}".`);
 
-            sources = _.keyBy(sources, 'source');
+            const sources = _.keyBy(sourceLines, 'source');
 
             const merged = Object.assign({},
               sources.HCERES || {},
               sources.Banner || {},
               sources.SPIRE || {}
             );
+
+            delete merged.idBanner;
+            delete merged.idSpire;
+
+            // Multiplexed ids
+            const idsBanner = _(sourceLines)
+              .filter(line => !!line.idBanner)
+              .map('idBanner')
+              .uniq()
+              .value();
+
+            if (idsBanner.length)
+              merged.idsBanner = idsBanner;
+
+            const idsSpire = _(sourceLines)
+              .filter(line => !!line.idSpire)
+              .map('idSpire')
+              .uniq()
+              .value();
+
+            if (idsSpire)
+              merged.idsSpire = idsSpire;
 
             // Unit codes
             const codes = new Set();
@@ -222,14 +244,17 @@ module.exports = {
           // Merging...
           [
             'codeUAI',
-            'idBanner',
-            'idSpire',
+            'idsBanner',
+            'idsSpire',
             'idHal',
             'HCERESOrganizationType'
           ].forEach(prop => {
             if (org[prop])
               match[prop] = org[prop];
           });
+
+          if (match.idsBanner)
+            match.idsBanner.forEach(id => (indexes.banner[id] = match));
 
           return;
         }
@@ -241,6 +266,9 @@ module.exports = {
 
         if (org.acronym)
           indexes.acronym[org.acronym] = org;
+
+        if (org.idsBanner)
+          org.idsBanner.forEach(id => (indexes.banner[id] = org));
       }
     }
   ]

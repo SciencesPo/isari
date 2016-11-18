@@ -150,9 +150,9 @@ const listViewablePeople = (req, options = {}) => {
 		return Promise.reject(Error('Invalid usage of "listViewablePeople" without prior usage of "scopeOrganizationMiddleware"'))
 	}
 
-	const { includeExternals = true, includeInScope = true } = options
+	const { includeExternals = true, includeMembers = true } = options
 
-	const isInScope = req.userScopeOrganizationId
+	const isMember = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
 			{ 'memberships.orgId': req.userScopeOrganizationId }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
@@ -168,9 +168,9 @@ const listViewablePeople = (req, options = {}) => {
 		orgMonitored: true
 	} } } }
 
-	const filters = (includeExternals && includeInScope)
-		? [ isInScope, isExternal ]
-		: (includeExternals ? [ isExternal ] : [ isInScope ])
+	const filters = (includeExternals && includeMembers)
+		? [ isMember, isExternal ]
+		: (includeExternals ? [ isExternal ] : [ isMember ])
 
 	// Use aggregation to lookup organization and calculate union of "in scope" + "externals"
 	/* First version kept for history: much more performant, but we must return a Mongoose.Query to allow proper population,
@@ -183,7 +183,7 @@ const listViewablePeople = (req, options = {}) => {
 		.unwind('orgs') // "orgs" can be a zero-or-one-item array, unwind that before grouping
 		.project({ _id: 1, people: 1, membership: { orgId: '$orgs._id', endDate: '$people.academicMemberships.endDate', orgMonitored: '$orgs.isariMonitored' } }) // Group membership info together
 		.group({ _id: '$_id', memberships: { $push: '$membership' }, people: { $first: '$people' } }) // Now regroup membership data to single people
-		.match({ $or: [ isInScope, isExternal ] }) // Finally apply filters
+		.match({ $or: [ isMember, isExternal ] }) // Finally apply filters
 		.then(map(p => Object.assign(p.people, { // And keep only People (untouched) data with additional membership info
 			_external: !p.memberships.some(m => m.endDate && m.endDate >= today() && m.orgMonitored)
 		})))

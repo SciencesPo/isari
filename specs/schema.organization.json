@@ -36,18 +36,22 @@
             "template": "researchUnitCode"
         }
     ],
-    "idBanner": {
-        "label": {
-            "fr": "Identifiant Banner",
-            "en": "banner ID"
+    "idsBanner": [
+        {
+            "label": {
+                "fr": "Identifiant Banner",
+                "en": "banner ID"
+            }
         }
-    },
-    "idSpire": {
-        "label": {
-            "fr": "Identifiant Spire",
-            "en": "Spire ID"
+    ],
+    "idsSpire": [
+        {
+            "label": {
+                "fr": "Identifiant Spire",
+                "en": "Spire ID"
+            }
         }
-    },
+    ],
     "idRnsr": {
         "label": {
             "fr": "Identifiant RNSR",

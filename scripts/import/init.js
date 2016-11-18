@@ -107,6 +107,7 @@ const INDEXES = {
     acronym: Object.create(null),
     name: Object.create(null),
     fingerprint: Object.create(null),
+    banner: Object.create(null),
     id: Object.create(null)
   },
   People: {
@@ -442,6 +443,10 @@ function processRelations() {
       // Solving those relations by name
       let related = INDEXES.Organization.name[rel];
 
+      // Else solving the relation by Banner id
+      if (!related)
+        related = INDEXES.Organization.banner[rel];
+
       // Else solving the relation by acronym
       if (!related)
         related = INDEXES.Organization.acronym[rel];
@@ -468,6 +473,10 @@ function processRelations() {
 
         // Solving those relations by name
         let related = INDEXES.Organization.name[rel];
+
+        // Else solving the relation by Banner id
+        if (!related)
+          related = INDEXES.Organization.banner[rel];
 
         // Else solving the relation by acronym
         if (!related)
@@ -655,7 +664,7 @@ async.series({
 
       // Matching
       for (let i = 0, l = lines.length; i < l; i++) {
-        const {ldapUid, orgaAcronym, isariRole} = lines[i]
+        const {ldapUid, orgaAcronym, isariRole} = lines[i];
 
         const person = index[ldapUid];
 

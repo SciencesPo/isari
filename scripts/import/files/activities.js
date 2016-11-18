@@ -304,8 +304,18 @@ module.exports = {
           birthDate: moment(line.DATE_NAISSANCE, 'DD/MM/YYYY').format('YYYY-MM-DD'),
           sirhMatricule: line.MATRICULE_PAIE,
           discipline: line.DISCIPLINE,
-          hdr: line.CODE_NIVEAU === '9'
+          hdr: line.CODE_NIVEAU === '9',
+          startDate: line.ANNEE_UNIV_ADMISSION,
+          title: line.TITRE_THESE,
+          previous: {
+            idBanner: line.CODE_ETAB_ADM,
+            title: [line.LIB_DIPL_ADM_L1, line.LIB_DIPL_ADM_L2].join(' ').trim(),
+            date: line.DATE_DIPL_ADM
+          }
         };
+
+        if (line.DATE_SOUTENANCE)
+          info.endDate = moment(line.DATE_SOUTENANCE, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
         const [name, firstName] = line.NOM_COMPLET.split(',');
 
@@ -436,8 +446,66 @@ module.exports = {
               });
 
             // Creating activities
+            peopleInfo.distinctions = [];
+
             if (phd) {
               const activity = {};
+
+              // Add previous diploma
+              // TODO: solve case of Banner ids starting with Z
+              if (phd.previous.idBanner && !phd.previous.idBanner[0] === 'Z') {
+                const previousDistinction = {
+                  distinctionType: 'diplôme',
+                  title: phd.previous.title,
+                  organizations: [phd.previous.idBanner]
+                };
+
+                if (phd.previous.date)
+                  previousDistinction.date = phd.previous.date;
+
+                peopleInfo.distinctions.push(previousDistinction);
+              }
+
+              // Add PHD
+              const distinction = {
+                distinctionType: 'diplôme',
+                title: 'Doctorat',
+                organizations: ['FNSP'],
+                countries: ['FR']
+              };
+
+              if (phd.endDate)
+                distinction.date = phd.endDate;
+
+              peopleInfo.distinctions.push(distinction);
+
+              // Add gradesAcademic
+              const grade = {
+                grade: 'doctorant(grade)'
+              };
+
+              if (phd.startDate)
+                grade.startDate = phd.startDate;
+              if (phd.endDate)
+                grade.endDate = phd.endDate;
+
+              peopleInfo.gradesAcademic = [grade];
+            }
+
+            if (hdr) {
+              const activity = {};
+
+              const distinction = {
+                distinctionType: 'diplôme',
+                title: 'HDR',
+                organizations: ['FNSP'],
+                countries: ['FR']
+              };
+
+              if (hdr.endDate)
+                distinction.date = hdr.endDate;
+
+              peopleInfo.distinctions.push(distinction);
             }
           });
 
@@ -672,7 +740,7 @@ module.exports = {
           const key = fingerprint(org.name);
 
           // Let's attempt to match the organization
-          let match = indexes.name[org.name]
+          let match = indexes.name[org.name];
 
           if (!match)
             match = indexes.fingerprint[key];
