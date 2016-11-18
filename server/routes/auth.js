@@ -10,7 +10,10 @@ const { map } = require('lodash/fp')
 
 const router = module.exports = Router()
 
-const formatPeople = p => format('People', p)
+// Permissions on my People's instance
+const MY_PERMISSIONS = { viewable: true, editable: false, confidentials: { viewable: true, editable: false, paths: [] } }
+
+const formatPeople = p => format('People', p, MY_PERMISSIONS)
 const formatOrganization = o => format('Organization', o)
 const populateAndFormatPeople = p => p.populateAll().then(formatPeople)
 
