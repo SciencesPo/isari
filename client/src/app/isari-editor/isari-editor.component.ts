@@ -6,8 +6,8 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
-
 import { IsariDataService } from '../isari-data.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'isari-editor',
@@ -26,6 +26,7 @@ export class IsariEditorComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
+    private userService: UserService,
     private translate: TranslateService,
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef) {}
@@ -39,10 +40,12 @@ export class IsariEditorComponent implements OnInit {
 
     Observable.combineLatest(
       $routeParams,
+      this.userService.getRestrictedFields(),
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ).subscribe(([{ feature, id }, lang]) => {
+    ).subscribe(([{ feature, id }, restrictedFields, lang]) => {
+        console.log(restrictedFields);
         this.feature = feature;
         this.id = id;
         Promise.all([
@@ -50,6 +53,10 @@ export class IsariEditorComponent implements OnInit {
           this.isariDataService.getLayout(this.feature)
         ]).then(([data, layout]) => {
           this.data = data;
+          this.data.opts = Object.assign(this.data.opts, {
+            restrictedFields,
+            path: []
+          });
           this.layout = this.isariDataService.translate(layout, lang);
           this.layout = this.isariDataService.closeAll(this.layout);
           this.form = this.isariDataService.buildForm(this.layout, this.data);
