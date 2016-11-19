@@ -1,12 +1,12 @@
 {
-    "personalActivitySubTypes": {
+    "personalActivitySubtypes": {
         "editorial": [
             { "value": "comiteLecture", "label": { "fr": "commuté de lecture", "en": "" } },
             { "value": "directioncollection", "label": { "fr": "direction de collection", "en": "" } }
         ],
         "expertise": [
             { "value": "audition", "label": { "fr": "audition", "en": "" } },
-            { "value": "rapport", "label": { "fr": "rapport", "en": "" } }  
+            { "value": "rapport", "label": { "fr": "rapport", "en": "" } }
         ],
          "collaborationsscientifiques": [
             { "value": "associationprofessionnelle", "label": { "fr": "association professionnelle", "en": "" } },

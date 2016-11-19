@@ -520,7 +520,7 @@
                     "fr": "Plus précisément",
                     "en": "More precisely"
                 },
-                "softenum": "personalActivitySubtypes:./personalActivityType"
+                "softenum": "personalActivitySubtypes:../personalActivityType"
             },
             "startDate": {
                 "requirement": "mandatory",
