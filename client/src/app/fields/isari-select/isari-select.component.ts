@@ -53,9 +53,14 @@ export class IsariSelectComponent implements OnInit {
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ).subscribe(([items, lang]) => {
+    ).subscribe(([{values, reset}, lang]: [{values: any[], reset: boolean}, string]) => {
       this.lang = lang;
-      this.values = (<any[]>items).map(this.translateItem.bind(this));
+      if (reset) {
+        this.form.controls[this.name].setValue('');
+        this.selectControl.setValue('');
+        this.lastValidStringValue = '';
+      }
+      this.values = values.map(this.translateItem.bind(this));
       this.setExtend();
     });
 

@@ -136,15 +136,9 @@ export class IsariDataService {
     const enum$ = this.getEnum(src);
     return function(terms$: Observable<string>, max, form: FormGroup) {
 
-      // const nestedField = this.getFieldForPath(src, form, materializedPath);
+      const nestedField = this.getFieldForPath(src, form, materializedPath);
 
-      // // @TODO brancher ça d'une manière ou d'une autre
-      // if (nestedField) {
-      //   pop = pop.combineLatest(nestedField.valueChanges)
-      //     .map(([term]) => term);
-      // }
-
-      return terms$
+      let x$ = terms$
         .startWith('')
         .distinctUntilChanged()
         .combineLatest(enum$)
@@ -152,11 +146,25 @@ export class IsariDataService {
           enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
 
           term = this.normalize(term.toLowerCase());
-          return (term
-            ? enumValues.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(term) !== -1)
-            : enumValues)
-            .slice(0, max);
-        });
+          return ({
+            reset: false,
+            values: (term
+              ? enumValues.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(term) !== -1)
+              : enumValues)
+              .slice(0, max)
+          });
+        });        ;
+
+      // observe source of nested
+      if (nestedField) {
+        x$ = x$.merge(nestedField.valueChanges.map(x => ({
+          reset: true,
+          values: []
+        })));
+      }
+
+      return x$;
+
     }.bind(this);
   }
 
@@ -212,7 +220,10 @@ export class IsariDataService {
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/search`;
     return this.http.get(url, this.getHttpOptions({ q: query || '*' }))
       .map(response => response.json())
-      .map(items => items.map(item => ({ id: item.value, value: item.label })));
+      .map(items => ({
+        reset: false,
+        values: items.map(item => ({ id: item.value, value: item.label }))
+      }));
   }
 
   buildForm(layout, data): FormGroup {

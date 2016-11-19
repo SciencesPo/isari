@@ -58,9 +58,9 @@ export class IsariMultiSelectComponent implements OnInit {
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ).subscribe(([items, lang]) => {
+    ).subscribe(([{values}, lang]: [{values: any[]}, string]) => {
       this.lang = lang;
-      this.options = (<any[]>items).map(this.translateItem.bind(this));
+      this.options = values.map(this.translateItem.bind(this));
       this.setExtend();
     });
 
