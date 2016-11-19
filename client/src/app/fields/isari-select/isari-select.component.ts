@@ -49,7 +49,7 @@ export class IsariSelectComponent implements OnInit {
     });
 
     Observable.combineLatest(
-      this.src(this.selectControl.valueChanges, this.max),
+      this.src(this.selectControl.valueChanges, this.max, this.form),
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)

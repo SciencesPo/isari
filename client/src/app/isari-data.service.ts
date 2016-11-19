@@ -37,7 +37,6 @@ export class IsariDataService {
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
   private columnsUrl = `${environment.API_BASE_URL}/columns`;
-  private id: string; // for imbricated fields (useless ????)
 
   constructor(private http: Http, private fb: FormBuilder, private userService: UserService) {}
 
@@ -59,7 +58,6 @@ export class IsariDataService {
     if (id === undefined) {
       return Promise.resolve({});
     }
-    this.id = id;
     const url = `${this.dataUrl}/${feature}/${id}`;
     return this.http.get(url, this.getHttpOptions())
       .toPromise()
@@ -134,29 +132,42 @@ export class IsariDataService {
       })));
   }
 
-  srcEnumBuilder(src: string, path: string, id: boolean) {
-    const enum$ = this.getEnum(src, path, id);
-    return function(terms$: Observable<string>, max) {
+  srcEnumBuilder(src: string, materializedPath: string) {
+    const enum$ = this.getEnum(src);
+    return function(terms$: Observable<string>, max, form: FormGroup) {
+
+      // const nestedField = this.getFieldForPath(src, form, materializedPath);
+
+      // // @TODO brancher ça d'une manière ou d'une autre
+      // if (nestedField) {
+      //   pop = pop.combineLatest(nestedField.valueChanges)
+      //     .map(([term]) => term);
+      // }
+
       return terms$
         .startWith('')
         .distinctUntilChanged()
         .combineLatest(enum$)
-        .map(([term, values]) => {
+        .map(([term, enumValues]) => {
+          enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
+
           term = this.normalize(term.toLowerCase());
           return (term
-            ? values.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(term) !== -1)
-            : values)
+            ? enumValues.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(term) !== -1)
+            : enumValues)
             .slice(0, max);
         });
     }.bind(this);
   }
 
-  getEnumLabel(src: string, values: string | string[]) {
+  getEnumLabel(src: string, materializedPath: string, form: FormGroup, values: string | string[]) {
     if (!(values instanceof Array)) {
       values = [values];
     }
     return this.getEnum(src)
       .map(enumValues => {
+        enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
+
         return (<string[]>values).map(v => {
           return enumValues.find(entry => entry.value === v);
         }).filter(v => !!v);
@@ -392,10 +403,49 @@ export class IsariDataService {
     return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
   }
 
-  private getEnum(src: string, path = '', id = false) {
-    // // cas non gérés pour le moment
-    if (src === 'KEYS(personalActivityTypes)' || src === 'personalActivityTypes.$personalActivityType') {
-      return Observable.of([]);
+  private normalizePath(path) {
+    let BLANK = '';
+    let SLASH = '/';
+    let DOT = '.';
+    let DOTS = DOT.concat(DOT);
+    let SCHEME = '://';
+
+    if (!path || path === SLASH) {
+      return SLASH;
+    }
+
+    let prependSlash = (path.charAt(0) == SLASH || path.charAt(0) == DOT);
+    let target = [];
+    let src, scheme, parts, token;
+
+    if (path.indexOf(SCHEME) > 0) {
+      parts = path.split(SCHEME);
+      scheme = parts[0];
+      src = parts[1].split(SLASH);
+    } else {
+      src = path.split(SLASH);
+    }
+
+    for (let i = 0; i < src.length; ++i) {
+      token = src[i];
+      if (token === DOTS) {
+        target.pop();
+      } else if (token !== BLANK && token !== DOT) {
+        target.push(token);
+      }
+    }
+
+    let result = target.join(SLASH).replace(/[\/]{2,}/g, SLASH);
+
+    return (scheme ? scheme + SCHEME : '') + (prependSlash ? SLASH : BLANK) + result;
+  }
+
+  private getEnum(src: string) {
+
+    // nested
+    const nestedPos = src.indexOf(':');
+    if (nestedPos !== -1) {
+      src = `nested/${src.substr(0, nestedPos)}`;
     }
 
     // check for cached results
@@ -403,17 +453,7 @@ export class IsariDataService {
       return this.enumsCache[src];
     }
 
-    let url = `${this.enumUrl}/${src}`;
-    let query = [];
-    if (path) {
-      query.push('path=' + path);
-    }
-    if (id) {
-      query.push('id=' + this.id);
-    }
-    if (query.length) {
-      url += '?' + query.join('&');
-    }
+    const url = `${this.enumUrl}/${src}`;
     let $enum = this.http.get(url).map(response => response.json())
       .publishReplay(1)
       .refCount();
@@ -421,6 +461,37 @@ export class IsariDataService {
     return $enum;
   }
 
+  private nestedEnum(src, enumValues, form, materializedPath) {
+    const path = this.computePath(src, materializedPath);
+    if (!path) {
+      return enumValues;
+    }
+    const key = path.reduce((acc, cv) => acc[cv], form.root.value);
+    return key ? enumValues[key] : [];
+  }
+
+  private getFieldForPath(src, form, materializedPath) {
+    const path = this.computePath(src, materializedPath);
+    if (!path) {
+      return false;
+    }
+
+    return path.reduce((acc, cv) => {
+      return acc.get(cv);
+    }, form.root);
+  }
+
+  private computePath(src, materializedPath): null | string[] {
+    const posNested = src.indexOf(':');
+
+    // not nested enum
+    if (posNested === -1) {
+      return null;
+    }
+
+    return this
+      .normalizePath(`${materializedPath.replace(/\./g, '/')}/${src.substr(posNested + 1)}`)
+      .split('/');
+  }
+
 }
-
-
