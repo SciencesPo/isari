@@ -3,6 +3,9 @@ People = 'people'
 Activity = 'activities'
 Organization = 'organizations'
 
+[specs]
+validateOnStart = true
+
 [http]
 port = 8080
 detailedErrors = false
