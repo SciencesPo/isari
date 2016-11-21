@@ -38,6 +38,10 @@ module.exports = {
           academicMembership: line.Affiliation
         };
 
+        // add 0 prefix to sirh matricule which were cut by a spreadsheet software
+        if (info.sirhMatricule.length < 5)
+          info.sirhMatricule = '0'.repeat(5 - info.sirhMatricule.length) + info.sirhMatricule;
+
         if (line['%ETP'])
           info.timepart = +line['%ETP'].replace(/,/g, '.');
 

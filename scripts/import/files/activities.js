@@ -416,8 +416,12 @@ module.exports = {
               gender: ref.gender
             };
 
-            if (ref.sirhMatricule)
+            if (ref.sirhMatricule) {
               peopleInfo.sirhMatricule = ref.sirhMatricule;
+              // add 0 prefix to sirh matricule which were cut by a spreadsheet software
+              if (peopleInfo.sirhMatricule.length < 5)
+                peopleInfo.sirhMatricule = '0'.repeat(5 - peopleInfo.sirhMatricule.length) + peopleInfo.sirhMatricule;
+            }
 
             if (ref.contacts)
               peopleInfo.contacts = ref.contacts;
