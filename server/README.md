@@ -95,6 +95,11 @@ npm install --production
 * `organizations`
 * `activities`
 
+#### Query-string options
+
+* `/:collection/*?organization=ID`: If you're not connected as central admin or central reader, you will need to specifiy the *scope* of your query with this option
+* `/people?include=TYPE`: Specify which type of people you want to include in results (`externals`, `members` or `both`, default = `both`)
+
 #### Format: `Item`
 
 * See `specs/README.md` for model description
