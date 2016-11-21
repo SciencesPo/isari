@@ -6,6 +6,7 @@ const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
 const { mongoID } = require('./model-utils')
 const { computeConfidentialPaths } = require('./schemas')
+const { ObjectId } = require('mongoose').Types.ObjectId 
 
 // Constants for optimization
 const pTrue = Promise.resolve(true)
@@ -171,21 +172,21 @@ const listViewablePeople = (req, options = {}) => {
 		{ $or: [
 			{ endDate: { $exists: false } },
 			// y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
-			{ endYear: { $gt: now.y } },
-			{ endYear: now.y, endMonth: { $gt: now.m } },
-			{ endYear: now.y, endMonth: now.m, endDay: { $gte: now.d } }
+			{ endYear: { $gte: ''+now.y } },
+			{ endYear: ''+now.y, endMonth: { $gt: ''+now.m } },
+			{ endYear: ''+now.y, endMonth: ''+now.m, endDay: { $gte: ''+now.d } }
 		] }
 	]
 
-	const isMember = req.userScopeOrganizationId
+	const isMember = new ObjectId(req.userScopeOrganizationId)
 		? // Scoped: limit to people from this organization
-			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId: req.userScopeOrganizationId } ]) } } }
+			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId: new ObjectId(req.userScopeOrganizationId) } ]) } } }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
 				{}
 			: // Limit to people from organizations he has access to
-				{ 'memberships.orgId': { $in: Object.keys(req.userRoles) } }
+				{ 'memberships.orgId': { $in: Object.keys(req.userRoles).map(ObjectId.fromString) } }
 
 	// External people = ALL memberships are either expired or linked to an unmonitored organization
 	const isExternal = { memberships: { $not: { $elemMatch: { $and: isInternal } } } }
