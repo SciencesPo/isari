@@ -258,7 +258,8 @@ module.exports = {
 
         const objects = persons.map(years => {
           const first = years[0],
-                job = _.find(years.slice().reverse(), year => !!year.jobName);
+                job = _.find(years.slice().reverse(), year => !!year.jobName),
+                start = years.find(year => !!year.startDate);
 
           const person = {
             name: first.name,
@@ -275,9 +276,11 @@ module.exports = {
           if (job) {
             person.positions = [{
               jobName: job.jobName,
-              organization: job.organization,
-              startDate: job.startDate
+              organization: job.organization
             }];
+
+            if (start)
+              person.positions[0].startDate = start.startDate;
 
             // Admin grades
             person.positions[0].gradesAdmin = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
@@ -288,7 +291,7 @@ module.exports = {
                   grade: slice[0].gradeAdmin
                 };
 
-                if (!i)
+                if (!i && slice[0].startDate)
                   info.startDate = slice[0].startDate;
                 else
                   info.startDate = slice[0].year;
@@ -308,7 +311,7 @@ module.exports = {
                 organization: slice[0].academicMembership
               };
 
-              if (!i)
+              if (!i && slice[0].startDate)
                 info.startDate = slice[0].startDate;
               else
                 info.startDate = slice[0].year;
@@ -554,7 +557,7 @@ module.exports = {
             };
 
             // Dates
-            if (!i)
+            if (!i && slice[0].startDate)
               jobInfo.startDate = slice[0].startDate;
             else
               jobInfo.startDate = slice[0].year;
@@ -566,10 +569,12 @@ module.exports = {
             if (slice[0].gradeAdmin) {
               jobInfo.gradesAdmin = [
                 {
-                  grade: slice[0].gradeAdmin,
-                  startDate: jobInfo.startDate
+                  grade: slice[0].gradeAdmin
                 }
               ];
+
+              if (jobInfo.startDate)
+                jobInfo.gradesAdmin[0].startDate = jobInfo.startDate;
             }
 
             return jobInfo;
@@ -588,7 +593,7 @@ module.exports = {
                 if (!relevantMembership) {
                   relevantMembership = {
                     organization: membership.organization,
-                    startDate: !i ? year.startDate : year.year,
+                    startDate: !i && year.startDate ? year.startDate : year.year,
                     endDate: year.year
                   };
 
@@ -622,7 +627,7 @@ module.exports = {
                 if (!relevantMembership) {
                   relevantMembership = {
                     organization: membership.organization,
-                    startDate: !i ? year.startDate : year.year,
+                    startDate: !i && year.startDate ? year.startDate : year.year,
                     endDate: year.year
                   };
 
