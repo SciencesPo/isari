@@ -9,6 +9,13 @@
 
     <h5>{{ organization?.name }}</h5>
 
+    <button md-button [md-menu-trigger-for]="langMenu"><img class="app-toolbar-flag" src="./assets/svg/{{ lang }}-flag.svg" /></button>
+
+    <md-menu x-position="before" #langMenu="mdMenu">
+      <a md-menu-item href (click)="setLang('fr', $event)"><img class="app-toolbar-flag" src="./assets/svg/fr-flag.svg" /></a>
+      <a md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></a>
+    </md-menu>
+
     <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
 
     <md-menu x-position="before" #menu="mdMenu">

@@ -80,10 +80,18 @@ export class IsariDownloadButtonComponent implements OnInit {
       for (const k in line) {
 
         // Updating range
-        if (range.s.r > R) range.s.r = R;
-        if (range.s.c > C) range.s.c = C;
-        if (range.e.r < R) range.e.r = R;
-        if (range.e.c < C) range.e.c = C;
+        if (range.s.r > R) {
+          range.s.r = R;
+        }
+        if (range.s.c > C) {
+          range.s.c = C;
+        }
+        if (range.e.r < R) {
+          range.e.r = R;
+        }
+        if (range.e.c < C) {
+          range.e.c = C;
+        }
 
         const value = line[k],
               address = XLSX.utils.encode_cell({c: C, r: R}),
