@@ -36,8 +36,9 @@ export class IsariHeaderComponent implements OnInit {
   setLang(lang, $event) {
     $event.preventDefault();
 
-    if (this.lang === lang)
+    if (this.lang === lang) {
       return;
+    }
 
     this.lang = lang;
     this.translate.use(this.lang);
