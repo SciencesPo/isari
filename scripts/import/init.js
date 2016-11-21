@@ -573,7 +573,6 @@ function retrieveLDAPInformation(callback) {
   log.info(`Using ${chalk.cyan(ldapConfig.dn)} dn.`);
 
   return async.eachOfLimit(INDEXES.People.id, 10, (people, id, next) => {
-
     if (!people.sirhMatricule)
       return next();
 
@@ -582,7 +581,10 @@ function retrieveLDAPInformation(callback) {
       filter: `(employeenumber=${people.sirhMatricule})`
     };
 
-    ldapClient.search(ldapConfig.dn, options, (err, res) => {
+    return ldapClient.search(ldapConfig.dn, options, (err, res) => {
+      if (err)
+        return next(err);
+
       res.on('searchEntry', entry => {
         people.ldapUid = entry.object.uid;
       });
@@ -593,7 +595,6 @@ function retrieveLDAPInformation(callback) {
         return next();
       });
     });
-
   }, callback);
 }
 
@@ -667,6 +668,7 @@ async.series({
     if (argv.skipLdap)
       return next();
 
+    // TODO: move to function
     log.info('Attributing admin roles...');
 
     // Indexing
