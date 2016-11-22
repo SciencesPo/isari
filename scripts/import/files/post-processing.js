@@ -97,6 +97,24 @@ module.exports = {
     },
 
     /**
+     * ID_scopus_orcid.csv
+     * -------------------------------------------------------------------------
+     */
+    {
+      name: 'ID_scopus_orcid',
+      path: 'ID_scopus_orcid.csv',
+      skip: true,
+      consumer(line) {
+        const info = {};
+
+        return info;
+      },
+      process(indexes, id, line) {
+
+      }
+    },
+
+    /**
      * admin_roles.csv
      * -------------------------------------------------------------------------
      */

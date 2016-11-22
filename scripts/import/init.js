@@ -322,6 +322,7 @@ const peopleTasks = FILES.people.files.map(file => next => {
  */
 const activityTasks = FILES.activities.files.map(file => next => {
   if (file.skip) {
+    console.log();
     log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
 
     return next();
@@ -380,6 +381,7 @@ const activityTasks = FILES.activities.files.map(file => next => {
  */
 const postProcessingTasks = FILES.postProcessing.files.map(file => next => {
   if (file.skip) {
+    console.log();
     log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
 
     return next();
