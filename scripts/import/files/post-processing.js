@@ -7,8 +7,7 @@
 const fingerprint = require('talisman/keyers/fingerprint').default,
       helpers = require('../helpers'),
       hashPeople = helpers.hashPeople,
-      chalk = require('chalk'),
-      _ = require('lodash');
+      chalk = require('chalk');
 
 module.exports = {
   files: [
@@ -110,8 +109,8 @@ module.exports = {
         const person = indexes.People.ldap[ldapUid];
 
         if (!person) {
-          log.error(`Could not match person with LDAP id ${chalk.green(ldapUid)}.`);
-          return next(new ProcessError());
+          this.error(`Could not match person with LDAP id ${chalk.green(ldapUid)}.`);
+          return false;
         }
 
         let org;
@@ -123,13 +122,13 @@ module.exports = {
             org = indexes.Organization.name[orgaAcronym];
 
           if (!org) {
-            log.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
-            return next(new ProcessError());
+            this.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
+            return false;
           }
         }
         else if (!/^central_/.test(isariRole)) {
-          log.error(`Inconsistent role for id ${chalk.green(ldapUid)}. Cannot be ${chalk.grey(isariRole)} and be attached to an organization.`);
-          return next(new ProcessError());
+          this.error(`Inconsistent role for id ${chalk.green(ldapUid)}. Cannot be ${chalk.grey(isariRole)} and be attached to an organization.`);
+          return false;
         }
 
         person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
