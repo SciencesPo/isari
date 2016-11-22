@@ -113,7 +113,8 @@ const INDEXES = {
   People: {
     id: Object.create(null),
     hashed: Object.create(null),
-    sirh: Object.create(null)
+    sirh: Object.create(null),
+    ldap: Object.create(null)
   },
   Activity: {
     id: Object.create(null)
@@ -330,34 +331,6 @@ const activityTasks = FILES.activities.files.map(file => next => {
     if (err)
       return next(err);
 
-    // Resolving or overloading?
-    if (typeof file.overloader === 'function') {
-      log.info('Overloading...');
-
-      const before = {
-        Organization: counter.Organization(),
-        People: counter.People(),
-        Activity: counter.Activity()
-      };
-
-      lines.forEach(file.overloader.bind(log, INDEXES, mongoose.Types.ObjectId));
-
-      const after = {
-        Organization: counter.Organization(),
-        People: counter.People(),
-        Activity: counter.Activity()
-      };
-
-      for (const Model in counter) {
-        const difference = after[Model] - before[Model];
-
-        if (difference)
-          log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
-      }
-
-      return next();
-    }
-
     const items = file.resolver.call(log, lines);
 
     if (items.Organization && items.Organization.length)
@@ -396,6 +369,45 @@ const activityTasks = FILES.activities.files.map(file => next => {
 
         log.info(`Added ${chalk.cyan(added)} unique ${Model.toLowerCase()} (matches: ${chalk.cyan(items[Model].length - added)}, total: ${chalk.cyan(after)}).`);
       }
+    }
+
+    return next();
+  });
+});
+
+/**
+ * Post processing files.
+ */
+const postProcessingTasks = FILES.postProcessing.files.map(file => next => {
+  if (file.skip) {
+    log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
+
+    return next();
+  }
+
+  parseFile(file, (err, lines) => {
+    if (err)
+      return next(err);
+
+    const before = {
+      Organization: counter.Organization(),
+      People: counter.People(),
+      Activity: counter.Activity()
+    };
+
+    lines.forEach(file.process.bind(log, INDEXES, mongoose.Types.ObjectId));
+
+    const after = {
+      Organization: counter.Organization(),
+      People: counter.People(),
+      Activity: counter.Activity()
+    };
+
+    for (const Model in counter) {
+      const difference = after[Model] - before[Model];
+
+      if (difference)
+        log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
     }
 
     return next();
@@ -587,6 +599,9 @@ function retrieveLDAPInformation(callback) {
 
       res.on('searchEntry', entry => {
         people.ldapUid = entry.object.uid;
+
+        // Indexing
+        INDEXES.People.ldap[people.ldapUid] = people;
       });
       res.on('error', responseError => {
         return next(responseError);
@@ -664,69 +679,17 @@ async.series({
 
     return retrieveLDAPInformation(next);
   },
-  adminRoles(next) {
-    if (argv.skipLdap)
+  postProcessing(next) {
+    console.log();
+
+    if (argv.skipLdap) {
+      log.warning('Skipping post-processing (needs LDAP resolution).');
       return next();
+    }
 
-    // TODO: move to function
-    log.info('Attributing admin roles...');
+    log.info('Post-processing...');
 
-    // Indexing
-    const index = _.keyBy(INDEXES.People.id, 'ldapUid');
-
-    // Loading the file
-    return parseFile({path: 'people/admin_roles.csv'}, (err, lines) => {
-      if (err)
-        return next(err);
-
-      // Matching
-      for (let i = 0, l = lines.length; i < l; i++) {
-        const {ldapUid, orgaAcronym, isariRole} = lines[i];
-
-        const person = index[ldapUid];
-
-        if (!person) {
-          log.error(`Could not match person with LDAP id ${chalk.green(ldapUid)}.`);
-          return next(new ProcessError());
-        }
-
-        let org;
-
-        if (orgaAcronym) {
-          org = INDEXES.Organization.acronym[orgaAcronym.toUpperCase()];
-
-          if (!org)
-            org = INDEXES.Organization.name[orgaAcronym];
-
-          if (!org) {
-            log.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
-            return next(new ProcessError());
-          }
-        }
-        else if (!/^central_/.test(isariRole)) {
-          log.error(`Inconsistent role for id ${chalk.green(ldapUid)}. Cannot be ${chalk.grey(isariRole)} and be attached to an organization.`);
-          return next(new ProcessError());
-        }
-
-        person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
-
-        let authorization = org && person.isariAuthorizedCenters.find(a => a.organization === org._id);
-
-        if (authorization) {
-          authorization.isariRole = isariRole;
-        }
-        else {
-          authorization = {isariRole};
-
-          if (org)
-            authorization.organization = org._id;
-
-          person.isariAuthorizedCenters.push(authorization);
-        }
-      }
-
-      return next();
-    });
+    return async.series(postProcessingTasks, next);
   },
   jsonDump(next) {
     if (!argv.json)
