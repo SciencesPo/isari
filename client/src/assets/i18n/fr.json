@@ -12,6 +12,7 @@
   "download_select": "Télécharger",
   "btn_apply": "Appliquer",
   "items_per_page": "{{ value }} objet par page",
+  "lines": "lignes",
   "btn_create_value": "Créer cette valeur ?",
   "btn_login": "Connexion",
   "username": "Identifiant",
