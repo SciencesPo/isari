@@ -102,14 +102,28 @@ module.exports = {
      */
     {
       name: 'ID_scopus_orcid',
-      path: 'ID_scopus_orcid.csv',
+      path: 'people/ID_scopus_orcid.csv',
       skip: true,
       consumer(line) {
-        const info = {};
+        const info = {
+           ldapUid: line['LDAP ID'],
+           ORCID: line.ORCID,
+           idScopus: line['main Scopus ID']
+        };
 
         return info;
       },
       process(indexes, id, line) {
+         // Matching the person
+         const person = indexes.People.ldap[line.ldapUid];
+
+         if (!person) {
+            this.warning(`Could not match ${chalk.green(line.ldapUid)}.`);
+            return false;
+         }
+
+         person.ORCID = line.ORCID;
+         person.idScopus = line.idScopus;
 
       }
     },
