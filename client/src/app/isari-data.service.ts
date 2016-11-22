@@ -410,9 +410,9 @@ export class IsariDataService {
     return null;
   }
 
-  // private normalize(str: string): string {
-  //   return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '');
-  // }
+  private normalize(str: string): string {
+    return str.normalize('NFKD').replace(/[\u0300-\u036F]/g, '');
+  }
 
   private normalizePath(path) {
     let BLANK = '';
@@ -481,16 +481,16 @@ export class IsariDataService {
     return key ? enumValues[key] : [];
   }
 
-  // private getFieldForPath(src, form, materializedPath) {
-  //   const path = this.computePath(src, materializedPath);
-  //   if (!path) {
-  //     return false;
-  //   }
+  private getFieldForPath(src, form, materializedPath) {
+    const path = this.computePath(src, materializedPath);
+    if (!path) {
+      return false;
+    }
 
-  //   return path.reduce((acc, cv) => {
-  //     return acc.get(cv);
-  //   }, form.root);
-  // }
+    return path.reduce((acc, cv) => {
+      return acc.get(cv);
+    }, form.root);
+  }
 
   private computePath(src, materializedPath): null | string[] {
     const posNested = src.indexOf(':');
