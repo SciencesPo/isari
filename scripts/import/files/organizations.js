@@ -35,7 +35,9 @@ module.exports = {
         if (line.url)
           info.url = line.url;
         if (line.parent_organisations)
-          line.parentOrganizations = [line.parent_organisations];
+          info.parentOrganizations = [line.parent_organisations];
+        if (line.monitored)
+          info.isariMonitored = true;
 
         return info;
       },
