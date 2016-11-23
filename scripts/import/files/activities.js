@@ -341,7 +341,7 @@ module.exports = {
         for (let i = 1; i < 11; i++) {
           const fullName = line['MEMBRE_JURY_' + i];
 
-          if (!fullName)
+          if (!fullName || /NE PAS UTILISER/.test(fullName))
             break;
 
           const [juryName, juryFirstName] = fullName.split(',');
@@ -374,7 +374,7 @@ module.exports = {
         for (let i = 1; i < 3; i++) {
           const fullName = line['DIR_THESE_' + i];
 
-          if (!fullName)
+          if (!fullName || /NE PAS UTILISER/.test(fullName))
             break;
 
           const [directorName, directorFirstName] = fullName.split(',');

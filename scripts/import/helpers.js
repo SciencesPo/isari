@@ -20,7 +20,7 @@ function normalizeName(name) {
     .replace(/[A-Z]\./g, '')
     .replace(/(?:^|\s)(\w)\s+(\w)/gi, '$1$2')
     .trim()
-    .replace(/[-\s]+/g,  ' ')
+    .replace(/[-\s]+/g, ' ')
     .replace(/[’‘`‛']/g, '');
 }
 exports.normalizeName = normalizeName;
