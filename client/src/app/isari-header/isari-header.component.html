@@ -9,6 +9,10 @@
 
     <h5>{{ organization?.name }}</h5>
 
+<!--     <button *ngIf="logged && organization" md-raised-button [routerLink]="[ 'people' ]" [queryParams]="{ organization: organization.id }">
+      {{ 'resume' | translate }}
+    </button>
+ -->
     <button md-button [md-menu-trigger-for]="langMenu"><img class="app-toolbar-flag" src="./assets/svg/{{ lang }}-flag.svg" /></button>
 
     <md-menu x-position="before" #langMenu="mdMenu">
@@ -16,14 +20,14 @@
       <a md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></a>
     </md-menu>
 
-    <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
+    <div *ngIf="logged">
+      <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
 
-    <md-menu x-position="before" #menu="mdMenu">
-      <a *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams>{{ 'people' | translate }}</a>
-      <a *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>{{ 'organizations' | translate }}</a>
-      <a *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams>{{ 'activities' | translate }}</a>
-      <a md-menu-item href (click)="logout($event)">{{ 'logout' | translate }}</a>
-      <a md-menu-item href *ngIf="lang !== 'fr'" (click)="setLang('fr', $event)">{{ 'french' | translate }}</a>
-      <a md-menu-item href *ngIf="lang !== 'en'" (click)="setLang('en', $event)">{{ 'english' | translate }}</a>
-    </md-menu>
+      <md-menu x-position="before" #menu="mdMenu">
+        <a *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams>{{ 'people' | translate }}</a>
+        <a *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>{{ 'organizations' | translate }}</a>
+        <a *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams>{{ 'activities' | translate }}</a>
+        <a md-menu-item href (click)="logout($event)">{{ 'logout' | translate }}</a>
+      </md-menu>
+    </div>
   </md-toolbar>
