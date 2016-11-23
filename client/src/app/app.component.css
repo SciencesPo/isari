@@ -6,10 +6,45 @@ footer {
 	display: block;
 	position: relative;
 	padding: 24px;
-	border-radius: 2px;
-	height:200px;
+	border-radius: 12px;
+	height: 70px;
 	background: white;
-	width:94.8%;
+	width: 94.8%;
 	margin-left: 2.6%;
 	position: absolute;
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+
+.cgu_access {
+	color: black;
+	text-decoration: none;
+	width: 30%;
+}
+
+.cgu_access {
+	width: 30%;
+}
+
+.link_footer:hover {
+	text-decoration: none;
+	color: #E6142D
+}
+
+.link_footer:active, .link_footer:focus {
+	text-decoration: none;
+	color: #2C2C2C
+}
+
+.any_question {
+	width: 30%;
+	margin-right: 0
+}
+
+.link_footer {
+	font-style: bold;
+	text-decoration: none;
+	color: black
 }
