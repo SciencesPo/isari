@@ -24,7 +24,10 @@ function normalizeName(name) {
     .trim()
     .replace(/[-\s]+/g, ' ')
     .replace(/[’‘`‛']/g, '')
-    .replace(/[^\w\d\s]/g, '');
+    .replace(/[()]/g, '')
+    .split(/\s/g)
+    .sort()
+    .join(' ');
 }
 exports.normalizeName = normalizeName;
 
