@@ -18,6 +18,7 @@ const async = require('async'),
       words = require('talisman/tokenizers/words').default,
       naiveClusterer = require('talisman/clustering/naive').default,
       overlap = require('talisman/metrics/distance/overlap').default,
+      jaccard = require('talisman/metrics/distance/jaccard').default,
       inspect = require('util').inspect,
       chalk = require('chalk'),
       _ = require('lodash');
@@ -100,6 +101,11 @@ const argv = yargs
     describe: 'Whether to skip LDAP resolution.'
   })
   .option('cluster-people', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to cluster the names at the end.'
+  })
+  .option('cluster-organization', {
     type: 'boolean',
     default: false,
     describe: 'Whether to cluster the names at the end.'
@@ -708,8 +714,8 @@ async.series({
     console.log();
     log.info(`Attempting to cluster the names due to ${chalk.grey('--cluster-people')}.`);
 
-    // Tokenizing names
-    const names = _.values(INDEXES.People.id)
+    // Tokenizing people
+    const people = _.values(INDEXES.People.id)
       .map(person => {
         const key = words(helpers.normalizeName(person.name))
           .concat(words(helpers.normalizeName(person.firstName)));
@@ -725,7 +731,7 @@ async.series({
       return overlap(a.key, b.key) === 1;
     };
 
-    const clusters = naiveClusterer({similarity}, names)
+    const clusters = naiveClusterer({similarity}, people)
       .filter(cluster => cluster.length > 1);
 
     // Warning:
@@ -734,6 +740,41 @@ async.series({
 
       cluster.forEach(({person}) => {
         console.log(`    First name: ${chalk.green(person.firstName)}, Name: ${chalk.green(person.name)}`);
+      });
+    });
+
+    return next();
+  },
+  clusteringOrganization(next) {
+    if (!argv.clusterOrganization)
+      return next();
+
+    console.log();
+    log.info(`Attempting to cluster the organizations due to ${chalk.grey('--cluster-organization')}.`);
+
+    // Tokenizing organizations
+    const organizations = _.values(INDEXES.Organization.id)
+      .map(org => {
+        return {
+          key: fingerprint(org.name),
+          org
+        };
+      });
+
+    // Clustering with Jaccard
+    const similarity = (a, b) => {
+      return jaccard(a.key.split(' '), b.key.split(' ')) >= 3 / 4;
+    };
+
+    const clusters = naiveClusterer({similarity}, organizations)
+      .filter(cluster => cluster.length > 1);
+
+    // Warning:
+    clusters.forEach(cluster => {
+      log.warning('Found a cluster containing the following names:');
+
+      cluster.forEach(({org}) => {
+        console.log(`    Name: ${chalk.green(org.name)}`);
       });
     });
 
