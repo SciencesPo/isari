@@ -99,7 +99,7 @@ const argv = yargs
     default: false,
     describe: 'Whether to skip LDAP resolution.'
   })
-  .option('cluster', {
+  .option('cluster-people', {
     type: 'boolean',
     default: false,
     describe: 'Whether to cluster the names at the end.'
@@ -701,12 +701,12 @@ async.series({
 
     return async.series(postProcessingTasks, next);
   },
-  clustering(next) {
-    if (!argv.cluster)
+  clusteringPeople(next) {
+    if (!argv.clusterPeople)
       return next();
 
     console.log();
-    log.info('Attempting to cluster the names...');
+    log.info(`Attempting to cluster the names due to ${chalk.grey('--cluster-people')}.`);
 
     // Tokenizing names
     const names = _.values(INDEXES.People.id)
