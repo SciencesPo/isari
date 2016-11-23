@@ -279,7 +279,14 @@ module.exports = {
         People(indexes, person) {
           const key = hashPeople(person);
 
-          // TODO: be sure we don't have to match people here
+          const match = indexes.hashed[key];
+
+          if (match) {
+
+            // TODO: merge
+            return;
+          }
+
           indexes.id[person._id] = person;
           indexes.hashed[key] = person;
         },

@@ -15,13 +15,16 @@ exports.partitionBy = function(collection, predicate) {
 
 // Function normalizing a single name
 function normalizeName(name) {
+
+  // TODO: for a better version drop more punct
   return _.deburr(name)
     .toUpperCase()
     .replace(/[A-Z]\./g, '')
     .replace(/(?:^|\s)(\w)\s+(\w)/gi, '$1$2')
     .trim()
     .replace(/[-\s]+/g, ' ')
-    .replace(/[’‘`‛']/g, '');
+    .replace(/[’‘`‛']/g, '')
+    .replace(/[^\w\d\s]/g, '');
 }
 exports.normalizeName = normalizeName;
 

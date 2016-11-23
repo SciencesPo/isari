@@ -711,21 +711,31 @@ async.series({
     // Tokenizing names
     const names = _.values(INDEXES.People.id)
       .map(person => {
-        return words(helpers.normalizeName(person.name))
+        const key = words(helpers.normalizeName(person.name))
           .concat(words(helpers.normalizeName(person.firstName)));
+
+        return {
+          key,
+          person
+        };
       });
 
     // Clustering with overlap
     const similarity = (a, b) => {
-      return overlap(a, b) === 1;
+      return overlap(a.key, b.key) === 1;
     };
 
     const clusters = naiveClusterer({similarity}, names)
       .filter(cluster => cluster.length > 1);
 
-    console.log(clusters);
+    // Warning:
+    clusters.forEach(cluster => {
+      log.warning('Found a cluster containing the following names:');
 
-    // TODO: NE PAS UTILISER
+      cluster.forEach(({person}) => {
+        console.log(`    First name: ${chalk.green(person.firstName)}, Name: ${chalk.green(person.name)}`);
+      });
+    });
 
     return next();
   },
