@@ -2,9 +2,7 @@
   "name": "isari",
   "version": "1.0.0",
   "description": "Isari root project",
-  "dependencies": {
-    "npm-run-all": "^3.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "test": "npm-run-all test-*",
