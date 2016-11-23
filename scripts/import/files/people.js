@@ -336,7 +336,11 @@ module.exports = {
         const key = hashPeople(person),
               match = indexes.hashed[key];
 
-        if (match && !!person.positions) {
+        if (match) {
+
+          if (!person.positions)
+            return;
+
           const org = person.positions[0].organization;
 
           if (org === 'FNSP') {
