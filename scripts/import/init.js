@@ -15,6 +15,9 @@ const async = require('async'),
       yargs = require('yargs'),
       fingerprint = require('talisman/keyers/fingerprint').default,
       mongoose = require('../../server/node_modules/mongoose'),
+      words = require('talisman/tokenizers/words').default,
+      naiveClusterer = require('talisman/clustering/naive').default,
+      overlap = require('talisman/metrics/distance/overlap').default,
       inspect = require('util').inspect,
       chalk = require('chalk'),
       _ = require('lodash');
@@ -95,6 +98,11 @@ const argv = yargs
     type: 'boolean',
     default: false,
     describe: 'Whether to skip LDAP resolution.'
+  })
+  .option('cluster', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to cluster the names at the end.'
   })
   .help()
   .argv;
@@ -692,6 +700,34 @@ async.series({
     log.info('Post-processing...');
 
     return async.series(postProcessingTasks, next);
+  },
+  clustering(next) {
+    if (!argv.cluster)
+      return next();
+
+    console.log();
+    log.info('Attempting to cluster the names...');
+
+    // Tokenizing names
+    const names = _.values(INDEXES.People.id)
+      .map(person => {
+        return words(helpers.normalizeName(person.name))
+          .concat(words(helpers.normalizeName(person.firstName)));
+      });
+
+    // Clustering with overlap
+    const similarity = (a, b) => {
+      return overlap(a, b) === 1;
+    };
+
+    const clusters = naiveClusterer({similarity}, names)
+      .filter(cluster => cluster.length > 1);
+
+    console.log(clusters);
+
+    // TODO: NE PAS UTILISER
+
+    return next();
   },
   jsonDump(next) {
     if (!argv.json)

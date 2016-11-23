@@ -18,10 +18,12 @@ function normalizeName(name) {
   return _.deburr(name)
     .toUpperCase()
     .replace(/[A-Z]\./g, '')
+    .replace(/(?:^|\s)(\w)\s+(\w)/gi, '$1$2')
     .trim()
-    .replace(/[-\s]+/g, ' ')
-    .replace(/’‘`‛'/g, '');
+    .replace(/[-\s]+/g,  ' ')
+    .replace(/[’‘`‛']/g, '');
 }
+exports.normalizeName = normalizeName;
 
 // Function used to hash people
 exports.hashPeople = function(p) {
