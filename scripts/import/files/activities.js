@@ -740,6 +740,27 @@ module.exports = {
           indexes.id[activity._id] = activity;
         }
       }
+    },
+
+    /**
+     * contrats_isari.csv
+     * -------------------------------------------------------------------------
+     */
+    {
+      name: 'contrats_isari',
+      path: 'activities/contrats_isari.csv',
+      skip: true,
+      consumer(line) {
+        const info = {
+
+        };
+
+        return info;
+      },
+      resolver(lines) {
+        return {};
+      },
+      indexers: {}
     }
   ]
 };
