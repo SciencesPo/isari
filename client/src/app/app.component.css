@@ -6,7 +6,8 @@ footer {
 	display: block;
 	padding: 24px;
 	border-radius: 12px;
-	height: 70px;
+	min-height: 70px;
+	max-height: 140px;
 	background: white;
 	width: 94.8%;
 	margin-left: 2.6%;

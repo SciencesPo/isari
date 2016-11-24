@@ -14,5 +14,13 @@ md-card-subtitle {
 }
 
 md-icon {
-	font-size: 20px
+	font-size: 20px;
+}
+
+.delete {
+	color: #E6142D
+}
+
+.collapse {
+	color: #E6142D
 }
