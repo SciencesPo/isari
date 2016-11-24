@@ -11,7 +11,7 @@
       </a>
     </md-card-subtitle>
      <table [hidden]="group.collapsed" style="width: 100%;">
-        <trs>
+        <tr>
           <td *ngFor="let field of group.fields">
             <isari-field
               (onUpdate)="update($event)"
