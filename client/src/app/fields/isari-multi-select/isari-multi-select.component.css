@@ -15,7 +15,7 @@
     border: 1px solid #777;
     display: inline-block;
     border-radius: 22px;
-    line-height: 22px;
+    line-height: 16px;
 }
 
 .md-input-prefix md-icon, .md-input-prefix a {
@@ -23,7 +23,7 @@
   vertical-align: middle;
   position: absolute;
   right: 0;
-  top: 2px;
+  top: 0px;
   color: #777;
   cursor: pointer;
 }

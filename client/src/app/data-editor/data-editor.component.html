@@ -6,7 +6,7 @@
   <md-card-content *ngFor="let group of layout">
     <md-card-subtitle *ngIf="group.label">
       {{ group.label }}
-      <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)">
+      <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)" class="add_button">
         <md-icon>{{ group.collapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</md-icon>
       </a>
     </md-card-subtitle>

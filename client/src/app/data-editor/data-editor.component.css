@@ -12,3 +12,7 @@ md-card-subtitle {
   vertical-align: middle;
   cursor: pointer;
 }
+
+md-icon {
+	font-size: 20px
+}
