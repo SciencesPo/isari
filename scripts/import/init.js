@@ -563,7 +563,7 @@ function processRelations() {
 /**
  * Adding technical fields.
  */
-function addTechnicalFields() {
+function technicalFields() {
 
   // Organization
   for (const k in INDEXES.Organization.id) {
@@ -679,7 +679,7 @@ async.series({
     console.log();
     log.info('Adding technical fields...');
 
-    addTechnicalFields();
+    technicalFields();
 
     return next();
   },

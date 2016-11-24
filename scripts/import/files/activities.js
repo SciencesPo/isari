@@ -730,7 +730,7 @@ module.exports = {
           if (match)
             return;
 
-          console.log(`${person.firstName} ${person.name}`);
+          this.warning(`Could not match ${chalk.green(person.firstName + ' ' + person.name)}.`);
 
           // Let's add the person
           indexes.hashed[key] = person;
