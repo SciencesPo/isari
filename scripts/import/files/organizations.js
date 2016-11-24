@@ -2,7 +2,7 @@
  * ISARI Import Scripts Organizations File Definitions
  * ====================================================
  */
-const fingerprint = require('talisman/keyers/fingerprint').default,
+const fingerprint = require('talisman/keyers/fingerprint'),
       moment = require('moment'),
       ENUM_INDEXES = require('../indexes').ENUM_INDEXES,
       helpers = require('../helpers'),

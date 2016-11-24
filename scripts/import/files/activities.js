@@ -2,7 +2,7 @@
  * ISARI Import Scripts Activities File Definitions
  * =================================================
  */
-const fingerprint = require('talisman/keyers/fingerprint').default,
+const fingerprint = require('talisman/keyers/fingerprint'),
       chalk = require('chalk'),
       moment = require('moment'),
       helpers = require('../helpers'),

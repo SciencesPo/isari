@@ -4,7 +4,7 @@
  *
  * Files needing to wait for LDAP resolution to be processed.
  */
-const fingerprint = require('talisman/keyers/fingerprint').default,
+const fingerprint = require('talisman/keyers/fingerprint'),
       helpers = require('../helpers'),
       hashPeople = helpers.hashPeople,
       chalk = require('chalk');
