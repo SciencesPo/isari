@@ -80,6 +80,12 @@
         },
         "service": "ldap"
     },
+    "idScopus": {
+        "label": {
+            "fr": "Identifiant Scopus",
+            "en": "Scopus identifier"
+        }
+    },
     "bannerUid": {
         "label": {
             "fr": "Identifiant scolarité Sciences Po",

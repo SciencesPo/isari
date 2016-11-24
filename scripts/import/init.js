@@ -15,6 +15,10 @@ const async = require('async'),
       yargs = require('yargs'),
       fingerprint = require('talisman/keyers/fingerprint').default,
       mongoose = require('../../server/node_modules/mongoose'),
+      words = require('talisman/tokenizers/words').default,
+      naiveClusterer = require('talisman/clustering/naive').default,
+      overlap = require('talisman/metrics/distance/overlap').default,
+      jaccard = require('talisman/metrics/distance/jaccard').default,
       inspect = require('util').inspect,
       chalk = require('chalk'),
       _ = require('lodash');
@@ -96,6 +100,16 @@ const argv = yargs
     default: false,
     describe: 'Whether to skip LDAP resolution.'
   })
+  .option('cluster-people', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to cluster the names at the end.'
+  })
+  .option('cluster-organization', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to cluster the names at the end.'
+  })
   .help()
   .argv;
 
@@ -113,7 +127,8 @@ const INDEXES = {
   People: {
     id: Object.create(null),
     hashed: Object.create(null),
-    sirh: Object.create(null)
+    sirh: Object.create(null),
+    ldap: Object.create(null)
   },
   Activity: {
     id: Object.create(null)
@@ -321,6 +336,7 @@ const peopleTasks = FILES.people.files.map(file => next => {
  */
 const activityTasks = FILES.activities.files.map(file => next => {
   if (file.skip) {
+    console.log();
     log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
 
     return next();
@@ -329,34 +345,6 @@ const activityTasks = FILES.activities.files.map(file => next => {
   parseFile(file, (err, lines) => {
     if (err)
       return next(err);
-
-    // Resolving or overloading?
-    if (typeof file.overloader === 'function') {
-      log.info('Overloading...');
-
-      const before = {
-        Organization: counter.Organization(),
-        People: counter.People(),
-        Activity: counter.Activity()
-      };
-
-      lines.forEach(file.overloader.bind(log, INDEXES, mongoose.Types.ObjectId));
-
-      const after = {
-        Organization: counter.Organization(),
-        People: counter.People(),
-        Activity: counter.Activity()
-      };
-
-      for (const Model in counter) {
-        const difference = after[Model] - before[Model];
-
-        if (difference)
-          log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
-      }
-
-      return next();
-    }
 
     const items = file.resolver.call(log, lines);
 
@@ -396,6 +384,46 @@ const activityTasks = FILES.activities.files.map(file => next => {
 
         log.info(`Added ${chalk.cyan(added)} unique ${Model.toLowerCase()} (matches: ${chalk.cyan(items[Model].length - added)}, total: ${chalk.cyan(after)}).`);
       }
+    }
+
+    return next();
+  });
+});
+
+/**
+ * Post processing files.
+ */
+const postProcessingTasks = FILES.postProcessing.files.map(file => next => {
+  if (file.skip) {
+    console.log();
+    log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
+
+    return next();
+  }
+
+  parseFile(file, (err, lines) => {
+    if (err)
+      return next(err);
+
+    const before = {
+      Organization: counter.Organization(),
+      People: counter.People(),
+      Activity: counter.Activity()
+    };
+
+    lines.forEach(file.process.bind(log, INDEXES, mongoose.Types.ObjectId));
+
+    const after = {
+      Organization: counter.Organization(),
+      People: counter.People(),
+      Activity: counter.Activity()
+    };
+
+    for (const Model in counter) {
+      const difference = after[Model] - before[Model];
+
+      if (difference)
+        log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
     }
 
     return next();
@@ -587,6 +615,9 @@ function retrieveLDAPInformation(callback) {
 
       res.on('searchEntry', entry => {
         people.ldapUid = entry.object.uid;
+
+        // Indexing
+        INDEXES.People.ldap[people.ldapUid] = people;
       });
       res.on('error', responseError => {
         return next(responseError);
@@ -664,69 +695,90 @@ async.series({
 
     return retrieveLDAPInformation(next);
   },
-  adminRoles(next) {
-    if (argv.skipLdap)
+  postProcessing(next) {
+    console.log();
+
+    if (argv.skipLdap) {
+      log.warning('Skipping post-processing (needs LDAP resolution).');
+      return next();
+    }
+
+    log.info('Post-processing...');
+
+    return async.series(postProcessingTasks, next);
+  },
+  clusteringPeople(next) {
+    if (!argv.clusterPeople)
       return next();
 
-    // TODO: move to function
-    log.info('Attributing admin roles...');
+    console.log();
+    log.info(`Attempting to cluster the names due to ${chalk.grey('--cluster-people')}.`);
 
-    // Indexing
-    const index = _.keyBy(INDEXES.People.id, 'ldapUid');
+    // Tokenizing people
+    const people = _.values(INDEXES.People.id)
+      .map(person => {
+        const key = words(helpers.normalizeName(person.name))
+          .concat(words(helpers.normalizeName(person.firstName)));
 
-    // Loading the file
-    return parseFile({path: 'people/admin_roles.csv'}, (err, lines) => {
-      if (err)
-        return next(err);
+        return {
+          key,
+          person
+        };
+      });
 
-      // Matching
-      for (let i = 0, l = lines.length; i < l; i++) {
-        const {ldapUid, orgaAcronym, isariRole} = lines[i];
+    // Clustering with overlap
+    const similarity = (a, b) => {
+      return overlap(a.key, b.key) === 1;
+    };
 
-        const person = index[ldapUid];
+    const clusters = naiveClusterer({similarity}, people)
+      .filter(cluster => cluster.length > 1);
 
-        if (!person) {
-          log.error(`Could not match person with LDAP id ${chalk.green(ldapUid)}.`);
-          return next(new ProcessError());
-        }
+    // Warning:
+    clusters.forEach(cluster => {
+      log.warning('Found a cluster containing the following names:');
 
-        let org;
-
-        if (orgaAcronym) {
-          org = INDEXES.Organization.acronym[orgaAcronym.toUpperCase()];
-
-          if (!org)
-            org = INDEXES.Organization.name[orgaAcronym];
-
-          if (!org) {
-            log.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
-            return next(new ProcessError());
-          }
-        }
-        else if (!/^central_/.test(isariRole)) {
-          log.error(`Inconsistent role for id ${chalk.green(ldapUid)}. Cannot be ${chalk.grey(isariRole)} and be attached to an organization.`);
-          return next(new ProcessError());
-        }
-
-        person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
-
-        let authorization = org && person.isariAuthorizedCenters.find(a => a.organization === org._id);
-
-        if (authorization) {
-          authorization.isariRole = isariRole;
-        }
-        else {
-          authorization = {isariRole};
-
-          if (org)
-            authorization.organization = org._id;
-
-          person.isariAuthorizedCenters.push(authorization);
-        }
-      }
-
-      return next();
+      cluster.forEach(({person}) => {
+        console.log(`    First name: ${chalk.green(person.firstName)}, Name: ${chalk.green(person.name)}`);
+      });
     });
+
+    return next();
+  },
+  clusteringOrganization(next) {
+    if (!argv.clusterOrganization)
+      return next();
+
+    console.log();
+    log.info(`Attempting to cluster the organizations due to ${chalk.grey('--cluster-organization')}.`);
+
+    // Tokenizing organizations
+    const organizations = _.values(INDEXES.Organization.id)
+      .map(org => {
+        return {
+          key: fingerprint(org.name),
+          org
+        };
+      });
+
+    // Clustering with Jaccard
+    const similarity = (a, b) => {
+      return jaccard(a.key.split(' '), b.key.split(' ')) >= 3 / 4;
+    };
+
+    const clusters = naiveClusterer({similarity}, organizations)
+      .filter(cluster => cluster.length > 1);
+
+    // Warning:
+    clusters.forEach(cluster => {
+      log.warning('Found a cluster containing the following names:');
+
+      cluster.forEach(({org}) => {
+        console.log(`    Name: ${chalk.green(org.name)}`);
+      });
+    });
+
+    return next();
   },
   jsonDump(next) {
     if (!argv.json)

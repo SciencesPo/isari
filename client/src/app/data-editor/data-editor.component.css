@@ -13,3 +13,19 @@ md-card-subtitle {
   cursor: pointer;
 }
 
+md-icon {
+	font-size: 20px;
+}
+
+.delete {
+	color: #E6142D;
+	padding-left: 0;
+	padding-top: 27px;
+	padding-bottom: auto;
+	width: 28px;
+	height: 28px
+}
+
+.collapse {
+	color: #E6142D
+}

@@ -11,6 +11,7 @@ import { UserService }  from '../user.service';
 export class IsariHeaderComponent implements OnInit {
   organization: any;
   lang: string;
+  logged: boolean = false;
 
   constructor(
     private router: Router,
@@ -21,6 +22,11 @@ export class IsariHeaderComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(({ organization }) => {
       this.organization = organization;
+    });
+    this.route.url.subscribe(url => {
+      const firstSegment = url[0];
+
+      this.logged = !firstSegment || firstSegment.path !== 'login';
     });
     this.lang = this.translate.currentLang;
   }

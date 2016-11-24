@@ -1,6 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
+  background-color: #FAFAFA;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 4rem
 }
 
 .app-content {
@@ -41,3 +56,5 @@ md-toolbar.md-primary h2 {
   /* color: #E6142D; */
   padding-top: 6px;
 }
+
+

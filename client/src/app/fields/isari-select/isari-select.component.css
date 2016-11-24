@@ -27,3 +27,7 @@ isari-select {
   border-radius: inherit;
   pointer-events: none;
 }
+
+md-icon {
+  color: #E6142D
+}

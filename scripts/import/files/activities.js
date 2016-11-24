@@ -279,7 +279,14 @@ module.exports = {
         People(indexes, person) {
           const key = hashPeople(person);
 
-          // TODO: be sure we don't have to match people here
+          const match = indexes.hashed[key];
+
+          if (match) {
+
+            // TODO: merge
+            return;
+          }
+
           indexes.id[person._id] = person;
           indexes.hashed[key] = person;
         },
@@ -341,7 +348,7 @@ module.exports = {
         for (let i = 1; i < 11; i++) {
           const fullName = line['MEMBRE_JURY_' + i];
 
-          if (!fullName)
+          if (!fullName || /NE PAS UTILISER/.test(fullName))
             break;
 
           const [juryName, juryFirstName] = fullName.split(',');
@@ -374,7 +381,7 @@ module.exports = {
         for (let i = 1; i < 3; i++) {
           const fullName = line['DIR_THESE_' + i];
 
-          if (!fullName)
+          if (!fullName || /NE PAS UTILISER/.test(fullName))
             break;
 
           const [directorName, directorFirstName] = fullName.split(',');
@@ -594,90 +601,6 @@ module.exports = {
     },
 
     /**
-     * prix.csv
-     * -------------------------------------------------------------------------
-     */
-    {
-      name: 'prix',
-      path: 'people/prix.csv',
-      delimiter: ',',
-      consumer(line) {
-        const info = {
-          organization: line['Nom Orga'],
-          acronym: line.acronym,
-          name: line.Nom,
-          firstName: line.Prénom,
-          title: line['Dénomination du prix'],
-          date: line.Année,
-          countries: line['Pays ISO'].split(',').map(c => c.trim())
-        };
-
-        return info;
-      },
-      overloader(indexes, id, line) {
-        const key = hashPeople(line);
-
-        // Matching the person
-        const person = indexes.People.hashed[key];
-
-        if (!person) {
-          this.warning(`Could not match ${chalk.green(line.firstName + ' ' + line.name)}.`);
-          return false;
-        }
-
-        // Checking whether the organization exists
-        let org;
-
-        if (line.organization) {
-          org = indexes.Organization.name[line.organization];
-
-          if (!org)
-            org = indexes.Organization.acronym[line.acronym];
-
-          const orgKey = fingerprint(line.organization);
-
-          if (!org)
-            org = indexes.Organization.fingerprint[orgKey];
-
-          if (!org) {
-
-            // We therefore create it
-            org = {
-              _id: id(),
-              name: line.organization,
-              countries: line.countries
-            };
-
-            if (line.acronym)
-              org.acronym = line.acronym;
-
-            indexes.Organization.name[org.name] = org;
-            indexes.Organization.fingerprint[orgKey] = org;
-            indexes.Organization.id[org._id] = org;
-          }
-        }
-
-        // Building the distinction
-        const distinction = {
-          distinctionType: 'distinction',
-          countries: line.countries,
-          title: line.title
-        };
-
-        if (org)
-          distinction.organizations = [org.name];
-
-        if (line.date)
-          distinction.date = line.date;
-
-        person.distinctions = person.distinctions || [];
-        person.distinctions.push(distinction);
-
-        return true;
-      }
-    },
-
-    /**
      * sejours_etranger.csv
      * -------------------------------------------------------------------------
      */
@@ -817,6 +740,27 @@ module.exports = {
           indexes.id[activity._id] = activity;
         }
       }
+    },
+
+    /**
+     * contrats_isari.csv
+     * -------------------------------------------------------------------------
+     */
+    {
+      name: 'contrats_isari',
+      path: 'activities/contrats_isari.csv',
+      skip: true,
+      consumer(line) {
+        const info = {
+
+        };
+
+        return info;
+      },
+      resolver(lines) {
+        return {};
+      },
+      indexers: {}
     }
   ]
 };

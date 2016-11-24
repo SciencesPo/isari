@@ -15,13 +15,21 @@ exports.partitionBy = function(collection, predicate) {
 
 // Function normalizing a single name
 function normalizeName(name) {
+
+  // TODO: for a better version drop more punct
   return _.deburr(name)
     .toUpperCase()
     .replace(/[A-Z]\./g, '')
+    .replace(/(?:^|\s)(\w)\s+(\w)/gi, '$1$2')
     .trim()
     .replace(/[-\s]+/g, ' ')
-    .replace(/’‘`‛'/g, '');
+    .replace(/[’‘`‛']/g, '')
+    .replace(/[()]/g, '')
+    .split(/\s/g)
+    .sort()
+    .join(' ');
 }
+exports.normalizeName = normalizeName;
 
 // Function used to hash people
 exports.hashPeople = function(p) {

@@ -1,0 +1,51 @@
+footer {
+	bottom: 10px;
+	box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+	transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1) 0s;
+	will-change: box-shadow;
+	display: block;
+	padding: 24px;
+	border-radius: 12px;
+	min-height: 70px;
+	max-height: 140px;
+	background: white;
+	width: 94.8%;
+	margin-left: 2.6%;
+	position: absolute;
+	display: flex;
+	justify-content: space-between;
+}
+
+.cgu_access {
+	color: black;
+	text-decoration: none;
+	width: 30%;
+	text-align: left;
+}
+
+.cgu_access {
+	width: 25%;
+	text-align: center;
+	margin-left: 15px
+}
+
+.link_footer:hover {
+	text-decoration: none;
+	color: #E6142D
+}
+
+.link_footer:active, .link_footer:focus {
+	text-decoration: none;
+	color: #2C2C2C
+}
+
+.any_question {
+	width: 25%;
+	text-align: right;
+}
+
+.link_footer {
+	font-style: bold;
+	text-decoration: none;
+	color: black
+}
