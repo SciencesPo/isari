@@ -3,17 +3,16 @@ footer {
 	box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 	transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1) 0s;
 	will-change: box-shadow;
-	display: block;
 	padding: 24px;
-	border-radius: 12px;
-	min-height: 70px;
-	max-height: 140px;
+	border-radius: 2px;
+	min-height: 50px;
 	background: white;
 	width: 94.8%;
 	margin-left: 2.6%;
 	position: absolute;
 	display: flex;
 	justify-content: space-between;
+	font-family: 'Roboto', sans-serif;
 }
 
 .cgu_access {
@@ -26,7 +25,7 @@ footer {
 .cgu_access {
 	width: 25%;
 	text-align: center;
-	margin-left: 15px
+	padding-left: 20px;
 }
 
 .link_footer:hover {
