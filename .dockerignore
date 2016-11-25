@@ -1,0 +1,4 @@
+*.md
+specs/docs
+specs/data_examples_deprecated
+server/dev_docker
