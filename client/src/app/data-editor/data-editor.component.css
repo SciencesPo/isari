@@ -26,8 +26,9 @@ md-icon {
 	height: 28px
 }
 
-.collapse {
-	color: #E6142D
+.collapse md-icon {
+	color: #E6142D;
+	transform: rotate(180deg);
 }
 
 td {
