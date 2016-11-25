@@ -13,12 +13,12 @@ const async = require('async'),
       fs = require('fs'),
       path = require('path'),
       yargs = require('yargs'),
-      fingerprint = require('talisman/keyers/fingerprint').default,
+      fingerprint = require('talisman/keyers/fingerprint'),
       mongoose = require('../../server/node_modules/mongoose'),
-      words = require('talisman/tokenizers/words').default,
-      naiveClusterer = require('talisman/clustering/naive').default,
-      overlap = require('talisman/metrics/distance/overlap').default,
-      jaccard = require('talisman/metrics/distance/jaccard').default,
+      words = require('talisman/tokenizers/words'),
+      naiveClusterer = require('talisman/clustering/naive'),
+      overlap = require('talisman/metrics/distance/overlap'),
+      jaccard = require('talisman/metrics/distance/jaccard'),
       inspect = require('util').inspect,
       chalk = require('chalk'),
       _ = require('lodash');
@@ -563,7 +563,7 @@ function processRelations() {
 /**
  * Adding technical fields.
  */
-function addTechnicalFields() {
+function technicalFields() {
 
   // Organization
   for (const k in INDEXES.Organization.id) {
@@ -679,7 +679,7 @@ async.series({
     console.log();
     log.info('Adding technical fields...');
 
-    addTechnicalFields();
+    technicalFields();
 
     return next();
   },

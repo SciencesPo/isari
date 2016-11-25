@@ -2,7 +2,7 @@
  * ISARI Import Scripts Activities File Definitions
  * =================================================
  */
-const fingerprint = require('talisman/keyers/fingerprint').default,
+const fingerprint = require('talisman/keyers/fingerprint'),
       chalk = require('chalk'),
       moment = require('moment'),
       helpers = require('../helpers'),
@@ -730,7 +730,7 @@ module.exports = {
           if (match)
             return;
 
-          console.log(`${person.firstName} ${person.name}`);
+          this.warning(`Could not match ${chalk.green(person.firstName + ' ' + person.name)}.`);
 
           // Let's add the person
           indexes.hashed[key] = person;
