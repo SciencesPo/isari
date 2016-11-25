@@ -79,7 +79,7 @@
   </span>
 
   <span *ngIf="field.multiple && field.type === 'object' && form.enabled" [formArrayName]="field.name">
-  <md-card-subtitle>
+    <md-card-subtitle>
       <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
     </md-card-subtitle>
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
