@@ -3,6 +3,16 @@
   flex-direction: row-reverse;
 }
 
+ul  {
+  vertical-align: middle;
+}
+
+ul li * {
+  line-height: 36px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
 ul li {
   display: inline-block;
   border-radius: 2px;
@@ -12,10 +22,26 @@ ul li {
 
 ul li a {
   min-width: 0;
-  padding: 0 12px;
+  vertical-align: top;
 }
 
-ul li a md-icon {
-  font-size: 24px;
+ul, li, a, md-icon, button {
+  font-size: 16px;
   line-height: 36px;
+  vertical-align:top;
+  height: 36px;
+}
+
+md-icon {
+  font-size: 160%;
+  cursor: pointer;
+}
+
+button, a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+li > a {
+  cursor: pointer;
 }
