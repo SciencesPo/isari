@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dump": "node ./dump",
+    "export": "node ./export",
     "import:init": "node ./import/init.js",
     "import:test": "node ./import/test.js",
     "lint": "eslint *.js import"
