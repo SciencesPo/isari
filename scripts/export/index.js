@@ -73,7 +73,7 @@ async.series({
   connect(next) {
     return connect()
       .then(connection => {
-        log.info('Successfully connected to the database.');
+        log.success('Successfully connected to the database.');
         CONNECTION = connection;
         return next();
       }, err => next(err));
@@ -89,8 +89,8 @@ async.series({
     CONNECTION.close();
 
   if (err) {
-    log.error('An error occurred!');
-    return console.error(err.message);
+    log.error(err.message);
+    return;
   }
 
   log.success('Success!');

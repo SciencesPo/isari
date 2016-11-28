@@ -37,3 +37,5 @@ jspm_packages
 .node_repl_history
 server/config/local.toml
 server/config/local-*.toml
+
+.DS_Store
