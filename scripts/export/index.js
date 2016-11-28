@@ -38,7 +38,7 @@ let CONNECTION = null;
  * Reading command line.
  */
 const argv = yargs
-  .usage('$0 --output ./where/to/dump')
+  .usage('$0 --name hceres --output ./where/to/dump')
   .option('n', {
     alias: 'name',
     type: 'string',
