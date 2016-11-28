@@ -7,8 +7,7 @@ ul li {
   display: inline-block;
   border-radius: 2px;
   text-align: center;
-  vertical-align: top;
-  height: 30px;
+  height: 36px;
 }
 
 ul li a {
