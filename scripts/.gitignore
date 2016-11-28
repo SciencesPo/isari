@@ -1,2 +1,4 @@
 import/*.json
+*.xlsx
 .output
+.DS_Store
