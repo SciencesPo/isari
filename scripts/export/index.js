@@ -32,6 +32,11 @@ const models = {
   Activity
 };
 
+// Routines
+const ROUTINES = {
+  hceres: require('./routines/hceres.js')
+};
+
 let CONNECTION = null;
 
 /**
@@ -52,6 +57,15 @@ const argv = yargs
   .help()
   .argv;
 
+log.info('Starting export...');
+
+const ROUTINE = ROUTINES[argv.name];
+
+if (!ROUTINE) {
+  log.error(`Unknown ${chalk.cyan(argv.name)} routine.`);
+  process.exit(1);
+}
+
 /**
  * Process.
  */
@@ -65,8 +79,9 @@ async.series({
       }, err => next(err));
   },
   routine(next) {
-    console.log('Routine...');
-    return next();
+
+    // Executing routine
+    return ROUTINE(models, argv, next);
   }
 }, err => {
 
