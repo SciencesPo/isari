@@ -27,16 +27,20 @@ exports.createSheet = function(headers, collection) {
           e: {c: -Infinity, r: -Infinity}
         };
 
-  const headerLine = [];
+  const headerLine = {};
 
-  for (const k in headers)
-    headerLine.push(headers[k]);
+  headers.forEach(({key, label}) => {
+    headerLine[key] = label;
+  });
+
+  collection = [headerLine].concat(collection);
 
   for (let R = 0, l = collection.length; R < l; R++) {
     const line = collection[R];
     let C = 0;
 
-    for (const k in headers) {
+    for (let i = 0, m = headers.length; i < m; i++) {
+      const k = headers[i].key;
 
       // Updating range
       if (range.s.r > R) {
@@ -52,7 +56,7 @@ exports.createSheet = function(headers, collection) {
         range.e.c = C;
       }
 
-      const value = line[k],
+      const value = line[k] || '',
             address = XLSX.utils.encode_cell({c: C, r: R}),
             cell = {v: value};
 
