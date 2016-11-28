@@ -1,6 +1,6 @@
 <div form novalidate [formGroup]="form" *ngIf="form">
   
-  <md-card-content *ngFor="let group of layout" style="display: flex">
+  <md-card-content *ngFor="let group of layout" style="display: flex; flex-wrap: wrap;">
   <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
     <md-icon>remove_circle_outline</md-icon>
   </a>
@@ -10,6 +10,7 @@
         <md-icon>{{ group.collapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</md-icon>
       </a>
     </md-card-subtitle>
+
      <table [hidden]="group.collapsed" style="width: 95%;">
         <tr>
           <td *ngFor="let field of group.fields">

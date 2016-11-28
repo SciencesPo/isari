@@ -82,6 +82,7 @@
     <md-card-subtitle>
       <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
     </md-card-subtitle>
+    <br />
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
       (onUpdate)="update($event)"
       [feature]="feature"
