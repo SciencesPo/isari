@@ -90,7 +90,7 @@ async.series({
 
   if (err) {
     log.error('An error occurred!');
-    return console.error(err);
+    return console.error(err.message);
   }
 
   log.success('Success!');
