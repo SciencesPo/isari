@@ -590,6 +590,14 @@ function technicalFields() {
     // Spy
     person.latestChangeBy = 'IMPORT';
   }
+
+  // Activity
+  for (const k in INDEXES.Activity.id) {
+    const activity = INDEXES.Activity.id[k];
+
+    // Spy
+    activity.latestChangeBy = 'IMPORT';
+  }
 }
 
 /**
