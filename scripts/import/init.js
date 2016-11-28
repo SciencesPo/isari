@@ -604,9 +604,20 @@ function retrieveLDAPInformation(callback) {
     if (!people.sirhMatricule)
       return next();
 
+    let filter = '(|';
+
+    filter += `(employeenumber=${people.sirhMatricule})`;
+    filter += `(displayName=${people.firstName} ${people.name})`;
+
+    if (people.contacts && people.contacts.email)
+      filter += `(mail=${people.contacts.email})`;
+
+    filter += ')';
+
     const options = {
       scope: 'sub',
-      filter: `(employeenumber=${people.sirhMatricule})`
+      timeLimit: 20,
+      filter
     };
 
     return ldapClient.search(ldapConfig.dn, options, (err, res) => {
@@ -622,8 +633,11 @@ function retrieveLDAPInformation(callback) {
       res.on('error', responseError => {
         return next(responseError);
       });
-      res.on('end', () => {
-        return next();
+      res.on('end', result => {
+        if (result.status === 0)
+          return next();
+        else
+          return next(result);
       });
     });
   }, callback);
@@ -702,6 +716,12 @@ async.series({
       log.warning('Skipping post-processing (needs LDAP resolution).');
       return next();
     }
+
+    // Checking missing LDAP uids
+    // _.values(INDEXES.People.id).forEach(person => {
+    //   if (person.sirhMatricule && !person.ldapUid)
+    //     log.warning(`Could not resolve ${chalk.green(person.firstName + ' ' + person.name)} LDAP uid.`);
+    // });
 
     log.info('Post-processing...');
 
