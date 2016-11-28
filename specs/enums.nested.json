@@ -44,5 +44,61 @@
             { "value": "doctorat", "label": { "fr": "niveau doctorat", "en": "" } },
             { "value": "formationcontinue", "label": { "fr": "en formation continue", "en": "" } }
         ]
+    },
+    "activityPeopleRole":{
+            "partenariat": [
+                        { "value": "referent", "label": { "fr": "Référent", "en": "Local contact" } },
+                        { "value": "responsableScientifique", "label": { "fr": "Responsable Scientifique", "en": "Scientific coordinator" } },
+                        { "value": "participant", "label": { "fr": "Membre de l'équipe de recherche", "en": "Research team member" } }  
+                    ],
+            "doctorat": [
+                        { "value": "directeur", "label": { "fr": "directeur de thèse", "en": "" } },
+                        { "value": "membrejury", "label": { "fr": "membre du jury", "en": "" } },
+                        { "value": "presidentjury", "label": { "fr": "président du jury", "en": "" } },
+                        { "value": "rapporteurjury", "label": { "fr": "rapporteur", "en": "" } }
+                    ],
+            "projetderecherche": [
+                        { "value": "PI", "label": { "fr": "Principal Investigator", "en": "Principal Investigator" } },
+                        { "value": "responsableScientifique", "label": { "fr": "Responsable Scientifique", "en": "Scientific coordinator" } },
+                        { "value": "membre", "label": { "fr": "Membre de l'équipe de recherche", "en": "Research team member" } }  
+                    ],
+            "mob_entrante": [
+                        { "value": "visiting", "label": { "fr": "Visiteur", "en": "Visiting" } },
+                        { "value": "referent", "label": { "fr": "Référent", "en": "Local contact" } }
+                    ],
+            "hdr": [
+                        { "value": "directeur", "label": { "fr": "directeur de l'HDR", "en": "" } },
+                        { "value": "membrejury", "label": { "fr": "membre du jury", "en": "" } },
+                        { "value": "presidentjury", "label": { "fr": "président du jury", "en": "" } },
+                        { "value": "rapporteurjury", "label": { "fr": "rapporteur", "en": "" } }
+                    ],
+            "mob_sortante": [
+                        { "value": "visiting", "label": { "fr": "Visiteur", "en": "Visiting" } },
+                        { "value": "referent", "label": { "fr": "Référent", "en": "Local contact" } }
+                    ]
+    },
+    "activityOrganizationRoles":{
+            "partenariat": [
+                        { "value": "coordinateur", "label": { "fr": "Coordinateur", "en": "Coordinator" } },
+                        { "value": "partenaire", "label": { "fr": "Partenaire", "en": "Partner" } }
+                    ],
+            "doctorat": [
+                        { "value": "inscription", "label": { "fr": "Inscription", "en": "Registration" } }
+                    ],
+            "projetderecherche": [
+                        { "value": "coordinateur", "label": { "fr": "Coordinateur", "en": "Coordinator" } },
+                        { "value": "partenaire", "label": { "fr": "Partenaire", "en": "Partner" } }
+                    ],
+            "mob_entrante": [
+                        { "value": "home", "label": { "fr": "Organisation d'origine", "en": "Home organization" } },
+                        { "value": "hosting", "label": { "fr": "Organisation d'accueil", "en": "Hosting organization" } }
+                    ],
+            "hdr": [
+                        { "value": "inscription", "label": { "fr": "Inscription", "en": "Registration" } }
+                    ],
+            "mob_sortante": [
+                        { "value": "home", "label": { "fr": "Organisation d'origine", "en": "Home organization" } },
+                        { "value": "hosting", "label": { "fr": "Organisation d'accueil", "en": "Hosting organization" } }
+                    ]
     }
 }
