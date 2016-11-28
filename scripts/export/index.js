@@ -34,7 +34,13 @@ const models = {
 
 // Routines
 const ROUTINES = {
-  hceres: require('./routines/hceres.js')
+  hceres: {
+    fn: require('./routines/hceres.js'),
+    check() {
+      if (!argv.id)
+        return new Error('Expecting an id.');
+    }
+  }
 };
 
 let CONNECTION = null;
@@ -80,8 +86,13 @@ async.series({
   },
   routine(next) {
 
+    const err = ROUTINE.check();
+
+    if (err)
+      return next(err);
+
     // Executing routine
-    return ROUTINE(models, argv, next);
+    return ROUTINE.fn(models, argv, next);
   }
 }, err => {
 
@@ -89,7 +100,8 @@ async.series({
     CONNECTION.close();
 
   if (err) {
-    log.error(err.message);
+    if (err.message)
+      log.error(err.message);
     return;
   }
 

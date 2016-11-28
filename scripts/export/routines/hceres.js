@@ -5,6 +5,12 @@
 const XLSX = require('xlsx'),
       path = require('path');
 
+const {
+  createWorkbook,
+  createSheet,
+  addSheetToWorkbook
+} = require('../helpers.js');
+
 /**
  * Constants.
  */
@@ -16,24 +22,23 @@ const READ_OPTIONS = {
   sheetStubs: true
 };
 
-const WRITE_OPTIONS = {
-  bookSST: true,
-  bookType: 'xlsx'
-};
+const SHEETS = [
+  {
+    name: 'staff',
+    sheetName: '3.2. Liste des personnels',
+    populate(centerId, models, callback) {
+
+    }
+  }
+];
 
 /**
- *
+ * Process.
  */
-module.exports = function(models, args, callback) {
-  const sourcePath = args.source;
+module.exports = function(models, centerId, callback) {
+  const workbook = createWorkbook();
 
-  if (!sourcePath)
-    return callback(new Error('No source provided.'));
-
-  // Parsing the workbook
-  const workbook = XLSX.readFile(sourcePath, READ_OPTIONS);
-
-  XLSX.writeFile(workbook, path.join(args.output, FILENAME), WRITE_OPTIONS);
+  // XLSX.writeFile(workbook, path.join(args.output, FILENAME));
 
   return callback();
 };
