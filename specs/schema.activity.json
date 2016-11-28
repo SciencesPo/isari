@@ -7,6 +7,12 @@
         }
     },
     "template": "objectName",
+    "acronym": {
+        "label": {
+            "fr": "Acronyme",
+            "en": "Acronym"
+        }
+    },
     "activityType": {
         "label": {
             "fr": "Type d'activité",
@@ -46,7 +52,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "enum": "activityOrganizationRoles"
+                "enum": "activityOrganizationRoles:../activityType"
             },
             "startDate": {
                 "label": {
@@ -84,7 +90,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "enum": "special/activityPeopleRole"
+                "enum": "activityPeopleRole:../activityType"
             },
             "startDate": {
                 "label": {
@@ -216,6 +222,26 @@
                 },
                 "enum": "grantTypes"
             },
+            "grantProgram":{
+                "label":{
+                    "fr": "Programme de financement",
+                    "en": "funding program"    
+                },
+                "enum": "grantsProgram"
+            },
+            "grantInstrument":{
+                "label":{
+                    "fr": "Instrument de financement",
+                    "en": "Funding instrument"    
+                },
+                "softenum": "grantsInstrument"
+            },
+            "grantCall":{
+                "label":{
+                    "fr": "Appel à projet",
+                    "en": "Call for project"    
+                }
+            },
             "grantIdentifier": {
                 "label": {
                     "fr": "Identifiant",
@@ -226,40 +252,31 @@
                     "en": "identifier given by the financing institution"
                 }
             },
-            "sciencespoAmount": {
+            "amounts":[
+                {
+                    "amountType":{
+                        "label":{
+                            "fr":"Type de total",
+                            "en": "Total type"
+                        },
+                        "enum": "amountTypes"
+                    },
+                    "budgetType":{
+                        "label":{
+                            "fr":"Type de budget",
+                            "en": "Budget type"
+                        },
+                        "enum": "budgetTypes",
+                        "default":  "total"
+                    },
+                    "type": "number"
+                }
+            ],
+            "overheadsCalculation":{
                 "label": {
-                    "fr": "Montant Sciences Po",
-                    "en": "Sciences Po amount"
-                },
-                "type": "number"
-            },
-            "totalAmount": {
-                "label": {
-                    "fr": "Montant total",
-                    "en": "Total amount"
-                },
-                "type": "number"
-            },
-            "investAmount": {
-                "label": {
-                    "fr": "Montant investissement",
-                    "en": "Investment amount"
-                },
-                "type": "number"
-            },
-            "runAmount": {
-                "label": {
-                    "fr": "Montant fonctionnement",
-                    "en": "Operational amount"
-                },
-                "type": "number"
-            },
-            "hrAmount": {
-                "label": {
-                    "fr": "Montant Masse salariale",
-                    "en": "Human Ressources amount"
-                },
-                "type": "number"
+                    "fr": "Calcul frais de gestion",
+                    "en": "Overheads calcul"
+                }
             },
             "currencyAmount": {
                 "label": {
@@ -290,6 +307,10 @@
                 },
                 "type": "date"
             },
+            "durationInMonths":{
+                "label":{"fr":"Durée en mois", "en":"Duration in months"},
+                "type": "number"
+            },
             "UG": {
                 "label": {
                     "fr": "Unité de Gestion",
@@ -306,6 +327,13 @@
                     "en": "Status"
                 },
                 "enum": "grantStatuses"
+            },
+            "delegationCNRS": {
+                "label": {
+                    "fr": "gestion déléguée au CNRS",
+                    "en": "gestion déléguée au CNRS"
+                },
+                "type": "boolean"
             }
         }
     ],
