@@ -9,7 +9,8 @@ const XLSX = require('xlsx'),
 const {
   createWorkbook,
   createSheet,
-  addSheetToWorkbook
+  addSheetToWorkbook,
+  parseDate
 } = require('../helpers.js');
 
 /**
@@ -17,12 +18,29 @@ const {
  */
 const FILENAME = 'hceres.xlsx';
 
+const HCERES_DATE = '2017-06-30';
+
 const READ_OPTIONS = {
   bookFiles: 'files',
   cellStyles: true,
   sheetStubs: true
 };
 
+/**
+ * Helpers.
+ */
+function findRelevantItem(collection) {
+  return collection.find(item => {
+    return (
+      !item.endDate ||
+      parseDate(item.endDate).isSameOrAfter(HCERES_DATE)
+    );
+  });
+}
+
+/**
+ * Sheets definitions.
+ */
 const SHEETS = [
   {
     id: 'staff',
@@ -44,6 +62,25 @@ const SHEETS = [
       }, (err, people) => {
         if (err)
           return callback(err);
+
+        console.log(people.length);
+
+        //-- 1) Filtering relevant people
+        people = people.filter(person => {
+          const validMembership = !!findRelevantItem(person.academicMemberships);
+
+          const relevantPosition = findRelevantItem(person.positions)
+
+          const relevantGrade = findRelevantItem(person.gradesAcademic);
+
+          return (
+            validMembership &&
+            (!relevantPosition || relevantPosition.jobType !== 'stage') &&
+            (!relevantGrade || (relevantGrade.grade !== 'postdoc' && relevantGrade.grade !== 'doctorant(grade)'))
+          );
+        });
+
+        console.log(people, people.length);
 
         return callback(null, people);
       });

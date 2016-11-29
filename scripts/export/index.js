@@ -32,6 +32,10 @@ const models = {
   Activity
 };
 
+process.on('unhandledRejection', err => {
+  throw err;
+});
+
 // Routines
 const ROUTINES = {
   hceres: {
@@ -85,7 +89,10 @@ async.series({
         log.success('Successfully connected to the database.');
         CONNECTION = connection;
         return next();
-      }, err => next(err));
+      })
+      .catch(err => {
+        return next(err);
+      });
   },
   routine(next) {
 

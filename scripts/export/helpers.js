@@ -4,7 +4,8 @@
  *
  * Miscellaneous functions related to export and XLSX generation.
  */
-const XLSX = require('xlsx');
+const XLSX = require('xlsx'),
+      moment = require('moment');
 
 /**
  * Function creating a workbook in the format expected by the js-xlsx library.
@@ -77,4 +78,15 @@ exports.createSheet = function(headers, collection) {
 exports.addSheetToWorkbook = function(workbook, sheet, name) {
   workbook.Sheets[name] = sheet;
   workbook.SheetNames.push(name);
+};
+
+/**
+ * Function used to parse a potentially fragmental date into a moment.
+ */
+exports.parseDate = function(string) {
+  if (string.length === 4)
+    return moment(string, 'YYYY');
+  if (string.length === 7)
+    return moment(string, 'YYYY-MM');
+  return moment(string, 'YYYY-MM-DD');
 };
