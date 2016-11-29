@@ -579,6 +579,8 @@ function technicalFields() {
 
     // ISARI authorized centers
     if (person.academicMemberships) {
+
+      // TODO: add only if still current
       person.isariAuthorizedCenters = person.academicMemberships.map(membership => {
         return {
           organization: membership.organization,

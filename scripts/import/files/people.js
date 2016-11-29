@@ -282,6 +282,11 @@ module.exports = {
             if (start)
               person.positions[0].startDate = start.startDate;
 
+            // If the year we got is not 2016, this means this person is not in contract anymore
+            // The same applies below to grades and memberships
+            if (job.year !== '2016')
+              person.positions[0].endDate = job.year;
+
             // Admin grades
             person.positions[0].gradesAdmin = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
               .map((slice, i, slices) => {
@@ -298,6 +303,8 @@ module.exports = {
 
                 if (nextSlice && nextSlice[0])
                   info.endDate = nextSlice[0].year;
+                else if (slice[slice.length - 1].year !== '2016')
+                  info.endDate = slice[slice.length - 1].year;
 
                 return info;
               });
@@ -318,6 +325,8 @@ module.exports = {
 
               if (nextSlice && nextSlice[0])
                 info.endDate = nextSlice[0].year;
+              else if (slice[slice.length - 1].year !== '2016')
+                  info.endDate = slice[slice.length - 1].year;
 
               return info;
             });
@@ -568,6 +577,8 @@ module.exports = {
 
             if (nextSlice)
               jobInfo.endDate = nextSlice[0].startDate;
+            else if (slice[slice.length - 1].year !== '2016')
+              jobInfo.endDate = slice[slice.length - 1].year;
 
             // Grade Admin
             if (slice[0].gradeAdmin) {
@@ -609,6 +620,10 @@ module.exports = {
                   relevantMembership.endDate = year.year;
                 }
 
+                else if (!relevantYears[i + 1] && year.year !== '2016') {
+                  relevantMembership.endDate = year.year;
+                }
+
                 else {
                   delete relevantMembership.endDate;
                 }
@@ -640,6 +655,10 @@ module.exports = {
 
                 // Else we update the endDate if not final year
                 else if (relevantYears[i + 1]) {
+                  relevantMembership.endDate = year.year;
+                }
+
+                else if (!relevantYears[i + 1] && year.year !== '2016') {
                   relevantMembership.endDate = year.year;
                 }
 
