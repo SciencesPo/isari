@@ -608,17 +608,33 @@ function retrieveLDAPInformation(callback) {
   log.info(`Hitting ${chalk.cyan(ldapConfig.url)}.`);
   log.info(`Using ${chalk.cyan(ldapConfig.dn)} dn.`);
 
+  const normalize = name => {
+    return _.deburr(name)
+      .toLowerCase()
+      .replace(/[a-z]\./g, '')
+      .replace(/[^a-z]/g, '');
+  };
+
   return async.eachOfLimit(INDEXES.People.id, 10, (people, id, next) => {
-    if (!people.sirhMatricule)
-      return next();
+    // if (!people.sirhMatricule)
+    //   return next();
 
     let filter = '(|';
 
     filter += `(employeenumber=${people.sirhMatricule})`;
     filter += `(displayName=${people.firstName} ${people.name})`;
+    filter += `(uid=${normalize(people.firstName)}.${normalize(people.name)})`;
 
-    if (people.contacts && people.contacts.email)
+    if (people.firstName.split(' ').length > 1)
+      filter += `(uid=${normalize(people.firstName.split(' ')[0])}.${normalize(people.name)})`;
+
+    if (people.name.split('-').length > 1)
+      filter += `(uid=${normalize(people.firstName)}.${normalize(people.name.split('-')[0])})`;
+
+    if (people.contacts && people.contacts.email) {
+      filter += `(uid=${people.contacts.email.split('@')[0]})`;
       filter += `(mail=${people.contacts.email})`;
+    }
 
     filter += ')';
 
