@@ -6,7 +6,7 @@ const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
 const { mongoID } = require('./model-utils')
 const { computeConfidentialPaths } = require('./schemas')
-const { ObjectId } = require('mongoose').Types.ObjectId 
+const { ObjectId } = require('mongoose').Types.ObjectId
 
 // Constants for optimization
 const pTrue = Promise.resolve(true)
@@ -295,6 +295,9 @@ const canEditActivity = (req, a) => { // eslint-disable-line no-unused-vars
 	// Central reader: readonly
 	if (req.userCentralRole === 'reader') {
 		return pFalse
+	}
+	if (req.userCentralRole === 'admin') {
+		return pTrue
 	}
 	// Other case: activity is editable if one of its organizations is the current one
 	return a.organizations.some(o => mongoID(o.organization) === req.userScopeOrganizationId) ? pTrue : pFalse
