@@ -37,6 +37,7 @@ export class IsariDataService {
   private enumUrl = `${environment.API_BASE_URL}/enums`;
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
   private columnsUrl = `${environment.API_BASE_URL}/columns`;
+  private exportUrl = `${environment.API_BASE_URL}/export`;
 
   constructor(private http: Http, private fb: FormBuilder, private userService: UserService) {}
 
@@ -130,6 +131,18 @@ export class IsariDataService {
         key,
         label: schema[key].label
       })));
+  }
+
+  createExportDownloadLink(name, query) {
+    const options = new URLSearchParams();
+
+    for (const k in query) {
+      options.set(k, query[k]);
+    }
+
+    const url = `${this.exportUrl}/${name}?${options}`;
+
+    return url;
   }
 
   srcEnumBuilder(src: string, materializedPath: string) {

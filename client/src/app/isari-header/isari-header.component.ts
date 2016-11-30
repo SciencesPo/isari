@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService}  from 'ng2-translate';
+import { IsariDataService } from '../isari-data.service';
 import { UserService }  from '../user.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class IsariHeaderComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private userService: UserService) {}
+    private userService: UserService,
+    private isariDataService: IsariDataService) {}
 
   ngOnInit() {
     this.route.data.subscribe(({ organization }) => {
@@ -50,5 +52,14 @@ export class IsariHeaderComponent implements OnInit {
     this.translate.use(this.lang);
   }
 
+  getHCERESDowloadLink() {
+    if (!this.organization) {
+      return null;
+    }
 
+    return this.isariDataService.createExportDownloadLink(
+      'hceres',
+      {id: this.organization.id}
+    );
+  }
 }
