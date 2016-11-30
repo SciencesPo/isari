@@ -7,6 +7,7 @@ const { People, Organization } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 const { UnauthorizedError } = require('../lib/errors')
 const { computeRestrictedFields } = require('../lib/permissions')
+const config = require('config')
 
 
 const router = module.exports = Router()
@@ -74,7 +75,13 @@ router.get('/permissions', (req, res, next) => {
 	if (!req.session.login) {
 		return next(UnauthorizedError({ title: 'Not logged in' }))
 	}
-	Organization.find({ _id: { $in: Object.keys(req.userRoles) } })
+	const orgs = req.userCentralRole
+		? // User is central: provide access to all organizations + fake global one
+			Organization.find().then(orgs => [config.globalOrganization].concat(orgs))
+		: // General case: provide access to its own organizations}
+			Organization.find({ _id: { $in: Object.keys(req.userRoles) } })
+
+	orgs
 	.then(formatOrganizations(req))
 	.then(organizations => res.send({
 		organizations,

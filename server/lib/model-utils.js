@@ -198,7 +198,7 @@ function _format (object, schema, shouldRemove, path, transform, rootDescription
 		let o = transform ? (object.toObject ? object.toObject() : clone(object)) : object
 
 		// Keep ID for later use (if keepId is set)
-		const id = o._id
+		const id = o._id !== undefined ? String(o._id) : o.id
 
 		// Extranous field: ignore it, but with a warning!
 		if (!schema) {
@@ -240,8 +240,8 @@ function _format (object, schema, shouldRemove, path, transform, rootDescription
 		})
 
 		// Keep ID
-		if (transform && id && keepId) {
-			o.id = String(id)
+		if (transform && id !== undefined && keepId) {
+			o.id = id
 		}
 
 		return o

@@ -3,6 +3,8 @@
 const { expect } = require('chai')
 const { connect, People, Organization, Activity } = require('../lib/model')
 const { agent } = require('./http-utils')
+const { omit } = require('lodash/fp')
+const config = require('config')
 
 // beware, in less than a thousand years tests will break
 const future = '2999-12-31'
@@ -59,6 +61,34 @@ describe.only('Central roles', () => {
 
 	// The next ones are dumb, but those limitations are required for consistent API
 	it('center member should not see organization (without org filter)', () => utils.organization.accessible('centerMember', 401, fixtures.organization, false))
+
+	it('central admin should see all organizations + "Sciences Po" in his home menu', () =>
+		req.centralAdmin('get', '/auth/permissions').then(({ status, body }) => {
+			expect(status).to.equal(200)
+			expect(body).to.be.an('object')
+			expect(body.central).to.equal('admin')
+			expect(body.organizations).to.be.an('array').and.have.length(3)
+			expect(omit('restrictedFields', body.organizations[0])).to.eql(config.globalOrganization)
+		})
+	)
+	it('central reader should see all organizations + "Sciences Po" in his home menu', () =>
+		req.centralReader('get', '/auth/permissions').then(({ status, body }) => {
+			expect(status).to.equal(200)
+			expect(body).to.be.an('object')
+			expect(body.central).to.equal('reader')
+			expect(body.organizations).to.be.an('array').and.have.length(3)
+			expect(omit('restrictedFields', body.organizations[0])).to.eql(config.globalOrganization)
+		})
+	)
+	it('center member should only see his organizations in his home menu', () =>
+		req.centerMember('get', '/auth/permissions').then(({ status, body }) => {
+			expect(status).to.equal(200)
+			expect(body).to.be.an('object')
+			expect(body.central).to.equal(null)
+			expect(body.organizations).to.be.an('array').and.have.length(1)
+			expect(body.organizations[0].id).to.equal(fixtures.organization.id)
+		})
+	)
 })
 
 // Fixtures:
