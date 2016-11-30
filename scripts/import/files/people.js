@@ -557,7 +557,7 @@ module.exports = {
           if (bonusesYear)
             info.bonuses = bonusesYear.bonuses;
 
-          // Chronologies: positions, dpt, academic memberships
+          // Chronologies: positions, dpt, academic memberships, gradesAcademic
           const positionSlices = partitionBy(years, 'jobTitle');
 
           // Positions
@@ -671,6 +671,41 @@ module.exports = {
           if (!info.academicMemberships.length)
             delete info.academicMemberships;
 
+          // Grades academic
+          info.gradesAcademic = [];
+          years
+            .filter(year => !!year.gradeAcademic)
+            .forEach((year, i, relevantYears) => {
+              let relevantGrade = info.gradesAcademic.find(m => m.grade === year.gradeAcademic);
+
+              // If no relevant grade was found, we add it
+              if (!relevantGrade) {
+                relevantGrade = {
+                  grade: year.gradeAcademic,
+                  startDate: !i && year.startDate ? year.startDate : year.year,
+                  endDate: year.year
+                };
+
+                info.gradesAcademic.push(relevantGrade);
+              }
+
+              // Else we update the endDate if not final year
+              else if (relevantYears[i + 1]) {
+                relevantGrade.endDate = year.year;
+              }
+
+              else if (!relevantYears[i + 1] && year.year !== '2016') {
+                relevantGrade.endDate = year.year;
+              }
+
+              else {
+                delete relevantGrade.endDate;
+              }
+            });
+
+          if (!info.gradesAcademic.length)
+            delete info.gradesAcademic;
+
           return info;
         });
 
@@ -691,7 +726,8 @@ module.exports = {
             'bonuses',
             'distinctions',
             'deptMemberships',
-            'academicMemberships'
+            'academicMemberships',
+            'gradesAcademic'
           ].forEach(prop => {
             if (person[prop])
               match[prop] = person[prop];
