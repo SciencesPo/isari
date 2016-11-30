@@ -178,7 +178,7 @@ const listViewablePeople = (req, options = {}) => {
 		] }
 	]
 
-	const isMember = new ObjectId(req.userScopeOrganizationId)
+	const isMember = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
 			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId: new ObjectId(req.userScopeOrganizationId) } ]) } } }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
