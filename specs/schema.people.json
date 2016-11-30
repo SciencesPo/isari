@@ -120,8 +120,8 @@
             "accessMonitoring": "corporate",
             "organization": {
                 "label": {
-                    "fr": "Centre de recherche",
-                    "en": "Research unit"
+                    "fr": "Tutelle",
+                    "en": "Employer"
                 },
                 "requirement": "mandatory",
                 "suggestions": "top_10",
@@ -309,12 +309,12 @@
     "gradesAcademic": [
         {
             "label": {
-                "fr": "Grades",
-                "en": "Grades"
+                "fr": "Grades académiques",
+                "en": "Academic grades"
             },
             "description": {
-                "fr": "Grades académiques DR1, CR1...",
-                "en": "Academic Grade Associate Prof, Full Prof..."
+                "fr": "Professeur, DR1, CR1...",
+                "en": "Associate Prof, Full Prof..."
             },
             "grade": {
                 "requirement": "mandatory",
@@ -434,8 +434,8 @@
     },
     "biography": {
         "label": {
-            "fr": "Bio",
-            "en": "Bio"
+            "fr": "Biographie",
+            "en": "Biography"
         },
         "type": "text"
     },
