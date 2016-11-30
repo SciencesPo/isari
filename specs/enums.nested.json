@@ -1,36 +1,41 @@
 {
     "personalActivitySubtypes": {
         "editorial": [
-            { "value": "comiteLecture", "label": { "fr": "commuté de lecture", "en": "" } },
-            { "value": "directioncollection", "label": { "fr": "direction de collection", "en": "" } }
+            { "value": "revueScientifique", "label": { "fr": "revue scientifique", "en": "" } },
+            { "value": "collectionScientifique", "label": { "fr": "collection scientifique", "en": "" } }
         ],
         "expertise": [
             { "value": "audition", "label": { "fr": "audition", "en": "" } },
-            { "value": "rapport", "label": { "fr": "rapport", "en": "" } }
+            { "value": "rapport", "label": { "fr": "rapport", "en": "" } },     
+            { "value": "consultance", "label": { "fr": "activités de consultance", "en": "" } },
+            { "value": "juridique", "label": { "fr": "expertise juridique", "en": "" } },
+            { "value": "instance", "label": { "fr": "participation à des instances d'expertise'", "en": "" } }
         ],
          "collaborationsscientifiques": [
             { "value": "associationprofessionnelle", "label": { "fr": "association professionnelle", "en": "" } },
             { "value": "reseauthematique", "label": { "fr": "réseau thématique", "en": "" } },
-            { "value": "groupe de recherche", "label": { "fr": "groupe de recherche", "en": "" } }
+            { "value": "groupe de recherche", "label": { "fr": "groupe de recherche", "en": "" } },
+            { "value": "comitéScientifique", "label": { "fr": "comité Scientifique", "en": "" } }
         ],
         "jurys":[
-            { "value": "these", "label": { "fr": "jury de Thèse", "en": "" } },
+            { "value": "these", "label": { "fr": "jury de doctorat", "en": "" } },
             { "value": "hdr", "label": { "fr": "jury de HDR", "en": "" } },
             { "value": "agregation", "label": { "fr": "jury d'agrégation'", "en": "" } },
             { "value": "selection", "label": { "fr": "Comité de sélection", "en": "" } }
         ],
         "encadrement":[
             { "value": "memoire", "label": { "fr": "Direction de mémoire", "en": "" } },
-            { "value": "these", "label": { "fr": "Direction/codirection de thèse", "en": "" } },
+            { "value": "these", "label": { "fr": "Direction/codirection de doctorat", "en": "" } },
             { "value": "hdr", "label": { "fr": "Direction/codirection de HDR", "en": "" } },
-            { "value": "hdr", "label": { "fr": "comité de thèse", "en": "" } }
+            { "value": "comiteThese", "label": { "fr": "comité de thèse", "en": "" } }
         ],
         "responsabilitésetmandats":[
-            { "value": "directionlaboratoire", "label": { "fr": "(co)Direction de laboratoire", "en": "" } },
-            { "value": "conseillaboratoire", "label": { "fr": "Membre du conseil de laboratoire", "en": "" } },
-            { "value": "commissioncarrieres", "label": { "fr": "Commission des carrières", "en": "" } },
-            { "value": "comitetechnique", "label": { "fr": "Comité technique", "en": "" } },
-            { "value": "directiondepartement", "label": { "fr": "Direction de département", "en": "" } }
+            { "value": "conseillaboratoire", "label": { "fr": "Conseil de laboratoire", "en": "" } },
+            { "value": "conseilscientifique", "label": { "fr": "Conseil scientifique", "en": "" } },
+            { "value": "comitepedagogique", "label": { "fr": "Comité pédagogique", "en": "" } },
+            { "value": "sectionscientifique", "label": { "fr": "Section scientifique", "en": "" } },
+            { "value": "composante", "label": { "fr": "laboratoire, département, UFR...", "en": "" } },
+            { "value": "programmernseignement", "label": { "fr": "Programme d'enseignement", "en": "" } }
         ],
         "évaluations":[
             { "value": "evaluationstructure", "label": { "fr": "Evaluation de structures", "en": "" } },
