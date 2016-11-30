@@ -2,7 +2,7 @@
 
 const templates = require('../../specs/templates')
 const { getMeta } = require('./specs')
-const { RESERVED_FIELDS } = require('./schemas')
+const { RESERVED_FIELDS, EXTRA_FIELDS } = require('./schemas')
 const { get, clone, isObject, isArray } = require('lodash/fp')
 const memoize = require('memoizee')
 const { mongo } = require('mongoose')
@@ -203,7 +203,12 @@ function _format (object, schema, shouldRemove, path, transform, rootDescription
 		// Extranous field: ignore it, but with a warning!
 		if (!schema) {
 			// TODO use proper logger
-			console.error(chalk.red(`${chalk.bold('Extraneous field')} in object ${rootDescription}: ${path}`)) // eslint-disable-line no-console
+			if (EXTRA_FIELDS.includes(path.replace(/^.*\./, ''))) {
+				// Do not log an error when extra field is one of the technical fields added by plugins
+				debug(`Expected extra field in object ${rootDescription}: ${path} (excluded from formatting)`)
+			} else {
+				console.error(chalk.red(`${chalk.bold('Extraneous field')} in object ${rootDescription}: ${path} (excluded from formatting)`)) // eslint-disable-line no-console
+			}
 			return REMOVED_FIELD // Force ignore
 		}
 

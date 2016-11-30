@@ -12,6 +12,12 @@ const chalk = require('chalk')
 const util = require('util')
 
 
+const EXTRA_FIELDS = [
+	'latestChangeBy',
+	'updatedAt',
+	'createdAt'
+]
+
 const RESERVED_FIELDS = [
 	// Isari fields
 	'accessType',
@@ -57,7 +63,8 @@ module.exports = {
 	getFrontSchema: memoize(getFrontSchema, { length: 2 }),
 	computeConfidentialPaths: memoize(computeConfidentialPaths),
 	RESERVED_FIELDS,
-	FRONT_KEPT_FIELDS
+	FRONT_KEPT_FIELDS,
+	EXTRA_FIELDS
 }
 
 
