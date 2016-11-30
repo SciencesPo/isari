@@ -3,7 +3,6 @@
  * ============================
  */
 const XLSX = require('xlsx'),
-      path = require('path'),
       async = require('async'),
       moment = require('moment');
 
@@ -12,9 +11,9 @@ const {
   createSheet,
   addSheetToWorkbook,
   parseDate
-} = require('../helpers.js');
+} = require('./helpers.js');
 
-const GRADES_INDEX = require('../../../specs/export/grades.json');
+const GRADES_INDEX = require('../../specs/export/grades.json');
 
 const GENDER_MAP = {
   'm': 'H',
@@ -137,8 +136,9 @@ const SHEETS = [
 /**
  * Process.
  */
-module.exports = function(models, centerId, output, callback) {
+module.exports = function(models, centerId, callback) {
   const workbook = createWorkbook();
+  workbook.name = FILENAME;
 
   async.eachSeries(SHEETS, (sheet, next) => {
     return sheet.populate(models, centerId, (err, collection) => {
@@ -157,9 +157,6 @@ module.exports = function(models, centerId, output, callback) {
     if (err)
       return callback(err);
 
-    // Writing the file to disk
-    XLSX.writeFile(workbook, path.join(output, FILENAME));
-
-    return callback();
+    return callback(null, workbook);
   });
 };

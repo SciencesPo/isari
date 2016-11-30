@@ -9,6 +9,7 @@ const inspect = require('util').inspect,
       yargs = require('yargs'),
       chalk = require('chalk'),
       path = require('path'),
+      XLSX = require('xlsx'),
       fs = require('fs');
 
 const log = require('../logger')();
@@ -39,9 +40,9 @@ process.on('unhandledRejection', err => {
 // Routines
 const ROUTINES = {
   hceres: {
-    fn: require('./routines/hceres.js'),
+    fn: require('../../server/export/hceres.js'),
     args(next) {
-      return [models, argv.id, argv.output, next];
+      return [models, argv.id, next];
     },
     check() {
       if (!argv.id)
@@ -104,7 +105,7 @@ async.series({
     // Executing routine
     return ROUTINE.fn.apply(null, ROUTINE.args(next));
   }
-}, err => {
+}, (err, result) => {
 
   if (CONNECTION)
     CONNECTION.close();
@@ -114,6 +115,11 @@ async.series({
       log.error(err.message);
     return;
   }
+
+  const workbook = result.routine;
+
+  // Writing file to disk
+  XLSX.writeFile(workbook, path.join(argv.output, workbook.name));
 
   log.success('Success!');
 });

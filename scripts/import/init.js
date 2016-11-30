@@ -752,6 +752,8 @@ async.series({
     if (!argv.clusterPeople)
       return next();
 
+    // TODO: clustering by email also
+
     console.log();
     log.info(`Attempting to cluster the names due to ${chalk.grey('--cluster-people')}.`);
 
