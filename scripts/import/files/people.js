@@ -462,7 +462,7 @@ module.exports = {
             info.distinctions[0].organizations = ['IEP Paris'];
         }
 
-        if (line['HDRouéquivalent']) {
+        if (line['HDRouéquivalent'] === 'oui') {
           info.distinctions = info.distinctions || [];
           info.distinctions.push({
             distinctionType: 'diplôme',

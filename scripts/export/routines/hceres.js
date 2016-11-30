@@ -4,7 +4,8 @@
  */
 const XLSX = require('xlsx'),
       path = require('path'),
-      async = require('async');
+      async = require('async'),
+      moment = require('moment');
 
 const {
   createWorkbook,
@@ -16,7 +17,9 @@ const {
 const GRADES_INDEX = require('../../../specs/export/grades.json');
 
 const GENDER_MAP = {
-
+  'm': 'H',
+  'f': 'F',
+  'o': ''
 };
 
 /**
@@ -46,12 +49,14 @@ const SHEETS = [
     id: 'staff',
     name: '3.2. Liste des personnels',
     headers: [
-      {key: 'jobType', label: 'Type d\'emploi'},
+      {key: 'jobType', label: 'Type d\'emploi\n(1)'},
       {key: 'name', label: 'Nom'},
       {key: 'firstName', label: 'Prénom'},
       {key: 'gender', label: 'H/F'},
       {key: 'birthDate', label: 'Date de naissance\n(JJ/MM/AAAA)'},
-      {key: 'grade', label: 'Corps-grade\n(1)'}
+      {key: 'grade', label: 'Corps-grade\n(1)'},
+      {key: 'panel', label: 'Panels disciplinaires / Branches d\'Activités Profession. (BAP)\n(2)'},
+      {key: 'hdr', label: 'HDR\n(3)'}
     ],
     populate(models, centerId, callback) {
       const People = models.People;
@@ -86,7 +91,8 @@ const SHEETS = [
           const info = {
             name: person.name,
             firstName: person.firstName,
-            gender: person
+            gender: GENDER_MAP[person.gender],
+            hdr: 'NON'
           };
 
           let relevantPosition = findRelevantItem(person.positions);
@@ -96,9 +102,20 @@ const SHEETS = [
           let gradeAdmin;
 
           if (relevantPosition)
-            findRelevantItem(relevantPosition.gradesAdmin);
+            gradeAdmin = findRelevantItem(relevantPosition.gradesAdmin);
 
-          console.log(gradeAcademic, gradeAdmin)
+          if (gradeAcademic)
+            info.jobType = GRADES_INDEX.academic[gradeAcademic.grade];
+          else if (gradeAdmin)
+            info.jobType = GRADES_INDEX.admin[gradeAdmin.grade];
+
+          if (person.birthDate) {
+            // TODO: problems with persons having a fragmental birth date.
+            info.birthDate = parseDate(person.birthDate).format('DD/MM/YYYY');
+          }
+
+          if (person.distinctions && person.distinctions.some(d => d.title === 'HDR'))
+            info.hdr = 'OUI';
 
           return info;
         });
