@@ -52,6 +52,7 @@ app.use('/schemas', routes.schemas)
 app.use('/layouts', routes.layouts)
 app.use('/enums', routes.enums)
 app.use('/columns', routes.columns)
+app.use('/export', routes.export)
 
 // Error handlers
 app.use(routes.errors.notFound)

@@ -139,6 +139,7 @@ module.exports = function(models, centerId, callback) {
   const workbook = createWorkbook();
   workbook.name = FILENAME;
 
+  // TODO: check existence of center before!
   async.eachSeries(SHEETS, (sheet, next) => {
     return sheet.populate(models, centerId, (err, collection) => {
       if (err)
