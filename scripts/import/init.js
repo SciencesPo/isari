@@ -396,7 +396,7 @@ const activityTasks = FILES.activities.files.map(file => next => {
 const postProcessingTasks = FILES.postProcessing.files.map(file => next => {
   if (file.skip || (file.ldap && argv.skipLdap)) {
     console.log();
-    log.warning(`Skipping the ${chalk.grey(file.name)} file (no LDAP or config).`);
+    log.warning(`Skipping the ${chalk.grey(file.name)} file (${file.ldap && argv.skipLdap ? 'no LDAP' : 'definition'}).`);
 
     return next();
   }

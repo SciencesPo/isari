@@ -97,6 +97,24 @@ module.exports = {
     },
 
     /**
+     * SPIRE_personalActivities.csv
+     * -------------------------------------------------------------------------
+     */
+    {
+      name: 'SPIRE_personalActivities',
+      path: 'people/SPIRE_personalActivities.csv',
+      skip: true,
+      consumer(line) {
+        const info = {};
+
+        return info;
+      },
+      process(indexes, id, line) {
+
+      }
+    },
+
+    /**
      * ID_scopus_orcid.csv
      * -------------------------------------------------------------------------
      */
