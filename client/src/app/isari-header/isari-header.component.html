@@ -13,21 +13,11 @@
       {{ 'resume' | translate }}
     </button>
  -->
-    <button md-button [md-menu-trigger-for]="langMenu"><img class="app-toolbar-flag" src="./assets/svg/{{ lang }}-flag.svg" /></button>
-
-    <md-menu x-position="before" #langMenu="mdMenu">
-      <a md-menu-item href (click)="setLang('fr', $event)"><img class="app-toolbar-flag" src="./assets/svg/fr-flag.svg" /></a>
-      <a md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></a>
-    </md-menu>
 
     <div *ngIf="logged">
-      <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
-
-      <md-menu x-position="before" #menu="mdMenu">
-        <a *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams>{{ 'people' | translate }}</a>
-        <a *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>{{ 'organizations' | translate }}</a>
-        <a *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams>{{ 'activities' | translate }}</a>
-      </md-menu>
+        <button *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams><md-icon>people</md-icon></button>
+        <button *ngIf="logged" md-menu-item routerLink="/organizations" preserveQueryParams><md-icon>business</md-icon></button>
+        <button *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams><md-icon>business_center</md-icon></button>
     </div>
 
     <div *ngIf="logged">
@@ -38,5 +28,12 @@
       </md-menu>
 
     </div>
+
+    <button md-button [md-menu-trigger-for]="langMenu"><img class="app-toolbar-flag" src="./assets/svg/{{ lang }}-flag.svg" /></button>
+
+    <md-menu x-position="before" #langMenu="mdMenu">
+      <a md-menu-item href (click)="setLang('fr', $event)"><img class="app-toolbar-flag" src="./assets/svg/fr-flag.svg" /></a>
+      <a md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></a>
+    </md-menu>
 
   </md-toolbar>
