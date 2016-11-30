@@ -20,7 +20,7 @@
       <a md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></a>
     </md-menu>
 
-    <div *ngIf="logged" class="buttons_menu">
+    <div *ngIf="logged">
       <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
 
       <md-menu x-position="before" #menu="mdMenu">
@@ -28,7 +28,15 @@
         <a *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>{{ 'organizations' | translate }}</a>
         <a *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams>{{ 'activities' | translate }}</a>
       </md-menu>
-
-      <button md-button (click)="logout($event)">{{ 'logout' | translate }}</button>
     </div>
+
+    <div *ngIf="logged">
+      <button md-button [md-menu-trigger-for]="menu">Account</button>
+
+      <md-menu x-position="before" #menu="mdMenu">
+        <a md-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
+      </md-menu>
+
+    </div>
+
   </md-toolbar>
