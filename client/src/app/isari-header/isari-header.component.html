@@ -11,9 +11,11 @@
 
     <div *ngIf="logged">
       <button *ngIf="organization" [md-menu-trigger-for]="exportMenu" md-menu-item routerLink="/people" preserveQueryParams><md-icon>file_download</md-icon></button>
-      <button *ngIf="globalOrganization && !organization" md-menu-item routerLink="/organizations" [queryParams]="{ organization: globalOrganization.id }">{{ 'organizations' | translate }}</a>
       <button *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams><md-icon>people</md-icon></button>
-      <button *ngIf="logged" md-menu-item routerLink="/organizations" preserveQueryParams><md-icon>business</md-icon></button>
+      <button *ngIf="globalOrganization && !organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" [queryParams]="{ organization: globalOrganization.id }">{{ 'my CV' | translate }}</a>
+      <button *ngIf="globalOrganization && !organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" [queryParams]="{ organization: globalOrganization.id }">{{ 'my CV' | translate }}</a>
+      <button *ngIf="globalOrganization && !organization" md-menu-item routerLink="/organizations" [queryParams]="{ organization: globalOrganization.id }">{{ 'organizations' | translate }}</a>
+      <button *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams><md-icon>business</md-icon></button>
       <button *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams><md-icon>business_center</md-icon></button>
     </div>
 

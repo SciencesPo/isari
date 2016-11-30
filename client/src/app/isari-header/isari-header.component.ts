@@ -13,6 +13,7 @@ export class IsariHeaderComponent implements OnInit {
   organization: any;
   lang: string;
   logged: boolean = false;
+  userId: string;
 
   @Input() globalOrganization: any;
 
@@ -32,15 +33,17 @@ export class IsariHeaderComponent implements OnInit {
 
       this.logged = !firstSegment || firstSegment.path !== 'login';
     });
+    this.userService.isLoggedIn().subscribe(user => {
+      this.userId = user.people.id
+    });
     this.lang = this.translate.currentLang;
   }
 
   logout($event) {
     $event.preventDefault();
-    this.userService.logout()
-      .subscribe(res => {
-        this.router.navigate(['login']);
-      });
+    this.userService.logout().subscribe(res => {
+      this.router.navigate(['login']);
+    });
   }
 
   setLang(lang, $event) {
