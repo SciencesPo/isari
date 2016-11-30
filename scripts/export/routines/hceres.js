@@ -56,7 +56,8 @@ const SHEETS = [
       {key: 'birthDate', label: 'Date de naissance\n(JJ/MM/AAAA)'},
       {key: 'grade', label: 'Corps-grade\n(1)'},
       {key: 'panel', label: 'Panels disciplinaires / Branches d\'Activités Profession. (BAP)\n(2)'},
-      {key: 'hdr', label: 'HDR\n(3)'}
+      {key: 'hdr', label: 'HDR\n(3)'},
+      {key: 'organization', label: 'Etablissement ou organisme employeur\n(4)'}
     ],
     populate(models, centerId, callback) {
       const People = models.People;
@@ -92,7 +93,8 @@ const SHEETS = [
             name: person.name,
             firstName: person.firstName,
             gender: GENDER_MAP[person.gender],
-            hdr: 'NON'
+            hdr: 'NON',
+            organization: 'IEP Paris'
           };
 
           let relevantPosition = findRelevantItem(person.positions);
@@ -110,8 +112,14 @@ const SHEETS = [
             info.jobType = GRADES_INDEX.admin[gradeAdmin.grade];
 
           if (person.birthDate) {
-            // TODO: problems with persons having a fragmental birth date.
-            info.birthDate = parseDate(person.birthDate).format('DD/MM/YYYY');
+            const [year, month, day] = person.birthDate.split('-');
+
+            if (day)
+              info.birthDate = moment(person.birthDate).format('DD/MM/YYYY');
+            else if (month)
+              info.birthDate = `${year}/${month}`;
+            else
+              info.birthDate = year;
           }
 
           if (person.distinctions && person.distinctions.some(d => d.title === 'HDR'))
