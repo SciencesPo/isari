@@ -1,4 +1,4 @@
 [
-	["startDate","endDate","organization","jobName"],
-	["jobTitle","jobType","timepart"]
+	["organization","startDate","endDate"],
+	["jobName","jobTitle","jobType","timepart"]
 ]
