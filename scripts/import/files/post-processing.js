@@ -103,14 +103,48 @@ module.exports = {
     {
       name: 'SPIRE_personalActivities',
       path: 'people/SPIRE_personalActivities.csv',
-      skip: true,
       consumer(line) {
-        const info = {};
+        const info = {
+          idSpire: line['SPIRE ID'],
+          firstName: line['People.firstName'],
+          name: line['People.name'],
+          personalActivity: {
+            personalActivityType: line['People.personalActivities.personalActivityType'],
+            description: line['People.personalActivities.description']
+          }
+        };
+
+        if (line['People.personalActivity.organizations'])
+          info.personalActivity.organizations = line['People.personalActivity.organizations']
+            .split(',')
+            .map(f => f.trim());
+
+        if (line['People.personalActivities.personalActivitySubType'])
+          info.personalActivity.personalActivitySubType = line['People.personalActivities.personalActivitySubType'];
+
+        if (line['People.personalActivities.role'])
+          info.personalActivity.role = line['People.personalActivities.role'];
+
+        if (line['People.personalActivities.startDate.year'])
+          info.personalActivity.startDate = line['People.personalActivities.startDate.year'];
+
+        if (line['People.personalActivities.endDate.year'])
+          info.personalActivity.endDate = line['People.personalActivities.endDate.year'];
 
         return info;
       },
       process(indexes, id, line) {
+        const key = helpers.hashPeople(line);
 
+        const match = indexes.People.hashed[key];
+
+        if (!match) {
+          this.warning(`Could not match ${chalk.green(line.firstName + ' ' + line.name)}`);
+          return;
+        }
+
+        match.personalActivities = match.personalActivities || [];
+        match.personalActivities.push(line.personalActivity);
       }
     },
 
