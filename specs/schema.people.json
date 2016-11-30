@@ -100,7 +100,7 @@
         },
         "service": "sirh"
     },
-    "spireID": {
+    "idSpire": {
         "label": {
             "fr": "identifiant SPIRE",
             "en": "SPIRE identifier"
