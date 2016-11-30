@@ -14,6 +14,7 @@ export class DataEditorComponent implements OnInit {
   @Input() deletable: false;
   @Input() path: string = '';
   @Input() label: string = '';
+  @Input() feature: string;
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
 

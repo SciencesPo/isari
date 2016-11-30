@@ -34,13 +34,14 @@ export class UserService {
     return this.http
       .post(this.logoutUrl, null, this.httpOptions)
       .map(res => {
+        this.organizations = null;
         this.loggedIn = false;
       });
   }
 
   isLoggedIn() {
     return this.http.get(this.checkUrl, this.httpOptions)
-      .map(response => response.json).cache();
+      .map(response => response.json()).cache();
   }
 
   getOrganizations() {
@@ -57,11 +58,16 @@ export class UserService {
   getOrganization (id: string | undefined) {
     this.currentOrganizationId = id;
     return this.getOrganizations()
-      .map(({organizations}) => organizations.find(organization => organization.id === id));
+      .map(({ organizations }) => organizations.find(organization => organization.id === id));
   }
 
   getCurrentOrganizationId() {
     return this.currentOrganizationId;
+  }
+
+  getRestrictedFields() {
+    return this.getOrganization(this.currentOrganizationId)
+      .map(organization => organization.restrictedFields);
   }
 
 }

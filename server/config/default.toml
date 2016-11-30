@@ -1,7 +1,15 @@
+# Fake organization providing access to unfiltered data for central roles
+[globalOrganization]
+id = ''
+name = 'Sciences Po'
+
 [collections]
 People = 'people'
 Activity = 'activities'
 Organization = 'organizations'
+
+[specs]
+validateOnStart = true
 
 [http]
 port = 8080

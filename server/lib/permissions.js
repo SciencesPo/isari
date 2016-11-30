@@ -1,19 +1,32 @@
 'use strict'
 
-const { map, reduce, flow, toPairs, filter, intersection } = require('lodash/fp')
+const { map, flow, toPairs, filter, intersection } = require('lodash/fp')
 const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
 const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
 const { mongoID } = require('./model-utils')
 const { computeConfidentialPaths } = require('./schemas')
+const { ObjectId } = require('mongoose').Types.ObjectId
 
+// Constants for optimization
+const pTrue = Promise.resolve(true)
+const pFalse = Promise.resolve(false)
 
 // Helper returning a YYYY-MM-DD string for today
 // TODO cache (it shouldn't change more than once a day, right)
+const pad0 = s => String(s).length === 1 ? '0' + s : String(s)
+const isTodayOrLater = s => {
+	const ref = today()
+	const [ y, m, d ] = s.split('-')
+	return y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
+}
 const today = () => {
 	const d = new Date()
-	const pad = s => String(s).length === 1 ? '0' + s : String(s)
-	return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate)}`
+	return {
+		y: d.getFullYear(),
+		m: pad0(d.getMonth() + 1),
+		d: pad0(d.getDate())
+	}
 }
 
 // Extract roles from isariAuthorizedCenters
@@ -21,14 +34,17 @@ const today = () => {
 const getRoles = (people) => {
 	const roles = {}
 	people.isariAuthorizedCenters.forEach(({ organization, isariRole: role }) => {
-		roles[mongoID(organization)] = role
+		// Some isariAuthorizedCenters can have no "organization" set to define a central role
+		if (organization) {
+			roles[mongoID(organization)] = role
+		}
 	})
 	return roles
 }
 
 // Extract "central_*" roles, keep only highest
 // People => null|'admin'|'reader'
-const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((result, role) => {
+const getCentralRole = exports.getPeopleCentralRole = people => people.isariAuthorizedCenters.reduce((result, { isariRole: role }) => {
 	if (role === 'central_admin') {
 		return 'admin'
 	} else if (!result && role === 'central_reader') {
@@ -36,7 +52,7 @@ const getCentralRole = exports.getPeopleCentralRole = flow(getRoles, reduce((res
 	} else {
 		return result
 	}
-}, null))
+}, null)
 
 // Returns matched expectedCredentials by user roles for given organization ids
 // Object({ OrganizationId: Role }), Array(OrganizationId), Array(Role) => Array(Role)
@@ -85,7 +101,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userListViewableActivities = () => listViewableActivities(req)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
 		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
-		req.userComputeRestrictedFields = modelName => computeRestrictedFields(modelName, req)
+		req.userComputeRestrictedFields = modelName => computeRestrictedFieldsShort(modelName, req)
 
 		debug(req.userRoles)
 		next()
@@ -124,8 +140,10 @@ exports.scopeOrganizationMiddleware = (req, res, next) => {
 		.catch(next)
 	}
 
-	// Global scope requested: check if it is valid for connected user
-	if (!orgId && !req.userCentralRole) {
+	// Whitelisted URLs: /organizations/* and /people/myself
+	const isWhitelisted = req.originalUrl.match(/^\/organizations(?:\/|$)/) || req.originalUrl.startsWith('/people/' + req.userId)
+	// Global scope requested: check if it is valid for connected user and requested URL
+	if (!orgId && !req.userCentralRole && !isWhitelisted) {
 		return next(UnauthorizedError({ title: 'Access to global scope refused for non central people, please add "?organization=…" to scope your queries' }))
 	}
 
@@ -144,55 +162,68 @@ const listViewablePeople = (req, options = {}) => {
 		return Promise.reject(Error('Invalid usage of "listViewablePeople" without prior usage of "scopeOrganizationMiddleware"'))
 	}
 
-	const { includeExternals = true, includeInScope = true } = options
+	const { includeExternals = true, includeMembers = true } = options
 
-	const isInScope = req.userScopeOrganizationId
+	// Note: A && B && (C || D) is not supported by Mongo
+	// i.e. this must be transformed into (A && B && C) || (A && B && D)
+
+	const now = today()
+	// Projected fields, see 'memberships' projection below
+	const isInternal = [
+		{ orgMonitored: true },
+		{ $or: [
+			{ endDate: { $exists: false } },
+			// y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
+			{ endYear: { $gte: ''+now.y } },
+			{ endYear: ''+now.y, endMonth: { $gt: ''+now.m } },
+			{ endYear: ''+now.y, endMonth: ''+now.m, endDay: { $gte: ''+now.d } }
+		] }
+	]
+
+	const isMember = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
-			{ 'memberships.orgId': req.userScopeOrganizationId }
+			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId: new ObjectId(req.userScopeOrganizationId) } ]) } } }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
 				{}
 			: // Limit to people from organizations he has access to
-				{ 'memberships.orgId': { $in: Object.keys(req.userRoles) } }
+				{ 'memberships.orgId': { $in: Object.keys(req.userRoles).map(ObjectId.fromString) } }
 
 	// External people = ALL memberships are either expired or linked to an unmonitored organization
-	const isExternal = { memberships: { $not: { $elemMatch: {
-		$or: [ { endDate: { $gte: today() } }, { endDate: { $exists: false } } ],
-		orgMonitored: true
-	} } } }
+	const isExternal = { memberships: { $not: { $elemMatch: { $and: isInternal } } } }
 
-	const filters = (includeExternals && includeInScope)
-		? [ isInScope, isExternal ]
-		: (includeExternals ? [ isExternal ] : [ isInScope ])
+	const filters = (includeExternals && includeMembers)
+		? { $or: [ isMember, isExternal ] }
+		: (includeExternals ? isExternal : isMember)
 
 	// Use aggregation to lookup organization and calculate union of "in scope" + "externals"
-	/* First version kept for history: much more performant, but we must return a Mongoose.Query to allow proper population,
-		formatting, templating… in rest-utils. A wide rewrite should be planned to allow using aggregations in REST endpoints
-
-	return People.aggregate()
-		.project({ _id: 1, people: '$$ROOT' }) // Keep original data intact for later use
-		.unwind('people.academicMemberships') // Lookup only works with flat data, unwind array
-		.lookup({ from: Organization.collection.name, localField: 'people.academicMemberships.organization', foreignField: '_id', as: 'orgs' }) // LEFT JOIN Organization
-		.unwind('orgs') // "orgs" can be a zero-or-one-item array, unwind that before grouping
-		.project({ _id: 1, people: 1, membership: { orgId: '$orgs._id', endDate: '$people.academicMemberships.endDate', orgMonitored: '$orgs.isariMonitored' } }) // Group membership info together
-		.group({ _id: '$_id', memberships: { $push: '$membership' }, people: { $first: '$people' } }) // Now regroup membership data to single people
-		.match({ $or: [ isInScope, isExternal ] }) // Finally apply filters
-		.then(map(p => Object.assign(p.people, { // And keep only People (untouched) data with additional membership info
-			_external: !p.memberships.some(m => m.endDate && m.endDate >= today() && m.orgMonitored)
-		})))
-	*/
 	return People.aggregate()
 		.project({ _id: 1, academicMemberships: 1 }) // Keep original data intact for later use
 		.unwind('academicMemberships') // Lookup only works with flat data, unwind array
-		.lookup({ from: Organization.collection.name, localField: 'academicMemberships.organization', foreignField: '_id', as: 'org' }) // LEFT JOIN Organization
+		.lookup({
+			from: Organization.collection.name,
+			localField: 'academicMemberships.organization',
+			foreignField: '_id',
+			as: 'org'
+		}) // LEFT JOIN Organization
 		.unwind('org') // "orgs" can be a zero-or-one-item array, unwind that before grouping
-		.project({ _id: 1, membership: { orgId: '$org._id', endDate: '$academicMemberships.endDate', orgMonitored: '$org.isariMonitored' } }) // Group membership info together
-		.group({ _id: '$_id', memberships: { $push: '$membership' }, people: { $first: '$people' } }) // Now regroup membership data to single people
-		.match({ $or: filters }) // Finally apply filters
+		.project({ _id: 1, membership: {
+			orgId: '$org._id',
+			endDate: '$academicMemberships.endDate',
+			orgMonitored: '$org.isariMonitored',
+			endYear: { $substr: [ '$academicMemberships.endDate', 0, 4 ] },
+			endMonth: { $substr: [ '$academicMemberships.endDate', 5, 2 ] },
+			endDay: { $substr: [ '$academicMemberships.endDate', 8, 2 ] }
+		} }) // Group membership info together
+		.group({
+			_id: '$_id',
+			memberships: { $push: '$membership' },
+			people: { $first: '$people' }
+		}) // Now regroup membership data to single people
+		.match(filters) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
-		.then(ids => ids.concat([ req.userId ])) // Ensure I always see myself
 		.then(ids => ({
 			// Populate to allow getPeoplePermissions to work
 			query: People.find({ _id: { $in: ids } }).populate('academicMemberships.organization')
@@ -209,16 +240,24 @@ Who can *write* a people?
 - center editor of people's centers (academicMemberships)
 */
 const isExternalPeople = p => p.populate('academicMemberships.organization').execPopulate().then(() => {
-	return !p.academicMemberships.some(m => m.endDate && m.endDate >= today() && m.organization.isariMonitored)
+	return !p.academicMemberships.some(m => m.endDate && isTodayOrLater(m.endDate) && m.organization.isariMonitored)
 })
 const canEditPeople = (req, p) => {
-	// Direct tests: himself or central admin
-	if (req.userId === String(p._id) || req.userCentralRole === 'admin') {
-		return Promise.resolve(true)
+	// Himself: writable
+	if (req.userId === String(p._id)) {
+		return pTrue
+	}
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	// Central admin: read/write
+	if (req.userCentralRole === 'admin') {
+		return pTrue
 	}
 	// Center editor/admin of any common organization
 	if (hasMatchingCredentials(req.userRoles, map('organization')(p.academicMemberships), ['center_editor', 'center_admin'])) {
-		return Promise.resolve(true)
+		return pTrue
 	}
 	return isExternalPeople(p)
 }
@@ -226,7 +265,7 @@ const canEditPeople = (req, p) => {
 // See conditions to view a people above
 const canViewPeople = (req, p) => { // eslint-disable-line no-unused-vars
 	// Note: every people is viewable, this decision is related to the "edit" button on FKs
-	return true
+	return pTrue
 }
 
 // Return viewable activities for current user, scope included
@@ -254,34 +293,37 @@ const listViewableActivities = (req) => {
 }
 
 // Check if an activity is editable by current user
-/*
-Who can *edit* an activity?
-- central admin
-*/
-const canEditActivity = (req, a) => // eslint-disable-line no-unused-vars
-	Promise.resolve(req.userCentralRole === 'admin') // central admin or central reader
+const canEditActivity = (req, a) => { // eslint-disable-line no-unused-vars
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	if (req.userCentralRole === 'admin') {
+		return pTrue
+	}
+	// Other case: activity is editable if one of its organizations is the current one
+	return a.organizations.some(o => mongoID(o.organization) === req.userScopeOrganizationId) ? pTrue : pFalse
+}
 
 // I can view an activity iff I have an organization in common (or I'm central)
 const canViewActivity = (req, a) => {
 	if (req.userCentralRole) {
-		return true
+		return pTrue
 	}
 	const activityOrganizations = map(o => mongoID(o.organization), a.organizations)
 	const userOrganizations = Object.keys(req.userRoles)
-	return intersection(activityOrganizations, userOrganizations).length > 0
+	return intersection(activityOrganizations, userOrganizations).length > 0 ? pTrue : pFalse
 }
 
 // Check if an organization is editable by current user
-/*
-Who can *edit* an organization?
-- central admin
-- center admin for this organization
-*/
-const canEditOrganization = (req, o) => // eslint-disable-line no-unused-vars
-	Promise.resolve(
-		req.userCentralRole === 'admin' || // central admin or central reader
-		hasMatchingCredentials(req.userRoles, [o], ['center_admin'])
-	)
+const canEditOrganization = (req, o) => { // eslint-disable-line no-unused-vars
+	// Central reader: readonly
+	if (req.userCentralRole === 'reader') {
+		return pFalse
+	}
+	// Anyone else can edit organization (sounds weird, to be checked later)
+	return pTrue
+}
 
 /* Now about restricted fields:
 
@@ -309,9 +351,9 @@ const canViewConfidentialFields = (req) => Promise.resolve(
 	hasMatchingCredentials(req.userRoles, [ req.userScopeOrganizationId ], [ 'center_admin' ])
 )
 
-const computeRestrictedFields = (modelName, req) => {
+const computeRestrictedFieldsLong = (modelName, userCentralRole, userRoles, organizationId) => {
 	// Central admin → no restriction
-	if (req.userCentralRole === 'admin') {
+	if (userCentralRole === 'admin') {
 		return Promise.resolve({
 			viewable: true,
 			editable: true,
@@ -321,7 +363,7 @@ const computeRestrictedFields = (modelName, req) => {
 
 	// Central reader → readonly
 	// Center admin → readonly
-	if (req.userCentralRole === 'reader' || hasMatchingCredentials(req.userRoles, [req.userScopeOrganizationId], ['center_admin'])) {
+	if (userCentralRole === 'reader' || hasMatchingCredentials(userRoles, [ organizationId ], [ 'center_admin' ])) {
 		return Promise.resolve({
 			viewable: true,
 			editable: false,
@@ -335,6 +377,16 @@ const computeRestrictedFields = (modelName, req) => {
 		editable: false,
 		paths: computeConfidentialPaths(modelName) // paths will be used to *remove* fields from object
 	})
+}
+
+const computeRestrictedFieldsShort = (modelName, req) => computeRestrictedFieldsLong(modelName, req.userRoles, req.userScopeOrganizationId)
+
+exports.computeRestrictedFields = (modelName, userCentralRoleOrReq, userRoles = undefined, organizationId = undefined) => {
+	if (userRoles !== undefined && organizationId !== undefined) {
+		return computeRestrictedFieldsLong(modelName, userCentralRoleOrReq, userRoles, organizationId)
+	} else {
+		return computeRestrictedFieldsShort(modelName, userCentralRoleOrReq)
+	}
 }
 
 
@@ -357,7 +409,6 @@ const getActivityPermissions = (req, a) => Promise.all([
 	editable,
 	confidentials
 }))
-const pTrue = Promise.resolve(true)
 const getOrganizationPermissions = (req, o) => Promise.all([
 	pTrue,
 	req.userCanEditOrganization(o),

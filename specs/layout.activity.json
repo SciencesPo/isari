@@ -1,0 +1,47 @@
+[
+    [
+        "name",
+        "acronym",
+        "activityType",
+        "startDate",
+        "endDate"
+    ],
+    {
+        "fields": [
+            "organizations"
+        ],
+        "label": {
+            "fr": "organisation(s) impliquée(s)",
+            "en": "related organization(s)"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "people"
+        ],
+        "label": {
+            "fr": "personne(s) impliquée(s)",
+            "en": "related people"
+        },
+        "collapsabled": true
+    },
+    ["subject","url"],
+    "summary",
+    {
+        "fields": ["tags"],
+        "label": {"fr":"Tags","en":"Tags"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["grants"],
+        "label": {"fr":"Financement","en":"Funding"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["distinctions"],
+        "label": {"fr":"distinctions","en":"Awards"},
+        "collapsabled": true
+    }   
+
+]

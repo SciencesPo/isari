@@ -14,12 +14,11 @@ const client = module.exports = promisify(new Client(config.elasticsearch))
 // Handy shortcuts
 
 client.q = (type, query, includeInfo = false) => {
+	const body = { query }
 	const options = {
 		index: config.elasticsearch.index,
 		type,
-		body: {
-			query
-		}
+		body
 	}
 	debug('ElasticSearch', options.index, options.type, JSON.stringify(options.body))
 
@@ -46,4 +45,23 @@ client.q.forSuggestions = (type, { query, fields = [] }, includeInfo = false) =>
 	.join(' OR ')
 
 	return client.q(type, { query_string: { query, fields, fuzziness: 2 } }, includeInfo)
+}
+
+client.q.top = (type, field, { size = 10 }, includeInfo = false) => {
+	const index = config.elasticsearch.index
+	const body = {
+		size: 0,
+		aggregations: { topx: { terms: { field, size } } }
+	}
+	debug('ElasticSearch (aggregation)', index, type, JSON.stringify(body))
+
+	return client.search({ index, type, body })
+		.then(res => res.aggregations.topx)
+		.then(info => {
+			const result = { hits: info.buckets.map(o => o.key) }
+			if (includeInfo) {
+				result._info = info
+			}
+			return result
+		})
 }

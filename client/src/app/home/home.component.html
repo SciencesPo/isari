@@ -1,11 +1,11 @@
-<isari-header></isari-header>
+<isari-header [globalOrganization]="globalOrganization"></isari-header>
 
 <div class="app-content" style="display:flex">
 
   <md-card style="" *ngFor="let organization of organizations">
     <h3>{{ organization.name }}</h3>
     <button md-raised-button [routerLink]="[ 'people' ]" [queryParams]="{ organization: organization.id }">{{ 'people' | translate }}</button>
-    <button md-raised-button [routerLink]="[ 'organizations' ]" [queryParams]="{ organization: organization.id }">{{ 'organizations' | translate }}</button>
+    <button md-raised-button [routerLink]="[ 'activities' ]" [queryParams]="{ organization: organization.id }">{{ 'activities' | translate }}</button>
   </md-card>
 
 </div>

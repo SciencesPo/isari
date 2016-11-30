@@ -40,6 +40,7 @@ import { HomeComponent } from './home/home.component';
 import { IsariHeaderComponent } from './isari-header/isari-header.component';
 import { IsariChartComponent } from './isari-chart/isari-chart.component';
 import { IsariChartPeopleComponent } from './isari-chart/isari-chart-people/isari-chart-people.component';
+import { IsariDownloadButtonComponent } from './isari-list/isari-download-button/isari-download-button.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { IsariChartPeopleComponent } from './isari-chart/isari-chart-people/isar
     HomeComponent,
     IsariHeaderComponent,
     IsariChartComponent,
-    IsariChartPeopleComponent
+    IsariChartPeopleComponent,
+    IsariDownloadButtonComponent
   ],
   imports: [
     BrowserModule,

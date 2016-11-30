@@ -3,19 +3,36 @@
     <a routerLink="/">
       <img src="http://www.sciencespo.fr/sites/all/themes/SPresponsive/images/ScPo-logo-rouge-400.png" style="height:32px;">
     </a>
-    <h2>Isari</h2>
+    <h2>ISARI</h2>
 
     <span class="app-toolbar-filler"></span>
 
     <h5>{{ organization?.name }}</h5>
 
-    <button md-button [md-menu-trigger-for]="menu">{{ 'menu' | translate }}</button>
+    <div *ngIf="logged">
+      <button *ngIf="organization" [md-menu-trigger-for]="exportMenu" md-menu-item routerLink="/people" preserveQueryParams><md-icon>file_download</md-icon></button>
+      <button *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams><md-icon>people</md-icon></button>
+      <button *ngIf="globalOrganization && !organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" [queryParams]="{ organization: globalOrganization.id }"><md-icon>person</md-icon></button>
+      <button *ngIf="organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" preserveQueryParams><md-icon>person</md-icon></button>
+      <button *ngIf="globalOrganization && !organization" md-menu-item routerLink="/organizations" [queryParams]="{ organization: globalOrganization.id }"><md-icon>business</md-icon></button>
+      <button *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams><md-icon>business</md-icon></button>
+      <button *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams><md-icon>business_center</md-icon></button>
+    </div>
 
-    <md-menu x-position="before" #menu="mdMenu">
-      <a *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams>{{ 'people' | translate }}</a>
-      <a *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>{{ 'organizations' | translate }}</a>
-      <a md-menu-item href (click)="logout($event)">{{ 'logout' | translate }}</a>
-      <a md-menu-item href *ngIf="lang !== 'fr'" (click)="setLang('fr', $event)">{{ 'french' | translate }}</a>
-      <a md-menu-item href *ngIf="lang !== 'en'" (click)="setLang('en', $event)">{{ 'english' | translate }}</a>
+    <md-menu x-position="before" #exportMenu="mdMenu">
+      <a md-menu-item href="{{ getHCERESDowloadLink() }}">HCERES</a>
     </md-menu>
+
+    <div *ngIf="logged">
+      <button md-button [md-menu-trigger-for]="menu">Account</button>
+
+      <md-menu x-position="before" #menu="mdMenu">
+        <a md-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
+      </md-menu>
+    </div>
+    <div *ngIf="logged">
+      <button *ngIf="lang=='fr'" md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/fr-flag.svg" /></button>
+      <button *ngIf="lang=='en'" md-menu-item href (click)="setLang('fr', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></button>
+    </div>
+
   </md-toolbar>

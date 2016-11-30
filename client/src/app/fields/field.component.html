@@ -10,6 +10,7 @@
         [deletable]="index !== null"
         [label]="field.label"
         [form]="getForm()"
+        [feature]="feature"
         [layout]="field.layout"></isari-data-editor>
     </div>
 
@@ -78,16 +79,19 @@
   </span>
 
   <span *ngIf="field.multiple && field.type === 'object' && form.enabled" [formArrayName]="field.name">
+    <md-card-subtitle>
+      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
+    </md-card-subtitle>
+    <br />
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
       (onUpdate)="update($event)"
+      [feature]="feature"
       [index]="i"
       [form]="form"
       [path]="path + '.' + i"
       [multiple]="true"
       [field]="getField(field)"></isari-field>
-    <md-card-subtitle>
-      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
-    </md-card-subtitle>
+    
   </span>
 
 </span>

@@ -80,6 +80,12 @@
         },
         "service": "ldap"
     },
+    "idScopus": {
+        "label": {
+            "fr": "Identifiant Scopus",
+            "en": "Scopus identifier"
+        }
+    },
     "bannerUid": {
         "label": {
             "fr": "Identifiant scolarité Sciences Po",
@@ -94,7 +100,7 @@
         },
         "service": "sirh"
     },
-    "spireID": {
+    "idSpire": {
         "label": {
             "fr": "identifiant SPIRE",
             "en": "SPIRE identifier"
@@ -114,8 +120,8 @@
             "accessMonitoring": "corporate",
             "organization": {
                 "label": {
-                    "fr": "Centre de recherche",
-                    "en": "Research unit"
+                    "fr": "Tutelle",
+                    "en": "Employer"
                 },
                 "requirement": "mandatory",
                 "suggestions": "top_10",
@@ -238,7 +244,35 @@
                     }
                 }
             ],
-            "bonuses": [
+            "tenureTracks": [
+                {
+                    "label": {
+                        "fr": "Tenure track",
+                        "en": "Tenure track"
+                    },
+                    "description": {
+                        "fr": "Informations relatives à une tenure track",
+                        "en": "Tenure track information"
+                    },
+                    "accessType": "confidential",
+                    "reviewDate": {
+                        "label": {
+                            "fr": "Date d'évaluation",
+                            "en": "Review date"
+                        },
+                        "type": "date"
+                    },
+                    "review": {
+                        "label": {
+                            "fr": "Commentaires à propos de l'évaluation",
+                            "en": "Comments about the review"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "bonuses": [
                 {
                     "label": {
                         "fr": "Bonus",
@@ -272,43 +306,15 @@
                     }
                 }
             ],
-            "tenureTrack": [
-                {
-                    "label": {
-                        "fr": "Tenure track",
-                        "en": "Tenure track"
-                    },
-                    "description": {
-                        "fr": "Informations relatives à une tenure track",
-                        "en": "Tenure track information"
-                    },
-                    "accessType": "confidential",
-                    "reviewDate": {
-                        "label": {
-                            "fr": "Date d'évaluation",
-                            "en": "Review date"
-                        },
-                        "type": "date"
-                    },
-                    "comment": {
-                        "label": {
-                            "fr": "Commentaires à propos de l'évaluation",
-                            "en": "Comments about the review"
-                        }
-                    }
-                }
-            ]
-        }
-    ],
     "gradesAcademic": [
         {
             "label": {
-                "fr": "Grades",
-                "en": "Grades"
+                "fr": "Grades académiques",
+                "en": "Academic grades"
             },
             "description": {
-                "fr": "Grades académiques DR1, CR1...",
-                "en": "Academic Grade Associate Prof, Full Prof..."
+                "fr": "Professeur, DR1, CR1...",
+                "en": "Associate Prof, Full Prof..."
             },
             "grade": {
                 "requirement": "mandatory",
@@ -428,8 +434,8 @@
     },
     "biography": {
         "label": {
-            "fr": "Bio",
-            "en": "Bio"
+            "fr": "Biographie",
+            "en": "Biography"
         },
         "type": "text"
     },
@@ -520,7 +526,7 @@
                     "fr": "Plus précisément",
                     "en": "More precisely"
                 },
-                "softenum": "special/personalActivitySubtype"
+                "softenum": "personalActivitySubtypes:../personalActivityType"
             },
             "startDate": {
                 "requirement": "mandatory",

@@ -29,7 +29,9 @@ function query (method, url, data, headers = {}) {
 	}
 	return req.then(res => {
 		if (String(res.status)[0] !== '2' && res.status !== 301 && res.status !== 302) {
-			throw new Error(`[${res.status}] ${res.text}`)
+			const error = new Error(`[${res.status}] ${res.text}`)
+			error.statusCode = res.status
+			throw error
 		} else {
 			return res
 		}

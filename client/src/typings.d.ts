@@ -2,3 +2,6 @@
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
 declare var System: any;
+declare var XLSX: any;
+declare module 'file-saver';
+declare module 'papaparse';

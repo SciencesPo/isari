@@ -1,5 +1,8 @@
 <ul>
   <li>
+    {{ totalItems }} {{ 'lines' | translate }}
+  </li>
+  <li>
     <button md-button [md-menu-trigger-for]="menu">
       {{ 'items_per_page' | translate:{ value: itemsPerPage} }}
     </button>

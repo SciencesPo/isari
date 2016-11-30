@@ -12,6 +12,12 @@ const chalk = require('chalk')
 const util = require('util')
 
 
+const EXTRA_FIELDS = [
+	'latestChangeBy',
+	'updatedAt',
+	'createdAt'
+]
+
 const RESERVED_FIELDS = [
 	// Isari fields
 	'accessType',
@@ -57,7 +63,8 @@ module.exports = {
 	getFrontSchema: memoize(getFrontSchema, { length: 2 }),
 	computeConfidentialPaths: memoize(computeConfidentialPaths),
 	RESERVED_FIELDS,
-	FRONT_KEPT_FIELDS
+	FRONT_KEPT_FIELDS,
+	EXTRA_FIELDS
 }
 
 
@@ -137,7 +144,9 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	} else if (type === 'date') {
 		// Special type date, not translated into Date because we want support for partial dates
 		schema.type = String
-		schema.match = /^[12][0-9]{3}(?:-(?:0?[1-9]|1[0-2]))?(?:-(?:0?[1-9]|[12]\d|3[01]))?$/
+		// Ensure leading zeros are always here
+		schema.match = /^[12][0-9]{3}(?:-(?:0[1-9]|1[0-2]))?(?:-(?:0[1-9]|[12][0-9]|3[01]))?$/
+		schema.set = s => s.replace(/^([12][0-9]{3})(?:-(0?[1-9]|1[0-2]))?(?:-(0?[1-9]|[12]\d|3[01]))?$/, (ymd, y, m, d) => y + (m ? m.length === 1 ? '-0' + m : '-' + m : '') + (d ? d.length === 1 ? '-0' + d : '-' + d : ''))
 	} else if (type === 'ref') {
 		schema.type = Schema.Types.ObjectId
 		if (!desc.ref) {

@@ -37,6 +37,7 @@ export class IsariSelectComponent implements OnInit {
   extend = false;
   lang: string;
   id: string | undefined;
+  lastValidStringValue: any;
 
   constructor(private translate: TranslateService) { }
 
@@ -48,13 +49,18 @@ export class IsariSelectComponent implements OnInit {
     });
 
     Observable.combineLatest(
-      this.src(this.selectControl.valueChanges, this.max),
+      this.src(this.selectControl.valueChanges, this.max, this.form),
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ).subscribe(([items, lang]) => {
+    ).subscribe(([{values, reset}, lang]: [{values: any[], reset: boolean}, string]) => {
       this.lang = lang;
-      this.values = (<any[]>items).map(this.translateItem.bind(this));
+      if (reset) {
+        this.form.controls[this.name].setValue('');
+        this.selectControl.setValue('');
+        this.lastValidStringValue = '';
+      }
+      this.values = values.map(this.translateItem.bind(this));
       this.setExtend();
     });
 
@@ -71,6 +77,7 @@ export class IsariSelectComponent implements OnInit {
         this.id = stringValues[0].id;
       }
       stringValue = stringValue || this.form.controls[this.name].value;
+      this.lastValidStringValue = stringValue;
       this.selectControl.setValue(stringValue);
     });
 
@@ -82,6 +89,9 @@ export class IsariSelectComponent implements OnInit {
 
   onBlur($event) {
     this.focused = false;
+    if (this.lastValidStringValue !== this.selectControl.value) {
+      this.selectControl.setValue(this.lastValidStringValue);
+    }
   }
 
   onSelect(idx: number) {
@@ -93,6 +103,8 @@ export class IsariSelectComponent implements OnInit {
     this.form.controls[this.name].markAsDirty();
     this.selectControl.setValue(v.label || v.value || v.id);
     // this.selectControl.markAsDirty();
+
+    this.lastValidStringValue = this.selectControl.value;
 
     this.update({});
   }
@@ -112,6 +124,7 @@ export class IsariSelectComponent implements OnInit {
       this.form.controls[this.name].setValue(item.id || item);
       this.form.controls[this.name].markAsDirty();
       this.update({});
+      this.lastValidStringValue = this.selectControl.value;
     });
   }
 

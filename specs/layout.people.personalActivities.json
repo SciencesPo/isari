@@ -1,5 +1,4 @@
 [
 	["personalActivityType","personalActivitySubtype","role"],
-	["startDate","endDate"],
-	["organizations","people"]
+	["startDate","endDate","organizations","people"]
 ]

@@ -13,8 +13,12 @@ const async = require('async'),
       fs = require('fs'),
       path = require('path'),
       yargs = require('yargs'),
-      fingerprint = require('talisman/keyers/fingerprint').default,
+      fingerprint = require('talisman/keyers/fingerprint'),
       mongoose = require('../../server/node_modules/mongoose'),
+      words = require('talisman/tokenizers/words'),
+      naiveClusterer = require('talisman/clustering/naive'),
+      overlap = require('talisman/metrics/distance/overlap'),
+      jaccard = require('talisman/metrics/distance/jaccard'),
       inspect = require('util').inspect,
       chalk = require('chalk'),
       _ = require('lodash');
@@ -96,6 +100,16 @@ const argv = yargs
     default: false,
     describe: 'Whether to skip LDAP resolution.'
   })
+  .option('cluster-people', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to cluster the names at the end.'
+  })
+  .option('cluster-organization', {
+    type: 'boolean',
+    default: false,
+    describe: 'Whether to cluster the names at the end.'
+  })
   .help()
   .argv;
 
@@ -107,12 +121,14 @@ const INDEXES = {
     acronym: Object.create(null),
     name: Object.create(null),
     fingerprint: Object.create(null),
+    banner: Object.create(null),
     id: Object.create(null)
   },
   People: {
     id: Object.create(null),
     hashed: Object.create(null),
-    sirh: Object.create(null)
+    sirh: Object.create(null),
+    ldap: Object.create(null)
   },
   Activity: {
     id: Object.create(null)
@@ -320,6 +336,7 @@ const peopleTasks = FILES.people.files.map(file => next => {
  */
 const activityTasks = FILES.activities.files.map(file => next => {
   if (file.skip) {
+    console.log();
     log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
 
     return next();
@@ -328,34 +345,6 @@ const activityTasks = FILES.activities.files.map(file => next => {
   parseFile(file, (err, lines) => {
     if (err)
       return next(err);
-
-    // Resolving or overloading?
-    if (typeof file.overloader === 'function') {
-      log.info('Overloading...');
-
-      const before = {
-        Organization: counter.Organization(),
-        People: counter.People(),
-        Activity: counter.Activity()
-      };
-
-      lines.forEach(file.overloader.bind(log, INDEXES, mongoose.Types.ObjectId));
-
-      const after = {
-        Organization: counter.Organization(),
-        People: counter.People(),
-        Activity: counter.Activity()
-      };
-
-      for (const Model in counter) {
-        const difference = after[Model] - before[Model];
-
-        if (difference)
-          log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
-      }
-
-      return next();
-    }
 
     const items = file.resolver.call(log, lines);
 
@@ -395,6 +384,46 @@ const activityTasks = FILES.activities.files.map(file => next => {
 
         log.info(`Added ${chalk.cyan(added)} unique ${Model.toLowerCase()} (matches: ${chalk.cyan(items[Model].length - added)}, total: ${chalk.cyan(after)}).`);
       }
+    }
+
+    return next();
+  });
+});
+
+/**
+ * Post processing files.
+ */
+const postProcessingTasks = FILES.postProcessing.files.map(file => next => {
+  if (file.skip || (file.ldap && argv.skipLdap)) {
+    console.log();
+    log.warning(`Skipping the ${chalk.grey(file.name)} file (${file.ldap && argv.skipLdap ? 'no LDAP' : 'definition'}).`);
+
+    return next();
+  }
+
+  parseFile(file, (err, lines) => {
+    if (err)
+      return next(err);
+
+    const before = {
+      Organization: counter.Organization(),
+      People: counter.People(),
+      Activity: counter.Activity()
+    };
+
+    lines.forEach(file.process.bind(log, INDEXES, mongoose.Types.ObjectId));
+
+    const after = {
+      Organization: counter.Organization(),
+      People: counter.People(),
+      Activity: counter.Activity()
+    };
+
+    for (const Model in counter) {
+      const difference = after[Model] - before[Model];
+
+      if (difference)
+        log.info(`Added ${chalk.cyan(difference)} ${Model.toLowerCase()}.`);
     }
 
     return next();
@@ -442,6 +471,10 @@ function processRelations() {
       // Solving those relations by name
       let related = INDEXES.Organization.name[rel];
 
+      // Else solving the relation by Banner id
+      if (!related)
+        related = INDEXES.Organization.banner[rel];
+
       // Else solving the relation by acronym
       if (!related)
         related = INDEXES.Organization.acronym[rel];
@@ -469,6 +502,10 @@ function processRelations() {
         // Solving those relations by name
         let related = INDEXES.Organization.name[rel];
 
+        // Else solving the relation by Banner id
+        if (!related)
+          related = INDEXES.Organization.banner[rel];
+
         // Else solving the relation by acronym
         if (!related)
           related = INDEXES.Organization.acronym[rel];
@@ -489,9 +526,24 @@ function processRelations() {
         }
       }
       else if (Model === 'People') {
+        let related;
 
-        // Solving the relation by hash
-        const related = INDEXES.People.hashed[rel];
+        if (typeof rel === 'object') {
+          if (rel.sirh)
+            related = INDEXES.People.sirh[rel.sirh];
+
+          if (!related)
+            related = INDEXES.People.hashed[rel.hash];
+        }
+        else {
+
+          // Solving the relation by id SIRH
+          related = INDEXES.People.sirh[rel];
+
+          // Else, solving the relation by hash
+          if (!related)
+            related = INDEXES.People.hashed[rel];
+        }
 
         // If we still have nothing, we should yell
         if (!related) {
@@ -511,7 +563,7 @@ function processRelations() {
 /**
  * Adding technical fields.
  */
-function addTechnicalFields() {
+function technicalFields() {
 
   // Organization
   for (const k in INDEXES.Organization.id) {
@@ -527,6 +579,8 @@ function addTechnicalFields() {
 
     // ISARI authorized centers
     if (person.academicMemberships) {
+
+      // TODO: add only if still current
       person.isariAuthorizedCenters = person.academicMemberships.map(membership => {
         return {
           organization: membership.organization,
@@ -538,6 +592,14 @@ function addTechnicalFields() {
     // Spy
     person.latestChangeBy = 'IMPORT';
   }
+
+  // Activity
+  for (const k in INDEXES.Activity.id) {
+    const activity = INDEXES.Activity.id[k];
+
+    // Spy
+    activity.latestChangeBy = 'IMPORT';
+  }
 }
 
 /**
@@ -548,28 +610,62 @@ function retrieveLDAPInformation(callback) {
   log.info(`Hitting ${chalk.cyan(ldapConfig.url)}.`);
   log.info(`Using ${chalk.cyan(ldapConfig.dn)} dn.`);
 
-  return async.eachOfLimit(INDEXES.People.id, 10, (people, id, next) => {
+  const normalize = name => {
+    return _.deburr(name)
+      .toLowerCase()
+      .replace(/[a-z]\./g, '')
+      .replace(/[^a-z]/g, '');
+  };
 
-    if (!people.sirhMatricule)
-      return next();
+  return async.eachOfLimit(INDEXES.People.id, 10, (people, id, next) => {
+    // if (!people.sirhMatricule)
+    //   return next();
+
+    let filter = '(|';
+
+    filter += `(employeenumber=${people.sirhMatricule})`;
+    filter += `(displayName=${people.firstName} ${people.name})`;
+    filter += `(uid=${normalize(people.firstName)}.${normalize(people.name)})`;
+
+    if (people.firstName.split(' ').length > 1)
+      filter += `(uid=${normalize(people.firstName.split(' ')[0])}.${normalize(people.name)})`;
+
+    if (people.name.split('-').length > 1)
+      filter += `(uid=${normalize(people.firstName)}.${normalize(people.name.split('-')[0])})`;
+
+    if (people.contacts && people.contacts.email) {
+      filter += `(uid=${people.contacts.email.split('@')[0]})`;
+      filter += `(mail=${people.contacts.email})`;
+    }
+
+    filter += ')';
 
     const options = {
       scope: 'sub',
-      filter: `(employeenumber=${people.sirhMatricule})`
+      timeLimit: 20,
+      filter
     };
 
-    ldapClient.search(ldapConfig.dn, options, (err, res) => {
+    return ldapClient.search(ldapConfig.dn, options, (err, res) => {
+      if (err)
+        return next(err);
+
       res.on('searchEntry', entry => {
         people.ldapUid = entry.object.uid;
+
+        // Indexing
+        INDEXES.People.ldap[people.ldapUid] = people;
       });
       res.on('error', responseError => {
         return next(responseError);
       });
-      res.on('end', () => {
-        return next();
+      res.on('end', result => {
+        if (result.status === 0)
+          return next();
+        else
+          return next(result);
       });
     });
-
   }, callback);
 }
 
@@ -623,7 +719,7 @@ async.series({
     console.log();
     log.info('Adding technical fields...');
 
-    addTechnicalFields();
+    technicalFields();
 
     return next();
   },
@@ -639,68 +735,93 @@ async.series({
 
     return retrieveLDAPInformation(next);
   },
-  adminRoles(next) {
-    if (argv.skipLdap)
+  postProcessing(next) {
+    console.log();
+
+    // Checking missing LDAP uids
+    // _.values(INDEXES.People.id).forEach(person => {
+    //   if (person.sirhMatricule && !person.ldapUid)
+    //     log.warning(`Could not resolve ${chalk.green(person.firstName + ' ' + person.name)} LDAP uid.`);
+    // });
+
+    log.info('Post-processing...');
+
+    return async.series(postProcessingTasks, next);
+  },
+  clusteringPeople(next) {
+    if (!argv.clusterPeople)
       return next();
 
-    log.info('Attributing admin roles...');
+    // TODO: clustering by email also
 
-    // Indexing
-    const index = _.keyBy(INDEXES.People.id, 'ldapUid');
+    console.log();
+    log.info(`Attempting to cluster the names due to ${chalk.grey('--cluster-people')}.`);
 
-    // Loading the file
-    return parseFile({path: 'people/admin_roles.csv'}, (err, lines) => {
-      if (err)
-        return next(err);
+    // Tokenizing people
+    const people = _.values(INDEXES.People.id)
+      .map(person => {
+        const key = words(helpers.normalizeName(person.name))
+          .concat(words(helpers.normalizeName(person.firstName)));
 
-      // Matching
-      for (let i = 0, l = lines.length; i < l; i++) {
-        const {ldapUid, orgaAcronym, isariRole} = lines[i]
+        return {
+          key,
+          person
+        };
+      });
 
-        const person = index[ldapUid];
+    // Clustering with overlap
+    const similarity = (a, b) => {
+      return overlap(a.key, b.key) === 1;
+    };
 
-        if (!person) {
-          log.error(`Could not match person with LDAP id ${chalk.green(ldapUid)}.`);
-          return next(new ProcessError());
-        }
+    const clusters = naiveClusterer({similarity}, people)
+      .filter(cluster => cluster.length > 1);
 
-        let org;
+    // Warning:
+    clusters.forEach(cluster => {
+      log.warning('Found a cluster containing the following names:');
 
-        if (orgaAcronym) {
-          org = INDEXES.Organization.acronym[orgaAcronym.toUpperCase()];
-
-          if (!org)
-            org = INDEXES.Organization.name[orgaAcronym];
-
-          if (!org) {
-            log.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
-            return next(new ProcessError());
-          }
-        }
-        else if (!/^central_/.test(isariRole)) {
-          log.error(`Inconsistent role for id ${chalk.green(ldapUid)}. Cannot be ${chalk.grey(isariRole)} and be attached to an organization.`);
-          return next(new ProcessError());
-        }
-
-        person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
-
-        let authorization = org && person.isariAuthorizedCenters.find(a => a.organization === org._id);
-
-        if (authorization) {
-          authorization.isariRole = isariRole;
-        }
-        else {
-          authorization = {isariRole};
-
-          if (org)
-            authorization.organization = org._id;
-
-          person.isariAuthorizedCenters.push(authorization);
-        }
-      }
-
-      return next();
+      cluster.forEach(({person}) => {
+        console.log(`    First name: ${chalk.green(person.firstName)}, Name: ${chalk.green(person.name)}`);
+      });
     });
+
+    return next();
+  },
+  clusteringOrganization(next) {
+    if (!argv.clusterOrganization)
+      return next();
+
+    console.log();
+    log.info(`Attempting to cluster the organizations due to ${chalk.grey('--cluster-organization')}.`);
+
+    // Tokenizing organizations
+    const organizations = _.values(INDEXES.Organization.id)
+      .map(org => {
+        return {
+          key: fingerprint(org.name),
+          org
+        };
+      });
+
+    // Clustering with Jaccard
+    const similarity = (a, b) => {
+      return jaccard(a.key.split(' '), b.key.split(' ')) >= 3 / 4;
+    };
+
+    const clusters = naiveClusterer({similarity}, organizations)
+      .filter(cluster => cluster.length > 1);
+
+    // Warning:
+    clusters.forEach(cluster => {
+      log.warning('Found a cluster containing the following names:');
+
+      cluster.forEach(({org}) => {
+        console.log(`    Name: ${chalk.green(org.name)}`);
+      });
+    });
+
+    return next();
   },
   jsonDump(next) {
     if (!argv.json)

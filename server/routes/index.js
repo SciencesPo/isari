@@ -18,5 +18,7 @@ exports.enums = require('./enums')
 exports.layouts = require('./layouts')
 exports.columns = require('./columns')
 
+exports.export = require('./export')
+
 exports.errors = require('./errors')
 exports.auth = require('./auth')

@@ -16,9 +16,9 @@ export class DataTableComponent implements OnInit, OnChanges {
   itemsPerPage = 10;
   sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
   unfilteredData: any[];
-  loading = true;
   lang: string;
 
+  @Input() loading: boolean = false;
   @Input() data: any[];
   @Input() cols: any[];
   @Input() editedId: string;
@@ -55,7 +55,6 @@ export class DataTableComponent implements OnInit, OnChanges {
     }
     if (changes['data'] && this.data && this.data.length) {
       this.unfilteredData = this.data;
-      this.loading = false;
       navigateToFirstPage = true;
     }
     if (navigateToFirstPage) {

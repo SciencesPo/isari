@@ -1,0 +1,880 @@
+{
+    "personalActivitySubtypes": {
+        "editorial": [
+            {
+                "value": "revueScientifique",
+                "label": {
+                    "fr": "revue scientifique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "collectionScientifique",
+                "label": {
+                    "fr": "collection scientifique",
+                    "en": ""
+                }
+            }
+        ],
+        "expertise": [
+            {
+                "value": "audition",
+                "label": {
+                    "fr": "audition",
+                    "en": ""
+                }
+            },
+            {
+                "value": "rapport",
+                "label": {
+                    "fr": "rapport",
+                    "en": ""
+                }
+            },
+            {
+                "value": "consultance",
+                "label": {
+                    "fr": "activités de consultance",
+                    "en": ""
+                }
+            },
+            {
+                "value": "juridique",
+                "label": {
+                    "fr": "expertise juridique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "instance",
+                "label": {
+                    "fr": "participation à des instances d'expertise'",
+                    "en": ""
+                }
+            }
+        ],
+        "collaborationsscientifiques": [
+            {
+                "value": "associationprofessionnelle",
+                "label": {
+                    "fr": "association professionnelle",
+                    "en": ""
+                }
+            },
+            {
+                "value": "reseauthematique",
+                "label": {
+                    "fr": "réseau thématique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "groupederecherche",
+                "label": {
+                    "fr": "groupe de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "comitéScientifique",
+                "label": {
+                    "fr": "comité Scientifique",
+                    "en": ""
+                }
+            }
+        ],
+        "jurys": [
+            {
+                "value": "these",
+                "label": {
+                    "fr": "jury de doctorat",
+                    "en": ""
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "jury de HDR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "agregation",
+                "label": {
+                    "fr": "jury d'agrégation'",
+                    "en": ""
+                }
+            },
+            {
+                "value": "selection",
+                "label": {
+                    "fr": "Comité de sélection",
+                    "en": ""
+                }
+            }
+        ],
+        "encadrement": [
+            {
+                "value": "memoire",
+                "label": {
+                    "fr": "Direction de mémoire",
+                    "en": ""
+                }
+            },
+            {
+                "value": "these",
+                "label": {
+                    "fr": "Direction/codirection de doctorat",
+                    "en": ""
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "Direction/codirection de HDR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "comiteThese",
+                "label": {
+                    "fr": "comité de thèse",
+                    "en": ""
+                }
+            }
+        ],
+        "responsabilitésetmandats": [
+            {
+                "value": "conseillaboratoire",
+                "label": {
+                    "fr": "Conseil de laboratoire",
+                    "en": ""
+                }
+            },
+            {
+                "value": "conseilscientifique",
+                "label": {
+                    "fr": "Conseil scientifique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "comitepedagogique",
+                "label": {
+                    "fr": "Comité pédagogique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "sectionscientifique",
+                "label": {
+                    "fr": "Section scientifique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "composante",
+                "label": {
+                    "fr": "laboratoire, département, UFR...",
+                    "en": ""
+                }
+            },
+            {
+                "value": "programmernseignement",
+                "label": {
+                    "fr": "Programme d'enseignement",
+                    "en": ""
+                }
+            }
+        ],
+        "évaluations": [
+            {
+                "value": "evaluationstructure",
+                "label": {
+                    "fr": "Evaluation de structures",
+                    "en": ""
+                }
+            },
+            {
+                "value": "communauteprogrammation",
+                "label": {
+                    "fr": "Communauté de programmation scientifique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "evaluationprojets",
+                "label": {
+                    "fr": "Evaluation de projets de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "evaluationpairs",
+                "label": {
+                    "fr": "Evaluation de pairs",
+                    "en": ""
+                }
+            }
+        ],
+        "enseignement": [
+            {
+                "value": "college",
+                "label": {
+                    "fr": "niveau collège universitaire",
+                    "en": ""
+                }
+            },
+            {
+                "value": "master",
+                "label": {
+                    "fr": "niveau master",
+                    "en": ""
+                }
+            },
+            {
+                "value": "doctorat",
+                "label": {
+                    "fr": "niveau doctorat",
+                    "en": ""
+                }
+            },
+            {
+                "value": "formationcontinue",
+                "label": {
+                    "fr": "en formation continue",
+                    "en": ""
+                }
+            }
+        ]
+    },
+    "activityPeopleRole": {
+        "partenariat": [
+            {
+                "value": "referent",
+                "label": {
+                    "fr": "Référent",
+                    "en": "Local contact"
+                }
+            },
+            {
+                "value": "responsableScientifique",
+                "label": {
+                    "fr": "Responsable Scientifique",
+                    "en": "Scientific coordinator"
+                }
+            },
+            {
+                "value": "participant",
+                "label": {
+                    "fr": "Membre de l'équipe de recherche",
+                    "en": "Research team member"
+                }
+            }
+        ],
+        "doctorat": [
+            {
+                "value": "directeur",
+                "label": {
+                    "fr": "directeur de thèse",
+                    "en": ""
+                }
+            },
+            {
+                "value": "membrejury",
+                "label": {
+                    "fr": "membre du jury",
+                    "en": ""
+                }
+            },
+            {
+                "value": "presidentjury",
+                "label": {
+                    "fr": "président du jury",
+                    "en": ""
+                }
+            },
+            {
+                "value": "rapporteurjury",
+                "label": {
+                    "fr": "rapporteur",
+                    "en": ""
+                }
+            }
+        ],
+        "projetderecherche": [
+            {
+                "value": "PI",
+                "label": {
+                    "fr": "Principal Investigator",
+                    "en": "Principal Investigator"
+                }
+            },
+            {
+                "value": "responsableScientifique",
+                "label": {
+                    "fr": "Responsable Scientifique",
+                    "en": "Scientific coordinator"
+                }
+            },
+            {
+                "value": "membre",
+                "label": {
+                    "fr": "Membre de l'équipe de recherche",
+                    "en": "Research team member"
+                }
+            }
+        ],
+        "mob_entrante": [
+            {
+                "value": "visiting",
+                "label": {
+                    "fr": "Visiteur",
+                    "en": "Visiting"
+                }
+            },
+            {
+                "value": "referent",
+                "label": {
+                    "fr": "Référent",
+                    "en": "Local contact"
+                }
+            }
+        ],
+        "hdr": [
+            {
+                "value": "directeur",
+                "label": {
+                    "fr": "directeur de l'HDR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "membrejury",
+                "label": {
+                    "fr": "membre du jury",
+                    "en": ""
+                }
+            },
+            {
+                "value": "presidentjury",
+                "label": {
+                    "fr": "président du jury",
+                    "en": ""
+                }
+            },
+            {
+                "value": "rapporteurjury",
+                "label": {
+                    "fr": "rapporteur",
+                    "en": ""
+                }
+            }
+        ],
+        "mob_sortante": [
+            {
+                "value": "visiting",
+                "label": {
+                    "fr": "Visiteur",
+                    "en": "Visiting"
+                }
+            },
+            {
+                "value": "referent",
+                "label": {
+                    "fr": "Référent",
+                    "en": "Local contact"
+                }
+            }
+        ]
+    },
+    "activityOrganizationRoles": {
+        "partenariat": [
+            {
+                "value": "coordinateur",
+                "label": {
+                    "fr": "Coordinateur",
+                    "en": "Coordinator"
+                }
+            },
+            {
+                "value": "partenaire",
+                "label": {
+                    "fr": "Partenaire",
+                    "en": "Partner"
+                }
+            }
+        ],
+        "doctorat": [
+            {
+                "value": "inscription",
+                "label": {
+                    "fr": "Inscription",
+                    "en": "Registration"
+                }
+            }
+        ],
+        "projetderecherche": [
+            {
+                "value": "coordinateur",
+                "label": {
+                    "fr": "Coordinateur",
+                    "en": "Coordinator"
+                }
+            },
+            {
+                "value": "partenaire",
+                "label": {
+                    "fr": "Partenaire",
+                    "en": "Partner"
+                }
+            }
+        ],
+        "mob_entrante": [
+            {
+                "value": "home",
+                "label": {
+                    "fr": "Organisation d'origine",
+                    "en": "Home organization"
+                }
+            },
+            {
+                "value": "hosting",
+                "label": {
+                    "fr": "Organisation d'accueil",
+                    "en": "Hosting organization"
+                }
+            }
+        ],
+        "hdr": [
+            {
+                "value": "inscription",
+                "label": {
+                    "fr": "Inscription",
+                    "en": "Registration"
+                }
+            }
+        ],
+        "mob_sortante": [
+            {
+                "value": "home",
+                "label": {
+                    "fr": "Organisation d'origine",
+                    "en": "Home organization"
+                }
+            },
+            {
+                "value": "hosting",
+                "label": {
+                    "fr": "Organisation d'accueil",
+                    "en": "Hosting organization"
+                }
+            }
+        ]
+    },
+    "grantInstruments": {
+        "levéedefond": [
+            {
+                "value": "dsd",
+                "label": {
+                    "fr": "Direction de la Stratégie et du Développement",
+                    "en": ""
+                }
+            },
+            {
+                "value": "alumni",
+                "label": {
+                    "fr": "Alumni",
+                    "en": ""
+                }
+            }
+        ],
+        "collaboratifinternational": [
+            {
+                "value": "MarieCurieITN",
+                "label": {
+                    "fr": "Marie Curie International Training Network",
+                    "en": ""
+                }
+            },
+            {
+                "value": "projetcollaboratif",
+                "label": {
+                    "fr": "Projet collaboratif FP7",
+                    "en": ""
+                }
+            },
+            {
+                "value": "reseauexcellence",
+                "label": {
+                    "fr": "Réseau d'excellence FP7",
+                    "en": ""
+                }
+            },
+            {
+                "value": "H2020RIA",
+                "label": {
+                    "fr": "Actions de recherche et d'innovation H2020",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CSA-CA",
+                "label": {
+                    "fr": "CSA-CA - Coordination (or networking) actions",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CSA-SA",
+                "label": {
+                    "fr": "CSA-SA - Support actions",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CP-FP",
+                "label": {
+                    "fr": "CP-FP-small or medium scale focused research project",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ERA-Net",
+                "label": {
+                    "fr": "ERA-Net",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MSCAITN",
+                "label": {
+                    "fr": "Marie Skłodowska-Curie Innovative Training Networks",
+                    "en": ""
+                }
+            },
+            {
+                "value": "LIA",
+                "label": {
+                    "fr": "Laboratoire international associé",
+                    "en": ""
+                }
+            }
+        ],
+        "individuelinternational": [
+            {
+                "value": "ERCADG",
+                "label": {
+                    "fr": "ERC Advanced Grant",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ERCCOG",
+                "label": {
+                    "fr": "ERC Consolidator Grant",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ERCSTG",
+                "label": {
+                    "fr": "ERC Starting Grant",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MarieCurieIEF",
+                "label": {
+                    "fr": "Marie Curie Intra-European Fellowships",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MarieCurieIIF",
+                "label": {
+                    "fr": "Marie Curie International Incoming Fellowships",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MarieCurieIOF",
+                "label": {
+                    "fr": "Marie Curie International Outgoing Fellowships",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MarieCurieIRG",
+                "label": {
+                    "fr": "Marie Curie International Reintegration Grants",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MSCAIF",
+                "label": {
+                    "fr": "Marie Skłodowska-Curie Individual Fellowships",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MSCARISE",
+                "label": {
+                    "fr": "Marie Skłodowska-Curie Research and Innovation Staff Exchanges",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MSCACOFUND",
+                "label": {
+                    "fr": "Marie Skłodowska-Curie Co-funding of Regional, National, and International Programmes",
+                    "en": ""
+                }
+            },
+            {
+                "value": "MSCANIGHT",
+                "label": {
+                    "fr": "Marie Skłodowska-Curie European Researchers’ Night",
+                    "en": ""
+                }
+            }
+        ],
+        "collaboratifnational": [
+            {
+                "value": "EQUIPEX",
+                "label": {
+                    "fr": "EQUIPEX",
+                    "en": ""
+                }
+            },
+            {
+                "value": "IDEX",
+                "label": {
+                    "fr": "IDEX",
+                    "en": ""
+                }
+            },
+            {
+                "value": "PEPS",
+                "label": {
+                    "fr": "Projets Exploratoires Premier Soutien",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Blanc",
+                "label": {
+                    "fr": "Programme Blanc",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CORPUS",
+                "label": {
+                    "fr": "Corpus, données et outils de la recherche en sciences humaines et sociales",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ORA",
+                "label": {
+                    "fr": "Programme ORA",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Sociétésinnovantes",
+                "label": {
+                    "fr": "COR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Générique",
+                "label": {
+                    "fr": "Programme Générique",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Inégalitésdiscriminationsintégration",
+                "label": {
+                    "fr": "Inégalités, discriminations, intégration",
+                    "en": ""
+                }
+            },
+            {
+                "value": "FET",
+                "label": {
+                    "fr": "First Future and Emerging Technologies",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CP-IP",
+                "label": {
+                    "fr": "CP-IP - Large-scale integrating project",
+                    "en": ""
+                }
+            }
+        ],
+        "individuelnational": [
+            {
+                "value": "chairesexcellence",
+                "label": {
+                    "fr": "Chaires d'excellence",
+                    "en": ""
+                }
+            }
+        ],
+        "collaboratifterritorial": [
+            {
+                "value": "PICRI",
+                "label": {
+                    "fr": "PICRI (île de France)",
+                    "en": ""
+                }
+            }
+        ],
+        "individuelterritorial": [
+            {
+                "value": "emergences",
+                "label": {
+                    "fr": "Émergences (ville de Paris)",
+                    "en": ""
+                }
+            }
+        ],
+        "interne": [
+            {
+                "value": "SAB",
+                "label": {
+                    "fr": "Scientific Advisory Board",
+                    "en": ""
+                }
+            },
+            {
+                "value": "LIEPP",
+                "label": {
+                    "fr": "Laboratoire interdisciplinaire d'évaluation des politiques publiques",
+                    "en": ""
+                }
+            }
+        ],
+        "doctorat": [
+            {
+                "value": "Ancienne alloc. recherche MESR",
+                "labels": {
+                    "fr": "Ancienne alloc. recherche MESR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Associations et fondations",
+                "label": {
+                    "fr": "Associations et fondations",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Autre allocation",
+                "label": {
+                    "fr": "Autre allocation",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Bourse doctorale FNSP",
+                "label": {
+                    "fr": "Bourse doctorale FNSP",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Bourse gouv. français/étranger",
+                "label": {
+                    "fr": "Bourse gouv. français/étranger",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CIFRE",
+                "label": {
+                    "fr": "CIFRE",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Contrat doct. autre ministère",
+                "label": {
+                    "fr": "Contrat doct. autre ministère",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Contrat doct. financé par rég.",
+                "label": {
+                    "fr": "Contrat doct. financé par rég.",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Contrat doct. MESR hors ScPo",
+                "label": {
+                    "fr": "Contrat doct. MESR hors ScPo",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Contrat doct. MESR ScPo",
+                "label": {
+                    "fr": "Contrat doct. MESR ScPo",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Entreprise - Hors CIFRE",
+                "label": {
+                    "fr": "Entreprise - Hors CIFRE",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Organismes de recherche",
+                "label": {
+                    "fr": "Organismes de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Salarié(e) secteur privé",
+                "label": {
+                    "fr": "Salarié(e) secteur privé",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Salarié(e) secteur public",
+                "label": {
+                    "fr": "Salarié(e) secteur public",
+                    "en": ""
+                }
+            },
+            {
+                "value": "SANS FINANCEMENT",
+                "label": {
+                    "fr": "sans financement",
+                    "en": ""
+                }
+            },
+            {
+                "value": "Université étrangère",
+                "label": {
+                    "fr": "Université étrangère",
+                    "en": ""
+                }
+            }
+        ]
+    }
+}

@@ -22,6 +22,7 @@ export class FieldComponent implements OnChanges {
   @Input() index: number | null = null;
   @Input() path: string = '';
   @Input() multiple = false;
+  @Input() feature: string;
   @Output() onUpdate = new EventEmitter<any>();
 
   constructor(private isariDataService: IsariDataService) {}
@@ -31,8 +32,8 @@ export class FieldComponent implements OnChanges {
       this.field.controlType = this.isariDataService.getControlType(this.field);
       const src = this.field.enum || this.field.softenum;
       if (src) {
-        this.field.src = this.isariDataService.srcEnumBuilder(src, this.path, true);
-        this.field.stringValue = this.isariDataService.getEnumLabel(src, this.form.controls[this.field.name].value);
+        this.field.src = this.isariDataService.srcEnumBuilder(src, this.path);
+        this.field.stringValue = this.isariDataService.getEnumLabel(src, this.path, this.form, this.form.controls[this.field.name].value);
         this.field.create = function (x) { return Observable.of(x); };
       }
       if (this.field.ref) {
@@ -67,8 +68,11 @@ export class FieldComponent implements OnChanges {
     $event.preventDefault();
     const parentFormControl = this.form.controls[this.field.name];
     if (parentFormControl instanceof FormArray) {
-      this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field);
-      this.update($event);
+      this.isariDataService.getEmptyDataWith(this.field, this.feature, this.path)
+        .subscribe(data => {
+          this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field, data);
+          this.update($event);
+        });
     }
   }
 

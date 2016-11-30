@@ -38,6 +38,10 @@ module.exports = {
           academicMembership: line.Affiliation
         };
 
+        // add 0 prefix to sirh matricule which were cut by a spreadsheet software
+        if (info.sirhMatricule.length < 5)
+          info.sirhMatricule = '0'.repeat(5 - info.sirhMatricule.length) + info.sirhMatricule;
+
         if (line['%ETP'])
           info.timepart = +line['%ETP'].replace(/,/g, '.');
 
@@ -254,7 +258,8 @@ module.exports = {
 
         const objects = persons.map(years => {
           const first = years[0],
-                job = _.find(_.reverse(years), year => !!year.jobName);
+                job = _.find(years.slice().reverse(), year => !!year.jobName),
+                start = years.find(year => !!year.startDate);
 
           const person = {
             name: first.name,
@@ -271,9 +276,16 @@ module.exports = {
           if (job) {
             person.positions = [{
               jobName: job.jobName,
-              organization: job.organization,
-              startDate: job.startDate
+              organization: job.organization
             }];
+
+            if (start)
+              person.positions[0].startDate = start.startDate;
+
+            // If the year we got is not 2016, this means this person is not in contract anymore
+            // The same applies below to grades and memberships
+            if (job.year !== '2016')
+              person.positions[0].endDate = job.year;
 
             // Admin grades
             person.positions[0].gradesAdmin = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
@@ -284,13 +296,15 @@ module.exports = {
                   grade: slice[0].gradeAdmin
                 };
 
-                if (!i)
+                if (!i && slice[0].startDate)
                   info.startDate = slice[0].startDate;
                 else
                   info.startDate = slice[0].year;
 
                 if (nextSlice && nextSlice[0])
                   info.endDate = nextSlice[0].year;
+                else if (slice[slice.length - 1].year !== '2016')
+                  info.endDate = slice[slice.length - 1].year;
 
                 return info;
               });
@@ -304,13 +318,15 @@ module.exports = {
                 organization: slice[0].academicMembership
               };
 
-              if (!i)
+              if (!i && slice[0].startDate)
                 info.startDate = slice[0].startDate;
               else
                 info.startDate = slice[0].year;
 
               if (nextSlice && nextSlice[0])
                 info.endDate = nextSlice[0].year;
+              else if (slice[slice.length - 1].year !== '2016')
+                  info.endDate = slice[slice.length - 1].year;
 
               return info;
             });
@@ -329,7 +345,11 @@ module.exports = {
         const key = hashPeople(person),
               match = indexes.hashed[key];
 
-        if (match && !!person.positions) {
+        if (match) {
+
+          if (!person.positions)
+            return;
+
           const org = person.positions[0].organization;
 
           if (org === 'FNSP') {
@@ -442,7 +462,7 @@ module.exports = {
             info.distinctions[0].organizations = ['IEP Paris'];
         }
 
-        if (line['HDRouéquivalent']) {
+        if (line['HDRouéquivalent'] === 'oui') {
           info.distinctions = info.distinctions || [];
           info.distinctions.push({
             distinctionType: 'diplôme',
@@ -537,7 +557,7 @@ module.exports = {
           if (bonusesYear)
             info.bonuses = bonusesYear.bonuses;
 
-          // Chronologies: positions, dpt, academic memberships
+          // Chronologies: positions, dpt, academic memberships, gradesAcademic
           const positionSlices = partitionBy(years, 'jobTitle');
 
           // Positions
@@ -550,22 +570,26 @@ module.exports = {
             };
 
             // Dates
-            if (!i)
+            if (!i && slice[0].startDate)
               jobInfo.startDate = slice[0].startDate;
             else
               jobInfo.startDate = slice[0].year;
 
             if (nextSlice)
               jobInfo.endDate = nextSlice[0].startDate;
+            else if (slice[slice.length - 1].year !== '2016')
+              jobInfo.endDate = slice[slice.length - 1].year;
 
             // Grade Admin
             if (slice[0].gradeAdmin) {
               jobInfo.gradesAdmin = [
                 {
-                  grade: slice[0].gradeAdmin,
-                  startDate: jobInfo.startDate
+                  grade: slice[0].gradeAdmin
                 }
               ];
+
+              if (jobInfo.startDate)
+                jobInfo.gradesAdmin[0].startDate = jobInfo.startDate;
             }
 
             return jobInfo;
@@ -584,7 +608,7 @@ module.exports = {
                 if (!relevantMembership) {
                   relevantMembership = {
                     organization: membership.organization,
-                    startDate: !i ? year.startDate : year.year,
+                    startDate: !i && year.startDate ? year.startDate : year.year,
                     endDate: year.year
                   };
 
@@ -593,6 +617,10 @@ module.exports = {
 
                 // Else we update the endDate if not final year
                 else if (relevantYears[i + 1]) {
+                  relevantMembership.endDate = year.year;
+                }
+
+                else if (!relevantYears[i + 1] && year.year !== '2016') {
                   relevantMembership.endDate = year.year;
                 }
 
@@ -618,7 +646,7 @@ module.exports = {
                 if (!relevantMembership) {
                   relevantMembership = {
                     organization: membership.organization,
-                    startDate: !i ? year.startDate : year.year,
+                    startDate: !i && year.startDate ? year.startDate : year.year,
                     endDate: year.year
                   };
 
@@ -630,6 +658,10 @@ module.exports = {
                   relevantMembership.endDate = year.year;
                 }
 
+                else if (!relevantYears[i + 1] && year.year !== '2016') {
+                  relevantMembership.endDate = year.year;
+                }
+
                 else {
                   delete relevantMembership.endDate;
                 }
@@ -638,6 +670,41 @@ module.exports = {
 
           if (!info.academicMemberships.length)
             delete info.academicMemberships;
+
+          // Grades academic
+          info.gradesAcademic = [];
+          years
+            .filter(year => !!year.gradeAcademic)
+            .forEach((year, i, relevantYears) => {
+              let relevantGrade = info.gradesAcademic.find(m => m.grade === year.gradeAcademic);
+
+              // If no relevant grade was found, we add it
+              if (!relevantGrade) {
+                relevantGrade = {
+                  grade: year.gradeAcademic,
+                  startDate: !i && year.startDate ? year.startDate : year.year,
+                  endDate: year.year
+                };
+
+                info.gradesAcademic.push(relevantGrade);
+              }
+
+              // Else we update the endDate if not final year
+              else if (relevantYears[i + 1]) {
+                relevantGrade.endDate = year.year;
+              }
+
+              else if (!relevantYears[i + 1] && year.year !== '2016') {
+                relevantGrade.endDate = year.year;
+              }
+
+              else {
+                delete relevantGrade.endDate;
+              }
+            });
+
+          if (!info.gradesAcademic.length)
+            delete info.gradesAcademic;
 
           return info;
         });
@@ -659,7 +726,8 @@ module.exports = {
             'bonuses',
             'distinctions',
             'deptMemberships',
-            'academicMemberships'
+            'academicMemberships',
+            'gradesAcademic'
           ].forEach(prop => {
             if (person[prop])
               match[prop] = person[prop];

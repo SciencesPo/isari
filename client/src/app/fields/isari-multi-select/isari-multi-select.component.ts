@@ -23,6 +23,7 @@ export class IsariMultiSelectComponent implements OnInit {
   focused: boolean = false;
   extend = false;
   lang: string;
+  disabled: boolean;
 
   @Input() name: string;
   @Input() form: FormGroup;
@@ -45,6 +46,7 @@ export class IsariMultiSelectComponent implements OnInit {
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
+    this.disabled = this.form.controls[this.name].disabled;
 
     this.selectControl = new FormControl({
       value: '',
@@ -56,9 +58,9 @@ export class IsariMultiSelectComponent implements OnInit {
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ).subscribe(([items, lang]) => {
+    ).subscribe(([{values}, lang]: [{values: any[]}, string]) => {
       this.lang = lang;
-      this.options = (<any[]>items).map(this.translateItem.bind(this));
+      this.options = values.map(this.translateItem.bind(this));
       this.setExtend();
     });
 
@@ -114,7 +116,6 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   addValue(value) {
-    this.selectControl.setValue('');
     if (!this.extensible && !this.findOption(value)) {
       value = null;
     }
@@ -124,6 +125,7 @@ export class IsariMultiSelectComponent implements OnInit {
       this.form.controls[this.name].markAsDirty();
       this.onUpdate.emit({});
     }
+    this.selectControl.setValue('');
   }
 
   createValue() {

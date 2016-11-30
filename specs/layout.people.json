@@ -4,17 +4,30 @@
         "name",
         "birthName"
     ],
-    [
+     {
+
+        "fields": [
         "gender",
         "birthDate",
-        "nationalities"
-    ],
+        "nationalities",
+        "langs"
+        ],
+        "label": {"fr":"Informations Personnelles","en":"Personal Information"},
+        "collapsabled": true
+    },
     "academicMemberships",
     "gradesAcademic",
-    {
+    "deptMemberships",
+        {
 
         "fields": ["positions"],
         "label": {"fr":"Contrats","en":"Positions"},
+        "collapsabled": true
+    },
+    "distinctions",
+    {
+        "fields": ["personalActivities"],
+        "label": {"fr":"Activités Personnelles","en":"Personal activity"},
         "collapsabled": true
     },
     {
@@ -22,18 +35,33 @@
         "label": {"fr":"Tags","en":"Tags"},
         "collapsabled": true
     },
+    "biography",
     {
         "fields": [
-        "ldapUid",
-        "sirhMatricule",
-        "bannerUid",
-        "spireID"
-    ],
+            "ldapUid",
+            "sirhMatricule",
+            "bannerUid",
+            "idSpire"
+        ],
         "label": {"fr":"identifiants FNSP","en":"FNSP identifiers"},
         "collapsabled": true
     },
-    [
-        "ORCID",
-        "IDREF"
-    ]
+     {
+        "fields":  [
+            "ORCID",
+            "IDREF",
+            "idScopus"
+        ],
+        "label": {"fr":"identifiants externes","en":"external identifiers"},
+        "collapsabled": true
+    },
+    {
+        "fields":  [
+            "contacts",
+            "office"
+        ],
+        "label": {"fr":"Contacts","en":"Contacts"},
+        "collapsabled": true
+    }
+
 ]

@@ -1,0 +1,61 @@
+version: '2'
+services:
+# ElasticSearch
+  index:
+    image: elasticsearch:2.3.5
+    restart: unless-stopped
+# MongoDB
+  db:
+    image: mongo:3.2.9
+    restart: unless-stopped
+    command: mongod --smallfiles --replSet rs2es
+    depends_on:
+      - index
+# Docker temporaire pour configuer le replica set
+  mongosetup:
+    image: mongo:3.2.9
+    links:
+      - db
+    volumes:
+      - ./docker-mongosetup.sh:/docker-mongosetup.sh
+    entrypoint: [ "/docker-mongosetup.sh" ]
+    depends_on:
+      - db
+# Mongo-connector
+  connector:
+    image: totem/docker-mongo-es
+    restart: unless-stopped
+    links:
+      - index
+      - db
+    environment:
+      - MONGO_URL=mongodb://db:27017
+      - MONGO_INCLUDES=isari.people,isari.organizations,isari.activities
+      - ES_URL=index:9200
+    depends_on:
+      - mongosetup
+# Isari Server
+  server:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - docker-config.env
+    links:
+      - index
+      - db
+    depends_on:
+      - index
+      - db
+      - connector
+# Isari Client
+  client:
+    build: client
+    restart: unless-stopped
+    env_file:
+      - docker-config.env
+    volumes_from:
+      - server
+    links:
+      - server
+    ports:
+      - 80:80 

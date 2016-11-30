@@ -6,8 +6,8 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
-
 import { IsariDataService } from '../isari-data.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'isari-editor',
@@ -26,6 +26,7 @@ export class IsariEditorComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
+    private userService: UserService,
     private translate: TranslateService,
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef) {}
@@ -39,26 +40,31 @@ export class IsariEditorComponent implements OnInit {
 
     Observable.combineLatest(
       $routeParams,
+      this.userService.getRestrictedFields(),
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ).subscribe(([{ feature, id }, lang]) => {
-        this.feature = feature;
-        this.id = id;
-        Promise.all([
-          this.isariDataService.getData(this.feature, id),
-          this.isariDataService.getLayout(this.feature)
-        ]).then(([data, layout]) => {
-          this.data = data;
-          this.layout = this.isariDataService.translate(layout, lang);
-          this.layout = this.isariDataService.closeAll(this.layout);
-          this.form = this.isariDataService.buildForm(this.layout, this.data);
-          // disabled all form
-          if (this.data.opts && this.data.opts.editable === false) {
-            this.form.disable();
-          }
+    ).subscribe(([{ feature, id }, restrictedFields, lang]) => {
+      this.feature = feature;
+      this.id = id;
+      Promise.all([
+        this.isariDataService.getData(this.feature, id),
+        this.isariDataService.getLayout(this.feature)
+      ]).then(([data, layout]) => {
+        this.data = data;
+        this.data.opts = Object.assign({ editable: true }, this.data.opts || {}, {
+          restrictedFields: restrictedFields[feature],
+          path: []
         });
+        this.layout = this.isariDataService.translate(layout, lang);
+        this.layout = this.isariDataService.closeAll(this.layout);
+        this.form = this.isariDataService.buildForm(this.layout, this.data);
+        // disabled all form
+        if (this.data.opts && this.data.opts.editable === false) {
+          this.form.disable();
+        }
       });
+    });
   }
 
   save($event) {

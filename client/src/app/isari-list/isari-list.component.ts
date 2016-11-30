@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
@@ -14,6 +13,8 @@ import { IsariDataService } from '../isari-data.service';
 export class IsariListComponent implements OnInit {
 
   feature: string;
+  externals: boolean;
+  loading: boolean = false;
   data: any[] = [];
   filteredData: any[] = [];
   cols: any[] = [];
@@ -23,10 +24,10 @@ export class IsariListComponent implements OnInit {
   constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
 
   ngOnInit() {
-
     this.route.params
-      .subscribe(({ feature }) => {
+      .subscribe(({ feature, externals }) => {
         this.feature = feature;
+        this.externals = !!externals;
         this.isariDataService.getColumns(feature)
           .then(columns => {
             this.cols = columns;
@@ -59,10 +60,14 @@ export class IsariListComponent implements OnInit {
   }
 
   private loadDatas() {
+    this.data = [];
+    this.loading = true;
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
-      applyTemplates: true
+      applyTemplates: true,
+      externals: this.externals
     }).then(data => {
+      this.loading = false;
       this.data = data;
       this.filteredData = [...data];
     });

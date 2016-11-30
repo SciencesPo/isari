@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { ServerError, ClientError, NotFoundError, UnauthorizedError } = require('./errors')
+const { ClientError, NotFoundError, UnauthorizedError } = require('./errors')
 const { identity, set, map, pick, difference } = require('lodash/fp')
 const deepExtend = require('deep-extend')
 const bodyParser = require('body-parser')
@@ -37,13 +37,16 @@ const extractMongooseValidationError = err => {
 	return errors
 }
 
-const saveDocument = (format = identity) => doc => {
+const saveDocument = format => (doc, perms) => {
 	return doc.save()
-		.then(format)
+		.then(doc => format(doc, perms))
 		.catch(e => {
-			let err = new ClientError({ title: 'Validation error' })
+			let err
 			if (e.name === 'ValidationError') {
+				err = new ClientError({ title: 'Validation error' })
 				err.errors = extractMongooseValidationError(e)
+			} else {
+				err = e
 			}
 			return Promise.reject(err)
 		})
@@ -52,7 +55,7 @@ const saveDocument = (format = identity) => doc => {
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	getPermissions(req, o).then(perms =>
 		Promise.resolve(format(applyTemplates ? o.applyTemplates() : o, perms))
-		.then(set('opts', { editable: perms.editable, restrictedFields: perms.confidentials.paths }))
+		.then(set('opts', { editable: perms.editable }))
 	)
 
 const requiresAuthentication = (req, res, next) => {
@@ -64,7 +67,7 @@ const requiresAuthentication = (req, res, next) => {
 }
 
 // buildListQuery can be a function returning an object { query: PromiseOfMongooseQuery } (embedding in an object to not accidentally convert query into a promise of Results)
-exports.restRouter = (Model, format = identity, esIndex, getPermissions, buildListQuery = null) => {
+exports.restRouter = (Model, format, esIndex, getPermissions, buildListQuery = null) => {
 	const save = saveDocument(format)
 	const router = Router()
 
@@ -77,9 +80,9 @@ exports.restRouter = (Model, format = identity, esIndex, getPermissions, buildLi
 	router.get('/', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(listModel(Model, format, getPermissions, buildListQuery)))
 	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
 	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModelStrings(Model)))
-	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(updateModel(Model, save, getPermissions)))
-	router.post('/', parseJson, requiresAuthentication, restHandler(createModel(Model, save, getPermissions)))
-	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, restHandler(deleteModel(Model, getPermissions)))
+	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(updateModel(Model, save, getPermissions)))
+	router.post('/', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(createModel(Model, save, getPermissions)))
+	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(deleteModel(Model, getPermissions)))
 
 	return router
 }
@@ -132,32 +135,26 @@ const getModelStrings = Model => req => {
 
 const updateModel = (Model, save, getPermissions) => {
 	const get = getModel(Model, identity, getPermissions)
-	return req =>
-		get(req)
-		.then(doc => getPermissions(req, doc)
-			.then(perms => {
-				if (!perms.editable) {
-					return Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))
-				}
-				// Update object
-				const updates = filterConfidentialFields(Model.modelName, req.body, perms)
-				delete updates.id // just in case it's been sent by client
-				doc.latestChangeBy = req.session.login // sign for EditLogs
-				deepExtend(doc, updates)
-				return doc
-			})
-		)
-		.then(doc => save(doc))
+	return req => get(req).then(doc => getPermissions(req, doc).then(perms => {
+		if (!perms.editable) {
+			return Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))
+		}
+		// Update object
+		const updates = filterConfidentialFields(Model.modelName, req.body, perms)
+		delete updates.id // just in case it's been sent by client
+		doc.latestChangeBy = req.session.login // sign for EditLogs
+		deepExtend(doc, updates)
+		return save(doc, perms)
+	}))
 }
 
 const createModel = (Model, save, getPermissions) => (req, res) => Promise.resolve()
 	.then(() => new Model(req.body))
-	.then(doc => getPermissions(req, doc).then(perms => filterConfidentialFields(Model.modelName, doc, perms)))
-	.then(doc => {
+	.then(doc => getPermissions(req, doc).then(perms => {
+		doc = filterConfidentialFields(Model.modelName, doc, perms)
 		doc.latestChangeBy = req.session.login // sign for EditLogs
-		return doc
-	})
-	.then(save)
+		return save(doc, perms)
+	}))
 	.then(saved => {
 		res.status(201)
 		return saved
@@ -167,7 +164,7 @@ const createModel = (Model, save, getPermissions) => (req, res) => Promise.resol
 			// Extra fields
 			return Promise.reject(ClientError({ title: e.message }))
 		} else {
-			return Promise.reject(ServerError({ title: e.message }))
+			return Promise.reject(e)
 		}
 	})
 

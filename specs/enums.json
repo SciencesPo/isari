@@ -629,20 +629,6 @@
             }
         },
         {
-            "value": "collaboratifh2020",
-            "label": {
-                "fr": "H2020 collaboratif",
-                "en": ""
-            }
-        },
-        {
-            "value": "individuelh2020",
-            "label": {
-                "fr": "H2020 individuel",
-                "en": ""
-            }
-        },
-        {
             "value": "collaboratifinternational",
             "label": {
                 "fr": "International collaboratif",
@@ -668,6 +654,13 @@
             "label": {
                 "fr": "National individuel",
                 "en": ""
+            }
+        },
+        {
+            "value": "interne",
+            "label": {
+                "fr": "interne",
+                "en": "internal"
             }
         }
     ],
@@ -1252,9 +1245,46 @@
             }
         },
         {
+            "value": "hdr",
+            "label": {
+                "fr": "Habilitation à Diriger des Recherches",
+                "en": ""
+            }
+        },
+        {
             "value": "mob_sortante",
             "label": {
                 "fr": "séjour à l'étranger",
+                "en": ""
+            }
+        }
+    ],
+    "amountTypes": [
+        {
+            "value": "sciencespodemande",
+            "label": {
+                "fr": "Demandé pour Sciences Po",
+                "en": ""
+            }
+        },
+        {
+            "value": "sciencespoobtenu",
+            "label": {
+                "fr": "Obtenu pour Sciences Po",
+                "en": ""
+            }
+        },
+        {
+            "value": "consortiumdemande",
+            "label": {
+                "fr": "Demandé pour le consortium",
+                "en": ""
+            }
+        },
+        {
+            "value": "consortiumobtenu",
+            "label": {
+                "fr": "Obtenu pour le consortium",
                 "en": ""
             }
         }
@@ -1285,6 +1315,43 @@
             "value": "affilié",
             "label": {
                 "fr": "affilié",
+                "en": ""
+            }
+        }
+    ],
+    "budgetTypes": [
+        {
+            "value": "total",
+            "label": {
+                "fr": "Total",
+                "en": ""
+            }
+        },
+        {
+            "value": "invest",
+            "label": {
+                "fr": "Investissement",
+                "en": ""
+            }
+        },
+        {
+            "value": "run",
+            "label": {
+                "fr": "Fonctionnement",
+                "en": ""
+            }
+        },
+        {
+            "value": "hr",
+            "label": {
+                "fr": "Masse salariale",
+                "en": ""
+            }
+        },
+        {
+            "value": "overheads",
+            "label": {
+                "fr": "Frais de gestion",
                 "en": ""
             }
         }
@@ -1798,6 +1865,201 @@
         "zh",
         "zu"
     ],
+    "grantsProgram": [
+        {
+            "value": "H2020",
+            "label": {
+                "fr": "H2020",
+                "en": "H2020"
+            }
+        },
+        {
+            "value": "FP7",
+            "label": {
+                "fr": "FP7",
+                "en": "FP7"
+            }
+        },
+        {
+            "value": "PIA",
+            "label": {
+                "fr": "Programme d'investissements d'avenir",
+                "en": "Programme d'investissements d'avenir"
+            }
+        }
+    ],
+    "iso4217": [
+        "AED",
+        "AFN",
+        "ALL",
+        "AMD",
+        "ANG",
+        "AOA",
+        "ARS",
+        "AUD",
+        "AWG",
+        "AZN",
+        "BAM",
+        "BBD",
+        "BDT",
+        "BGN",
+        "BHD",
+        "BIF",
+        "BMD",
+        "BND",
+        "BOB",
+        "BOV",
+        "BRL",
+        "BSD",
+        "BTN",
+        "BWP",
+        "BYN",
+        "BZD",
+        "CAD",
+        "CDF",
+        "CHF",
+        "CLF",
+        "CLP",
+        "CNH",
+        "CNY",
+        "COP",
+        "COU",
+        "CRC",
+        "CUC",
+        "CUP",
+        "CVE",
+        "CZK",
+        "DJF",
+        "DKK",
+        "DOP",
+        "DZD",
+        "EGP",
+        "ERN",
+        "ETB",
+        "EUR",
+        "FJD",
+        "FKP",
+        "GBP",
+        "GEL",
+        "GGP",
+        "GHS",
+        "GIP",
+        "GMD",
+        "GNF",
+        "GTQ",
+        "GYD",
+        "HKD",
+        "HNL",
+        "HRK",
+        "HTG",
+        "HUF",
+        "IDR",
+        "ILS",
+        "IMP",
+        "INR",
+        "IQD",
+        "IRR",
+        "ISK",
+        "JEP",
+        "JMD",
+        "JOD",
+        "JPY",
+        "KES",
+        "KGS",
+        "KHR",
+        "KMF",
+        "KPW",
+        "KRW",
+        "KWD",
+        "KYD",
+        "KZT",
+        "LAK",
+        "LBP",
+        "LKR",
+        "LRD",
+        "LSL",
+        "LYD",
+        "MAD",
+        "MDL",
+        "MGA",
+        "MKD",
+        "MMK",
+        "MNT",
+        "MRO",
+        "MUR",
+        "MVR",
+        "MWK",
+        "MXN",
+        "MXV",
+        "MYR",
+        "MZN",
+        "NAD",
+        "NGN",
+        "NIO",
+        "NOK",
+        "NPR",
+        "NZD",
+        "OMR",
+        "PAB",
+        "PEN",
+        "PGK",
+        "PHP",
+        "PKR",
+        "PLN",
+        "PYG",
+        "QAR",
+        "RON",
+        "RSD",
+        "RUB",
+        "RWF",
+        "SAR",
+        "SBD",
+        "SCR",
+        "SDG",
+        "SEK",
+        "SGD",
+        "SHP",
+        "SLL",
+        "SOS",
+        "SPL",
+        "SRD",
+        "STD",
+        "SVC",
+        "SYP",
+        "SZL",
+        "THB",
+        "TJS",
+        "TMT",
+        "TND",
+        "TOP",
+        "TRY",
+        "TTD",
+        "TVD",
+        "TWD",
+        "TZS",
+        "UAH",
+        "UGX",
+        "USD",
+        "UYU",
+        "UZS",
+        "VEF",
+        "VND",
+        "VUV",
+        "WST",
+        "XAF",
+        "XAG",
+        "XAU",
+        "XCD",
+        "XDR",
+        "XOF",
+        "XPD",
+        "XPF",
+        "XPT",
+        "YER",
+        "ZAR",
+        "ZMW",
+        "ZWD"
+    ],
     "jobTitle": [
         {
             "value": "chercheur",
@@ -1848,6 +2110,64 @@
             "label": {
                 "fr": "label_fr",
                 "en": "label_en"
+            }
+        }
+    ],
+    "activityPeopleRoles": [
+        {
+            "value": "professor",
+            "label": {
+                "fr": "professor",
+                "en": ""
+            }
+        },
+        {
+            "value": "PI",
+            "label": {
+                "fr": "responsable scientifique (PI)",
+                "en": ""
+            }
+        },
+        {
+            "value": "participant",
+            "label": {
+                "fr": "participant",
+                "en": ""
+            }
+        },
+        {
+            "value": "doctorant(role)",
+            "label": {
+                "fr": "doctorant",
+                "en": ""
+            }
+        },
+        {
+            "value": "directeurdethèse",
+            "label": {
+                "fr": "directeur de thèse",
+                "en": ""
+            }
+        },
+        {
+            "value": "membrecomitésuivi",
+            "label": {
+                "fr": "membre comité suivi",
+                "en": ""
+            }
+        },
+        {
+            "value": "membredujury",
+            "label": {
+                "fr": "membre du jury",
+                "en": ""
+            }
+        },
+        {
+            "value": "invite",
+            "label": {
+                "fr": "invité",
+                "en": ""
             }
         }
     ],
@@ -2348,7 +2668,7 @@
             }
         },
         {
-            "value": "cnu17",
+            "value": "amountTypes",
             "label": {
                 "fr": "section 17 - Philosophie",
                 "en": ""
@@ -2427,177 +2747,168 @@
             }
         }
     ],
-    "iso4217": [
-        "AED",
-        "AFN",
-        "ALL",
-        "AMD",
-        "ANG",
-        "AOA",
-        "ARS",
-        "AUD",
-        "AWG",
-        "AZN",
-        "BAM",
-        "BBD",
-        "BDT",
-        "BGN",
-        "BHD",
-        "BIF",
-        "BMD",
-        "BND",
-        "BOB",
-        "BOV",
-        "BRL",
-        "BSD",
-        "BTN",
-        "BWP",
-        "BYN",
-        "BZD",
-        "CAD",
-        "CDF",
-        "CHF",
-        "CLF",
-        "CLP",
-        "CNH",
-        "CNY",
-        "COP",
-        "COU",
-        "CRC",
-        "CUC",
-        "CUP",
-        "CVE",
-        "CZK",
-        "DJF",
-        "DKK",
-        "DOP",
-        "DZD",
-        "EGP",
-        "ERN",
-        "ETB",
-        "EUR",
-        "FJD",
-        "FKP",
-        "GBP",
-        "GEL",
-        "GGP",
-        "GHS",
-        "GIP",
-        "GMD",
-        "GNF",
-        "GTQ",
-        "GYD",
-        "HKD",
-        "HNL",
-        "HRK",
-        "HTG",
-        "HUF",
-        "IDR",
-        "ILS",
-        "IMP",
-        "INR",
-        "IQD",
-        "IRR",
-        "ISK",
-        "JEP",
-        "JMD",
-        "JOD",
-        "JPY",
-        "KES",
-        "KGS",
-        "KHR",
-        "KMF",
-        "KPW",
-        "KRW",
-        "KWD",
-        "KYD",
-        "KZT",
-        "LAK",
-        "LBP",
-        "LKR",
-        "LRD",
-        "LSL",
-        "LYD",
-        "MAD",
-        "MDL",
-        "MGA",
-        "MKD",
-        "MMK",
-        "MNT",
-        "MRO",
-        "MUR",
-        "MVR",
-        "MWK",
-        "MXN",
-        "MXV",
-        "MYR",
-        "MZN",
-        "NAD",
-        "NGN",
-        "NIO",
-        "NOK",
-        "NPR",
-        "NZD",
-        "OMR",
-        "PAB",
-        "PEN",
-        "PGK",
-        "PHP",
-        "PKR",
-        "PLN",
-        "PYG",
-        "QAR",
-        "RON",
-        "RSD",
-        "RUB",
-        "RWF",
-        "SAR",
-        "SBD",
-        "SCR",
-        "SDG",
-        "SEK",
-        "SGD",
-        "SHP",
-        "SLL",
-        "SOS",
-        "SPL",
-        "SRD",
-        "STD",
-        "SVC",
-        "SYP",
-        "SZL",
-        "THB",
-        "TJS",
-        "TMT",
-        "TND",
-        "TOP",
-        "TRY",
-        "TTD",
-        "TVD",
-        "TWD",
-        "TZS",
-        "UAH",
-        "UGX",
-        "USD",
-        "UYU",
-        "UZS",
-        "VEF",
-        "VND",
-        "VUV",
-        "WST",
-        "XAF",
-        "XAG",
-        "XAU",
-        "XCD",
-        "XDR",
-        "XOF",
-        "XPD",
-        "XPF",
-        "XPT",
-        "YER",
-        "ZAR",
-        "ZMW",
-        "ZWD"
+    "grantsInstrument": [
+        {
+            "value": "Emergences",
+            "label": {
+                "fr": "Émergences (Ville de Paris)",
+                "en": "Émergences (Ville de Paris)"
+            }
+        },
+        {
+            "value": "EQUIPEX",
+            "label": {
+                "fr": "EQUIPEX",
+                "en": "EQUIPEX"
+            }
+        },
+        {
+            "value": "ERCADG",
+            "label": {
+                "fr": "ERC Advanced Grant",
+                "en": "ERC Advanced Grant"
+            }
+        },
+        {
+            "value": "ERCCOG",
+            "label": {
+                "fr": "ERC Consolidator Grant",
+                "en": "ERC Consolidator Grant"
+            }
+        },
+        {
+            "value": "ERCSTG",
+            "label": {
+                "fr": "ERC Starting Grant",
+                "en": "ERC Starting Grant"
+            }
+        },
+        {
+            "value": "IDEX",
+            "label": {
+                "fr": "IDEX",
+                "en": "IDEX"
+            }
+        },
+        {
+            "value": "LIEPP",
+            "label": {
+                "fr": "Laboratoire interdisciplinaire d'évaluation des politiques publiques",
+                "en": "LIEPP"
+            }
+        },
+        {
+            "value": "MarieCurieIEF",
+            "label": {
+                "fr": "Marie Curie Intra-European Fellowships",
+                "en": "Marie Curie Intra-European Fellowships"
+            }
+        },
+        {
+            "value": "MarieCurieIIF",
+            "label": {
+                "fr": "Marie Curie International Incoming Fellowships",
+                "en": "Marie Curie International Incoming Fellowships"
+            }
+        },
+        {
+            "value": "MarieCurieIOF",
+            "label": {
+                "fr": "Marie Curie International Outgoing Fellowships",
+                "en": "Marie Curie International Outgoing Fellowships"
+            }
+        },
+        {
+            "value": "MarieCurieIRG",
+            "label": {
+                "fr": "Marie Curie International Reintegration Grants",
+                "en": "Marie Curie International Reintegration Grants"
+            }
+        },
+        {
+            "value": "MarieCurieITN",
+            "label": {
+                "fr": "Marie Curie International Training Network",
+                "en": "Marie Curie International Training Network"
+            }
+        },
+        {
+            "value": "MSCAIF",
+            "label": {
+                "fr": "Marie Skłodowska-Curie Individual Fellowships",
+                "en": "Marie Skłodowska-Curie Individual Fellowships"
+            }
+        },
+        {
+            "value": "MSCARISE",
+            "label": {
+                "fr": "Marie Skłodowska-Curie Research and Innovation Staff Exchanges",
+                "en": "Marie Skłodowska-Curie Research and Innovation Staff Exchanges"
+            }
+        },
+        {
+            "value": "MSCAITN",
+            "label": {
+                "fr": "Marie Skłodowska-Curie Innovative Training Networks",
+                "en": "Marie Skłodowska-Curie Innovative Training Networks"
+            }
+        },
+        {
+            "value": "MSCACOFUND",
+            "label": {
+                "fr": "Marie Skłodowska-Curie Co-funding of Regional, National, and International Programmes",
+                "en": "Marie Skłodowska-Curie Co-funding of Regional, National, and International Programmes"
+            }
+        },
+        {
+            "value": "MSCANIGHT",
+            "label": {
+                "fr": "Marie Skłodowska-Curie European Researchers’ Night",
+                "en": "Marie Skłodowska-Curie European Researchers’ Night"
+            }
+        },
+        {
+            "value": "PEPS",
+            "label": {
+                "fr": "Projets Exploratoires Premier Soutien",
+                "en": "Projets Exploratoires Premier Soutien"
+            }
+        },
+        {
+            "value": "PICRI",
+            "label": {
+                "fr": "Partenariats institutions-citoyens pour la recherche et l'innovation (IDF)",
+                "en": "Partenariats institutions-citoyens pour la recherche et l'innovation (IDF)"
+            }
+        },
+        {
+            "value": "projetcollaboratif",
+            "label": {
+                "fr": "Projet collaboratif FP7",
+                "en": "Projet collaboratif"
+            }
+        },
+        {
+            "value": "reseauexcellence",
+            "label": {
+                "fr": "Réseau d'excellence FP7",
+                "en": "Réseau d'excellence"
+            }
+        },
+        {
+            "value": "SAB",
+            "label": {
+                "fr": "Scientific Advisory Board",
+                "en": "Scientific Advisory Board"
+            }
+        },
+        {
+            "value": "H2020RIA",
+            "label": {
+                "fr": "Actions de recherche et d'innovation H2020",
+                "en": "Research Innovation Action"
+            }
+        }
     ],
     "countries": [
         "AF",
@@ -3442,123 +3753,5 @@
                 "en": "Other"
             }
         }
-    ],
-    "personalActivitySubtype": {
-        "editorial": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for editorial", "en": "subtype for editorial" }
-            }
-        ],
-        "collaborationsscientifiques": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for collaborationsscientifiques", "en": "subtype for collaborationsscientifiques" }
-            }
-        ],
-        "expertise": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for expertise", "en": "subtype for expertise" }
-            }
-        ],
-        "jurys": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for jurys", "en": "subtype for jurys" }
-            }
-        ],
-        "encadrement": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for encadrement", "en": "subtype for encadrement" }
-            }
-        ],
-        "responsabilitésetmandats": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for responsabilitésetmandats", "en": "subtype for responsabilitésetmandats" }
-            }
-        ],
-        "évaluations": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for évaluations", "en": "subtype for évaluations" }
-            }
-        ],
-        "enseignement": [
-            {
-                "value": "test",
-                "label": { "fr": "subtype for enseignement", "en": "subtype for enseignement" }
-            }
-        ]
-    },
-    "activityPeopleRole": {
-        "partenariat": [
-        ],
-        "doctorat": [
-            {
-                "value": "professor",
-                "label": {
-                    "fr": "professor",
-                    "en": ""
-                }
-            },
-            {
-                "value": "PI",
-                "label": {
-                    "fr": "responsable scientifique (PI)",
-                    "en": ""
-                }
-            },
-            {
-                "value": "participant",
-                "label": {
-                    "fr": "participant",
-                    "en": ""
-                }
-            },
-            {
-                "value": "doctorant(role)",
-                "label": {
-                    "fr": "doctorant",
-                    "en": ""
-                }
-            },
-            {
-                "value": "directeurdethèse",
-                "label": {
-                    "fr": "directeur de thèse",
-                    "en": ""
-                }
-            },
-            {
-                "value": "membrecomitésuivi",
-                "label": {
-                    "fr": "membre comité suivi",
-                    "en": ""
-                }
-            },
-            {
-                "value": "membredujury",
-                "label": {
-                    "fr": "membre du jury",
-                    "en": ""
-                }
-            },
-            {
-                "value": "invite",
-                "label": {
-                    "fr": "invité",
-                    "en": ""
-                }
-            }
-        ],
-        "projetderecherche": [
-        ],
-        "mob_entrante": [
-        ],
-        "mob_sortante": [
-        ]
-    }
+    ]
 }

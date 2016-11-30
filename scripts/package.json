@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dump": "node ./dump",
+    "export": "node ./export",
     "import:init": "node ./import/init.js",
     "import:test": "node ./import/test.js",
     "lint": "eslint *.js import"
@@ -18,7 +19,8 @@
     "lodash": "^4.16.4",
     "mkdirp": "^0.5.1",
     "moment": "^2.15.2",
-    "talisman": "^0.12.0",
+    "talisman": "^0.14.0",
+    "xlsx": "^0.8.0",
     "yargs": "^6.3.0"
   },
   "author": {
