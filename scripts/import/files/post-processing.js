@@ -103,6 +103,7 @@ module.exports = {
     {
       name: 'ID_scopus_orcid',
       path: 'people/ID_scopus_orcid.csv',
+      ldap: true,
       skip: true,
       consumer(line) {
         const info = {
@@ -135,6 +136,7 @@ module.exports = {
     {
       name: 'admin_roles',
       path: 'people/admin_roles.csv',
+      ldap: true,
       process(indexes, id, line) {
         const {ldapUid, orgaAcronym, isariRole} = line;
 

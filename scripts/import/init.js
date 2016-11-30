@@ -394,9 +394,9 @@ const activityTasks = FILES.activities.files.map(file => next => {
  * Post processing files.
  */
 const postProcessingTasks = FILES.postProcessing.files.map(file => next => {
-  if (file.skip) {
+  if (file.skip || (file.ldap && argv.skipLdap)) {
     console.log();
-    log.warning(`Skipping the ${chalk.grey(file.name)} file.`);
+    log.warning(`Skipping the ${chalk.grey(file.name)} file (no LDAP or config).`);
 
     return next();
   }
@@ -737,11 +737,6 @@ async.series({
   },
   postProcessing(next) {
     console.log();
-
-    if (argv.skipLdap) {
-      log.warning('Skipping post-processing (needs LDAP resolution).');
-      return next();
-    }
 
     // Checking missing LDAP uids
     // _.values(INDEXES.People.id).forEach(person => {
