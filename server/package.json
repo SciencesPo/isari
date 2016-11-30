@@ -26,6 +26,7 @@
     "npm-run-all": "^3.0.0"
   },
   "dependencies": {
+    "@yomguithereal/eslint-config": "^3.0.0",
     "async": "^2.1.4",
     "body-parser": "^1.15.2",
     "chalk": "^1.1.3",

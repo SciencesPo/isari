@@ -2,8 +2,7 @@
  * ISARI HCERES Export Routine
  * ============================
  */
-const XLSX = require('xlsx'),
-      async = require('async'),
+const async = require('async'),
       moment = require('moment');
 
 const {
@@ -16,9 +15,9 @@ const {
 const GRADES_INDEX = require('../../specs/export/grades.json');
 
 const GENDER_MAP = {
-  'm': 'H',
-  'f': 'F',
-  'o': ''
+  m: 'H',
+  f: 'F',
+  o: ''
 };
 
 /**
@@ -75,7 +74,7 @@ const SHEETS = [
         people = people.filter(person => {
           const validMembership = !!findRelevantItem(person.academicMemberships);
 
-          const relevantPosition = findRelevantItem(person.positions)
+          const relevantPosition = findRelevantItem(person.positions);
 
           const relevantGrade = findRelevantItem(person.gradesAcademic);
 
@@ -96,9 +95,9 @@ const SHEETS = [
             organization: 'IEP Paris'
           };
 
-          let relevantPosition = findRelevantItem(person.positions);
+          const relevantPosition = findRelevantItem(person.positions);
 
-          let gradeAcademic = findRelevantItem(person.gradesAcademic);
+          const gradeAcademic = findRelevantItem(person.gradesAcademic);
 
           let gradeAdmin;
 
@@ -140,7 +139,7 @@ module.exports = function(models, centerId, callback) {
   const workbook = createWorkbook();
   workbook.name = FILENAME;
 
-  async.eachSeries(SHEETS, (sheet, next) => {
+  async.eachSeries(SHEETS, (sheet, next) => {
     return sheet.populate(models, centerId, (err, collection) => {
       if (err)
         return next(err);
