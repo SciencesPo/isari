@@ -27,7 +27,7 @@
             "ldapUid",
             "sirhMatricule",
             "bannerUid",
-            "spireID"
+            "idSpire"
         ],
         "label": {"fr":"identifiants FNSP","en":"FNSP identifiers"},
         "collapsabled": true
