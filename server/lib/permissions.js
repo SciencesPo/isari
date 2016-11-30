@@ -140,8 +140,10 @@ exports.scopeOrganizationMiddleware = (req, res, next) => {
 		.catch(next)
 	}
 
-	// Global scope requested: check if it is valid for connected user
-	if (!orgId && !req.userCentralRole) {
+	// Whitelisted URLs: /organizations/* and /people/myself
+	const isWhitelisted = req.originalUrl.match(/^\/organizations(?:\/|$)/) || req.originalUrl.startsWith('/people/' + req.userId)
+	// Global scope requested: check if it is valid for connected user and requested URL
+	if (!orgId && !req.userCentralRole && !isWhitelisted) {
 		return next(UnauthorizedError({ title: 'Access to global scope refused for non central people, please add "?organization=…" to scope your queries' }))
 	}
 
