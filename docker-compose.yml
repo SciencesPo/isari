@@ -38,6 +38,8 @@ services:
   server:
     build: .
     restart: unless-stopped
+    env_file:
+      - docker-config.env
     links:
       - index
       - db
@@ -48,6 +50,9 @@ services:
 # Isari Client
   client:
     build: client
+    restart: unless-stopped
+    env_file:
+      - docker-config.env
     volumes_from:
       - server
     links:

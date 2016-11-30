@@ -232,7 +232,7 @@
                     "fr": "Instrument de financement",
                     "en": "Funding instrument"    
                 },
-                "softenum": "grantsInstrument"
+                "softenum": "grantsInstruments:../grantType"
             },
             "grantCall":{
                 "label":{
