@@ -244,7 +244,7 @@
                     }
                 }
             ],
-            "tenureTrack": [
+            "tenureTracks": [
                 {
                     "label": {
                         "fr": "Tenure track",
@@ -262,7 +262,7 @@
                         },
                         "type": "date"
                     },
-                    "comment": {
+                    "review": {
                         "label": {
                             "fr": "Commentaires à propos de l'évaluation",
                             "en": "Comments about the review"

@@ -1,4 +1,5 @@
 [
 	["organization","startDate","endDate"],
-	["jobName","jobTitle","jobType","timepart"]
+	["jobName","jobTitle","jobType","timepart"],
+	["gradesAdmin","gradesSirh","tenureTracks"]
 ]

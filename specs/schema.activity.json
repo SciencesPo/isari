@@ -232,7 +232,7 @@
                     "fr": "Instrument de financement",
                     "en": "Funding instrument"
                 },
-                "softenum": "grantsInstruments:../grantType"
+                "softenum": "grantInstruments:../grantType"
             },
             "grantCall":{
                 "label":{
@@ -252,6 +252,10 @@
             },
             "amounts":[
                 {
+                    "label":{
+                            "fr":"Budget",
+                            "en": "Budget"
+                        },
                     "amountType":{
                         "label":{
                             "fr":"Type de total",
@@ -266,6 +270,16 @@
                         },
                         "enum": "budgetTypes",
                         "default":  "total"
+                    },
+                    "amount":{
+                        "requirement":"mandatory",
+                         "label":{
+                            "fr": "montant",
+                            "en": "amount"
+                        },
+                        "type":"number",
+                        "default":0,
+                        "min":0
                     }
                 }
             ],

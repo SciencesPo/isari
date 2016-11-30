@@ -9,20 +9,22 @@
         "fields": [
         "gender",
         "birthDate",
-        "nationalities"
+        "nationalities",
+        "langs"
         ],
         "label": {"fr":"Informations Personnelles","en":"Personal Information"},
         "collapsabled": true
     },
     "academicMemberships",
     "gradesAcademic",
-    "deptMemberships",    
-    {
+    "deptMemberships",
+        {
 
         "fields": ["positions"],
         "label": {"fr":"Contrats","en":"Positions"},
         "collapsabled": true
     },
+    "distinctions",
     {
         "fields": ["personalActivities"],
         "label": {"fr":"Activités Personnelles","en":"Personal activity"},
@@ -51,6 +53,14 @@
             "idScopus"
         ],
         "label": {"fr":"identifiants externes","en":"external identifiers"},
+        "collapsabled": true
+    },
+    {
+        "fields":  [
+            "contacts",
+            "office"
+        ],
+        "label": {"fr":"Contacts","en":"Contacts"},
         "collapsabled": true
     }
 
