@@ -223,21 +223,21 @@
             "grantProgram":{
                 "label":{
                     "fr": "Programme de financement",
-                    "en": "funding program"    
+                    "en": "funding program"
                 },
                 "enum": "grantsProgram"
             },
             "grantInstrument":{
                 "label":{
                     "fr": "Instrument de financement",
-                    "en": "Funding instrument"    
+                    "en": "Funding instrument"
                 },
                 "softenum": "grantsInstruments:../grantType"
             },
             "grantCall":{
                 "label":{
                     "fr": "Appel à projet",
-                    "en": "Call for project"    
+                    "en": "Call for project"
                 }
             },
             "grantIdentifier": {
@@ -266,8 +266,7 @@
                         },
                         "enum": "budgetTypes",
                         "default":  "total"
-                    },
-                    "type": "number"
+                    }
                 }
             ],
             "overheadsCalculation":{
