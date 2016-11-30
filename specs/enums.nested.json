@@ -703,6 +703,20 @@
                     "fr": "Inégalités, discriminations, intégration",
                     "en": ""
                 }
+            },
+            {
+                "value": "FET",
+                "label": {
+                    "fr": "First Future and Emerging Technologies",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CP-IP",
+                "label": {
+                    "fr": "CP-IP - Large-scale integrating project",
+                    "en": ""
+                }
             }
         ],
         "individuelnational": [
