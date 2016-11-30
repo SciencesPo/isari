@@ -77,7 +77,7 @@ router.get('/permissions', (req, res, next) => {
 	}
 	const orgs = req.userCentralRole
 		? // User is central: provide access to all organizations + fake global one
-			Organization.find().then(orgs => [config.globalOrganization].concat(orgs))
+			Organization.find({ isariMonitored: true }).then(orgs => [config.globalOrganization].concat(orgs))
 		: // General case: provide access to its own organizations}
 			Organization.find({ _id: { $in: Object.keys(req.userRoles) } })
 
