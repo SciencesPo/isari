@@ -13,18 +13,18 @@ const {
   parseDate
 } = require('../helpers.js');
 
+const GRADES_INDEX = require('../../../specs/export/grades.json');
+
+const GENDER_MAP = {
+
+};
+
 /**
  * Constants.
  */
 const FILENAME = 'hceres.xlsx';
 
 const HCERES_DATE = '2017-06-30';
-
-const READ_OPTIONS = {
-  bookFiles: 'files',
-  cellStyles: true,
-  sheetStubs: true
-};
 
 /**
  * Helpers.
@@ -48,7 +48,10 @@ const SHEETS = [
     headers: [
       {key: 'jobType', label: 'Type d\'emploi'},
       {key: 'name', label: 'Nom'},
-      {key: 'firstName', label: 'Prénom'}
+      {key: 'firstName', label: 'Prénom'},
+      {key: 'gender', label: 'H/F'},
+      {key: 'birthDate', label: 'Date de naissance\n(JJ/MM/AAAA)'},
+      {key: 'grade', label: 'Corps-grade\n(1)'}
     ],
     populate(models, centerId, callback) {
       const People = models.People;
@@ -62,8 +65,6 @@ const SHEETS = [
       }, (err, people) => {
         if (err)
           return callback(err);
-
-        console.log(people.length);
 
         //-- 1) Filtering relevant people
         people = people.filter(person => {
@@ -80,7 +81,27 @@ const SHEETS = [
           );
         });
 
-        console.log(people, people.length);
+        //-- 2) Retrieving necessary data
+        people = people.map(person => {
+          const info = {
+            name: person.name,
+            firstName: person.firstName,
+            gender: person
+          };
+
+          let relevantPosition = findRelevantItem(person.positions);
+
+          let gradeAcademic = findRelevantItem(person.gradesAcademic);
+
+          let gradeAdmin;
+
+          if (relevantPosition)
+            findRelevantItem(relevantPosition.gradesAdmin);
+
+          console.log(gradeAcademic, gradeAdmin)
+
+          return info;
+        });
 
         return callback(null, people);
       });
