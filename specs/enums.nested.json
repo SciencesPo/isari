@@ -728,6 +728,24 @@
                 }
             }
         ],
+        "collaboratifterritorial": [
+            {
+                "value": "PICRI",
+                "label": {
+                    "fr": "PICRI (île de France)",
+                    "en": ""
+                }
+            }
+        ],
+        "individuelterritorial": [
+            {
+                "value": "emergences",
+                "label": {
+                    "fr": "Émergences (ville de Paris)",
+                    "en": ""
+                }
+            }
+        ],
         "interne": [
             {
                 "value": "SAB",
