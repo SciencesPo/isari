@@ -47,11 +47,20 @@
       [description]="field.description"
       [form]="form"></isari-textarea>
 
+    <isari-input *ngSwitchCase="'number'"
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label"
+      [description]="field.description"
+      type="number"
+      [form]="form"></isari-input>
+
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
       [description]="field.description"
+      type="text"
       [form]="form"></isari-input>
 
   </span>
@@ -91,7 +100,7 @@
       [path]="path + '.' + i"
       [multiple]="true"
       [field]="getField(field)"></isari-field>
-    
+
   </span>
 
 </span>
