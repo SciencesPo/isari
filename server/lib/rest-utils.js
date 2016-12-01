@@ -3,7 +3,6 @@
 const { Router } = require('express')
 const { ClientError, NotFoundError, UnauthorizedError } = require('./errors')
 const { identity, set, map, pick, difference } = require('lodash/fp')
-const deepExtend = require('deep-extend')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery, filterConfidentialFields } = require('./model-utils')
@@ -81,7 +80,7 @@ exports.restRouter = (Model, format, esIndex, getPermissions, buildListQuery = n
 	router.get('/', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(listModel(Model, format, getPermissions, buildListQuery)))
 	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
 	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModelStrings(Model)))
-	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(updateModel(Model, save, getPermissions)))
+	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(replaceModel(Model, save, getPermissions)))
 	router.post('/', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(createModel(Model, save, getPermissions)))
 	router.delete('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(deleteModel(Model, getPermissions)))
 
@@ -137,17 +136,33 @@ const getModelStrings = Model => req => {
 		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(0) })))
 }
 
-const updateModel = (Model, save, getPermissions) => {
+const replaceModel = (Model, save, getPermissions) => {
 	const get = getModel(Model, identity, getPermissions)
 	return req => get(req).then(doc => getPermissions(req, doc).then(perms => {
 		if (!perms.editable) {
 			return Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))
 		}
-		// Update object
-		const updates = filterConfidentialFields(Model.modelName, req.body, perms)
-		delete updates.id // just in case it's been sent by client
+		// Build original values and new values, ignoring confidential fields
+		const original = filterConfidentialFields(Model.modelName, doc.toObject(), perms)
+		const updated = filterConfidentialFields(Model.modelName, removeEmptyFields(req.body), perms)
+		// Update with provided data
+		for (let f in updated) {
+			if (f === 'id' || f[0] === '_') {
+				continue // just in case client sent technical data
+			}
+			debug('Update', Model.modelName, doc.id, f, updated[f])
+			doc[f] = updated[f]
+		}
+		// Also delete fields that are in 'original' but not in 'updated' anymore
+		for (let f in original) {
+			if (f !== 'id' && f[0] !== '_' && !(f in updated)) {
+				debug('Remove', Model.modelName, doc.id, f)
+				doc[f] = undefined
+			}
+		}
+		// Delete
 		doc.latestChangeBy = req.session.login // sign for EditLogs
-		deepExtend(doc, updates)
+		debug('Save', Model.modelName, doc)
 		return save(doc, perms)
 	}))
 }

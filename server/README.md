@@ -20,11 +20,11 @@ npm install
 ```
 
 * `npm run start-db` starts the Docker image with combined MongoDB and ElasticSearch
-  * `npm run clean-db` clears the image
+	* `npm run clean-db` clears the image
 * `npm run dev` starts all these sub-tasks in parallel:
-  * `watch:server` runs `server.js` in *development* environment, restarts on every change
-  * `watch:lint` runs ESLint validation on every change
-  * `watch:test` runs unit tests on every change
+	* `watch:server` runs `server.js` in *development* environment, restarts on every change
+	* `watch:lint` runs ESLint validation on every change
+	* `watch:test` runs unit tests on every change
 * `npm test` runs unit tests
 * `npm run lint` runs ESLint validation
 
@@ -41,53 +41,54 @@ npm install --production
 ### Authentication
 
 * `GET /auth/myself`
-  * output: `{ login, people }`
-    * `login`: LDAP UID
-    * `people`: populated matching People
+	* output: `{ login, people }`
+		* `login`: LDAP UID
+		* `people`: populated matching People
 * `POST /auth/login`
-  * input: `{ login, password }`
-  * output: `{ login, people }` (cf. route `/auth/myself`)
+	* input: `{ login, password }`
+	* output: `{ login, people }` (cf. route `/auth/myself`)
 * `POST /auth/logout`
-  * output: `{ was }`
-    * `was`: login of previously logged in user
+	* output: `{ was }`
+		* `was`: login of previously logged in user
 * `GET /auth/permissions`
-  * output: `{ central, organizations }`
-    * `central`: boolean telling if logged user is central
-    * `organizations`: array of organizations (see schema) with added `isariRole` item, telling which role user has in this organization
+	* output: `{ central, organizations }`
+		* `central`: boolean telling if logged user is central
+		* `organizations`: array of organizations (see schema) with added `isariRole` item, telling which role user has in this organization
 
 ### Collection endpoints
 
 * `GET /:collection`
-  * output: Array(Item) or 404
-  * options:
-    * `fields`: comma-separated list of fields to include in response (default: all)
-    * `applyTemplates`: set to 1 will transform response's fields into their string representations (default: 0)
+	* output: Array(Item) or 404
+	* options:
+		* `fields`: comma-separated list of fields to include in response (default: all)
+		* `applyTemplates`: set to 1 will transform response's fields into their string representations (default: 0)
 * `GET /:collection/:id`
-  * output: Item or 404
+	* output: Item or 404
 * `GET /:collection/:ids/string`
-  * `ids`: comma-separated list of valid objectIds
-  * output: `Array({id, value})`
-    * `id`: object's id
-    * `value`: object's string representation
-    * throws 404 if *any* ID can't be found
-    * throws 400 if *any* ID is syntactically invalid
-    * order is preserved
+	* `ids`: comma-separated list of valid objectIds
+	* output: `Array({id, value})`
+		* `id`: object's id
+		* `value`: object's string representation
+		* throws 404 if *any* ID can't be found
+		* throws 400 if *any* ID is syntactically invalid
+		* order is preserved
 * `POST /:collection`
-  * input: full Item
-  * output: Item + 201 or 400
+	* input: full Item
+	* output: Item + 201 or 400
 * `PUT /:collection/:id`
-  * input: partial Item (id + fields to update)
-  * output: Item + 200 or 400
+	* will **replace** item in database
+	* input: full Item
+	* output: Item + 200 or 400
 * `DELETE /:collection/:id`
-  * output: 204
+	* output: 204
 * `GET /:collection/search`
-  * Endpoint for autocomplete suggestions
-  * output: Array(AutoCompleteItem) or Array(Item)
-  * options:
-    * `q`: search terms, note that quotes are not supported in current version (mandatory)
-    * `fields`: comma-separated list of fields to limit search to (default: all)
-    * `full`: set to 1 to get full items instead of auto-complete items (default: 0)
-    * `raw`: set to 1 to use query-string as-is (default: 0, query-string is transformed to enable prefix-search and fuzziness)
+	* Endpoint for autocomplete suggestions
+	* output: Array(AutoCompleteItem) or Array(Item)
+	* options:
+		* `q`: search terms, note that quotes are not supported in current version (mandatory)
+		* `fields`: comma-separated list of fields to limit search to (default: all)
+		* `full`: set to 1 to get full items instead of auto-complete items (default: 0)
+		* `raw`: set to 1 to use query-string as-is (default: 0, query-string is transformed to enable prefix-search and fuzziness)
 
 **Valid collections**:
 
@@ -105,31 +106,31 @@ npm install --production
 * See `specs/README.md` for model description
 * Add `id` (Mongo ID)
 * Add `opts` which includes frontend-metadata:
-  * `editable` (boolean) indicates if user has permission to edit the fetched object
+	* `editable` (boolean) indicates if user has permission to edit the fetched object
 
 #### Format: `AutoCompleteItem`
 
 ```json
 {
-  "value": "ID",
-  "label": "string representation"
+	"value": "ID",
+	"label": "string representation"
 }
 ```
 
 ### Meta endpoints
 
 * `GET /schemas/:name`
-  * Returns the schema description, formatted for frontend needs (**WIP**)
-  * for convenience `name` is not case sensitive (i.e. `People` or `people` will do)
-  * Note that fields `id` and `opts` are never specified in schema, however they're included in any collection item returned by API
-  * **Valid names**: same as collections
+	* Returns the schema description, formatted for frontend needs (**WIP**)
+	* for convenience `name` is not case sensitive (i.e. `People` or `people` will do)
+	* Note that fields `id` and `opts` are never specified in schema, however they're included in any collection item returned by API
+	* **Valid names**: same as collections
 * `GET /enums/:name`
-  * Returns data found for key in `enums.json`, maybe formatted for frontend needs (**WIP**)
-  * Can be an array of strings (value === label)
-  * Can be an array of objects with key `value` and `label` (can be multilingual)
-  * Can be an object in case of inter-dependant fields (see personalActivityType and personalActivitySubType)
-  * **Valid names**: see `enums.json`
+	* Returns data found for key in `enums.json`, maybe formatted for frontend needs (**WIP**)
+	* Can be an array of strings (value === label)
+	* Can be an array of objects with key `value` and `label` (can be multilingual)
+	* Can be an object in case of inter-dependant fields (see personalActivityType and personalActivitySubType)
+	* **Valid names**: see `enums.json`
 * `GET /layouts/:name`
-  * Returns the layout description to render forms (**WIP**)
-  * for convenience `name` is not case sensitive (i.e. `People` or `people` will do)
-  * **Valid names**: all collections + specific layouts
+	* Returns the layout description to render forms (**WIP**)
+	* for convenience `name` is not case sensitive (i.e. `People` or `people` will do)
+	* **Valid names**: all collections + specific layouts
