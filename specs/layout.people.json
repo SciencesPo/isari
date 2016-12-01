@@ -21,7 +21,7 @@
         {
 
         "fields": ["positions"],
-        "label": {"fr":"Contrats","en":"Positions"},
+        "label": {"fr":"Données Contractuelles","en":"Positions"},
         "collapsabled": true
     },
     "distinctions",
@@ -32,7 +32,7 @@
     },
     {
         "fields": ["tags"],
-        "label": {"fr":"Tags","en":"Tags"},
+        "label": {"fr":"Thématiques","en":"Themes"},
         "collapsabled": true
     },
     "biography",

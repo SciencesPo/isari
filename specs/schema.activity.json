@@ -127,14 +127,14 @@
     },
     "tags": {
         "label": {
-            "fr": "Tags",
-            "en": "Tags"
+            "fr": "Thématiques",
+            "en": "Themes"
         },
         "hceres2017": [
             {
                 "label": {
-                    "fr": "Tags HCERES 2017",
-                    "en": "HCERES 2017 tags"
+                    "fr": "HCERES 2017",
+                    "en": "HCERES 2017"
                 },
                 "enum": "hceres2017"
             }
@@ -142,8 +142,8 @@
         "aeres2012": [
             {
                 "label": {
-                    "fr": "Tags AERES 2012",
-                    "en": "AERES 2012 tags"
+                    "fr": "Aires géographiques",
+                    "en": "Geographical areas"
                 },
                 "enum": "aeres2012"
             }
@@ -151,8 +151,8 @@
         "methods": [
             {
                 "label": {
-                    "fr": "Tags méthodes",
-                    "en": "Methods tags"
+                    "fr": "Méthodes",
+                    "en": "Methods"
                 },
                 "enum": "methods"
             }
@@ -160,16 +160,16 @@
         "free": [
             {
                 "label": {
-                    "fr": "Tags libres",
-                    "en": "Free tags"
+                    "fr": "Mots-clés libres",
+                    "en": "Free keywords"
                 }
             }
         ],
         "erc": [
             {
                 "label": {
-                    "fr": "Tags ERC",
-                    "en": "ERC tags"
+                    "fr": "Domaines ERC",
+                    "en": "ERC domains"
                 },
                 "enum": "erc"
             }

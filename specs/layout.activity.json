@@ -30,7 +30,7 @@
     "summary",
     {
         "fields": ["tags"],
-        "label": {"fr":"Tags","en":"Tags"},
+        "label": {"fr":"Thématiques","en":"Themes"},
         "collapsabled": true
     },
     {
