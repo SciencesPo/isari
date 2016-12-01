@@ -269,12 +269,14 @@ export class IsariDataService {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
     fields.forEach(field => {
+      const hasData = data[field.name] !== null && data[field.name] !== undefined
+      const fieldData = hasData ? data[field.name] : field.multiple ? [] : field.type === 'object' ? {} : '';
       if (field.multiple && field.type === 'object') {
         let fa = new FormArray([]);
         if (this.disabled(data.opts, field.name)) {
           fa.disable(true);
         }
-        (data[field.name] || []).forEach((d, i) => {
+        fieldData.forEach((d, i) => {
           let subdata = Object.assign({}, d || {}, {
             opts: Object.assign({}, data.opts, {
               path:  [...data.opts.path, field.name, i]
@@ -284,7 +286,7 @@ export class IsariDataService {
         });
         form.addControl(field.name, fa);
       } else if (field.type === 'object') {
-        let subdata = Object.assign({}, data[field.name] || {}, {
+        let subdata = Object.assign({}, fieldData, {
           opts: Object.assign({}, data.opts, {
             path: [...data.opts.path, field.name]
           })
@@ -292,7 +294,7 @@ export class IsariDataService {
         form.addControl(field.name, this.buildForm(field.layout, subdata));
       } else {
         form.addControl(field.name, new FormControl({
-          value: data[field.name] || '',
+          value: fieldData,
            // add '.x' for multiple fields (for matching fieldName.*)
           disabled: this.disabled(data.opts, field.name + (field.multiple ? '.x' : ''))
         }, this.getValidators(field)));
