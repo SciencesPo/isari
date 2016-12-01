@@ -9,6 +9,7 @@ const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery, filterConfidentialFields } = require('./model-utils')
 const debug = require('debug')('isari:rest')
 const { scopeOrganizationMiddleware } = require('./permissions')
+const removeEmptyFields = require('./remove-empty-fields')
 
 
 const restHandler = exports.restHandler = fn => (req, res, next) => {
@@ -106,6 +107,8 @@ const listModel = (Model, format, getPermissions, buildListQuery = null) => req 
 		.then(data => { debug('List: formatWithOpts'); return data })
 		.then(data => data.map(selectFields))
 		.then(data => { debug('List: selectFields', req.query.fields); return data })
+		.then(removeEmptyFields)
+		.then(data => { debug('List: removeEmptyFields'); return data })
 }
 
 const getModel = (Model, format, getPermissions) => req =>
@@ -113,6 +116,7 @@ const getModel = (Model, format, getPermissions) => req =>
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
 	.then(doc => getPermissions(req, doc).then(({ viewable }) => viewable ? doc : Promise.reject(ClientError({ status: 403, title: 'Permission refused' }))))
 	.then(formatWithOpts(req, format, getPermissions, false))
+	.then(removeEmptyFields)
 
 // TODO Check permissions?
 const getModelStrings = Model => req => {
