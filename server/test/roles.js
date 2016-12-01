@@ -51,7 +51,6 @@ describe.only('Central roles', () => {
 	it('central admin should see editable people (without org filter)', () => utils.people.editable('centralAdmin', true, fixtures.centerMember, false))
 	it('central reader should see readonly people (without org filter)', () => utils.people.editable('centralReader', false, fixtures.centerMember, false))
 	it('center member should see editable himself (himself, with org filter)', () => utils.people.editable('centerMember', true, fixtures.centerMember, true))
-	it('center member should see editable himself (without org filter)') // WIP
 	it('center member should see readonly other people (with org filter)', () => utils.people.editable('centerMember', false, fixtures.centralReader, true))
 	it('center member should see editable external people (with org filter)', () => utils.people.editable('centerMember', true, fixtures.externalPeople, true))
 
@@ -59,8 +58,9 @@ describe.only('Central roles', () => {
 	it('central reader should see readonly organization (without org filter)', () => utils.organization.editable('centralReader', false, fixtures.organization, false))
 	it('center member should see editable organization (with org filter)', () => utils.organization.editable('centerMember', true, fixtures.organization, true))
 
-	// The next ones are dumb, but those limitations are required for consistent API
-	it('center member should not see organization (without org filter)', () => utils.organization.accessible('centerMember', 401, fixtures.organization, false))
+	// Unfiltered accesses to organizations and personal people should be possible
+	it('center member should see editable organization (without org filter)', () => utils.organization.editable('centerMember', true, fixtures.organization, false))
+	it('center member should see editable himself (without org filter)', () => utils.people.editable('centerMember', true, fixtures.centerMember, false))
 
 	it('central admin should see all organizations + "Sciences Po" in his home menu', () =>
 		req.centralAdmin('get', '/auth/permissions').then(({ status, body }) => {
