@@ -62,22 +62,24 @@ describe.only('Central roles', () => {
 	it('center member should see editable organization (without org filter)', () => utils.organization.editable('centerMember', true, fixtures.organization, false))
 	it('center member should see editable himself (without org filter)', () => utils.people.editable('centerMember', true, fixtures.centerMember, false))
 
-	it('central admin should see all organizations + "Sciences Po" in his home menu', () =>
+	it('central admin should see monitored organizations + "Sciences Po" in his home menu', () =>
 		req.centralAdmin('get', '/auth/permissions').then(({ status, body }) => {
 			expect(status).to.equal(200)
 			expect(body).to.be.an('object')
 			expect(body.central).to.equal('admin')
-			expect(body.organizations).to.be.an('array').and.have.length(3)
+			expect(body.organizations).to.be.an('array').and.have.length(2)
 			expect(omit('restrictedFields', body.organizations[0])).to.eql(config.globalOrganization)
+			expect(body.organizations[1].id).to.eql(fixtures.organization.id)
 		})
 	)
-	it('central reader should see all organizations + "Sciences Po" in his home menu', () =>
+	it('central reader should see monitored organizations + "Sciences Po" in his home menu', () =>
 		req.centralReader('get', '/auth/permissions').then(({ status, body }) => {
 			expect(status).to.equal(200)
 			expect(body).to.be.an('object')
 			expect(body.central).to.equal('reader')
-			expect(body.organizations).to.be.an('array').and.have.length(3)
+			expect(body.organizations).to.be.an('array').and.have.length(2)
 			expect(omit('restrictedFields', body.organizations[0])).to.eql(config.globalOrganization)
+			expect(body.organizations[1].id).to.eql(fixtures.organization.id)
 		})
 	)
 	it('center member should only see his organizations in his home menu', () =>
