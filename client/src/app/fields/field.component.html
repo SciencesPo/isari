@@ -87,9 +87,10 @@
       [form]="form"></isari-multi-input>
   </span>
 
-  <span *ngIf="field.multiple && field.type === 'object' && form.enabled" [formArrayName]="field.name">
+  <span *ngIf="field.multiple && field.type === 'object'" [formArrayName]="field.name">
     <md-card-subtitle>
-      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
+      <a  *ngIf="form.enabled" class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
+      <span *ngIf="form.disabled"><md-icon>add_circle_outline</md-icon> {{ field.label }}</span>
     </md-card-subtitle>
     <br />
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index"
