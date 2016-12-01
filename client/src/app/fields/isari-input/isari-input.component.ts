@@ -11,6 +11,7 @@ export class IsariInputComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() description: string;
+  @Input() type: string = 'text';
   @Output() onUpdate = new EventEmitter<any>();
 
   constructor() { }
