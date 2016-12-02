@@ -12,8 +12,6 @@
     <div *ngIf="logged">
       <button *ngIf="organization" [md-menu-trigger-for]="exportMenu" md-menu-item routerLink="/people" preserveQueryParams><md-icon>file_download</md-icon></button>
       <button *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams><md-icon>people</md-icon></button>
-      <button *ngIf="globalOrganization && !organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" [queryParams]="{ organization: globalOrganization.id }"><md-icon>person</md-icon></button>
-      <button *ngIf="organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" preserveQueryParams><md-icon>person</md-icon></button>
       <button *ngIf="globalOrganization && !organization" md-menu-item routerLink="/organizations" [queryParams]="{ organization: globalOrganization.id }"><md-icon>business</md-icon></button>
       <button *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams><md-icon>business</md-icon></button>
       <button *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams><md-icon>business_center</md-icon></button>
@@ -27,6 +25,8 @@
       <button md-button [md-menu-trigger-for]="menu">Account</button>
 
       <md-menu x-position="before" #menu="mdMenu">
+        <button *ngIf="globalOrganization && !organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" [queryParams]="{ organization: globalOrganization.id }">Mon Profil</button>
+        <button *ngIf="organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" preserveQueryParams>Mon Profil</button>
         <a md-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
       </md-menu>
     </div>

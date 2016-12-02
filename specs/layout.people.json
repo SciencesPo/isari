@@ -32,7 +32,7 @@
     },
     {
         "fields": ["tags"],
-        "label": {"fr":"Thématiques","en":"Themes"},
+        "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
         "collapsabled": true
     },
     "biography",
