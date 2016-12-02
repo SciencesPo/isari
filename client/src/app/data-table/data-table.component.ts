@@ -17,6 +17,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
   unfilteredData: any[];
   lang: string;
+  defaultLang: string = 'fr';
 
   @Input() loading: boolean = false;
   @Input() data: any[];
@@ -38,6 +39,18 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+  }
+
+  cellContent (data): string {
+    if (data === null || data === undefined) {
+      return ''
+    } else if (data instanceof Array) {
+      return data.map(v => this.cellContent(v)).join(', ')
+    } else if (data.label) {
+      return data.label[this.lang] || data.label[this.defaultLang] || ''
+    } else {
+      return String(data)
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
