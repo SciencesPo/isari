@@ -40,6 +40,7 @@ const extractMongooseValidationError = err => {
 const saveDocument = format => (doc, perms) => {
 	return doc.save()
 		.then(doc => format(doc, perms))
+		.then(removeEmptyFields)
 		.catch(e => {
 			let err
 			if (e.name === 'ValidationError') {
