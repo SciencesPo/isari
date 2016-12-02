@@ -16,6 +16,7 @@ export class DataEditorComponent implements OnInit {
   @Input() label: string = '';
   @Input() feature: string;
   @Output() onUpdate = new EventEmitter<any>();
+  @Output() onSave = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
 
   constructor() {}
@@ -25,6 +26,10 @@ export class DataEditorComponent implements OnInit {
 
   update($event) {
     this.onUpdate.emit($event);
+  }
+
+  save($event) {
+    this.onSave.emit($event);
   }
 
   delete($event) {

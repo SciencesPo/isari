@@ -39,3 +39,11 @@ md-card-content {
   	border-radius: 2px;
   	padding: 18px;
 }
+
+.save {
+  color: #33C;
+  border-color: black;
+  border: 2px solid #ccf;
+  border-radius: 4px;
+  font-size: 1.2em;
+}
