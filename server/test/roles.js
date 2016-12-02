@@ -9,7 +9,7 @@ const config = require('config')
 // beware, in less than a thousand years tests will break
 const future = '2999-12-31'
 
-describe.only('Central roles', () => {
+describe('Central roles', () => {
 	let fixtures = null
 	let connection = null
 	before(() => connect().then(conn => connection = conn).then(cleanup).then(prepare).then(fixt => fixtures = fixt))

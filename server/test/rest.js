@@ -125,7 +125,7 @@ function describeModelRestApi (root, Model, create, update, listSuffix = '') {
 				if (Model === Organization) {
 					body = body.filter(({ id }) => id !== organization.id)
 				}
-				expect(map(omit(['updatedAt', 'opts']), body)).to.eql([omit(['updatedAt'], doc)])
+				expect(map(omit(['updatedAt', 'createdAt', 'opts']), body)).to.eql([omit(['updatedAt', 'createdAt'], doc)])
 			})
 		)
 
@@ -133,16 +133,17 @@ function describeModelRestApi (root, Model, create, update, listSuffix = '') {
 			query('get', root + '/' + doc.id + '?organization=' + organization.id)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(omit(['updatedAt', 'opts'], body)).to.eql(omit(['updatedAt'], doc))
+				expect(omit(['updatedAt', 'createdAt', 'opts'], body)).to.eql(omit(['updatedAt', 'createdAt'], doc))
 			})
 		)
 
 		it('PUT /:id (update)', () => {
 			const updates = update({ admin, organization })
-			return query('put', root + '/' + doc.id + '?organization=' + organization.id, updates)
+			const data = merge(doc, updates)
+			return query('put', root + '/' + doc.id + '?organization=' + organization.id, data)
 			.then(({ body, status }) => {
 				expect(status).to.equal(200)
-				expect(omit(['updatedAt', 'opts'], body)).to.eql(omit(['updatedAt'], merge(doc, updates)))
+				expect(omit(['updatedAt', 'createdAt', 'opts'], body)).to.eql(omit(['updatedAt', 'createdAt'], merge(doc, updates)))
 			})
 		})
 
