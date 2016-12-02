@@ -8,6 +8,7 @@ const memoize = require('memoizee')
 const { mongo } = require('mongoose')
 const debug = require('debug')('isari:model')
 const chalk = require('chalk')
+const { enumValueGetter } = require('./enums')
 
 
 module.exports = {
@@ -29,22 +30,36 @@ function mongoID (o) {
 const getRefFields = memoize((meta, depth) => _getRefFields('', meta, depth))
 
 
+let indent = ''
+
 function applyTemplates (object, name, depth = 0) {
 	const meta = getMeta(name)
-	return _applyTemplates(object, meta, depth)
+	console.log('\n\n\n=============================================================\n\n\n')
+	indent = ''
+	const result = _applyTemplates(object, object, meta, depth)
+	console.log('\n\n\n=============================================================\n\n\n')
+	return result
 }
 
-function _applyTemplates (object, meta, depth) {
+function _applyTemplates (ownerDoc, object, meta, depth) {
 	if (Array.isArray(meta)) {
 		if (!Array.isArray(object)) {
 			throw new Error('Model inconsistency: meta declares array field, object is not an array')
 		}
-		return object.map(o => _applyTemplates(o, meta[0], depth))
+		return object.map(o => _applyTemplates(o, o, meta[0], depth))
 	}
 	if (!object) {
 		return object
 	}
 	if (typeof object !== 'object') {
+		if (meta.enum || meta.softenum) {
+			// Convert enums to their labels
+			const getter = enumValueGetter(meta.enum || meta.softenum)
+			const found = getter(object, ownerDoc)
+			if (found) {
+				return (found.label && typeof found.label === 'object') ? { label: found.label } : String(found.label || found)
+			}
+		}
 		return String(object)
 	}
 	if (!meta.template) {
@@ -64,7 +79,9 @@ function _applyTemplates (object, meta, depth) {
 	let result = {}
 	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 
-	fields.forEach(f => result[f] = _applyTemplates(object[f], meta[f], depth - 1))
+	fields.forEach(f => {
+		result[f] = _applyTemplates(object, object[f], meta[f], depth - 1)
+	})
 
 	result._id = object._id
 

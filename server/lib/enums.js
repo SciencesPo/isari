@@ -2,8 +2,6 @@
 
 const enums = require('../../specs/enums.json')
 const nested = require('../../specs/enums.nested.json')
-const { get } = require('lodash/fp')
-const debug = require('debug')('isari:enums')
 
 exports.enumValueGetter = (zenum) => {
 	if (Array.isArray(zenum)) {
@@ -33,4 +31,15 @@ exports.enumValueGetter = (zenum) => {
 
 const simpleFind = enums => value => enums && enums.find && enums.find(e => e && (e === value || e.value === value))
 
-const nestedFind = (enums, targetPath) => (value, doc) => true
+const nestedFind = (enums, targetPath) => (value, doc) => {
+	const targetValue = targetPath.split('/').reduce((d, p) => {
+		if (p === '.') {
+			return d
+		} else if (p === '..') {
+			return d.parent()
+		} else {
+			return d[p]
+		}
+	}, doc)
+	return simpleFind(enums[targetValue])(value)
+}
