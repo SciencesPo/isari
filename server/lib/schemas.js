@@ -15,7 +15,10 @@ const util = require('util')
 const EXTRA_FIELDS = [
 	'latestChangeBy',
 	'updatedAt',
-	'createdAt'
+	'createdAt',
+	'save',
+	'validate',
+	'remove'
 ]
 
 const RESERVED_FIELDS = [
