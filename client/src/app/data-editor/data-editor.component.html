@@ -1,8 +1,9 @@
 <div form novalidate [formGroup]="form" *ngIf="form">
+  <button *ngIf="!path" class="save" md-button (click)="save($event)">Save</button>
   <md-card-content *ngFor="let group of layout" style="display: flex; flex-wrap: wrap;">
-  <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
-    <md-icon>remove_circle_outline</md-icon>
-  </a>
+    <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
+      <md-icon>remove_circle_outline</md-icon>
+    </a>
     <md-card-subtitle *ngIf="group.label">
       {{ group.label }}
       <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)">
@@ -23,6 +24,4 @@
         </tr>
       </table>
   </md-card-content>
-
-  <button *ngIf="!path" class="save" md-button (click)="save($event)">Save</button>
 </div>
