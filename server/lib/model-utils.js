@@ -55,17 +55,13 @@ function _applyTemplates (object, meta, depth) {
 		throw new Error(`Unknown template ${meta.template}`)
 	}
 
-	const string = templates[meta.template](object)
-
 	// No depth: simple string representation
 	if (depth === 0) {
-		return string
+		return templates[meta.template](object)
 	}
 
 	// Depth: generate string representations for fields
-	let result = {
-		// _string: string // TODO maybe include self-representation too?
-	}
+	let result = {}
 	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 
 	fields.forEach(f => result[f] = _applyTemplates(object[f], meta[f], depth - 1))

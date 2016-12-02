@@ -1,10 +1,10 @@
 'use strict'
 
 const { Schema } = require('mongoose')
-const enums = require('../../specs/enums.json')
-const { get, map, filter, identity, isArray } = require('lodash/fp')
+const { map, isArray } = require('lodash/fp')
 const { getMeta } = require('./specs')
 const memoize = require('memoizee')
+const { enumValueGetter } = require('./enums')
 
 // TODO use proper logger
 const debug = require('debug')('isari:schema')
@@ -67,9 +67,6 @@ module.exports = {
 	EXTRA_FIELDS
 }
 
-
-const extractValue = map('value')
-const removeEmpty = filter(identity)
 
 // Get schema description from metadata
 function getMongooseSchema (name) {
@@ -162,30 +159,9 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 
 	// Validation rule: enum
 	// Note: softenum does not come with any validation, it's only about suggestions
-	if (typeof desc.enum === 'string' && desc.enum.substring(0, 8) !== 'special/') {
-		// As a string: enums key or complex rule "KEYS(name)" or "name.$field"
-		const matchKeys = desc.enum.match(/^KEYS\((.*)\)$/)
-		const matchDot = desc.enum.match(/^(.*?)\.\$(.*)$/)
-		const getKeys = !!matchKeys
-		const getSubKey = !!matchDot
-		const subKey = getSubKey ? matchDot[2] : null
-		const enumName = getKeys ? matchKeys[1] : getSubKey ? matchDot[1] : desc.enum
-
-		const values = getEnumValues(enumName)
-		if (!values) {
-			throw Error(`${name}: Unknown enum "${enumName}" (in "${desc.enum}")`)
-		}
-
-		if (subKey && !parentDesc[subKey]) {
-			throw Error(`${name}: Unknown field "${subKey}" (required by enum "${desc.enum}"`)
-		}
-
-		if (getSubKey) {
-			// Context-dependent enum validation: use a custom validator
-			if (typeof values !== 'object') {
-				throw Error(`${name}: context-dependent enum must be an object (in "${desc.enum}")`)
-			}
-			const getRefValue = get(subKey)
+	if (desc.enum) {
+		try {
+			const getEnumValue = enumValueGetter(desc.enum, name)
 			// 'function' is used on purpose, "this" will be defined as the validated document
 			// in case of sub-documents, it's the sub-document (not the root document)
 			// we can go up using "this.parent()" (behavior not implemented in current schema DSL)
@@ -194,6 +170,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 				if (!schema.required && !value) {
 					return true
 				}
+
 				// Beware of 'runValidators' on update methods, as "this" will not be defined then
 				// More info: http://mongoosejs.com/docs/api.html#schematype_SchemaType-validate
 				if (!this) {
@@ -201,30 +178,30 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 					// Just pass
 					return true
 				}
-				// Now the usual case
-				const refValue = getRefValue(this)
-				const allowedValues = values[refValue]
-				if (!Array.isArray(allowedValues)) {
-					process.stderr.write(chalk.yellow(`${name}: no values found for enum ${enumName}.${refValue}`))
-					return false
+
+				// Find root object (as soon as parent() returns nothing or we don't have parent method)
+				let rootDoc = this
+				while (rootDoc.parent) {
+					const parent = rootDoc.parent()
+					if (parent) {
+						rootDoc = parent
+					} else {
+						break
+					}
 				}
-				return allowedValues.includes(value)
+
+				// Now the usual case
+				const found = getEnumValue(value, rootDoc)
+				return Boolean(found)
 			}
 			const message = `{PATH} does not allow "{VALUE}" as of enum "${desc.enum}"`
 			schema.validate = { validator, message }
-		} else {
-			// Use basic enum validation
-			schema.enum = getKeys ? Object.keys(values) : values
+		} catch (e) {
+			e.message = `${name}: ${e.message}`
+			throw e
 		}
-	} else if (Array.isArray(desc.enum)) {
-		// As an array: direct values not exported into enums module
-		schema.enum = getEnumValues(desc.enum)
-	} else if (desc.enum && desc.enum.substring(0, 8) === 'special/') {
-		// Special enums are handled in a specific module like templates
-		debug('TODO handle special enums validation', desc.enum)
-	} else if (desc.enum) {
-		throw Error(`${name}: Invalid enum value "${desc.enum}"`)
 	}
+
 
 	// Basic enum validation set? Add support for empty values if field is not required
 	if (schema.enum && !schema.required) {
@@ -247,20 +224,6 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	schema._id = false
 
 	return isArray ? [schema] : schema
-}
-
-function getEnumValues (zenum) {
-	if (typeof zenum === 'string') {
-		return getEnumValues(enums[zenum])
-	}
-
-	if (Array.isArray(zenum) && typeof zenum[0] === 'object') {
-		// Array of object, grab 'value' field
-		return removeEmpty(extractValue(zenum))
-	} else {
-		// Array of string or object, keep as-is
-		return zenum
-	}
 }
 
 
