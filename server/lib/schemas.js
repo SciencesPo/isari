@@ -161,7 +161,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	// Note: softenum does not come with any validation, it's only about suggestions
 	if (desc.enum) {
 		try {
-			const getEnumValue = enumValueGetter(desc.enum, name)
+			const getEnumValue = enumValueGetter(desc.enum)
 			// 'function' is used on purpose, "this" will be defined as the validated document
 			// in case of sub-documents, it's the sub-document (not the root document)
 			// we can go up using "this.parent()" (behavior not implemented in current schema DSL)
@@ -179,19 +179,8 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 					return true
 				}
 
-				// Find root object (as soon as parent() returns nothing or we don't have parent method)
-				let rootDoc = this
-				while (rootDoc.parent) {
-					const parent = rootDoc.parent()
-					if (parent) {
-						rootDoc = parent
-					} else {
-						break
-					}
-				}
-
 				// Now the usual case
-				const found = getEnumValue(value, rootDoc)
+				const found = getEnumValue(value, this)
 				return Boolean(found)
 			}
 			const message = `{PATH} does not allow "{VALUE}" as of enum "${desc.enum}"`
