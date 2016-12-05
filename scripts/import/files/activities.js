@@ -760,12 +760,9 @@ module.exports = {
           grantType: line['grants.grantType'], // grants.grantType
           grantInstrument: line['grants.grantInstrument'],
           grantCall: line['grants.grantCall'], //grants.grantCall
-          peoplePi: line['people.role=PI'],
           organizationPi: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
           organizationRole: line['Rôle labo'],
           organizationPartner: line['organizations role=partenaire'], // to match with orga
-          peopleRespoSc: line['people.role=responsable scientifique only IF different from PI'],
-          peopleMembre: line['people.role=membre'], // People de l'activity "projetderecherche" avec le rôle "membre"
           amountTypeDemande: line['amount.amountType = sciencespodemande'], // grants.amounts.amountType="sciencespodemande"
           amountTypeConsortium: line['amount.amountType = consortiumobtenu'], // grants.amounts.amountType="consortiumobtenu"
           amountTypeObtenu: line['amount.amountType = sciencespoobtenu'], // grants.amounts.amountType="sciencespoobtenu"
@@ -783,107 +780,109 @@ module.exports = {
           UG: line.UG, // grants.UG
           overheadsCalculation: line.overheadsCalculation, // grants.overheadsCalculation
           budgetType: line['amounts.budgetType = overheads'], // grants.amounts avec grants.amounts.budgetType="overheads"
-          delegationCnrs: line.delegationCNRS, //grants.delegationCNRS (boolean)
-
+          delegationCnrs: line.delegationCNRS //grants.delegationCNRS (boolean)
         };
+
+        if (line['people.role=PI'])
+          info.peoplePi = JSON.parse(line['people.role=PI']);
+
+        // TODO: solve
+        if (line['people.role=responsable scientifique only IF different from PI'])
+          info.peopleRespoSc = JSON.parse(line['people.role=responsable scientifique only IF different from PI']);
+
+        if (line['people.role=membre'])
+          info.peopleMembre = JSON.parse(line['people.role=membre']);
 
         return info;
       },
       resolver(lines) {
+        function formatDate(year, month, day) {
+          const date = [year];
+
+          if (month)
+            date.push(month);
+          if (day)
+            date.push(day);
+
+          return date.join('-');
+        }
+
         const organizations = {},
               people = {},
               activities = [];
 
-              lines.forEach(line => {
-                const activity = {
-                  name: line.name,
-                  subject: line.subject,
-                  organizations: [
-                    {
-                      organization,
-                      role,
-                    },
-                  ],
-                  grants: {
-                    grantIdentifier: line.grantIdentifier,
-                    // Organizations
-                    grantProgram: line.grantProgram,
-                    grantType: line.grantType,
-                    grantInstrument: line.grantInstrument,
-                    grantCall: line.grantCall,
-                    durationsInMonths: line.durationsInMonths,
-                    // submissionDate
-                    status: line.grantStatus,
-                    UG: line.UG,
-                    overheadsCalculation: line.overheadsCalculation,
-                  }
-                };
+        lines.forEach(line => {
+          const person = {
 
-                const people = {
+          };
 
-                };
+          const organization = {
+            name: line.grantsOrganization,
+          };
 
-                const organization = {
-                  name: line.grantsOrganization,
-                };
+          const activity = {
+            name: line.name,
+            subject: line.subject,
+            organizations: [
+              {
+                organization,
+                role: 'TODO'
+              }
+            ],
+            grants: {
+              grantIdentifier: line.grantIdentifier,
+              // Organizations
+              grantProgram: line.grantProgram,
+              grantType: line.grantType,
+              grantInstrument: line.grantInstrument,
+              grantCall: line.grantCall,
+              durationsInMonths: line.durationsInMonths,
+              // submissionDate
+              status: line.grantStatus,
+              UG: line.UG,
+              overheadsCalculation: line.overheadsCalculation
+            }
+          };
 
-                if (line.grantsOrganization) {
-                  activity.organizations.organization = line.grantsOrganization;
-                  organization.name = line.grantsOrganization;
-                }
+          if (line.grantsOrganization) {
+            activity.organizations.organization = line.grantsOrganization;
+            organization.name = line.grantsOrganization;
+          }
 
-                if (line.organizationPartner) {
-                  activity.organizations.organization = line.organizationPartner;
-                  activity.organizations.role = 'partenaire';
-                }
+          if (line.organizationPartner) {
+            activity.organizations.organization = line.organizationPartner;
+            activity.organizations.role = 'partenaire';
+          }
 
-                if (line.organizationPi) {
-                  activity.organizations.organization = line.organizationPi;
-                  activity.organizations.role = 'coordinateur';
-                }
+          if (line.organizationPi) {
+            activity.organizations.organization = line.organizationPi;
+            activity.organizations.role = 'coordinateur';
+          }
 
-                const startDate = [];
+          if (line.startYear) {
+            activity.startDate = formatDate(
+              line.startYear,
+              line.startMonth,
+              line.startDay
+            );
+          }
 
-                if (line.startYear) {
-                  startDate = [line.startYear];
-                  if (line.startMonth) {
-                    startDate.push(line.startMonth);
-                    if (line.startDate) {
-                    startDate.push(line.startDay);
-                    }
-                  }
-                  startDate.join('-');
-                }
+          if (line.endYear) {
+            activities.endDate = formatDate(
+              line.endYear,
+              line.endMonth,
+              line.endDay
+            );
+          }
 
-                const endDate = [];
+          // TODO: submission date on grant
+        });
 
-                if (line.endYear) {
-                  endDate = [line.endYear];
-                  if (line.endMonth) {
-                    endDate.push(line.endMonth);
-                    if (line.endDate) {
-                    endDate.push(line.endDay);
-                    }
-                  }
-                  endDate.join('-');
-                }
-
-                const submissionDate = [];
-
-                if (line.submissionYear) {
-                  submissionDate = [line.submissionYear];
-                  if (line.submissionMonth) {
-                    submissionDate.push(line.submissionMonth);
-                    if (line.submissionDate) {
-                    submissionDate.push(line.submissionDay);
-                    }
-                  }
-                  submissionDate.join('-');
-                }
-
-              });
-
-        return {};
+        return {
+          Organization: _.values(organizations),
+          People: _.values(people),
+          Activity: activities
+        };
       },
       indexers: {}
     }
