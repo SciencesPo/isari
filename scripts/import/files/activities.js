@@ -1112,7 +1112,7 @@ module.exports = {
         People(indexes, person) {
           const key = hashPeople(person);
 
-          let match = indexes.hashed[key];
+          const match = indexes.hashed[key];
 
           if (match)
             return;
