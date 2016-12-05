@@ -207,6 +207,9 @@ module.exports = {
           if (!org)
             org = indexes.Organization.name[orgaAcronym];
 
+          if (!org)
+            org = indexes.Organization.fingerprint[fingerprint(orgaAcronym)];
+
           if (!org) {
             this.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
             return false;
@@ -219,6 +222,7 @@ module.exports = {
 
         person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
 
+        // TODO: can we have a central role & an attached organization
         let authorization = org && person.isariAuthorizedCenters.find(a => a.organization === org._id);
 
         if (authorization) {

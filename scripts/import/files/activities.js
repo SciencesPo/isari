@@ -749,7 +749,7 @@ module.exports = {
     {
       name: 'contrats_isari',
       path: 'activities/contrats_isari.csv',
-      skip: false,
+      skip: true,
       consumer(line) {
         const info = {
           name: line.acronym, // activity.name
@@ -803,7 +803,7 @@ module.exports = {
                       organization,
                       role,
                     },
-                  ],  
+                  ],
                   grants: {
                     grantIdentifier: line.grantIdentifier,
                     // Organizations
@@ -831,17 +831,17 @@ module.exports = {
                   activity.organizations.organization = grantsOrganization;
                   organization.name = grantsOrganization;
                 }
-                  
+
                 if (organizationPartner) {
                   activity.organizations.organization = organizationPartner;
                   activity.organizations.role = 'partenaire';
                 }
-                  
+
                 if (organizationPi) {
                   activity.organizations.organization = organizationPi;
                   activity.organizations.role = 'coordinateur';
                 }
-                  
+
 
                 if (startDay && startMonth && startYear) {
                   activity.startDate = startDay + '\/' + startMonth + '\/' + startYear;
