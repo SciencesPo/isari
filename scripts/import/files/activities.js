@@ -801,8 +801,8 @@ module.exports = {
         if (line['amount.amountType = sciencespoobtenu'])
           info.amountTypeObtenu = +line['amount.amountType = sciencespoobtenu'];
 
-        if (line['amounts.budgetType  = overheads'])
-          info.overheads = +line['amounts.budgetType  = overheads'];
+        if (line['amounts.budgetType = overheads'])
+          info.overheads = +line['amounts.budgetType = overheads'];
 
         if (line.durationInMonths)
           info.durationInMonths = +line.durationInMonths;
