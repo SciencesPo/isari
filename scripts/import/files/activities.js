@@ -765,7 +765,7 @@ module.exports = {
           name: line.acronym, // activity.name
           subject: line.name, // activity.subject
           grantIdentifier: line['grants.grantIdentifier'], // grants.grantIdentifier
-          grantsOrganization: line['grants.organization'], // organization.name (need to be matched)
+          organization: line['grants.organization'], // organization.name (need to be matched)
           grantProgram: line['grants.grantProgram'], // grants.grantProgram
           grantType: line['grants.grantType'], // grants.grantType
           grantInstrument: line['grants.grantInstrument'],
@@ -831,59 +831,71 @@ module.exports = {
         return info;
       },
       resolver(lines) {
-        console.log(lines.filter(line => !!line.amountTypeConsortium));
-
         const organizations = {},
               people = {},
               activities = [];
 
         lines.forEach(line => {
-          const person = {
+          const grant = {};
 
-          };
+          [
+            'grantIdentifier',
+            'grantProgram',
+            'grantType',
+            'grantInstrument',
+            'grantCall',
+            'durationsInMonths',
+            'status',
+            'UG',
+            'overheadsCalculation',
+            'delegationCnrs',
+            'startDate',
+            'endDate',
+            'submissionDate'
+          ].forEach(prop => {
+            if (line.hasOwnProperty(prop))
+              grant[prop] = line[prop];
+          });
 
-          const organization = {
-            name: line.grantsOrganization,
-          };
+          // Handling organization
+          if (line.organization) {
+            const key = fingerprint(line.organization);
+
+            grant.organisation = line.organization;
+
+            if (!organizations[key]) {
+              organizations[key] = {
+                name: line.organization
+              };
+            }
+          }
 
           const activity = {
             name: line.name,
-            subject: line.subject,
-            organizations: [
-              {
-                organization,
-                role: 'TODO'
-              }
-            ],
-            grants: {
-              grantIdentifier: line.grantIdentifier,
-              // Organizations
-              grantProgram: line.grantProgram,
-              grantType: line.grantType,
-              grantInstrument: line.grantInstrument,
-              grantCall: line.grantCall,
-              durationsInMonths: line.durationsInMonths,
-              // submissionDate
-              status: line.grantStatus,
-              UG: line.UG,
-              overheadsCalculation: line.overheadsCalculation
-            }
+            activityType: 'projetderecherche',
+            grants: [grant]
           };
 
-          if (line.grantsOrganization) {
-            activity.organizations.organization = line.grantsOrganization;
-            organization.name = line.grantsOrganization;
-          }
+          if (line.subject)
+            activity.subject = line.subject;
 
-          if (line.organizationPartner) {
-            activity.organizations.organization = line.organizationPartner;
-            activity.organizations.role = 'partenaire';
-          }
+          // Pushing the activity
+          activities.push(activity);
 
-          if (line.organizationPi) {
-            activity.organizations.organization = line.organizationPi;
-            activity.organizations.role = 'coordinateur';
-          }
+          // if (line.grantsOrganization) {
+          //   activity.organizations.organization = line.grantsOrganization;
+          //   organization.name = line.grantsOrganization;
+          // }
+
+          // if (line.organizationPartner) {
+          //   activity.organizations.organization = line.organizationPartner;
+          //   activity.organizations.role = 'partenaire';
+          // }
+
+          // if (line.organizationPi) {
+          //   activity.organizations.organization = line.organizationPi;
+          //   activity.organizations.role = 'coordinateur';
+          // }
         });
 
         return {
@@ -892,7 +904,30 @@ module.exports = {
           Activity: activities
         };
       },
-      indexers: {}
+      indexers: {
+        Organization(indexes, org) {
+          const key = fingerprint(org.name);
+
+          let match = indexes.name[org.name];
+
+          if (!match)
+            match = indexes.acronym[org.name];
+
+          if (!match)
+            match = indexes.fingerprint[key];
+
+          if (match)
+            return;
+
+          // Adding the new org
+          indexes.name[org.name] = org;
+          indexes.fingerprint[key] = org;
+          indexes.id[org._id] = org;
+        },
+        Activity(indexes, activity) {
+          indexes.id[activity._id] = activity;
+        }
+      }
     }
   ]
 };
