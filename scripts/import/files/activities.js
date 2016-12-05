@@ -840,13 +840,13 @@ module.exports = {
                   activity.organizations.role = 'coordinateur'
 
                 if (startDay && startMonth && startYear)
-                  startDate = startDay + '\/' + startMonth + '\/' + startYear
+                  activity.startDate = startDay + '\/' + startMonth + '\/' + startYear
 
                 if (endDay && endMonth && endYear)
-                  endDate = endDay + '\/' + endMonth + '\/' + endYear
+                  activity.endDate = endDay + '\/' + endMonth + '\/' + endYear
 
                 if (submissionDay && submissionMonth && submissionYear)
-                  submissionDate = submissionDay + '\/' + submissionMonth + '\/' + submissionYear
+                  activity.grants.submissionDate = submissionDay + '\/' + submissionMonth + '\/' + submissionYear
 
 
 
