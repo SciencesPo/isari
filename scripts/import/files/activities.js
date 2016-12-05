@@ -770,21 +770,24 @@ module.exports = {
           grantType: line['grants.grantType'], // grants.grantType
           grantInstrument: line['grants.grantInstrument'],
           grantCall: line['grants.grantCall'], //grants.grantCall
-          organizationPi: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
-          organizationRole: line['Rôle labo'],
-          organizationPartner: line['organizations role=partenaire'], // to match with orga
+          organizationPI: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
+          laboRole: line['Rôle labo'],
+          partner: line['organizations role=partenaire'], // to match with orga
           grantStatus: line.grantstatus, //grants.status
           UG: line.UG, // grants.UG
-          overheadsCalculation: line.overheadsCalculation, // grants.overheadsCalculation
-          budgetType: line['amounts.budgetType = overheads'], // grants.amounts avec grants.amounts.budgetType="overheads"
+          overheadsCalculation: line.overheadsCalculation // grants.overheadsCalculation
         };
 
-        if (line['people.role=PI'])
-          info.peoplePi = JSON.parse(line['people.role=PI']);
+        let PISet = new Set();
 
-        // TODO: solve
+        if (line['people.role=PI']) {
+          info.peoplePI = JSON.parse(line['people.role=PI']);
+          PISet = new Set(info.peoplePI.map(person => `${person.name}§${person.firstName}`));
+        }
+
         if (line['people.role=responsable scientifique only IF different from PI'])
-          info.peopleRespoSc = JSON.parse(line['people.role=responsable scientifique only IF different from PI']);
+          info.peopleScientific = JSON.parse(line['people.role=responsable scientifique only IF different from PI'])
+            .filter(person => !PISet.has(`${person.name}§${person.firstName}`));
 
         if (line['people.role=membre'])
           info.peopleMembre = JSON.parse(line['people.role=membre']);
@@ -798,11 +801,14 @@ module.exports = {
         if (line['amount.amountType = sciencespoobtenu'])
           info.amountTypeObtenu = +line['amount.amountType = sciencespoobtenu'];
 
+        if (line['amounts.budgetType  = overheads'])
+          info.overheads = +line['amounts.budgetType  = overheads'];
+
         if (line.durationInMonths)
           info.durationInMonths = +line.durationInMonths;
 
-        if (line.delegationCnrs)
-          info.delegationCnrs = true;
+        if (line.delegationCNRS)
+          info.delegationCNRS = true;
 
         if (line['startDate.year']) {
           info.startDate = fragmentalDate(
@@ -828,6 +834,12 @@ module.exports = {
           );
         }
 
+        if (line['Labo SCPO']) {
+          info.labos = line['Labo SCPO']
+            .split(';')
+            .map(labo => labo.trim());
+        }
+
         return info;
       },
       resolver(lines) {
@@ -848,7 +860,7 @@ module.exports = {
             'status',
             'UG',
             'overheadsCalculation',
-            'delegationCnrs',
+            'delegationCNRS',
             'startDate',
             'endDate',
             'submissionDate'
@@ -871,31 +883,128 @@ module.exports = {
           }
 
           const activity = {
-            name: line.name,
+            name: line.name || line.subject,
             activityType: 'projetderecherche',
-            grants: [grant]
+            grants: [grant],
+            people: [],
+            organizations: [],
+            amounts: []
           };
 
           if (line.subject)
             activity.subject = line.subject;
 
+          // Handling people
+          if (line.peoplePI) {
+            line.peoplePI.forEach(person => {
+              const key = hashPeople(person);
+
+              activity.people.push({
+                people: key,
+                role: 'PI'
+              });
+            });
+          }
+
+          if (line.peopleScientific) {
+            line.peopleScientific.forEach(person => {
+              const key = hashPeople(person);
+
+              activity.people.push({
+                people: key,
+                role: 'responsableScientifique'
+              });
+            });
+          }
+
+          if (line.peopleMembre) {
+            line.peopleMembre.forEach(person => {
+              const key = hashPeople(person);
+
+              activity.people.push({
+                people: key,
+                role: 'membre'
+              });
+            });
+          }
+
+          // Handling other organizations
+          if (line.organizationPI) {
+            const key = fingerprint(line.organizationPI);
+
+            activity.organizations.push({
+              organization: line.organizationPI,
+              role: 'coordinateur'
+            });
+
+            if (!organizations[key]) {
+              organizations[key] = {
+                name: line.organizationPI
+              };
+            }
+          }
+
+          if (line.labos) {
+            line.labos.forEach(labo => {
+              const key = fingerprint(labo);
+
+              activity.organizations.push({
+                organization: labo,
+                role: line.laboRole
+              });
+
+              if (!organizations[key]) {
+                organizations[key] = {
+                  name: labo
+                };
+              }
+            });
+          }
+
+          if (line.partner) {
+            const key = fingerprint(line.partner);
+
+            activity.organizations.push({
+              organization: line.partner,
+              role: 'partenaire'
+            });
+
+            if (!organizations[key]) {
+              organizations[key] = {
+                name: line.partner
+              };
+            }
+          }
+
+          // Handling amounts
+          if (line.amountTypeDemande)
+            activity.amounts.push({
+              amount: line.amountTypeDemande,
+              amountType: 'sciencespodemande'
+            });
+
+          if (line.amountTypeConsortium)
+            activity.amounts.push({
+              amount: line.amountTypeConsortium,
+              amountType: 'consortiumobtenu'
+            });
+
+          if (line.amountTypeObtenu)
+            activity.amounts.push({
+              amount: line.amountTypeObtenu,
+              amountType: 'sciencespoobtenu'
+            });
+
+          if (line.overheads)
+            activity.amounts.push({
+              amount: line.overheads,
+              amountType: 'overheads'
+            });
+
           // Pushing the activity
-          activities.push(activity);
-
-          // if (line.grantsOrganization) {
-          //   activity.organizations.organization = line.grantsOrganization;
-          //   organization.name = line.grantsOrganization;
-          // }
-
-          // if (line.organizationPartner) {
-          //   activity.organizations.organization = line.organizationPartner;
-          //   activity.organizations.role = 'partenaire';
-          // }
-
-          // if (line.organizationPi) {
-          //   activity.organizations.organization = line.organizationPi;
-          //   activity.organizations.role = 'coordinateur';
-          // }
+          // TODO: remove this when data is cleaned
+          if (!!activity.name)
+            activities.push(activity);
         });
 
         return {
