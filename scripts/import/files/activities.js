@@ -1018,9 +1018,7 @@ module.exports = {
           }
 
           // Pushing the activity
-          // TODO: remove this when data is cleaned
-          if (!!activity.name)
-            activities.push(activity);
+          activities.push(activity);
         });
 
         return {
