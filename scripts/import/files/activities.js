@@ -762,7 +762,7 @@ module.exports = {
       path: 'activities/contrats_isari.csv',
       consumer(line) {
         const info = {
-          name: line.acronym, // activity.name
+          acronym: line.acronym, // activity.name
           subject: line.name, // activity.subject
           grantIdentifier: line['grants.grantIdentifier'], // grants.grantIdentifier
           organization: line['grants.organization'], // organization.name (need to be matched)
@@ -839,6 +839,8 @@ module.exports = {
             .split(';')
             .map(labo => labo.trim());
         }
+
+        info.name = info.acronym || info.subject;
 
         return info;
       },
@@ -917,6 +919,9 @@ module.exports = {
             people: [],
             organizations: []
           };
+
+          if (line.acronym)
+            activity.acronym = line.acronym;
 
           if (line.subject)
             activity.subject = line.subject;
