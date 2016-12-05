@@ -848,7 +848,9 @@ module.exports = {
               activities = [];
 
         lines.forEach(line => {
-          const grant = {};
+          const grant = {
+            amounts: []
+          };
 
           [
             'grantIdentifier',
@@ -856,7 +858,7 @@ module.exports = {
             'grantType',
             'grantInstrument',
             'grantCall',
-            'durationsInMonths',
+            'durationInMonths',
             'status',
             'UG',
             'overheadsCalculation',
@@ -882,13 +884,38 @@ module.exports = {
             }
           }
 
+          // Handling amounts
+          if (line.amountTypeDemande)
+            grant.amounts.push({
+              amount: line.amountTypeDemande,
+              amountType: 'sciencespodemande'
+            });
+
+          if (line.amountTypeConsortium)
+            grant.amounts.push({
+              amount: line.amountTypeConsortium,
+              amountType: 'consortiumobtenu'
+            });
+
+          if (line.amountTypeObtenu)
+            grant.amounts.push({
+              amount: line.amountTypeObtenu,
+              amountType: 'sciencespoobtenu'
+            });
+
+          if (line.overheads)
+            grant.amounts.push({
+              amount: line.overheads,
+              budgetType: 'overheads'
+            });
+
+
           const activity = {
             name: line.name || line.subject,
             activityType: 'projetderecherche',
             grants: [grant],
             people: [],
-            organizations: [],
-            amounts: []
+            organizations: []
           };
 
           if (line.subject)
@@ -984,31 +1011,6 @@ module.exports = {
               };
             }
           }
-
-          // Handling amounts
-          if (line.amountTypeDemande)
-            activity.amounts.push({
-              amount: line.amountTypeDemande,
-              amountType: 'sciencespodemande'
-            });
-
-          if (line.amountTypeConsortium)
-            activity.amounts.push({
-              amount: line.amountTypeConsortium,
-              amountType: 'consortiumobtenu'
-            });
-
-          if (line.amountTypeObtenu)
-            activity.amounts.push({
-              amount: line.amountTypeObtenu,
-              amountType: 'sciencespoobtenu'
-            });
-
-          if (line.overheads)
-            activity.amounts.push({
-              amount: line.overheads,
-              amountType: 'overheads'
-            });
 
           // Pushing the activity
           // TODO: remove this when data is cleaned
