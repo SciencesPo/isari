@@ -325,6 +325,10 @@ module.exports = {
           hdr: line.CODE_NIVEAU === '9',
           startDate: line.ANNEE_UNIV_ADMISSION,
           title: line.TITRE_THESE,
+          organization: line.LIB_CTR_1,
+          status: line.LIB_STATUT_ADMINI,
+          subject: line.TITRE_THESE,
+          mention: line.LIB_MENTION_SOUTENANCE,
           previous: {
             idBanner: line.CODE_ETAB_ADM,
             title: [line.LIB_DIPL_ADM_L1, line.LIB_DIPL_ADM_L2].join(' ').trim(),
@@ -359,7 +363,7 @@ module.exports = {
         for (let i = 1; i < 11; i++) {
           const fullName = line['MEMBRE_JURY_' + i];
 
-          if (!fullName || /NE PAS UTILISER/.test(fullName))
+          if (!fullName || /NE PAS UTILISER/.test(fullName) || /NOM INTROUVABLE/.test(fullName))
             break;
 
           const [juryName, juryFirstName] = fullName.split(',');
@@ -392,7 +396,7 @@ module.exports = {
         for (let i = 1; i < 3; i++) {
           const fullName = line['DIR_THESE_' + i];
 
-          if (!fullName || /NE PAS UTILISER/.test(fullName))
+          if (!fullName || /NE PAS UTILISER/.test(fullName) || /NOM INTROUVABLE/.test(fullName))
             break;
 
           const [directorName, directorFirstName] = fullName.split(',');
@@ -414,14 +418,22 @@ module.exports = {
       },
       resolver(lines) {
         const people = Object.create(null),
+              organizations = Object.create(null),
               activities = [];
+
+        // We only keep lines actually having finished the thesis
+        const KEEP = new Set([
+          'Inscrit',
+          'Report à l\'année',
+          'Suspension d\'études'
+        ]);
 
         // We must group lines per person
         partitionBy(lines, 'bannerUid')
           .forEach(personLines => {
-            const phd = personLines.find(person => !person.hdr),
-                  hdr = personLines.find(person => person.hdr),
-                  ref = phd || hdr;
+            const phd = personLines.find(person => !person.hdr && KEEP.has(person.status)),
+                  hdr = personLines.find(person => person.hdr && KEEP.has(person.status)),
+                  ref = phd || hdr || personLines[personLines.length - 1];
 
             if (personLines.length > 2)
               this.warning(`Found ${personLines.length} lines for "${chalk.green(ref.firstName + ' ' + ref.name)}".`);
@@ -470,16 +482,13 @@ module.exports = {
             // Creating activities
             peopleInfo.distinctions = [];
 
+            // TODO: academic memberships
+
             if (phd) {
               const activity = {
                 activityType: 'doctorat',
                 name: `Doctorat : ${peopleInfo.firstName} ${peopleInfo.name}`,
-                organizations: [
-                  {
-                    organization: ['IEP Paris'],
-                    role: 'inscription'
-                  }
-                ],
+                organizations: [],
                 people: [
                   {
                     people: {
@@ -490,6 +499,18 @@ module.exports = {
                   }
                 ]
               };
+
+              // TODO: mention
+              // TODO: grants
+
+              if (phd.subject)
+                activity.subject = phd.subject;
+
+              if (phd.organization)
+                activity.organizations.push({
+                  organization: phd.organization,
+                  role: 'inscription'
+                });
 
               activities.push(activity);
 
@@ -511,9 +532,17 @@ module.exports = {
               const distinction = {
                 distinctionType: 'diplôme',
                 title: 'Doctorat',
-                organizations: ['FNSP'],
                 countries: ['FR']
               };
+
+              if (phd.organization) {
+                distinction.organizations = [phd.organization];
+
+                if (!organizations[phd.organization])
+                  organizations[phd.organization] = {
+                    name: phd.organization
+                  };
+              }
 
               if (phd.endDate)
                 distinction.date = phd.endDate;
@@ -537,12 +566,7 @@ module.exports = {
               const activity = {
                 activityType: 'hdr',
                 name: `HDR : ${peopleInfo.firstName} ${peopleInfo.name}`,
-                organizations: [
-                  {
-                    organization: ['IEP Paris'],
-                    role: 'inscription'
-                  }
-                ],
+                organizations: [],
                 people: [
                   {
                     people: {
@@ -554,14 +578,34 @@ module.exports = {
                 ]
               };
 
+              // TODO: mention
+              // TODO: grants
+
+              if (hdr.subject)
+                activity.subject = hdr.subject;
+
+              if (hdr.organization)
+                activity.organizations.push({
+                  organization: hdr.organization,
+                  role: 'inscription'
+                });
+
               activities.push(activity);
 
               const distinction = {
                 distinctionType: 'diplôme',
                 title: 'HDR',
-                organizations: ['FNSP'],
                 countries: ['FR']
               };
+
+              if (hdr.organization) {
+                distinction.organizations = [hdr.organization];
+
+                if (!organizations[hdr.organization])
+                  organizations[hdr.organization] = {
+                    name: hdr.organization
+                  };
+              }
 
               if (hdr.endDate)
                 distinction.date = hdr.endDate;
@@ -570,12 +614,11 @@ module.exports = {
             }
           });
 
-        // TODO: compute activities from there
-
         // TODO: Sorting people by gender to avoid cases where someone would be
         // referenced first as jury and then as doctorant.
         return {
           People: _.values(people),
+          Organization: _.values(organizations),
           Activity: activities
         };
       },
@@ -604,6 +647,25 @@ module.exports = {
             indexes.sirh[person.sirhMatricule] = person;
           indexes.hashed[key] = person;
           indexes.id[person._id] = person;
+        },
+        Organization(indexes, org) {
+          const key = fingerprint(org.name);
+
+          let match = indexes.name[org.name];
+
+          if (!match)
+            match = indexes.acronym[org.name];
+
+          if (!match)
+            match = indexes.fingerprint[key];
+
+          if (match)
+            return;
+
+          // Adding the new org
+          indexes.name[org.name] = org;
+          indexes.fingerprint[key] = org;
+          indexes.id[org._id] = org;
         },
         Activity(indexes, activity) {
           indexes.id[activity._id] = activity;
@@ -762,7 +824,7 @@ module.exports = {
       path: 'activities/contrats_isari.csv',
       consumer(line) {
         const info = {
-          name: line.acronym, // activity.name
+          acronym: line.acronym, // activity.name
           subject: line.name, // activity.subject
           grantIdentifier: line['grants.grantIdentifier'], // grants.grantIdentifier
           organization: line['grants.organization'], // organization.name (need to be matched)
@@ -773,7 +835,7 @@ module.exports = {
           organizationPI: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
           laboRole: line['Rôle labo'],
           partner: line['organizations role=partenaire'], // to match with orga
-          grantStatus: line.grantstatus, //grants.status
+          status: line.grantstatus, //grants.status
           UG: line.UG, // grants.UG
           overheadsCalculation: line.overheadsCalculation // grants.overheadsCalculation
         };
@@ -785,8 +847,8 @@ module.exports = {
           PISet = new Set(info.peoplePI.map(person => `${person.name}§${person.firstName}`));
         }
 
-        if (line['people.role=responsable scientifique only IF different from PI'])
-          info.peopleScientific = JSON.parse(line['people.role=responsable scientifique only IF different from PI'])
+        if (line['people.role=responsableScientifique Only IF different from PI'])
+          info.peopleScientific = JSON.parse(line['people.role=responsableScientifique Only IF different from PI'])
             .filter(person => !PISet.has(`${person.name}§${person.firstName}`));
 
         if (line['people.role=membre'])
@@ -840,6 +902,8 @@ module.exports = {
             .map(labo => labo.trim());
         }
 
+        info.name = info.acronym || info.subject;
+
         return info;
       },
       resolver(lines) {
@@ -848,7 +912,9 @@ module.exports = {
               activities = [];
 
         lines.forEach(line => {
-          const grant = {};
+          const grant = {
+            amounts: []
+          };
 
           [
             'grantIdentifier',
@@ -856,7 +922,7 @@ module.exports = {
             'grantType',
             'grantInstrument',
             'grantCall',
-            'durationsInMonths',
+            'durationInMonths',
             'status',
             'UG',
             'overheadsCalculation',
@@ -882,14 +948,42 @@ module.exports = {
             }
           }
 
+          // Handling amounts
+          if (line.amountTypeDemande)
+            grant.amounts.push({
+              amount: line.amountTypeDemande,
+              amountType: 'sciencespodemande'
+            });
+
+          if (line.amountTypeConsortium)
+            grant.amounts.push({
+              amount: line.amountTypeConsortium,
+              amountType: 'consortiumobtenu'
+            });
+
+          if (line.amountTypeObtenu)
+            grant.amounts.push({
+              amount: line.amountTypeObtenu,
+              amountType: 'sciencespoobtenu'
+            });
+
+          if (line.overheads)
+            grant.amounts.push({
+              amount: line.overheads,
+              budgetType: 'overheads'
+            });
+
+
           const activity = {
             name: line.name || line.subject,
             activityType: 'projetderecherche',
             grants: [grant],
             people: [],
-            organizations: [],
-            amounts: []
+            organizations: []
           };
+
+          if (line.acronym)
+            activity.acronym = line.acronym;
 
           if (line.subject)
             activity.subject = line.subject;
@@ -985,35 +1079,8 @@ module.exports = {
             }
           }
 
-          // Handling amounts
-          if (line.amountTypeDemande)
-            activity.amounts.push({
-              amount: line.amountTypeDemande,
-              amountType: 'sciencespodemande'
-            });
-
-          if (line.amountTypeConsortium)
-            activity.amounts.push({
-              amount: line.amountTypeConsortium,
-              amountType: 'consortiumobtenu'
-            });
-
-          if (line.amountTypeObtenu)
-            activity.amounts.push({
-              amount: line.amountTypeObtenu,
-              amountType: 'sciencespoobtenu'
-            });
-
-          if (line.overheads)
-            activity.amounts.push({
-              amount: line.overheads,
-              amountType: 'overheads'
-            });
-
           // Pushing the activity
-          // TODO: remove this when data is cleaned
-          if (!!activity.name)
-            activities.push(activity);
+          activities.push(activity);
         });
 
         return {
@@ -1045,7 +1112,7 @@ module.exports = {
         People(indexes, person) {
           const key = hashPeople(person);
 
-          let match = indexes.hashed[key];
+          const match = indexes.hashed[key];
 
           if (match)
             return;

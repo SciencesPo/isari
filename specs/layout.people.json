@@ -23,9 +23,34 @@
         "label": {"fr":"Coordonnées","en":"Contact details"},
         "collapsabled": true
     },
-    "academicMemberships",
-    "gradesAcademic",
-    "deptMemberships",
+    {
+
+        "fields": ["academicMemberships"],
+        "label": {
+                "fr": "Rattachement labo",
+                "en": "Unit affiliation"
+            },
+        "collapsabled": true
+    },
+    {
+
+        "fields": ["gradesAcademic"],
+        "label": {
+                "fr": "Grades académiques",
+                "en": "Academic grades"
+            },
+        "collapsabled": true
+    },
+      {
+
+        "fields": ["deptMemberships"],
+        
+            "label": {
+                "fr": "Rattachement département",
+                "en": "Departement affiliation"
+            },
+        "collapsabled": true
+    },
     {
 
         "fields": ["positions"],
@@ -66,6 +91,16 @@
             "idScopus"
         ],
         "label": {"fr":"identifiants externes","en":"external identifiers"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["isariAuthorizedCenters"],
+        "label": {"fr":"Accès Isari","en":"ISARI access"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["bonuses"],
+        "label": {"fr":"Primes","en":"Bonuses"},
         "collapsabled": true
     }
 

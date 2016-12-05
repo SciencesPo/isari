@@ -1,5 +1,5 @@
 {
   "people": ["firstName","name","academicMemberships","positions"],
-  "activities": ["name","activityType","startDate","endDate"],
+  "activities": ["acronym","name","activityType","startDate","endDate"],
   "organizations": ["name","acronym","countries"]
 }
