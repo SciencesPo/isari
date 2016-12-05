@@ -10,6 +10,17 @@ const fingerprint = require('talisman/keyers/fingerprint'),
       hashPeople = helpers.hashPeople,
       _ = require('lodash');
 
+function fragmentalDate(year, month, day) {
+  const date = [year];
+
+  if (month)
+    date.push(('0' + month).slice(-2));
+  if (day)
+    date.push(('0' + day).slice(-2));
+
+  return date.join('-');
+}
+
 module.exports = {
   files: [
 
@@ -621,7 +632,7 @@ module.exports = {
         };
 
         if (line['date début'])
-          info.starDate = line['date début'].split('T')[0];
+          info.startDate = line['date début'].split('T')[0];
 
         if (line['date fin'])
           info.endDate = line['date fin'].split('T')[0];
@@ -749,7 +760,6 @@ module.exports = {
     {
       name: 'contrats_isari',
       path: 'activities/contrats_isari.csv',
-      skip: true,
       consumer(line) {
         const info = {
           name: line.acronym, // activity.name
@@ -763,24 +773,10 @@ module.exports = {
           organizationPi: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
           organizationRole: line['Rôle labo'],
           organizationPartner: line['organizations role=partenaire'], // to match with orga
-          amountTypeDemande: line['amount.amountType = sciencespodemande'], // grants.amounts.amountType="sciencespodemande"
-          amountTypeConsortium: line['amount.amountType = consortiumobtenu'], // grants.amounts.amountType="consortiumobtenu"
-          amountTypeObtenu: line['amount.amountType = sciencespoobtenu'], // grants.amounts.amountType="sciencespoobtenu"
-          durationsInMonths: line.durationInMonths, // grants.durationInMonths
-          submissionDay: line['submissionDate.day'], // ----------------------- |
-          submissionMonth: line['submissionDate.month'], // ------------------- |
-          submissionYear: line['submissionDate.year'], // grants.submissionDate v
           grantStatus: line.grantstatus, //grants.status
-          startDay: line['startDate.day'], // ---------------- |
-          startMonth: line['startDate.month'], // ------------ |
-          startYear: line['startDate.year'], // grants.startDate v
-          endDay: line['endDate.day'],  // --------------- |
-          endMonth: line['endDate.month'], // ------------ |
-          endYear: line['endDate.year'], // grants.endDate v
           UG: line.UG, // grants.UG
           overheadsCalculation: line.overheadsCalculation, // grants.overheadsCalculation
           budgetType: line['amounts.budgetType = overheads'], // grants.amounts avec grants.amounts.budgetType="overheads"
-          delegationCnrs: line.delegationCNRS //grants.delegationCNRS (boolean)
         };
 
         if (line['people.role=PI'])
@@ -793,19 +789,49 @@ module.exports = {
         if (line['people.role=membre'])
           info.peopleMembre = JSON.parse(line['people.role=membre']);
 
+        if (line['amount.amountType = sciencespodemande'])
+          info.amountTypeDemande = +line['amount.amountType = sciencespodemande'];
+
+        if (line['amount.amountType = consortiumobtenu'])
+          info.amountTypeConsortium = +line['amount.amountType = consortiumobtenu'];
+
+        if (line['amount.amountType = sciencespoobtenu'])
+          info.amountTypeObtenu = +line['amount.amountType = sciencespoobtenu'];
+
+        if (line.durationInMonths)
+          info.durationInMonths = +line.durationInMonths;
+
+        if (line.delegationCnrs)
+          info.delegationCnrs = true;
+
+        if (line['startDate.year']) {
+          info.startDate = fragmentalDate(
+            line['startDate.year'],
+            line['startDate.month'],
+            line['startDate.day']
+          );
+        }
+
+        if (line['endDate.year']) {
+          info.endDate = fragmentalDate(
+            line['endDate.year'],
+            line['endDate.month'],
+            line['endDate.day']
+          );
+        }
+
+        if (line['submissionDate.year']) {
+          info.submissionDate = fragmentalDate(
+            line['submissionDate.year'],
+            line['submissionDate.month'],
+            line['submissionDate.day']
+          );
+        }
+
         return info;
       },
       resolver(lines) {
-        function formatDate(year, month, day) {
-          const date = [year];
-
-          if (month)
-            date.push(month);
-          if (day)
-            date.push(day);
-
-          return date.join('-');
-        }
+        console.log(lines.filter(line => !!line.amountTypeConsortium));
 
         const organizations = {},
               people = {},
@@ -858,24 +884,6 @@ module.exports = {
             activity.organizations.organization = line.organizationPi;
             activity.organizations.role = 'coordinateur';
           }
-
-          if (line.startYear) {
-            activity.startDate = formatDate(
-              line.startYear,
-              line.startMonth,
-              line.startDay
-            );
-          }
-
-          if (line.endYear) {
-            activities.endDate = formatDate(
-              line.endYear,
-              line.endMonth,
-              line.endDay
-            );
-          }
-
-          // TODO: submission date on grant
         });
 
         return {

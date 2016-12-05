@@ -28,8 +28,10 @@ const FILES = require('./files'),
       helpers = require('./helpers'),
       log = require('../logger')();
 
-if (inspect.defaultOptions)
+if (inspect.defaultOptions) {
+  inspect.defaultOptions.colors = true;
   inspect.defaultOptions.depth = null;
+}
 
 // Altering the NODE_CONFIG_DIR env variable so that `config` can resolve
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'server', 'config');
