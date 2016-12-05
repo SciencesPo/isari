@@ -1055,8 +1055,6 @@ module.exports = {
           // Adding the new person
           indexes.hashed[key] = person;
           indexes.id[person._id] = person;
-
-          console.log(`${person.firstName} ${person.name}`);
         },
         Activity(indexes, activity) {
           indexes.id[activity._id] = activity;
