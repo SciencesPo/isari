@@ -422,17 +422,16 @@ module.exports = {
               activities = [];
 
         // We only keep lines actually having finished the thesis
-        const KEEP = new Set([
-          'Inscrit',
-          'Report à l\'année',
-          'Suspension d\'études'
+        const FILTER = new Set([
+          'Abandon avant inscription',
+          'Dossier clos (abandon)'
         ]);
 
         // We must group lines per person
         partitionBy(lines, 'bannerUid')
           .forEach(personLines => {
-            const phd = personLines.find(person => !person.hdr && KEEP.has(person.status)),
-                  hdr = personLines.find(person => person.hdr && KEEP.has(person.status)),
+            const phd = personLines.find(person => !person.hdr && !FILTER.has(person.status)),
+                  hdr = personLines.find(person => person.hdr && !FILTER.has(person.status)),
                   ref = phd || hdr || personLines[personLines.length - 1];
 
             if (personLines.length > 2)
@@ -499,6 +498,43 @@ module.exports = {
                   }
                 ]
               };
+
+              const jurySet = new Set();
+
+              (phd.jury || []).forEach(person => {
+                const jury = {
+                  people: hashPeople(person)
+                };
+
+                jurySet.add(jury.people);
+
+                if (jury.president)
+                  jury.role = 'presidentjury';
+                else if (jury.director)
+                  jury.role = 'directeur';
+                else if (jury.reporter)
+                  jury.role = 'rapporteurjury';
+                else
+                  jury.role = 'membrejury';
+
+                activity.people.push(jury);
+              });
+
+              (phd.directors || []).forEach(person => {
+                const director = {
+                  people: hashPeople(person)
+                };
+
+                if (jurySet.has(director.people))
+                  return;
+
+                if (director.co)
+                  director.role = 'codirecteur';
+                else
+                  director.role = 'directeur';
+
+                activity.people.push(director);
+              });
 
               // TODO: mention
               // TODO: grants
@@ -577,6 +613,43 @@ module.exports = {
                   }
                 ]
               };
+
+              const jurySet = new Set();
+
+              (hdr.jury || []).forEach(person => {
+                const jury = {
+                  people: hashPeople(person)
+                };
+
+                jurySet.add(jury.people);
+
+                if (jury.president)
+                  jury.role = 'presidentjury';
+                else if (jury.director)
+                  jury.role = 'directeur';
+                else if (jury.reporter)
+                  jury.role = 'rapporteurjury';
+                else
+                  jury.role = 'membrejury';
+
+                activity.people.push(jury);
+              });
+
+              (hdr.directors || []).forEach(person => {
+                const director = {
+                  people: hashPeople(person)
+                };
+
+                if (jurySet.has(director.people))
+                  return;
+
+                if (director.co)
+                  director.role = 'codirecteur';
+                else
+                  director.role = 'directeur';
+
+                activity.people.push(director);
+              });
 
               // TODO: mention
               // TODO: grants
