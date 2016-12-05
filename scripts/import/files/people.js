@@ -517,12 +517,13 @@ module.exports = {
 
         // Building objects
         const objects = persons.map(years => {
-          const firstYear = years[0];
+          const firstYear = years[0],
+                lastYear = years[years.length - 1];
 
           const info = {
             name: firstYear.name,
             firstName: firstYear.firstName,
-            contacts: firstYear.contacts
+            contacts: lastYear.contacts
           };
 
           // Finding gender
