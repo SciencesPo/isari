@@ -803,7 +803,7 @@ module.exports = {
                       organization,
                       role,
                     },
-                  ],  
+                  ],
                   grants: {
                     grantIdentifier: line.grantIdentifier,
                     // Organizations
@@ -827,34 +827,59 @@ module.exports = {
                   name: line.grantsOrganization,
                 };
 
-                if (grantsOrganization) {
-                  activity.organizations.organization = grantsOrganization;
-                  organization.name = grantsOrganization;
+                if (line.grantsOrganization) {
+                  activity.organizations.organization = line.grantsOrganization;
+                  organization.name = line.grantsOrganization;
                 }
-                  
-                if (organizationPartner) {
-                  activity.organizations.organization = organizationPartner;
+
+                if (line.organizationPartner) {
+                  activity.organizations.organization = line.organizationPartner;
                   activity.organizations.role = 'partenaire';
                 }
-                  
-                if (organizationPi) {
-                  activity.organizations.organization = organizationPi;
+
+                if (line.organizationPi) {
+                  activity.organizations.organization = line.organizationPi;
                   activity.organizations.role = 'coordinateur';
                 }
-                  
 
-                if (startDay && startMonth && startYear) {
-                  activity.startDate = startDay + '\/' + startMonth + '\/' + startYear;
+                const startDate = [];
+
+                if (line.startYear) {
+                  startDate = [line.startYear];
+                  if (line.startMonth) {
+                    startDate.push(line.startMonth);
+                    if (line.startDate) {
+                    startDate.push(line.startDay);
+                    }
+                  }
+                  startDate.join('-');
                 }
 
-                if (endDay && endMonth && endYear) {
-                  activity.endDate = endDay + '\/' + endMonth + '\/' + endYear;
+                const endDate = [];
+
+                if (line.endYear) {
+                  endDate = [line.endYear];
+                  if (line.endMonth) {
+                    endDate.push(line.endMonth);
+                    if (line.endDate) {
+                    endDate.push(line.endDay);
+                    }
+                  }
+                  endDate.join('-');
                 }
 
-                if (submissionDay && submissionMonth && submissionYear) {
-                  activity.grants.submissionDate = submissionDay + '\/' + submissionMonth + '\/' + submissionYear;
-                }
+                const submissionDate = [];
 
+                if (line.submissionYear) {
+                  submissionDate = [line.submissionYear];
+                  if (line.submissionMonth) {
+                    submissionDate.push(line.submissionMonth);
+                    if (line.submissionDate) {
+                    submissionDate.push(line.submissionDay);
+                    }
+                  }
+                  submissionDate.join('-');
+                }
 
               });
 
