@@ -749,15 +749,109 @@ module.exports = {
     {
       name: 'contrats_isari',
       path: 'activities/contrats_isari.csv',
-      skip: true,
+      skip: false,
       consumer(line) {
         const info = {
+          name: line.acronym, // activity.name
+          subject: line.name, // activity.subject
+          grantIdentifier: line['grants.grantIdentifier'], // grants.grantIdentifier
+          grantsOrganization: line['grants.organization'], // organization.name (need to be matched)
+          grantProgram: line['grants.grantProgram'], // grants.grantProgram
+          grantType: line['grants.grantType'], // grants.grantType
+          grantInstrument: line['grants.grantInstrument'], 
+          grantCall: line['grants.grantCall'], //grants.grantCall
+          peoplePi: line['people.role=PI'],
+          organizationPi: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
+          organizationRole: line['Rôle labo'],
+          organizationPartner: line['organizations role=partenaire'], // to match with orga
+          peopleRespoSc: line['people.role=responsable scientifique only IF different from PI'],
+          peopleMembre: lin['people.role=membre'], // People de l'activity "projetderecherche" avec le rôle "membre"
+          amountTypeDemande: line['amount.amountType = sciencespodemande'], // grants.amounts.amountType="sciencespodemande"
+          amountTypeConsortium: line['amount.amountType = consortiumobtenu'], // grants.amounts.amountType="consortiumobtenu"
+          amountTypeObtenu: line['amount.amountType = sciencespoobtenu'], // grants.amounts.amountType="sciencespoobtenu"
+          durationsInMonths: line.durationInMonths, // grants.durationInMonths
+          submissionDay: line['submissionDate.day'], // ----------------------- |
+          submissionMonth: line['submissionDate.month'], // ------------------- |
+          submissionYear: line['submissionDate.year'], // grants.submissionDate v
+          grantStatus: line.grantstatus, //grants.status
+          startDay: line['startDate.day'], // ---------------- |
+          startMonth: line['startDate.month'], // ------------ |
+          startYear: line['startDate.year'], // grants.startDate v
+          endDay: line['endDate.day'],  // --------------- |
+          endMonth: line['endDate.month'], // ------------ |
+          endYear: line['endDate.year'], // grants.endDate v
+          UG: line.UG, // grants.UG
+          overheadsCalculation: line.overheadsCalculation, // grants.overheadsCalculation
+          budgetType: line['amounts.budgetType = overheads'], // grants.amounts avec grants.amounts.budgetType="overheads"
+          delegationCnrs: line.delegationCNRS, //grants.delegationCNRS (boolean)
 
         };
 
         return info;
       },
       resolver(lines) {
+        const organizations = {},
+              people = {},
+              activities = [];
+
+              lines.forEach(line => {
+                const activity = {
+                  name: line.name,
+                  subject: line.subject,
+                  organizations: [
+                    {
+                      organization,
+                      role,
+                    },
+                  ],  
+                  grants: {
+                    grantIdentifier: line.grantIdentifier,
+                    // Organizations
+                    grantProgram: line.grantProgram,
+                    grantType: line.grantType,
+                    grantInstrument: line.grantInstrument,
+                    grantCall: line.grantCall,
+                    durationsInMonths: line.durationsInMonths,
+                    // submissionDate
+                    status: line.grantStatus,
+                    UG: line.UG,
+                    overheadsCalculation: line.overheadsCalculation,
+                  }
+                },
+
+                const people = {
+
+                },
+
+                const organization = {
+                  name: line.grantsOrganization,
+                },
+
+                if (grantsOrganization)
+                  activity.organizations.organization = grantsOrganization,
+                  organization.name = grantsOrganization,
+
+                if (organizationPartner)
+                  activity.organizations.organization = organizationPartner,
+                  activity.organizations.role = 'partenaire',
+
+                if (organizationPi)
+                  activity.organizations.organization = organizationPi,
+                  activity.organizations.role = 'coordinateur'
+
+                if (startDay && startMonth && startYear)
+                  startDate = startDay + '\/' + startMonth + '\/' + startYear
+
+                if (endDay && endMonth && endYear)
+                  endDate = endDay + '\/' + endMonth + '\/' + endYear
+
+                if (submissionDay && submissionMonth && submissionYear)
+                  submissionDate = submissionDay + '\/' + submissionMonth + '\/' + submissionYear
+
+
+
+              }
+
         return {};
       },
       indexers: {}
