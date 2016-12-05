@@ -773,7 +773,7 @@ module.exports = {
           organizationPI: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
           laboRole: line['Rôle labo'],
           partner: line['organizations role=partenaire'], // to match with orga
-          grantStatus: line.grantstatus, //grants.status
+          status: line.grantstatus, //grants.status
           UG: line.UG, // grants.UG
           overheadsCalculation: line.overheadsCalculation // grants.overheadsCalculation
         };
@@ -785,8 +785,8 @@ module.exports = {
           PISet = new Set(info.peoplePI.map(person => `${person.name}§${person.firstName}`));
         }
 
-        if (line['people.role=responsable scientifique only IF different from PI'])
-          info.peopleScientific = JSON.parse(line['people.role=responsable scientifique only IF different from PI'])
+        if (line['people.role=responsableScientifique Only IF different from PI'])
+          info.peopleScientific = JSON.parse(line['people.role=responsableScientifique Only IF different from PI'])
             .filter(person => !PISet.has(`${person.name}§${person.firstName}`));
 
         if (line['people.role=membre'])
@@ -1055,6 +1055,8 @@ module.exports = {
           // Adding the new person
           indexes.hashed[key] = person;
           indexes.id[person._id] = person;
+
+          console.log(`${person.firstName} ${person.name}`);
         },
         Activity(indexes, activity) {
           indexes.id[activity._id] = activity;
