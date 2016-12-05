@@ -6,6 +6,9 @@
  */
 const CARRIAGE_NORMALIZATION = /(?:\r\n|\n\r|\n|\r)/g,
       CARRIAGE_SUPPRESSION = /\s*\n\s*/g,
+      SINGLE_QUOTES = /[’‘`‛']/g,
+      DOUBLE_QUOTES = /[«»„‟“”"]/g,
+      // ELLIPSIS = /…/g,
       WHITESPACES = /\s+/g;
 
 exports.default = function(value) {
@@ -13,5 +16,8 @@ exports.default = function(value) {
     .trim()
     .replace(CARRIAGE_NORMALIZATION, '\n')
     .replace(CARRIAGE_SUPPRESSION, ' ')
+    .replace(SINGLE_QUOTES, '\'')
+    .replace(DOUBLE_QUOTES, '"')
+    // .replace(ELLIPSIS, '...')
     .replace(WHITESPACES, ' ');
 };
