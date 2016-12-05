@@ -861,7 +861,7 @@ module.exports = {
           if (line.organization) {
             const key = fingerprint(line.organization);
 
-            grant.organisation = line.organization;
+            grant.organization = line.organization;
 
             if (!organizations[key]) {
               organizations[key] = {
