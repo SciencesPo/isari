@@ -758,14 +758,14 @@ module.exports = {
           grantsOrganization: line['grants.organization'], // organization.name (need to be matched)
           grantProgram: line['grants.grantProgram'], // grants.grantProgram
           grantType: line['grants.grantType'], // grants.grantType
-          grantInstrument: line['grants.grantInstrument'], 
+          grantInstrument: line['grants.grantInstrument'],
           grantCall: line['grants.grantCall'], //grants.grantCall
           peoplePi: line['people.role=PI'],
           organizationPi: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
           organizationRole: line['Rôle labo'],
           organizationPartner: line['organizations role=partenaire'], // to match with orga
           peopleRespoSc: line['people.role=responsable scientifique only IF different from PI'],
-          peopleMembre: lin['people.role=membre'], // People de l'activity "projetderecherche" avec le rôle "membre"
+          peopleMembre: line['people.role=membre'], // People de l'activity "projetderecherche" avec le rôle "membre"
           amountTypeDemande: line['amount.amountType = sciencespodemande'], // grants.amounts.amountType="sciencespodemande"
           amountTypeConsortium: line['amount.amountType = consortiumobtenu'], // grants.amounts.amountType="consortiumobtenu"
           amountTypeObtenu: line['amount.amountType = sciencespoobtenu'], // grants.amounts.amountType="sciencespoobtenu"
@@ -817,40 +817,46 @@ module.exports = {
                     UG: line.UG,
                     overheadsCalculation: line.overheadsCalculation,
                   }
-                },
+                };
 
                 const people = {
 
-                },
+                };
 
                 const organization = {
                   name: line.grantsOrganization,
-                },
+                };
 
-                if (grantsOrganization)
-                  activity.organizations.organization = grantsOrganization,
-                  organization.name = grantsOrganization,
+                if (grantsOrganization) {
+                  activity.organizations.organization = grantsOrganization;
+                  organization.name = grantsOrganization;
+                }
+                  
+                if (organizationPartner) {
+                  activity.organizations.organization = organizationPartner;
+                  activity.organizations.role = 'partenaire';
+                }
+                  
+                if (organizationPi) {
+                  activity.organizations.organization = organizationPi;
+                  activity.organizations.role = 'coordinateur';
+                }
+                  
 
-                if (organizationPartner)
-                  activity.organizations.organization = organizationPartner,
-                  activity.organizations.role = 'partenaire',
+                if (startDay && startMonth && startYear) {
+                  activity.startDate = startDay + '\/' + startMonth + '\/' + startYear;
+                }
 
-                if (organizationPi)
-                  activity.organizations.organization = organizationPi,
-                  activity.organizations.role = 'coordinateur'
+                if (endDay && endMonth && endYear) {
+                  activity.endDate = endDay + '\/' + endMonth + '\/' + endYear;
+                }
 
-                if (startDay && startMonth && startYear)
-                  activity.startDate = startDay + '\/' + startMonth + '\/' + startYear
-
-                if (endDay && endMonth && endYear)
-                  activity.endDate = endDay + '\/' + endMonth + '\/' + endYear
-
-                if (submissionDay && submissionMonth && submissionYear)
-                  activity.grants.submissionDate = submissionDay + '\/' + submissionMonth + '\/' + submissionYear
+                if (submissionDay && submissionMonth && submissionYear) {
+                  activity.grants.submissionDate = submissionDay + '\/' + submissionMonth + '\/' + submissionYear;
+                }
 
 
-
-              }
+              });
 
         return {};
       },
