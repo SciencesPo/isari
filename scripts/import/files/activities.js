@@ -10,6 +10,17 @@ const fingerprint = require('talisman/keyers/fingerprint'),
       hashPeople = helpers.hashPeople,
       _ = require('lodash');
 
+function fragmentalDate(year, month, day) {
+  const date = [year];
+
+  if (month)
+    date.push(('0' + month).slice(-2));
+  if (day)
+    date.push(('0' + day).slice(-2));
+
+  return date.join('-');
+}
+
 module.exports = {
   files: [
 
@@ -314,6 +325,10 @@ module.exports = {
           hdr: line.CODE_NIVEAU === '9',
           startDate: line.ANNEE_UNIV_ADMISSION,
           title: line.TITRE_THESE,
+          organization: line.LIB_CTR_1,
+          status: line.LIB_STATUT_ADMINI,
+          subject: line.TITRE_THESE,
+          mention: line.LIB_MENTION_SOUTENANCE,
           previous: {
             idBanner: line.CODE_ETAB_ADM,
             title: [line.LIB_DIPL_ADM_L1, line.LIB_DIPL_ADM_L2].join(' ').trim(),
@@ -348,7 +363,7 @@ module.exports = {
         for (let i = 1; i < 11; i++) {
           const fullName = line['MEMBRE_JURY_' + i];
 
-          if (!fullName || /NE PAS UTILISER/.test(fullName))
+          if (!fullName || /NE PAS UTILISER/.test(fullName) || /NOM INTROUVABLE/.test(fullName))
             break;
 
           const [juryName, juryFirstName] = fullName.split(',');
@@ -381,7 +396,7 @@ module.exports = {
         for (let i = 1; i < 3; i++) {
           const fullName = line['DIR_THESE_' + i];
 
-          if (!fullName || /NE PAS UTILISER/.test(fullName))
+          if (!fullName || /NE PAS UTILISER/.test(fullName) || /NOM INTROUVABLE/.test(fullName))
             break;
 
           const [directorName, directorFirstName] = fullName.split(',');
@@ -403,14 +418,21 @@ module.exports = {
       },
       resolver(lines) {
         const people = Object.create(null),
+              organizations = Object.create(null),
               activities = [];
+
+        // We only keep lines actually having finished the thesis
+        const FILTER = new Set([
+          'Abandon avant inscription',
+          'Dossier clos (abandon)'
+        ]);
 
         // We must group lines per person
         partitionBy(lines, 'bannerUid')
           .forEach(personLines => {
-            const phd = personLines.find(person => !person.hdr),
-                  hdr = personLines.find(person => person.hdr),
-                  ref = phd || hdr;
+            const phd = personLines.find(person => !person.hdr && !FILTER.has(person.status)),
+                  hdr = personLines.find(person => person.hdr && !FILTER.has(person.status)),
+                  ref = phd || hdr || personLines[personLines.length - 1];
 
             if (personLines.length > 2)
               this.warning(`Found ${personLines.length} lines for "${chalk.green(ref.firstName + ' ' + ref.name)}".`);
@@ -459,16 +481,13 @@ module.exports = {
             // Creating activities
             peopleInfo.distinctions = [];
 
+            // TODO: academic memberships
+
             if (phd) {
               const activity = {
                 activityType: 'doctorat',
                 name: `Doctorat : ${peopleInfo.firstName} ${peopleInfo.name}`,
-                organizations: [
-                  {
-                    organization: ['IEP Paris'],
-                    role: 'inscription'
-                  }
-                ],
+                organizations: [],
                 people: [
                   {
                     people: {
@@ -479,6 +498,55 @@ module.exports = {
                   }
                 ]
               };
+
+              const jurySet = new Set();
+
+              (phd.jury || []).forEach(person => {
+                const jury = {
+                  people: hashPeople(person)
+                };
+
+                jurySet.add(jury.people);
+
+                if (jury.president)
+                  jury.role = 'presidentjury';
+                else if (jury.director)
+                  jury.role = 'directeur';
+                else if (jury.reporter)
+                  jury.role = 'rapporteurjury';
+                else
+                  jury.role = 'membrejury';
+
+                activity.people.push(jury);
+              });
+
+              (phd.directors || []).forEach(person => {
+                const director = {
+                  people: hashPeople(person)
+                };
+
+                if (jurySet.has(director.people))
+                  return;
+
+                if (director.co)
+                  director.role = 'codirecteur';
+                else
+                  director.role = 'directeur';
+
+                activity.people.push(director);
+              });
+
+              // TODO: mention
+              // TODO: grants
+
+              if (phd.subject)
+                activity.subject = phd.subject;
+
+              if (phd.organization)
+                activity.organizations.push({
+                  organization: phd.organization,
+                  role: 'inscription'
+                });
 
               activities.push(activity);
 
@@ -500,9 +568,17 @@ module.exports = {
               const distinction = {
                 distinctionType: 'diplôme',
                 title: 'Doctorat',
-                organizations: ['FNSP'],
                 countries: ['FR']
               };
+
+              if (phd.organization) {
+                distinction.organizations = [phd.organization];
+
+                if (!organizations[phd.organization])
+                  organizations[phd.organization] = {
+                    name: phd.organization
+                  };
+              }
 
               if (phd.endDate)
                 distinction.date = phd.endDate;
@@ -526,12 +602,7 @@ module.exports = {
               const activity = {
                 activityType: 'hdr',
                 name: `HDR : ${peopleInfo.firstName} ${peopleInfo.name}`,
-                organizations: [
-                  {
-                    organization: ['IEP Paris'],
-                    role: 'inscription'
-                  }
-                ],
+                organizations: [],
                 people: [
                   {
                     people: {
@@ -543,14 +614,71 @@ module.exports = {
                 ]
               };
 
+              const jurySet = new Set();
+
+              (hdr.jury || []).forEach(person => {
+                const jury = {
+                  people: hashPeople(person)
+                };
+
+                jurySet.add(jury.people);
+
+                if (jury.president)
+                  jury.role = 'presidentjury';
+                else if (jury.director)
+                  jury.role = 'directeur';
+                else if (jury.reporter)
+                  jury.role = 'rapporteurjury';
+                else
+                  jury.role = 'membrejury';
+
+                activity.people.push(jury);
+              });
+
+              (hdr.directors || []).forEach(person => {
+                const director = {
+                  people: hashPeople(person)
+                };
+
+                if (jurySet.has(director.people))
+                  return;
+
+                if (director.co)
+                  director.role = 'codirecteur';
+                else
+                  director.role = 'directeur';
+
+                activity.people.push(director);
+              });
+
+              // TODO: mention
+              // TODO: grants
+
+              if (hdr.subject)
+                activity.subject = hdr.subject;
+
+              if (hdr.organization)
+                activity.organizations.push({
+                  organization: hdr.organization,
+                  role: 'inscription'
+                });
+
               activities.push(activity);
 
               const distinction = {
                 distinctionType: 'diplôme',
                 title: 'HDR',
-                organizations: ['FNSP'],
                 countries: ['FR']
               };
+
+              if (hdr.organization) {
+                distinction.organizations = [hdr.organization];
+
+                if (!organizations[hdr.organization])
+                  organizations[hdr.organization] = {
+                    name: hdr.organization
+                  };
+              }
 
               if (hdr.endDate)
                 distinction.date = hdr.endDate;
@@ -559,12 +687,11 @@ module.exports = {
             }
           });
 
-        // TODO: compute activities from there
-
         // TODO: Sorting people by gender to avoid cases where someone would be
         // referenced first as jury and then as doctorant.
         return {
           People: _.values(people),
+          Organization: _.values(organizations),
           Activity: activities
         };
       },
@@ -594,6 +721,25 @@ module.exports = {
           indexes.hashed[key] = person;
           indexes.id[person._id] = person;
         },
+        Organization(indexes, org) {
+          const key = fingerprint(org.name);
+
+          let match = indexes.name[org.name];
+
+          if (!match)
+            match = indexes.acronym[org.name];
+
+          if (!match)
+            match = indexes.fingerprint[key];
+
+          if (match)
+            return;
+
+          // Adding the new org
+          indexes.name[org.name] = org;
+          indexes.fingerprint[key] = org;
+          indexes.id[org._id] = org;
+        },
         Activity(indexes, activity) {
           indexes.id[activity._id] = activity;
         }
@@ -621,7 +767,7 @@ module.exports = {
         };
 
         if (line['date début'])
-          info.starDate = line['date début'].split('T')[0];
+          info.startDate = line['date début'].split('T')[0];
 
         if (line['date fin'])
           info.endDate = line['date fin'].split('T')[0];
@@ -749,18 +895,309 @@ module.exports = {
     {
       name: 'contrats_isari',
       path: 'activities/contrats_isari.csv',
-      skip: true,
       consumer(line) {
         const info = {
-
+          acronym: line.acronym, // activity.name
+          subject: line.name, // activity.subject
+          grantIdentifier: line['grants.grantIdentifier'], // grants.grantIdentifier
+          organization: line['grants.organization'], // organization.name (need to be matched)
+          grantProgram: line['grants.grantProgram'], // grants.grantProgram
+          grantType: line['grants.grantType'], // grants.grantType
+          grantInstrument: line['grants.grantInstrument'],
+          grantCall: line['grants.grantCall'], //grants.grantCall
+          organizationPI: line['organisation du PI si pas Sciences Po (rôle coordinateur)'], // to match with orga
+          laboRole: line['Rôle labo'],
+          partner: line['organizations role=partenaire'], // to match with orga
+          status: line.grantstatus, //grants.status
+          UG: line.UG, // grants.UG
+          overheadsCalculation: line.overheadsCalculation // grants.overheadsCalculation
         };
+
+        let PISet = new Set();
+
+        if (line['people.role=PI']) {
+          info.peoplePI = JSON.parse(line['people.role=PI']);
+          PISet = new Set(info.peoplePI.map(person => `${person.name}§${person.firstName}`));
+        }
+
+        if (line['people.role=responsableScientifique Only IF different from PI'])
+          info.peopleScientific = JSON.parse(line['people.role=responsableScientifique Only IF different from PI'])
+            .filter(person => !PISet.has(`${person.name}§${person.firstName}`));
+
+        if (line['people.role=membre'])
+          info.peopleMembre = JSON.parse(line['people.role=membre']);
+
+        if (line['amount.amountType = sciencespodemande'])
+          info.amountTypeDemande = +line['amount.amountType = sciencespodemande'];
+
+        if (line['amount.amountType = consortiumobtenu'])
+          info.amountTypeConsortium = +line['amount.amountType = consortiumobtenu'];
+
+        if (line['amount.amountType = sciencespoobtenu'])
+          info.amountTypeObtenu = +line['amount.amountType = sciencespoobtenu'];
+
+        if (line['amounts.budgetType = overheads'])
+          info.overheads = +line['amounts.budgetType = overheads'];
+
+        if (line.durationInMonths)
+          info.durationInMonths = +line.durationInMonths;
+
+        if (line.delegationCNRS)
+          info.delegationCNRS = true;
+
+        if (line['startDate.year']) {
+          info.startDate = fragmentalDate(
+            line['startDate.year'],
+            line['startDate.month'],
+            line['startDate.day']
+          );
+        }
+
+        if (line['endDate.year']) {
+          info.endDate = fragmentalDate(
+            line['endDate.year'],
+            line['endDate.month'],
+            line['endDate.day']
+          );
+        }
+
+        if (line['submissionDate.year']) {
+          info.submissionDate = fragmentalDate(
+            line['submissionDate.year'],
+            line['submissionDate.month'],
+            line['submissionDate.day']
+          );
+        }
+
+        if (line['Labo SCPO']) {
+          info.labos = line['Labo SCPO']
+            .split(';')
+            .map(labo => labo.trim());
+        }
+
+        info.name = info.acronym || info.subject;
 
         return info;
       },
       resolver(lines) {
-        return {};
+        const organizations = {},
+              people = {},
+              activities = [];
+
+        lines.forEach(line => {
+          const grant = {
+            amounts: []
+          };
+
+          [
+            'grantIdentifier',
+            'grantProgram',
+            'grantType',
+            'grantInstrument',
+            'grantCall',
+            'durationInMonths',
+            'status',
+            'UG',
+            'overheadsCalculation',
+            'delegationCNRS',
+            'startDate',
+            'endDate',
+            'submissionDate'
+          ].forEach(prop => {
+            if (line.hasOwnProperty(prop))
+              grant[prop] = line[prop];
+          });
+
+          // Handling organization
+          if (line.organization) {
+            const key = fingerprint(line.organization);
+
+            grant.organization = line.organization;
+
+            if (!organizations[key]) {
+              organizations[key] = {
+                name: line.organization
+              };
+            }
+          }
+
+          // Handling amounts
+          if (line.amountTypeDemande)
+            grant.amounts.push({
+              amount: line.amountTypeDemande,
+              amountType: 'sciencespodemande'
+            });
+
+          if (line.amountTypeConsortium)
+            grant.amounts.push({
+              amount: line.amountTypeConsortium,
+              amountType: 'consortiumobtenu'
+            });
+
+          if (line.amountTypeObtenu)
+            grant.amounts.push({
+              amount: line.amountTypeObtenu,
+              amountType: 'sciencespoobtenu'
+            });
+
+          if (line.overheads)
+            grant.amounts.push({
+              amount: line.overheads,
+              budgetType: 'overheads'
+            });
+
+
+          const activity = {
+            name: line.name || line.subject,
+            activityType: 'projetderecherche',
+            grants: [grant],
+            people: [],
+            organizations: []
+          };
+
+          if (line.acronym)
+            activity.acronym = line.acronym;
+
+          if (line.subject)
+            activity.subject = line.subject;
+
+          // Handling people
+          if (line.peoplePI) {
+            line.peoplePI.forEach(person => {
+              const key = hashPeople(person);
+
+              activity.people.push({
+                people: key,
+                role: 'PI'
+              });
+
+              if (!people[key])
+                people[key] = person;
+            });
+          }
+
+          if (line.peopleScientific) {
+            line.peopleScientific.forEach(person => {
+              const key = hashPeople(person);
+
+              activity.people.push({
+                people: key,
+                role: 'responsableScientifique'
+              });
+
+              if (!people[key])
+                people[key] = person;
+            });
+          }
+
+          if (line.peopleMembre) {
+            line.peopleMembre.forEach(person => {
+              const key = hashPeople(person);
+
+              activity.people.push({
+                people: key,
+                role: 'membre'
+              });
+
+              if (!people[key])
+                people[key] = person;
+            });
+          }
+
+          // Handling other organizations
+          if (line.organizationPI) {
+            const key = fingerprint(line.organizationPI);
+
+            activity.organizations.push({
+              organization: line.organizationPI,
+              role: 'coordinateur'
+            });
+
+            if (!organizations[key]) {
+              organizations[key] = {
+                name: line.organizationPI
+              };
+            }
+          }
+
+          if (line.labos) {
+            line.labos.forEach(labo => {
+              const key = fingerprint(labo);
+
+              activity.organizations.push({
+                organization: labo,
+                role: line.laboRole
+              });
+
+              if (!organizations[key]) {
+                organizations[key] = {
+                  name: labo
+                };
+              }
+            });
+          }
+
+          if (line.partner) {
+            const key = fingerprint(line.partner);
+
+            activity.organizations.push({
+              organization: line.partner,
+              role: 'partenaire'
+            });
+
+            if (!organizations[key]) {
+              organizations[key] = {
+                name: line.partner
+              };
+            }
+          }
+
+          // Pushing the activity
+          activities.push(activity);
+        });
+
+        return {
+          Organization: _.values(organizations),
+          People: _.values(people),
+          Activity: activities
+        };
       },
-      indexers: {}
+      indexers: {
+        Organization(indexes, org) {
+          const key = fingerprint(org.name);
+
+          let match = indexes.name[org.name];
+
+          if (!match)
+            match = indexes.acronym[org.name];
+
+          if (!match)
+            match = indexes.fingerprint[key];
+
+          if (match)
+            return;
+
+          // Adding the new org
+          indexes.name[org.name] = org;
+          indexes.fingerprint[key] = org;
+          indexes.id[org._id] = org;
+        },
+        People(indexes, person) {
+          const key = hashPeople(person);
+
+          const match = indexes.hashed[key];
+
+          if (match)
+            return;
+
+          // Adding the new person
+          indexes.hashed[key] = person;
+          indexes.id[person._id] = person;
+        },
+        Activity(indexes, activity) {
+          indexes.id[activity._id] = activity;
+        }
+      }
     }
   ]
 };

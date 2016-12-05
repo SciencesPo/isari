@@ -5,7 +5,7 @@
     <div class="md-input-wrapper">
       <div class="md-input-table">
         <div class="md-input-prefix">
-          <a *ngIf="id" routerLink="/{{ api }}/{{ id }}" target="_blank" preserveQueryParams><md-icon>create</md-icon></a>
+          
         </div>
         <div class="md-input-infix">
           <input class="md-input-element"
@@ -16,7 +16,7 @@
             {{ label }}
           </label>
         </div>
-        <div class="md-input-suffix"></div>
+        <div class="md-input-suffix"><a *ngIf="id" routerLink="/{{ api }}/{{ id }}" target="_blank" preserveQueryParams><md-icon>open_in_new</md-icon></a></div>
       </div>
       <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
         <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>

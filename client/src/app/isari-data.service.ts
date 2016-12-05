@@ -12,6 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/cache';
 import 'rxjs/add/operator/publishReplay';
 import { UserService } from './user.service';
+import { get } from './utils';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -30,6 +31,7 @@ export class IsariDataService {
 
   private enumsCache = {};
   private layoutsCache = {};
+  private schemasCache = {};
   private columnsCache = null;
 
   private dataUrl = `${environment.API_BASE_URL}`;
@@ -57,8 +59,16 @@ export class IsariDataService {
 
   getData(feature: string, id: string | undefined) {
     if (id === undefined) {
-      return Promise.resolve({});
+      return this.getEmptyDataWith({
+        controlType: 'object',
+        label: null,
+        layout: [],
+        multiple: false,
+        name: '',
+        type: 'object'
+      }, feature);
     }
+
     const url = `${this.dataUrl}/${feature}/${id}`;
     return this.http.get(url, this.getHttpOptions())
       .toPromise()
@@ -117,16 +127,32 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
+  private getSchema(feature: string, path: string | undefined = undefined) {
+    if (!this.schemasCache[feature]) {
+      const url = `${this.schemaUrl}/${singular[feature]}`;
+      this.schemasCache[feature] = this.http.get(url, this.getHttpOptions())
+        .distinctUntilChanged()
+        .toPromise()
+        .then(response => response.json())
+        .then(schema => {
+          // Server always adds 'type = object' on root description, we don't want to bother with that here
+          delete schema.type;
+          return schema;
+        })
+    }
+    if (path) {
+      // We remove every ".0", ".1", etc… in path, as they refer to multiple fields
+      // Note: we may add some checks here, worst case = return null, which is an expected possibility
+      return this.schemasCache[feature].then(get(path.replace(/\.\d+(?:\.|$)/, '')))
+    } else {
+      return this.schemasCache[feature];
+    }
+  }
+
+  private
+
   getColumns(feature: string) {
-    const url = `${this.schemaUrl}/${singular[feature]}`;
-    return this.http.get(url, this.getHttpOptions())
-      .distinctUntilChanged()
-      .toPromise()
-      .then(response => response.json())
-      .then(schema => {
-        delete schema.type;
-        return schema;
-      })
+    return this.getSchema(feature)
       .then(schema => Object.keys(schema).map(key => ({
         key,
         label: schema[key].label
@@ -243,12 +269,14 @@ export class IsariDataService {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
     fields.forEach(field => {
+      const hasData = data[field.name] !== null && data[field.name] !== undefined
+      const fieldData = hasData ? data[field.name] : field.multiple ? [] : field.type === 'object' ? {} : '';
       if (field.multiple && field.type === 'object') {
         let fa = new FormArray([]);
         if (this.disabled(data.opts, field.name)) {
           fa.disable(true);
         }
-        (data[field.name] || []).forEach((d, i) => {
+        fieldData.forEach((d, i) => {
           let subdata = Object.assign({}, d || {}, {
             opts: Object.assign({}, data.opts, {
               path:  [...data.opts.path, field.name, i]
@@ -258,7 +286,7 @@ export class IsariDataService {
         });
         form.addControl(field.name, fa);
       } else if (field.type === 'object') {
-        let subdata = Object.assign({}, data[field.name] || {}, {
+        let subdata = Object.assign({}, fieldData, {
           opts: Object.assign({}, data.opts, {
             path: [...data.opts.path, field.name]
           })
@@ -266,7 +294,7 @@ export class IsariDataService {
         form.addControl(field.name, this.buildForm(field.layout, subdata));
       } else {
         form.addControl(field.name, new FormControl({
-          value: data[field.name] || '',
+          value: fieldData,
            // add '.x' for multiple fields (for matching fieldName.*)
           disabled: this.disabled(data.opts, field.name + (field.multiple ? '.x' : ''))
         }, this.getValidators(field)));
@@ -293,28 +321,31 @@ export class IsariDataService {
     fa.push(this.buildForm(field.layout, data));
   }
 
-  getEmptyDataWith(field, feature, path) {
-    return this.userService.getRestrictedFields()
-      .map(restrictedFields => {
-          let fieldClone = Object.assign({}, field);
+  getEmptyDataWith(field: any, feature: string, path: string | undefined = undefined) {
+    return this.getSchema(feature, path).then(schema => {
+      return this.userService.getRestrictedFields()
+        .map(restrictedFields => {
+          let fieldClone = Object.assign({}, field || {});
           delete fieldClone.multiple;
-          const data = this.buildData(fieldClone);
+          const data = this.buildData(fieldClone, schema);
           data.opts = {
             editable: true,
             restrictedFields: restrictedFields[feature],
-            path: path.split('.')
+            path: path ? path.split('.') : ''
           };
           return data;
+        })
+        .toPromise();
       });
   }
 
   // recursively construct empty data following types
-  private buildData(field) {
+  private buildData(field, schema: Object | undefined) {
     if (field.type === 'object') {
       let data = field.layout
         .reduce((acc, row) => [...acc, ...row.fields], [])
         .reduce((acc, f) => Object.assign(acc, {
-          [f.name]: this.buildData(f)
+          [f.name]: this.buildData(f, schema && schema[f.name])
         }), {});
       if (field.multiple) {
         return [data];
@@ -325,7 +356,9 @@ export class IsariDataService {
      if (field.multiple) {
        return [];
      } else {
-       return null;
+       const def = schema && schema['default']
+       console.log({ name: field.name, value: def })
+       return def === undefined ? null : def
      }
     }
   }

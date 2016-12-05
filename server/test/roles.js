@@ -9,7 +9,7 @@ const config = require('config')
 // beware, in less than a thousand years tests will break
 const future = '2999-12-31'
 
-describe.only('Central roles', () => {
+describe('Central roles', () => {
 	let fixtures = null
 	let connection = null
 	before(() => connect().then(conn => connection = conn).then(cleanup).then(prepare).then(fixt => fixtures = fixt))
@@ -51,7 +51,6 @@ describe.only('Central roles', () => {
 	it('central admin should see editable people (without org filter)', () => utils.people.editable('centralAdmin', true, fixtures.centerMember, false))
 	it('central reader should see readonly people (without org filter)', () => utils.people.editable('centralReader', false, fixtures.centerMember, false))
 	it('center member should see editable himself (himself, with org filter)', () => utils.people.editable('centerMember', true, fixtures.centerMember, true))
-	it('center member should see editable himself (without org filter)') // WIP
 	it('center member should see readonly other people (with org filter)', () => utils.people.editable('centerMember', false, fixtures.centralReader, true))
 	it('center member should see editable external people (with org filter)', () => utils.people.editable('centerMember', true, fixtures.externalPeople, true))
 
@@ -59,25 +58,28 @@ describe.only('Central roles', () => {
 	it('central reader should see readonly organization (without org filter)', () => utils.organization.editable('centralReader', false, fixtures.organization, false))
 	it('center member should see editable organization (with org filter)', () => utils.organization.editable('centerMember', true, fixtures.organization, true))
 
-	// The next ones are dumb, but those limitations are required for consistent API
-	it('center member should not see organization (without org filter)', () => utils.organization.accessible('centerMember', 401, fixtures.organization, false))
+	// Unfiltered accesses to organizations and personal people should be possible
+	it('center member should see editable organization (without org filter)', () => utils.organization.editable('centerMember', true, fixtures.organization, false))
+	it('center member should see editable himself (without org filter)', () => utils.people.editable('centerMember', true, fixtures.centerMember, false))
 
-	it('central admin should see all organizations + "Sciences Po" in his home menu', () =>
+	it('central admin should see monitored organizations + "Sciences Po" in his home menu', () =>
 		req.centralAdmin('get', '/auth/permissions').then(({ status, body }) => {
 			expect(status).to.equal(200)
 			expect(body).to.be.an('object')
 			expect(body.central).to.equal('admin')
-			expect(body.organizations).to.be.an('array').and.have.length(3)
+			expect(body.organizations).to.be.an('array').and.have.length(2)
 			expect(omit('restrictedFields', body.organizations[0])).to.eql(config.globalOrganization)
+			expect(body.organizations[1].id).to.eql(fixtures.organization.id)
 		})
 	)
-	it('central reader should see all organizations + "Sciences Po" in his home menu', () =>
+	it('central reader should see monitored organizations + "Sciences Po" in his home menu', () =>
 		req.centralReader('get', '/auth/permissions').then(({ status, body }) => {
 			expect(status).to.equal(200)
 			expect(body).to.be.an('object')
 			expect(body.central).to.equal('reader')
-			expect(body.organizations).to.be.an('array').and.have.length(3)
+			expect(body.organizations).to.be.an('array').and.have.length(2)
 			expect(omit('restrictedFields', body.organizations[0])).to.eql(config.globalOrganization)
+			expect(body.organizations[1].id).to.eql(fixtures.organization.id)
 		})
 	)
 	it('center member should only see his organizations in his home menu', () =>

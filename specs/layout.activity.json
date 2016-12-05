@@ -26,21 +26,22 @@
         },
         "collapsabled": true
     },
-    ["subject","url"],
-    "summary",
-    {
-        "fields": ["tags"],
-        "label": {"fr":"Tags","en":"Tags"},
-        "collapsabled": true
-    },
     {
         "fields": ["grants"],
         "label": {"fr":"Financement","en":"Funding"},
         "collapsabled": true
     },
+    ["subject","url"],
+    "summary",
+    {
+        "fields": ["tags"],
+        "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
+        "collapsabled": true
+    },
+   
     {
         "fields": ["distinctions"],
-        "label": {"fr":"distinctions","en":"Awards"},
+        "label": {"fr":"prix et distinctions","en":"Awards"},
         "collapsabled": true
     }   
 

@@ -1,8 +1,7 @@
 [
     [
         "firstName",
-        "name",
-        "birthName"
+        "name"
     ],
      {
 
@@ -10,32 +9,71 @@
         "gender",
         "birthDate",
         "nationalities",
-        "langs"
+        "langs",
+        "birthName"
         ],
         "label": {"fr":"Informations Personnelles","en":"Personal Information"},
         "collapsabled": true
     },
-    "academicMemberships",
-    "gradesAcademic",
-    "deptMemberships",
-        {
+    {
+        "fields":  [
+            "contacts",
+            "office"
+        ],
+        "label": {"fr":"Coordonnées","en":"Contact details"},
+        "collapsabled": true
+    },
+    {
+
+        "fields": ["academicMemberships"],
+        "label": {
+                "fr": "Rattachement labo",
+                "en": "Unit affiliation"
+            },
+        "collapsabled": true
+    },
+    {
+
+        "fields": ["gradesAcademic"],
+        "label": {
+                "fr": "Grades académiques",
+                "en": "Academic grades"
+            },
+        "collapsabled": true
+    },
+      {
+
+        "fields": ["deptMemberships"],
+        
+            "label": {
+                "fr": "Rattachement département",
+                "en": "Departement affiliation"
+            },
+        "collapsabled": true
+    },
+    {
 
         "fields": ["positions"],
-        "label": {"fr":"Contrats","en":"Positions"},
+        "label": {"fr":"Parcours","en":"Trajectory"},
         "collapsabled": true
     },
-    "distinctions",
+    {
+
+        "fields": ["distinctions"],
+        "label": {"fr":"Diplômes et distinctions","en":"Diplomas and awards"},
+        "collapsabled": true
+    },
     {
         "fields": ["personalActivities"],
-        "label": {"fr":"Activités Personnelles","en":"Personal activity"},
-        "collapsabled": true
-    },
-    {
-        "fields": ["tags"],
-        "label": {"fr":"Tags","en":"Tags"},
+        "label": {"fr":"Activités et responsabilités","en":"Activities and responsibilities"},
         "collapsabled": true
     },
     "biography",
+    {
+        "fields": ["tags"],
+        "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
+        "collapsabled": true
+    },
     {
         "fields": [
             "ldapUid",
@@ -56,11 +94,13 @@
         "collapsabled": true
     },
     {
-        "fields":  [
-            "contacts",
-            "office"
-        ],
-        "label": {"fr":"Contacts","en":"Contacts"},
+        "fields": ["isariAuthorizedCenters"],
+        "label": {"fr":"Accès Isari","en":"ISARI access"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["bonuses"],
+        "label": {"fr":"Primes","en":"Bonuses"},
         "collapsabled": true
     }
 

@@ -455,6 +455,13 @@
                 "fr": "reviewer",
                 "en": ""
             }
+        },
+        {
+            "value": "membre",
+            "label": {
+                "fr": "membre",
+                "en": ""
+            }
         }
     ],
     "sciencesPoBuildings": [
@@ -661,6 +668,27 @@
             "label": {
                 "fr": "interne",
                 "en": "internal"
+            }
+        },
+        {
+            "value": "doctorat",
+            "label": {
+                "fr": "doctorat",
+                "en": ""
+            }
+        },
+        {
+            "value": "collaboratifterritorial",
+            "label": {
+                "fr": "territorial collaboratif",
+                "en": ""
+            }
+        },
+        {
+            "value": "individuelterritorial",
+            "label": {
+                "fr": "territorial individuel ",
+                "en": ""
             }
         }
     ],
@@ -945,238 +973,177 @@
             }
         }
     ],
-    "hceres2017": [
-        {
-            "value": "st1",
-            "label": {
-                "fr": "ST1 Mathématiques",
-                "en": ""
-            }
-        },
-        {
-            "value": "st2",
-            "label": {
-                "fr": "ST2 Physique",
-                "en": ""
-            }
-        },
-        {
-            "value": "st3",
-            "label": {
-                "fr": "ST3 Sciences de la terre et de l'univers",
-                "en": ""
-            }
-        },
-        {
-            "value": "st4",
-            "label": {
-                "fr": "ST4 Chimie",
-                "en": ""
-            }
-        },
-        {
-            "value": "st5",
-            "label": {
-                "fr": "ST5 Sciences pour l'ingénieur",
-                "en": ""
-            }
-        },
-        {
-            "value": "st6",
-            "label": {
-                "fr": "ST6 Sciences et technologies de l'information et de la communication",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve1",
-            "label": {
-                "fr": "SVE1 Agronomie, Biologie Végétale, Ecologie, Environnement, Evolution",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve2",
-            "label": {
-                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Moléculaire, Biochimie, Génomique, Biologie Systémique, Développement, Biologie Structurale",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve3",
-            "label": {
-                "fr": "SVE3 Microbiologie, Immunité",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve4",
-            "label": {
-                "fr": "SVE4 Neurologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve5",
-            "label": {
-                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies Médicales",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve6",
-            "label": {
-                "fr": "SVE6 Santé Publique, Epidémiologie, Recherche Clinique",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs11",
-            "label": {
-                "fr": "SHS1_1 Economie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs12",
-            "label": {
-                "fr": "SHS1_2 Finance, management",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs21",
-            "label": {
-                "fr": "SHS2_1 Droit",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs22",
-            "label": {
-                "fr": "SHS2_2 Science politique",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs23",
-            "label": {
-                "fr": "SHS2_3 Anthropologie et ethnologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs24",
-            "label": {
-                "fr": "SHS2_4 Sociologie, démographie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs25",
-            "label": {
-                "fr": "SHS2_5 Sciences de l’information et de la communication",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs31",
-            "label": {
-                "fr": "SHS3_1 Géographie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs32",
-            "label": {
-                "fr": "SHS3_2 Aménagement et urbanisme",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs33",
-            "label": {
-                "fr": "SHS3_3 Architecture",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs41",
-            "label": {
-                "fr": "SHS4_1 Linguistique",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs42",
-            "label": {
-                "fr": "SHS4_2 Psychologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs43",
-            "label": {
-                "fr": "SHS4_3 Sciences de l'éducation",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs44",
-            "label": {
-                "fr": "SHS4_4 Sciences et techniques des activités physiques et sportives",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs51",
-            "label": {
-                "fr": "SHS5_1 Langues / littératures anciennes et françaises, littérature comparée",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs52",
-            "label": {
-                "fr": "SHS5_2 Littératures et langues étrangères, civilisations, cultures et langues régionales",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs53",
-            "label": {
-                "fr": "SHS5_3 Arts",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs54",
-            "label": {
-                "fr": "SHS5_4 Philosophie, sciences des religions, théologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs61",
-            "label": {
-                "fr": "SHS6_1 Histoire",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs62",
-            "label": {
-                "fr": "SHS6_2 Histoire de l'art",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs63",
-            "label": {
-                "fr": "SHS6_3 Archéologie",
-                "en": ""
-            }
-        }
+    "iso4217": [
+        "AED",
+        "AFN",
+        "ALL",
+        "AMD",
+        "ANG",
+        "AOA",
+        "ARS",
+        "AUD",
+        "AWG",
+        "AZN",
+        "BAM",
+        "BBD",
+        "BDT",
+        "BGN",
+        "BHD",
+        "BIF",
+        "BMD",
+        "BND",
+        "BOB",
+        "BOV",
+        "BRL",
+        "BSD",
+        "BTN",
+        "BWP",
+        "BYN",
+        "BZD",
+        "CAD",
+        "CDF",
+        "CHF",
+        "CLF",
+        "CLP",
+        "CNH",
+        "CNY",
+        "COP",
+        "COU",
+        "CRC",
+        "CUC",
+        "CUP",
+        "CVE",
+        "CZK",
+        "DJF",
+        "DKK",
+        "DOP",
+        "DZD",
+        "EGP",
+        "ERN",
+        "ETB",
+        "EUR",
+        "FJD",
+        "FKP",
+        "GBP",
+        "GEL",
+        "GGP",
+        "GHS",
+        "GIP",
+        "GMD",
+        "GNF",
+        "GTQ",
+        "GYD",
+        "HKD",
+        "HNL",
+        "HRK",
+        "HTG",
+        "HUF",
+        "IDR",
+        "ILS",
+        "IMP",
+        "INR",
+        "IQD",
+        "IRR",
+        "ISK",
+        "JEP",
+        "JMD",
+        "JOD",
+        "JPY",
+        "KES",
+        "KGS",
+        "KHR",
+        "KMF",
+        "KPW",
+        "KRW",
+        "KWD",
+        "KYD",
+        "KZT",
+        "LAK",
+        "LBP",
+        "LKR",
+        "LRD",
+        "LSL",
+        "LYD",
+        "MAD",
+        "MDL",
+        "MGA",
+        "MKD",
+        "MMK",
+        "MNT",
+        "MRO",
+        "MUR",
+        "MVR",
+        "MWK",
+        "MXN",
+        "MXV",
+        "MYR",
+        "MZN",
+        "NAD",
+        "NGN",
+        "NIO",
+        "NOK",
+        "NPR",
+        "NZD",
+        "OMR",
+        "PAB",
+        "PEN",
+        "PGK",
+        "PHP",
+        "PKR",
+        "PLN",
+        "PYG",
+        "QAR",
+        "RON",
+        "RSD",
+        "RUB",
+        "RWF",
+        "SAR",
+        "SBD",
+        "SCR",
+        "SDG",
+        "SEK",
+        "SGD",
+        "SHP",
+        "SLL",
+        "SOS",
+        "SPL",
+        "SRD",
+        "STD",
+        "SVC",
+        "SYP",
+        "SZL",
+        "THB",
+        "TJS",
+        "TMT",
+        "TND",
+        "TOP",
+        "TRY",
+        "TTD",
+        "TVD",
+        "TWD",
+        "TZS",
+        "UAH",
+        "UGX",
+        "USD",
+        "UYU",
+        "UZS",
+        "VEF",
+        "VND",
+        "VUV",
+        "WST",
+        "XAF",
+        "XAG",
+        "XAU",
+        "XCD",
+        "XDR",
+        "XOF",
+        "XPD",
+        "XPF",
+        "XPT",
+        "YER",
+        "ZAR",
+        "ZMW",
+        "ZWD"
     ],
     "grantStatuses": [
         {
@@ -1411,43 +1378,6 @@
             "label": {
                 "fr": "enseignement",
                 "en": ""
-            }
-        }
-    ],
-    "activityOrganizationRoles": [
-        {
-            "value": "inscription",
-            "label": {
-                "fr": "inscription",
-                "en": ""
-            }
-        },
-        {
-            "value": "leader",
-            "label": {
-                "fr": "leader",
-                "en": ""
-            }
-        },
-        {
-            "value": "partenaire",
-            "label": {
-                "fr": "partenaire",
-                "en": ""
-            }
-        },
-        {
-            "value": "orgadorigine",
-            "label": {
-                "fr": "établissement d'origine",
-                "en": "from organisation"
-            }
-        },
-        {
-            "value": "orgadaccueil",
-            "label": {
-                "fr": "établissement d'accueil",
-                "en": "welcoming organisation"
             }
         }
     ],
@@ -1888,178 +1818,6 @@
             }
         }
     ],
-    "iso4217": [
-        "AED",
-        "AFN",
-        "ALL",
-        "AMD",
-        "ANG",
-        "AOA",
-        "ARS",
-        "AUD",
-        "AWG",
-        "AZN",
-        "BAM",
-        "BBD",
-        "BDT",
-        "BGN",
-        "BHD",
-        "BIF",
-        "BMD",
-        "BND",
-        "BOB",
-        "BOV",
-        "BRL",
-        "BSD",
-        "BTN",
-        "BWP",
-        "BYN",
-        "BZD",
-        "CAD",
-        "CDF",
-        "CHF",
-        "CLF",
-        "CLP",
-        "CNH",
-        "CNY",
-        "COP",
-        "COU",
-        "CRC",
-        "CUC",
-        "CUP",
-        "CVE",
-        "CZK",
-        "DJF",
-        "DKK",
-        "DOP",
-        "DZD",
-        "EGP",
-        "ERN",
-        "ETB",
-        "EUR",
-        "FJD",
-        "FKP",
-        "GBP",
-        "GEL",
-        "GGP",
-        "GHS",
-        "GIP",
-        "GMD",
-        "GNF",
-        "GTQ",
-        "GYD",
-        "HKD",
-        "HNL",
-        "HRK",
-        "HTG",
-        "HUF",
-        "IDR",
-        "ILS",
-        "IMP",
-        "INR",
-        "IQD",
-        "IRR",
-        "ISK",
-        "JEP",
-        "JMD",
-        "JOD",
-        "JPY",
-        "KES",
-        "KGS",
-        "KHR",
-        "KMF",
-        "KPW",
-        "KRW",
-        "KWD",
-        "KYD",
-        "KZT",
-        "LAK",
-        "LBP",
-        "LKR",
-        "LRD",
-        "LSL",
-        "LYD",
-        "MAD",
-        "MDL",
-        "MGA",
-        "MKD",
-        "MMK",
-        "MNT",
-        "MRO",
-        "MUR",
-        "MVR",
-        "MWK",
-        "MXN",
-        "MXV",
-        "MYR",
-        "MZN",
-        "NAD",
-        "NGN",
-        "NIO",
-        "NOK",
-        "NPR",
-        "NZD",
-        "OMR",
-        "PAB",
-        "PEN",
-        "PGK",
-        "PHP",
-        "PKR",
-        "PLN",
-        "PYG",
-        "QAR",
-        "RON",
-        "RSD",
-        "RUB",
-        "RWF",
-        "SAR",
-        "SBD",
-        "SCR",
-        "SDG",
-        "SEK",
-        "SGD",
-        "SHP",
-        "SLL",
-        "SOS",
-        "SPL",
-        "SRD",
-        "STD",
-        "SVC",
-        "SYP",
-        "SZL",
-        "THB",
-        "TJS",
-        "TMT",
-        "TND",
-        "TOP",
-        "TRY",
-        "TTD",
-        "TVD",
-        "TWD",
-        "TZS",
-        "UAH",
-        "UGX",
-        "USD",
-        "UYU",
-        "UZS",
-        "VEF",
-        "VND",
-        "VUV",
-        "WST",
-        "XAF",
-        "XAG",
-        "XAU",
-        "XCD",
-        "XDR",
-        "XOF",
-        "XPD",
-        "XPF",
-        "XPT",
-        "YER",
-        "ZAR",
-        "ZMW",
-        "ZWD"
-    ],
     "jobTitle": [
         {
             "value": "chercheur",
@@ -2110,64 +1868,6 @@
             "label": {
                 "fr": "label_fr",
                 "en": "label_en"
-            }
-        }
-    ],
-    "activityPeopleRoles": [
-        {
-            "value": "professor",
-            "label": {
-                "fr": "professor",
-                "en": ""
-            }
-        },
-        {
-            "value": "PI",
-            "label": {
-                "fr": "responsable scientifique (PI)",
-                "en": ""
-            }
-        },
-        {
-            "value": "participant",
-            "label": {
-                "fr": "participant",
-                "en": ""
-            }
-        },
-        {
-            "value": "doctorant(role)",
-            "label": {
-                "fr": "doctorant",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurdethèse",
-            "label": {
-                "fr": "directeur de thèse",
-                "en": ""
-            }
-        },
-        {
-            "value": "membrecomitésuivi",
-            "label": {
-                "fr": "membre comité suivi",
-                "en": ""
-            }
-        },
-        {
-            "value": "membredujury",
-            "label": {
-                "fr": "membre du jury",
-                "en": ""
-            }
-        },
-        {
-            "value": "invite",
-            "label": {
-                "fr": "invité",
-                "en": ""
             }
         }
     ],
@@ -2668,7 +2368,7 @@
             }
         },
         {
-            "value": "amountTypes",
+            "value": "cnu17",
             "label": {
                 "fr": "section 17 - Philosophie",
                 "en": ""
@@ -2747,166 +2447,236 @@
             }
         }
     ],
-    "grantsInstrument": [
+    "hceres2017": [
         {
-            "value": "Emergences",
+            "value": "st1",
             "label": {
-                "fr": "Émergences (Ville de Paris)",
-                "en": "Émergences (Ville de Paris)"
+                "fr": "ST1 Mathématiques",
+                "en": ""
             }
         },
         {
-            "value": "EQUIPEX",
+            "value": "st2",
             "label": {
-                "fr": "EQUIPEX",
-                "en": "EQUIPEX"
+                "fr": "ST2 Physique",
+                "en": ""
             }
         },
         {
-            "value": "ERCADG",
+            "value": "st3",
             "label": {
-                "fr": "ERC Advanced Grant",
-                "en": "ERC Advanced Grant"
+                "fr": "ST3 Sciences de la terre et de l'univers",
+                "en": ""
             }
         },
         {
-            "value": "ERCCOG",
+            "value": "st4",
             "label": {
-                "fr": "ERC Consolidator Grant",
-                "en": "ERC Consolidator Grant"
+                "fr": "ST4 Chimie",
+                "en": ""
             }
         },
         {
-            "value": "ERCSTG",
+            "value": "st5",
             "label": {
-                "fr": "ERC Starting Grant",
-                "en": "ERC Starting Grant"
+                "fr": "ST5 Sciences pour l'ingénieur",
+                "en": ""
             }
         },
         {
-            "value": "IDEX",
+            "value": "st6",
             "label": {
-                "fr": "IDEX",
-                "en": "IDEX"
+                "fr": "ST6 Sciences et technologies de l'information et de la communication",
+                "en": ""
             }
         },
         {
-            "value": "LIEPP",
+            "value": "sve1",
             "label": {
-                "fr": "Laboratoire interdisciplinaire d'évaluation des politiques publiques",
-                "en": "LIEPP"
+                "fr": "SVE1 Agronomie, Biologie Végétale, Ecologie, Environnement, Evolution",
+                "en": ""
             }
         },
         {
-            "value": "MarieCurieIEF",
+            "value": "sve2",
             "label": {
-                "fr": "Marie Curie Intra-European Fellowships",
-                "en": "Marie Curie Intra-European Fellowships"
+                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Moléculaire, Biochimie, Génomique, Biologie Systémique, Développement, Biologie Structurale",
+                "en": ""
             }
         },
         {
-            "value": "MarieCurieIIF",
+            "value": "sve3",
             "label": {
-                "fr": "Marie Curie International Incoming Fellowships",
-                "en": "Marie Curie International Incoming Fellowships"
+                "fr": "SVE3 Microbiologie, Immunité",
+                "en": ""
             }
         },
         {
-            "value": "MarieCurieIOF",
+            "value": "sve4",
             "label": {
-                "fr": "Marie Curie International Outgoing Fellowships",
-                "en": "Marie Curie International Outgoing Fellowships"
+                "fr": "SVE4 Neurologie",
+                "en": ""
             }
         },
         {
-            "value": "MarieCurieIRG",
+            "value": "sve5",
             "label": {
-                "fr": "Marie Curie International Reintegration Grants",
-                "en": "Marie Curie International Reintegration Grants"
+                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies Médicales",
+                "en": ""
             }
         },
         {
-            "value": "MarieCurieITN",
+            "value": "sve6",
             "label": {
-                "fr": "Marie Curie International Training Network",
-                "en": "Marie Curie International Training Network"
+                "fr": "SVE6 Santé Publique, Epidémiologie, Recherche Clinique",
+                "en": ""
             }
         },
         {
-            "value": "MSCAIF",
+            "value": "shs11",
             "label": {
-                "fr": "Marie Skłodowska-Curie Individual Fellowships",
-                "en": "Marie Skłodowska-Curie Individual Fellowships"
+                "fr": "SHS1_1 Economie",
+                "en": ""
             }
         },
         {
-            "value": "MSCARISE",
+            "value": "shs12",
             "label": {
-                "fr": "Marie Skłodowska-Curie Research and Innovation Staff Exchanges",
-                "en": "Marie Skłodowska-Curie Research and Innovation Staff Exchanges"
+                "fr": "SHS1_2 Finance, management",
+                "en": ""
             }
         },
         {
-            "value": "MSCAITN",
+            "value": "shs21",
             "label": {
-                "fr": "Marie Skłodowska-Curie Innovative Training Networks",
-                "en": "Marie Skłodowska-Curie Innovative Training Networks"
+                "fr": "SHS2_1 Droit",
+                "en": ""
             }
         },
         {
-            "value": "MSCACOFUND",
+            "value": "shs22",
             "label": {
-                "fr": "Marie Skłodowska-Curie Co-funding of Regional, National, and International Programmes",
-                "en": "Marie Skłodowska-Curie Co-funding of Regional, National, and International Programmes"
+                "fr": "SHS2_2 Science politique",
+                "en": ""
             }
         },
         {
-            "value": "MSCANIGHT",
+            "value": "shs23",
             "label": {
-                "fr": "Marie Skłodowska-Curie European Researchers’ Night",
-                "en": "Marie Skłodowska-Curie European Researchers’ Night"
+                "fr": "SHS2_3 Anthropologie et ethnologie",
+                "en": ""
             }
         },
         {
-            "value": "PEPS",
+            "value": "shs24",
             "label": {
-                "fr": "Projets Exploratoires Premier Soutien",
-                "en": "Projets Exploratoires Premier Soutien"
+                "fr": "SHS2_4 Sociologie, démographie",
+                "en": ""
             }
         },
         {
-            "value": "PICRI",
+            "value": "shs25",
             "label": {
-                "fr": "Partenariats institutions-citoyens pour la recherche et l'innovation (IDF)",
-                "en": "Partenariats institutions-citoyens pour la recherche et l'innovation (IDF)"
+                "fr": "SHS2_5 Sciences de l’information et de la communication",
+                "en": ""
             }
         },
         {
-            "value": "projetcollaboratif",
+            "value": "shs31",
             "label": {
-                "fr": "Projet collaboratif FP7",
-                "en": "Projet collaboratif"
+                "fr": "SHS3_1 Géographie",
+                "en": ""
             }
         },
         {
-            "value": "reseauexcellence",
+            "value": "shs32",
             "label": {
-                "fr": "Réseau d'excellence FP7",
-                "en": "Réseau d'excellence"
+                "fr": "SHS3_2 Aménagement et urbanisme",
+                "en": ""
             }
         },
         {
-            "value": "SAB",
+            "value": "shs33",
             "label": {
-                "fr": "Scientific Advisory Board",
-                "en": "Scientific Advisory Board"
+                "fr": "SHS3_3 Architecture",
+                "en": ""
             }
         },
         {
-            "value": "H2020RIA",
+            "value": "shs41",
             "label": {
-                "fr": "Actions de recherche et d'innovation H2020",
-                "en": "Research Innovation Action"
+                "fr": "SHS4_1 Linguistique",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs42",
+            "label": {
+                "fr": "SHS4_2 Psychologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs43",
+            "label": {
+                "fr": "SHS4_3 Sciences de l'éducation",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs44",
+            "label": {
+                "fr": "SHS4_4 Sciences et techniques des activités physiques et sportives",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs51",
+            "label": {
+                "fr": "SHS5_1 Langues / littératures anciennes et françaises, littérature comparée",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs52",
+            "label": {
+                "fr": "SHS5_2 Littératures et langues étrangères, civilisations, cultures et langues régionales",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs53",
+            "label": {
+                "fr": "SHS5_3 Arts",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs54",
+            "label": {
+                "fr": "SHS5_4 Philosophie, sciences des religions, théologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs61",
+            "label": {
+                "fr": "SHS6_1 Histoire",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs62",
+            "label": {
+                "fr": "SHS6_2 Histoire de l'art",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs63",
+            "label": {
+                "fr": "SHS6_3 Archéologie",
+                "en": ""
             }
         }
     ],

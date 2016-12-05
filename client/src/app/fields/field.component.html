@@ -3,7 +3,8 @@
   <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
 
     <div *ngSwitchCase="'object'">
-      <isari-data-editor
+      <isari-data-editor [class.multiple]="multiple"
+        [saveShortcut]="[]"
         (onDelete)="remove($event)"
         (onUpdate)="update($event)"
         [path]="path + (multiple ? '' : '.' + field.name)"
@@ -11,6 +12,7 @@
         [label]="field.label"
         [form]="getForm()"
         [feature]="feature"
+        [multiple]="multiple"
         [layout]="field.layout"></isari-data-editor>
     </div>
 
@@ -47,11 +49,20 @@
       [description]="field.description"
       [form]="form"></isari-textarea>
 
+    <isari-input *ngSwitchCase="'number'"
+      (onUpdate)="update($event)"
+      [name]="field.name"
+      [label]="field.label"
+      [description]="field.description"
+      type="number"
+      [form]="form"></isari-input>
+
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
       [description]="field.description"
+      type="text"
       [form]="form"></isari-input>
 
   </span>
@@ -78,12 +89,9 @@
       [form]="form"></isari-multi-input>
   </span>
 
-  <span *ngIf="field.multiple && field.type === 'object' && form.enabled" [formArrayName]="field.name">
-    <md-card-subtitle>
-      <a class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
-    </md-card-subtitle>
-    <br />
-    <isari-field *ngFor="let ctrl of form.controls[field.name].controls;let i = index"
+  <span *ngIf="field.multiple && field.type === 'object'" [formArrayName]="field.name">
+    
+    <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index"
       (onUpdate)="update($event)"
       [feature]="feature"
       [index]="i"
@@ -91,7 +99,9 @@
       [path]="path + '.' + i"
       [multiple]="true"
       [field]="getField(field)"></isari-field>
-    
+
+    <a class="add" href (click)="add($event)" color="warn"><md-icon>add</md-icon> Ajouter</a> 
+
   </span>
 
 </span>

@@ -1,9 +1,20 @@
 [
 	["name","acronym"],
-	["url","address","countries"],
-	["organizationTypes","status","HCERESOrganizationType"],
-	"parentOrganizations",
-	"researchUnitCodes",
+	{
+		"fields":	["url","address","countries"],
+		"label":{"fr":"Infos générales","en":"General info"},
+		"collapsabled": true
+	},
+	{
+		"fields":	["parentOrganizations","researchUnitCodes"],
+		"label":{"fr":"Tutelles","en":"Parent orgas"},
+		"collapsabled": true
+	},
+	{
+		"fields":	["organizationTypes","status","HCERESOrganizationType"],
+		"label":{"fr":"Infos complémentaires","en":"Other info"},
+		"collapsabled": true
+	},
 	{
 		"fields":["idRnsr","idScopus","idHal","codeUAI"],
 		"label":{"fr":"identifiants","en":"identifiers"},

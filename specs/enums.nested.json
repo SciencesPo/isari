@@ -281,6 +281,13 @@
                 }
             },
             {
+                "value": "codirecteur",
+                "label": {
+                    "fr": "co-directeur de thèse",
+                    "en": ""
+                }
+            },
+            {
                 "value": "membrejury",
                 "label": {
                     "fr": "membre du jury",
@@ -346,6 +353,13 @@
                 "value": "directeur",
                 "label": {
                     "fr": "directeur de l'HDR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "codirecteur",
+                "label": {
+                    "fr": "co-directeur de thèse",
                     "en": ""
                 }
             },

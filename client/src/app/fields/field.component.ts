@@ -69,7 +69,7 @@ export class FieldComponent implements OnChanges {
     const parentFormControl = this.form.controls[this.field.name];
     if (parentFormControl instanceof FormArray) {
       this.isariDataService.getEmptyDataWith(this.field, this.feature, this.path)
-        .subscribe(data => {
+        .then(data => {
           this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field, data);
           this.update($event);
         });

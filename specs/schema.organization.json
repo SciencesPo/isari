@@ -10,8 +10,8 @@
     "researchUnitCodes": [
         {
             "label": {
-                "fr": "codes de l'unité de recherche",
-                "en": "Research unit's codes"
+                "fr": "label numéro(s)",
+                "en": "label(s) "
             },
             "code": {
                 "label": {
