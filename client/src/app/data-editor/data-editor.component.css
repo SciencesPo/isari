@@ -20,30 +20,43 @@ md-icon {
 	padding-top: 27px;
 	padding-bottom: auto;
 	width: 28px;
-	height: 28px
+	height: 28px;
+  padding-left: 20px;
 }
 
 .collapse md-icon {
 	color: #E6142D;
-	transform: rotate(180deg);
 }
 
 td {
 	width: 30%
 }
 
-md-card-content {
+.border {
 	box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   	transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
   	will-change: box-shadow;
   	border-radius: 2px;
-  	padding: 18px;
+  	padding: 10px;
+}
+
+div .border {
+  margin-bottom: 10px;
 }
 
 .save {
-  color: #33C;
-  border-color: black;
-  border: 2px solid #ccf;
+  border: 2px solid #E6142D;
   border-radius: 4px;
   font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.save-n-delete {
+  width: 100%;
+  text-align: right;
+}
+
+md-card-subtitle {
+  font-weight: bold;
+  color: black;
 }

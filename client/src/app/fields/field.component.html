@@ -3,7 +3,7 @@
   <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
 
     <div *ngSwitchCase="'object'">
-      <isari-data-editor
+      <isari-data-editor [class.multiple]="multiple"
         [saveShortcut]="[]"
         (onDelete)="remove($event)"
         (onUpdate)="update($event)"
@@ -12,6 +12,7 @@
         [label]="field.label"
         [form]="getForm()"
         [feature]="feature"
+        [multiple]="multiple"
         [layout]="field.layout"></isari-data-editor>
     </div>
 
@@ -89,11 +90,7 @@
   </span>
 
   <span *ngIf="field.multiple && field.type === 'object'" [formArrayName]="field.name">
-    <md-card-subtitle>
-      <a  *ngIf="form.enabled" class="add" href (click)="add($event)" color="warn"><md-icon>add_circle_outline</md-icon> {{ field.label }}</a>
-      <span *ngIf="form.disabled"><md-icon>add_circle_outline</md-icon> {{ field.label }}</span>
-    </md-card-subtitle>
-    <br />
+    
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index"
       (onUpdate)="update($event)"
       [feature]="feature"
@@ -102,6 +99,9 @@
       [path]="path + '.' + i"
       [multiple]="true"
       [field]="getField(field)"></isari-field>
+
+    <a class="add" href (click)="add($event)" color="warn"><md-icon>add</md-icon> Ajouter</a> 
+
   </span>
 
 </span>

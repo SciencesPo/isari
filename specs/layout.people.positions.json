@@ -1,5 +1,18 @@
 [
 	["organization","startDate","endDate"],
 	["jobName","jobTitle","jobType","timepart"],
-	["gradesAdmin","gradesSirh","tenureTracks"]
+    {
+        "fields": ["gradesSirh"],
+        "label": {"fr":"grade DRH","en":"HR leve"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["gradesAdmin"],
+        "label": {"fr":"Emplois repères","en":"Admin leve"},
+        "collapsabled": true
+    },{
+        "fields": ["tenureTracks"],
+        "label": {"fr":"Tenure track","en":"Tenure track"},
+        "collapsabled": true
+    }
 ]
