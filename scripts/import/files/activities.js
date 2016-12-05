@@ -749,7 +749,7 @@ module.exports = {
     {
       name: 'contrats_isari',
       path: 'activities/contrats_isari.csv',
-      skip: false,
+      skip: true,
       consumer(line) {
         const info = {
           name: line.acronym, // activity.name

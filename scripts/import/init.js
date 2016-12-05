@@ -578,7 +578,7 @@ function technicalFields() {
     const person = INDEXES.People.id[k];
 
     // ISARI authorized centers
-    if (person.academicMemberships) {
+    if (person.academicMemberships && !person.isariAuthorizedCenters) {
 
       // TODO: add only if still current
       person.isariAuthorizedCenters = person.academicMemberships.map(membership => {
@@ -618,8 +618,8 @@ function retrieveLDAPInformation(callback) {
   };
 
   return async.eachOfLimit(INDEXES.People.id, 10, (people, id, next) => {
-    // if (!people.sirhMatricule)
-    //   return next();
+    if (!!people.ldapUid)
+      return next();
 
     let filter = '(|';
 
@@ -714,15 +714,6 @@ async.series({
 
     return next();
   },
-  technicalFields(next) {
-
-    console.log();
-    log.info('Adding technical fields...');
-
-    technicalFields();
-
-    return next();
-  },
   ldap(next) {
     console.log();
 
@@ -747,6 +738,15 @@ async.series({
     log.info('Post-processing...');
 
     return async.series(postProcessingTasks, next);
+  },
+  technicalFields(next) {
+
+    console.log();
+    log.info('Adding technical fields...');
+
+    technicalFields();
+
+    return next();
   },
   clusteringPeople(next) {
     if (!argv.clusterPeople)
