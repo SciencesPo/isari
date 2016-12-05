@@ -903,6 +903,9 @@ module.exports = {
                 people: key,
                 role: 'PI'
               });
+
+              if (!people[key])
+                people[key] = person;
             });
           }
 
@@ -914,6 +917,9 @@ module.exports = {
                 people: key,
                 role: 'responsableScientifique'
               });
+
+              if (!people[key])
+                people[key] = person;
             });
           }
 
@@ -925,6 +931,9 @@ module.exports = {
                 people: key,
                 role: 'membre'
               });
+
+              if (!people[key])
+                people[key] = person;
             });
           }
 
@@ -1032,6 +1041,18 @@ module.exports = {
           indexes.name[org.name] = org;
           indexes.fingerprint[key] = org;
           indexes.id[org._id] = org;
+        },
+        People(indexes, person) {
+          const key = hashPeople(person);
+
+          let match = indexes.hashed[key];
+
+          if (match)
+            return;
+
+          // Adding the new person
+          indexes.hashed[key] = person;
+          indexes.id[person._id] = person;
         },
         Activity(indexes, activity) {
           indexes.id[activity._id] = activity;
