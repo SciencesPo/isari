@@ -26,6 +26,11 @@
         },
         "collapsabled": true
     },
+    {
+        "fields": ["grants"],
+        "label": {"fr":"Financement","en":"Funding"},
+        "collapsabled": true
+    },
     ["subject","url"],
     "summary",
     {
@@ -33,14 +38,10 @@
         "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
         "collapsabled": true
     },
-    {
-        "fields": ["grants"],
-        "label": {"fr":"Financement","en":"Funding"},
-        "collapsabled": true
-    },
+   
     {
         "fields": ["distinctions"],
-        "label": {"fr":"distinctions","en":"Awards"},
+        "label": {"fr":"prix et distinctions","en":"Awards"},
         "collapsabled": true
     }   
 

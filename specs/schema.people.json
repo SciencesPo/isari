@@ -344,8 +344,8 @@
     "academicMemberships": [
         {
             "label": {
-                "fr": "Affiliation",
-                "en": "Affiliation"
+                "fr": "Rattachement labo",
+                "en": "Unit affiliation"
             },
             "requirement": "recommended",
             "accessMonitoring": "corporate",
@@ -383,8 +383,8 @@
     "deptMemberships": [
         {
             "label": {
-                "fr": "Département",
-                "en": "Département"
+                "fr": "Rattachement département",
+                "en": "Departement affiliation"
             },
             "requirement": "recommended",
             "accessMonitoring": "corporate",

@@ -1,8 +1,7 @@
 [
     [
         "firstName",
-        "name",
-        "birthName"
+        "name"
     ],
      {
 
@@ -10,32 +9,46 @@
         "gender",
         "birthDate",
         "nationalities",
-        "langs"
+        "langs",
+        "birthName"
         ],
         "label": {"fr":"Informations Personnelles","en":"Personal Information"},
+        "collapsabled": true
+    },
+    {
+        "fields":  [
+            "contacts",
+            "office"
+        ],
+        "label": {"fr":"Coordonnées","en":"Contact details"},
         "collapsabled": true
     },
     "academicMemberships",
     "gradesAcademic",
     "deptMemberships",
-        {
+    {
 
         "fields": ["positions"],
-        "label": {"fr":"Données Contractuelles","en":"Positions"},
+        "label": {"fr":"Parcours","en":"Trajectory"},
         "collapsabled": true
     },
-    "distinctions",
+    {
+
+        "fields": ["distinctions"],
+        "label": {"fr":"Diplômes et distinctions","en":"Diplomas and awards"},
+        "collapsabled": true
+    },
     {
         "fields": ["personalActivities"],
-        "label": {"fr":"Activités Personnelles","en":"Personal activity"},
+        "label": {"fr":"Activités et responsabilités","en":"Activities and responsibilities"},
         "collapsabled": true
     },
+    "biography",
     {
         "fields": ["tags"],
         "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
         "collapsabled": true
     },
-    "biography",
     {
         "fields": [
             "ldapUid",
@@ -53,14 +66,6 @@
             "idScopus"
         ],
         "label": {"fr":"identifiants externes","en":"external identifiers"},
-        "collapsabled": true
-    },
-    {
-        "fields":  [
-            "contacts",
-            "office"
-        ],
-        "label": {"fr":"Contacts","en":"Contacts"},
         "collapsabled": true
     }
 
