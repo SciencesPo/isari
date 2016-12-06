@@ -2,7 +2,7 @@
 
 module.exports = function removeEmptyFields (object) {
 	// Ignore any scalar value
-	if (typeof object !== 'object') {
+	if (typeof object !== 'object' || object === null) {
 		return object
 	}
 

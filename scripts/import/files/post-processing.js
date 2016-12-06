@@ -175,8 +175,11 @@ module.exports = {
           return false;
         }
 
-        person.ORCID = line.ORCID;
-        person.idScopus = line.idScopus;
+        if (line.ORCID)
+          person.ORCID = line.ORCID;
+
+        if (line.idScopus)
+          person.idScopus = line.idScopus;
       }
     },
 
