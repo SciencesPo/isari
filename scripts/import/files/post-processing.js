@@ -156,7 +156,6 @@ module.exports = {
       name: 'ID_scopus_orcid',
       path: 'people/ID_scopus_orcid.csv',
       ldap: true,
-      skip: true,
       consumer(line) {
         const info = {
           ldapUid: line['LDAP ID'],
