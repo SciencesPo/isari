@@ -3,8 +3,8 @@
 
     <div class="md-input-prefix" *ngFor="let item of _values" [class.edit]="item.id">
       {{ item.label }}
-      <a *ngIf="item.id && !disabled" routerLink="/{{ api }}/{{ item.id }}" target="_blank" preserveQueryParams><md-icon>create</md-icon></a>
-      <md-icon *ngIf="!disabled" (click)="removeValue(item, $event)">close</md-icon>
+      <a *ngIf="item.id && !disabled" routerLink="/{{ api }}/{{ item.id }}" target="_blank" preserveQueryParams><md-icon>open_in_new</md-icon></a>
+      <md-icon *ngIf="!disabled" (click)="removeValue(item, $event)">delete</md-icon>
     </div>
 
     <div class="md-input-infix" [ngClass]="{'md-empty': empty }">
