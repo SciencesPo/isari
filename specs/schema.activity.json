@@ -51,8 +51,7 @@
                 "label": {
                     "fr": "Rôle",
                     "en": "Role"
-                },
-                "//enum": "activityOrganizationRoles:../../../activityType"
+                }
             },
             "startDate": {
                 "label": {
@@ -89,8 +88,7 @@
                 "label": {
                     "fr": "Rôle",
                     "en": "Role"
-                },
-                "//enum": "activityPeopleRole:../../../activityType"
+                }
             },
             "startDate": {
                 "label": {
