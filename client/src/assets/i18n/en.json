@@ -21,5 +21,6 @@
   "Unauthorized: People Not Found": "Invalid username or password",
   "externals": "Externals",
   "members": "Members",
+  "others" : "Others",
   "resume": "My Resume"
 }

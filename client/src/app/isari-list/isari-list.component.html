@@ -7,10 +7,10 @@
     <span>{{ feature | translate }}</span>
     &nbsp;
 
-    <button *ngIf="feature === 'people'" md-raised-button [md-menu-trigger-for]="menu">{{ (externals ? 'externals' : 'members') | translate }}</button>
+    <button *ngIf="feature === 'people'" md-raised-button [md-menu-trigger-for]="menu">{{ (externals ? 'others' : 'members') | translate }}</button>
     <md-menu #menu="mdMenu">
-      <a md-menu-item [routerLink]="[{ externals: true }]" preserveQueryParams>{{ 'externals' | translate }}</a>
       <a md-menu-item [routerLink]="['/', feature]" preserveQueryParams>{{ 'members' | translate }}</a>
+      <a md-menu-item [routerLink]="[{ externals: true }]" preserveQueryParams>{{ 'others' | translate }}</a>
     </md-menu>
 
     <span class="filer"></span>
