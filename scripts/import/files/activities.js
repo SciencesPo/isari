@@ -538,6 +538,8 @@ module.exports = {
 
               // TODO: mention
               // TODO: grants
+              // TODO: diplome antérieur
+              // TODO: date de fin
 
               if (phd.subject)
                 activity.subject = phd.subject;
@@ -653,6 +655,8 @@ module.exports = {
 
               // TODO: mention
               // TODO: grants
+              // TODO: date de fin
+              // TODO: diplome antérieur
 
               if (hdr.subject)
                 activity.subject = hdr.subject;
@@ -687,10 +691,8 @@ module.exports = {
             }
           });
 
-        // TODO: Sorting people by gender to avoid cases where someone would be
-        // referenced first as jury and then as doctorant.
         return {
-          People: _.values(people),
+          People: _.sortBy(_.values(people), p => !p.gender),
           Organization: _.values(organizations),
           Activity: activities
         };
