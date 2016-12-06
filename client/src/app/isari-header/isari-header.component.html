@@ -22,11 +22,11 @@
     </md-menu>
 
     <div *ngIf="logged">
-      <button md-button [md-menu-trigger-for]="menu">Account</button>
+      <button *ngIf="user" md-button [md-menu-trigger-for]="menu">{{ user.firstName }} {{ user.name }}</button>
 
       <md-menu x-position="before" #menu="mdMenu">
-        <button *ngIf="globalOrganization && !organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" [queryParams]="{ organization: globalOrganization.id }">Mon Profil</button>
-        <button *ngIf="organization && userId" md-menu-item [routerLink]="['/people', {outlets: {editor: userId}}]" preserveQueryParams>Mon Profil</button>
+        <button *ngIf="globalOrganization && !organization && user" md-menu-item [routerLink]="['/people', {outlets: {editor: user.id}}]" [queryParams]="{ organization: globalOrganization.id }">Mon Profil</button>
+        <button *ngIf="organization && user" md-menu-item [routerLink]="['/people', {outlets: {editor: user.id}}]" preserveQueryParams>Mon Profil</button>
         <a md-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
       </md-menu>
     </div>
