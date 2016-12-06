@@ -1,3 +1,8 @@
 .filer {
   flex: 1 1 auto;
 }
+
+.create-link {
+  color: inherit;
+  text-decoration: none;
+}
