@@ -13,14 +13,8 @@ const peopleName = p => {
 	if (p.firstName) {
 		label = p.firstName + ' ' + label
 	}
-	if (p.gender === 'm') {
-		label = 'M. ' + label
-	} else if (p.gender === 'f') {
-		label = 'Mme ' + label
-	}
 	return label
 }
-
 
 // other objects name
 const objectName = o => o.name

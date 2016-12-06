@@ -8,6 +8,7 @@
   "english": "Anglais",
   "btn_add_people": "Ajouter une personne",
   "btn_add_organizations": "Ajouter une organisation",
+  "btn_add_activities": "Ajouter une activité",
   "columns_select": "Choix des colonnes",
   "download_select": "Télécharger",
   "btn_apply": "Appliquer",
@@ -21,5 +22,6 @@
   "Unauthorized: People Not Found": "Identifiant ou mot de passe incorrect",
   "externals": "Externes",
   "members": "Membres",
+  "others" : "Autres",
   "resume": "Mon CV"
 }

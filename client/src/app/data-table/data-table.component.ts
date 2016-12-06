@@ -101,8 +101,14 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   private applyFilter(key: string, value: string) {
+
+    // TODO: this is temporary because enum labels are nested objects
     this.data = this.unfilteredData
-      .filter(item => String(item[key]).toLowerCase().indexOf(value.toLowerCase()) !== -1);
+      .filter(item => {
+        const target = typeof item[key] === 'object' ? item[key].label[this.lang] : item[key];
+
+        return String(target).toLowerCase().indexOf(value.toLowerCase()) !== -1;
+      });
     this.calculPage(1);
     this.onFilter.emit({ data: this.data });
   }

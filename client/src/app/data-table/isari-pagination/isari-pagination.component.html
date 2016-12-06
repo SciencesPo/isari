@@ -17,6 +17,6 @@
   <li><a md-button (click)="navigate(totalPages)"><md-icon>last_page</md-icon></a>
 </ul>
 
-<md-menu #menu="mdMenu">
+<md-menu #menu="mdMenu" y-position="above">
   <a *ngFor="let item of selectItemsPerPage" md-menu-item (click)="setItemsPerPage(item)">{{ item }}</a>
 </md-menu>

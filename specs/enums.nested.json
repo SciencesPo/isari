@@ -180,7 +180,7 @@
                 }
             },
             {
-                "value": "programmernseignement",
+                "value": "programmeenseignement",
                 "label": {
                     "fr": "Programme d'enseignement",
                     "en": ""
@@ -446,14 +446,14 @@
         ],
         "mob_entrante": [
             {
-                "value": "home",
+                "value": "orgadorigine",
                 "label": {
                     "fr": "Organisation d'origine",
                     "en": "Home organization"
                 }
             },
             {
-                "value": "hosting",
+                "value": "orgadaccueil",
                 "label": {
                     "fr": "Organisation d'accueil",
                     "en": "Hosting organization"
@@ -471,14 +471,14 @@
         ],
         "mob_sortante": [
             {
-                "value": "home",
+                "value": "orgadorigine",
                 "label": {
                     "fr": "Organisation d'origine",
                     "en": "Home organization"
                 }
             },
             {
-                "value": "hosting",
+                "value": "orgadaccueil",
                 "label": {
                     "fr": "Organisation d'accueil",
                     "en": "Hosting organization"

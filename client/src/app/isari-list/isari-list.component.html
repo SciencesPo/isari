@@ -1,23 +1,25 @@
-<md-card>
+<!-- <md-card>
   <isari-chart [feature]="feature" [data]="filteredData"></isari-chart>
-</md-card>
+</md-card> -->
 <md-card>
   <md-toolbar [color]="primary">
 
     <span>{{ feature | translate }}</span>
     &nbsp;
 
-    <button *ngIf="feature === 'people'" md-raised-button [md-menu-trigger-for]="menu">{{ (externals ? 'externals' : 'members') | translate }}</button>
+    <button *ngIf="feature === 'people'" md-raised-button [md-menu-trigger-for]="menu">{{ (externals ? 'others' : 'members') | translate }}</button>
     <md-menu #menu="mdMenu">
-      <a md-menu-item [routerLink]="[{ externals: true }]" preserveQueryParams>{{ 'externals' | translate }}</a>
       <a md-menu-item [routerLink]="['/', feature]" preserveQueryParams>{{ 'members' | translate }}</a>
+      <a md-menu-item [routerLink]="[{ externals: true }]" preserveQueryParams>{{ 'others' | translate }}</a>
     </md-menu>
 
     <span class="filer"></span>
 
     <isari-download-button [feature]="feature" [data]="filteredData" [selectedColumns]="selectedColumns"></isari-download-button>
     <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
-    <a md-raised-button [routerLink]="['/', feature, 'new']" preserveQueryParams target="_blank">{{ ('btn_add_' + feature) | translate }}</a>
+    <button md-raised-button [disableRipple]="true">
+      <a class="create-link" [routerLink]="['/', feature, 'new']" preserveQueryParams target="_blank">{{ ('btn_add_' + feature) | translate }}</a>
+    </button>
 
   </md-toolbar>
   <isari-data-table (onFilter)="filtered($event)" [data]="data" [cols]="selectedColumns" [editedId]="editedId" [loading]="loading"></isari-data-table>

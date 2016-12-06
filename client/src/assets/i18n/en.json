@@ -8,6 +8,7 @@
   "english": "English",
   "btn_add_people": "Add people",
   "btn_add_organizations": "Add organization",
+  "btn_add_activities": "Add activity",
   "columns_select": "Column selection",
   "download_select": "Download",
   "btn_apply": "Apply",
@@ -21,5 +22,6 @@
   "Unauthorized: People Not Found": "Invalid username or password",
   "externals": "Externals",
   "members": "Members",
+  "others" : "Others",
   "resume": "My Resume"
 }

@@ -119,8 +119,8 @@ module.exports = {
             .split(',')
             .map(f => f.trim());
 
-        if (line['People.personalActivities.personalActivitySubType'])
-          info.personalActivity.personalActivitySubType = line['People.personalActivities.personalActivitySubType'];
+        if (line['People.personalActivities.personalActivitySubtype'])
+          info.personalActivity.personalActivitySubtype = line['People.personalActivities.personalActivitySubtype'];
 
         if (line['People.personalActivities.role'])
           info.personalActivity.role = line['People.personalActivities.role'];
@@ -156,7 +156,6 @@ module.exports = {
       name: 'ID_scopus_orcid',
       path: 'people/ID_scopus_orcid.csv',
       ldap: true,
-      skip: true,
       consumer(line) {
         const info = {
           ldapUid: line['LDAP ID'],
