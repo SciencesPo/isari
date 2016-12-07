@@ -1,0 +1,32 @@
+.app-content {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+md-card {
+	width: 300px;
+	padding-bottom: 20px;
+	padding-top: 20px;
+	display: inline-block;
+	margin-left: 50px;
+}
+
+.orga-name {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.md-card-all {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

@@ -59,4 +59,38 @@ div .border {
 md-card-subtitle {
   font-weight: bold;
   color: black;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.tooltip-by-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.tooltip-by-content md-icon {
+  color: #777;
+  cursor: pointer;
+}
+
+.tooltip-desc {
+  line-height: 20px;
+  width: 500px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.tooltip-by-content:hover .tooltip-desc {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-by-content .tooltip-desc {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .5s;
 }
