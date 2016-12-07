@@ -95,8 +95,8 @@
     },
     "sirhMatricule": {
         "label": {
-            "fr": "Identifiant Ressources Humaines Sciences Po",
-            "en": "Sciences Po's Human ressoruces identifier"
+            "fr": "Identifiant RH Sciences Po",
+            "en": "Sciences Po's HR identifier"
         },
         "service": "sirh"
     },
