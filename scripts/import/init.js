@@ -577,15 +577,21 @@ function technicalFields() {
     const person = INDEXES.People.id[k];
 
     // ISARI authorized centers
-    if (person.academicMemberships && !person.isariAuthorizedCenters) {
+    if (!!person.ldapUid && person.academicMemberships && !person.isariAuthorizedCenters) {
 
-      // TODO: add only if still current
-      person.isariAuthorizedCenters = person.academicMemberships.map(membership => {
-        return {
-          organization: membership.organization,
-          isariRole: 'center_member'
-        };
-      });
+      // We keep only the current memberships
+      person.isariAuthorizedCenters = person.academicMemberships
+        .filter(membership => {
+          const org = INDEXES.Organization.id[membership.organization];
+
+          return !membership.endDate && org.isariMonitored;
+        })
+        .map(membership => {
+          return {
+            organization: membership.organization,
+            isariRole: 'center_member'
+          };
+        });
     }
 
     // Spy

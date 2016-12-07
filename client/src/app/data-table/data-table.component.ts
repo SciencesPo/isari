@@ -102,10 +102,22 @@ export class DataTableComponent implements OnInit, OnChanges {
 
   private applyFilter(key: string, value: string) {
 
-    // TODO: this is temporary because enum labels are nested objects
+    // TODO: this is temporary because enum labels are nested objects!
+    // TODO: this probably does not work with multi-filter!
+
     this.data = this.unfilteredData
       .filter(item => {
-        const target = typeof item[key] === 'object' ? item[key].label[this.lang] : item[key];
+        let target;
+
+        if (Array.isArray(item[key])) {
+          target = item[key].join(' ');
+        }
+        else if (typeof item[key] === 'object') {
+          target = item[key].label[this.lang];
+        }
+        else {
+          target = item[key];
+        }
 
         return String(target).toLowerCase().indexOf(value.toLowerCase()) !== -1;
       });

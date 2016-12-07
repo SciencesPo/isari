@@ -93,12 +93,14 @@ module.exports = {
             const gradeLine = personLines.find(line => !!line.gradeAcademic);
 
             if (gradeLine) {
-              peopleInfo.gradesAcademic = [{grade: gradeLine.gradeAcademic}];
+              if (gradeLine.gradeAcademic)
+                peopleInfo.gradesAcademic = [{grade: gradeLine.gradeAcademic}];
 
-              peopleInfo.academicMemberships = [{
-                organization: gradeLine.origin,
-                membershipType: 'membre'
-              }];
+              if (gradeLine.origin)
+                peopleInfo.academicMemberships = [{
+                  organization: gradeLine.origin,
+                  membershipType: 'membre'
+                }];
             }
 
             // Discipline
@@ -793,7 +795,10 @@ module.exports = {
           const key = hashPeople(person);
 
           if (line.researchUnit)
-            person.academicMemberships = [{organization: line.researchUnit}];
+            person.academicMemberships = [{
+              organization: line.researchUnit,
+              membershipType: 'membre'
+            }];
 
           people[key] = person;
 

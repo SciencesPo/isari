@@ -315,7 +315,8 @@ module.exports = {
               const nextSlice = slices[i + 1];
 
               const info = {
-                organization: slice[0].academicMembership
+                organization: slice[0].academicMembership,
+                membershipType: 'membre'
               };
 
               if (!i && slice[0].startDate)
@@ -648,7 +649,8 @@ module.exports = {
                   relevantMembership = {
                     organization: membership.organization,
                     startDate: !i && year.startDate ? year.startDate : year.year,
-                    endDate: year.year
+                    endDate: year.year,
+                    membershipType: 'membre'
                   };
 
                   info.academicMemberships.push(relevantMembership);

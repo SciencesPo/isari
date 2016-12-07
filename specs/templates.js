@@ -47,7 +47,7 @@ function personalActivity(p){
 }
 
 // distinctions
-const distinction = d => d.organizations.map(objectName).join(' & ') + (d.date ? " "+year(d.date) : "")
+const distinction = d => d.title
 
 // oraganizationDates
 function researchUnitCode(p){

@@ -38,18 +38,25 @@ export class IsariDownloadButtonComponent implements OnInit {
   }
 
   getDataToSave() {
-    const columns = new Set(this.selectedColumns.map(column => column.key)),
-          labels = {};
-
-    this.selectedColumns.forEach(column => (labels[column.key] = column.label[this.lang]));
+    const columns = this.selectedColumns;
 
     return this.data.map(line => {
       const output = {};
 
-      for (const k in line) {
-        if (columns.has(k)) {
-          output[labels[k]] = Array.isArray(line[k]) ? line[k].join(',') : line[k];
-        }
+      for (let i = 0, l = columns.length; i < l; i++) {
+        const column = columns[i],
+              k = column.key;
+
+        let value;
+
+        if (Array.isArray(line[k]))
+          value = line[k].join(',');
+        else if (typeof line[k] === 'object')
+          value = line[k].label[this.lang];
+        else
+          value = line[k];
+
+        output[column.label[this.lang]] = value;
       }
 
       return output;
