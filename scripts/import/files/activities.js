@@ -332,6 +332,7 @@ module.exports = {
           subject: line.TITRE_THESE,
           mention: line.LIB_MENTION_SOUTENANCE,
           previous: {
+            mention: line.LIB_MENTION_DIPL_ADM,
             idBanner: line.CODE_ETAB_ADM,
             title: [line.LIB_DIPL_ADM_L1, line.LIB_DIPL_ADM_L2].join(' ').trim(),
             date: line.DATE_DIPL_ADM
@@ -538,8 +539,6 @@ module.exports = {
                 activity.people.push(director);
               });
 
-              // TODO: grants
-
               if (phd.startDate) {
                 activity.startDate = phd.startDate;
                 activity.people[0].startDate = phd.startDate;
@@ -553,11 +552,17 @@ module.exports = {
               if (phd.subject)
                 activity.subject = phd.subject;
 
-              if (phd.organization)
+              if (phd.organization) {
                 activity.organizations.push({
                   organization: phd.organization,
                   role: 'inscription'
                 });
+
+                if (!organizations[phd.organization])
+                  organizations[phd.organization] = {
+                    name: phd.organization
+                  };
+              }
 
               activities.push(activity);
 
@@ -569,6 +574,9 @@ module.exports = {
                   organizations: [phd.previous.idBanner]
                 };
 
+                if (phd.previous.mention)
+                  previousDistinction.honours = phd.previous.mention;
+
                 if (phd.previous.date)
                   previousDistinction.date = phd.previous.date;
 
@@ -579,20 +587,12 @@ module.exports = {
               const distinction = {
                 distinctionType: 'diplôme',
                 title: 'Doctorat',
-                countries: ['FR']
+                countries: ['FR'],
+                organizations: ['IEP Paris']
               };
 
               if (phd.mention)
                 distinction.honours = phd.mention;
-
-              if (phd.organization) {
-                distinction.organizations = [phd.organization];
-
-                if (!organizations[phd.organization])
-                  organizations[phd.organization] = {
-                    name: phd.organization
-                  };
-              }
 
               if (phd.endDate)
                 distinction.date = phd.endDate;
@@ -665,8 +665,6 @@ module.exports = {
                 activity.people.push(director);
               });
 
-              // TODO: grants
-
               if (hdr.startDate) {
                 activity.startDate = hdr.startDate;
                 activity.people[0].startDate = hdr.startDate;
@@ -680,31 +678,29 @@ module.exports = {
               if (hdr.subject)
                 activity.subject = hdr.subject;
 
-              if (hdr.organization)
+              if (hdr.organization) {
                 activity.organizations.push({
                   organization: hdr.organization,
                   role: 'inscription'
                 });
-
-              activities.push(activity);
-
-              const distinction = {
-                distinctionType: 'diplôme',
-                title: 'HDR',
-                countries: ['FR']
-              };
-
-              if (hdr.mention)
-                distinction.honours = hdr.mention;
-
-              if (hdr.organization) {
-                distinction.organizations = [hdr.organization];
 
                 if (!organizations[hdr.organization])
                   organizations[hdr.organization] = {
                     name: hdr.organization
                   };
               }
+
+              activities.push(activity);
+
+              const distinction = {
+                distinctionType: 'diplôme',
+                title: 'HDR',
+                countries: ['FR'],
+                organizations: ['IEP Paris']
+              };
+
+              if (hdr.mention)
+                distinction.honours = hdr.mention;
 
               if (hdr.endDate)
                 distinction.date = hdr.endDate;
