@@ -10,7 +10,7 @@
     <h5>{{ organization?.name }}</h5>
 
     <div *ngIf="logged">
-      <button *ngIf="organization" [md-menu-trigger-for]="exportMenu" md-menu-item><md-icon>file_download</md-icon><div class="tooltip" id="hceres-export">Export HCERES</div><</button>
+      <button *ngIf="organization" [md-menu-trigger-for]="exportMenu" md-menu-item><md-icon>file_download</md-icon><div class="tooltip" id="hceres-export">Export HCERES</div></button>
       <button *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams><md-icon>people</md-icon><div class="tooltip" id="people">{{ 'people' | translate }}</div></button>
       <button *ngIf="globalOrganization && !organization" md-menu-item routerLink="/organizations" [queryParams]="{ organization: globalOrganization.id }"><md-icon>account_balance</md-icon><div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div></button>
       <button *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams><md-icon>account_balance</md-icon><div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div></button>
