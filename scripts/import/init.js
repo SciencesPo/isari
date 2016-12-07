@@ -577,7 +577,7 @@ function technicalFields() {
     const person = INDEXES.People.id[k];
 
     // ISARI authorized centers
-    if (person.academicMemberships && !person.isariAuthorizedCenters) {
+    if (!!person.ldapUid && person.academicMemberships && !person.isariAuthorizedCenters) {
 
       // We keep only the current memberships
       person.isariAuthorizedCenters = person.academicMemberships
