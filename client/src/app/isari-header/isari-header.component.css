@@ -38,3 +38,75 @@ md-icon {
 [md-menu-item] md-icon {
 	margin-right: 0;
 }
+
+.tooltip {
+	top: 140%;
+	left:-24px;
+	opacity: 0;
+	pointer-events: none;
+	position: absolute;
+	width: 140px;
+	-webkit-transform: translateY(-10px);
+        -moz-transform: translateY(-10px);
+        -ms-transform: translateY(-10px);
+        -o-transform: translateY(-10px);
+    transform: translateY(-10px);
+    -webkit-transition: all .15s ease-out;
+        -moz-transition: all .15s ease-out;
+        -ms-transition: all .15s ease-out;
+        -o-transition: all .15s ease-out;
+    transition: all .25s ease-out;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  	background: white;
+  	text-align: center;
+  	line-height: 35px;
+  	border-radius: 2px;
+}
+
+#people {
+  	padding-left: 32px;
+}
+
+#organizations {
+  	padding-left: 21px;
+}
+
+#activities {
+	padding-left: 38px;
+}
+
+#hceres-export {
+	padding-left: 16px;
+}
+
+button {
+	position: relative;
+}
+
+button .tooltip:before {
+	bottom: -20px;
+	content: " ";
+	display: block;
+	height: 20px;
+	left: 0;
+	position: absolute;
+	width: 100%;
+}
+
+button .tooltip:after {
+	border-left: solid transparent 10px;
+	border-right: solid transparent 10px;
+	border-top: solid #777 10px;
+	top: -10px;
+	content: " ";
+	left: 50%;
+	margin-left: -12px;
+	position: absolute;
+	width: 0;
+	transform: rotate(180deg);
+}
+
+
+button:hover .tooltip {
+	opacity: 1;
+}
