@@ -376,7 +376,8 @@
                     "fr": "Type d'affiliation",
                     "en": "Affiliation type"
                 },
-                "enum": "academicMembershipType"
+                "enum": "academicMembershipType",
+                "default": "membre"
             }
         }
     ],

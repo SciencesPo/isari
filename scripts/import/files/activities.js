@@ -793,7 +793,10 @@ module.exports = {
           const key = hashPeople(person);
 
           if (line.researchUnit)
-            person.academicMemberships = [{organization: line.researchUnit}];
+            person.academicMemberships = [{
+              organization: line.researchUnit,
+              membershipType: 'membre'
+            }];
 
           people[key] = person;
 
