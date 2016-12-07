@@ -538,10 +538,17 @@ module.exports = {
                 activity.people.push(director);
               });
 
-              // TODO: mention
               // TODO: grants
-              // TODO: diplome antérieur
-              // TODO: date de fin
+
+              if (phd.startDate) {
+                activity.startDate = phd.startDate;
+                activity.people[0].startDate = phd.startDate;
+              }
+
+              if (phd.endDate) {
+                activity.endDate = phd.endDate;
+                activity.people[0].endDate = phd.endDate;
+              }
 
               if (phd.subject)
                 activity.subject = phd.subject;
@@ -574,6 +581,9 @@ module.exports = {
                 title: 'Doctorat',
                 countries: ['FR']
               };
+
+              if (phd.mention)
+                distinction.honours = phd.mention;
 
               if (phd.organization) {
                 distinction.organizations = [phd.organization];
@@ -655,10 +665,17 @@ module.exports = {
                 activity.people.push(director);
               });
 
-              // TODO: mention
               // TODO: grants
-              // TODO: date de fin
-              // TODO: diplome antérieur
+
+              if (hdr.startDate) {
+                activity.startDate = hdr.startDate;
+                activity.people[0].startDate = hdr.startDate;
+              }
+
+              if (hdr.endDate) {
+                activity.endDate = hdr.endDate;
+                activity.people[0].endDate = hdr.endDate;
+              }
 
               if (hdr.subject)
                 activity.subject = hdr.subject;
@@ -676,6 +693,9 @@ module.exports = {
                 title: 'HDR',
                 countries: ['FR']
               };
+
+              if (hdr.mention)
+                distinction.honours = hdr.mention;
 
               if (hdr.organization) {
                 distinction.organizations = [hdr.organization];
