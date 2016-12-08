@@ -1,4 +1,4 @@
-<span [formGroup]="form" (keyup)="onKey($event)" class="isari-input-wrapper" [md-tooltip]="description" style="width:100%;">
+<span [formGroup]="form" (keyup)="onKey($event)" class="isari-input-wrapper" style="width:100%;">
   <input type="hidden" [formControlName]="name">
 
   <div style="display: inline-block;text-align: left;width:100%;">
@@ -16,7 +16,13 @@
             {{ label }}
           </label>
         </div>
-        <div class="md-input-suffix"><a *ngIf="id" routerLink="/{{ api }}/{{ id }}" target="_blank" preserveQueryParams><md-icon>open_in_new</md-icon></a></div>
+        <div class="md-input-suffix">
+          <md-icon *ngIf="description" class="tooltip-fields" [md-tooltip]="description">info_outline
+          </md-icon>
+            <a *ngIf="id" routerLink="/{{ api }}/{{ id }}" target="_blank" preserveQueryParams>
+              <md-icon>open_in_new</md-icon>
+            </a>
+        </div>
       </div>
       <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
         <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>

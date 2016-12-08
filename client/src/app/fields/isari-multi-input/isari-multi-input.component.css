@@ -24,3 +24,19 @@
   color: #777;
   cursor: pointer;
 }
+
+.md-input-prefix md-icon {
+  color: #777;
+  font-size: 20px;
+  cursor: pointer;
+  right: 0px;
+}
+
+md-icon {
+  color: #777;
+  font-size: 20px;
+  cursor: pointer;
+}
+.md-input-table {
+  width: 100%;
+}

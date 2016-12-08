@@ -58,3 +58,12 @@
   border-radius: inherit;
   pointer-events: none;
 }
+
+md-icon {
+  color: #777;
+  font-size: 20px;
+  cursor: pointer;
+}
+.md-input-table {
+  width: 100%;
+}

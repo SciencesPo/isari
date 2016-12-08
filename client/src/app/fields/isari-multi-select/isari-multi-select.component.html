@@ -1,5 +1,5 @@
 <div class="md-input-wrapper" (keyup)="onKey($event)" [md-tooltip]="description">
-  <div class="md-input-table" style="width:auto;">
+  <div class="md-input-table">
 
     <div class="md-input-prefix" *ngFor="let item of _values" [class.edit]="item.id">
       {{ item.label }}
@@ -28,6 +28,9 @@
         </button>
       </div>
 
+    </div>
+    <div class="md-input-suffix">
+      <md-icon class="tooltip-fields" [md-tooltip]="description">info_outline</md-icon>
     </div>
   </div>
   <div class="md-input-underline" [class.md-disabled]="disabled">

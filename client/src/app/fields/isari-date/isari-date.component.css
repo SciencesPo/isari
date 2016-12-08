@@ -26,3 +26,12 @@ isari-date {
 .calendar button {
   float: left;
 }
+
+md-icon {
+  color: #777;
+  font-size: 20px;
+  cursor: pointer;
+}
+.md-input-table {
+  width: 100%;
+}
