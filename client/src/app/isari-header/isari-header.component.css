@@ -96,7 +96,7 @@ button .tooltip:before {
 button .tooltip:after {
 	border-left: solid transparent 10px;
 	border-right: solid transparent 10px;
-	border-top: solid #777 10px;
+	border-top: solid #E6142D 10px;
 	top: -10px;
 	content: " ";
 	left: 50%;
