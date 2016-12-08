@@ -331,6 +331,7 @@ module.exports = {
           status: line.LIB_STATUT_ADMINI,
           subject: line.TITRE_THESE,
           mention: line.LIB_MENTION_SOUTENANCE,
+          cotutelle: line.CODE_ETAB_DD_CT,
           previous: {
             mention: line.LIB_MENTION_DIPL_ADM,
             idBanner: line.CODE_ETAB_ADM,
@@ -597,6 +598,9 @@ module.exports = {
               if (phd.endDate)
                 distinction.date = phd.endDate;
 
+              if (phd.cotutelle)
+                distinction.organizations.push(phd.cotutelle);
+
               peopleInfo.distinctions.push(distinction);
 
               // Add gradesAcademic
@@ -704,6 +708,9 @@ module.exports = {
 
               if (hdr.endDate)
                 distinction.date = hdr.endDate;
+
+              if (hdr.cotutelle)
+                distinction.organizations.push(hdr.cotutelle);
 
               peopleInfo.distinctions.push(distinction);
             }
