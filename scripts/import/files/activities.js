@@ -328,6 +328,7 @@ module.exports = {
           startDate: line.ANNEE_UNIV_ADMISSION,
           title: line.TITRE_THESE,
           organization: line.LIB_CTR_1,
+          organization2: line.LIB_CTR_2,
           status: line.LIB_STATUT_ADMINI,
           subject: line.TITRE_THESE,
           mention: line.LIB_MENTION_SOUTENANCE,
@@ -446,7 +447,9 @@ module.exports = {
               birthDate: ref.birthDate,
               name: ref.name,
               firstName: ref.firstName,
-              gender: ref.gender
+              gender: ref.gender,
+              distinctions: [],
+              academicMemberships: []
             };
 
             if (ref.sirhMatricule) {
@@ -483,9 +486,7 @@ module.exports = {
               });
 
             // Creating activities
-            peopleInfo.distinctions = [];
-
-            // TODO: academic memberships
+            const academicMembershipSet = new Set();
 
             if (phd) {
               const activity = {
@@ -559,10 +560,40 @@ module.exports = {
                   role: 'inscription'
                 });
 
+                const membership = {
+                  organization: phd.organization,
+                  membershipType: 'membre'
+                };
+
+                if (phd.startDate)
+                  membership.startDate = phd.startDate;
+                if (phd.endDate)
+                  membership.endDate = phd.endDate;
+
+                academicMembershipSet.add(phd.organization);
+
+                peopleInfo.academicMemberships.push(membership);
+
                 if (!organizations[phd.organization])
                   organizations[phd.organization] = {
                     name: phd.organization
                   };
+              }
+
+              if (phd.organization2 && !academicMembershipSet.has(phd.organization2)) {
+                const membership = {
+                  organization: phd.organization2,
+                  membershipType: 'membre'
+                };
+
+                if (phd.startDate)
+                  membership.startDate = phd.startDate;
+                if (phd.endDate)
+                  membership.endDate = phd.endDate;
+
+                academicMembershipSet.add(phd.organization2);
+
+                peopleInfo.academicMemberships.push(membership);
               }
 
               activities.push(activity);
@@ -688,10 +719,43 @@ module.exports = {
                   role: 'inscription'
                 });
 
+                // TODO: maybe need to update previous membership's endDate?
+                if (!academicMembershipSet.has(hdr.organization)) {
+                  const membership = {
+                    organization: hdr.organization,
+                    membershipType: 'membre'
+                  };
+
+                  if (hdr.startDate)
+                    membership.startDate = hdr.startDate;
+                  if (hdr.endDate)
+                    membership.endDate = hdr.endDate;
+
+                  academicMembershipSet.add(hdr.organization);
+
+                  peopleInfo.academicMemberships.push(membership);
+                }
+
                 if (!organizations[hdr.organization])
                   organizations[hdr.organization] = {
                     name: hdr.organization
                   };
+              }
+
+              if (hdr.organization2 && !academicMembershipSet.has(hdr.organization2)) {
+                const membership = {
+                  organization: hdr.organization2,
+                  membershipType: 'membre'
+                };
+
+                if (hdr.startDate)
+                  membership.startDate = hdr.startDate;
+                if (hdr.endDate)
+                  membership.endDate = hdr.endDate;
+
+                academicMembershipSet.add(hdr.organization2);
+
+                peopleInfo.academicMemberships.push(membership);
               }
 
               activities.push(activity);
@@ -738,6 +802,8 @@ module.exports = {
 
           if (match) {
 
+            // TODO: merge distinctions
+            // TODO: merge academic membership
             // TODO: merge
             return;
           }
