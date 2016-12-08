@@ -36,3 +36,7 @@ md-icon {
 .md-input-table {
   width: 100%;
 }
+
+.md-input-suffix > a > md-icon {
+  color: #E6142D;
+}
