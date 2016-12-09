@@ -30,15 +30,9 @@ function mongoID (o) {
 const getRefFields = memoize((meta, depth) => _getRefFields('', meta, depth))
 
 
-let indent = ''
-
 function applyTemplates (object, name, depth = 0) {
 	const meta = getMeta(name)
-	console.log('\n\n\n=============================================================\n\n\n')
-	indent = ''
-	const result = _applyTemplates(object, object, meta, depth)
-	console.log('\n\n\n=============================================================\n\n\n')
-	return result
+	return _applyTemplates(object, object, meta, depth)
 }
 
 function _applyTemplates (ownerDoc, object, meta, depth) {
