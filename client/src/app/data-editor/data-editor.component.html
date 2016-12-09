@@ -1,17 +1,17 @@
 <div [class.border]="deletable && form.enabled" form novalidate [formGroup]="form" *ngIf="form" style="width: 100%">
   <div class="save-n-delete">
-  <button *ngIf="!path"  class="save" md-button (click)="save($event)">Save <md-icon>done</md-icon></button>
+  <button *ngIf="!path"  class="save" md-button (click)="save($event)">{{ 'save' | translate }} <md-icon>done</md-icon></button>
   <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
     <md-icon>delete</md-icon>
     </a>
   </div>
-
+  
   <md-card-content [class.border]="!multiple || group.label" *ngFor="let group of layout" style="display: flex; flex-wrap: wrap;">
     <md-card-subtitle *ngIf="group.label">
       <div>{{ group.label }} <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)">
         <md-icon>{{ group.collapsed ? 'arrow_drop_down_circle' : 'keyboard_arrow_down' }}</md-icon>
       </a></div>
-      <div [hidden]="group.collapsed" class="tooltip-by-content"><div class="tooltip-desc">Some Random Description</div><md-icon>help</md-icon></div>
+      <div [hidden]="group.collapsed" class="tooltip-by-content"><div class="tooltip-desc">{{ group.description }}</div><md-icon>help</md-icon></div>
     </md-card-subtitle>
 
      <table [hidden]="group.collapsed" style="width: 95%;">
@@ -26,7 +26,12 @@
           </td>
         </tr>
       </table>
-
+    
   </md-card-content>
 
+
+  
+  
 </div>
+
+<!--*ngIf="!path"-->

@@ -23,5 +23,6 @@
   "externals": "Externes",
   "members": "Membres",
   "others" : "Autres",
-  "resume": "Mon CV"
+  "resume": "Mon CV",
+  "save": "Sauvegarder"
 }

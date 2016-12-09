@@ -14,6 +14,7 @@
             "fr": "organisation(s) impliquée(s)",
             "en": "related organization(s)"
         },
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
@@ -24,11 +25,13 @@
             "fr": "personne(s) impliquée(s)",
             "en": "related people"
         },
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
         "fields": ["grants"],
         "label": {"fr":"Financement","en":"Funding"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     ["subject","url"],
@@ -36,12 +39,14 @@
     {
         "fields": ["tags"],
         "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
    
     {
         "fields": ["distinctions"],
         "label": {"fr":"prix et distinctions","en":"Awards"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     }   
 

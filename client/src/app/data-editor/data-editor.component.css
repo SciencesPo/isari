@@ -87,6 +87,8 @@ md-card-subtitle {
 .tooltip-by-content:hover .tooltip-desc {
   visibility: visible;
   opacity: 1;
+  font-style: italic;
+  font-weight: normal;
 }
 
 .tooltip-by-content .tooltip-desc {

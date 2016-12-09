@@ -3,26 +3,31 @@
 	{
 		"fields":	["url","address","countries"],
 		"label":{"fr":"Infos générales","en":"General info"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
 		"collapsabled": true
 	},
 	{
 		"fields":	["parentOrganizations","researchUnitCodes"],
 		"label":{"fr":"Tutelles","en":"Parent orgas"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
 		"collapsabled": true
 	},
 	{
 		"fields":	["organizationTypes","status","HCERESOrganizationType"],
 		"label":{"fr":"Infos complémentaires","en":"Other info"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
 		"collapsabled": true
 	},
 	{
 		"fields":["idRnsr","idScopus","idHal","codeUAI"],
 		"label":{"fr":"identifiants","en":"identifiers"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
 		"collapsabled": true
 	},
 	{
 		"fields":["UG","idsBanner","idsSpire"],
 		"label":{"fr":"identifiants FNSP","en":"FNSP identifiers"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
 		"collapsabled": true
 	}
 ]

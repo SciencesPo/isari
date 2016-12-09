@@ -13,6 +13,7 @@
         "birthName"
         ],
         "label": {"fr":"Informations Personnelles","en":"Personal Information"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
@@ -21,6 +22,7 @@
             "office"
         ],
         "label": {"fr":"Coordonnées","en":"Contact details"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
@@ -30,6 +32,7 @@
                 "fr": "Rattachement labo",
                 "en": "Unit affiliation"
             },
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
@@ -39,6 +42,7 @@
                 "fr": "Grades académiques",
                 "en": "Academic grades"
             },
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
       {
@@ -49,29 +53,34 @@
                 "fr": "Rattachement département",
                 "en": "Departement affiliation"
             },
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
 
         "fields": ["positions"],
         "label": {"fr":"Parcours","en":"Trajectory"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
 
         "fields": ["distinctions"],
         "label": {"fr":"Diplômes et distinctions","en":"Diplomas and awards"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
         "fields": ["personalActivities"],
         "label": {"fr":"Activités et responsabilités","en":"Activities and responsibilities"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     "biography",
     {
         "fields": ["tags"],
         "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
@@ -82,6 +91,7 @@
             "idSpire"
         ],
         "label": {"fr":"identifiants FNSP","en":"FNSP identifiers"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
      {
@@ -91,16 +101,19 @@
             "idScopus"
         ],
         "label": {"fr":"identifiants externes","en":"external identifiers"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
         "fields": ["isariAuthorizedCenters"],
         "label": {"fr":"Accès Isari","en":"ISARI access"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
         "fields": ["bonuses"],
         "label": {"fr":"Primes","en":"Bonuses"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     }
 

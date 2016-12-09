@@ -4,15 +4,18 @@
     {
         "fields": ["gradesSirh"],
         "label": {"fr":"grade DRH","en":"HR leve"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
         "fields": ["gradesAdmin"],
         "label": {"fr":"Emplois repères","en":"Admin leve"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },{
         "fields": ["tenureTracks"],
         "label": {"fr":"Tenure track","en":"Tenure track"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     }
 ]
