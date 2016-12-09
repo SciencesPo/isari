@@ -90,7 +90,7 @@
   </span>
 
   <span *ngIf="field.multiple && field.type === 'object'" [formArrayName]="field.name">
-    
+
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index"
       (onUpdate)="update($event)"
       [feature]="feature"
@@ -100,7 +100,7 @@
       [multiple]="true"
       [field]="getField(field)"></isari-field>
 
-    <a class="add" href (click)="add($event)" color="warn"><md-icon>add</md-icon> Ajouter</a> 
+    <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled"><md-icon>add</md-icon> Ajouter</a>
 
   </span>
 
