@@ -84,6 +84,11 @@ export class IsariSelectComponent implements OnInit {
   }
 
   onFocus($event) {
+    // force reload of values https://github.com/SciencesPo/isari/issues/132
+    if (this.selectControl.value === '') {
+      (<EventEmitter<any>>this.selectControl.valueChanges).emit(' ');
+      (<EventEmitter<any>>this.selectControl.valueChanges).emit(''); // maybe useless
+    }
     this.focused = true;
   }
 
