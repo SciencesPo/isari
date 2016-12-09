@@ -824,8 +824,26 @@ module.exports = {
               match.distinctions.push(newDistinctions.HDR);
             }
 
-            // TODO: merge academic membership
-            // TODO: merge
+            (person.academicMemberships || []).forEach(membership => {
+              const key = fingerprint(membership.organization);
+
+              // Searching for an already existing relevant membership
+              const relevantMembership = (match.academicMemberships || [])
+                .find(m => fingerprint(m.organization) === key);
+
+              if (relevantMembership) {
+
+                // We extend the membership
+                // TODO
+              }
+              else {
+
+                // We add the membership
+                match.academicMemberships = match.academicMemberships || [];
+                match.academicMemberships.push(membership);
+              }
+            });
+
             return;
           }
 
