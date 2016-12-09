@@ -52,6 +52,7 @@ describe('Central roles', () => {
 	it('central reader should see readonly people (without org filter)', () => utils.people.editable('centralReader', false, fixtures.centerMember, false))
 	it('center member should see editable himself (himself, with org filter)', () => utils.people.editable('centerMember', true, fixtures.centerMember, true))
 	it('center member should see readonly other people (with org filter)', () => utils.people.editable('centerMember', false, fixtures.centralReader, true))
+	it('center member should see readonly other center member (#156) (with org filter)', () => utils.people.editable('centerMember', false, fixtures.centerMember2, true))
 	it('center member should see editable external people (with org filter)', () => utils.people.editable('centerMember', true, fixtures.externalPeople, true))
 
 	it('central admin should see editable organization (without org filter)', () => utils.organization.editable('centralAdmin', true, fixtures.organization, false))
@@ -91,6 +92,7 @@ describe('Central roles', () => {
 			expect(body.organizations[0].id).to.equal(fixtures.organization.id)
 		})
 	)
+
 })
 
 // Fixtures:
@@ -142,6 +144,17 @@ function prepare () {
 		latestChangeBy: 'UnitTests'
 	})
 
+	const centerMember2 = new People({
+		name: 'Research Member (2)',
+		ldapUid: 'center-member2',
+		isariAuthorizedCenters: [{
+			organization,
+			isariRole: 'center_member'
+		}],
+		academicMemberships: [{ organization, endDate: future }],
+		latestChangeBy: 'UnitTests'
+	})
+
 	const externalPeople = new People({
 		name: 'External People',
 		ldapUid: 'external-people',
@@ -172,6 +185,7 @@ function prepare () {
 			centralReader.save(),
 			centralAdmin.save(),
 			centerMember.save(),
+			centerMember2.save(),
 			activity.save()
 		])),
 		// Other organization: not linked with any people so central should see it but not others
@@ -180,16 +194,28 @@ function prepare () {
 			activity2.save()
 		]))
 	])
-	.then(([externalPeople, [organization, centralReader, centralAdmin, centerMember, activity], [organization2, activity2]]) => ({
-		organization,
-		externalPeople,
-		centralReader,
-		centralAdmin,
-		centerMember,
-		activity,
-		organization2,
-		activity2
-	}))
+	.then(([
+		externalPeople, [
+			organization,
+			centralReader,
+			centralAdmin,
+			centerMember,
+			centerMember2,
+			activity
+		], [
+			organization2,
+			activity2
+		]]) => ({
+			organization,
+			externalPeople,
+			centralReader,
+			centralAdmin,
+			centerMember,
+			centerMember2,
+			activity,
+			organization2,
+			activity2
+		}))
 	.catch(e => {
 		console.error('FIXTURES LOADING FAILED', e.errors)
 		throw e
