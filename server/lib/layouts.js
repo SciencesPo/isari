@@ -40,7 +40,7 @@ const _getLayout = (name, schema, fullSchema) => {
 		return null
 	}
 	const rows = (layouts[name.toLowerCase()] || []).map(getRow(name, schema, fullSchema))
-	const rowsFields = flatten(rows.map(row => map('name', row.fields)))
+	const rowsFields = extractAllFieldNames(rows)
 	const expectedFields = Object.keys(schema).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 	const missingFields = difference(expectedFields, rowsFields)
 	return rows.concat(missingFields.map(getRow(name, schema, fullSchema)))
@@ -49,6 +49,17 @@ const _getLayout = (name, schema, fullSchema) => {
 			fields: row.fields.filter(field => !field.ignored) // Remove ignored fields
 		}))
 		.filter(row => row.fields.length > 0) // Remove empty rows
+}
+
+const extractAllFieldNames = rows => {
+	const getFieldsNames = fields => fields.reduce((names, field) => {
+		if (field.fields) { // sub-row
+			return names.concat(getFieldsNames(field.fields))
+		} else { // simple field
+			return names.concat([ field.name ])
+		}
+	}, [])
+	return rows.reduce((names, row) => names.concat(getFieldsNames(row.fields)), [])
 }
 
 const getRow = (name, schema, fullSchema) => row => {
