@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# CWD = shell script root
+ROOT="${0%/*}"
+cd "$ROOT"
+SCRIPTS_DIR="$ROOT/scripts"
+SERVER_DIR="$ROOT/server"
+DATA_DIR=$(readlink -f "$1")
+
+if [ ! -d "$SCRIPTS_DIR" ]; then
+  echo -e "\e[31;1mErreur: $0 n'a pas trouvé le dossier 'scripts'\e[0m"
+  echo "Vérifiez l'emplacement du script"
+  exit 1
+fi
+
+if [ ! -d "$SERVER_DIR" ]; then
+  echo -e "\e[31;1mErreur: $0 n'a pas trouvé le dossier 'server'\e[0m"
+  echo "Vérifiez l'emplacement du script"
+  exit 1
+fi
+
+if [ "$DATA_DIR" == "" ]; then
+  echo -e "\e[31;1mErreur: chemin vers isari_data non fourni\e[0m"
+  echo "Utilisation: $0 <Chemin vers isari_data> [Options import]"
+  exit 1
+fi
+
+if [ ! -d "$DATA_DIR" ]; then
+  echo -e "\e[31;1mErreur: $0 n'a pas trouvé le dossier '$DATA_DIR'\e[0m"
+  echo "Vérifiez les chemins et l'emplacement du script"
+  exit 1
+fi
+
+echo -e '\e[36;1mRéinitialisation de la base de données Isari…\e[0m'
+
+echo -e '\e[36;1mÉTAPE 1/5: Accès VPN…\e[0m'
+while ! (ping -c 1 ldap.sciences-po.fr &> /dev/null); do
+  read -p '\e[36mPressez ENTER une fois la connexion VPN active\e[0m'
+done
+
+echo -e '\e[36;1mÉTAPE 2/5: Mise à jour des sources…\e[0m'
+(cd "$ROOT" && git pull && cd "$DATA_DIR" && git pull) || exit 1
+
+echo -e '\e[36;1mÉTAPE 3/5: Mise à jour des scripts…\e[0m'
+(cd "$SCRIPTS_DIR" && npm install) || exit 1
+
+echo -e '\e[36;1mÉTAPE 4/5: Réinitialisation du container…\e[0m'
+if ! (cd "$SERVER_DIR" && npm run clean-db); then
+  echo -e '\e[36mLe script "clean-db" a échoué, vérification des services…\e[0m'
+  while (</dev/tcp/127.0.0.1/9200); do
+    read -p '\e[36mElasticsearch semble lancé, pressez ENTER une fois le processus coupé\e[0m'
+  done
+  while (</dev/tcp/127.0.0.1/27019); do
+    read -p '\e[36mMongoDB semble lancé, pressez ENTER une fois le processus coupé\e[0m'
+  done
+  (cd "$SERVER_DIR" && npm run clean-db);
+  # Failure can also mean the docker was already down
+fi
+(cd "$SERVER_DIR" && npm run start-db) || exit 1
+
+echo -e '\e[36;1mÉTAPE 5/5: Chargement des données…\e[0m'
+(cd "$SCRIPTS_DIR" && npm run import:init -- --path "$DATA_DIR") || exit 1
+
+echo -e '\e[32;1mTerminé :)\e[0m'
+echo 'Affichage des logs DB (pressez Ctrl+C pour sortir, la DB continue de tourner en arrière-plan):'
+cd $SERVER_DIR && npm run logs-db
