@@ -145,7 +145,7 @@ export class IsariSelectComponent implements OnInit {
 
   private setExtend() {
     if (this.extensible
-      && (this.values.length !== 1 && !this.values.find(item => item.label.toLowerCase() === this.selectControl.value.toLowerCase()))) {
+      && (this.selectControl.value && this.values.length !== 1 && !this.values.find(item => item.label.toLowerCase() === this.selectControl.value.toLowerCase()))) {
       this.extend = true;
     } else {
       this.extend = false;
