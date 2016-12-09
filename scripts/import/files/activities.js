@@ -1190,6 +1190,12 @@ module.exports = {
             organizations: []
           };
 
+          if (line.startDate)
+            activity.startDate = line.startDate;
+
+          if (line.endDate)
+            activity.endDate = line.endDate;
+
           if (line.acronym)
             activity.acronym = line.acronym;
 
