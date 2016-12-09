@@ -57,7 +57,7 @@
       type="number"
       [form]="form"></isari-input>
 
-    <isari-input *ngSwitchCase="'string'"
+    <isari-input *ngSwitchDefault"
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"

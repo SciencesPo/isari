@@ -149,8 +149,6 @@ export class IsariDataService {
     }
   }
 
-  private
-
   getColumns(feature: string) {
     return this.getSchema(feature)
       .then(schema => Object.keys(schema).map(key => ({
@@ -268,6 +266,11 @@ export class IsariDataService {
   buildForm(layout, data): FormGroup {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
+
+    // build form from object after layout manipluation
+    if (fields[0] instanceof Array) {
+      fields = fields.map(f => f[0]); // ? more than 0 ?
+    }
 
     // normalize [[a, b ], c] -> [a, b, c]
     fields = fields.reduce((acc, c) => [...acc, ...(c.fields ? c.fields : [c]) ], []);
@@ -427,7 +430,12 @@ export class IsariDataService {
       .map(group => {
         group.fields = group.fields.map(field => {
           total += field.fields ? field.fields.length : 1;
-          return field.fields || [field];
+          return (field.fields || [field]).map(f => {
+            if (f.type === 'object') {
+              f.layout = this.rows(f.layout);
+            }
+            return f;
+          });
         });
         return group;
       })
