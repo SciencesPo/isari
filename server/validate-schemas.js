@@ -6,10 +6,6 @@ const { getFrontSchema, getMongooseSchema } = require('./lib/schemas')
 const { getLayout } = require('./lib/layouts')
 const { uniq } = require('lodash/fp')
 
-const { inspect } = require('util')
-const log = o => console.log(inspect(o, { colors: true, depth: 10 }))
-log(getLayout('People', true))
-
 
 console.log('Validating schemas and layouts…') // eslint-disable-line no-console
 
