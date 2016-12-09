@@ -802,7 +802,28 @@ module.exports = {
 
           if (match) {
 
-            // TODO: merge distinctions
+            // Merging distinctions
+            const currentDistinctions = _.keyBy(match.distinctions, 'title'),
+                  newDistinctions = _.keyBy(person.distinctions, 'title');
+
+            //-- 1) PHD
+            if (newDistinctions.Doctorat && currentDistinctions.Doctorat) {
+              Object.assign(currentDistinctions.Doctorat, newDistinctions.Doctorat);
+            }
+            else if (newDistinctions.Doctorat) {
+              match.distinctions = match.distinctions || [];
+              match.distinctions.push(newDistinctions.Doctorat);
+            }
+
+            //-- 2) HDR
+            if (newDistinctions.HDR && currentDistinctions.HDR) {
+              Object.assign(currentDistinctions.HDR, newDistinctions.HDR);
+            }
+            else if (newDistinctions.HDR) {
+              match.distinctions = match.distinctions || [];
+              match.distinctions.push(newDistinctions.HDR);
+            }
+
             // TODO: merge academic membership
             // TODO: merge
             return;
