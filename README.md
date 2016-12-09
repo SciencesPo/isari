@@ -33,6 +33,12 @@ d57466305690        mongo:3.2.9             "/entrypoint.sh mongo"   13 minutes 
 6bf60c93ddf2        elasticsearch:2.3.5     "/docker-entrypoint.s"   13 minutes ago      Up 13 minutes       0.0.0.0:9200->9200/tcp, 9300/tcp   isari_index_1
 ```
 
+## fully reinitialize database
+
+```bash
+./reset-db /path/to/isari_data
+```
+
 ## prod environnement setup 
 
 To be defined...
