@@ -14,7 +14,7 @@ const pFalse = Promise.resolve(false)
 
 // Helper returning a YYYY-MM-DD string for today
 // TODO cache (it shouldn't change more than once a day, right)
-const pad0 = s => String(s).length === 1 ? '0' + s : String(s)
+const pad0 = s => (s === null || s === undefined) ? null : (String(s).length === 1 ? '0' + s : String(s))
 const isTodayOrLater = s => {
 	const ref = today()
 	const [ y, m, d ] = s.split('-')
@@ -28,6 +28,46 @@ const today = () => {
 		d: pad0(d.getDate())
 	}
 }
+const parseDate = s => {
+	const [ y, m, d ] = s.split('-')
+	return {
+		y: y,
+		m: m ? pad0(m) : null,
+		d: d ? pad0(d) : null
+	}
+}
+
+// Helper returning a Mongo query to compare a date with year*/month*/day* fields
+/*
+// y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
+[
+	{ endYear: { $gte: ''+now.y } },
+	{ endYear: ''+now.y, endMonth: { $gt: ''+now.m } },
+	{ endYear: ''+now.y, endMonth: ''+now.m, endDay: { $gte: ''+now.d } }
+]
+*/
+const buildDateQuery = (dateField, op, d) => {
+	const yearField = dateField + 'Year'
+	const monthField = dateField + 'Month'
+	const dayField = dateField + 'Day'
+	if (typeof d === 'string') {
+		d = parseDate(d)
+	}
+	const yyyy = String(d.y)
+	const mm = d.m ? String(d.m) : null
+	const dd = d.d ? String(d.d) : null
+
+	let q = [ { [yearField]: { [op]: yyyy } } ]
+	if (mm !== null) {
+		q.push({ [yearField]: yyyy, [monthField]: { [op]: mm } })
+		if (dd !== null) {
+			q.push({ [yearField]: yyyy, [monthField]: mm, [dayField]: { [op]: dd } })
+		}
+	}
+
+	return q
+}
+
 
 // Extract roles from isariAuthorizedCenters
 // People => Object(OrganizationID, Role)
@@ -162,40 +202,72 @@ const listViewablePeople = (req, options = {}) => {
 		return Promise.reject(Error('Invalid usage of "listViewablePeople" without prior usage of "scopeOrganizationMiddleware"'))
 	}
 
-	const { includeExternals = true, includeMembers = true } = options
+	const {
+		includeExternals = true, includeMembers = true,
+		membershipStart = null, membershipEnd = null, includeRange = true
+	} = options
+
+	if (includeRange && (includeExternals || includeMembers)) {
+		return Promise.reject(Error('Incompatible options "includeRange" with "includeExternals" and "includeMembers"'))
+	}
+	if (includeRange && (!membershipStart || !membershipEnd)) {
+		return Promise.reject(Error('Incomplete usage of "includeRange": missing values for start and end'))
+	}
+	if (includeRange && !req.userScopeOrganizationId) {
+		return Promise.reject(Error('Invalid usage of "includeRange" without organization id provided'))
+	}
 
 	// Note: A && B && (C || D) is not supported by Mongo
 	// i.e. this must be transformed into (A && B && C) || (A && B && D)
 
 	const now = today()
+
 	// Projected fields, see 'memberships' projection below
 	const isInternal = [
 		{ orgMonitored: true },
-		{ $or: [
-			{ endDate: { $exists: false } },
-			// y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
-			{ endYear: { $gte: ''+now.y } },
-			{ endYear: ''+now.y, endMonth: { $gt: ''+now.m } },
-			{ endYear: ''+now.y, endMonth: ''+now.m, endDay: { $gte: ''+now.d } }
-		] }
+		{ $or: [ { endDate: { $exists: false } } ].concat(buildDateQuery('end', '$gte', now)) }
 	]
 
-	const isMember = req.userScopeOrganizationId
+	const orgId = req.userScopeOrganizationId && ObjectId.createFromHexString(req.userScopeOrganizationId)
+
+	const isMember = orgId
 		? // Scoped: limit to people from this organization
-			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId: new ObjectId(req.userScopeOrganizationId) } ]) } } }
+			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId } ]) } } }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
 				{}
 			: // Limit to people from organizations he has access to
-				{ 'memberships.orgId': { $in: Object.keys(req.userRoles).map(ObjectId.fromString) } }
+				{ 'memberships.orgId': { $in: Object.keys(req.userRoles).map(ObjectId.createFromHexString) } }
 
 	// External people = ALL memberships are either expired or linked to an unmonitored organization
 	const isExternal = { memberships: { $not: { $elemMatch: { $and: isInternal } } } }
 
-	const filters = (includeExternals && includeMembers)
-		? { $or: [ isMember, isExternal ] }
-		: (includeExternals ? isExternal : isMember)
+	// Member in date range
+	const isInRange = (start, end) => {
+		// in range = ! (start > membership.endDate || end < membership.startDate)
+		//          <=> start <= membership.endDate && end >= membership.startDate
+		return { 'memberships': { $elemMatch: { $and: [
+			{ orgId },
+			// membership.endDate >= start
+			{
+				$or: [
+					// we may need to handle this special case: still active membership
+					// { endDate: { $exists: false } }
+				].concat(buildDateQuery('end', '$gte', start))
+			},
+			// membership.startDate <= end
+			{
+				$or: buildDateQuery('start', '$lte', end)
+			}
+		] } } }
+	}
+
+	const filters = includeRange
+		? isInRange(membershipStart, membershipEnd)
+		: (includeExternals && includeMembers)
+			? { $or: [ isMember, isExternal ] }
+			: (includeExternals ? isExternal : isMember)
 
 	// Use aggregation to lookup organization and calculate union of "in scope" + "externals"
 	return People.aggregate()
@@ -211,10 +283,14 @@ const listViewablePeople = (req, options = {}) => {
 		.project({ _id: 1, membership: {
 			orgId: '$org._id',
 			endDate: '$academicMemberships.endDate',
+			startDate: '$academicMemberships.startDate',
 			orgMonitored: '$org.isariMonitored',
 			endYear: { $substr: [ '$academicMemberships.endDate', 0, 4 ] },
 			endMonth: { $substr: [ '$academicMemberships.endDate', 5, 2 ] },
-			endDay: { $substr: [ '$academicMemberships.endDate', 8, 2 ] }
+			endDay: { $substr: [ '$academicMemberships.endDate', 8, 2 ] },
+			startYear: { $substr: [ '$academicMemberships.startDate', 0, 4 ] },
+			startMonth: { $substr: [ '$academicMemberships.startDate', 5, 2 ] },
+			startDay: { $substr: [ '$academicMemberships.startDate', 8, 2 ] }
 		} }) // Group membership info together
 		.group({
 			_id: '$_id',

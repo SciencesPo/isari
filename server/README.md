@@ -99,7 +99,11 @@ npm install --production
 #### Query-string options
 
 * `/:collection/*?organization=ID`: If you're not connected as central admin or central reader, you will need to specifiy the *scope* of your query with this option
-* `/people?include=TYPE`: Specify which type of people you want to include in results (`externals`, `members` or `both`, default = `both`)
+* `/people?include=TYPE`: Specify which type of people you want to include in results:
+  * `externals`: only externals
+  * `members`: only members
+  * `both`: externals + members
+  * `range`: only members within given dates (**additionally requires options `organization`, `start` and `end`**)
 
 #### Format: `Item`
 
