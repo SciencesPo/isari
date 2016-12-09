@@ -29,7 +29,13 @@ export class FieldComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
+
       this.field.controlType = this.isariDataService.getControlType(this.field);
+
+      if (this.field.controlType === 'object') {
+        this.field.layout = this.isariDataService.rows(this.field.layout);
+      }
+
       const src = this.field.enum || this.field.softenum;
       if (src) {
         this.field.src = this.isariDataService.srcEnumBuilder(src, this.path);

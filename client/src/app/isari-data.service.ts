@@ -268,6 +268,10 @@ export class IsariDataService {
   buildForm(layout, data): FormGroup {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
+
+    // normalize [[a, b ], c] -> [a, b, c]
+    fields = fields.reduce((acc, c) => [...acc, ...(c.fields ? c.fields : [c]) ], []);
+
     fields.forEach(field => {
       const hasData = data[field.name] !== null && data[field.name] !== undefined
       const fieldData = hasData ? data[field.name] : field.multiple ? [] : field.type === 'object' ? {} : '';
@@ -415,6 +419,25 @@ export class IsariDataService {
 
   getSchemaApi(feature) {
     return mongoSchema2Api[feature];
+  }
+
+  rows(layout) {
+    let total = 0;
+    return layout
+      .map(group => {
+        group.fields = group.fields.map(field => {
+          total += field.fields ? field.fields.length : 1;
+          return field.fields || [field];
+        });
+        return group;
+      })
+      .map(group => {
+        group.fields = group.fields.map(field => {
+          field.colspan = total / field.length;
+          return field;
+        });
+        return group;
+      });
   }
 
   // getErrors(form: FormGroup) {

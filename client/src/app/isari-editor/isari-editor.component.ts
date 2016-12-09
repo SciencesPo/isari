@@ -56,9 +56,12 @@ export class IsariEditorComponent implements OnInit {
           restrictedFields: restrictedFields[feature],
           path: []
         });
-        this.layout = this.isariDataService.translate(layout, lang);
-        this.layout = this.isariDataService.closeAll(this.layout);
-        this.form = this.isariDataService.buildForm(this.layout, this.data);
+
+        layout = this.isariDataService.translate(layout, lang);
+        layout = this.isariDataService.closeAll(layout);
+        this.form = this.isariDataService.buildForm(layout, this.data);
+        this.layout = this.isariDataService.rows(layout);
+
         // disabled all form
         if (this.data.opts && this.data.opts.editable === false) {
           this.form.disable();

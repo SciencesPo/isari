@@ -5,7 +5,7 @@
     <md-icon>delete</md-icon>
     </a>
   </div>
-  
+
   <md-card-content [class.border]="!multiple || group.label" *ngFor="let group of layout" style="display: flex; flex-wrap: wrap;">
     <md-card-subtitle *ngIf="group.label">
       <div>{{ group.label }} <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)">
@@ -14,9 +14,9 @@
       <div [hidden]="group.collapsed" class="tooltip-by-content"><div class="tooltip-desc">{{ group.description }}</div><md-icon>help</md-icon></div>
     </md-card-subtitle>
 
-     <table [hidden]="group.collapsed" style="width: 95%;">
-        <tr>
-          <td *ngFor="let field of group.fields">
+    <table [hidden]="group.collapsed" style="width: 95%;">
+        <tr *ngFor="let row of group.fields">
+          <td *ngFor="let field of row" [colSpan]="row.colspan">
             <isari-field
               (onUpdate)="update($event)"
               [form]="form"
@@ -26,12 +26,7 @@
           </td>
         </tr>
       </table>
-    
+
   </md-card-content>
 
-
-  
-  
 </div>
-
-<!--*ngIf="!path"-->

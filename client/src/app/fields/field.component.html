@@ -57,7 +57,7 @@
       type="number"
       [form]="form"></isari-input>
 
-    <isari-input *ngSwitchDefault
+    <isari-input *ngSwitchCase="'string'"
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
@@ -81,12 +81,13 @@
       [description]="field.description"
       [form]="form"></isari-multi-select>
 
-    <isari-multi-input *ngSwitchDefault
+    <isari-multi-input *ngSwitchCase="'string'"
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
       [description]="field.description"
       [form]="form"></isari-multi-input>
+
   </span>
 
   <span *ngIf="field.multiple && field.type === 'object'" [formArrayName]="field.name">
