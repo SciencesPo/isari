@@ -10,8 +10,11 @@ const formatObject = (p, perms) => format('People', p, perms)
 
 // Default ?include = members + externals
 const buildListQuery = (req) => req.userListViewablePeople({
-	includeExternals: !req.query.include || req.query.include === 'both' || req.query.include === 'externals',
-	includeMembers: !req.query.include || req.query.include === 'both' || req.query.include === 'members'
+	includeExternals: req.query.include !== 'range' && (!req.query.include || req.query.include === 'both' || req.query.include === 'externals'),
+	includeMembers: req.query.include !== 'range' && (!req.query.include || req.query.include === 'both' || req.query.include === 'members'),
+	includeRange: req.query.include === 'range',
+	membershipStart: req.query.start,
+	membershipEnd: req.query.end
 })
 
 module.exports = restRouter(People, formatObject, 'people', getPermissions.People, buildListQuery)
