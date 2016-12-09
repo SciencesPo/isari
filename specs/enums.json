@@ -1284,6 +1284,13 @@
                 "fr": "affilié",
                 "en": ""
             }
+        },
+        {
+            "value": "visiting",
+            "label": {
+                "fr": "visiting",
+                "en": ""
+            }
         }
     ],
     "budgetTypes": [
@@ -1882,7 +1889,7 @@
         {
             "value": "professeur",
             "label": {
-                "fr": "Professeur.e",
+                "fr": "Full professor",
                 "en": ""
             }
         },
