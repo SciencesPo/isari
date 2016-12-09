@@ -89,7 +89,7 @@ export class IsariSelectComponent implements OnInit {
 
   onBlur($event) {
     this.focused = false;
-    if (this.lastValidStringValue !== this.selectControl.value) {
+    if (this.lastValidStringValue !== this.selectControl.value && this.selectControl.value !== '') {
       this.selectControl.setValue(this.lastValidStringValue);
     }
   }
