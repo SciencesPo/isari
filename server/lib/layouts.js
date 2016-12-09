@@ -79,6 +79,10 @@ const getRowObject = (baseName, schema, fullSchema, row) => merge(
 )
 
 const getFieldsDescription = (baseName, schema, fullSchema) => name => {
+	if (Array.isArray(name)) {
+		return getRowArray(baseName, schema, fullSchema, name)
+	}
+
 	if (name[0] === '-' || (!schema[name] && fullSchema[name] /* confidential */)) {
 		return {
 			name: name.substring(1),
