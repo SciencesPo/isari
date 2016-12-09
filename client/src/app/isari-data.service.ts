@@ -357,7 +357,6 @@ export class IsariDataService {
        return [];
      } else {
        const def = schema && schema['default']
-       console.log({ name: field.name, value: def })
        return def === undefined ? null : def
      }
     }
