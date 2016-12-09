@@ -48,7 +48,7 @@
       {
 
         "fields": ["deptMemberships"],
-        
+
             "label": {
                 "fr": "Rattachement département",
                 "en": "Departement affiliation"

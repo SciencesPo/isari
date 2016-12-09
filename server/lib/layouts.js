@@ -9,12 +9,14 @@ const memoize = require('memoizee')
 
 
 module.exports = {
-	getLayout: memoize((name, includeRestricted) => {
-		const restrictedSchema = getFrontSchema(name, includeRestricted)
-		const unrestrictedSchema = includeRestricted ? restrictedSchema : getFrontSchema(name, true)
-		return _getLayout(name, restrictedSchema, unrestrictedSchema)
-	})
+	getLayout: (name, includeRestricted) => getLayout(name.toLowerCase(), Boolean(includeRestricted))
 }
+
+const getLayout = memoize((name, includeRestricted) => {
+	const restrictedSchema = getFrontSchema(name, includeRestricted)
+	const unrestrictedSchema = includeRestricted ? restrictedSchema : getFrontSchema(name, true)
+	return _getLayout(name, restrictedSchema, unrestrictedSchema)
+})
 
 
 // At startup, simply load all layouts
@@ -29,7 +31,7 @@ function readLayoutJSONs () {
 		.reduce((o, f) => {
 			const key = f.substring(7, f.length - 5)
 			const data = require(path.join(root, f))
-			return Object.assign(o, { [key]: data })
+			return Object.assign(o, { [key.toLowerCase()]: data })
 		}, {})
 }
 
@@ -37,7 +39,7 @@ const _getLayout = (name, schema, fullSchema) => {
 	if (!schema) {
 		return null
 	}
-	const rows = (layouts[name] || []).map(getRow(name, schema, fullSchema))
+	const rows = (layouts[name.toLowerCase()] || []).map(getRow(name, schema, fullSchema))
 	const rowsFields = flatten(rows.map(row => map('name', row.fields)))
 	const expectedFields = Object.keys(schema).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 	const missingFields = difference(expectedFields, rowsFields)
@@ -77,6 +79,10 @@ const getRowObject = (baseName, schema, fullSchema, row) => merge(
 )
 
 const getFieldsDescription = (baseName, schema, fullSchema) => name => {
+	if (Array.isArray(name)) {
+		return getRowArray(baseName, schema, fullSchema, name)
+	}
+
 	if (name[0] === '-' || (!schema[name] && fullSchema[name] /* confidential */)) {
 		return {
 			name: name.substring(1),

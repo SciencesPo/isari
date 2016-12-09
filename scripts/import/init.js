@@ -577,7 +577,10 @@ function technicalFields() {
     const person = INDEXES.People.id[k];
 
     // ISARI authorized centers
-    if (!!person.ldapUid && person.academicMemberships && !person.isariAuthorizedCenters) {
+    if (!!person.ldapUid &&
+        !!person.scpoActifSI &&
+        person.academicMemberships &&
+        !person.isariAuthorizedCenters) {
 
       // We keep only the current memberships
       person.isariAuthorizedCenters = person.academicMemberships
@@ -593,6 +596,8 @@ function technicalFields() {
           };
         });
     }
+
+    delete person.scpoActifSI;
 
     // Spy
     person.latestChangeBy = 'IMPORT';
@@ -657,6 +662,7 @@ function retrieveLDAPInformation(callback) {
 
       res.on('searchEntry', entry => {
         people.ldapUid = entry.object.uid;
+        people.scpoActifSI = !!+entry.object.scpoActifSI;
 
         // Indexing
         INDEXES.People.ldap[people.ldapUid] = people;
