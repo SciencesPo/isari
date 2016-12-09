@@ -65,3 +65,10 @@ md-toolbar.md-primary h2 {
   min-width: 150px;
   height: 24px
 }
+
+isari-editor .md-input-placeholder.md-focused {
+  color: #E6142D;
+}
+isari-editor .md-input-underline .md-input-ripple {
+  background-color: #E6142D;
+}
