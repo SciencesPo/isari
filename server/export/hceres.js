@@ -3,7 +3,10 @@
  * ============================
  */
 const async = require('async'),
-      moment = require('moment');
+      moment = require('moment'),
+      mongoose = require('mongoose');
+
+const ObjectId = mongoose.Types.ObjectId;
 
 const {
   createWorkbook,
@@ -127,6 +130,57 @@ const SHEETS = [
         });
 
         return callback(null, people);
+      });
+    }
+  },
+  {
+    id: 'doctorants',
+    name: '3.3. docteurs & doctorants',
+    headers: [
+      {key: 'name', label: 'Nom'},
+      {key: 'firstName', label: 'Prénom'},
+      {key: 'gender', 'label': 'H/F'},
+      {key: 'birthDate', label: 'Date de naissance'},
+      {key: 'organization', label: 'Établissement ayant délivré le master (ou diplôme équivalent) du doctorant\n(1)'},
+      {key: 'director', label: 'Directeur(s) de thèse\n(2)'},
+      {key: 'startDate', label: 'Date de début de thèse\n(3)'},
+      {key: 'endDate', label: 'Date de soutenance (pour les diplômés)\n(3)'},
+      {key: 'grant', label: 'Financement du doctorant\n(4)'},
+      {key: 'no', label: 'N° de l\'équipe interne de rattachement, le cas échéant\n(5)'}
+    ],
+    populate(models, centerId, callback) {
+      const People = models.People;
+
+      const query = [
+        {
+          $match: {
+            'academicMemberships.organization': ObjectId(centerId),
+            'distinctions.distinctionType': 'diplôme'
+          }
+        },
+        {
+          $lookup: {
+            from: 'activities',
+            localField: '_id',
+            foreignField: 'people.people',
+            as: 'activities'
+          }
+        },
+        {
+          $project: {
+            name: 1,
+            firstName: 1
+          }
+        }
+      ];
+
+      People.aggregate(query, (err, people) => {
+        if (err)
+          return callback(err);
+
+        console.log(people);
+
+        return callback(null, []);
       });
     }
   }
