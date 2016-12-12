@@ -32,17 +32,6 @@ exports.enumValueGetter = (zenum) => {
 const simpleFind = enums => value => enums && enums.find && enums.find(e => e && (e === value || e.value === value))
 
 const nestedFind = (enums, targetPath) => {
-	// Paths are made for client, which understands them layer by layer:
-	// - One ".." to get from field to object (we can always skip this one)
-	// - One ".." to get from object to array of object (we can skip this one too)
-	// - Next ".." to really get to parent object
-	// object.parent() will get to the parent object directly, which means:
-	// - First ".." can always be skipped
-	// - Second ".." can be skipped only when we have an array of children
-	// Right now, we'll just replace every "../../.." by ".." as we don't have any other case than
-	// { parentField: ..., children: [ { childField: { enum: "../../../parentField" } } ] }
-	targetPath = targetPath.replace(/^\.\.\//, '') // Remove first '..'
-	targetPath = targetPath.replace(/\.\.\/\.\./g, '..') // Remove every double '..' (refering to array of children)
 	return (value, doc) => {
 		const targetValue = targetPath.split('/').reduce((d, p) => {
 			if (p === '.') {

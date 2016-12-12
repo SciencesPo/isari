@@ -111,5 +111,34 @@ const getFieldsDescription = (baseName, schema, fullSchema) => name => {
 			layout: _getLayout(baseName + '.' + name, fieldSchema, fullSchema[name])
 		})
 	}
-	return desc
+	return fixEnumPaths(desc)
+}
+
+const fixEnumPaths = desc => _fixEnumPaths(_fixEnumPaths(desc, 'enum'), 'softenum')
+
+const _fixEnumPaths = (desc, k) => {
+	if (!desc[k]) {
+		return desc
+	}
+	if (typeof desc[k] !== 'string') {
+		return desc
+	}
+	if (desc[k].indexOf(':') === -1) {
+		return desc
+	}
+
+	// Nested enum "enumName:path"
+	// Paths are made for server, but client understands them layer by layer:
+	// - One ".." to get from field to object (we can always skip this one)
+	// - One ".." to get from object to array of object (we can skip this one too)
+	// - Next ".." to really get to parent object
+	// object.parent() will get to the parent object directly, which means:
+	// - First ".." can always be skipped
+	// - Second ".." can be skipped only when we have an array of children
+	// Right now, we'll just replace every ".." by "../.." and prepend with "../", as we don't have any other case than
+	// { parentField: ..., children: [ { childField: { enum: "../parentField" } } ] }
+	const [ enumName, path ] = desc[k].split(':')
+	return Object.assign({}, desc, {
+		[k]: enumName + ':../' + path.replace(/\.\.\//g, '../../')
+	})
 }
