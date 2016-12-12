@@ -82,7 +82,8 @@
                     "fr": "participant",
                     "en": "participant"
                 },
-                "ref": "People"
+                "ref": "People",
+                "index": true
             },
             "role": {
                 "label": {
