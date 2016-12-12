@@ -243,24 +243,22 @@ const listViewablePeople = (req, options = {}) => {
 	// External people = ALL memberships are either expired or linked to an unmonitored organization
 	const isExternal = { memberships: { $not: { $elemMatch: { $and: isInternal } } } }
 
-	// Member in date range
+	// Member in date range (like isInternal, without testing isariMonitored)
 	const isInRange = (start, end) => {
 		// in range = ! (start > membership.endDate || end < membership.startDate)
 		//          <=> start <= membership.endDate && end >= membership.startDate
-		return { 'memberships': { $elemMatch: { $and: [
-			{ orgId },
-			// membership.endDate >= start
-			{
-				$or: [
-					// we may need to handle this special case: still active membership
-					// { endDate: { $exists: false } }
-				].concat(buildDateQuery('end', '$gte', start))
-			},
-			// membership.startDate <= end
-			{
+		let inRange = [ { orgId } ]
+		if (start) {
+			inRange.push({
+				$or: buildDateQuery('end', '$gte', start).concat([{ endDate: { $exists: false } }])
+			})
+		}
+		if (end) {
+			inRange.push({
 				$or: buildDateQuery('start', '$lte', end)
-			}
-		] } } }
+			})
+		}
+		return { 'memberships': { $elemMatch: { $and: inRange } } }
 	}
 
 	const filters = includeRange
