@@ -3,6 +3,7 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 	width: 100%;
+	justify-content: space-around;
 }
 
 md-card {
@@ -10,7 +11,6 @@ md-card {
 	padding-bottom: 20px;
 	padding-top: 20px;
 	display: inline-block;
-	margin-left: 50px;
 }
 
 .orga-name {
