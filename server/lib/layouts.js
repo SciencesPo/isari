@@ -3,7 +3,7 @@
 const { getFrontSchema, RESERVED_FIELDS, FRONT_KEPT_FIELDS } = require('./schemas')
 const { readdirSync } = require('fs')
 const path = require('path')
-const { pick, merge, map, difference, isArray, isObject, isString, flatten } = require('lodash/fp')
+const { pick, merge, difference, isArray, isObject, isString } = require('lodash/fp')
 const util = require('util')
 const memoize = require('memoizee')
 
