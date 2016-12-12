@@ -40,3 +40,7 @@ md-icon {
 .md-input-suffix > a > md-icon {
   color: #E6142D;
 }
+
+.md-input-suffix {
+  text-align: right;
+}

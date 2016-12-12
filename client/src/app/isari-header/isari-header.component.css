@@ -114,3 +114,9 @@ button .tooltip:after {
 button:hover .tooltip {
 	opacity: 1;
 }
+
+.organization-name {
+	margin-left: 40px;
+	font-size: 28px;
+	height: 98px;
+}

@@ -5,12 +5,12 @@
     </a>
     <h2>ISARI</h2>
 
-    <span class="app-toolbar-filler"></span>
-
-    <div>
+    <div class="organization-name">
       <h5 *ngIf="organization?.acronym">{{ organization?.acronym }}</h5>
       <h5 *ngIf="!organization?.acronym">{{ organization?.name }}</h5>
     </div>
+
+    <span class="app-toolbar-filler"></span>
 
     <div *ngIf="logged">
       <button *ngIf="organization" [md-menu-trigger-for]="exportMenu" md-menu-item><md-icon>file_download</md-icon><div class="tooltip" id="hceres-export">Export HCERES</div></button>
