@@ -953,17 +953,22 @@ module.exports = {
             activityType: 'mob_sortante',
             people: [
               {people: key}
-            ]
+            ],
+            organizations: []
           };
 
           // TODO: phantom
           if (org)
-            activity.organizations = [
-              {
-                organization: org.name,
-                role: 'orgadaccueil'
-              }
-            ];
+            activity.organizations.push({
+              organization: org.name,
+              role: 'orgadaccueil'
+            });
+
+          if (line.researchUnit)
+            activity.organizations.push({
+              organization: line.researchUnit,
+              role: 'orgadorigine'
+            });
 
           [
             'subject',
