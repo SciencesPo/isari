@@ -15,7 +15,7 @@ const pFalse = Promise.resolve(false)
 // Helper returning a YYYY-MM-DD string for today
 // TODO cache (it shouldn't change more than once a day, right)
 const pad0 = s => (s === null || s === undefined) ? null : (String(s).length === 1 ? '0' + s : String(s))
-const isTodayOrLater = s => {
+const isFuture = s => {
 	const ref = today()
 	const [ y, m, d ] = s.split('-')
 	return y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
@@ -315,9 +315,17 @@ Who can *write* a people?
 - center admin of people's centers (academicMemberships)
 - center editor of people's centers (academicMemberships)
 */
-const isExternalPeople = p => p.populate('academicMemberships.organization').execPopulate().then(() => {
-	return !p.academicMemberships.some(m => m.endDate && isTodayOrLater(m.endDate) && m.organization.isariMonitored)
-})
+const isExternalPeople = p => (
+	p.populate('academicMemberships.organization').execPopulate()
+	.then(() => (
+		// External = no internal membership
+		!p.academicMemberships.some(m => (
+			// Internal = still active contract with monitored organization
+			(!m.endDate || isFuture(m.endDate)) && m.organization.isariMonitored
+		))
+	))
+)
+
 const canEditPeople = (req, p) => {
 	// Himself: writable
 	if (req.userId === String(p._id)) {
