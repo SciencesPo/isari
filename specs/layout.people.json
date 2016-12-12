@@ -94,7 +94,7 @@
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
-     {
+    {
         "fields":  [
             "ORCID",
             "IDREF",

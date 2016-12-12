@@ -39,11 +39,9 @@ md-icon {
 	margin-right: 0;
 }
 
-/* WARNING */
 button {
-  overflow: hidden;
+	overflow: hidden;
 }
-/* WARNING */
 
 .tooltip {
 	top: 140%;
