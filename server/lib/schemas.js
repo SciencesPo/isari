@@ -41,6 +41,7 @@ const RESERVED_FIELDS = [
 	'default',
 	'min',
 	'max',
+	'index',
 	// Additional generated technical fields
 	'multiple'
 ]
@@ -206,7 +207,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	}
 
 	// Simple fields that need no translation
-	['default', 'min', 'max'].forEach(k => {
+	['default', 'min', 'max', 'index'].forEach(k => {
 		if (desc[k]) {
 			schema[k] = desc[k]
 		}
