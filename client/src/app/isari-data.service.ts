@@ -171,7 +171,7 @@ export class IsariDataService {
 
   filterEnumValues (enumValues, term, lang) {
     return term
-      ? sortByDistance(term, enumValues, e => e.label[lang])
+      ? sortByDistance(term, enumValues, e => e.label[lang] || e.label['fr']) // TODO make default lang configurable?
       : enumValues
   }
 
