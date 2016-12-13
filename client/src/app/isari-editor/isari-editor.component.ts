@@ -33,9 +33,10 @@ export class IsariEditorComponent implements OnInit {
     private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit() {
-    // FIXME where do I get this from? Only <isari-header> knows the value right now
-    // TODO use a service
-    this.lang = 'fr';
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
 
     let $routeParams = this.route.parent
       ? Observable
