@@ -41,6 +41,7 @@ import { IsariHeaderComponent } from './isari-header/isari-header.component';
 import { IsariChartComponent } from './isari-chart/isari-chart.component';
 import { IsariChartPeopleComponent } from './isari-chart/isari-chart-people/isari-chart-people.component';
 import { IsariDownloadButtonComponent } from './isari-list/isari-download-button/isari-download-button.component';
+import { CVComponent } from './cv/cv.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { IsariDownloadButtonComponent } from './isari-list/isari-download-button
     IsariHeaderComponent,
     IsariChartComponent,
     IsariChartPeopleComponent,
-    IsariDownloadButtonComponent
+    IsariDownloadButtonComponent,
+    CVComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,18 +85,20 @@ import { IsariDownloadButtonComponent } from './isari-list/isari-download-button
       useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
       deps: [Http]
     }),
-    ToasterModule
+    ToasterModule,
   ],
   providers: [
     IsariDataService,
     UserService,
     LoggedInGuard,
-    OrganizationResolver
+    OrganizationResolver,
   ],
   entryComponents: [
     AppComponent,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+  ]
 })
 export class AppModule {
 
