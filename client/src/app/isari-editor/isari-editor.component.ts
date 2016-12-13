@@ -6,7 +6,6 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/from';
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 
@@ -42,7 +41,7 @@ export class IsariEditorComponent implements OnInit {
     let $routeParams =
       // Feature and id provided as Input: just use this
       (this.id && this.feature)
-      ? Observable.from([ { feature: this.feature, id: this.id } ])
+      ? Observable.of({ feature: this.feature, id: this.id })
       // Otherwise, feature & id can come from parent or current route
       : this.route.parent
       ? Observable
