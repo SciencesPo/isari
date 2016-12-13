@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
@@ -6,6 +6,7 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/from';
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 
@@ -16,8 +17,8 @@ import { UserService } from '../user.service';
 })
 export class IsariEditorComponent implements OnInit {
 
-  id: number;
-  feature: string;
+  @Input() id: number;
+  @Input() feature: string;
   data: any;
   layout: any;
   lang: string;
@@ -38,7 +39,12 @@ export class IsariEditorComponent implements OnInit {
       this.lang = event.lang;
     });
 
-    let $routeParams = this.route.parent
+    let $routeParams =
+      // Feature and id provided as Input: just use this
+      (this.id && this.feature)
+      ? Observable.from([ { feature: this.feature, id: this.id } ])
+      // Otherwise, feature & id can come from parent or current route
+      : this.route.parent
       ? Observable
         .combineLatest(this.route.parent.params, this.route.params)
         .map(([x, y]) => Object.assign({}, x, y))
