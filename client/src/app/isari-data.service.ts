@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/cache';
 import 'rxjs/add/operator/publishReplay';
 import { UserService } from './user.service';
-import { get } from './utils';
+import { get, sortByDistance } from './utils';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -43,7 +43,7 @@ export class IsariDataService {
 
   constructor(private http: Http, private fb: FormBuilder, private userService: UserService) {}
 
-  getHttpOptions (search: {} | null = null) {
+  getHttpOptions (search: {} = null) {
     const options = new RequestOptions({ withCredentials: true });
     options.search = new URLSearchParams();
     options.search.set('organization', this.userService.getCurrentOrganizationId());
@@ -57,7 +57,7 @@ export class IsariDataService {
     return options;
   }
 
-  getData(feature: string, id: string | undefined) {
+  getData(feature: string, id?: string) {
     if (id === undefined) {
       return this.getEmptyDataWith({
         controlType: 'object',
@@ -127,7 +127,7 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  private getSchema(feature: string, path: string | undefined = undefined) {
+  private getSchema(feature: string, path?: string) {
     if (!this.schemasCache[feature]) {
       const url = `${this.schemaUrl}/${singular[feature]}`;
       this.schemasCache[feature] = this.http.get(url, this.getHttpOptions())
@@ -169,6 +169,12 @@ export class IsariDataService {
     return url;
   }
 
+  filterEnumValues (enumValues, term) {
+    return term
+      ? sortByDistance(term, enumValues, e => e.label.fr)
+      : enumValues
+  }
+
   srcEnumBuilder(src: string, materializedPath: string) {
     const enum$ = this.getEnum(src);
     return function(terms$: Observable<string>, max, form: FormGroup) {
@@ -182,15 +188,12 @@ export class IsariDataService {
         .map(([term, enumValues]) => {
           enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
 
-          term = this.normalize(term.toLowerCase());
+         // term = this.normalize(term.toLowerCase());
           return ({
             reset: false,
-            values: (term
-              ? enumValues.filter(entry => this.normalize(entry.label.fr.toLowerCase()).indexOf(term) !== -1)
-              : enumValues)
-              .slice(0, max)
+            values: this.filterEnumValues(enumValues, term).slice(0, max)
           });
-        });        ;
+        });
 
       // observe source of nested
       if (nestedField) {

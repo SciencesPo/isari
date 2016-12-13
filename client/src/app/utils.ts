@@ -1,9 +1,29 @@
-export function get (path: string | Array<string>) {
-  if (typeof path === 'string') {
-    return get(path.split('.'));
-  }
+import damerauLevenshtein from 'talisman/metrics/distance/damerau-levenshtein';
 
-  return object => path.reduce((result, key) => result && result[key], object);
+// Words distance
+const wordsDistanceCache = {}
+export function wordsDistance (a: string, b: string): number {
+  a = a.toLowerCase()
+  b = b.toLowerCase()
+  const k = a + '$' + b
+  if (wordsDistanceCache[k] === undefined) {
+    wordsDistanceCache[k] = damerauLevenshtein(a, b)
+  }
+  // Uncomment if you want to debug enum ordering, to know why "other" gets first or whatever
+  //console.log('Distance', a, b, wordsDistanceCache[k])
+  return wordsDistanceCache[k]
+}
+export function sortByDistance<T> (str: string, words: T[], getter: (T) => string = (v) => v): T[] {
+  return words.slice().sort((a, b) => wordsDistance(str, getter(a)) - wordsDistance(str, getter(b)))
+}
+
+
+export function get (path: string | string[]) {
+  const parts =typeof path === 'string'
+    ? path.split('.')
+    : path;
+
+  return object => parts.reduce((result, key) => result && result[key], object);
 }
 
 

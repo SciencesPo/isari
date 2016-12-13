@@ -5,3 +5,4 @@ declare var System: any;
 declare var XLSX: any;
 declare module 'file-saver';
 declare module 'papaparse';
+declare module 'talisman/metrics/distance/damerau-levenshtein';
