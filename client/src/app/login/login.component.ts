@@ -33,7 +33,15 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.router.navigate(['']);
       }, error => {
-        this.errorMessage = error.message || 'unknown error';
+        if (error.error && error.error.status === 403) {
+          this.errorMessage = 'no_org error';
+        } else if (error.error && error.error.status === 401) {
+          this.errorMessage = 'login error';
+        } else if (error.message) {
+          this.errorMessage = error.message;
+        } else {
+          this.errorMessage = 'unknown error';
+        }
       });
   }
 

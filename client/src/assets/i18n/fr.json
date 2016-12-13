@@ -18,11 +18,12 @@
   "btn_login": "Connexion",
   "username": "Identifiant",
   "password": "Mot de passe",
-  "unknown error": "Erreur inconnue",
-  "Unauthorized: People Not Found": "Identifiant ou mot de passe incorrect",
   "externals": "Externes",
   "members": "Membres",
   "others" : "Autres",
   "resume": "Mon CV",
-  "save": "Sauvegarder"
+  "save": "Sauvegarder",
+  "unknown error": "Erreur inconnue",
+  "login error": "Authentification impossible : identifiant ou mot de passe incorrect",
+  "no_org error": "Accès interdit : aucun centre accessible"
 }

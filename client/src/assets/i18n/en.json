@@ -18,11 +18,12 @@
   "btn_login": "Login",
   "username": "Username",
   "password": "Password",
-  "unknown error": "Unknown error",
-  "Unauthorized: People Not Found": "Invalid username or password",
   "externals": "Externals",
   "members": "Members",
   "others" : "Others",
   "resume": "My Resume",
-  "save": "Save"
+  "save": "Save",
+  "unknown error": "Unknown error",
+  "login error": "Authentication failed: invalid id or password",
+  "no_org error": "Forbidden access: no accessible center"
 }
