@@ -6,7 +6,7 @@ const auth = require('../lib/auth')
 const { People, Organization } = require('../lib/model')
 const { format } = require('../lib/model-utils')
 const { UnauthorizedError } = require('../lib/errors')
-const { computeRestrictedFields } = require('../lib/permissions')
+const { computeRestrictedFields, getPeopleOrgRoles } = require('../lib/permissions')
 const config = require('config')
 
 
@@ -45,12 +45,19 @@ const parseForm = bodyParser.urlencoded({
 router.post('/login', parseJson, parseForm, (req, res, next) => {
 	const { login, password } = req.body
 	auth(login, password)
+	.then(people => (
+		Promise.resolve(getPeopleOrgRoles(people)).then(roles => (
+			Object.keys(roles).length === 0
+				? Promise.reject({ message: 'No accessible organization', status: 403 })
+				: people
+		))
+	))
 	.then(populateAndFormatPeople)
 	.then(people => {
 		req.session.login = login
 		res.send({ login, people })
 	})
-	.catch(err => next(UnauthorizedError({ title: err.message })))
+	.catch(err => next(UnauthorizedError({ title: err.message, status: err.status })))
 })
 
 router.post('/logout', parseJson, parseForm, (req, res) => {

@@ -71,7 +71,7 @@ const buildDateQuery = (dateField, op, d) => {
 
 // Extract roles from isariAuthorizedCenters
 // People => Object(OrganizationID, Role)
-const getRoles = (people) => {
+const getRoles = exports.getPeopleOrgRoles = people => {
 	const roles = {}
 	people.isariAuthorizedCenters.forEach(({ organization, isariRole: role }) => {
 		// Some isariAuthorizedCenters can have no "organization" set to define a central role
