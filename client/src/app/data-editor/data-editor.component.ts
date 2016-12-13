@@ -17,6 +17,7 @@ export class DataEditorComponent implements OnInit {
   @Input() label: string = '';
   @Input() feature: string;
   @Input() multiple: boolean;
+  @Input() lang: string;
   @Input() saveShortcut: Array<string> = ['Ctrl+s'];
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onSave = new EventEmitter<any>();

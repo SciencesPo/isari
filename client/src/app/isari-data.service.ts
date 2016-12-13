@@ -169,13 +169,13 @@ export class IsariDataService {
     return url;
   }
 
-  filterEnumValues (enumValues, term) {
+  filterEnumValues (enumValues, term, lang) {
     return term
-      ? sortByDistance(term, enumValues, e => e.label.fr)
+      ? sortByDistance(term, enumValues, e => e.label[lang])
       : enumValues
   }
 
-  srcEnumBuilder(src: string, materializedPath: string) {
+  srcEnumBuilder(src: string, materializedPath: string, lang: string) {
     const enum$ = this.getEnum(src);
     return function(terms$: Observable<string>, max, form: FormGroup) {
 
@@ -191,7 +191,7 @@ export class IsariDataService {
          // term = this.normalize(term.toLowerCase());
           return ({
             reset: false,
-            values: this.filterEnumValues(enumValues, term).slice(0, max)
+            values: this.filterEnumValues(enumValues, term, lang).slice(0, max)
           });
         });
 

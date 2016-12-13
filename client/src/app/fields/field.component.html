@@ -13,6 +13,7 @@
         [form]="getForm()"
         [feature]="feature"
         [multiple]="multiple"
+        [lang]="lang"
         [layout]="field.layout"></isari-data-editor>
     </div>
 
@@ -99,6 +100,7 @@
       [form]="form"
       [path]="path + '.' + i"
       [multiple]="true"
+      [lang]="lang"
       [field]="getField(field)"></isari-field>
 
     <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled"><md-icon>add</md-icon> Ajouter</a>

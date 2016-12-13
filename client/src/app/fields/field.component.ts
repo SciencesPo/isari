@@ -21,6 +21,7 @@ export class FieldComponent implements OnChanges {
   @Input() form: FormGroup;
   @Input() index: number | null = null;
   @Input() path: string = '';
+  @Input() lang: string;
   @Input() multiple = false;
   @Input() feature: string;
   @Output() onUpdate = new EventEmitter<any>();
@@ -34,7 +35,8 @@ export class FieldComponent implements OnChanges {
 
       const src = this.field.enum || this.field.softenum;
       if (src) {
-        this.field.src = this.isariDataService.srcEnumBuilder(src, this.path);
+        console.log("LANG", this.lang)
+        this.field.src = this.isariDataService.srcEnumBuilder(src, this.path, this.lang);
         this.field.stringValue = this.isariDataService.getEnumLabel(src, this.path, this.form, this.form.controls[this.field.name].value);
         this.field.create = function (x) { return Observable.of(x); };
       }

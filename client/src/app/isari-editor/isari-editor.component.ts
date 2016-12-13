@@ -20,6 +20,7 @@ export class IsariEditorComponent implements OnInit {
   feature: string;
   data: any;
   layout: any;
+  lang: string;
   form: FormGroup;
 
   constructor(
@@ -32,6 +33,10 @@ export class IsariEditorComponent implements OnInit {
     private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit() {
+    // FIXME where do I get this from? Only <isari-header> knows the value right now
+    // TODO use a service
+    this.lang = 'fr';
+
     let $routeParams = this.route.parent
       ? Observable
         .combineLatest(this.route.parent.params, this.route.params)
