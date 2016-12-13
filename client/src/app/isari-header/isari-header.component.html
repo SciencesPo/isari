@@ -6,8 +6,7 @@
     <h2>ISARI</h2>
 
     <div class="organization-name">
-      <h5 *ngIf="organization?.acronym">{{ organization?.acronym }}</h5>
-      <h5 *ngIf="!organization?.acronym">{{ organization?.name }}</h5>
+      <h5 *ngIf="organizationName">{{ organizationName }}</h5>
     </div>
 
     <span class="app-toolbar-filler"></span>

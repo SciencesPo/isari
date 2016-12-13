@@ -11,10 +11,12 @@ import { UserService }  from '../user.service';
 })
 export class IsariHeaderComponent implements OnInit {
   organization: any;
+  organizationName: string;
   lang: string;
   logged: boolean = false;
   user: any = null;
 
+  @Input() overrideOrganizationName: string;
   @Input() globalOrganization: any;
 
   constructor(
@@ -25,8 +27,12 @@ export class IsariHeaderComponent implements OnInit {
     private isariDataService: IsariDataService) {}
 
   ngOnInit() {
+    this.organizationName = this.overrideOrganizationName;
     this.route.data.subscribe(({ organization }) => {
       this.organization = organization;
+      if (!this.overrideOrganizationName) {
+        this.organizationName = organization && (organization.acronym || organization.name);
+      }
     });
     this.route.url.subscribe(url => {
       const firstSegment = url[0];
