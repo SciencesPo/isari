@@ -51,7 +51,8 @@
                 "label": {
                     "fr": "Rôle",
                     "en": "Role"
-                }
+                },
+                "enum": "activityOrganizationRoles:../activityType"
             },
             "startDate": {
                 "label": {
@@ -89,7 +90,8 @@
                 "label": {
                     "fr": "Rôle",
                     "en": "Role"
-                }
+                },
+                "enum": "activityPeopleRoles:../activityType"
             },
             "startDate": {
                 "label": {
@@ -233,7 +235,7 @@
                     "fr": "Instrument de financement",
                     "en": "Funding instrument"
                 },
-                "softenum": "grantInstruments:../grantType"
+                "softenum": "grantInstruments:grantType"
             },
             "grantCall":{
                 "label":{
