@@ -56,16 +56,19 @@ export class UserService {
   }
 
   getOrganization (id: string | undefined) {
-    this.currentOrganizationId = id;
     return this.getOrganizations()
       .map(({ organizations }) => organizations.find(organization => organization.id === id));
   }
 
-  getCurrentOrganizationId() {
+  setCurrentOrganizationId (id: string) {
+    this.currentOrganizationId = id;
+  }
+
+  getCurrentOrganizationId () {
     return this.currentOrganizationId;
   }
 
-  getRestrictedFields() {
+  getRestrictedFields () {
     return this.getOrganization(this.currentOrganizationId)
       .map(organization => organization.restrictedFields);
   }

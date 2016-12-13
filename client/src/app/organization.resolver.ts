@@ -13,6 +13,7 @@ export class OrganizationResolver implements Resolve<any> {
         if (!organization) {
           this.router.navigate(['/']);
         }
+        this.userService.setCurrentOrganizationId(organization.id);
         return organization;
       });
   }
