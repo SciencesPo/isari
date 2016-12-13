@@ -1,6 +1,11 @@
 <isari-header overrideOrganizationName="Personal Space"></isari-header>
 
-<div class="app-content">
-  <isari-editor [id]="userId" feature="people"></isari-editor>
+<div class="app-content" *ngIf="ready">
+  <div *ngIf="ready">
+    <isari-editor [id]="userId" feature="people"></isari-editor>
+  </div>
+  <md-card *ngIf="!ready">
+    <md-card-content>{{ 'loading' | translate }}</md-card-content>
+  </md-card>
 </div>
 
