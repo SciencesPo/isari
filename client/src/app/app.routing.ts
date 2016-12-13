@@ -5,6 +5,7 @@ import { IsariListComponent } from './isari-list/isari-list.component';
 import { IsariEditorComponent } from './isari-editor/isari-editor.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { CVComponent } from './cv/cv.component';
 
 import { LoggedInGuard } from './logged-in.guard';
 import { OrganizationResolver } from './organization.resolver';
@@ -19,6 +20,11 @@ const isariRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'cv',
+    component: CVComponent,
+    canActivate: [ LoggedInGuard ]
   },
   {
     path: ':feature',
