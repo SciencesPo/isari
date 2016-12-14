@@ -27,7 +27,7 @@
       <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
         <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>
       </div>
-      <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">Obligatoire</md-hint>
+      <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">{{ 'mandatory' | translate }}</md-hint>
     </div>
   </div>
 

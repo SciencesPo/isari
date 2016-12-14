@@ -25,5 +25,6 @@
   "save": "Sauvegarder",
   "unknown error": "Erreur inconnue",
   "login error": "Authentification impossible : identifiant ou mot de passe incorrect",
-  "no_org error": "Accès interdit : aucun centre accessible"
+  "no_org error": "Accès interdit : aucun centre accessible",
+  "mandatory": "Obligatoire"
 }
