@@ -518,11 +518,11 @@ module.exports = {
 
                 jurySet.add(jury.people);
 
-                if (jury.president)
+                if (person.president)
                   jury.role = 'presidentjury';
-                else if (jury.director)
+                else if (person.director)
                   jury.role = 'directeur';
-                else if (jury.reporter)
+                else if (person.reporter)
                   jury.role = 'rapporteurjury';
                 else
                   jury.role = 'membrejury';
@@ -538,7 +538,7 @@ module.exports = {
                 if (jurySet.has(director.people))
                   return;
 
-                if (director.co)
+                if (person.co)
                   director.role = 'codirecteur';
                 else
                   director.role = 'directeur';
@@ -680,11 +680,11 @@ module.exports = {
 
                 jurySet.add(jury.people);
 
-                if (jury.president)
+                if (person.president)
                   jury.role = 'presidentjury';
-                else if (jury.director)
+                else if (person.director)
                   jury.role = 'directeur';
-                else if (jury.reporter)
+                else if (person.reporter)
                   jury.role = 'rapporteurjury';
                 else
                   jury.role = 'membrejury';
@@ -700,7 +700,7 @@ module.exports = {
                 if (jurySet.has(director.people))
                   return;
 
-                if (director.co)
+                if (person.co)
                   director.role = 'codirecteur';
                 else
                   director.role = 'directeur';
