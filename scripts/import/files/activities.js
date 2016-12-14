@@ -640,7 +640,8 @@ module.exports = {
               if (phd.subject)
                 distinction.subject = phd.subject;
 
-              peopleInfo.distinctions.push(distinction);
+              if (!!phd.endDate)
+                peopleInfo.distinctions.push(distinction);
 
               // Add gradesAcademic
               const grade = {
@@ -787,7 +788,8 @@ module.exports = {
               if (hdr.subject)
                 distinction.subject = hdr.subject;
 
-              peopleInfo.distinctions.push(distinction);
+              if (!!hdr.endDate)
+                peopleInfo.distinctions.push(distinction);
             }
           });
 
