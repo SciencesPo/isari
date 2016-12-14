@@ -19,6 +19,7 @@ export class IsariSelectComponent implements OnInit {
   @Input() name: string;
   @Input() form: FormGroup;
   @Input() label: string;
+  @Input() requirement: string;
   @Input() description: string;
   @Input() src: Function;
   @Input() api: string;
