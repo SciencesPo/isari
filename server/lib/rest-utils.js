@@ -261,7 +261,7 @@ const searchModel = (esIndex, Model, format) => req => {
 				const head = ids.map(id => items.find(({ _id }) => id === _id))
 				// Exclude unmatched elements, if that happens, maxSize was too low or index is out of sync
 				const filteredHead = head.filter(Boolean)
-				if (filteredHead.length !== head.length) {
+				if (items.length < size && filteredHead.length !== head.length) {
 					console.warn(chalk.red(`${chalk.bold('WARNING')}: ES query returned elements unmatched by TopX query, you should increase elasticsearch.maxSize configuration option, or check indices are still well synced`)) // eslint-disable-line no-console
 				}
 				// … then standard results (only work on enough data, no need to browse the 5000 items now)
