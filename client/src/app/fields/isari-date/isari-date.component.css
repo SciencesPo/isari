@@ -35,3 +35,11 @@ md-icon {
 .md-input-table {
   width: 100%;
 }
+
+.md-input-suffix {
+  text-align: right;
+}
+
+.recommended-field {
+  color: #777;
+}

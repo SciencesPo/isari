@@ -25,5 +25,7 @@
   "save": "Save",
   "unknown error": "Unknown error",
   "login error": "Authentication failed: invalid id or password",
-  "no_org error": "Forbidden access: no accessible center"
+  "no_org error": "Forbidden access: no accessible center",
+  "mandatory": "Mandatory",
+  "recommended": "Recommended"
 }
