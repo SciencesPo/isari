@@ -637,6 +637,9 @@ module.exports = {
               if (phd.cotutelle)
                 distinction.organizations.push(phd.cotutelle);
 
+              if (phd.subject)
+                distinction.subject = phd.subject;
+
               peopleInfo.distinctions.push(distinction);
 
               // Add gradesAcademic
@@ -780,6 +783,9 @@ module.exports = {
 
               if (hdr.cotutelle)
                 distinction.organizations.push(hdr.cotutelle);
+
+              if (hdr.subject)
+                distinction.subject = hdr.subject;
 
               peopleInfo.distinctions.push(distinction);
             }
