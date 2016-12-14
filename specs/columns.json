@@ -1,7 +1,16 @@
 {
   "people": {
     "defaults": ["firstName","name","academicMemberships","positions"],
-    "selector": ["-tags"]
+    "selector": [
+      "-tags",
+      {
+        "key": "numberOfAffiliations",
+        "label": {
+          "fr": "Nb. affiliations",
+          "en": "# memberships"
+        }
+      }
+    ]
   },
   "activities": {
     "defaults": ["acronym","name","activityType","startDate","endDate"],

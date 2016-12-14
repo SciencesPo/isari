@@ -161,10 +161,12 @@ export class IsariDataService {
       const removedColumns = info['selector']
         .filter(col => typeof col === 'string' && col[0] === '-')
         .map(col => col.substring(1));
-      const columns = Object.keys(schema)
+      const reals = Object.keys(schema)
         .filter(key => removedColumns.indexOf(key) === -1)
         .map(key => ({ key, label: schema[key].label }));
-      return columns;
+      const virtuals = info['selector']
+        .filter(col => typeof col === 'object' && col.key && col.label)
+      return reals.concat(virtuals);
     });
   }
 
