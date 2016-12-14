@@ -27,5 +27,9 @@
   "login error": "Authentification impossible : identifiant ou mot de passe incorrect",
   "no_org error": "Accès interdit : aucun centre accessible",
   "mandatory": "Obligatoire",
-  "recommended": "Recommandé"
+  "recommended": "Recommandé",
+  "day": "Jour",
+  "month": "Mois",
+  "year": "Année",
+  "personal-space": "Espace Personnel"
 }

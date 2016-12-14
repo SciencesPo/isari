@@ -27,5 +27,9 @@
   "login error": "Authentication failed: invalid id or password",
   "no_org error": "Forbidden access: no accessible center",
   "mandatory": "Mandatory",
-  "recommended": "Recommended"
+  "recommended": "Recommended",
+  "day": "Day",
+  "month": "Month",
+  "year": "Year",
+  "personal-space": "Personal Space"
 }
