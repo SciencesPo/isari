@@ -307,6 +307,13 @@
                     "fr": "rapporteur",
                     "en": ""
                 }
+            },
+            {
+                "value": "doctorant(role)",
+                "label": {
+                    "fr": "doctorant",
+                    "en": ""
+                }
             }
         ],
         "projetderecherche": [
@@ -381,6 +388,13 @@
                 "value": "rapporteurjury",
                 "label": {
                     "fr": "rapporteur",
+                    "en": ""
+                }
+            },
+            {
+                "value": "doctorant(role)",
+                "label": {
+                    "fr": "doctorant",
                     "en": ""
                 }
             }
