@@ -1,5 +1,14 @@
 {
-  "people": ["firstName","name","academicMemberships","positions"],
-  "activities": ["acronym","name","activityType","startDate","endDate"],
-  "organizations": ["name","acronym","countries"]
+  "people": {
+    "defaults": ["firstName","name","academicMemberships","positions"],
+    "selector": ["-tags"]
+  },
+  "activities": {
+    "defaults": ["acronym","name","activityType","startDate","endDate"],
+    "selector": []
+  },
+  "organizations": {
+    "defaults": ["name","acronym","countries"],
+    "selector": []
+  }
 }
