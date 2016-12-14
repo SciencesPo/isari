@@ -1,6 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { matchKeyCombo } from '../utils';
 
 @Component({
   selector: 'isari-data-editor',
@@ -18,25 +17,14 @@ export class DataEditorComponent implements OnInit {
   @Input() feature: string;
   @Input() multiple: boolean;
   @Input() lang: string;
-  @Input() saveShortcut: Array<string> = ['Ctrl+s'];
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onSave = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
 
-  private pressedSaveShortcut: Function;
-
   constructor() {}
 
   ngOnInit() {
-    this.pressedSaveShortcut = matchKeyCombo(this.saveShortcut);
-  }
 
-  @HostListener('window:keydown', ['$event'])
-  onKeydown($event) {
-    if (this.pressedSaveShortcut($event)) {
-      $event.preventDefault();
-      this.save($event);
-    }
   }
 
   update($event) {

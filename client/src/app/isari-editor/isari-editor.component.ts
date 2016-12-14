@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
@@ -8,6 +8,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
+import { matchKeyCombo } from '../utils';
 
 @Component({
   selector: 'isari-editor',
@@ -18,10 +19,13 @@ export class IsariEditorComponent implements OnInit {
 
   @Input() id: number;
   @Input() feature: string;
+  @Input() saveShortcut: Array<string> = ['Ctrl+s'];
   data: any;
   layout: any;
   lang: string;
   form: FormGroup;
+
+  private pressedSaveShortcut: Function;
 
   constructor(
     private router: Router,
@@ -37,6 +41,8 @@ export class IsariEditorComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+
+    this.pressedSaveShortcut = matchKeyCombo(this.saveShortcut);
 
     let $routeParams =
       // Feature and id provided as Input: just use this
@@ -79,6 +85,14 @@ export class IsariEditorComponent implements OnInit {
         }
       });
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeydown($event) {
+    if (this.pressedSaveShortcut($event)) {
+      $event.preventDefault();
+      this.save($event);
+    }
   }
 
   save($event) {

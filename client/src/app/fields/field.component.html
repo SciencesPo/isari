@@ -4,7 +4,6 @@
 
     <div *ngSwitchCase="'object'">
       <isari-data-editor [class.multiple]="multiple"
-        [saveShortcut]="[]"
         (onDelete)="remove($event)"
         (onUpdate)="update($event)"
         [path]="path + (multiple ? '' : '.' + field.name)"
