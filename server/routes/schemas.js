@@ -4,11 +4,11 @@ const { Router } = require('express')
 const { NotFoundError } = require('../lib/errors')
 const { restHandler } = require('../lib/rest-utils')
 const { getFrontSchema } = require('../lib/schemas')
-const { scopeOrganizationMiddleware } = require('../lib/permissions')
+const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 
 
 module.exports = Router()
-.get('/:name', scopeOrganizationMiddleware, restHandler(getSchema))
+.get('/:name', requiresAuthentication, scopeOrganizationMiddleware, restHandler(getSchema))
 
 function getSchema (req) {
 	return req.userCanViewConfidentialFields()

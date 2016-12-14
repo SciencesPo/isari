@@ -4,11 +4,11 @@ const { Router } = require('express')
 const { ClientError } = require('../lib/errors')
 const { restHandler } = require('../lib/rest-utils')
 const { getLayout } = require('../lib/layouts')
-const { scopeOrganizationMiddleware } = require('../lib/permissions')
+const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 
 
 module.exports = Router()
-.get('/:name', scopeOrganizationMiddleware, restHandler(sendLayout))
+.get('/:name', requiresAuthentication, scopeOrganizationMiddleware, restHandler(sendLayout))
 
 function sendLayout (req) {
 	return req.userCanViewConfidentialFields()

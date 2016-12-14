@@ -143,7 +143,6 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
 		req.userComputeRestrictedFields = modelName => computeRestrictedFieldsShort(modelName, req)
 
-		debug(req.userRoles)
 		next()
 	})
 }
@@ -191,6 +190,16 @@ exports.scopeOrganizationMiddleware = (req, res, next) => {
 	req.userScopeOrganizationId = null
 	next()
 }
+
+// Restricted access middleware
+exports.requiresAuthentication = (req, res, next) => {
+	if (req.session.login) {
+		next()
+	} else {
+		next(UnauthorizedError({ title: 'Authentication required for this API' }))
+	}
+}
+
 
 // Return viewable people for current user, scope included
 /*
