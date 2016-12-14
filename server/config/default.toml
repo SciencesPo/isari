@@ -31,6 +31,8 @@ url = 'mongodb://localhost/isari'
 host = 'localhost:9200'
 apiVersion = '2.3'
 index = 'isari'
+defaultSize = 10
+maxSize = 5000
 
 [ldap]
 url = 'ldap://ldap.sciences-po.fr'

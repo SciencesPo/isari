@@ -13,8 +13,8 @@ const client = module.exports = promisify(new Client(config.elasticsearch))
 
 // Handy shortcuts
 
-client.q = (type, query, includeInfo = false) => {
-	const body = { query }
+client.q = ({ type, query, size = config.elasticsearch.defaultSize, includeInfo = false }) => {
+	const body = { query, size }
 	const options = {
 		index: config.elasticsearch.index,
 		type,
@@ -31,7 +31,7 @@ client.q = (type, query, includeInfo = false) => {
 }
 
 // Query builder for auto-complete
-client.q.forSuggestions = (type, { query, fields = [] }, includeInfo = false) => {
+client.q.forSuggestions = ({ type, query, size = config.elasticsearch.defaultSize, fields = [], includeInfo = false }) => {
 	query =
 	// Extract terms from query string
 	// TODO support complex queries with quotes 'n co
@@ -46,10 +46,10 @@ client.q.forSuggestions = (type, { query, fields = [] }, includeInfo = false) =>
 	// Re-build query
 	.join(' OR ')
 
-	return client.q(type, { query_string: { query, fields, fuzziness: 2 } }, includeInfo)
+	return client.q({ type, query: { query_string: { query, fields, fuzziness: 2 } }, size, includeInfo })
 }
 
-client.q.top = (type, { field, size = 10 }, includeInfo = false) => {
+client.q.top = ({ type, field, size = config.elasticsearch.defaultSize, includeInfo = false }) => {
 	const index = config.elasticsearch.index
 	const body = {
 		size: 0,

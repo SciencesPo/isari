@@ -11,6 +11,7 @@ const { requiresAuthentication, scopeOrganizationMiddleware } = require('./permi
 const removeEmptyFields = require('./remove-empty-fields')
 const { getMeta } = require('./specs')
 const config = require('config')
+const chalk = require('chalk')
 
 
 const restHandler = exports.restHandler = fn => (req, res, next) => {
@@ -215,6 +216,7 @@ const searchModel = (esIndex, Model, format) => req => {
 	// Note: all these options
 	let topX = null
 	let topXField = null
+	let topXIndex = null
 	if (fuzzy && req.query.path && (req.query.sourceModel || req.query.rootFeature)) {
 		const path = req.query.path
 		const sourceModel = req.query.sourceModel || getModelFromFeature(req.query.rootFeature)
@@ -233,20 +235,42 @@ const searchModel = (esIndex, Model, format) => req => {
 			if (typeof field.suggestions === 'string' && field.suggestions.match(/^top_\d+$/)) {
 				topX = Number(field.suggestions.substring(4))
 				topXField = path.replace(/\.\d+\./g, '.')
-				esIndex = config.collections[sourceModel] // Do not request 'organization' index when we want the tops in 'people'
+				topXIndex = config.collections[sourceModel] // Do not request 'organization' index when we want the tops in 'people'
 			}
 		}
 	}
 
-	return (topX
-			? es.q.top(esIndex, { field: topXField, size: topX})
-				.then(({ hits: ids }) => {
-					return Model.find({ _id: { $in: ids } })
-				})
-			: fuzzy
-			? es.q.forSuggestions(esIndex, { query, fields })
-			: es.q(esIndex, { query_string: { query, fields } })
-		)
+	// We can't ask elasticsearch "give me the <esIndex>s matching <query>, sorted by most used value in <topXIndex>'s <path>"
+	// We can only get matched items from esIndex on one hand, and the top used values on the other one,
+	// then mix both to sort by most used value.
+	// If top used values were supposed to match query BUT are placed after the <size> first results, they
+	// will just disappear. So we have to use huge size for base query and slice after sorting by top used values.
+	const resultSize = config.elasticsearch.defaultSize
+	const size = topX ? config.elasticsearch.maxSize : resultSize
+
+	const itemsP = fuzzy
+		? es.q.forSuggestions({ type: esIndex, size, query, fields })
+		: es.q({ type: esIndex, size, query: { query_string: { query, fields } } })
+
+	const sortedItemsP = topX
+		? es.q.top({ type: topXIndex, field: topXField, size: topX })
+			.then(({ hits: ids }) => itemsP.then(items => {
+				debug({ esIndex, topXIndex, topXField, topXHits: ids })
+				// Top X first…
+				const head = ids.map(id => items.find(({ _id }) => id === _id))
+				// Exclude unmatched elements, if that happens, maxSize was too low or index is out of sync
+				const filteredHead = head.filter(Boolean)
+				if (filteredHead.length !== head.length) {
+					console.warn(chalk.red(`${chalk.bold('WARNING')}: ES query returned elements unmatched by TopX query, you should increase elasticsearch.maxSize configuration option, or check indices are still well synced`)) // eslint-disable-line no-console
+				}
+				// … then standard results (only work on enough data, no need to browse the 5000 items now)
+				const tail = items.slice(0, resultSize + filteredHead.length).filter(({ _id }) => !ids.includes(_id))
+				return filteredHead.concat(tail)
+			}))
+		: itemsP
+
+	return sortedItemsP
+		.then(results => results.slice(0, resultSize))
 		.then(map(o => full
 			? format(o)
 			: { value: o._id, label: applyTemplates(o, Model.modelName, 0) }
