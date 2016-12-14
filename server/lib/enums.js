@@ -101,3 +101,22 @@ const getSimpleEnumValues = exports.getSimpleEnumValues = memoize(name => {
 	// Other cases: no need to reformat
 	return enums[name] || null
 })
+
+exports.formatEnum = (name, value, customize) => {
+	if (name.indexOf(':') !== -1) {
+		throw new Error(`Templates: Cannot format nested enums`)
+	}
+
+	const found = simpleFind(getSimpleEnumValues(name))(value)
+	if (found && customize && typeof found.label === 'object') {
+		let labels = Object.assign({}, found.label)
+		for (let lang in labels) {
+			labels[lang] = customize(labels[lang])
+		}
+		return Object.assign({}, found, { label: labels })
+	} else if (found) {
+		return found
+	} else {
+		return null
+	}
+}

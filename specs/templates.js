@@ -1,5 +1,7 @@
 'use strict'
 
+const { formatEnum } = require('../server/lib/enums')
+
 // Date parsing
 const date = string => {
 	const [ year, month, day ] = string.split('-')
@@ -35,15 +37,17 @@ function organizationDates(p){
 }
 
 // personnalActivities
-function personalActivity(p){
-	let label = p.personalActivityType
-	if(p.startDate){
-		label += " "+year(p.startDate)
-	}
-	if(p.endDate){
-		label+=`-${year(p.endDate)}`
-	}
-	return label
+function personalActivity(p) {
+	return formatEnum('personalActivityTypes', p.personalActivityType, label => {
+		if (p.startDate && p.endDate) {
+			label += ' ' + year(p.startDate) + '-' + year(p.endDate)
+		} else if (p.startDate) {
+			label += ' ' + year(p.startDate) + '-…'
+		} else if (p.endDate) {
+			label += ' …-' + year(p.endDate)
+		}
+		return label
+	})
 }
 
 // distinctions
