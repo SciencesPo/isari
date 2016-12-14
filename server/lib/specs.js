@@ -1,7 +1,10 @@
 'use strict'
 
+const virtuals = require('../../specs/columns.virtual')
+
 module.exports = {
-	getMeta
+	getMeta,
+	getVirtualColumn
 }
 
 
@@ -10,4 +13,8 @@ function getMeta (name) {
 	name = name.toLowerCase()
 
 	return require(`../../specs/schema.${name}.json`)
+}
+
+function getVirtualColumn (name) {
+	return virtuals[name] || null
 }
