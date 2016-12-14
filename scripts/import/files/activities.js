@@ -1008,6 +1008,9 @@ module.exports = {
           let match = indexes.name[org.name];
 
           if (!match)
+            match = indexes.acronym[org.name];
+
+          if (!match)
             match = indexes.fingerprint[key];
 
           if (match)
