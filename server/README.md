@@ -89,6 +89,10 @@ npm install --production
 		* `fields`: comma-separated list of fields to limit search to (default: all)
 		* `full`: set to 1 to get full items instead of auto-complete items (default: 0)
 		* `raw`: set to 1 to use query-string as-is (default: 0, query-string is transformed to enable prefix-search and fuzziness)
+		* Used on 'ref' fields for suggestions based on top used values:
+			* `path`: the path of the field we ask suggestions for (e.g. `positions.3.organization` or `parentOrganizations.0`)
+			* `sourceModel`: the name of the model containing the asked path (e.g. `People` or `Organization`) while the index we're querying to get results is given by `:collection`
+			* `rootFeature`: the name of the frontend feature to be translated into `sourceModel` if the latter is not provided (e.g. `people` or `organizations`)
 
 **Valid collections**:
 

@@ -228,13 +228,14 @@ const searchModel = (esIndex, Model, format) => req => {
 		// path can have numbers for arrays, like 'positions.3.organization'
 		// it's OK cause it means schema will be like { positions: [ { organization: … } ], … }
 		// we just have to replace all of them as zero to match schema structure
-		const field = get(path.replace(/\.\d+\./g, '.0.'), schema)
+		const fixedPath = path.replace(/\.\d+(\.|$)/g, '.0$1')
+		const field = get(fixedPath, schema)
 		// Got field description and it has suggestions info
 		if (field && field.suggestions) {
 			// Is it a top_X suggestion?
 			if (typeof field.suggestions === 'string' && field.suggestions.match(/^top_\d+$/)) {
 				topX = Number(field.suggestions.substring(4))
-				topXField = path.replace(/\.\d+\./g, '.')
+				topXField = fixedPath.replace(/\.0(\.|$)/g, '$1')
 				topXIndex = config.collections[sourceModel] // Do not request 'organization' index when we want the tops in 'people'
 			}
 		}
