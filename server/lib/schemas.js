@@ -343,5 +343,9 @@ const _fixNestedEnumPath = (desc, k, frontend) => {
 		newPath = '../' + path.replace(/\.\.\//g, '../../')
 	}
 
+	// "./" can be added for legibility (and easier search/replace), but
+	// it's just neutral and should be removed from final result
+	newPath = newPath.replace(/(^|[^\.])\.\//g, '$1')
+
 	return Object.assign({}, desc, { [k]: enumName + ':' + newPath })
 }
