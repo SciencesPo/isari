@@ -92,7 +92,7 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 	debug(`${name}: Normal field`)
 
 	const isArray = Array.isArray(meta)
-	const desc = isArray ? meta[0] : meta
+	const desc = fixNestedEnumPath(isArray ? meta[0] : meta, false)
 
 	// All non-reserved fields are considered subfields
 	const subFields = Object.keys(desc).filter(subField => {
@@ -228,7 +228,7 @@ function getFrontSchema (name, includeRestricted = false) {
 
 function formatMeta (meta, includeRestricted = false) {
 	const multiple = Array.isArray(meta)
-	const desc = multiple ? meta[0] : meta
+	const desc = fixNestedEnumPath(multiple ? meta[0] : meta, true)
 	let isObject = false
 
 	const handleField = (result, name) => {
@@ -310,4 +310,38 @@ function _computeConfidentialPaths (desc, currPath = '') {
 		}
 		return result.concat(_computeConfidentialPaths(desc[field], currPath + '.' + field))
 	}, result)
+}
+
+const fixNestedEnumPath = (desc, frontend = false) =>
+	_fixNestedEnumPath(_fixNestedEnumPath(desc, 'enum', frontend), 'softenum', frontend)
+
+const _fixNestedEnumPath = (desc, k, frontend) => {
+	if (!desc[k]) {
+		return desc
+	}
+	if (typeof desc[k] !== 'string') {
+		return desc
+	}
+	if (desc[k].indexOf(':') === -1) {
+		return desc
+	}
+
+	const [ enumName, path ] = desc[k].split(':')
+	let newPath = path
+
+	if (frontend) {
+		// Nested enum "enumName:path"
+		// Paths are made for server, but client understands them layer by layer:
+		// - One ".." to get from field to object (we can always skip this one)
+		// - One ".." to get from object to array of object (we can skip this one too)
+		// - Next ".." to really get to parent object
+		// object.parent() will get to the parent object directly, which means:
+		// - First ".." can always be skipped
+		// - Second ".." can be skipped only when we have an array of children
+		// Right now, we'll just replace every ".." by "../.." and prepend with "../", as we don't have any other case than
+		// { parentField: ..., children: [ { childField: { enum: "../parentField" } } ] }
+		newPath = '../' + path.replace(/\.\.\//g, '../../')
+	}
+
+	return Object.assign({}, desc, { [k]: enumName + ':' + newPath })
 }
