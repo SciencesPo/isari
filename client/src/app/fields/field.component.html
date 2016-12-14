@@ -96,6 +96,7 @@
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index"
       (onUpdate)="update($event)"
       [feature]="feature"
+      [rootFeature]="rootFeature"
       [index]="i"
       [form]="form"
       [path]="path + '.' + i"

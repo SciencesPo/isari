@@ -222,13 +222,13 @@ export class IsariDataService {
       });
   }
 
-  srcForeignBuilder(src: string, path: string) {
+  srcForeignBuilder(src: string, path?: string, feature?: string) {
     return (terms$: Observable<string>, max) =>
       terms$
       .startWith('')
       .debounceTime(400) // pass as parameter ?
       .distinctUntilChanged()
-      .switchMap(term => this.rawSearch(src, term, path))
+      .switchMap(term => this.rawSearch(src, term, path, feature))
   }
 
   // @TODO handle multiple values (array of ids)
@@ -255,9 +255,9 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  rawSearch(feature: string, query: string, path?: string) {
+  rawSearch(feature: string, query: string, path?: string, rootFeature?: string) {
     const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/search`;
-    return this.http.get(url, this.getHttpOptions({ q: query || '*', path }))
+    return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature }))
       .map(response => response.json())
       .map(items => ({
         reset: false,
