@@ -195,7 +195,6 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		}
 	}
 
-
 	// Basic enum validation set? Add support for empty values if field is not required
 	if (schema.enum && !schema.required) {
 		schema.enum = schema.enum.slice().concat([ '', null ])

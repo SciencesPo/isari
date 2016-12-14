@@ -1,13 +1,13 @@
 'use strict'
 
 const { Router } = require('express')
-const { ClientError, NotFoundError, UnauthorizedError } = require('./errors')
+const { ClientError, NotFoundError } = require('./errors')
 const { identity, set, map, pick, difference } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery, filterConfidentialFields } = require('./model-utils')
 const debug = require('debug')('isari:rest')
-const { scopeOrganizationMiddleware } = require('./permissions')
+const { requiresAuthentication, scopeOrganizationMiddleware } = require('./permissions')
 const removeEmptyFields = require('./remove-empty-fields')
 
 
@@ -58,14 +58,6 @@ const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 		Promise.resolve(format(applyTemplates ? o.applyTemplates() : o, perms))
 		.then(set('opts', { editable: perms.editable }))
 	)
-
-const requiresAuthentication = (req, res, next) => {
-	if (req.session.login) {
-		next()
-	} else {
-		next(UnauthorizedError({ title: 'Authentication required for this API' }))
-	}
-}
 
 // buildListQuery can be a function returning an object { query: PromiseOfMongooseQuery } (embedding in an object to not accidentally convert query into a promise of Results)
 exports.restRouter = (Model, format, esIndex, getPermissions, buildListQuery = null) => {

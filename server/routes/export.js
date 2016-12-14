@@ -3,7 +3,6 @@
 const XLSX = require('xlsx')
 const { Router } = require('express')
 const { ClientError, ServerError } = require('../lib/errors')
-// const { scopeOrganizationMiddleware } = require('../lib/permissions')
 const models = require('../lib/model')
 
 // Routines
