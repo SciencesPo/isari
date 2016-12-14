@@ -175,10 +175,15 @@ module.exports = {
 
           // TODO: add a role
 
-          if (line.startDate)
+          if (line.startDate) {
+            activityInfo.startDate = line.startDate;
             activityInfo.people[0].startDate = line.startDate;
-          if (line.endDate)
+          }
+
+          if (line.endDate) {
+            activityInfo.endDate = line.endDate;
             activityInfo.people[0].endDate = line.endDate;
+          }
 
           // Target organization
           if (line.organizations) {

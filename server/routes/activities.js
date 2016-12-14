@@ -6,8 +6,8 @@ const { format } = require('../lib/model-utils')
 const { getPermissions } = require('../lib/permissions')
 
 
-const formatObject = (a, perms) => format('Activity', a, perms)
+const formatObject = (a, perms) => format(Activity.modelName, a, perms)
 
 const buildListQuery = (req) => req.userListViewableActivities()
 
-module.exports = restRouter(Activity, formatObject, 'activities', getPermissions.Activity, buildListQuery)
+module.exports = restRouter(Activity, formatObject, getPermissions.Activity, buildListQuery)

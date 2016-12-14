@@ -25,6 +25,7 @@ export class FieldComponent implements OnChanges {
   @Input() multiple = false;
   @Input() feature: string;
   @Output() onUpdate = new EventEmitter<any>();
+  @Input() rootFeature: string;
 
   constructor(private isariDataService: IsariDataService) {}
 
@@ -40,8 +41,9 @@ export class FieldComponent implements OnChanges {
         this.field.create = function (x) { return Observable.of(x); };
       }
       if (this.field.ref) {
+        console.log(this.path, this.rootFeature)
         this.field.api = this.isariDataService.getSchemaApi(this.field.ref);
-        this.field.src = this.isariDataService.srcForeignBuilder(this.field.ref);
+        this.field.src = this.isariDataService.srcForeignBuilder(this.field.ref, this.path, this.rootFeature);
         this.field.stringValue = this.isariDataService.getForeignLabel(this.field.ref, this.form.controls[this.field.name].value);
         this.field.create = this.isariDataService.getForeignCreate(this.field.ref);
       }
