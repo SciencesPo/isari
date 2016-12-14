@@ -3,6 +3,7 @@
 id = ''
 name = 'Sciences Po'
 
+# Match collection names to API endpoints and ES indices
 [collections]
 People = 'people'
 Activity = 'activities'

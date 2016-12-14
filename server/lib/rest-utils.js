@@ -2,13 +2,15 @@
 
 const { Router } = require('express')
 const { ClientError, NotFoundError } = require('./errors')
-const { identity, set, map, pick, difference } = require('lodash/fp')
+const { identity, set, map, pick, difference, get } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery, filterConfidentialFields } = require('./model-utils')
 const debug = require('debug')('isari:rest')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('./permissions')
 const removeEmptyFields = require('./remove-empty-fields')
+const { getMeta } = require('./specs')
+const config = require('config')
 
 
 const restHandler = exports.restHandler = fn => (req, res, next) => {
@@ -60,12 +62,13 @@ const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	)
 
 // buildListQuery can be a function returning an object { query: PromiseOfMongooseQuery } (embedding in an object to not accidentally convert query into a promise of Results)
-exports.restRouter = (Model, format, esIndex, getPermissions, buildListQuery = null) => {
+exports.restRouter = (Model, format, getPermissions, buildListQuery = null) => {
 	const save = saveDocument(format)
 	const router = Router()
 
 	const parseJson = bodyParser.json()
 
+	const esIndex = config.collections[Model.modelName]
 	if (esIndex) {
 		router.get('/search', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(searchModel(esIndex, Model, format, getPermissions)))
 	}
@@ -194,13 +197,53 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 	})
 
 // TODO apply permissions filter & co
+// Examples:
+// - /people/search?q=Bob
+// - /organizations/search?q=FNSP&path=positions.0.organization&rootFeature=people
 const searchModel = (esIndex, Model, format) => req => {
 	const query = req.query.q || '*'
 	const fields = req.query.fields ? req.query.fields.split(',') : undefined
 	const full = Boolean(Number(req.query.full))
 	const fuzzy = !Number(req.query.raw)
 
-	return (fuzzy
+	// Check params
+	if (fuzzy && req.query.path && !req.query.sourceModel && !req.query.rootFeature) {
+		return Promise.reject(ClientError({ title: 'Fuzzy query with path but no sourceModel or rootFeature provided' }))
+	}
+
+	// Tweak suggestions depending on field info
+	// Note: all these options
+	let topX = null
+	let topXField = null
+	if (fuzzy && req.query.path && (req.query.sourceModel || req.query.rootFeature)) {
+		const path = req.query.path
+		const sourceModel = req.query.sourceModel || getModelFromFeature(req.query.rootFeature)
+		if (!sourceModel) {
+			return Promise.reject(ClientError({ title: 'Could not find Model from provided sourceModel or rootFeature' }))
+		}
+
+		const schema = getMeta(sourceModel)
+		// path can have numbers for arrays, like 'positions.3.organization'
+		// it's OK cause it means schema will be like { positions: [ { organization: … } ], … }
+		// we just have to replace all of them as zero to match schema structure
+		const field = get(path.replace(/\.\d+\./g, '.0.'), schema)
+		// Got field description and it has suggestions info
+		if (field && field.suggestions) {
+			// Is it a top_X suggestion?
+			if (typeof field.suggestions === 'string' && field.suggestions.match(/^top_\d+$/)) {
+				topX = Number(field.suggestions.substring(4))
+				topXField = path.replace(/\.\d+\./g, '.')
+				esIndex = config.collections[sourceModel] // Do not request 'organization' index when we want the tops in 'people'
+			}
+		}
+	}
+
+	return (topX
+			? es.q.top(esIndex, { field: topXField, size: topX})
+				.then(({ hits: ids }) => {
+					return Model.find({ _id: { $in: ids } })
+				})
+			: fuzzy
 			? es.q.forSuggestions(esIndex, { query, fields })
 			: es.q(esIndex, { query_string: { query, fields } })
 		)
@@ -209,3 +252,7 @@ const searchModel = (esIndex, Model, format) => req => {
 			: { value: o._id, label: applyTemplates(o, Model.modelName, 0) }
 		))
 }
+
+
+const getModelFromFeature = feature =>
+	Object.keys(config.collections).find(k => config.collections[k] === feature)

@@ -49,11 +49,11 @@ client.q.forSuggestions = (type, { query, fields = [] }, includeInfo = false) =>
 	return client.q(type, { query_string: { query, fields, fuzziness: 2 } }, includeInfo)
 }
 
-client.q.top = (type, field, { size = 10 }, includeInfo = false) => {
+client.q.top = (type, { field, size = 10 }, includeInfo = false) => {
 	const index = config.elasticsearch.index
 	const body = {
 		size: 0,
-		aggregations: { topx: { terms: { field, size } } }
+		aggs: { topx: { terms: { field, size } } }
 	}
 	debug('ElasticSearch (aggregation)', index, type, JSON.stringify(body))
 

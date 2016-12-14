@@ -6,7 +6,7 @@ const { format } = require('../lib/model-utils')
 const { getPermissions } = require('../lib/permissions')
 
 
-const formatObject = (p, perms) => format('People', p, perms)
+const formatObject = (p, perms) => format(People.modelName, p, perms)
 
 // Default ?include = members + externals
 const buildListQuery = (req) => req.userListViewablePeople({
@@ -17,4 +17,4 @@ const buildListQuery = (req) => req.userListViewablePeople({
 	membershipEnd: req.query.end
 })
 
-module.exports = restRouter(People, formatObject, 'people', getPermissions.People, buildListQuery)
+module.exports = restRouter(People, formatObject, getPermissions.People, buildListQuery)
