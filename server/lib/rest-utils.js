@@ -115,11 +115,10 @@ const listModel = (Model, format, getPermissions, buildListQuery = null) => req 
 		: withPopulate(Model.find())
 	return query
 		.then(data => { debug('List: Model.find', data.length + ' result(s)'); return data })
-		.then(data => { debug('List: applyTemplates', applyTemplates); return data })
-		.then(peoples => Promise.all(peoples.map(formatOne)))
-		.then(data => { debug('List: formatWithOpts'); return data })
 		.then(data => data.map(addVirtuals))
 		.then(data => { debug('List: addVirtuals'); return data })
+		.then(peoples => Promise.all(peoples.map(formatOne)))
+		.then(data => { debug('List: formatWithOpts', applyTemplates); return data })
 		.then(data => data.map(selectFields))
 		.then(data => { debug('List: selectFields', req.query.fields); return data })
 		.then(removeEmptyFields)
