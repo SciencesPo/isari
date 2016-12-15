@@ -511,12 +511,28 @@ module.exports = {
 
               const jurySet = new Set();
 
+              (phd.directors || []).forEach(person => {
+                const director = {
+                  people: hashPeople(person)
+                };
+
+                jurySet.add(director.people);
+
+                if (person.co)
+                  director.role = 'codirecteur';
+                else
+                  director.role = 'directeur';
+
+                activity.people.push(director);
+              });
+
               (phd.jury || []).forEach(person => {
                 const jury = {
                   people: hashPeople(person)
                 };
 
-                jurySet.add(jury.people);
+                if (jurySet.has(jury.people))
+                  return;
 
                 if (person.president)
                   jury.role = 'presidentjury';
@@ -528,22 +544,6 @@ module.exports = {
                   jury.role = 'membrejury';
 
                 activity.people.push(jury);
-              });
-
-              (phd.directors || []).forEach(person => {
-                const director = {
-                  people: hashPeople(person)
-                };
-
-                if (jurySet.has(director.people))
-                  return;
-
-                if (person.co)
-                  director.role = 'codirecteur';
-                else
-                  director.role = 'directeur';
-
-                activity.people.push(director);
               });
 
               if (phd.startDate) {
@@ -674,12 +674,28 @@ module.exports = {
 
               const jurySet = new Set();
 
+              (hdr.directors || []).forEach(person => {
+                const director = {
+                  people: hashPeople(person)
+                };
+
+                jurySet.add(director.people);
+
+                if (person.co)
+                  director.role = 'codirecteur';
+                else
+                  director.role = 'directeur';
+
+                activity.people.push(director);
+              });
+
               (hdr.jury || []).forEach(person => {
                 const jury = {
                   people: hashPeople(person)
                 };
 
-                jurySet.add(jury.people);
+                if (jurySet.has(jury.people))
+                  return;
 
                 if (person.president)
                   jury.role = 'presidentjury';
@@ -691,22 +707,6 @@ module.exports = {
                   jury.role = 'membrejury';
 
                 activity.people.push(jury);
-              });
-
-              (hdr.directors || []).forEach(person => {
-                const director = {
-                  people: hashPeople(person)
-                };
-
-                if (jurySet.has(director.people))
-                  return;
-
-                if (person.co)
-                  director.role = 'codirecteur';
-                else
-                  director.role = 'directeur';
-
-                activity.people.push(director);
               });
 
               if (hdr.startDate) {
