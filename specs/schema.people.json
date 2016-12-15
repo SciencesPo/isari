@@ -193,7 +193,6 @@
                 "max": 1,
                 "step": 0.05
             },
-            
             "gradesSirh": [
                 {
                     "accessType": "confidential",
@@ -223,43 +222,10 @@
                         "type": "date"
                     }
                 }
-            ],
-            "gradesAdmin": [
-                {
-                    "label": {
-                        "fr": "Emplois repère",
-                        "en": "Job grid"
-                    },
-                    "description": {
-                        "fr": "Grade administratif du poste",
-                        "en": "Administratif level of the position"
-                    },
-                    "accessType": "confidential",
-                    "grade": {
-                        "requirement": "mandatory",
-                        "label": {
-                            "fr": "emplois repère",
-                            "en": "job level"
-                        },
-                        "enum": "gradeAdmin"
-                    },
-                    "startDate": {
-                        "label": {
-                            "fr": "Date de début",
-                            "en": "Start date"
-                        },
-                        "type": "date"
-                    },
-                    "endDate": {
-                        "label": {
-                            "fr": "Date de fin",
-                            "en": "End date"
-                        },
-                        "type": "date"
-                    }
-                }
-            ],
-            "tenureTracks": [
+            ]
+        }
+    ],
+    "tenureTracks": [
                 {
                     "label": {
                         "fr": "Tenure track",
@@ -284,9 +250,7 @@
                         }
                     }
                 }
-            ]
-        }
-    ],
+            ],
     "bonuses": [
                 {
                     "label": {
