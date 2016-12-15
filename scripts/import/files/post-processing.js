@@ -20,6 +20,7 @@ module.exports = {
       name: 'prix',
       path: 'people/prix.csv',
       delimiter: ',',
+      skip: true,
       consumer(line) {
         const info = {
           organization: line['Nom Orga'],
@@ -103,6 +104,7 @@ module.exports = {
     {
       name: 'SPIRE_personalActivities',
       path: 'people/SPIRE_personalActivities.csv',
+      skip: true,
       consumer(line) {
         const info = {
           idSpire: line['SPIRE ID'],
@@ -156,6 +158,7 @@ module.exports = {
       name: 'ID_scopus_orcid',
       path: 'people/ID_scopus_orcid.csv',
       ldap: true,
+      skip: true,
       consumer(line) {
         const info = {
           ldapUid: line['LDAP ID'],
@@ -191,6 +194,7 @@ module.exports = {
       name: 'admin_roles',
       path: 'people/admin_roles.csv',
       ldap: true,
+      skip: true,
       process(indexes, id, line) {
         const {ldapUid, orgaAcronym, isariRole} = line;
 

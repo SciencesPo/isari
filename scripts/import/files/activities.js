@@ -32,6 +32,7 @@ module.exports = {
       name: 'invites',
       path: 'activities/invites.csv',
       delimiter: ',',
+      skip: true,
       consumer(line) {
         const info = {
           source: line.Source,
@@ -323,6 +324,7 @@ module.exports = {
       path: 'people/banner/BANNER_DOCTORANT_HDR.csv',
       delimiter: ',',
       peopleFile: true,
+      skip: true,
       consumer(line) {
         const info = {
           bannerUid: line.ID,
@@ -899,6 +901,7 @@ module.exports = {
       name: 'sejours_etranger',
       path: 'activities/sejours_etranger.csv',
       delimiter: ',',
+      skip: true,
       consumer(line) {
         const info = {
           researchUnit: line.UR,
@@ -1051,6 +1054,7 @@ module.exports = {
     {
       name: 'contrats_isari',
       path: 'activities/contrats_isari.csv',
+      skip: true,
       consumer(line) {
         const info = {
           acronym: line.acronym, // activity.name

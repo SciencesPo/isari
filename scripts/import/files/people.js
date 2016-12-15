@@ -93,7 +93,9 @@ module.exports = {
           const person = {
             firstName: first.firstName,
             name: last.name,
-            sirhMatricule: first.sirhMatricule,
+            identifiers: {
+              sirhMatricule: first.sirhMatricule
+            },
             gender: last.gender,
             nationalities: [last.nationality],
             birthDate: first.birthDate
@@ -214,7 +216,7 @@ module.exports = {
       indexer(indexes, person) {
         indexes.id[person._id] = person;
         indexes.hashed[hashPeople(person)] = person;
-        indexes.sirh[person.sirhMatricule] = person;
+        indexes.sirh[person.identifiers.sirhMatricule] = person;
       }
     },
 
@@ -226,6 +228,7 @@ module.exports = {
       name: 'DS_admtech',
       path: 'people/DS_admtech.csv',
       delimiter: ',',
+      skip: true,
       consumer(line) {
         const info = {
           year: line.Année,
@@ -400,6 +403,7 @@ module.exports = {
       name: 'DS_academic',
       path: 'people/DS_academic.csv',
       delimiter: ',',
+      skip: true,
       consumer(line) {
         const info = {
           year: line.Année,
