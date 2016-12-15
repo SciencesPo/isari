@@ -215,6 +215,13 @@
                     "fr": "Evaluation de pairs",
                     "en": ""
                 }
+            },
+            {
+                "value": "responsinstanceevaluation",
+                "label": {
+                    "fr": "responsabilités au sein d'instances d'évaluation",
+                    "en":
+                }
             }
         ],
         "enseignement": [
