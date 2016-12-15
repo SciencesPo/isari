@@ -838,11 +838,11 @@ module.exports = {
             }
 
             (person.academicMemberships || []).forEach(membership => {
-              const key = fingerprint(membership.organization);
+              const orgKey = fingerprint(membership.organization);
 
               // Searching for an already existing relevant membership
               const relevantMembership = (match.academicMemberships || [])
-                .find(m => fingerprint(m.organization) === key);
+                .find(m => fingerprint(m.organization) === orgKey);
 
               if (relevantMembership) {
 
@@ -852,7 +852,7 @@ module.exports = {
               else {
 
                 // We add the membership
-                match.academicMemberships = match.academicMemberships || [];
+                match.academicMemberships = match.academicMemberships || [];
                 match.academicMemberships.push(membership);
               }
             });
