@@ -79,6 +79,15 @@ function _applyTemplates (ownerDoc, object, meta, depth) {
 
 	result._id = object._id
 
+	// Virtual fields
+	// NOTE: this is very hacky and here to be able to bypass Mongoose
+	// silly instances. I am sure we can do better...
+	if (object.virtuals && typeof object.virtuals === 'object') {
+		for (const k in object.virtuals) {
+			result[k] = object.virtuals[k];
+		}
+	}
+
 	return result
 }
 

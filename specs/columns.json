@@ -4,10 +4,10 @@
     "selector": [
       "-tags",
       {
-        "key": "numberOfAffiliations",
+        "key": "email",
         "label": {
-          "fr": "Nb. affiliations",
-          "en": "# memberships"
+          "fr": "Adresse Email",
+          "en": "Email Address"
         }
       }
     ]
