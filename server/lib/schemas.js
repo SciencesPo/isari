@@ -33,6 +33,7 @@ const RESERVED_FIELDS = [
 	'service',
 	'softenum',
 	'template',
+	'step',
 	// Schema fields
 	'type',
 	'enum',
@@ -59,7 +60,8 @@ const FRONT_KEPT_FIELDS = [
 	'min',
 	'max',
 	'regex',
-	'multiple'
+	'multiple',
+	'step'
 ]
 
 module.exports = {

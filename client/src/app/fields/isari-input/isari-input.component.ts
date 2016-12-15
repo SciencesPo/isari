@@ -12,6 +12,9 @@ export class IsariInputComponent implements OnInit {
   @Input() label: string;
   @Input() description: string;
   @Input() type: string = 'text';
+  @Input() min: number;
+  @Input() max: number;
+  @Input() step: number;
   @Output() onUpdate = new EventEmitter<any>();
 
   constructor() { }
