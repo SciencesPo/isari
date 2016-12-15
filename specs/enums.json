@@ -1168,13 +1168,6 @@
             }
         },
         {
-            "value": "done",
-            "label": {
-                "fr": "done",
-                "en": ""
-            }
-        },
-        {
             "value": "rejected",
             "label": {
                 "fr": "rejected",
@@ -1825,289 +1818,12 @@
             }
         }
     ],
-    "jobTitle": [
-        {
-            "value": "chercheur",
-            "label": {
-                "fr": "chercheur",
-                "en": ""
-            }
-        },
-        {
-            "value": "chercheurenseignant",
-            "label": {
-                "fr": "chercheur enseignant",
-                "en": ""
-            }
-        },
-        {
-            "value": "enseignantchercheur",
-            "label": {
-                "fr": "enseignant chercheur",
-                "en": ""
-            }
-        },
-        {
-            "value": "enseignant",
-            "label": {
-                "fr": "enseignant",
-                "en": ""
-            }
-        },
-        {
-            "value": "appuiadministratif",
-            "label": {
-                "fr": "appui administratif",
-                "en": ""
-            }
-        },
-        {
-            "value": "appuitechnique",
-            "label": {
-                "fr": "appui technique",
-                "en": ""
-            }
-        }
-    ],
     "enum": [
         {
             "value": "value",
             "label": {
                 "fr": "label_fr",
                 "en": "label_en"
-            }
-        }
-    ],
-    "gradeAcademic": [
-        {
-            "value": "professeuruniv",
-            "label": {
-                "fr": "Professeur.e des universités",
-                "en": ""
-            }
-        },
-        {
-            "value": "professeur",
-            "label": {
-                "fr": "Full professor",
-                "en": ""
-            }
-        },
-        {
-            "value": "professeurex",
-            "label": {
-                "fr": "Professeur.e classe exceptionnelle",
-                "en": ""
-            }
-        },
-        {
-            "value": "professeur1",
-            "label": {
-                "fr": "Professeur.e des universités niv1",
-                "en": ""
-            }
-        },
-        {
-            "value": "professeur2",
-            "label": {
-                "fr": "Professeur.e des universités niv2",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurétudes",
-            "label": {
-                "fr": "Directeur.trice d'études",
-                "en": ""
-            }
-        },
-        {
-            "value": "mconf",
-            "label": {
-                "fr": "Maître.sse de conférences",
-                "en": ""
-            }
-        },
-        {
-            "value": "mconfHC",
-            "label": {
-                "fr": "Maître.sse de conférences Hors classe",
-                "en": ""
-            }
-        },
-        {
-            "value": "assistantprofessor",
-            "label": {
-                "fr": "Assistant professor",
-                "en": ""
-            }
-        },
-        {
-            "value": "associateprofessor",
-            "label": {
-                "fr": "Associate professor",
-                "en": ""
-            }
-        },
-        {
-            "value": "profémérite",
-            "label": {
-                "fr": "Professeur.e émérite",
-                "en": ""
-            }
-        },
-        {
-            "value": "profunivémérite",
-            "label": {
-                "fr": "Professeur.e des universités émérite",
-                "en": ""
-            }
-        },
-        {
-            "value": "enseicherchcontractuel",
-            "label": {
-                "fr": "Enseignant-chercheur.e contractuel.le (dont contrats LRU)",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurderecherche",
-            "label": {
-                "fr": "Directeur.trice de recherche",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurderecherche1",
-            "label": {
-                "fr": "Directeur.trice de recherche niv1",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurderecherche2",
-            "label": {
-                "fr": "Directeur.trice de recherche niv2",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurderechercheex",
-            "label": {
-                "fr": "Directeur.trice de recherche classe exceptionnelle",
-                "en": ""
-            }
-        },
-        {
-            "value": "directeurderechercheremerite",
-            "label": {
-                "fr": "Directeur.trice de recherche émérite",
-                "en": ""
-            }
-        },
-        {
-            "value": "chargederecherche",
-            "label": {
-                "fr": "Chargé.e de recherche",
-                "en": ""
-            }
-        },
-        {
-            "value": "chargederecherche1",
-            "label": {
-                "fr": "Chargé.e de recherche niv1",
-                "en": ""
-            }
-        },
-        {
-            "value": "chargederecherche2",
-            "label": {
-                "fr": "Chargé.e de recherche niv2",
-                "en": ""
-            }
-        },
-        {
-            "value": "cherchcontractuel",
-            "label": {
-                "fr": "Chercheur.e contractuel.le",
-                "en": ""
-            }
-        },
-        {
-            "value": "chargédétudes",
-            "label": {
-                "fr": "Chargé d'études",
-                "en": ""
-            }
-        },
-        {
-            "value": "chargédétudes1",
-            "label": {
-                "fr": "Chargé d'études niv1",
-                "en": ""
-            }
-        },
-        {
-            "value": "chargédétudes2",
-            "label": {
-                "fr": "Chargé d'études niv2",
-                "en": ""
-            }
-        },
-        {
-            "value": "postdoc",
-            "label": {
-                "fr": "Postdoc",
-                "en": ""
-            }
-        },
-        {
-            "value": "invité",
-            "label": {
-                "fr": "Invité.e",
-                "en": ""
-            }
-        },
-        {
-            "value": "doctorant(grade)",
-            "label": {
-                "fr": "Doctorant.e",
-                "en": ""
-            }
-        },
-        {
-            "value": "prag",
-            "label": {
-                "fr": "PRAG",
-                "en": ""
-            }
-        },
-        {
-            "value": "past",
-            "label": {
-                "fr": "PAST",
-                "en": ""
-            }
-        },
-        {
-            "value": "ater",
-            "label": {
-                "fr": "ATER",
-                "en": ""
-            }
-        },
-        {
-            "value": "CASSIST",
-            "label": {
-                "fr": "assistant.e de recherche",
-                "en": ""
-            }
-        },
-        {
-            "value": "professeurassocié",
-            "label": {
-                "fr": "Professeur.e associé.e",
-                "en": ""
             }
         }
     ],
@@ -2451,6 +2167,57 @@
             "label": {
                 "fr": "distinction",
                 "en": ""
+            }
+        }
+    ],
+    "gradeStatus": [
+        {
+            "value": "chercheur",
+            "label": {
+                "fr": "chercheur",
+                "en": ""
+            }
+        },
+        {
+            "value": "chercheurenseignant",
+            "label": {
+                "fr": "chercheur enseignant",
+                "en": ""
+            }
+        },
+        {
+            "value": "enseignantchercheur",
+            "label": {
+                "fr": "enseignant chercheur",
+                "en": ""
+            }
+        },
+        {
+            "value": "enseignant",
+            "label": {
+                "fr": "enseignant",
+                "en": ""
+            }
+        },
+        {
+            "value": "appuiadministratif",
+            "label": {
+                "fr": "appui administratif",
+                "en": ""
+            }
+        },
+        {
+            "value": "appuitechnique",
+            "label": {
+                "fr": "appui technique",
+                "en": ""
+            }
+        },
+        {
+            "value": "doctorant",
+            "label": {
+                "fr": "Doctorant.e",
+                "en": "PhD student"
             }
         }
     ],
