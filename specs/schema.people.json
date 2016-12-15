@@ -295,7 +295,7 @@
                 "fr": "Professeur, DR1, CR1...",
                 "en": "Associate Prof, Full Prof..."
             },
-            "status": {
+            "gradeStatus": {
                 "requirement": "recommended",
                 "label": {
                     "fr": "Statut",
