@@ -228,7 +228,6 @@ module.exports = {
       name: 'DS_admtech',
       path: 'people/DS_admtech.csv',
       delimiter: ',',
-      skip: true,
       consumer(line) {
         const info = {
           year: line.Année,
@@ -289,29 +288,44 @@ module.exports = {
             // The same applies below to grades and memberships
             if (job.year !== '2016')
               person.positions[0].endDate = job.year;
-
-            // Admin grades
-            person.positions[0].gradesAdmin = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
-              .map((slice, i, slices) => {
-                const nextSlice = slices[i + 1];
-
-                const info = {
-                  grade: slice[0].gradeAdmin
-                };
-
-                if (!i && slice[0].startDate)
-                  info.startDate = slice[0].startDate;
-                else
-                  info.startDate = slice[0].year;
-
-                if (nextSlice && nextSlice[0])
-                  info.endDate = nextSlice[0].year;
-                else if (slice[slice.length - 1].year !== '2016')
-                  info.endDate = slice[slice.length - 1].year;
-
-                return info;
-              });
           }
+
+          // Admin grades
+          person.grades = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
+            .map((slice, i, slices) => {
+              const nextSlice = slices[i + 1];
+
+              const info = {
+                grade: slice[0].gradeAdmin
+              };
+
+              let gradeStatus;
+
+              if (ENUM_INDEXES.grades.admin.has(info.grade)) {
+                gradeStatus = 'appuiadministratif';
+              }
+              else if (ENUM_INDEXES.grades.technique.has(info.grade)) {
+                gradeStatus = 'appuitechnique';
+              }
+              else {
+                gradeStatus = 'appuiadministratif'
+                info.grade = 'AUT';
+              }
+
+              info.gradeStatus = gradeStatus;
+
+              if (!i && slice[0].startDate)
+                info.startDate = slice[0].startDate;
+              else
+                info.startDate = slice[0].year;
+
+              if (nextSlice && nextSlice[0])
+                info.endDate = nextSlice[0].year;
+              else if (slice[slice.length - 1].year !== '2016')
+                info.endDate = slice[slice.length - 1].year;
+
+              return info;
+            });
 
           person.academicMemberships = partitionBy(years.filter(year => !!year.academicMembership), 'academicMembership')
             .map((slice, i, slices) => {
@@ -358,22 +372,8 @@ module.exports = {
 
           if (org === 'FNSP') {
 
-            match.positions.forEach(position => {
-
-              // Finding the first overlapping grade
-              const grades = _.filter(person.positions[0].gradesAdmin, g => {
-                return overlap(
-                  {
-                    startDate: position.startDate.slice(0, 4),
-                    endDate: position.endDate ? position.endDate.slice(0, 4) : null
-                  },
-                  g
-                );
-              });
-
-              if (grades)
-                position.gradesAdmin = grades;
-            });
+            if (person.grades)
+              match.grades = person.grades;
           }
           else {
             match.positions = match.positions.concat(person.positions);
