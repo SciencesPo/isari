@@ -310,7 +310,7 @@
                     "en": "Grade"
                 },
                 "type": "string",
-                "enum": "grade:status"
+                "enum": "grade:./gradeStatus"
             },
             "startDate": {
                 "label": {
