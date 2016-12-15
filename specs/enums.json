@@ -208,225 +208,6 @@
             }
         }
     ],
-    "gradeAdmin": [
-        {
-            "value": "CMission",
-            "label": {
-                "fr": "CM : chargé.e de mission",
-                "en": ""
-            }
-        },
-        {
-            "value": "CM1",
-            "label": {
-                "fr": "CM1 : chargé.e de mission niveau 1",
-                "en": ""
-            }
-        },
-        {
-            "value": "CM2",
-            "label": {
-                "fr": "CM2 : chargé.e de mission niveau 2",
-                "en": ""
-            }
-        },
-        {
-            "value": "CM3",
-            "label": {
-                "fr": "CM3 : chargé.e de mission niveau 3",
-                "en": ""
-            }
-        },
-        {
-            "value": "AGEST",
-            "label": {
-                "fr": "AG : assistant.e de gestion",
-                "en": ""
-            }
-        },
-        {
-            "value": "S1",
-            "label": {
-                "fr": "S1 : secrétaire de niveau 1",
-                "en": ""
-            }
-        },
-        {
-            "value": "S2",
-            "label": {
-                "fr": "S2 : secrétaire de niveau 2",
-                "en": ""
-            }
-        },
-        {
-            "value": "IGE",
-            "label": {
-                "fr": "IGE : ingénieur.e d'études",
-                "en": ""
-            }
-        },
-        {
-            "value": "IGR",
-            "label": {
-                "fr": "IGR : ingénieur.e de recherche",
-                "en": ""
-            }
-        },
-        {
-            "value": "AING",
-            "label": {
-                "fr": "AI : assistant.e ingénieur.e",
-                "en": ""
-            }
-        },
-        {
-            "value": "CBIB",
-            "label": {
-                "fr": "Conservateur.trice des bibliothèques",
-                "en": ""
-            }
-        },
-        {
-            "value": "CPAT",
-            "label": {
-                "fr": "Conservateur.trice du patrimoine",
-                "en": ""
-            }
-        },
-        {
-            "value": "TCH",
-            "label": {
-                "fr": "Technicien.ne de recherche, quelle que soit la classe",
-                "en": ""
-            }
-        },
-        {
-            "value": "AJT",
-            "label": {
-                "fr": "Adjoint.e.s et agent.e.s techniques de recherche, adjoint.e.s et agent.e.s administratifs, quelle que soit la classe",
-                "en": ""
-            }
-        },
-        {
-            "value": "ADMAENES",
-            "label": {
-                "fr": "Administrateur.trice de l'éducation nationale et de l'enseignement supérieur, Conseiller.e d'administration scolaire et universitaire",
-                "en": ""
-            }
-        },
-        {
-            "value": "ADAENES",
-            "label": {
-                "fr": "Attaché.e et Attaché.e principal d'administration de l'éducation nationale et de l'enseignement supérieur",
-                "en": ""
-            }
-        },
-        {
-            "value": "SAENES",
-            "label": {
-                "fr": "Secrétaire administratif.ve de l'éducation nationale et de l'enseignement supérieur",
-                "en": ""
-            }
-        },
-        {
-            "value": "ADJAENES",
-            "label": {
-                "fr": "Adjoint.e d'administration de l'éducation nationale et de l'enseignement supérieur",
-                "en": ""
-            }
-        },
-        {
-            "value": "APCE",
-            "label": {
-                "fr": "APCE : appariteur.e chef.fe d'équipe",
-                "en": ""
-            }
-        },
-        {
-            "value": "APAB",
-            "label": {
-                "fr": "APAB : appariteur.e agent.e de bureau",
-                "en": ""
-            }
-        },
-        {
-            "value": "IENC",
-            "label": {
-                "fr": "IE : informatique encadrement",
-                "en": ""
-            }
-        },
-        {
-            "value": "IEX",
-            "label": {
-                "fr": "IEX : informatique exploitation",
-                "en": ""
-            }
-        },
-        {
-            "value": "TCN",
-            "label": {
-                "fr": "TCN : technicien.ne de classe normale",
-                "en": ""
-            }
-        },
-        {
-            "value": "TCS",
-            "label": {
-                "fr": "TCS : technicien.ne de classe supérieure",
-                "en": ""
-            }
-        },
-        {
-            "value": "TCE",
-            "label": {
-                "fr": "TCE : technicien.ne de classe exceptionnelle",
-                "en": ""
-            }
-        },
-        {
-            "value": "ABS",
-            "label": {
-                "fr": "ABS : agent.e de bibliothèque spécialisé.e",
-                "en": ""
-            }
-        },
-        {
-            "value": "B1",
-            "label": {
-                "fr": "B1 : bibliothécaire de niveau 1",
-                "en": ""
-            }
-        },
-        {
-            "value": "B2",
-            "label": {
-                "fr": "B2 : bibliothécaire de niveau 2",
-                "en": ""
-            }
-        },
-        {
-            "value": "B3",
-            "label": {
-                "fr": "B3 : bibliothécaire de niveau 3",
-                "en": ""
-            }
-        },
-        {
-            "value": "ASSPEC",
-            "label": {
-                "fr": "Assistant.e spécialisé.e",
-                "en": ""
-            }
-        },
-        {
-            "value": "ASDIREC",
-            "label": {
-                "fr": "Assistant.e direction",
-                "en": ""
-            }
-        }
-    ],
     "personalActivityRoles": [
         {
             "value": "Direction",
@@ -973,177 +754,238 @@
             }
         }
     ],
-    "iso4217": [
-        "AED",
-        "AFN",
-        "ALL",
-        "AMD",
-        "ANG",
-        "AOA",
-        "ARS",
-        "AUD",
-        "AWG",
-        "AZN",
-        "BAM",
-        "BBD",
-        "BDT",
-        "BGN",
-        "BHD",
-        "BIF",
-        "BMD",
-        "BND",
-        "BOB",
-        "BOV",
-        "BRL",
-        "BSD",
-        "BTN",
-        "BWP",
-        "BYN",
-        "BZD",
-        "CAD",
-        "CDF",
-        "CHF",
-        "CLF",
-        "CLP",
-        "CNH",
-        "CNY",
-        "COP",
-        "COU",
-        "CRC",
-        "CUC",
-        "CUP",
-        "CVE",
-        "CZK",
-        "DJF",
-        "DKK",
-        "DOP",
-        "DZD",
-        "EGP",
-        "ERN",
-        "ETB",
-        "EUR",
-        "FJD",
-        "FKP",
-        "GBP",
-        "GEL",
-        "GGP",
-        "GHS",
-        "GIP",
-        "GMD",
-        "GNF",
-        "GTQ",
-        "GYD",
-        "HKD",
-        "HNL",
-        "HRK",
-        "HTG",
-        "HUF",
-        "IDR",
-        "ILS",
-        "IMP",
-        "INR",
-        "IQD",
-        "IRR",
-        "ISK",
-        "JEP",
-        "JMD",
-        "JOD",
-        "JPY",
-        "KES",
-        "KGS",
-        "KHR",
-        "KMF",
-        "KPW",
-        "KRW",
-        "KWD",
-        "KYD",
-        "KZT",
-        "LAK",
-        "LBP",
-        "LKR",
-        "LRD",
-        "LSL",
-        "LYD",
-        "MAD",
-        "MDL",
-        "MGA",
-        "MKD",
-        "MMK",
-        "MNT",
-        "MRO",
-        "MUR",
-        "MVR",
-        "MWK",
-        "MXN",
-        "MXV",
-        "MYR",
-        "MZN",
-        "NAD",
-        "NGN",
-        "NIO",
-        "NOK",
-        "NPR",
-        "NZD",
-        "OMR",
-        "PAB",
-        "PEN",
-        "PGK",
-        "PHP",
-        "PKR",
-        "PLN",
-        "PYG",
-        "QAR",
-        "RON",
-        "RSD",
-        "RUB",
-        "RWF",
-        "SAR",
-        "SBD",
-        "SCR",
-        "SDG",
-        "SEK",
-        "SGD",
-        "SHP",
-        "SLL",
-        "SOS",
-        "SPL",
-        "SRD",
-        "STD",
-        "SVC",
-        "SYP",
-        "SZL",
-        "THB",
-        "TJS",
-        "TMT",
-        "TND",
-        "TOP",
-        "TRY",
-        "TTD",
-        "TVD",
-        "TWD",
-        "TZS",
-        "UAH",
-        "UGX",
-        "USD",
-        "UYU",
-        "UZS",
-        "VEF",
-        "VND",
-        "VUV",
-        "WST",
-        "XAF",
-        "XAG",
-        "XAU",
-        "XCD",
-        "XDR",
-        "XOF",
-        "XPD",
-        "XPF",
-        "XPT",
-        "YER",
-        "ZAR",
-        "ZMW",
-        "ZWD"
+    "hceres2017": [
+        {
+            "value": "st1",
+            "label": {
+                "fr": "ST1 Mathématiques",
+                "en": ""
+            }
+        },
+        {
+            "value": "st2",
+            "label": {
+                "fr": "ST2 Physique",
+                "en": ""
+            }
+        },
+        {
+            "value": "st3",
+            "label": {
+                "fr": "ST3 Sciences de la terre et de l'univers",
+                "en": ""
+            }
+        },
+        {
+            "value": "st4",
+            "label": {
+                "fr": "ST4 Chimie",
+                "en": ""
+            }
+        },
+        {
+            "value": "st5",
+            "label": {
+                "fr": "ST5 Sciences pour l'ingénieur",
+                "en": ""
+            }
+        },
+        {
+            "value": "st6",
+            "label": {
+                "fr": "ST6 Sciences et technologies de l'information et de la communication",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve1",
+            "label": {
+                "fr": "SVE1 Agronomie, Biologie Végétale, Ecologie, Environnement, Evolution",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve2",
+            "label": {
+                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Moléculaire, Biochimie, Génomique, Biologie Systémique, Développement, Biologie Structurale",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve3",
+            "label": {
+                "fr": "SVE3 Microbiologie, Immunité",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve4",
+            "label": {
+                "fr": "SVE4 Neurologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve5",
+            "label": {
+                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies Médicales",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve6",
+            "label": {
+                "fr": "SVE6 Santé Publique, Epidémiologie, Recherche Clinique",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs11",
+            "label": {
+                "fr": "SHS1_1 Economie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs12",
+            "label": {
+                "fr": "SHS1_2 Finance, management",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs21",
+            "label": {
+                "fr": "SHS2_1 Droit",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs22",
+            "label": {
+                "fr": "SHS2_2 Science politique",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs23",
+            "label": {
+                "fr": "SHS2_3 Anthropologie et ethnologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs24",
+            "label": {
+                "fr": "SHS2_4 Sociologie, démographie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs25",
+            "label": {
+                "fr": "SHS2_5 Sciences de l’information et de la communication",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs31",
+            "label": {
+                "fr": "SHS3_1 Géographie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs32",
+            "label": {
+                "fr": "SHS3_2 Aménagement et urbanisme",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs33",
+            "label": {
+                "fr": "SHS3_3 Architecture",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs41",
+            "label": {
+                "fr": "SHS4_1 Linguistique",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs42",
+            "label": {
+                "fr": "SHS4_2 Psychologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs43",
+            "label": {
+                "fr": "SHS4_3 Sciences de l'éducation",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs44",
+            "label": {
+                "fr": "SHS4_4 Sciences et techniques des activités physiques et sportives",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs51",
+            "label": {
+                "fr": "SHS5_1 Langues / littératures anciennes et françaises, littérature comparée",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs52",
+            "label": {
+                "fr": "SHS5_2 Littératures et langues étrangères, civilisations, cultures et langues régionales",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs53",
+            "label": {
+                "fr": "SHS5_3 Arts",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs54",
+            "label": {
+                "fr": "SHS5_4 Philosophie, sciences des religions, théologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs61",
+            "label": {
+                "fr": "SHS6_1 Histoire",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs62",
+            "label": {
+                "fr": "SHS6_2 Histoire de l'art",
+                "en": ""
+            }
+        },
+        {
+            "value": "shs63",
+            "label": {
+                "fr": "SHS6_3 Archéologie",
+                "en": ""
+            }
+        }
     ],
     "grantStatuses": [
         {
@@ -2221,238 +2063,177 @@
             }
         }
     ],
-    "hceres2017": [
-        {
-            "value": "st1",
-            "label": {
-                "fr": "ST1 Mathématiques",
-                "en": ""
-            }
-        },
-        {
-            "value": "st2",
-            "label": {
-                "fr": "ST2 Physique",
-                "en": ""
-            }
-        },
-        {
-            "value": "st3",
-            "label": {
-                "fr": "ST3 Sciences de la terre et de l'univers",
-                "en": ""
-            }
-        },
-        {
-            "value": "st4",
-            "label": {
-                "fr": "ST4 Chimie",
-                "en": ""
-            }
-        },
-        {
-            "value": "st5",
-            "label": {
-                "fr": "ST5 Sciences pour l'ingénieur",
-                "en": ""
-            }
-        },
-        {
-            "value": "st6",
-            "label": {
-                "fr": "ST6 Sciences et technologies de l'information et de la communication",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve1",
-            "label": {
-                "fr": "SVE1 Agronomie, Biologie Végétale, Ecologie, Environnement, Evolution",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve2",
-            "label": {
-                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Moléculaire, Biochimie, Génomique, Biologie Systémique, Développement, Biologie Structurale",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve3",
-            "label": {
-                "fr": "SVE3 Microbiologie, Immunité",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve4",
-            "label": {
-                "fr": "SVE4 Neurologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve5",
-            "label": {
-                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies Médicales",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve6",
-            "label": {
-                "fr": "SVE6 Santé Publique, Epidémiologie, Recherche Clinique",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs11",
-            "label": {
-                "fr": "SHS1_1 Economie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs12",
-            "label": {
-                "fr": "SHS1_2 Finance, management",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs21",
-            "label": {
-                "fr": "SHS2_1 Droit",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs22",
-            "label": {
-                "fr": "SHS2_2 Science politique",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs23",
-            "label": {
-                "fr": "SHS2_3 Anthropologie et ethnologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs24",
-            "label": {
-                "fr": "SHS2_4 Sociologie, démographie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs25",
-            "label": {
-                "fr": "SHS2_5 Sciences de l’information et de la communication",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs31",
-            "label": {
-                "fr": "SHS3_1 Géographie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs32",
-            "label": {
-                "fr": "SHS3_2 Aménagement et urbanisme",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs33",
-            "label": {
-                "fr": "SHS3_3 Architecture",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs41",
-            "label": {
-                "fr": "SHS4_1 Linguistique",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs42",
-            "label": {
-                "fr": "SHS4_2 Psychologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs43",
-            "label": {
-                "fr": "SHS4_3 Sciences de l'éducation",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs44",
-            "label": {
-                "fr": "SHS4_4 Sciences et techniques des activités physiques et sportives",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs51",
-            "label": {
-                "fr": "SHS5_1 Langues / littératures anciennes et françaises, littérature comparée",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs52",
-            "label": {
-                "fr": "SHS5_2 Littératures et langues étrangères, civilisations, cultures et langues régionales",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs53",
-            "label": {
-                "fr": "SHS5_3 Arts",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs54",
-            "label": {
-                "fr": "SHS5_4 Philosophie, sciences des religions, théologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs61",
-            "label": {
-                "fr": "SHS6_1 Histoire",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs62",
-            "label": {
-                "fr": "SHS6_2 Histoire de l'art",
-                "en": ""
-            }
-        },
-        {
-            "value": "shs63",
-            "label": {
-                "fr": "SHS6_3 Archéologie",
-                "en": ""
-            }
-        }
+    "iso4217": [
+        "AED",
+        "AFN",
+        "ALL",
+        "AMD",
+        "ANG",
+        "AOA",
+        "ARS",
+        "AUD",
+        "AWG",
+        "AZN",
+        "BAM",
+        "BBD",
+        "BDT",
+        "BGN",
+        "BHD",
+        "BIF",
+        "BMD",
+        "BND",
+        "BOB",
+        "BOV",
+        "BRL",
+        "BSD",
+        "BTN",
+        "BWP",
+        "BYN",
+        "BZD",
+        "CAD",
+        "CDF",
+        "CHF",
+        "CLF",
+        "CLP",
+        "CNH",
+        "CNY",
+        "COP",
+        "COU",
+        "CRC",
+        "CUC",
+        "CUP",
+        "CVE",
+        "CZK",
+        "DJF",
+        "DKK",
+        "DOP",
+        "DZD",
+        "EGP",
+        "ERN",
+        "ETB",
+        "EUR",
+        "FJD",
+        "FKP",
+        "GBP",
+        "GEL",
+        "GGP",
+        "GHS",
+        "GIP",
+        "GMD",
+        "GNF",
+        "GTQ",
+        "GYD",
+        "HKD",
+        "HNL",
+        "HRK",
+        "HTG",
+        "HUF",
+        "IDR",
+        "ILS",
+        "IMP",
+        "INR",
+        "IQD",
+        "IRR",
+        "ISK",
+        "JEP",
+        "JMD",
+        "JOD",
+        "JPY",
+        "KES",
+        "KGS",
+        "KHR",
+        "KMF",
+        "KPW",
+        "KRW",
+        "KWD",
+        "KYD",
+        "KZT",
+        "LAK",
+        "LBP",
+        "LKR",
+        "LRD",
+        "LSL",
+        "LYD",
+        "MAD",
+        "MDL",
+        "MGA",
+        "MKD",
+        "MMK",
+        "MNT",
+        "MRO",
+        "MUR",
+        "MVR",
+        "MWK",
+        "MXN",
+        "MXV",
+        "MYR",
+        "MZN",
+        "NAD",
+        "NGN",
+        "NIO",
+        "NOK",
+        "NPR",
+        "NZD",
+        "OMR",
+        "PAB",
+        "PEN",
+        "PGK",
+        "PHP",
+        "PKR",
+        "PLN",
+        "PYG",
+        "QAR",
+        "RON",
+        "RSD",
+        "RUB",
+        "RWF",
+        "SAR",
+        "SBD",
+        "SCR",
+        "SDG",
+        "SEK",
+        "SGD",
+        "SHP",
+        "SLL",
+        "SOS",
+        "SPL",
+        "SRD",
+        "STD",
+        "SVC",
+        "SYP",
+        "SZL",
+        "THB",
+        "TJS",
+        "TMT",
+        "TND",
+        "TOP",
+        "TRY",
+        "TTD",
+        "TVD",
+        "TWD",
+        "TZS",
+        "UAH",
+        "UGX",
+        "USD",
+        "UYU",
+        "UZS",
+        "VEF",
+        "VND",
+        "VUV",
+        "WST",
+        "XAF",
+        "XAG",
+        "XAU",
+        "XCD",
+        "XDR",
+        "XOF",
+        "XPD",
+        "XPF",
+        "XPT",
+        "YER",
+        "ZAR",
+        "ZMW",
+        "ZWD"
     ],
     "countries": [
         "AF",
