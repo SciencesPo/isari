@@ -2054,13 +2054,6 @@
                 "fr": "appui technique",
                 "en": ""
             }
-        },
-        {
-            "value": "doctorant",
-            "label": {
-                "fr": "Doctorant.e",
-                "en": "PhD student"
-            }
         }
     ],
     "iso4217": [

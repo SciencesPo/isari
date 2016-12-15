@@ -12,6 +12,14 @@ const COUNTRIES = require('../../specs/enum.countries.json'),
 const GRADE_ADMIN = new Set(NESTED_ENUMS.grade.appuiadministratif.map(g => g.value)),
       GRADE_TECHNIQUE = new Set(NESTED_ENUMS.grade.appuitechnique.map(g => g.value));
 
+let GRADE_ACADEMIQUE = {};
+
+for (const k in NESTED_ENUMS.grade) {
+  if (k === 'appuiadministratif' || k === 'appuitechnique')
+    continue;
+
+  NESTED_ENUMS.grade[k].forEach(g => GRADE_ACADEMIQUE[g.value] = k);
+}
 
 exports.ENUM_INDEXES = {
   countries: {
@@ -19,6 +27,7 @@ exports.ENUM_INDEXES = {
   },
   grades: {
     admin: GRADE_ADMIN,
-    technique: GRADE_TECHNIQUE
+    technique: GRADE_TECHNIQUE,
+    academique: GRADE_ACADEMIQUE
   }
 };

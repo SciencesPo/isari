@@ -403,7 +403,6 @@ module.exports = {
       name: 'DS_academic',
       path: 'people/DS_academic.csv',
       delimiter: ',',
-      skip: true,
       consumer(line) {
         const info = {
           year: line.Année,
@@ -679,21 +678,23 @@ module.exports = {
             delete info.academicMemberships;
 
           // Grades academic
-          info.gradesAcademic = [];
+          info.grades = [];
           years
             .filter(year => !!year.gradeAcademic)
             .forEach((year, i, relevantYears) => {
-              let relevantGrade = info.gradesAcademic.find(m => m.grade === year.gradeAcademic);
+              let relevantGrade = info.grades.find(m => m.grade === year.gradeAcademic);
 
               // If no relevant grade was found, we add it
               if (!relevantGrade) {
+
                 relevantGrade = {
                   grade: year.gradeAcademic,
+                  gradeStatus: ENUM_INDEXES.grades.academique[year.gradeAcademic],
                   startDate: !i && year.startDate ? year.startDate : year.year,
                   endDate: year.year
                 };
 
-                info.gradesAcademic.push(relevantGrade);
+                info.grades.push(relevantGrade);
               }
 
               // Else we update the endDate if not final year
@@ -710,8 +711,8 @@ module.exports = {
               }
             });
 
-          if (!info.gradesAcademic.length)
-            delete info.gradesAcademic;
+          if (!info.grades.length)
+            delete info.grades;
 
           return info;
         });
@@ -733,12 +734,14 @@ module.exports = {
             'bonuses',
             'distinctions',
             'deptMemberships',
-            'academicMemberships',
-            'gradesAcademic'
+            'academicMemberships'
           ].forEach(prop => {
             if (person[prop])
               match[prop] = person[prop];
           });
+
+          if (person.grades)
+            match.grades = (match.grades || []).concat(person.grades);
 
           return;
         }
