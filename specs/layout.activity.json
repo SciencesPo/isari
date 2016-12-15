@@ -2,6 +2,8 @@
     [
         "name",
         "acronym",
+        ["subject","url"],
+        "summary",
         "activityType",
         "startDate",
         "endDate"
@@ -34,8 +36,6 @@
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
-    ["subject","url"],
-    "summary",
     {
         "fields": ["tags"],
         "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},

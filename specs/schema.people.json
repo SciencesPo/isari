@@ -532,7 +532,6 @@
                 "softenum": "personalActivitySubtypes:./personalActivityType"
             },
             "startDate": {
-                "requirement": "mandatory",
                 "label": {
                     "fr": "Date de début",
                     "en": "Start date"

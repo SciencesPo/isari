@@ -17,6 +17,7 @@
           </label>
         </div>
         <div class="md-input-suffix">
+          <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
           <md-icon *ngIf="description" class="tooltip-fields" [md-tooltip]="description">info_outline
           </md-icon>
             <a *ngIf="id" routerLink="/{{ api }}/{{ id }}" target="_blank" preserveQueryParams>
@@ -27,7 +28,7 @@
       <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
         <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>
       </div>
-      <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">Obligatoire</md-hint>
+      <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">{{ 'mandatory' | translate }}</md-hint>
     </div>
   </div>
 

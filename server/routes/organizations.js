@@ -6,8 +6,8 @@ const { format } = require('../lib/model-utils')
 const { getPermissions } = require('../lib/permissions')
 
 
-const formatObject = (o, perms) => format('Organization', o, perms)
+const formatObject = (o, perms) => format(Organization.modelName, o, perms)
 
 // No buildListQuery here: all organizations are viewable by anyone
 
-module.exports = restRouter(Organization, formatObject, 'organizations', getPermissions.Organization)
+module.exports = restRouter(Organization, formatObject, getPermissions.Organization)

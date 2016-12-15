@@ -28,6 +28,10 @@ isari-select {
   pointer-events: none;
 }
 
+.recommended-field {
+  color: #777;
+}
+
 md-icon {
   color: #777;
   font-size: 20px;

@@ -175,10 +175,15 @@ module.exports = {
 
           // TODO: add a role
 
-          if (line.startDate)
+          if (line.startDate) {
+            activityInfo.startDate = line.startDate;
             activityInfo.people[0].startDate = line.startDate;
-          if (line.endDate)
+          }
+
+          if (line.endDate) {
+            activityInfo.endDate = line.endDate;
             activityInfo.people[0].endDate = line.endDate;
+          }
 
           // Target organization
           if (line.organizations) {
@@ -513,11 +518,11 @@ module.exports = {
 
                 jurySet.add(jury.people);
 
-                if (jury.president)
+                if (person.president)
                   jury.role = 'presidentjury';
-                else if (jury.director)
+                else if (person.director)
                   jury.role = 'directeur';
-                else if (jury.reporter)
+                else if (person.reporter)
                   jury.role = 'rapporteurjury';
                 else
                   jury.role = 'membrejury';
@@ -533,7 +538,7 @@ module.exports = {
                 if (jurySet.has(director.people))
                   return;
 
-                if (director.co)
+                if (person.co)
                   director.role = 'codirecteur';
                 else
                   director.role = 'directeur';
@@ -632,7 +637,11 @@ module.exports = {
               if (phd.cotutelle)
                 distinction.organizations.push(phd.cotutelle);
 
-              peopleInfo.distinctions.push(distinction);
+              if (phd.subject)
+                distinction.subject = phd.subject;
+
+              if (!!phd.endDate)
+                peopleInfo.distinctions.push(distinction);
 
               // Add gradesAcademic
               const grade = {
@@ -672,11 +681,11 @@ module.exports = {
 
                 jurySet.add(jury.people);
 
-                if (jury.president)
+                if (person.president)
                   jury.role = 'presidentjury';
-                else if (jury.director)
+                else if (person.director)
                   jury.role = 'directeur';
-                else if (jury.reporter)
+                else if (person.reporter)
                   jury.role = 'rapporteurjury';
                 else
                   jury.role = 'membrejury';
@@ -692,7 +701,7 @@ module.exports = {
                 if (jurySet.has(director.people))
                   return;
 
-                if (director.co)
+                if (person.co)
                   director.role = 'codirecteur';
                 else
                   director.role = 'directeur';
@@ -776,7 +785,11 @@ module.exports = {
               if (hdr.cotutelle)
                 distinction.organizations.push(hdr.cotutelle);
 
-              peopleInfo.distinctions.push(distinction);
+              if (hdr.subject)
+                distinction.subject = hdr.subject;
+
+              if (!!hdr.endDate)
+                peopleInfo.distinctions.push(distinction);
             }
           });
 
@@ -995,6 +1008,9 @@ module.exports = {
 
           // Let's attempt to match the organization
           let match = indexes.name[org.name];
+
+          if (!match)
+            match = indexes.acronym[org.name];
 
           if (!match)
             match = indexes.fingerprint[key];

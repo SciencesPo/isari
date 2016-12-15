@@ -4,7 +4,6 @@
 
     <div *ngSwitchCase="'object'">
       <isari-data-editor [class.multiple]="multiple"
-        [saveShortcut]="[]"
         (onDelete)="remove($event)"
         (onUpdate)="update($event)"
         [path]="path + (multiple ? '' : '.' + field.name)"
@@ -21,6 +20,7 @@
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
+      [requirement]="field.requirement"
       [description]="field.description"
       [form]="form"></isari-date>
 
@@ -33,6 +33,7 @@
       [api]="field.api"
       [name]="field.name"
       [label]="field.label"
+      [requirement]="field.requirement"
       [description]="field.description"
       [form]="form"></isari-select>
 
@@ -78,6 +79,7 @@
       [create]="field.create"
       [api]="field.api"
       [name]="field.name"
+      [requirement]="field.requirement"
       [label]="field.label"
       [description]="field.description"
       [form]="form"></isari-multi-select>
@@ -86,6 +88,7 @@
       (onUpdate)="update($event)"
       [name]="field.name"
       [label]="field.label"
+      [requirement]="field.requirement"
       [description]="field.description"
       [form]="form"></isari-multi-input>
 
@@ -96,6 +99,7 @@
     <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index"
       (onUpdate)="update($event)"
       [feature]="feature"
+      [rootFeature]="rootFeature"
       [index]="i"
       [form]="form"
       [path]="path + '.' + i"

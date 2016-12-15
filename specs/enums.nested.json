@@ -215,6 +215,13 @@
                     "fr": "Evaluation de pairs",
                     "en": ""
                 }
+            },
+            {
+                "value": "responsinstanceevaluation",
+                "label": {
+                    "fr": "responsabilités au sein d'instances d'évaluation",
+                    "en": ""
+                }
             }
         ],
         "enseignement": [
@@ -307,6 +314,13 @@
                     "fr": "rapporteur",
                     "en": ""
                 }
+            },
+            {
+                "value": "doctorant(role)",
+                "label": {
+                    "fr": "doctorant",
+                    "en": ""
+                }
             }
         ],
         "projetderecherche": [
@@ -381,6 +395,13 @@
                 "value": "rapporteurjury",
                 "label": {
                     "fr": "rapporteur",
+                    "en": ""
+                }
+            },
+            {
+                "value": "doctorant(role)",
+                "label": {
+                    "fr": "doctorant",
                     "en": ""
                 }
             }
