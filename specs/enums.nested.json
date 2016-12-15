@@ -890,5 +890,31 @@
                 }
             }
         ]
+    },
+    "grade":{
+    "chercheur":[
+            {"value": "directeurétudes","label": {"fr": "Directeur.trice d'études","en": ""}},
+            {"value": "directeurderecherche","label": {"fr": "Directeur.trice de recherche","en": ""}},
+            {"value": "directeurderecherche1","label": {"fr": "Directeur.trice de recherche niv1","en": ""}},
+            {"value": "directeurderecherche2","label": {"fr": "Directeur.trice de recherche niv2","en": ""}},
+            {"value": "directeurderechercheex","label": {"fr": "Directeur.trice de recherche classe exceptionnelle","en": ""}},
+            {"value": "directeurderechercheremerite","label": {"fr": "Directeur.trice de recherche émérite","en": ""}},
+            {"value": "chargederecherche","label": {"fr": "Chargé.e de recherche","en": ""}},
+            {"value": "chargederecherche1","label": {"fr": "Chargé.e de recherche niv1","en": ""}},
+            {"value": "chargederecherche2","label": {"fr": "Chargé.e de recherche niv2","en": ""}},
+            {"value": "cherchcontractuel","label": {"fr": "Chercheur.e contractuel.le","en": ""}},
+            {"value": "chargédétudes","label": {"fr": "Chargé d'études","en": ""}},
+            {"value": "chargédétudes1","label": {"fr": "Chargé d'études niv1","en": ""}},
+            {"value": "chargédétudes2","label": {"fr": "Chargé d'études niv2","en": ""}},
+            {"value": "postdoc","label": {"fr": "Postdoc","en": ""}},
+            {"value": "invité","label": {"fr": "Invité.e","en": ""}},
+            {"value": "CASSIST","label": {"fr": "assistant.e de recherche","en": ""}}
+        ],
+        "chercheurenseignant",
+        "enseignantchercheur",
+        "enseignant",
+        "doctorant",
+        "appuiadministratif",
+        "appuitechnique"
     }
 }

@@ -80,32 +80,54 @@
         },
         "service": "ldap"
     },
-    "idScopus": {
-        "label": {
-            "fr": "Identifiant Scopus",
-            "en": "Scopus identifier"
+    "identifiers":{
+        "idScopus": {
+            "label": {
+                "fr": "Identifiant Scopus",
+                "en": "Scopus identifier"
+            }
+        },
+        "bannerUid": {
+            "label": {
+                "fr": "Identifiant scolarité Sciences Po",
+                "en": "Sciences Po's teaching identifier"
+            },
+            "service": "banner"
+        },
+        "sirhMatricule": {
+            "label": {
+                "fr": "Identifiant RH Sciences Po",
+                "en": "Sciences Po's HR identifier"
+            },
+            "service": "sirh"
+        },
+        "idSpire": {
+            "label": {
+                "fr": "identifiant SPIRE",
+                "en": "SPIRE identifier"
+            },
+            "service": "spire"
+        },
+        "ORCID": {
+            "label": {
+                "fr": "ORCID",
+                "en": "ORCID"
+            },
+            "description": {
+                "fr": "Identifiant ouvert pour chercheur et contributeur",
+                "en": "Open Researcher and Contributor ID"
+            }
+        },
+        "IDREF": {
+            "label": {
+                "fr": "IDREF",
+                "en": "IDREF"
+            },
+            "description": {
+                "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
+                "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
+            }
         }
-    },
-    "bannerUid": {
-        "label": {
-            "fr": "Identifiant scolarité Sciences Po",
-            "en": "Sciences Po's teaching identifier"
-        },
-        "service": "banner"
-    },
-    "sirhMatricule": {
-        "label": {
-            "fr": "Identifiant RH Sciences Po",
-            "en": "Sciences Po's HR identifier"
-        },
-        "service": "sirh"
-    },
-    "idSpire": {
-        "label": {
-            "fr": "identifiant SPIRE",
-            "en": "SPIRE identifier"
-        },
-        "service": "spire"
     },
     "positions": [
         {
@@ -129,7 +151,6 @@
                     "fr": "Tutelle du contrat : FNSP, CNRS, MESR...",
                     "en": "Organisation holding the position"
                 },
-                "comment": "add as suggestions the top x values already stored un the database in position.organisation",
                 "ref": "Organization"
             },
             "startDate": {
@@ -171,14 +192,7 @@
                 "min": 0.05,
                 "max": 1
             },
-            "jobTitle": {
-                "requirement": "recommended",
-                "label": {
-                    "fr": "Fonction",
-                    "en": "Function"
-                },
-                "enum": "jobTitle"
-            },
+            
             "gradesSirh": [
                 {
                     "accessType": "confidential",
@@ -306,7 +320,7 @@
                     }
                 }
             ],
-    "gradesAcademic": [
+    "grades": [
         {
             "label": {
                 "fr": "Grades académiques",
@@ -316,6 +330,14 @@
                 "fr": "Professeur, DR1, CR1...",
                 "en": "Associate Prof, Full Prof..."
             },
+            "status": {
+                "requirement": "recommended",
+                "label": {
+                    "fr": "Statut",
+                    "en": "Status"
+                },
+                "enum": "gradeStatus"
+            },
             "grade": {
                 "requirement": "mandatory",
                 "label": {
@@ -323,7 +345,7 @@
                     "en": "Grade"
                 },
                 "type": "string",
-                "enum": "gradeAcademic"
+                "enum": "grade:status"
             },
             "startDate": {
                 "label": {
@@ -413,26 +435,6 @@
             "template": "organizationDates"
         }
     ],
-    "ORCID": {
-        "label": {
-            "fr": "ORCID",
-            "en": "ORCID"
-        },
-        "description": {
-            "fr": "Identifiant ouvert pour chercheur et contributeur",
-            "en": "Open Researcher and Contributor ID"
-        }
-    },
-    "IDREF": {
-        "label": {
-            "fr": "IDREF",
-            "en": "IDREF"
-        },
-        "description": {
-            "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
-            "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
-        }
-    },
     "biography": {
         "label": {
             "fr": "Biographie",
