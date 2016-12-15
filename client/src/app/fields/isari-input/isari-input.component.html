@@ -7,6 +7,9 @@
     (blur)="update($event)"
     [isariDisabled]="form.controls[name].disabled"
     [type]="type"
+    [min]="min || null"
+    [max]="max || null"
+    [step]="step || null"
     [formControlName]="name">
      <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">{{ 'mandatory' | translate }}</md-hint>
   </md-input>
