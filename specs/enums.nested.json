@@ -912,30 +912,396 @@
             }
         ]
     },
-    "grade":{
-    "chercheur":[
-            {"value": "directeurétudes","label": {"fr": "Directeur.trice d'études","en": ""}},
-            {"value": "directeurderecherche","label": {"fr": "Directeur.trice de recherche","en": ""}},
-            {"value": "directeurderecherche1","label": {"fr": "Directeur.trice de recherche niv1","en": ""}},
-            {"value": "directeurderecherche2","label": {"fr": "Directeur.trice de recherche niv2","en": ""}},
-            {"value": "directeurderechercheex","label": {"fr": "Directeur.trice de recherche classe exceptionnelle","en": ""}},
-            {"value": "directeurderechercheremerite","label": {"fr": "Directeur.trice de recherche émérite","en": ""}},
-            {"value": "chargederecherche","label": {"fr": "Chargé.e de recherche","en": ""}},
-            {"value": "chargederecherche1","label": {"fr": "Chargé.e de recherche niv1","en": ""}},
-            {"value": "chargederecherche2","label": {"fr": "Chargé.e de recherche niv2","en": ""}},
-            {"value": "cherchcontractuel","label": {"fr": "Chercheur.e contractuel.le","en": ""}},
-            {"value": "chargédétudes","label": {"fr": "Chargé d'études","en": ""}},
-            {"value": "chargédétudes1","label": {"fr": "Chargé d'études niv1","en": ""}},
-            {"value": "chargédétudes2","label": {"fr": "Chargé d'études niv2","en": ""}},
-            {"value": "postdoc","label": {"fr": "Postdoc","en": ""}},
-            {"value": "invité","label": {"fr": "Invité.e","en": ""}},
-            {"value": "CASSIST","label": {"fr": "assistant.e de recherche","en": ""}}
+    "grade": {
+        "chercheur": [
+            {
+                "value": "directeurétudes",
+                "label": {
+                    "fr": "Directeur.trice d'études",
+                    "en": ""
+                }
+            },
+            {
+                "value": "directeurderecherche",
+                "label": {
+                    "fr": "Directeur.trice de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "directeurderecherche1",
+                "label": {
+                    "fr": "Directeur.trice de recherche niv1",
+                    "en": ""
+                }
+            },
+            {
+                "value": "directeurderecherche2",
+                "label": {
+                    "fr": "Directeur.trice de recherche niv2",
+                    "en": ""
+                }
+            },
+            {
+                "value": "directeurderechercheex",
+                "label": {
+                    "fr": "Directeur.trice de recherche classe exceptionnelle",
+                    "en": ""
+                }
+            },
+            {
+                "value": "directeurderechercheremerite",
+                "label": {
+                    "fr": "Directeur.trice de recherche émérite",
+                    "en": ""
+                }
+            },
+            {
+                "value": "chargederecherche",
+                "label": {
+                    "fr": "Chargé.e de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "chargederecherche1",
+                "label": {
+                    "fr": "Chargé.e de recherche niv1",
+                    "en": ""
+                }
+            },
+            {
+                "value": "chargederecherche2",
+                "label": {
+                    "fr": "Chargé.e de recherche niv2",
+                    "en": ""
+                }
+            },
+            {
+                "value": "cherchcontractuel",
+                "label": {
+                    "fr": "Chercheur.e contractuel.le",
+                    "en": ""
+                }
+            },
+            {
+                "value": "chargédétudes",
+                "label": {
+                    "fr": "Chargé d'études",
+                    "en": ""
+                }
+            },
+            {
+                "value": "chargédétudes1",
+                "label": {
+                    "fr": "Chargé d'études niv1",
+                    "en": ""
+                }
+            },
+            {
+                "value": "chargédétudes2",
+                "label": {
+                    "fr": "Chargé d'études niv2",
+                    "en": ""
+                }
+            },
+            {
+                "value": "postdoc",
+                "label": {
+                    "fr": "Postdoc",
+                    "en": ""
+                }
+            },
+            {
+                "value": "invité",
+                "label": {
+                    "fr": "Invité.e",
+                    "en": ""
+                }
+            },
+            {
+                "value": "CASSIST",
+                "label": {
+                    "fr": "assistant.e de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "doctorant(grade)",
+                "label": {
+                    "fr": "Doctorant.e",
+                    "en": ""
+                }
+            }
         ],
-        "chercheurenseignant",
-        "enseignantchercheur",
-        "enseignant",
-        "doctorant",
-        "appuiadministratif",
-        "appuitechnique"
+        "chercheurenseignant": [
+            {
+                "value": "professeur",
+                "label": {
+                    "fr": "Full professor",
+                    "en": ""
+                }
+            },
+            {
+                "value": "assistantprofessor",
+                "label": {
+                    "fr": "Assistant professor",
+                    "en": ""
+                }
+            },
+            {
+                "value": "associateprofessor",
+                "label": {
+                    "fr": "Associate professor",
+                    "en": ""
+                }
+            },
+            {
+                "value": "profémérite",
+                "label": {
+                    "fr": "Professeur.e émérite",
+                    "en": ""
+                }
+            },
+            {
+                "value": "doctorant(grade)",
+                "label": {
+                    "fr": "Doctorant.e",
+                    "en": ""
+                }
+            },
+            {
+                "value": "invité",
+                "label": {
+                    "fr": "Invité.e",
+                    "en": ""
+                }
+            }
+        ],
+        "enseignantchercheur": [
+            {
+                "value": "profunivémérite",
+                "label": {
+                    "fr": "Professeur.e des universités émérite",
+                    "en": ""
+                }
+            },
+            {
+                "value": "enseicherchcontractuel",
+                "label": {
+                    "fr": "Enseignant-chercheur.e contractuel.le (dont contrats LRU)",
+                    "en": ""
+                }
+            },
+            {
+                "value": "mconf",
+                "label": {
+                    "fr": "Maître.sse de conférences",
+                    "en": ""
+                }
+            },
+            {
+                "value": "mconfHC",
+                "label": {
+                    "fr": "Maître.sse de conférences Hors classe",
+                    "en": ""
+                }
+            },
+            {
+                "value": "professeurex",
+                "label": {
+                    "fr": "Professeur.e classe exceptionnelle",
+                    "en": ""
+                }
+            },
+            {
+                "value": "professeur1",
+                "label": {
+                    "fr": "Professeur.e des universités niv1",
+                    "en": ""
+                }
+            },
+            {
+                "value": "professeur2",
+                "label": {
+                    "fr": "Professeur.e des universités niv2",
+                    "en": ""
+                }
+            },
+            {
+                "value": "professeuruniv",
+                "label": {
+                    "fr": "Professeur.e des universités",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ater",
+                "label": {
+                    "fr": "ATER",
+                    "en": ""
+                }
+            },
+            {
+                "value": "doctorant(grade)",
+                "label": {
+                    "fr": "Doctorant.e",
+                    "en": ""
+                }
+            },
+            {
+                "value": "invité",
+                "label": {
+                    "fr": "Invité.e",
+                    "en": ""
+                }
+            }
+        ],
+        "enseignant": [
+            {
+                "value": "professeurassocié",
+                "label": {
+                    "fr": "Professeur.e associé.e",
+                    "en": ""
+                }
+            },
+            {
+                "value": "prag",
+                "label": {
+                    "fr": "PRAG",
+                    "en": ""
+                }
+            },
+            {
+                "value": "past",
+                "label": {
+                    "fr": "PAST",
+                    "en": ""
+                }
+            },
+            {
+                "value": "invité",
+                "label": {
+                    "fr": "Invité.e",
+                    "en": ""
+                }
+            }
+        ],
+        "appuiadministratif": [
+            {
+                "value": "ADMAENES",
+                "label": {
+                    "fr": "Administrateur.trice de l'éducation nationale et de l'enseignement supérieur, Conseiller.e d'administration scolaire et universitaire",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ADAENES",
+                "label": {
+                    "fr": "Attaché.e et Attaché.e principal d'administration de l'éducation nationale et de l'enseignement supérieur",
+                    "en": ""
+                }
+            },
+            {
+                "value": "SAENES",
+                "label": {
+                    "fr": "Secrétaire administratif.ve de l'éducation nationale et de l'enseignement supérieur",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ADJAENES",
+                "label": {
+                    "fr": "Adjoint.e d'administration de l'éducation nationale et de l'enseignement supérieur",
+                    "en": ""
+                }
+            },
+            {
+                "value": "AJT",
+                "label": {
+                    "fr": "adjoint.e.s et agent.e.s administratifs, quelle que soit la classe",
+                    "en": ""
+                }
+            },
+            {
+                "value": "ABS",
+                "label": {
+                    "fr": "ABS : agent.e de bibliothèque spécialisé.e",
+                    "en": ""
+                }
+            },
+            {
+                "value": "AUT",
+                "label": {
+                    "fr": "grade Sciences Po",
+                    "en": ""
+                }
+            }
+        ],
+        "appuitechnique": [
+            {
+                "value": "IGE",
+                "label": {
+                    "fr": "IGE : ingénieur.e d'études",
+                    "en": ""
+                }
+            },
+            {
+                "value": "IGR",
+                "label": {
+                    "fr": "IGR : ingénieur.e de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "AING",
+                "label": {
+                    "fr": "AI : assistant.e ingénieur.e",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCH",
+                "label": {
+                    "fr": "Technicien.ne de recherche, quelle que soit la classe",
+                    "en": ""
+                }
+            },
+            {
+                "value": "AJT",
+                "label": {
+                    "fr": "Adjoint.e.s et agent.e.s techniques de recherche, quelle que soit la classe",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCN",
+                "label": {
+                    "fr": "TCN : technicien.ne de classe normale",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCS",
+                "label": {
+                    "fr": "TCS : technicien.ne de classe supérieure",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCE",
+                "label": {
+                    "fr": "TCE : technicien.ne de classe exceptionnelle",
+                    "en": ""
+                }
+            },
+            {
+                "value": "AUT",
+                "label": {
+                    "fr": "grade Sciences Po",
+                    "en": ""
+                }
+            }
+        ]
     }
 }
