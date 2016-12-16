@@ -458,9 +458,7 @@ module.exports = {
               this.warning(`Found ${personLines.length} lines for "${chalk.green(ref.firstName + ' ' + ref.name)}".`);
 
             const peopleInfo = {
-              identifiers: {
-                bannerUid: ref.bannerUid
-              },
+              bannerUid: ref.bannerUid,
               birthDate: ref.birthDate,
               name: ref.name,
               firstName: ref.firstName,
@@ -470,7 +468,7 @@ module.exports = {
             };
 
             if (ref.sirhMatricule)
-              peopleInfo.identifiers.sirhMatricule = ref.sirhMatricule;
+              peopleInfo.sirhMatricule = ref.sirhMatricule;
 
             if (ref.contacts)
               peopleInfo.contacts = ref.contacts;
@@ -509,7 +507,7 @@ module.exports = {
                 people: [
                   {
                     people: {
-                      sirh: peopleInfo.identifiers && peopleInfo.identifiers.sirhMatricule,
+                      sirh: peopleInfo.sirhMatricule,
                       hash: hashPeople(peopleInfo)
                     },
                     role: 'doctorant(role)'
@@ -673,7 +671,7 @@ module.exports = {
                 people: [
                   {
                     people: {
-                      sirh: peopleInfo.identifiers && peopleInfo.identifiers.sirhMatricule,
+                      sirh: peopleInfo.sirhMatricule,
                       hash: hashPeople(peopleInfo)
                     },
                     role: 'doctorant(role)'
@@ -815,8 +813,8 @@ module.exports = {
           let match;
 
           // First, we try to match through SIRH
-          if (person.identifiers && person.identifiers.sirhMatricule)
-            match = indexes.sirh[person.identifiers.sirhMatricule];
+          if (person.sirhMatricule)
+            match = indexes.sirh[person.sirhMatricule];
 
           // Else we attempt the hash
           if (!match)
@@ -824,10 +822,8 @@ module.exports = {
 
           if (match) {
 
-            if (person.identifiers) {
-              match.identifiers = match.identifiers || {};
-              match.identifiers.bannerUid = person.identifiers.bannerUid;
-            }
+            if (person.bannerUid)
+              match.bannerUid = person.bannerUid;
 
             // Merging distinctions
             const currentDistinctions = _.keyBy(match.distinctions, 'title'),
@@ -877,8 +873,8 @@ module.exports = {
           }
 
           // Else we index the people
-          if (person.identifiers && person.identifiers.sirhMatricule)
-            indexes.sirh[person.identifiers.sirhMatricule] = person;
+          if (person.sirhMatricule)
+            indexes.sirh[person.sirhMatricule] = person;
           indexes.hashed[key] = person;
           indexes.id[person._id] = person;
         },

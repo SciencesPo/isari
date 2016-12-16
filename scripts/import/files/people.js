@@ -92,9 +92,7 @@ module.exports = {
           const person = {
             firstName: first.firstName,
             name: last.name,
-            identifiers: {
-              sirhMatricule: first.sirhMatricule
-            },
+            sirhMatricule: first.sirhMatricule,
             gender: last.gender,
             nationalities: [last.nationality],
             birthDate: first.birthDate
@@ -215,7 +213,7 @@ module.exports = {
       indexer(indexes, person) {
         indexes.id[person._id] = person;
         indexes.hashed[hashPeople(person)] = person;
-        indexes.sirh[person.identifiers.sirhMatricule] = person;
+        indexes.sirh[person.sirhMatricule] = person;
       }
     },
 

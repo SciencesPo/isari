@@ -80,53 +80,51 @@
         },
         "service": "ldap"
     },
-    "identifiers":{
-        "idScopus": {
-            "label": {
-                "fr": "Identifiant Scopus",
-                "en": "Scopus identifier"
-            }
+    "idScopus": {
+        "label": {
+            "fr": "Identifiant Scopus",
+            "en": "Scopus identifier"
+        }
+    },
+    "bannerUid": {
+        "label": {
+            "fr": "Identifiant scolarité Sciences Po",
+            "en": "Sciences Po's teaching identifier"
         },
-        "bannerUid": {
-            "label": {
-                "fr": "Identifiant scolarité Sciences Po",
-                "en": "Sciences Po's teaching identifier"
-            },
-            "service": "banner"
+        "service": "banner"
+    },
+    "sirhMatricule": {
+        "label": {
+            "fr": "Identifiant RH Sciences Po",
+            "en": "Sciences Po's HR identifier"
         },
-        "sirhMatricule": {
-            "label": {
-                "fr": "Identifiant RH Sciences Po",
-                "en": "Sciences Po's HR identifier"
-            },
-            "service": "sirh"
+        "service": "sirh"
+    },
+    "idSpire": {
+        "label": {
+            "fr": "identifiant SPIRE",
+            "en": "SPIRE identifier"
         },
-        "idSpire": {
-            "label": {
-                "fr": "identifiant SPIRE",
-                "en": "SPIRE identifier"
-            },
-            "service": "spire"
+        "service": "spire"
+    },
+    "ORCID": {
+        "label": {
+            "fr": "ORCID",
+            "en": "ORCID"
         },
-        "ORCID": {
-            "label": {
-                "fr": "ORCID",
-                "en": "ORCID"
-            },
-            "description": {
-                "fr": "Identifiant ouvert pour chercheur et contributeur",
-                "en": "Open Researcher and Contributor ID"
-            }
+        "description": {
+            "fr": "Identifiant ouvert pour chercheur et contributeur",
+            "en": "Open Researcher and Contributor ID"
+        }
+    },
+    "IDREF": {
+        "label": {
+            "fr": "IDREF",
+            "en": "IDREF"
         },
-        "IDREF": {
-            "label": {
-                "fr": "IDREF",
-                "en": "IDREF"
-            },
-            "description": {
-                "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
-                "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
-            }
+        "description": {
+            "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
+            "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
         }
     },
     "positions": [
