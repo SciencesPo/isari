@@ -329,8 +329,6 @@ module.exports = {
       name: 'BANNER_DOCTORANT_HDR',
       path: 'people/banner/BANNER_DOCTORANT_HDR.csv',
       delimiter: ',',
-      peopleFile: true,
-      skip: true,
       consumer(line) {
         const info = {
           bannerUid: line.ID,
@@ -353,6 +351,10 @@ module.exports = {
             date: line.DATE_DIPL_ADM
           }
         };
+
+        // Normalizing SIRH matricule
+        if (info.sirhMatricule && info.sirhMatricule < 5)
+          info.sirhMatricule = '0'.repeat(5 - info.sirhMatricule.length) + info.sirhMatricule;
 
         if (line.DATE_SOUTENANCE)
           info.endDate = moment(line.DATE_SOUTENANCE, 'DD/MM/YYYY').format('YYYY-MM-DD');
@@ -456,7 +458,9 @@ module.exports = {
               this.warning(`Found ${personLines.length} lines for "${chalk.green(ref.firstName + ' ' + ref.name)}".`);
 
             const peopleInfo = {
-              bannerUid: ref.bannerUid,
+              identifiers: {
+                bannerUid: ref.bannerUid
+              },
               birthDate: ref.birthDate,
               name: ref.name,
               firstName: ref.firstName,
@@ -465,12 +469,8 @@ module.exports = {
               academicMemberships: []
             };
 
-            if (ref.sirhMatricule) {
-              peopleInfo.sirhMatricule = ref.sirhMatricule;
-              // add 0 prefix to sirh matricule which were cut by a spreadsheet software
-              if (peopleInfo.sirhMatricule.length < 5)
-                peopleInfo.sirhMatricule = '0'.repeat(5 - peopleInfo.sirhMatricule.length) + peopleInfo.sirhMatricule;
-            }
+            if (ref.sirhMatricule)
+              peopleInfo.identifiers.sirhMatricule = ref.sirhMatricule;
 
             if (ref.contacts)
               peopleInfo.contacts = ref.contacts;
@@ -509,7 +509,7 @@ module.exports = {
                 people: [
                   {
                     people: {
-                      sirh: peopleInfo.sirhMatricule,
+                      sirh: peopleInfo.identifiers && peopleInfo.identifiers.sirhMatricule,
                       hash: hashPeople(peopleInfo)
                     },
                     role: 'doctorant(role)'
@@ -653,7 +653,8 @@ module.exports = {
 
               // Add gradesAcademic
               const grade = {
-                grade: 'doctorant(grade)'
+                grade: 'doctorant(grade)',
+                gradeStatus: 'chercheur'
               };
 
               if (phd.startDate)
@@ -661,7 +662,7 @@ module.exports = {
               if (phd.endDate)
                 grade.endDate = phd.endDate;
 
-              peopleInfo.gradesAcademic = [grade];
+              peopleInfo.grades = [grade];
             }
 
             if (hdr) {
@@ -672,7 +673,7 @@ module.exports = {
                 people: [
                   {
                     people: {
-                      sirh: peopleInfo.sirhMatricule,
+                      sirh: peopleInfo.identifiers && peopleInfo.identifiers.sirhMatricule,
                       hash: hashPeople(peopleInfo)
                     },
                     role: 'doctorant(role)'
@@ -814,14 +815,19 @@ module.exports = {
           let match;
 
           // First, we try to match through SIRH
-          if (person.sirhMatricule)
-            match = indexes.sirh[person.sirhMatricule];
+          if (person.identifiers && person.identifiers.sirhMatricule)
+            match = indexes.sirh[person.identifiers.sirhMatricule];
 
           // Else we attempt the hash
           if (!match)
             match = indexes.hashed[key];
 
           if (match) {
+
+            if (person.identifiers) {
+              match.identifiers = match.identifiers || {};
+              match.identifiers.bannerUid = person.identifiers.bannerUid;
+            }
 
             // Merging distinctions
             const currentDistinctions = _.keyBy(match.distinctions, 'title'),
@@ -865,12 +871,14 @@ module.exports = {
               }
             });
 
+            // TODO: merge the grades
+
             return;
           }
 
           // Else we index the people
-          if (person.sirhMatricule)
-            indexes.sirh[person.sirhMatricule] = person;
+          if (person.identifiers && person.identifiers.sirhMatricule)
+            indexes.sirh[person.identifiers.sirhMatricule] = person;
           indexes.hashed[key] = person;
           indexes.id[person._id] = person;
         },
