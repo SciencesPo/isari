@@ -3,6 +3,7 @@
  * =================================================
  */
 const fingerprint = require('talisman/keyers/fingerprint'),
+      ENUM_INDEXES = require('../indexes').ENUM_INDEXES,
       chalk = require('chalk'),
       moment = require('moment'),
       helpers = require('../helpers'),
@@ -32,7 +33,6 @@ module.exports = {
       name: 'invites',
       path: 'activities/invites.csv',
       delimiter: ',',
-      skip: true,
       consumer(line) {
         const info = {
           source: line.Source,
@@ -94,8 +94,14 @@ module.exports = {
             const gradeLine = personLines.find(line => !!line.gradeAcademic);
 
             if (gradeLine) {
-              if (gradeLine.gradeAcademic)
-                peopleInfo.gradesAcademic = [{grade: gradeLine.gradeAcademic}];
+              if (gradeLine.gradeAcademic) {
+                const gradeStatus = ENUM_INDEXES.grades.academique[gradeLine.gradeAcademic];
+
+                peopleInfo.grades = [{
+                  grade: gradeLine.gradeAcademic,
+                  gradeStatus
+                }];
+              }
 
               if (gradeLine.origin)
                 peopleInfo.academicMemberships = [{
