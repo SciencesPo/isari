@@ -915,7 +915,6 @@ module.exports = {
       name: 'sejours_etranger',
       path: 'activities/sejours_etranger.csv',
       delimiter: ',',
-      skip: true,
       consumer(line) {
         const info = {
           researchUnit: line.UR,
@@ -1068,7 +1067,6 @@ module.exports = {
     {
       name: 'contrats_isari',
       path: 'activities/contrats_isari.csv',
-      skip: true,
       consumer(line) {
         const info = {
           acronym: line.acronym, // activity.name
