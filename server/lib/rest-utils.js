@@ -2,14 +2,14 @@
 
 const { Router } = require('express')
 const { ClientError, NotFoundError } = require('./errors')
-const { identity, set, map, pick, difference, get } = require('lodash/fp')
+const { identity, set, map, pick, difference, get, reduce } = require('lodash/fp')
 const bodyParser = require('body-parser')
 const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery, filterConfidentialFields } = require('./model-utils')
 const debug = require('debug')('isari:rest')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('./permissions')
 const removeEmptyFields = require('./remove-empty-fields')
-const { getMeta } = require('./specs')
+const { getMeta, getVirtualColumn } = require('./specs')
 const config = require('config')
 const chalk = require('chalk')
 
@@ -84,12 +84,32 @@ exports.restRouter = (Model, format, getPermissions, buildListQuery = null) => {
 	return router
 }
 
+const getVirtualColumns = reduce((vs, k) => {
+	const f = getVirtualColumn(k)
+	if (f) {
+		vs[k] = f
+	}
+	return vs
+}, {})
+
+const mergeVirtuals = virtuals => object => {
+	object.virtuals = object.virtuals || {};
+
+	for (let k in virtuals) {
+		object.virtuals[k] = virtuals[k](object)
+	}
+
+	return object
+}
+
 const listModel = (Model, format, getPermissions, buildListQuery = null) => req => {
 	debug('List: start', req.originalUrl)
 	// Always keep 'opts' technical field
 	const selectFields = req.query.fields ? pick(req.query.fields.split(',').concat([ 'opts' ])) : identity
 	const applyTemplates = Boolean(Number(req.query.applyTemplates))
 	const formatOne = formatWithOpts(req, format, getPermissions, applyTemplates)
+	const virtuals = req.query.fields && getVirtualColumns(req.query.fields.split(','))
+	const addVirtuals = virtuals.length === 0 ? identity : mergeVirtuals(virtuals)
 	// Note: we don't apply field selection directly in query as some fields may be not asked, but
 	// required for some other fields' templates to be correctly calculated
 	const withPopulate = q => (applyTemplates ? populateAllQuery(q, Model.modelName) : q).exec()
@@ -98,9 +118,10 @@ const listModel = (Model, format, getPermissions, buildListQuery = null) => req 
 		: withPopulate(Model.find())
 	return query
 		.then(data => { debug('List: Model.find', data.length + ' result(s)'); return data })
-		.then(data => { debug('List: applyTemplates', applyTemplates); return data })
+		.then(data => data.map(addVirtuals))
+		.then(data => { debug('List: addVirtuals'); return data })
 		.then(peoples => Promise.all(peoples.map(formatOne)))
-		.then(data => { debug('List: formatWithOpts'); return data })
+		.then(data => { debug('List: formatWithOpts', applyTemplates); return data })
 		.then(data => data.map(selectFields))
 		.then(data => { debug('List: selectFields', req.query.fields); return data })
 		.then(removeEmptyFields)

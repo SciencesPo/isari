@@ -106,14 +106,7 @@ export class IsariDataService {
     return $layout.toPromise();
   }
 
-  getColumnsWithDefault(feature: string) {
-    return Promise.all([
-      this.getColumns(feature),
-      this.getDefaultColumns(feature)
-    ]).then(([cols, default_cols]) => default_cols.map(default_col => cols.find(col => col.key === default_col)));
-  }
-
-  getDefaultColumns(feature: string) {
+  getColumnsInfo(feature: string) {
     if (this.columnsCache) {
       return Observable.of(this.columnsCache[feature]).toPromise();
     }
@@ -125,6 +118,17 @@ export class IsariDataService {
         return columns[feature];
       })
       .catch(this.handleError);
+  }
+
+  getColumnsWithDefault(feature: string) {
+    return Promise.all([
+      this.getColumns(feature),
+      this.getDefaultColumns(feature)
+    ]).then(([cols, default_cols]) => default_cols.map(default_col => cols.find(col => col.key === default_col)));
+  }
+
+  getDefaultColumns(feature: string) {
+    return this.getColumnsInfo(feature).then(info => info['defaults']);
   }
 
   private getSchema(feature: string, path?: string) {
@@ -150,11 +154,20 @@ export class IsariDataService {
   }
 
   getColumns(feature: string) {
-    return this.getSchema(feature)
-      .then(schema => Object.keys(schema).map(key => ({
-        key,
-        label: schema[key].label
-      })));
+    return Promise.all([
+      this.getSchema(feature),
+      this.getColumnsInfo(feature)
+    ]).then(([schema, info]) => {
+      const removedColumns = info['selector']
+        .filter(col => typeof col === 'string' && col[0] === '-')
+        .map(col => col.substring(1));
+      const reals = Object.keys(schema)
+        .filter(key => removedColumns.indexOf(key) === -1)
+        .map(key => ({ key, label: schema[key].label }));
+      const virtuals = info['selector']
+        .filter(col => typeof col === 'object' && col.key && col.label)
+      return reals.concat(virtuals);
+    });
   }
 
   createExportDownloadLink(name, query) {
