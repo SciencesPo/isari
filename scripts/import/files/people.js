@@ -8,7 +8,6 @@ const moment = require('moment'),
       chalk = require('chalk'),
       partitionBy = helpers.partitionBy,
       hashPeople = helpers.hashPeople,
-      overlap = helpers.overlap,
       _ = require('lodash');
 
 module.exports = {
@@ -318,7 +317,7 @@ module.exports = {
                   return;
                 }
 
-                gradeStatus = 'appuiadministratif'
+                gradeStatus = 'appuiadministratif';
                 info.grade = 'AUT';
               }
 

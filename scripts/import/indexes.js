@@ -10,15 +10,14 @@ const COUNTRIES = require('../../specs/enum.countries.json'),
       NESTED_ENUMS = require('../../specs/enums.nested.json');
 
 const GRADE_ADMIN = new Set(NESTED_ENUMS.grade.appuiadministratif.map(g => g.value)),
-      GRADE_TECHNIQUE = new Set(NESTED_ENUMS.grade.appuitechnique.map(g => g.value));
-
-let GRADE_ACADEMIQUE = {};
+      GRADE_TECHNIQUE = new Set(NESTED_ENUMS.grade.appuitechnique.map(g => g.value)),
+      GRADE_ACADEMIQUE = {};
 
 for (const k in NESTED_ENUMS.grade) {
-  if (k === 'appuiadministratif' || k === 'appuitechnique')
+  if (k === 'appuiadministratif' || k === 'appuitechnique')
     continue;
 
-  NESTED_ENUMS.grade[k].forEach(g => GRADE_ACADEMIQUE[g.value] = k);
+  NESTED_ENUMS.grade[k].forEach(g => (GRADE_ACADEMIQUE[g.value] = k));
 }
 
 exports.ENUM_INDEXES = {
