@@ -296,7 +296,7 @@
                 "en": "Associate Prof, Full Prof..."
             },
             "gradeStatus": {
-                "requirement": "recommended",
+                "requirement": "mandatory",
                 "label": {
                     "fr": "Statut",
                     "en": "Status"
@@ -304,7 +304,7 @@
                 "enum": "gradeStatus"
             },
             "grade": {
-                "requirement": "mandatory",
+                "requirement": "recommended",
                 "label": {
                     "fr": "Grade",
                     "en": "Grade"

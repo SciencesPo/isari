@@ -291,6 +291,7 @@ module.exports = {
           }
 
           // Admin grades
+          let lastGrade;
           person.grades = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
             .map((slice, i, slices) => {
               const nextSlice = slices[i + 1];
@@ -308,6 +309,15 @@ module.exports = {
                 gradeStatus = 'appuitechnique';
               }
               else {
+                if (lastGrade && lastGrade.grade === 'AUT') {
+                  if (nextSlice && nextSlice[0])
+                    lastGrade.endDate = nextSlice[0].year;
+                  else if (slice[slice.length - 1].year !== '2016')
+                    lastGrade.endDate = slice[slice.length - 1].year;
+
+                  return;
+                }
+
                 gradeStatus = 'appuiadministratif'
                 info.grade = 'AUT';
               }
@@ -324,8 +334,10 @@ module.exports = {
               else if (slice[slice.length - 1].year !== '2016')
                 info.endDate = slice[slice.length - 1].year;
 
+              lastGrade = info;
               return info;
-            });
+            })
+            .filter(g => !!g);
 
           person.academicMemberships = partitionBy(years.filter(year => !!year.academicMembership), 'academicMembership')
             .map((slice, i, slices) => {
@@ -680,7 +692,7 @@ module.exports = {
           // Grades academic
           info.grades = [];
           years
-            .filter(year => !!year.gradeAcademic)
+            .filter(year => !!year.gradeAcademic || !!year.jobTitle)
             .forEach((year, i, relevantYears) => {
               let relevantGrade = info.grades.find(m => m.grade === year.gradeAcademic);
 
@@ -688,11 +700,17 @@ module.exports = {
               if (!relevantGrade) {
 
                 relevantGrade = {
-                  grade: year.gradeAcademic,
-                  gradeStatus: ENUM_INDEXES.grades.academique[year.gradeAcademic],
                   startDate: !i && year.startDate ? year.startDate : year.year,
                   endDate: year.year
                 };
+
+                if (year.gradeAcademic) {
+                  relevantGrade.grade = year.gradeAcademic;
+                  relevantGrade.gradeStatus = ENUM_INDEXES.grades.academique[year.gradeAcademic];
+                }
+                else {
+                  relevantGrade.gradeStatus = year.jobTitle;
+                }
 
                 info.grades.push(relevantGrade);
               }
