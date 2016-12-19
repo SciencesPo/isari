@@ -236,7 +236,8 @@ module.exports = {
           gradeAdmin: line['Grade académique'],
           organization: line.Tutelle,
           birthDate: line['Année naissance'],
-          startDate: line['Entré(e) en']
+          startDate: line['Entré(e) en'],
+          type_appui: line.type_appui
         };
 
         if (line.Mail)
@@ -258,7 +259,8 @@ module.exports = {
         const objects = persons.map(years => {
           const first = years[0],
                 job = _.find(years.slice().reverse(), year => !!year.jobName),
-                start = years.find(year => !!year.startDate);
+                start = years.find(year => !!year.startDate),
+                type_appui = years[years.length - 1]["type_appui"];
 
           const person = {
             name: first.name,
@@ -314,8 +316,11 @@ module.exports = {
 
                   return;
                 }
-
-                gradeStatus = 'appuiadministratif';
+                if (type_appui === 'AT')
+                  gradeStatus = 'appuitechnique';
+                else
+                  gradeStatus = 'appuiadministratif';
+   
                 info.grade = 'AUT';
               }
 
