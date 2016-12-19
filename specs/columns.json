@@ -1,6 +1,6 @@
 {
   "people": {
-    "defaults": ["firstName","name","academicMemberships","positions"],
+    "defaults": ["firstName","name","grades","deptMemberships"],
     "selector": [
       "-tags",
       {

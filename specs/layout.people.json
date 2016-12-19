@@ -91,22 +91,19 @@
     },
     {
         "fields": [
+            [
             "ldapUid",
             "sirhMatricule",
             "bannerUid",
             "idSpire"
-        ],
-        "label": {"fr":"identifiants FNSP","en":"FNSP identifiers"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
-        "collapsabled": true
-    },
-    {
-        "fields":  [
+            ],
+            [
             "ORCID",
             "IDREF",
             "idScopus"
+            ]
         ],
-        "label": {"fr":"identifiants externes","en":"external identifiers"},
+        "label": {"fr":"Identifiants","en":"Identifiers"},
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
