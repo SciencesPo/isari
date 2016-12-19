@@ -572,14 +572,14 @@ module.exports = {
             info.bonuses = bonusesYear.bonuses;
 
           // Chronologies: positions, dpt, academic memberships, gradesAcademic
-          const positionSlices = partitionBy(years, 'jobTitle');
+          const positionSlices = partitionBy(years.filter(year => year.organization !== 'FNSP'), 'organization');
 
           // Positions
           info.positions = positionSlices.map((slice, i) => {
             const nextSlice = positionSlices[i + 1];
 
             const jobInfo = {
-              jobTitle: slice[0].jobTitle,
+              jobType: 'emploipublic',
               organization: slice[0].organization
             };
 
@@ -593,18 +593,6 @@ module.exports = {
               jobInfo.endDate = nextSlice[0].startDate;
             else if (slice[slice.length - 1].year !== '2016')
               jobInfo.endDate = slice[slice.length - 1].year;
-
-            // Grade Admin
-            if (slice[0].gradeAdmin) {
-              jobInfo.gradesAdmin = [
-                {
-                  grade: slice[0].gradeAdmin
-                }
-              ];
-
-              if (jobInfo.startDate)
-                jobInfo.gradesAdmin[0].startDate = jobInfo.startDate;
-            }
 
             return jobInfo;
           });
@@ -757,6 +745,9 @@ module.exports = {
 
           if (person.grades)
             match.grades = (match.grades || []).concat(person.grades);
+
+          if (person.positions)
+            match.positions = (person.positions || []).concat(match.positions);
 
           return;
         }
