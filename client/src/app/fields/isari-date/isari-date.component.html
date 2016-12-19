@@ -26,24 +26,24 @@
 
   <div class="md-menu" [hidden]="!focused">
     <span md-menu-item disabled>
-      <button tabindex="-1" md-button (mousedown)="display('days')">{{ day || '-' }}</button>
-      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months[lang][month - 1] || '-' }}</button>
-      <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || '-' }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || ('year' | translate) }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months[lang][month - 1] || ('month' | translate) }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('days')">{{ day || ('day' | translate) }}</button>
     </span>
 
     <div *ngIf="displayed === 'days'" class="calendar">
-      <button tabindex="-1" (mousedown)="setDay(null, $event)" md-icon-button>-</button>
+      <button tabindex="-1" (mousedown)="setDay(null, $event)" md-icon-button><md-icon>clear</md-icon></button>
       <button tabindex="-1"  *ngFor="let d of days" (mousedown)="setDay(d, $event)" md-icon-button>{{ d }}</button>
     </div>
 
     <div *ngIf="displayed === 'months'" class="calendar">
-      <button tabindex="-1" (mousedown)="setMonth(null, $event)" md-button>-</button>
+      <button tabindex="-1" (mousedown)="setMonth(null, $event)" md-button><md-icon>clear</md-icon></button>
       <button tabindex="-1" *ngFor="let m of months[lang]; let i = index" (mousedown)="setMonth(i+1, $event)" md-button>{{ m }}</button>
     </div>
 
     <div *ngIf="displayed === 'years'" class="calendar years">
       <button tabindex="-1" (mousedown)="navigateYears(years[0]-10, $event)" md-button>...</button>
-      <button tabindex="-1" (mousedown)="setYear(null, $event)" md-button>-</button>
+      <button tabindex="-1" (mousedown)="setYear(null, $event)" md-button><md-icon>clear</md-icon></button>
       <button tabindex="-1" *ngFor="let y of years" (mousedown)="setYear(y, $event)" md-button color="">{{ y }}</button>
       <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" md-button>...</button>
     </div>
