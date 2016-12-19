@@ -126,7 +126,7 @@ export class IsariDateComponent implements OnInit {
     }
   }
 
-  deleteYear(y,$event) {
+  deleteDate(y,$event) {
     this.year = y;
     this.month = null;
     this.day = null;
