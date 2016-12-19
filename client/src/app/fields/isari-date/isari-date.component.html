@@ -48,9 +48,16 @@
       <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" md-button><md-icon>keyboard_arrow_right</md-icon></button>
     </div>
 
-    <button tabindex="-1" (mousedown)="update($event)" md-menu-item>
-      <md-icon color="primary">done</md-icon>
-    </button>
+    <div class="validate-cancel">
+      <button tabindex="-1" (mousedown)="setYear(null, $event)" md-menu-item>
+        <md-icon color="primary">clear</md-icon>
+      </button>
+
+      <button tabindex="-1" (mousedown)="update($event)" md-menu-item>
+        <md-icon color="primary">done</md-icon>
+      </button>
+    </div>
+
   </div>
 
 

@@ -22,10 +22,6 @@ isari-date {
   padding-left: 8px;
 }
 
-.calendar button {
-  float: left;
-}
-
 .calendar-years {
   display:flex;
   flex-wrap: wrap;
@@ -37,11 +33,33 @@ isari-date {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+.validate-cancel {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.validate-cancel > button {
+  width: 32px;
+  height: 32px;
+  padding: inherit;
+  padding-left: 4px;
+  padding-top: 6px;
+  margin-right: 0px;
+  display: flex;
+  flex-wrap: nowrap;
+  border-radius: 100%;
+}
 
 md-icon {
   color: #777;
   font-size: 20px;
   cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
 }
 .md-input-table {
   width: 100%;
