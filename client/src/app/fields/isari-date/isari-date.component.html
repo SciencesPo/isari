@@ -26,9 +26,9 @@
 
   <div class="md-menu" [hidden]="!focused">
     <span md-menu-item disabled>
-      <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || ('year' | translate) }}</button>
-      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months[lang][month - 1] || ('month' | translate) }}</button>
       <button tabindex="-1" md-button (mousedown)="display('days')">{{ day || ('day' | translate) }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months[lang][month - 1] || ('month' | translate) }}</button>
+      <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || ('year' | translate) }}</button>
     </span>
 
     <div *ngIf="displayed === 'days'" class="calendar">
@@ -43,13 +43,12 @@
 
     <div *ngIf="displayed === 'years'" class="calendar-years">
       <button tabindex="-1" (mousedown)="navigateYears(years[0]-10, $event)" md-button><md-icon>keyboard_arrow_left</md-icon></button>
-        <button tabindex="-1" (mousedown)="setYear(null, $event)" md-button><md-icon>clear</md-icon></button>
         <button tabindex="-1" *ngFor="let y of years" (mousedown)="setYear(y, $event)" md-button color="">{{ y }}</button>
       <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" md-button><md-icon>keyboard_arrow_right</md-icon></button>
     </div>
 
     <div class="validate-cancel">
-      <button tabindex="-1" (mousedown)="setYear(null, $event)" md-menu-item>
+      <button tabindex="-1" (mousedown)="deleteYear(y, $event)" md-menu-item>
         <md-icon color="primary">clear</md-icon>
       </button>
 

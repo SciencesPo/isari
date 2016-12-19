@@ -54,6 +54,11 @@ isari-date {
   border-radius: 100%;
 }
 
+.validate-cancel > button > md-icon{
+
+  color: #E6142D;
+}
+
 md-icon {
   color: #777;
   font-size: 20px;
@@ -71,4 +76,8 @@ md-icon {
 
 .recommended-field {
   color: #777;
+}
+
+.md-menu > span {
+  color: #E6142D;
 }
