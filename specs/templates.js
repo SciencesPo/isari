@@ -85,6 +85,23 @@ function peopleDates(p){
 	return label
 }
 
+function prefixDates(label,g){
+	if (g.startDate && g.endDate) {
+			label += ' ' + year(g.startDate) + '-' + year(g.endDate)
+	} else if (g.startDate) {
+		label += ' ' + year(g.startDate) + '-…'
+	} else if (g.endDate) {
+		label += ' …-' + year(g.endDate)
+	}
+	return label
+}
+
+// grades
+function peopleGrades(g){
+	
+	return formatEnum('gradeStatus', g.gradeStatus,label => {return prefixDates(label,g)})
+}
+
 exports.peopleName = peopleName
 exports.objectName = objectName
 exports.organizationDates = organizationDates
@@ -92,3 +109,4 @@ exports.distinction = distinction
 exports.personalActivity = personalActivity
 exports.researchUnitCode = researchUnitCode
 exports.peopleDates = peopleDates
+exports.peopleGrades = peopleGrades

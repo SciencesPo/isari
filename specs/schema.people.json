@@ -323,7 +323,8 @@
                     "en": "End date"
                 },
                 "type": "date"
-            }
+            },
+            "template":"peopleGrades"
         }
     ],
     "academicMemberships": [
