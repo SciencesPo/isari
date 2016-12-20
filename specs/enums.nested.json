@@ -48,7 +48,7 @@
             {
                 "value": "instance",
                 "label": {
-                    "fr": "participation à des instances d'expertise'",
+                    "fr": "participation à des instances d'expertise",
                     "en": ""
                 }
             }
@@ -101,14 +101,14 @@
             {
                 "value": "agregation",
                 "label": {
-                    "fr": "jury d'agrégation'",
+                    "fr": "jury d'agrégation",
                     "en": ""
                 }
             },
             {
                 "value": "selection",
                 "label": {
-                    "fr": "Comité de sélection",
+                    "fr": "comité de sélection",
                     "en": ""
                 }
             }
@@ -117,21 +117,21 @@
             {
                 "value": "memoire",
                 "label": {
-                    "fr": "Direction de mémoire",
+                    "fr": "direction de mémoire",
                     "en": ""
                 }
             },
             {
                 "value": "these",
                 "label": {
-                    "fr": "Direction/codirection de doctorat",
+                    "fr": "direction/codirection de doctorat",
                     "en": ""
                 }
             },
             {
                 "value": "hdr",
                 "label": {
-                    "fr": "Direction/codirection de HDR",
+                    "fr": "direction/codirection de HDR",
                     "en": ""
                 }
             },
@@ -147,28 +147,28 @@
             {
                 "value": "conseillaboratoire",
                 "label": {
-                    "fr": "Conseil de laboratoire",
+                    "fr": "conseil de laboratoire",
                     "en": ""
                 }
             },
             {
                 "value": "conseilscientifique",
                 "label": {
-                    "fr": "Conseil scientifique",
+                    "fr": "conseil scientifique",
                     "en": ""
                 }
             },
             {
                 "value": "comitepedagogique",
                 "label": {
-                    "fr": "Comité pédagogique",
+                    "fr": "comité pédagogique",
                     "en": ""
                 }
             },
             {
                 "value": "sectionscientifique",
                 "label": {
-                    "fr": "Section scientifique",
+                    "fr": "section scientifique",
                     "en": ""
                 }
             },
@@ -182,7 +182,7 @@
             {
                 "value": "programmeenseignement",
                 "label": {
-                    "fr": "Programme d'enseignement",
+                    "fr": "programme d'enseignement",
                     "en": ""
                 }
             }
@@ -191,28 +191,28 @@
             {
                 "value": "evaluationstructure",
                 "label": {
-                    "fr": "Evaluation de structures",
+                    "fr": "évaluation de structures",
                     "en": ""
                 }
             },
             {
                 "value": "communauteprogrammation",
                 "label": {
-                    "fr": "Communauté de programmation scientifique",
+                    "fr": "communauté de programmation scientifique",
                     "en": ""
                 }
             },
             {
                 "value": "evaluationprojets",
                 "label": {
-                    "fr": "Evaluation de projets de recherche",
+                    "fr": "évaluation de projets de recherche",
                     "en": ""
                 }
             },
             {
                 "value": "evaluationpairs",
                 "label": {
-                    "fr": "Evaluation de pairs",
+                    "fr": "évaluation de pairs",
                     "en": ""
                 }
             },

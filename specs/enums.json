@@ -219,7 +219,7 @@
         {
             "value": "CoDirection",
             "label": {
-                "fr": "Co-Direction",
+                "fr": "Co-direction",
                 "en": ""
             }
         },
@@ -233,14 +233,14 @@
         {
             "value": "reviewer",
             "label": {
-                "fr": "reviewer",
+                "fr": "Reviewer",
                 "en": ""
             }
         },
         {
             "value": "membre",
             "label": {
-                "fr": "membre",
+                "fr": "Membre",
                 "en": ""
             }
         }

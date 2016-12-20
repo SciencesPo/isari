@@ -1,1 +1,6 @@
-[["organization","startDate","endDate"]]
+[
+	[
+		"organization",
+		["startDate","endDate"]
+	]
+]

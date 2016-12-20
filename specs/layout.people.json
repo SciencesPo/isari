@@ -37,26 +37,9 @@
 
         "fields": ["grades"],
         "label": {
-                "fr": "Grades académiques",
-                "en": "Academic grades"
+                "fr": "Statut et Grades",
+                "en": "Status & Grades"
             },
-        "description":  {"fr": "Description à venir","en":"Coming description"},
-        "collapsabled": true
-    },
-      {
-
-        "fields": ["deptMemberships"],
-
-            "label": {
-                "fr": "Rattachement département",
-                "en": "Departement affiliation"
-            },
-        "description":  {"fr": "Description à venir","en":"Coming description"},
-        "collapsabled": true
-    },
-        {
-        "fields": ["tenureTracks"],
-        "label": {"fr":"Tenure track","en":"Tenure track"},
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
@@ -64,6 +47,29 @@
 
         "fields": ["positions"],
         "label": {"fr":"Parcours","en":"Trajectory"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["bonuses"],
+        "label": {"fr":"Primes","en":"Bonuses"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "collapsabled": true
+    },
+    {
+        "fields": ["tenureTracks"],
+        "label": {"fr":"Tenure track","en":"Tenure track"},
+        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "collapsabled": true
+    },
+    {
+
+        "fields": ["deptMemberships"],
+
+            "label": {
+                "fr": "Rattachement département",
+                "en": "Departement affiliation"
+            },
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
@@ -80,7 +86,6 @@
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
-    "biography",
     {
         "fields": ["tags"],
         "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
@@ -105,15 +110,10 @@
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
+    "biography",
     {
         "fields": ["isariAuthorizedCenters"],
         "label": {"fr":"Accès Isari","en":"ISARI access"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
-        "collapsabled": true
-    },
-    {
-        "fields": ["bonuses"],
-        "label": {"fr":"Primes","en":"Bonuses"},
         "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     }

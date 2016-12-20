@@ -1,7 +1,6 @@
 [
 	[
 		"organization",
-		["startDate","endDate"],
-		"membershipType"
+		["membershipType","startDate","endDate"],
 	]
 ]

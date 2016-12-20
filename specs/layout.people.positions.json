@@ -1,6 +1,10 @@
 [
-	["organization","startDate","endDate"],
-	["jobName","jobType","timepart"],
+	[
+		["organization","startDate","endDate"]
+	],
+	[
+		["jobName","jobType","timepart"]
+	],
     {
         "fields": ["gradesSirh"],
         "label": {"fr":"grade DRH","en":"HR leve"},
