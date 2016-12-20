@@ -1,1 +1,7 @@
-[["organization","startDate","endDate","membershipType"]]
+[
+	[
+		"organization",
+		["startDate","endDate"],
+		"membershipType"
+	]
+]

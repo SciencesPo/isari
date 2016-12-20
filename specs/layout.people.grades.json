@@ -1,1 +1,4 @@
-[["grade","startDate","endDate"]]
+[
+	"gradeStatus",
+	["grade","startDate","endDate"]
+]

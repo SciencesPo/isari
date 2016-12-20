@@ -1,16 +1,14 @@
 [
     [
-        "firstName",
-        "name"
+        ["firstName","name"]
     ],
      {
 
         "fields": [
-        "gender",
-        "birthDate",
-        "nationalities",
-        "langs",
-        "birthName"
+            "gender",
+            "birthDate",
+            ["nationalities","langs"],
+            "birthName"
         ],
         "label": {"fr":"Informations Personnelles","en":"Personal Information"},
         "description":  {"fr": "Description à venir","en":"Coming description"},

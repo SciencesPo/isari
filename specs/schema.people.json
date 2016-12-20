@@ -609,12 +609,6 @@
                 "fr": "Contact(s)",
                 "en": "Contact(s)"
             },
-            "title": {
-                "label": {
-                    "fr": "titre",
-                    "en": "title"
-                }
-            },
             "email": {
                 "label": {
                     "fr": "Email",
