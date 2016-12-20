@@ -52,6 +52,10 @@
     </div>
 
     <div class="validate-cancel">
+      <button tabindex="-1" (mousedown)="undoDate(y, $event)" md-menu-item>
+        <md-icon color="primary">undo</md-icon>
+      </button>
+
       <button tabindex="-1" (mousedown)="deleteDate(y, $event)" md-menu-item>
         <md-icon color="primary">clear</md-icon>
       </button>

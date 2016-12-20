@@ -84,7 +84,7 @@ export class IsariDateComponent implements OnInit {
 
     this.selectControl.setValue(this.getDisplayedValue(this.year, this.month, this.day));
 
-    this.display('days');
+    this.display('years');
 
     this.focused = false;
     this.runningClick = false;
@@ -131,6 +131,10 @@ export class IsariDateComponent implements OnInit {
     this.month = null;
     this.day = null;
     this.display('years');
+  }
+
+  undoDate(y, $event) {
+    // TODO by clicking on undo button it keeps the original date before updating it and quit date menu
   }
 
   navigateYears(y, $event) {
