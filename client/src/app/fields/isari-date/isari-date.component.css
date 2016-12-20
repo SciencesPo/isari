@@ -31,8 +31,19 @@ isari-date {
 .calendar-months {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 }
+
+.calendar-months > button {
+  width: 30%;
+}
+
+.remove-content {
+  justify-content: space-around;
+  width: 100%;
+  text-align: center;
+}
+
 .validate-cancel {
   width: 100%;
   display: flex;

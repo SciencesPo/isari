@@ -32,13 +32,17 @@
     </span>
 
     <div *ngIf="displayed === 'days'" class="calendar">
-      <button tabindex="-1" (mousedown)="setDay(null, $event)" md-icon-button><md-icon>clear</md-icon></button>
       <button tabindex="-1"  *ngFor="let d of days" (mousedown)="setDay(d, $event)" md-icon-button>{{ d }}</button>
+      <div class="remove-content">
+        <button tabindex="-1" (mousedown)="setDay(null, $event)" md-icon-button><md-icon>delete</md-icon></button>
+      </div>
     </div>
 
     <div *ngIf="displayed === 'months'" class="calendar-months">
-      <button tabindex="-1" (mousedown)="setMonth(null, $event)" md-button><md-icon>clear</md-icon></button>
       <button tabindex="-1" *ngFor="let m of months[lang]; let i = index" (mousedown)="setMonth(i+1, $event)" md-button>{{ m }}</button>
+      <div class="remove-content">
+        <button tabindex="-1" (mousedown)="setMonth(null, $event)" md-button><md-icon>delete</md-icon></button>
+      </div>
     </div>
 
     <div *ngIf="displayed === 'years'" class="calendar-years">

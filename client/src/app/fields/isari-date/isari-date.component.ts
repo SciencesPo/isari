@@ -111,7 +111,7 @@ export class IsariDateComponent implements OnInit {
   setMonth(m , $event) {
     this.month = m;
     this.days = this.setDays(this.year, this.month);
-    this.display('days');
+    this.display('months');
     if (!this.month) {
       this.day = null;
     }
