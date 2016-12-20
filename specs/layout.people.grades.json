@@ -2,6 +2,7 @@
 	"gradeStatus",
 	[
 		"grade",
-		["startDate","endDate"]
+		"startDate",
+		"endDate"
 	]
 ]
