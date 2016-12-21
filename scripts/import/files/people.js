@@ -260,7 +260,7 @@ module.exports = {
           const first = years[0],
                 job = _.find(years.slice().reverse(), year => !!year.jobName),
                 start = years.find(year => !!year.startDate),
-                type_appui = years[years.length - 1]["type_appui"];
+                typeAppui = years[years.length - 1].type_appui;
 
           const person = {
             name: first.name,
@@ -316,11 +316,11 @@ module.exports = {
 
                   return;
                 }
-                if (type_appui === 'AT')
+                if (typeAppui === 'AT')
                   gradeStatus = 'appuitechnique';
                 else
                   gradeStatus = 'appuiadministratif';
-   
+
                 info.grade = 'AUT';
               }
 
@@ -691,8 +691,10 @@ module.exports = {
 
                 relevantGrade = {
                   startDate: !i && year.startDate ? year.startDate : year.year,
-                  endDate: year.year
                 };
+
+                if (i !== relevantYears.length - 1)
+                  relevantGrade.endDate = year.year;
 
                 if (year.gradeAcademic) {
                   relevantGrade.grade = year.gradeAcademic;
