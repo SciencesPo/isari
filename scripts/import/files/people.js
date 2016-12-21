@@ -691,8 +691,10 @@ module.exports = {
 
                 relevantGrade = {
                   startDate: !i && year.startDate ? year.startDate : year.year,
-                  endDate: year.year
                 };
+
+                if (i!=relevantYears.length-1)
+                  relevantGrade.endDate = year.year
 
                 if (year.gradeAcademic) {
                   relevantGrade.grade = year.gradeAcademic;
