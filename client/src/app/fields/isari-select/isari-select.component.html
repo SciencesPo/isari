@@ -18,7 +18,7 @@
         </div>
         <div class="md-input-suffix">
           <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
-          <md-icon *ngIf="description" class="tooltip-fields" [md-tooltip]="description">info_outline
+          <md-icon *ngIf="description" [md-tooltip]="description">info_outline
           </md-icon>
             <a *ngIf="id" routerLink="/{{ api }}/{{ id }}" target="_blank" preserveQueryParams>
               <md-icon>open_in_new</md-icon>

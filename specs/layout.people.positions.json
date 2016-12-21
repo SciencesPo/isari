@@ -1,9 +1,13 @@
 [
 	[
-		["organization","startDate","endDate"]
+		"organization",
+		"startDate",
+        "endDate"
 	],
 	[
-		["jobName","jobType","timepart"]
+		"jobName",
+        "jobType",
+        "timepart"
 	],
     {
         "fields": ["gradesSirh"],

@@ -1,8 +1,9 @@
-[["grantType","grantInstrument","grantProgram"],
- ["grantIdentifier","grantCall"],
- ["name","organization","delegationCNRS"],
-["status","submissionDate"],
-["startDate","endDate","durationInMonths"],
-["UG","currencyAmount","overheadsCalculation"],
-"amounts"
+[
+	["grantType","grantInstrument","grantProgram"],
+ 	["grantIdentifier","grantCall"],
+ 	["organization","delegationCNRS"],
+	["status","submissionDate"],
+	["startDate","endDate","durationInMonths"],
+	["UG","currencyAmount","overheadsCalculation"],
+	"amounts"
 ]

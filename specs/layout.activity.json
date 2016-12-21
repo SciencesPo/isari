@@ -5,8 +5,7 @@
         ["subject","url"],
         "summary",
         "activityType",
-        "startDate",
-        "endDate"
+        ["startDate","endDate"]
     ],
     {
         "fields": [

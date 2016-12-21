@@ -32,6 +32,7 @@
     <div class="md-input-suffix">
       <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
       <md-icon class="tooltip-fields" *ngIf="description" [md-tooltip]="description">info_outline</md-icon>
+      <md-icon class="tooltip-fields" [md-tooltip]="'multiplechoices' | translate ">info_outline</md-icon>
     </div>
   </div>
   <div class="md-input-underline" [class.md-disabled]="disabled">

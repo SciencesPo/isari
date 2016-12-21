@@ -423,8 +423,8 @@
         "aeres2012": [
             {
                 "label": {
-                    "fr": "Aires géographiques",
-                    "en": "Geographical areas"
+                    "fr": "Aire(s) géographique(s)",
+                    "en": "Geographical area(s)"
                 },
                 "enum": "aeres2012"
             }
@@ -432,8 +432,8 @@
         "methods": [
             {
                 "label": {
-                    "fr": "Méthodes",
-                    "en": "Methods"
+                    "fr": "Méthode(s)",
+                    "en": "Method(s)"
                 },
                 "enum": "methods"
             }
@@ -441,16 +441,16 @@
         "free": [
             {
                 "label": {
-                    "fr": "Mots-clés libres",
-                    "en": "Free keywords"
+                    "fr": "Mot(s)-clé(s) libre(s)",
+                    "en": "Free keyword(s)"
                 }
             }
         ],
         "erc": [
             {
                 "label": {
-                    "fr": "Domaine ERC",
-                    "en": "ERC domain"
+                    "fr": "Domaine(s) ERC",
+                    "en": "ERC domain(s)"
                 },
                 "enum": "erc"
             }
@@ -458,8 +458,8 @@
         "discipline": [
             {
                 "label": {
-                    "fr": "Disciplines",
-                    "en": "Academics"
+                    "fr": "Discipline(s)",
+                    "en": "Discipline(s)"
                 },
                 "enum": "disciplines"
             }
@@ -467,8 +467,8 @@
         "researchTheme": [
             {
                 "label": {
-                    "fr": "Thèmes de recherche",
-                    "en": "Research themes"
+                    "fr": "Thème(s) de recherche",
+                    "en": "Research theme(s)"
                 },
                 "enum": "researchThemes"
             }
@@ -526,8 +526,8 @@
             "organizations": [
                 {
                     "label": {
-                        "fr": "Organisations",
-                        "en": "Organizations"
+                        "fr": "Organisation(s)",
+                        "en": "Organization(s)"
                     },
                     "ref": "Organization"
                 }
@@ -560,8 +560,8 @@
             "organizations": [
                 {
                     "label": {
-                        "fr": "Organisations",
-                        "en": "Organizations"
+                        "fr": "Organisation(s)",
+                        "en": "Organization(s)"
                     },
                     "ref": "Organization"
                 }
@@ -597,7 +597,7 @@
             },
             "honours": {
                 "label": {
-                    "fr": "Honneurs",
+                    "fr": "Mention",
                     "en": "Honours"
                 }
             }
@@ -627,8 +627,8 @@
     "langs": [
         {
             "label": {
-                "fr": "Langues",
-                "en": "Languages"
+                "fr": "Langue(s)",
+                "en": "Language(s)"
             },
             "enum": "iso6391"
         }

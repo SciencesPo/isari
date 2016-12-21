@@ -2,8 +2,8 @@
     "name": {
         "requirement": "mandatory",
         "label": {
-            "fr": "Nom",
-            "en": "Name"
+            "fr": "Intitulé",
+            "en": "Title"
         }
     },
     "template": "objectName",
@@ -199,7 +199,7 @@
     "grants": [
         {
             "label": {
-                "fr": "Subventions",
+                "fr": "Financements",
                 "en": "Grants"
             },
             "organization": {
@@ -210,12 +210,6 @@
                 "ref": "Organization"
             },
             "template":"organizationDates",
-            "name": {
-                "label": {
-                    "fr": "Nom",
-                    "en": "Name"
-                }
-            },
             "grantType": {
                 "label": {
                     "fr": "Type",

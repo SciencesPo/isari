@@ -114,7 +114,7 @@
     },
     {
         "fields": ["tags"],
-        "label": {"fr":"Thématiques et domaines de recherches","en":"Research Themes and Domains"},
+        "label": {"fr":"Thématiques et domaines de recherche","en":"Research Themes and Domains"},
         "description":  {
             "fr":"Descriptif des intérêts de recherche et rattachement disciplinaire",
             "en":"Description of research interests and disciplinary affiliation"
