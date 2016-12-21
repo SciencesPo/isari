@@ -36,7 +36,7 @@ function applyTemplates (object, name, depth = 0) {
 }
 
 function _applyTemplates (ownerDoc, object, meta, depth) {
-	if (Array.isArray(meta)) {
+	if (object && Array.isArray(meta)) {
 		if (!Array.isArray(object)) {
 			throw new Error('Model inconsistency: meta declares array field, object is not an array')
 		}
