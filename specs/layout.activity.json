@@ -13,10 +13,13 @@
             "organizations"
         ],
         "label": {
-            "fr": "organisation(s) impliquée(s)",
-            "en": "related organization(s)"
+            "fr":"Organisation(s) impliquée(s)",
+            "en":"Related organization(s)"
         },
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Organismes, entités, structures participant à l’activité",
+            "en":"Organizations, entities, structures involved in the activity"
+        },
         "collapsabled": true
     },
     {
@@ -24,29 +27,41 @@
             "people"
         ],
         "label": {
-            "fr": "personne(s) impliquée(s)",
-            "en": "related people"
+            "fr":"Personne(s) impliquée(s)",
+            "en":"Related people"
         },
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Personnes participant à l’activité, quel que soit leur rôle ou leur statut",
+            "en":"Persons participating in the activity, irrespective of their role or status"
+        },
         "collapsabled": true
     },
     {
         "fields": ["grants"],
         "label": {"fr":"Financement","en":"Funding"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Dans le cas où un projet est contractuel : informations relatives au(x) financement(s) et financeur(s)",
+            "en":"In case a project is contractual: information related to financing and funder(s)"
+        },
         "collapsabled": true
     },
     {
         "fields": ["tags"],
-        "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "label": {"fr":"Thématiques et domaines de recherche","en":"Themes and research domains"},
+        "description":  {
+            "fr":"Descriptif des thématiques de recherche auxquelles est liée l’activité",
+            "en":"Description of the research themes related to the activity"
+        },
         "collapsabled": true
     },
    
     {
         "fields": ["distinctions"],
-        "label": {"fr":"prix et distinctions","en":"Awards"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "label": {"fr":"Prix et distinctions","en":"Awards"},
+        "description":  {
+            "fr":"Prix, distinctions obtenus au titre de l’activité (ex: prix décerné à un projet de recherche)",
+            "en":"Prizes, distinctions obtained for the activity (eg prize awarded to a research project)"
+        },
         "collapsabled": true
     }   
 

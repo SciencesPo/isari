@@ -10,7 +10,10 @@
     <md-card-subtitle *ngIf="group.label">
       <div>{{ group.label }} <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)"><md-icon>{{ group.collapsed ? 'arrow_drop_down_circle' : 'keyboard_arrow_down' }}</md-icon>
       </a></div>
-      <div [hidden]="group.collapsed" class="tooltip-by-content"><div class="tooltip-desc">{{ group.description }}</div><md-icon>help</md-icon></div>
+      <div *ngIf="group.description" [hidden]="group.collapsed" class="tooltip-by-content">
+        <div class="tooltip-desc">{{ group.description }}</div>
+        <md-icon>help</md-icon>
+      </div>
     </md-card-subtitle>
 
     <table [hidden]="group.collapsed" style="width: 95%;">

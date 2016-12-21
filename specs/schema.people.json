@@ -82,7 +82,7 @@
     },
     "idScopus": {
         "label": {
-            "fr": "Identifiant Scopus",
+            "fr": "ID Scopus",
             "en": "Scopus identifier"
         }
     },
@@ -102,7 +102,7 @@
     },
     "idSpire": {
         "label": {
-            "fr": "identifiant SPIRE",
+            "fr": "ID SPIRE",
             "en": "SPIRE identifier"
         },
         "service": "spire"
@@ -519,7 +519,7 @@
             },
             "description": {
                 "label": {
-                    "fr": "Activités personnelles d'enseignement, d'expertise, d'encadrement...",
+                    "fr": "Activités individuelles d’évaluation, d’expertise, d’encadrement, d’enseignement, activités éditoriales…",
                     "en": "Personal activities : teaching, expertise..."
                 }
             },
@@ -551,7 +551,7 @@
             },
             "title": {
                 "label": {
-                    "fr": "Titre",
+                    "fr": "Intitulé",
                     "en": "Title"
                 },
                 "requirement": "mandatory"

@@ -11,7 +11,6 @@
             "birthName"
         ],
         "label": {"fr":"Informations Personnelles","en":"Personal Information"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     {
@@ -20,76 +19,106 @@
             "office"
         ],
         "label": {"fr":"Coordonnées","en":"Contact details"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Coordonnées professionnelles et/ou personnelles",
+            "en":"Professional and/or personal contact details"
+        },
         "collapsabled": true
     },
     {
 
         "fields": ["academicMemberships"],
         "label": {
-                "fr": "Rattachement labo",
-                "en": "Unit affiliation"
+                "fr":"Rattachement labo",
+                "en":"Unit affiliation"
             },
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Historique des rattachements scientifiques et administratifs au sein des unités de recherche de Sciences Po",
+            "en":"History of scientific and administrative affiliation to Sciences Po research units"
+            },
         "collapsabled": true
     },
     {
 
         "fields": ["grades"],
         "label": {
-                "fr": "Statut et Grades",
-                "en": "Status & Grades"
+                "fr":"Statut et Grades",
+                "en":"Status & Grades"
             },
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Historique des statuts et grades occupés",
+            "en":"History of statuses and grades"
+        },
         "collapsabled": true
     },
     {
 
         "fields": ["positions"],
         "label": {"fr":"Parcours","en":"Trajectory"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Informations contractuelles",
+            "en":"Information concerning the employment contract"
+        },
         "collapsabled": true
     },
     {
         "fields": ["bonuses"],
         "label": {"fr":"Primes","en":"Bonuses"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Information confidentielle, existence d’une prime",
+            "en":"Confidential information, existence of a bonus"
+        },
         "collapsabled": true
     },
     {
         "fields": ["tenureTracks"],
         "label": {"fr":"Tenure track","en":"Tenure track"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Informations administratives liées au processus de tenure track (étapes, dates)",
+            "en":"Administrative information concerning the tenure track process (steps, dates of evaluation)"
+        },
         "collapsabled": true
     },
     {
 
         "fields": ["deptMemberships"],
 
-            "label": {
-                "fr": "Rattachement département",
-                "en": "Departement affiliation"
-            },
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "label": {
+            "fr":"Rattachement département",
+            "en":"Departement affiliation"
+        },
+        "description":  {
+            "fr":"Historique des rattachements aux départements disciplinaires de Sciences Po",
+            "en":"History of affiliations to Sciences Po’s disciplinary departments"
+        },
         "collapsabled": true
     },
     {
 
         "fields": ["distinctions"],
         "label": {"fr":"Diplômes et distinctions","en":"Diplomas and awards"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Diplômes, prix, distinctions obtenus",
+            "en":"Diplomas, awards, distinctions obtained"
+        },
         "collapsabled": true
     },
     {
         "fields": ["personalActivities"],
         "label": {"fr":"Activités et responsabilités","en":"Activities and responsibilities"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "description":  {
+            "fr":"Activités développées, responsabilités et mandats occupés par une personne (activités éditoriales, jurys, encadrement, expertise, évaluation, collaborations scientifiques…)",
+            "en":"Activities, responsibilities and mandates held by a person (editorial activities, supervision, expertise, evaluation, scientific collaborations, etc.)"
+        },
         "collapsabled": true
     },
     {
         "fields": ["tags"],
-        "label": {"fr":"Thématiques et domaines de recherches","en":"Themes and research domains"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
+        "label": {"fr":"Thématiques et domaines de recherches","en":"Research Themes and Domains"},
+        "description":  {
+            "fr":"Descriptif des intérêts de recherche et rattachement disciplinaire",
+            "en":"Description of research interests and disciplinary affiliation"
+        },
         "collapsabled": true
     },
     {
@@ -107,14 +136,12 @@
             ]
         ],
         "label": {"fr":"Identifiants","en":"Identifiers"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     },
     "biography",
     {
         "fields": ["isariAuthorizedCenters"],
         "label": {"fr":"Accès Isari","en":"ISARI access"},
-        "description":  {"fr": "Description à venir","en":"Coming description"},
         "collapsabled": true
     }
 
