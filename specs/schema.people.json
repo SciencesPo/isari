@@ -286,8 +286,8 @@
     "grades": [
         {
             "label": {
-                "fr": "Grades académiques",
-                "en": "Academic grades"
+                "fr": "Statut et grades",
+                "en": "Statuses and grades"
             },
             "description": {
                 "fr": "Professeur, DR1, CR1...",
@@ -435,7 +435,7 @@
                     "fr": "Méthode(s)",
                     "en": "Method(s)"
                 },
-                "enum": "methods"
+                "softenum": "methods"
             }
         ],
         "free": [
