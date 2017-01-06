@@ -38,7 +38,7 @@ export class IsariDateComponent implements OnInit {
     this.year = (new Date()).getFullYear();
   }
 
-  ngOnInit() {
+  private ngOnInit() {
     this.lang = this.translate.currentLang;
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
@@ -126,15 +126,16 @@ export class IsariDateComponent implements OnInit {
     }
   }
 
-  deleteDate(y,$event) {
+  deleteDate(y, $event) {
     this.year = y;
     this.month = null;
     this.day = null;
     this.display('years');
   }
 
-  undoDate(y, $event) {
-    // TODO by clicking on undo button it keeps the original date before updating it and quit date menu
+  undoDate($event) {
+    this.ngOnInit();
+    this.focused = false;
   }
 
   navigateYears(y, $event) {
