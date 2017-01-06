@@ -998,29 +998,22 @@
         {
             "value": "submitted",
             "label": {
-                "fr": "submitted",
-                "en": ""
+                "fr": "soumis",
+                "en": "submitted"
             }
         },
         {
             "value": "accepted",
             "label": {
-                "fr": "accepted",
-                "en": ""
-            }
-        },
-        {
-            "value": "ongoing",
-            "label": {
-                "fr": "ongoing",
-                "en": ""
+                "fr": "accepté",
+                "en": "accepted"
             }
         },
         {
             "value": "rejected",
             "label": {
-                "fr": "rejected",
-                "en": ""
+                "fr": "refusé",
+                "en": "rejected"
             }
         }
     ],
