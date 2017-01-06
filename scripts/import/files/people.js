@@ -233,17 +233,28 @@ module.exports = {
           gender: line.Genre,
           jobName: line.Fonction,
           academicMembership: line.Unité,
-          gradeAdmin: line['Grade académique'],
           organization: line.Tutelle,
           birthDate: line['Année naissance'],
-          startDate: line['Entré(e) en'],
-          type_appui: line.type_appui
+          startDate: line['Entré(e) en']
         };
 
         if (line.Mail)
           info.contacts = {
             email: line.Mail
           };
+
+
+        // converting typeAppui to gradeStatus
+        if (line.type_appui === 'AT')
+          info.gradeStatus = 'appuitechnique';
+        else
+          info.gradeStatus = 'appuiadministratif';
+
+        // fall back to AUTin case of unknown grade
+        if (!ENUM_INDEXES.grades.admin.has(line['Grade académique']) && !ENUM_INDEXES.grades.technique.has(line['Grade académique']))
+          info.grade = 'AUT';
+        else
+          info.grade = line['Grade académique'];
 
         return info;
       },
@@ -259,8 +270,7 @@ module.exports = {
         const objects = persons.map(years => {
           const first = years[0],
                 job = _.find(years.slice().reverse(), year => !!year.jobName),
-                start = years.find(year => !!year.startDate),
-                typeAppui = years[years.length - 1].type_appui;
+                start = years.find(year => !!year.startDate);
 
           const person = {
             name: first.name,
@@ -290,41 +300,15 @@ module.exports = {
           }
 
           // Admin grades
-          let lastGrade;
-          person.grades = partitionBy(years.filter(year => !!year.gradeAdmin), 'gradeAdmin')
+
+          person.grades = partitionBy(years.filter(year => !!year.grade), 'grade')
             .map((slice, i, slices) => {
               const nextSlice = slices[i + 1];
 
               const info = {
-                grade: slice[0].gradeAdmin
+                grade: slice[0].grade,
+                gradeStatus: slice[0].gradeStatus
               };
-
-              let gradeStatus;
-
-              if (ENUM_INDEXES.grades.admin.has(info.grade)) {
-                gradeStatus = 'appuiadministratif';
-              }
-              else if (ENUM_INDEXES.grades.technique.has(info.grade)) {
-                gradeStatus = 'appuitechnique';
-              }
-              else {
-                if (lastGrade && lastGrade.grade === 'AUT') {
-                  if (nextSlice && nextSlice[0])
-                    lastGrade.endDate = nextSlice[0].year;
-                  else if (slice[slice.length - 1].year !== '2016')
-                    lastGrade.endDate = slice[slice.length - 1].year;
-
-                  return;
-                }
-                if (typeAppui === 'AT')
-                  gradeStatus = 'appuitechnique';
-                else
-                  gradeStatus = 'appuiadministratif';
-
-                info.grade = 'AUT';
-              }
-
-              info.gradeStatus = gradeStatus;
 
               if (!i && slice[0].startDate)
                 info.startDate = slice[0].startDate;
@@ -336,7 +320,6 @@ module.exports = {
               else if (slice[slice.length - 1].year !== '2016')
                 info.endDate = slice[slice.length - 1].year;
 
-              lastGrade = info;
               return info;
             })
             .filter(g => !!g);
@@ -384,15 +367,17 @@ module.exports = {
 
           const org = person.positions[0].organization;
 
-          if (org === 'FNSP') {
+          // if (org === 'FNSP') {
 
-            if (person.grades)
-              match.grades = person.grades;
-          }
-          else {
-            match.positions = match.positions.concat(person.positions);
-          }
-
+          //   if (person.grades)
+          //     match.grades = person.grades;
+          // }
+          // else {
+          //   match.positions = match.positions.concat(person.positions);
+          // }
+          if (org !== 'FNSP')
+              match.positions = match.positions.concat(person.positions);
+          match.grades = person.grades;
           // Overriding academic memberships
           if (person.academicMemberships)
             match.academicMemberships = person.academicMemberships;
@@ -424,8 +409,9 @@ module.exports = {
           firstName: line.Prénom,
           gender: line.GENRE,
           birthDate: line.Âge,
-          jobTitle: line.Statut,
-          organization: line.Tutelle
+          organization: line.Tutelle,
+          grade: line.Grade,
+          gradeStatus: line.Statut
         };
 
         if (line.Mail)
@@ -438,13 +424,6 @@ module.exports = {
 
         if (line['Entré(e) en'])
           info.startDate = line['Entré(e) en'].slice(0, 4);
-
-        if (line.Grade) {
-          if (/^appui/.test(info.jobTitle))
-            info.gradeAdmin = line.Grade;
-          else
-            info.gradeAcademic = line.Grade;
-        }
 
         if (line['Prime Incitation / Convergence']) {
           info.bonuses = line['Prime Incitation / Convergence']
@@ -682,10 +661,10 @@ module.exports = {
           // Grades academic
           info.grades = [];
           years
-            .filter(year => !!year.gradeAcademic || !!year.jobTitle)
+            .filter(year => !!year.grade || !!year.gradeStatus)
             .forEach((year, i, relevantYears) => {
-              let relevantGrade = info.grades.find(m => m.grade === year.gradeAcademic);
 
+              let relevantGrade = info.grades.find(m => m.grade === year.grade);
               // If no relevant grade was found, we add it
               if (!relevantGrade) {
 
@@ -696,13 +675,8 @@ module.exports = {
                 if (i !== relevantYears.length - 1)
                   relevantGrade.endDate = year.year;
 
-                if (year.gradeAcademic) {
-                  relevantGrade.grade = year.gradeAcademic;
-                  relevantGrade.gradeStatus = ENUM_INDEXES.grades.academique[year.gradeAcademic];
-                }
-                else {
-                  relevantGrade.gradeStatus = year.jobTitle;
-                }
+                relevantGrade.grade = year.grade;
+                relevantGrade.gradeStatus = year.gradeStatus;
 
                 info.grades.push(relevantGrade);
               }
