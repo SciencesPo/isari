@@ -223,29 +223,37 @@
             ]
         }
     ],
-    "tenureTracks": [
+    "facultyMonitoring": [
                 {
                     "label": {
-                        "fr": "Tenure track",
-                        "en": "Tenure track"
+                        "fr": "Suivi de la faculté permanente",
+                        "en": "Faculty monitoring"
                     },
                     "description": {
-                        "fr": "Informations relatives à une tenure track",
-                        "en": "Tenure track information"
+                        "fr": "tenure track, raisons de départs...",
+                        "en": "Tenure track, moving out..."
                     },
                     "accessType": "confidential",
-                    "reviewDate": {
+                    "date": {
                         "label": {
                             "fr": "Date d'évaluation",
                             "en": "Review date"
                         },
                         "type": "date"
                     },
-                    "review": {
+                    "facultyMonitoringType":{
                         "label": {
-                            "fr": "Commentaires à propos de l'évaluation",
-                            "en": "Comments about the review"
-                        }
+                            "fr": "type d'événement",
+                            "en": "event type"
+                        },
+                        "enum":"facultyMonitoringTypes"
+                    },
+                    "comment": {
+                        "label": {
+                            "fr": "Commentaires",
+                            "en": "Comments"
+                        },
+                        "type": "text"
                     }
                 }
             ],

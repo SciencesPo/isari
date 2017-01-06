@@ -71,8 +71,8 @@
         "collapsabled": true
     },
     {
-        "fields": ["tenureTracks"],
-        "label": {"fr":"Tenure track","en":"Tenure track"},
+        "fields": ["facultyMonitoring"],
+        "label": {"fr":"Suivi de la faculté permanente","en":"Permanent faculty monitoring"},
         "description":  {
             "fr":"Informations administratives liées au processus de tenure track (étapes, dates)",
             "en":"Administrative information concerning the tenure track process (steps, dates of evaluation)"
