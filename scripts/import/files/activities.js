@@ -106,7 +106,7 @@ module.exports = {
               if (gradeLine.origin)
                 peopleInfo.academicMemberships = [{
                   organization: gradeLine.origin,
-                  membershipType: 'visiting'
+                  membershipType: 'membre'
                 }];
             }
 
