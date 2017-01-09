@@ -19,11 +19,12 @@ export class IsariMultiSelectComponent implements OnInit {
   _values = [];
   options: any[] = [];
   selectControl: FormControl;
-  empty: boolean;
+  empty: boolean = true;
   focused: boolean = false;
   extend = false;
   lang: string;
   disabled: boolean;
+  altLabel: string;
 
   @Input() name: string;
   @Input() form: FormGroup;
@@ -48,6 +49,8 @@ export class IsariMultiSelectComponent implements OnInit {
   ngOnInit() {
     this.lang = this.translate.currentLang;
     this.disabled = this.form.controls[this.name].disabled;
+
+    this.setAltLabel();
 
     this.selectControl = new FormControl({
       value: '',
@@ -78,7 +81,7 @@ export class IsariMultiSelectComponent implements OnInit {
 
   set values(values: any[]) {
     this._values = values;
-    this.empty = true; //this.values.length === 0;
+    this.empty = this.values.length === 0;
     this.form.controls[this.name].setValue(values.map(v => v.id || v.value));
   }
 
@@ -89,12 +92,14 @@ export class IsariMultiSelectComponent implements OnInit {
   onFocus($event) {
     this.empty = false;
     this.focused = true;
+    this.altLabel = '';
   }
 
   onBlur($event) {
     this.addValue(this.selectControl.value);
-    this.empty = true;
+    this.empty = this.values.length === 0;
     this.focused = false;
+    this.setAltLabel();
   }
 
   onKey($event) {
@@ -165,6 +170,10 @@ export class IsariMultiSelectComponent implements OnInit {
     } else {
       this.extend = false;
     }
+  }
+
+  private setAltLabel () {
+    this.altLabel = 'Ajouter une valeur';
   }
 
 }
