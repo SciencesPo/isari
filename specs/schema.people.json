@@ -660,5 +660,11 @@
                 "en": "office"
             }
         }
-    }
+    },
+    "computerInventoryNumber": [{
+        "label": {
+                "fr": "numéro d'inventaire du poste informatique",
+                "en": "Computer inventory number"
+            }
+    }]
 }
