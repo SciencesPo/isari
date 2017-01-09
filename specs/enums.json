@@ -2046,6 +2046,50 @@
             }
         }
     ],
+    "teachingDepartements": [
+        {
+            "value": "Département de science politique",
+            "label": {
+                "fr": "Département de science politique",
+                "en": ""
+            }
+        },
+        {
+            "value": "Ecole de droit",
+            "label": {
+                "fr": "Ecole de droit",
+                "en": ""
+            }
+        },
+        {
+            "value": "Département d'histoire",
+            "label": {
+                "fr": "Département d'histoire",
+                "en": ""
+            }
+        },
+        {
+            "value": "Département de sociologie",
+            "label": {
+                "fr": "Département de sociologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "Département d'économie",
+            "label": {
+                "fr": "Département d'économie",
+                "en": ""
+            }
+        },
+        {
+            "value": "Département de langues",
+            "label": {
+                "fr": "Département de langues",
+                "en": ""
+            }
+        }
+    ],
     "hceres2017": [
         {
             "value": "st1",
