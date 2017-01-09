@@ -981,7 +981,10 @@ module.exports = {
             name: `Séjour de recherche : ${person.firstName} ${person.name}`,
             activityType: 'mob_sortante',
             people: [
-              {people: key}
+              {
+                people: key,
+                role: 'visiting'
+              }
             ],
             organizations: []
           };
@@ -1007,6 +1010,14 @@ module.exports = {
           ].forEach(prop => {
             if (line[prop])
               activity[prop] = line[prop];
+          });
+
+          [
+            'startDate',
+            'endDate'
+          ].forEach(prop => {
+            if (line[prop])
+              activity.people[0][prop] = line[prop];
           });
 
           activities.push(activity);
