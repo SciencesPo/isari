@@ -176,11 +176,10 @@ module.exports = {
             name: `Invité : ${person.firstName} ${person.name}`,
             organizations: [],
             people: [{
-              people: personKey
+              people: personKey,
+              role: 'visiting'
             }]
           };
-
-          // TODO: add a role
 
           if (line.startDate) {
             activityInfo.startDate = line.startDate;
