@@ -472,7 +472,7 @@ module.exports = {
             .split(',')
             .map(dept => {
               return {
-                organization: dept.trim()
+                departement: dept.trim()
               };
             });
         }
@@ -588,12 +588,12 @@ module.exports = {
             .forEach((year, i, relevantYears) => {
 
               year.deptMemberships.forEach(membership => {
-                let relevantMembership = info.deptMemberships.find(m => m.organization === membership.organization);
+                let relevantMembership = info.deptMemberships.find(m => m.departement === membership.departement);
 
                 // If no relevant membership was found, we add it
                 if (!relevantMembership) {
                   relevantMembership = {
-                    organization: membership.organization,
+                    departement: membership.departement,
                     startDate: !i && year.startDate ? year.startDate : year.year,
                     endDate: year.year
                   };
