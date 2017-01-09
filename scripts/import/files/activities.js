@@ -613,6 +613,7 @@ module.exports = {
               if (phd.previous.idBanner) {
                 const previousDistinction = {
                   distinctionType: 'diplôme',
+                  distinctionSubtype: 'master',
                   title: phd.previous.title,
                   organizations: [phd.previous.idBanner]
                 };
@@ -629,6 +630,7 @@ module.exports = {
               // Add PHD
               const distinction = {
                 distinctionType: 'diplôme',
+                distinctionSubtype: 'doctorat',
                 title: 'Doctorat',
                 countries: ['FR'],
                 organizations: ['IEP Paris']
@@ -778,6 +780,7 @@ module.exports = {
 
               const distinction = {
                 distinctionType: 'diplôme',
+                distinctionSubtype: 'hdr',
                 title: 'HDR',
                 countries: ['FR'],
                 organizations: ['IEP Paris']

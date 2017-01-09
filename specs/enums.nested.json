@@ -1,4 +1,75 @@
 {
+    "distinctionSubtypes": {
+        "diplôme": [
+            {
+                "value": "doctorat",
+                "label": {
+                    "fr": "Doctorat",
+                    "en": "Phd"
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "HDR",
+                    "en": "HDR"
+                }
+            },
+            {
+                "value": "master",
+                "label": {
+                    "fr": "Master",
+                    "en": "Master"
+                }
+            }
+        ],
+        "doublediplôme": [
+            {
+                "value": "doctorat",
+                "label": {
+                    "fr": "Doctorat",
+                    "en": "Phd"
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "HDR",
+                    "en": "HDR"
+                }
+            },
+            {
+                "value": "master",
+                "label": {
+                    "fr": "Master",
+                    "en": "Master"
+                }
+            }
+        ],
+        "cotutelle": [
+            {
+                "value": "doctorat",
+                "label": {
+                    "fr": "Doctorat",
+                    "en": "Phd"
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "HDR",
+                    "en": "HDR"
+                }
+            },
+            {
+                "value": "master",
+                "label": {
+                    "fr": "Master",
+                    "en": "Master"
+                }
+            }
+        ]
+    },
     "personalActivitySubtypes": {
         "editorial": [
             {

@@ -604,6 +604,13 @@
                 },
                 "enum": "distinctionTypes"
             },
+            "distinctionSubtype": {
+                "label": {
+                    "fr": "Plus précisément",
+                    "en": "More precisely"
+                },
+                "softenum": "distinctionSubtypes:./distinctionType"
+            },
             "subject": {
                 "label": {
                     "fr": "Sujet",

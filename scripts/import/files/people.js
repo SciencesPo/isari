@@ -454,6 +454,7 @@ module.exports = {
           info.distinctions = [{
             countries,
             distinctionType: 'diplôme',
+            distinctionSubtype: 'doctorat',
             title: 'Doctorat'
           }];
 
@@ -468,6 +469,7 @@ module.exports = {
           info.distinctions = info.distinctions || [];
           info.distinctions.push({
             distinctionType: 'diplôme',
+            distinctionSubtype: 'hdr',
             title: 'HDR'
           });
         }
