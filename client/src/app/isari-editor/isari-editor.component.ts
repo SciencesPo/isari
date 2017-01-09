@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewContainerRef, Input, HostListener } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
@@ -34,7 +35,8 @@ export class IsariEditorComponent implements OnInit {
     private userService: UserService,
     private translate: TranslateService,
     private toasterService: ToasterService,
-    private viewContainerRef: ViewContainerRef) {}
+    private viewContainerRef: ViewContainerRef,
+    private titleService: Title) {}
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
@@ -68,6 +70,13 @@ export class IsariEditorComponent implements OnInit {
         this.isariDataService.getData(this.feature, String(id)),
         this.isariDataService.getLayout(this.feature)
       ]).then(([data, layout]) => {
+
+        if (data.firstName && data.name) {
+          this.titleService.setTitle([data.name, data.firstName].filter(x => !!x).join(' '));
+        } else if (data.name) {
+          this.titleService.setTitle(data.name);
+        }
+
         this.data = data;
         this.data.opts = Object.assign({ editable: true }, this.data.opts || {}, {
           restrictedFields: restrictedFields[feature],
