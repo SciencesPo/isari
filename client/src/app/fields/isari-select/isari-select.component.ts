@@ -11,8 +11,8 @@ const ENTER = 13;
 
 @Component({
   selector: 'isari-select',
-  templateUrl: 'isari-select.component.html',
-  styleUrls: ['isari-select.component.css']
+  templateUrl: './isari-select.component.html',
+  styleUrls: ['./isari-select.component.css']
 })
 export class IsariSelectComponent implements OnInit {
 

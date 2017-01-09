@@ -8,8 +8,8 @@ import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-pag
 
 @Component({
   selector: 'isari-data-table',
-  templateUrl: 'data-table.component.html',
-  styleUrls: ['data-table.component.css']
+  templateUrl: './data-table.component.html',
+  styleUrls: ['./data-table.component.css']
 })
 export class DataTableComponent implements OnInit, OnChanges {
   page: any[];

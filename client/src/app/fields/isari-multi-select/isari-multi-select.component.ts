@@ -10,7 +10,7 @@ const BACKSPACE = 8;
 
 @Component({
   selector: 'isari-multi-select',
-  templateUrl: 'isari-multi-select.component.html',
+  templateUrl: './isari-multi-select.component.html',
   styleUrls: ['./isari-multi-select.component.css']
 })
 export class IsariMultiSelectComponent implements OnInit {

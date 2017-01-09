@@ -12,8 +12,8 @@ import { matchKeyCombo } from '../utils';
 
 @Component({
   selector: 'isari-editor',
-  templateUrl: 'isari-editor.component.html',
-  styleUrls: ['isari-editor.component.css']
+  templateUrl: './isari-editor.component.html',
+  styleUrls: ['./isari-editor.component.css']
 })
 export class IsariEditorComponent implements OnInit {
 
@@ -65,7 +65,7 @@ export class IsariEditorComponent implements OnInit {
       this.feature = feature;
       this.id = id;
       Promise.all([
-        this.isariDataService.getData(this.feature, id),
+        this.isariDataService.getData(this.feature, String(id)),
         this.isariDataService.getLayout(this.feature)
       ]).then(([data, layout]) => {
         this.data = data;

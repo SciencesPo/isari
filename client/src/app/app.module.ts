@@ -43,6 +43,10 @@ import { IsariChartPeopleComponent } from './isari-chart/isari-chart-people/isar
 import { IsariDownloadButtonComponent } from './isari-list/isari-download-button/isari-download-button.component';
 import { CVComponent } from './cv/cv.component';
 
+export function createTranslateLoader(http: Http) {
+    return new TranslateStaticLoader(http, './assets/i18n', '.json');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +86,7 @@ import { CVComponent } from './cv/cv.component';
     Ng2PageScrollModule.forRoot(),
     TranslateModule.forRoot({
       provide: TranslateLoader,
-      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+      useFactory: (createTranslateLoader),
       deps: [Http]
     }),
     ToasterModule,
