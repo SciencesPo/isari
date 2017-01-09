@@ -2,6 +2,18 @@
 
 const { formatEnum } = require('../server/lib/enums')
 
+// datesPeriod
+const prettyPrintTimePeriod = o => {
+	let periodLabel = ''
+	if(o.startDate){
+		periodLabel = year(o.startDate)
+	}
+	if(p.endDate){
+		periodLabel+=`-${year(o.endDate)}`
+	}
+	return label
+}
+
 // Date parsing
 const date = string => {
 	const [ year, month, day ] = string.split('-')
@@ -34,6 +46,17 @@ function organizationDates(p){
 		label+=`-${year(p.endDate)}`
 	}
 	return label
+}
+
+// department Memberships Dates
+function deptMembershipsDates(p){
+	if (!p.departement) {
+		return ''
+	}
+	return formatEnum('teachingDepartements',p.departement,label =>{
+		label += ' '+prettyPrintTimePeriod(p)
+		return label
+	}) 
 }
 
 // personnalActivities
@@ -104,7 +127,7 @@ function peopleGrades(g){
 
 exports.peopleName = peopleName
 exports.objectName = objectName
-exports.organizationDates = organizationDates
+exports.deptMembershipsDates = deptMembershipsDates
 exports.distinction = distinction
 exports.personalActivity = personalActivity
 exports.researchUnitCode = researchUnitCode

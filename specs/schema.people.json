@@ -224,73 +224,73 @@
         }
     ],
     "facultyMonitoring": [
-                {
-                    "label": {
-                        "fr": "Suivi de la faculté permanente",
-                        "en": "Faculty monitoring"
-                    },
-                    "description": {
-                        "fr": "tenure track, raisons de départs...",
-                        "en": "Tenure track, moving out..."
-                    },
-                    "accessType": "confidential",
-                    "date": {
-                        "label": {
-                            "fr": "Date d'évaluation",
-                            "en": "Review date"
-                        },
-                        "type": "date"
-                    },
-                    "facultyMonitoringType":{
-                        "label": {
-                            "fr": "type d'événement",
-                            "en": "event type"
-                        },
-                        "enum":"facultyMonitoringTypes"
-                    },
-                    "comment": {
-                        "label": {
-                            "fr": "Commentaires",
-                            "en": "Comments"
-                        },
-                        "type": "text"
-                    }
-                }
-            ],
+        {
+            "label": {
+                "fr": "Suivi de la faculté permanente",
+                "en": "Faculty monitoring"
+            },
+            "description": {
+                "fr": "tenure track, raisons de départs...",
+                "en": "Tenure track, moving out..."
+            },
+            "accessType": "confidential",
+            "date": {
+                "label": {
+                    "fr": "Date d'évaluation",
+                    "en": "Review date"
+                },
+                "type": "date"
+            },
+            "facultyMonitoringType": {
+                "label": {
+                    "fr": "type d'événement",
+                    "en": "event type"
+                },
+                "enum": "facultyMonitoringTypes"
+            },
+            "comment": {
+                "label": {
+                    "fr": "Commentaires",
+                    "en": "Comments"
+                },
+                "type": "text"
+            }
+        }
+    ],
     "bonuses": [
-                {
-                    "label": {
-                        "fr": "Bonus",
-                        "en": "Bonus"
-                    },
-                    "description": {
-                        "fr": "Primes à l'enseignement, direction...",
-                        "en": "Bonus for extra-academic activities"
-                    },
-                    "accessType": "confidential",
-                    "bonusType": {
-                        "label": {
-                            "fr": "Type",
-                            "en": "Type"
-                        },
-                        "enum": "bonusTypes"
-                    },
-                    "startDate": {
-                        "label": {
-                            "fr": "Date de début",
-                            "en": "Start date"
-                        },
-                        "type": "date"
-                    },
-                    "endDate": {
-                        "label": {
-                            "fr": "Date de fin",
-                            "en": "End date"
-                        },
-                        "type": "date"
-                    }
-                }
-            ],
+        {
+            "label": {
+                "fr": "Bonus",
+                "en": "Bonus"
+            },
+            "description": {
+                "fr": "Primes à l'enseignement, direction...",
+                "en": "Bonus for extra-academic activities"
+            },
+            "accessType": "confidential",
+            "bonusType": {
+                "label": {
+                    "fr": "Type",
+                    "en": "Type"
+                },
+                "enum": "bonusTypes"
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            }
+        }
+    ],
     "grades": [
         {
             "label": {
@@ -332,7 +332,7 @@
                 },
                 "type": "date"
             },
-            "template":"peopleGrades"
+            "template": "peopleGrades"
         }
     ],
     "academicMemberships": [
@@ -383,12 +383,13 @@
             },
             "requirement": "recommended",
             "accessMonitoring": "corporate",
-            "organization": {
+            "departement": {
                 "label": {
                     "fr": "Département d'enseignement",
                     "en": "Teaching departement"
                 },
-                "ref": "Organization"
+                "enum": "teachingDepartements",
+                "requirement": "mandatory"
             },
             "startDate": {
                 "label": {
@@ -404,7 +405,7 @@
                 },
                 "type": "date"
             },
-            "template": "organizationDates"
+            "template": "deptMembershipsDates"
         }
     ],
     "biography": {
