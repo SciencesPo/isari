@@ -125,7 +125,6 @@ export class IsariMultiSelectComponent implements OnInit {
       this.form.controls[this.name].markAsDirty();
       this.onUpdate.emit({});
     }
-console.log('addValue', value, this.values)
     this.selectControl.setValue('');
   }
 
