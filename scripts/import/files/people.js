@@ -33,6 +33,7 @@ module.exports = {
           startDate: moment(line['Date de début'], 'YYYY-MM-DD'),
           jobType: line['Type de contrat'],
           gradeSirh: line['Emploi Repère'],
+          postdoc: line.Postdoc === 'x',
           jobName: line['Emploi Personnalisé'],
           academicMembership: line.Affiliation
         };
@@ -146,7 +147,8 @@ module.exports = {
                 const nextGrade = grades[i + 1];
 
                 const info = {
-                  grade: grade.gradeSirh
+                  grade: grade.gradeSirh,
+                  postdoc: grade.postdoc
                 };
 
                 if (grade.startDate) {
@@ -173,6 +175,26 @@ module.exports = {
           });
 
           person.positions = positions;
+
+          // let's copy gradeSIRH to grades when postdoc is true
+          person.grades = _(positions)
+            .filter(p => p.gradesSirh)
+            .map(p => p.gradesSirh)
+            .flatten()
+            .map(originalGrade => {
+              const postdoc = originalGrade.postdoc;
+              delete originalGrade.postdoc;
+              if (postdoc) {
+                const grade = _.clone(originalGrade);
+                grade.gradeStatus = 'chercheur';
+                grade.grade = 'postdoc';
+                return grade;
+              }
+              else
+                return;
+            })
+            .compact()
+            .value();
 
           // Computing academic memberships
           person.academicMemberships = _(years)
@@ -247,7 +269,6 @@ module.exports = {
           info.contacts = {
             email: line.Mail
           };
-
 
         // converting typeAppui to gradeStatus
         if (line.type_appui === 'AT')
@@ -372,17 +393,13 @@ module.exports = {
 
           const org = person.positions[0].organization;
 
-          // if (org === 'FNSP') {
 
-          //   if (person.grades)
-          //     match.grades = person.grades;
-          // }
-          // else {
-          //   match.positions = match.positions.concat(person.positions);
-          // }
           if (org !== 'FNSP')
               match.positions = match.positions.concat(person.positions);
-          match.grades = person.grades;
+
+          if (person.grades)
+            match.grades = (match.grades || []).concat(person.grades);
+
           // Overriding academic memberships
           if (person.academicMemberships)
             match.academicMemberships = person.academicMemberships;
