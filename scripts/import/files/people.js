@@ -506,6 +506,10 @@ module.exports = {
           );
         }
 
+        if (line['HCERES 2017']) {
+          info.tags = {hceres2017: line['HCERES 2017'].split(';')};
+        }
+
         return info;
       },
       resolver(lines) {
@@ -527,7 +531,8 @@ module.exports = {
           const info = {
             name: firstYear.name,
             firstName: firstYear.firstName,
-            contacts: lastYear.contacts
+            contacts: lastYear.contacts,
+            tags: firstYear.tags
           };
 
           // Finding gender
