@@ -97,7 +97,7 @@ export class IsariEditorComponent implements OnInit {
   }
 
   @HostListener('window:keydown', ['$event'])
-  onKeydown($event, ...p) {
+  onKeydown($event) {
     if (this.pressedSaveShortcut($event)) {
       $event.preventDefault();
       this.save($event);
