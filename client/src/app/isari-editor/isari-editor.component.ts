@@ -97,10 +97,13 @@ export class IsariEditorComponent implements OnInit {
   }
 
   @HostListener('window:keydown', ['$event'])
-  onKeydown($event) {
+  onKeydown($event, ...p) {
     if (this.pressedSaveShortcut($event)) {
       $event.preventDefault();
       this.save($event);
+    }
+    if ($event.keyCode === 27) { // ESC
+      $event.view.document.activeElement.blur();
     }
   }
 
