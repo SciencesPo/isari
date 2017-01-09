@@ -20,6 +20,10 @@
     line-height: 16px;
 }
 
+.multiselect-tag.edit {
+  padding-right: 45px;
+}
+
 .multiselect-tag md-icon, .multiselect-tag a {
   font-size: 15px;
   vertical-align: middle;
