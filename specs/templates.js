@@ -8,10 +8,10 @@ const prettyPrintTimePeriod = o => {
 	if(o.startDate){
 		periodLabel = year(o.startDate)
 	}
-	if(p.endDate){
+	if(o.endDate){
 		periodLabel+=`-${year(o.endDate)}`
 	}
-	return label
+	return periodLabel;
 }
 
 // Date parsing
@@ -133,3 +133,4 @@ exports.personalActivity = personalActivity
 exports.researchUnitCode = researchUnitCode
 exports.peopleDates = peopleDates
 exports.peopleGrades = peopleGrades
+exports.organizationDates = organizationDates
