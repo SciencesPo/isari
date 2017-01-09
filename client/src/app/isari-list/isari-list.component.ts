@@ -7,8 +7,8 @@ import { IsariDataService } from '../isari-data.service';
 
 @Component({
   selector: 'isari-list',
-  templateUrl: 'isari-list.component.html',
-  styleUrls: ['isari-list.component.css']
+  templateUrl: './isari-list.component.html',
+  styleUrls: ['./isari-list.component.css']
 })
 export class IsariListComponent implements OnInit {
 

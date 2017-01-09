@@ -9,7 +9,6 @@ import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/cache';
 import 'rxjs/add/operator/publishReplay';
 import { UserService } from './user.service';
 import { get, sortByDistance } from './utils';
@@ -102,7 +101,7 @@ export class IsariDataService {
     const url = `${this.layoutUrl}/${singular[feature]}`;
     let $layout = this.http.get(url, this.getHttpOptions())
       .map(response => response.json());
-    this.layoutsCache[feature] = $layout.cache();
+    this.layoutsCache[feature] = $layout.publishReplay(1).refCount();
     return $layout.toPromise();
   }
 

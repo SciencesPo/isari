@@ -7,7 +7,12 @@
 .md-input-infix.md-empty { position: relative; }
 .md-input-placeholder.md-empty { top: 0px; }
 
-.md-input-prefix {
+.multiselect-container {
+  display: flex; 
+  position: relative;
+}
+
+.multiselect-tag {
     position: relative;
     padding: 0 30px 0 10px;
     margin-right: 5px;
@@ -15,7 +20,7 @@
     line-height: 16px;
 }
 
-.md-input-prefix md-icon, .md-input-prefix a {
+.multiselect-tag md-icon, .multiselect-tag a {
   font-size: 15px;
   vertical-align: middle;
   position: absolute;
@@ -29,12 +34,8 @@
   text-align: left;
 }
 
-.md-input-prefix a {
+.multiselect-tag a {
   right: 20px;
-}
-
-.md-input-prefix.edit {
-  padding-right: 60px;
 }
 
 .md-menu {

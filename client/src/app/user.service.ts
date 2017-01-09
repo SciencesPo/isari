@@ -41,7 +41,7 @@ export class UserService {
 
   isLoggedIn() {
     return this.http.get(this.checkUrl, this.httpOptions)
-      .map(response => response.json()).cache();
+      .map(response => response.json()).publishReplay(1).refCount();
   }
 
   getOrganizations() {

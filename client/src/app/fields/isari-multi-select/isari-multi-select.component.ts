@@ -10,7 +10,7 @@ const BACKSPACE = 8;
 
 @Component({
   selector: 'isari-multi-select',
-  templateUrl: 'isari-multi-select.component.html',
+  templateUrl: './isari-multi-select.component.html',
   styleUrls: ['./isari-multi-select.component.css']
 })
 export class IsariMultiSelectComponent implements OnInit {
@@ -78,7 +78,7 @@ export class IsariMultiSelectComponent implements OnInit {
 
   set values(values: any[]) {
     this._values = values;
-    this.empty = this.values.length === 0;
+    this.empty = true; //this.values.length === 0;
     this.form.controls[this.name].setValue(values.map(v => v.id || v.value));
   }
 
@@ -120,9 +120,8 @@ export class IsariMultiSelectComponent implements OnInit {
     if (!this.extensible && !this.findOption(value)) {
       value = null;
     }
-
-    if (value && this.values.indexOf(value) === -1) { // uniq
-      this.values = [...this.values, value];
+    if (value && value.label && this.values.indexOf(value) === -1) { // uniq
+      this.values = [value, ...this.values];
       this.form.controls[this.name].markAsDirty();
       this.onUpdate.emit({});
     }
@@ -136,6 +135,10 @@ export class IsariMultiSelectComponent implements OnInit {
           value: item,
           label: item
         };
+      } else {
+        if (!item.label && item.name) {
+          item.label = item.name;
+        }
       }
       this.addValue(item);
     });

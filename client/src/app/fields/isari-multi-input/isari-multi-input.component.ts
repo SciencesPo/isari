@@ -6,7 +6,7 @@ const BACKSPACE = 8;
 
 @Component({
   selector: 'isari-multi-input',
-  templateUrl: 'isari-multi-input.component.html',
+  templateUrl: './isari-multi-input.component.html',
   styleUrls: ['./isari-multi-input.component.css']
 })
 export class IsariMultiInputComponent implements OnInit {

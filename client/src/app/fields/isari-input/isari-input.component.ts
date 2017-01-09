@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'isari-input',
-  templateUrl: 'isari-input.component.html'
+  templateUrl: './isari-input.component.html'
 })
 export class IsariInputComponent implements OnInit {
 

@@ -1,13 +1,13 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 @Component({
   selector: 'isari-date',
-  templateUrl: 'isari-date.component.html',
-  styleUrls: ['isari-date.component.css']
+  templateUrl: './isari-date.component.html',
+  styleUrls: ['./isari-date.component.css']
 })
-export class IsariDateComponent implements OnInit {
+export class IsariDateComponent {
 
   @Input() name: string;
   @Input() form: FormGroup;

@@ -1,13 +1,7 @@
 <div class="md-input-wrapper" (keyup)="onKey($event)">
-  <div class="md-input-table">
-
-    <div class="md-input-prefix" *ngFor="let item of _values" [class.edit]="item.id">
-      {{ item.label }}
-      <a *ngIf="item.id && !disabled" routerLink="/{{ api }}/{{ item.id }}" target="_blank" preserveQueryParams><md-icon>open_in_new</md-icon></a>
-      <md-icon *ngIf="!disabled" (click)="removeValue(item, $event)">delete</md-icon>
-    </div>
-
-    <div class="md-input-infix" [ngClass]="{'md-empty': empty }">
+  <div class="multiselect-container">
+    
+    <div [ngClass]="{'md-empty': empty }">
 
       <input *ngIf="!disabled" class="md-input-element" spellcheck="false" type="text"
         [formControl]="selectControl"
@@ -27,15 +21,26 @@
           {{ 'btn_create_value' | translate }}
         </button>
       </div>
-
+      
     </div>
-    <div class="md-input-suffix">
+
+    <div>
       <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
       <md-icon class="tooltip-fields" *ngIf="description" [md-tooltip]="description">info_outline</md-icon>
       <md-icon class="tooltip-fields" [md-tooltip]="'multiplechoices' | translate ">info_outline</md-icon>
     </div>
+
+    <div style="flex-grow: 1">
+      <div *ngFor="let item of _values" class="multiselect-tag" [class.edit]="item.id" style="display:inline-block">
+        {{ item.label }}
+        <a *ngIf="item.id && !disabled" routerLink="/{{ api }}/{{ item.id }}" target="_blank" preserveQueryParams><md-icon>open_in_new</md-icon></a>
+        <md-icon *ngIf="!disabled" (click)="removeValue(item, $event)" style="vertical-align: middle;">delete</md-icon>
+      </div>
+    </div>
+
   </div>
   <div class="md-input-underline" [class.md-disabled]="disabled">
     <span class="md-input-ripple"></span>
   </div>
 </div>
+

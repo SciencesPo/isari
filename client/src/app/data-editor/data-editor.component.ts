@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'isari-data-editor',
-  templateUrl: 'data-editor.component.html',
-  styleUrls: ['data-editor.component.css']
+  templateUrl: './data-editor.component.html',
+  styleUrls: ['./data-editor.component.css']
 })
 export class DataEditorComponent implements OnInit {
 
