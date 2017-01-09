@@ -93,8 +93,10 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.editedId = id;
 
     // scroll to form
-    let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
-    this.pageScrollService.start(pageScrollInstance);
+    setTimeout(() => {
+      let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
+      this.pageScrollService.start(pageScrollInstance);
+    })
 
   // je ne sais pas pquoi ça marche pas
   //   this.router.navigate([{ outlets: { editor: [ id ] } }]);
