@@ -2,7 +2,7 @@
   width: 100%;
 }
 .md-input-infix { position: initial; }
-.md-input-placeholder { top: 16px; }
+/*.md-input-placeholder { top: 16px; }*/
 
 .md-input-infix.md-empty { position: relative; }
 .md-input-placeholder.md-empty { top: 0px; }
@@ -18,6 +18,10 @@
     margin-right: 5px;
     display: inline-block;
     line-height: 16px;
+}
+
+.multiselect-tag.edit {
+  padding-right: 45px;
 }
 
 .multiselect-tag md-icon, .multiselect-tag a {

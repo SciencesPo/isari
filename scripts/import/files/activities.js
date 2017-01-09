@@ -106,7 +106,7 @@ module.exports = {
               if (gradeLine.origin)
                 peopleInfo.academicMemberships = [{
                   organization: gradeLine.origin,
-                  membershipType: 'visiting'
+                  membershipType: 'membre'
                 }];
             }
 
@@ -176,21 +176,16 @@ module.exports = {
             name: `Invité : ${person.firstName} ${person.name}`,
             organizations: [],
             people: [{
-              people: personKey
+              people: personKey,
+              role: 'visiting'
             }]
           };
 
-          // TODO: add a role
-
-          if (line.startDate) {
+          if (line.startDate)
             activityInfo.startDate = line.startDate;
-            activityInfo.people[0].startDate = line.startDate;
-          }
 
-          if (line.endDate) {
+          if (line.endDate)
             activityInfo.endDate = line.endDate;
-            activityInfo.people[0].endDate = line.endDate;
-          }
 
           // Target organization
           if (line.organizations) {
@@ -199,11 +194,6 @@ module.exports = {
                 organization: org,
                 role: 'orgadaccueil'
               };
-
-              if (line.startDate)
-                linkInfo.startDate = line.startDate;
-              if (line.endDate)
-                linkInfo.endDate = line.endDate;
 
               activityInfo.organizations.push(linkInfo);
             });
@@ -215,11 +205,6 @@ module.exports = {
               organization: line.origin,
               role: 'orgadorigine'
             };
-
-            if (line.startDate)
-              linkInfo.startDate = line.startDate;
-            if (line.endDate)
-              linkInfo.endDate = line.endDate;
 
             activityInfo.organizations.push(linkInfo);
           }
@@ -236,11 +221,6 @@ module.exports = {
               role: 'orgadorigine',
               organizationTypes: ['inconnue']
             };
-
-            if (line.startDate)
-              linkInfo.startDate = line.startDate;
-            if (line.endDate)
-              linkInfo.endDate = line.endDate;
 
             activityInfo.organizations.push(linkInfo);
           }
@@ -348,6 +328,7 @@ module.exports = {
             mention: line.LIB_MENTION_DIPL_ADM,
             idBanner: line.CODE_ETAB_ADM,
             title: [line.LIB_DIPL_ADM_L1, line.LIB_DIPL_ADM_L2].join(' ').trim(),
+            isMaster: /\bmasters?\b/i.test(line.LIB_DIPL_ADM_L1 || ''),
             date: line.DATE_DIPL_ADM
           }
         };
@@ -554,12 +535,10 @@ module.exports = {
 
               if (phd.startDate) {
                 activity.startDate = phd.startDate;
-                activity.people[0].startDate = phd.startDate;
               }
 
               if (phd.endDate) {
                 activity.endDate = phd.endDate;
-                activity.people[0].endDate = phd.endDate;
               }
 
               if (phd.subject)
@@ -591,20 +570,32 @@ module.exports = {
                   };
               }
 
-              if (phd.organization2 && !academicMembershipSet.has(phd.organization2)) {
-                const membership = {
+              if (phd.organization2) {
+                activity.organizations.push({
                   organization: phd.organization2,
-                  membershipType: 'membre'
-                };
+                  role: 'inscription'
+                });
 
-                if (phd.startDate)
-                  membership.startDate = phd.startDate;
-                if (phd.endDate)
-                  membership.endDate = phd.endDate;
+                if (!organizations[phd.organization2])
+                  organizations[phd.organization2] = {
+                    name: phd.organization2
+                  };
 
-                academicMembershipSet.add(phd.organization2);
+                if (!academicMembershipSet.has(phd.organization2)) {
+                  const membership = {
+                    organization: phd.organization2,
+                    membershipType: 'membre'
+                  };
 
-                peopleInfo.academicMemberships.push(membership);
+                  if (phd.startDate)
+                    membership.startDate = phd.startDate;
+                  if (phd.endDate)
+                    membership.endDate = phd.endDate;
+
+                  academicMembershipSet.add(phd.organization2);
+
+                  peopleInfo.academicMemberships.push(membership);
+                }
               }
 
               activities.push(activity);
@@ -613,7 +604,7 @@ module.exports = {
               if (phd.previous.idBanner) {
                 const previousDistinction = {
                   distinctionType: 'diplôme',
-                  distinctionSubtype: 'master',
+                  distinctionSubtype: phd.previous.isMaster ? 'master' : 'autre',
                   title: phd.previous.title,
                   organizations: [phd.previous.idBanner]
                 };
@@ -720,12 +711,10 @@ module.exports = {
 
               if (hdr.startDate) {
                 activity.startDate = hdr.startDate;
-                activity.people[0].startDate = hdr.startDate;
               }
 
               if (hdr.endDate) {
                 activity.endDate = hdr.endDate;
-                activity.people[0].endDate = hdr.endDate;
               }
 
               if (hdr.subject)
@@ -760,20 +749,32 @@ module.exports = {
                   };
               }
 
-              if (hdr.organization2 && !academicMembershipSet.has(hdr.organization2)) {
-                const membership = {
+              if (hdr.organization2) {
+                activity.organizations.push({
                   organization: hdr.organization2,
-                  membershipType: 'membre'
-                };
+                  role: 'inscription'
+                });
 
-                if (hdr.startDate)
-                  membership.startDate = hdr.startDate;
-                if (hdr.endDate)
-                  membership.endDate = hdr.endDate;
+                if (!organizations[hdr.organization2])
+                  organizations[hdr.organization2] = {
+                    name: hdr.organization2
+                  };
 
-                academicMembershipSet.add(hdr.organization2);
+                if (!academicMembershipSet.has(hdr.organization2)) {
+                  const membership = {
+                    organization: hdr.organization2,
+                    membershipType: 'membre'
+                  };
 
-                peopleInfo.academicMemberships.push(membership);
+                  if (hdr.startDate)
+                    membership.startDate = hdr.startDate;
+                  if (hdr.endDate)
+                    membership.endDate = hdr.endDate;
+
+                  academicMembershipSet.add(hdr.organization2);
+
+                  peopleInfo.academicMemberships.push(membership);
+                }
               }
 
               activities.push(activity);
@@ -980,7 +981,10 @@ module.exports = {
             name: `Séjour de recherche : ${person.firstName} ${person.name}`,
             activityType: 'mob_sortante',
             people: [
-              {people: key}
+              {
+                people: key,
+                role: 'visiting'
+              }
             ],
             organizations: []
           };

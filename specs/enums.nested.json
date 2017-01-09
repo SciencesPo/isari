@@ -21,6 +21,13 @@
                     "fr": "Master",
                     "en": "Master"
                 }
+            },
+            {
+                "value": "autre",
+                "label": {
+                    "fr": "Autre",
+                    "en": "Other"
+                }
             }
         ],
         "doublediplôme": [
@@ -44,6 +51,13 @@
                     "fr": "Master",
                     "en": "Master"
                 }
+            },
+            {
+                "value": "autre",
+                "label": {
+                    "fr": "Autre",
+                    "en": "Other"
+                }
             }
         ],
         "cotutelle": [
@@ -66,6 +80,13 @@
                 "label": {
                     "fr": "Master",
                     "en": "Master"
+                }
+            },
+            {
+                "value": "autre",
+                "label": {
+                    "fr": "Autre",
+                    "en": "Other"
                 }
             }
         ]

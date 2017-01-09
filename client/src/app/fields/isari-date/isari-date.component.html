@@ -5,7 +5,8 @@
     <div class="md-input-table">
       <div class="md-input-prefix"></div>
       <div class="md-input-infix">
-        <input class="md-input-element"
+        <input class="md-input-element"   
+          focusMe
           (focus)="onFocus($event)"
           (blur)="onBlur($event)"
           [formControl]="selectControl">

@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import { FocusMeDirective } from '../focus-me.directive';
 
 @Component({
   selector: 'isari-date',
@@ -15,6 +16,8 @@ export class IsariDateComponent {
   @Input() requirement: string;
   @Input() description: string;
   @Output() onUpdate = new EventEmitter<any>();
+
+  @ViewChild(FocusMeDirective) focusMe;
 
   selectControl: FormControl;
   focused: boolean = false;
@@ -71,6 +74,7 @@ export class IsariDateComponent {
       this.focused = false;
     } else {
       this.runningClick = false;
+      this.focusMe.setFocus();
     }
   }
 
