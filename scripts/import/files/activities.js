@@ -592,20 +592,32 @@ module.exports = {
                   };
               }
 
-              if (phd.organization2 && !academicMembershipSet.has(phd.organization2)) {
-                const membership = {
+              if (phd.organization2) {
+                activity.organizations.push({
                   organization: phd.organization2,
-                  membershipType: 'membre'
-                };
+                  role: 'inscription'
+                });
 
-                if (phd.startDate)
-                  membership.startDate = phd.startDate;
-                if (phd.endDate)
-                  membership.endDate = phd.endDate;
+                if (!organizations[phd.organization2])
+                  organizations[phd.organization2] = {
+                    name: phd.organization2
+                  };
 
-                academicMembershipSet.add(phd.organization2);
+                if (!academicMembershipSet.has(phd.organization2)) {
+                  const membership = {
+                    organization: phd.organization2,
+                    membershipType: 'membre'
+                  };
 
-                peopleInfo.academicMemberships.push(membership);
+                  if (phd.startDate)
+                    membership.startDate = phd.startDate;
+                  if (phd.endDate)
+                    membership.endDate = phd.endDate;
+
+                  academicMembershipSet.add(phd.organization2);
+
+                  peopleInfo.academicMemberships.push(membership);
+                }
               }
 
               activities.push(activity);
@@ -761,20 +773,32 @@ module.exports = {
                   };
               }
 
-              if (hdr.organization2 && !academicMembershipSet.has(hdr.organization2)) {
-                const membership = {
+              if (hdr.organization2) {
+                activity.organizations.push({
                   organization: hdr.organization2,
-                  membershipType: 'membre'
-                };
+                  role: 'inscription'
+                });
 
-                if (hdr.startDate)
-                  membership.startDate = hdr.startDate;
-                if (hdr.endDate)
-                  membership.endDate = hdr.endDate;
+                if (!organizations[hdr.organization2])
+                  organizations[hdr.organization2] = {
+                    name: hdr.organization2
+                  };
 
-                academicMembershipSet.add(hdr.organization2);
+                if (!academicMembershipSet.has(hdr.organization2)) {
+                  const membership = {
+                    organization: hdr.organization2,
+                    membershipType: 'membre'
+                  };
 
-                peopleInfo.academicMemberships.push(membership);
+                  if (hdr.startDate)
+                    membership.startDate = hdr.startDate;
+                  if (hdr.endDate)
+                    membership.endDate = hdr.endDate;
+
+                  academicMembershipSet.add(hdr.organization2);
+
+                  peopleInfo.academicMemberships.push(membership);
+                }
               }
 
               activities.push(activity);
