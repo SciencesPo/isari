@@ -100,6 +100,12 @@
         },
         "service": "sirh"
     },
+    "CNRSMatricule": {
+        "label": {
+            "fr": "Identifiant CNRS",
+            "en": "CNRS identifier"
+        }
+    },
     "idSpire": {
         "label": {
             "fr": "ID SPIRE",
