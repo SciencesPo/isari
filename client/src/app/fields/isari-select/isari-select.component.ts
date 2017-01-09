@@ -131,6 +131,7 @@ export class IsariSelectComponent implements OnInit {
       this.form.controls[this.name].markAsDirty();
       this.update({});
       this.lastValidStringValue = this.selectControl.value;
+      this.selectControl.setValue(item.name || item);
     });
   }
 
