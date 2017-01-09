@@ -488,7 +488,14 @@ export class IsariDataService {
   //   return errors;
   // }
 
-  private handleError(error: any): Promise<any> {
+  clearCache () {
+    this.enumsCache = {};
+    this.layoutsCache = {};
+    this.schemasCache = {};
+    this.columnsCache = null;
+  }
+
+  private handleError (error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
