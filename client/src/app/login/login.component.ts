@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import { UserService } from '../user.service';
+import { IsariDataService } from '../isari-data.service';
 
 @Component({
   selector: 'isari-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private isariDataService: IsariDataService,
     private router: Router,
     private fb: FormBuilder) {}
 
@@ -31,6 +33,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(form.value.login, form.value.password)
       .catch(this.handleError)
       .subscribe(res => {
+        this.isariDataService.clearCache(),
         this.router.navigate(['']);
       }, error => {
         if (error.error && error.error.status === 403) {
