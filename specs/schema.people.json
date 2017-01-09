@@ -609,7 +609,7 @@
                     "fr": "Plus précisément",
                     "en": "More precisely"
                 },
-                "softenum": "distinctionSubtypes:./distinctionType"
+                "enum": "distinctionSubtypes:./distinctionType"
             },
             "subject": {
                 "label": {

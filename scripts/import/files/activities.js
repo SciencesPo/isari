@@ -348,6 +348,7 @@ module.exports = {
             mention: line.LIB_MENTION_DIPL_ADM,
             idBanner: line.CODE_ETAB_ADM,
             title: [line.LIB_DIPL_ADM_L1, line.LIB_DIPL_ADM_L2].join(' ').trim(),
+            isMaster: /\bmasters?\b/i.test(line.LIB_DIPL_ADM_L1 || ''),
             date: line.DATE_DIPL_ADM
           }
         };
@@ -613,7 +614,7 @@ module.exports = {
               if (phd.previous.idBanner) {
                 const previousDistinction = {
                   distinctionType: 'diplôme',
-                  distinctionSubtype: 'master',
+                  distinctionSubtype: phd.previous.isMaster ? 'master' : 'autre',
                   title: phd.previous.title,
                   organizations: [phd.previous.idBanner]
                 };
