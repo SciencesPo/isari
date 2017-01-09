@@ -78,7 +78,7 @@ export class IsariMultiSelectComponent implements OnInit {
 
   set values(values: any[]) {
     this._values = values;
-    this.empty = this.values.length === 0;
+    this.empty = true; //this.values.length === 0;
     this.form.controls[this.name].setValue(values.map(v => v.id || v.value));
   }
 
@@ -121,7 +121,7 @@ export class IsariMultiSelectComponent implements OnInit {
       value = null;
     }
     if (value && value.label && this.values.indexOf(value) === -1) { // uniq
-      this.values = [...this.values, value];
+      this.values = [value, ...this.values];
       this.form.controls[this.name].markAsDirty();
       this.onUpdate.emit({});
     }
