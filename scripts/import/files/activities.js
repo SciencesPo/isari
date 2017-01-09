@@ -181,15 +181,11 @@ module.exports = {
             }]
           };
 
-          if (line.startDate) {
+          if (line.startDate)
             activityInfo.startDate = line.startDate;
-            activityInfo.people[0].startDate = line.startDate;
-          }
 
-          if (line.endDate) {
+          if (line.endDate)
             activityInfo.endDate = line.endDate;
-            activityInfo.people[0].endDate = line.endDate;
-          }
 
           // Target organization
           if (line.organizations) {
@@ -198,11 +194,6 @@ module.exports = {
                 organization: org,
                 role: 'orgadaccueil'
               };
-
-              if (line.startDate)
-                linkInfo.startDate = line.startDate;
-              if (line.endDate)
-                linkInfo.endDate = line.endDate;
 
               activityInfo.organizations.push(linkInfo);
             });
@@ -214,11 +205,6 @@ module.exports = {
               organization: line.origin,
               role: 'orgadorigine'
             };
-
-            if (line.startDate)
-              linkInfo.startDate = line.startDate;
-            if (line.endDate)
-              linkInfo.endDate = line.endDate;
 
             activityInfo.organizations.push(linkInfo);
           }
@@ -235,11 +221,6 @@ module.exports = {
               role: 'orgadorigine',
               organizationTypes: ['inconnue']
             };
-
-            if (line.startDate)
-              linkInfo.startDate = line.startDate;
-            if (line.endDate)
-              linkInfo.endDate = line.endDate;
 
             activityInfo.organizations.push(linkInfo);
           }
@@ -554,12 +535,10 @@ module.exports = {
 
               if (phd.startDate) {
                 activity.startDate = phd.startDate;
-                activity.people[0].startDate = phd.startDate;
               }
 
               if (phd.endDate) {
                 activity.endDate = phd.endDate;
-                activity.people[0].endDate = phd.endDate;
               }
 
               if (phd.subject)
@@ -732,12 +711,10 @@ module.exports = {
 
               if (hdr.startDate) {
                 activity.startDate = hdr.startDate;
-                activity.people[0].startDate = hdr.startDate;
               }
 
               if (hdr.endDate) {
                 activity.endDate = hdr.endDate;
-                activity.people[0].endDate = hdr.endDate;
               }
 
               if (hdr.subject)
@@ -1033,14 +1010,6 @@ module.exports = {
           ].forEach(prop => {
             if (line[prop])
               activity[prop] = line[prop];
-          });
-
-          [
-            'startDate',
-            'endDate'
-          ].forEach(prop => {
-            if (line[prop])
-              activity.people[0][prop] = line[prop];
           });
 
           activities.push(activity);
