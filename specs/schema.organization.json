@@ -6,6 +6,12 @@
             "en": "Name"
         }
     },
+    "nameAcronymeAliases": [{
+        "label": {
+            "fr": "Autre nom(s) ou acronyme(s)",
+            "en": "Other name(s) or acronym(s)"
+        }
+    }],
     "template": "objectName",
     "researchUnitCodes": [
         {
