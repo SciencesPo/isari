@@ -75,13 +75,13 @@ module.exports = {
       },
       resolver(lines) {
 
-        let filteredLines = lines.filter(line =>{
+        const filteredLines = lines.filter(line => {
           // filtering SIRH cases which doesn't make sense for ISARI
-          return !(line.jobType === "CDI" && line.gradeSirh === "Hors Accord")
-        })
+          return !(line.jobType === 'CDI' && line.gradeSirh === 'Hors Accord');
+        });
 
         // First we need to group the person by matricule
-        let persons = partitionBy(lines, 'sirhMatricule');
+        let persons = partitionBy(filteredLines, 'sirhMatricule');
 
         // Sorting lines by year
         persons = persons.map(years => {
