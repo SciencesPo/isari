@@ -75,6 +75,11 @@ module.exports = {
       },
       resolver(lines) {
 
+        let filteredLines = lines.filter(line =>{
+          // filtering SIRH cases which doesn't make sense for ISARI
+          return !(line.jobType === "CDI" && line.gradeSirh === "Hors Accord")
+        })
+
         // First we need to group the person by matricule
         let persons = partitionBy(lines, 'sirhMatricule');
 
