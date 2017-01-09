@@ -1,4 +1,96 @@
 {
+    "distinctionSubtypes": {
+        "diplôme": [
+            {
+                "value": "doctorat",
+                "label": {
+                    "fr": "Doctorat",
+                    "en": "Phd"
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "HDR",
+                    "en": "HDR"
+                }
+            },
+            {
+                "value": "master",
+                "label": {
+                    "fr": "Master",
+                    "en": "Master"
+                }
+            },
+            {
+                "value": "autre",
+                "label": {
+                    "fr": "Autre",
+                    "en": "Other"
+                }
+            }
+        ],
+        "doublediplôme": [
+            {
+                "value": "doctorat",
+                "label": {
+                    "fr": "Doctorat",
+                    "en": "Phd"
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "HDR",
+                    "en": "HDR"
+                }
+            },
+            {
+                "value": "master",
+                "label": {
+                    "fr": "Master",
+                    "en": "Master"
+                }
+            },
+            {
+                "value": "autre",
+                "label": {
+                    "fr": "Autre",
+                    "en": "Other"
+                }
+            }
+        ],
+        "cotutelle": [
+            {
+                "value": "doctorat",
+                "label": {
+                    "fr": "Doctorat",
+                    "en": "Phd"
+                }
+            },
+            {
+                "value": "hdr",
+                "label": {
+                    "fr": "HDR",
+                    "en": "HDR"
+                }
+            },
+            {
+                "value": "master",
+                "label": {
+                    "fr": "Master",
+                    "en": "Master"
+                }
+            },
+            {
+                "value": "autre",
+                "label": {
+                    "fr": "Autre",
+                    "en": "Other"
+                }
+            }
+        ]
+    },
     "personalActivitySubtypes": {
         "editorial": [
             {
@@ -1234,6 +1326,62 @@
                 "value": "AUT",
                 "label": {
                     "fr": "grade Sciences Po",
+                    "en": ""
+                }
+            },
+                        {
+                "value": "IGE",
+                "label": {
+                    "fr": "IGE : ingénieur.e d'études",
+                    "en": ""
+                }
+            },
+            {
+                "value": "IGR",
+                "label": {
+                    "fr": "IGR : ingénieur.e de recherche",
+                    "en": ""
+                }
+            },
+            {
+                "value": "AING",
+                "label": {
+                    "fr": "AI : assistant.e ingénieur.e",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCH",
+                "label": {
+                    "fr": "Technicien.ne de recherche, quelle que soit la classe",
+                    "en": ""
+                }
+            },
+            {
+                "value": "AJT",
+                "label": {
+                    "fr": "Adjoint.e.s et agent.e.s techniques de recherche, quelle que soit la classe",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCN",
+                "label": {
+                    "fr": "TCN : technicien.ne de classe normale",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCS",
+                "label": {
+                    "fr": "TCS : technicien.ne de classe supérieure",
+                    "en": ""
+                }
+            },
+            {
+                "value": "TCE",
+                "label": {
+                    "fr": "TCE : technicien.ne de classe exceptionnelle",
                     "en": ""
                 }
             }

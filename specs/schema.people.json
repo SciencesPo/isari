@@ -100,6 +100,12 @@
         },
         "service": "sirh"
     },
+    "CNRSMatricule": {
+        "label": {
+            "fr": "Identifiant CNRS",
+            "en": "CNRS identifier"
+        }
+    },
     "idSpire": {
         "label": {
             "fr": "ID SPIRE",
@@ -223,71 +229,79 @@
             ]
         }
     ],
-    "tenureTracks": [
-                {
-                    "label": {
-                        "fr": "Tenure track",
-                        "en": "Tenure track"
-                    },
-                    "description": {
-                        "fr": "Informations relatives à une tenure track",
-                        "en": "Tenure track information"
-                    },
-                    "accessType": "confidential",
-                    "reviewDate": {
-                        "label": {
-                            "fr": "Date d'évaluation",
-                            "en": "Review date"
-                        },
-                        "type": "date"
-                    },
-                    "review": {
-                        "label": {
-                            "fr": "Commentaires à propos de l'évaluation",
-                            "en": "Comments about the review"
-                        }
-                    }
-                }
-            ],
+    "facultyMonitoring": [
+        {
+            "label": {
+                "fr": "Suivi de la faculté permanente",
+                "en": "Faculty monitoring"
+            },
+            "description": {
+                "fr": "tenure track, raisons de départs...",
+                "en": "Tenure track, moving out..."
+            },
+            "accessType": "confidential",
+            "date": {
+                "label": {
+                    "fr": "Date d'évaluation",
+                    "en": "Review date"
+                },
+                "type": "date"
+            },
+            "facultyMonitoringType": {
+                "label": {
+                    "fr": "type d'événement",
+                    "en": "event type"
+                },
+                "enum": "facultyMonitoringTypes"
+            },
+            "comment": {
+                "label": {
+                    "fr": "Commentaires",
+                    "en": "Comments"
+                },
+                "type": "text"
+            }
+        }
+    ],
     "bonuses": [
-                {
-                    "label": {
-                        "fr": "Bonus",
-                        "en": "Bonus"
-                    },
-                    "description": {
-                        "fr": "Primes à l'enseignement, direction...",
-                        "en": "Bonus for extra-academic activities"
-                    },
-                    "accessType": "confidential",
-                    "bonusType": {
-                        "label": {
-                            "fr": "Type",
-                            "en": "Type"
-                        },
-                        "enum": "bonusTypes"
-                    },
-                    "startDate": {
-                        "label": {
-                            "fr": "Date de début",
-                            "en": "Start date"
-                        },
-                        "type": "date"
-                    },
-                    "endDate": {
-                        "label": {
-                            "fr": "Date de fin",
-                            "en": "End date"
-                        },
-                        "type": "date"
-                    }
-                }
-            ],
+        {
+            "label": {
+                "fr": "Bonus",
+                "en": "Bonus"
+            },
+            "description": {
+                "fr": "Primes à l'enseignement, direction...",
+                "en": "Bonus for extra-academic activities"
+            },
+            "accessType": "confidential",
+            "bonusType": {
+                "label": {
+                    "fr": "Type",
+                    "en": "Type"
+                },
+                "enum": "bonusTypes"
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            }
+        }
+    ],
     "grades": [
         {
             "label": {
-                "fr": "Grades académiques",
-                "en": "Academic grades"
+                "fr": "Statut et grades",
+                "en": "Statuses and grades"
             },
             "description": {
                 "fr": "Professeur, DR1, CR1...",
@@ -324,7 +338,7 @@
                 },
                 "type": "date"
             },
-            "template":"peopleGrades"
+            "template": "peopleGrades"
         }
     ],
     "academicMemberships": [
@@ -375,12 +389,13 @@
             },
             "requirement": "recommended",
             "accessMonitoring": "corporate",
-            "organization": {
+            "departement": {
                 "label": {
                     "fr": "Département d'enseignement",
                     "en": "Teaching departement"
                 },
-                "ref": "Organization"
+                "enum": "teachingDepartements",
+                "requirement": "mandatory"
             },
             "startDate": {
                 "label": {
@@ -396,7 +411,7 @@
                 },
                 "type": "date"
             },
-            "template": "organizationDates"
+            "template": "deptMembershipsDates"
         }
     ],
     "biography": {
@@ -435,7 +450,7 @@
                     "fr": "Méthode(s)",
                     "en": "Method(s)"
                 },
-                "enum": "methods"
+                "softenum": "methods"
             }
         ],
         "free": [
@@ -589,6 +604,13 @@
                 },
                 "enum": "distinctionTypes"
             },
+            "distinctionSubtype": {
+                "label": {
+                    "fr": "Plus précisément",
+                    "en": "More precisely"
+                },
+                "enum": "distinctionSubtypes:./distinctionType"
+            },
             "subject": {
                 "label": {
                     "fr": "Sujet",
@@ -651,5 +673,11 @@
                 "en": "office"
             }
         }
-    }
+    },
+    "computerInventoryNumber": [{
+        "label": {
+                "fr": "numéro d'inventaire du poste informatique",
+                "en": "Computer inventory number"
+            }
+    }]
 }

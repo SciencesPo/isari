@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'isari-checkbox',
-  templateUrl: 'isari-checkbox.component.html'
+  templateUrl: './isari-checkbox.component.html'
 })
 export class IsariCheckboxComponent implements OnInit {
 

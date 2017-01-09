@@ -1,13 +1,14 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import { FocusMeDirective } from '../focus-me.directive';
 
 @Component({
   selector: 'isari-date',
-  templateUrl: 'isari-date.component.html',
-  styleUrls: ['isari-date.component.css']
+  templateUrl: './isari-date.component.html',
+  styleUrls: ['./isari-date.component.css']
 })
-export class IsariDateComponent implements OnInit {
+export class IsariDateComponent {
 
   @Input() name: string;
   @Input() form: FormGroup;
@@ -15,6 +16,8 @@ export class IsariDateComponent implements OnInit {
   @Input() requirement: string;
   @Input() description: string;
   @Output() onUpdate = new EventEmitter<any>();
+
+  @ViewChild(FocusMeDirective) focusMe;
 
   selectControl: FormControl;
   focused: boolean = false;
@@ -38,7 +41,7 @@ export class IsariDateComponent implements OnInit {
     this.year = (new Date()).getFullYear();
   }
 
-  ngOnInit() {
+  private ngOnInit() {
     this.lang = this.translate.currentLang;
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
@@ -71,6 +74,7 @@ export class IsariDateComponent implements OnInit {
       this.focused = false;
     } else {
       this.runningClick = false;
+      this.focusMe.setFocus();
     }
   }
 
@@ -126,15 +130,16 @@ export class IsariDateComponent implements OnInit {
     }
   }
 
-  deleteDate(y,$event) {
+  deleteDate(y, $event) {
     this.year = y;
     this.month = null;
     this.day = null;
     this.display('years');
   }
 
-  undoDate(y, $event) {
-    // TODO by clicking on undo button it keeps the original date before updating it and quit date menu
+  undoDate($event) {
+    this.ngOnInit();
+    this.focused = false;
   }
 
   navigateYears(y, $event) {

@@ -32,5 +32,8 @@
   "month": "Mois",
   "year": "Année",
   "personal-space": "Espace Personnel",
-  "multiplechoices": "Vous pouvez renseigner plusieurs valeurs"
+  "multiplechoices": "Vous pouvez renseigner plusieurs valeurs",
+  "footermentions" : "Mentions Légales et CGU",
+  "footeraccess" : "Gérer vos accès",
+  "footerinfo" : "Pour toute question"
 }

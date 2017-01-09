@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
+import { TranslateService } from 'ng2-translate';
 
 
 @Component({
   selector: 'isari-list',
-  templateUrl: 'isari-list.component.html',
-  styleUrls: ['isari-list.component.css']
+  templateUrl: './isari-list.component.html',
+  styleUrls: ['./isari-list.component.css']
 })
 export class IsariListComponent implements OnInit {
 
@@ -21,12 +23,22 @@ export class IsariListComponent implements OnInit {
   editedId: string = '';
   selectedColumns: any[] = [];
 
-  constructor (private route: ActivatedRoute, private isariDataService: IsariDataService) {}
+  constructor (
+    private route: ActivatedRoute, 
+    private isariDataService: IsariDataService,
+    private translate: TranslateService,
+    private titleService: Title) {}
 
   ngOnInit() {
     this.route.params
       .subscribe(({ feature, externals }) => {
         this.feature = feature;
+
+        this.translate.get(feature).subscribe(featureTranslated => {
+          this.titleService.setTitle(featureTranslated);
+        })
+
+
         this.externals = !!externals;
         this.isariDataService.getColumns(feature)
           .then(columns => {

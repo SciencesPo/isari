@@ -11,8 +11,8 @@ const ENTER = 13;
 
 @Component({
   selector: 'isari-select',
-  templateUrl: 'isari-select.component.html',
-  styleUrls: ['isari-select.component.css']
+  templateUrl: './isari-select.component.html',
+  styleUrls: ['./isari-select.component.css']
 })
 export class IsariSelectComponent implements OnInit {
 
@@ -131,6 +131,7 @@ export class IsariSelectComponent implements OnInit {
       this.form.controls[this.name].markAsDirty();
       this.update({});
       this.lastValidStringValue = this.selectControl.value;
+      this.selectControl.setValue(item.name || item);
     });
   }
 

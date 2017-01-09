@@ -8,8 +8,8 @@ import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-pag
 
 @Component({
   selector: 'isari-data-table',
-  templateUrl: 'data-table.component.html',
-  styleUrls: ['data-table.component.css']
+  templateUrl: './data-table.component.html',
+  styleUrls: ['./data-table.component.css']
 })
 export class DataTableComponent implements OnInit, OnChanges {
   page: any[];
@@ -93,8 +93,10 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.editedId = id;
 
     // scroll to form
-    let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
-    this.pageScrollService.start(pageScrollInstance);
+    setTimeout(() => {
+      let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
+      this.pageScrollService.start(pageScrollInstance);
+    })
 
   // je ne sais pas pquoi ça marche pas
   //   this.router.navigate([{ outlets: { editor: [ id ] } }]);

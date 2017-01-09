@@ -30,3 +30,8 @@ md-checkbox {
   margin: 0 1em .2em 0;
   display: inline-block;
 }
+
+div > button {
+  color: #E6142D;
+  text-align: center;
+}

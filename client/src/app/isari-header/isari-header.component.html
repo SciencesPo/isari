@@ -31,7 +31,7 @@
         <a md-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
       </md-menu>
     </div>
-    <div *ngIf="logged">
+    <div>
       <button *ngIf="lang=='fr'" md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/fr-flag.svg" /></button>
       <button *ngIf="lang=='en'" md-menu-item href (click)="setLang('fr', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></button>
     </div>

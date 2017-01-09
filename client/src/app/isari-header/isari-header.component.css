@@ -39,10 +39,6 @@ md-icon {
 	margin-right: 0;
 }
 
-button {
-	overflow: hidden;
-}
-
 .tooltip {
 	top: 140%;
 	left:-24px;
@@ -112,7 +108,7 @@ button .tooltip:after {
 
 
 button:hover .tooltip {
-	opacity: 1;
+	visibility: hidden;
 }
 
 .organization-name {

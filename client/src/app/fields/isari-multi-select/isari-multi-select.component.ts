@@ -10,7 +10,7 @@ const BACKSPACE = 8;
 
 @Component({
   selector: 'isari-multi-select',
-  templateUrl: 'isari-multi-select.component.html',
+  templateUrl: './isari-multi-select.component.html',
   styleUrls: ['./isari-multi-select.component.css']
 })
 export class IsariMultiSelectComponent implements OnInit {
@@ -19,11 +19,12 @@ export class IsariMultiSelectComponent implements OnInit {
   _values = [];
   options: any[] = [];
   selectControl: FormControl;
-  empty: boolean;
+  empty: boolean = true;
   focused: boolean = false;
   extend = false;
   lang: string;
   disabled: boolean;
+  altLabel: string;
 
   @Input() name: string;
   @Input() form: FormGroup;
@@ -48,6 +49,8 @@ export class IsariMultiSelectComponent implements OnInit {
   ngOnInit() {
     this.lang = this.translate.currentLang;
     this.disabled = this.form.controls[this.name].disabled;
+
+    this.setAltLabel();
 
     this.selectControl = new FormControl({
       value: '',
@@ -89,12 +92,14 @@ export class IsariMultiSelectComponent implements OnInit {
   onFocus($event) {
     this.empty = false;
     this.focused = true;
+    this.altLabel = '';
   }
 
   onBlur($event) {
     this.addValue(this.selectControl.value);
-    this.empty = true;
+    this.empty = this.values.length === 0;
     this.focused = false;
+    this.setAltLabel();
   }
 
   onKey($event) {
@@ -120,9 +125,8 @@ export class IsariMultiSelectComponent implements OnInit {
     if (!this.extensible && !this.findOption(value)) {
       value = null;
     }
-
-    if (value && this.values.indexOf(value) === -1) { // uniq
-      this.values = [...this.values, value];
+    if (value && value.label && this.values.indexOf(value) === -1) { // uniq
+      this.values = [value, ...this.values];
       this.form.controls[this.name].markAsDirty();
       this.onUpdate.emit({});
     }
@@ -136,6 +140,10 @@ export class IsariMultiSelectComponent implements OnInit {
           value: item,
           label: item
         };
+      } else {
+        if (!item.label && item.name) {
+          item.label = item.name;
+        }
       }
       this.addValue(item);
     });
@@ -162,6 +170,10 @@ export class IsariMultiSelectComponent implements OnInit {
     } else {
       this.extend = false;
     }
+  }
+
+  private setAltLabel () {
+    this.altLabel = 'Ajouter une valeur';
   }
 
 }
