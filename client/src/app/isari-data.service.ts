@@ -57,7 +57,7 @@ export class IsariDataService {
   }
 
   getData(feature: string, id?: string) {
-    if (id === undefined) {
+    if (!id) {
       return this.getEmptyDataWith({
         controlType: 'object',
         label: null,

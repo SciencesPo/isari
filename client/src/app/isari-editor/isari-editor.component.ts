@@ -67,7 +67,7 @@ export class IsariEditorComponent implements OnInit {
       this.feature = feature;
       this.id = id;
       Promise.all([
-        this.isariDataService.getData(this.feature, String(id)),
+        this.isariDataService.getData(this.feature, id ? String(id) : null),
         this.isariDataService.getLayout(this.feature)
       ]).then(([data, layout]) => {
 

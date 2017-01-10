@@ -18,7 +18,7 @@
     <isari-download-button [feature]="feature" [data]="filteredData" [selectedColumns]="selectedColumns"></isari-download-button>
     <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
     <button md-raised-button [disableRipple]="true">
-      <a class="create-link" [routerLink]="['/', feature, 'new']" preserveQueryParams target="_blank">{{ ('btn_add_' + feature) | translate }}</a>
+      <a class="create-link" [routerLink]="['new', { outlets: { editor: null } }]" preserveQueryParams target="_blank">{{ ('btn_add_' + feature) | translate }}</a>
     </button>
 
   </md-toolbar>
