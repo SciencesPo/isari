@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './data-editor.component.html',
   styleUrls: ['./data-editor.component.css']
 })
-export class DataEditorComponent implements OnInit {
+export class DataEditorComponent {
 
   @Input() form: FormGroup;
   @Input() layout;
@@ -22,10 +22,6 @@ export class DataEditorComponent implements OnInit {
   @Output() onDelete = new EventEmitter<any>();
 
   constructor() {}
-
-  ngOnInit() {
-
-  }
 
   update($event) {
     this.onUpdate.emit($event);
