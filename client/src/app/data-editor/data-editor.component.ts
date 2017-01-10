@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MdDialogRef, MdDialog } from '@angular/material';
+import { ConfirmDialog } from '../fields/confirm.component';
 
 @Component({
   selector: 'isari-data-editor',
@@ -7,6 +9,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./data-editor.component.css']
 })
 export class DataEditorComponent {
+  dialogRef: MdDialogRef<ConfirmDialog>;
 
   @Input() form: FormGroup;
   @Input() layout;
@@ -21,7 +24,7 @@ export class DataEditorComponent {
   @Output() onSave = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
 
-  constructor() {}
+  constructor(private dialog: MdDialog) {}
 
   update($event) {
     this.onUpdate.emit($event);
@@ -34,7 +37,16 @@ export class DataEditorComponent {
   delete($event) {
     $event.preventDefault();
     if (this.deletable) {
-      this.onDelete.emit($event);
+      this.dialogRef = this.dialog.open(ConfirmDialog, {
+        disableClose: false
+      });
+
+      this.dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.onDelete.emit($event);
+        }
+        this.dialogRef = null;
+      });
     }
   }
 
