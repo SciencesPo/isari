@@ -17,7 +17,7 @@
     </md-card-subtitle>
 
     <table [hidden]="group.collapsed" style="width: 95%;">
-        <tr *ngFor="let row of group.fields">
+      <tr *ngFor="let row of group.fields">
           <td *ngFor="let field of row" [colSpan]="row.colspan">
             <isari-field
               (onUpdate)="update($event)"
@@ -28,8 +28,8 @@
               [lang]="lang"
               [path]="(path ? path + '.' : '') + field.name"></isari-field>
           </td>
-        </tr>
-      </table>
+      </tr>
+    </table>
 
   </md-card-content>
 
