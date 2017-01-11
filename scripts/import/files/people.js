@@ -524,7 +524,7 @@ module.exports = {
         }
 
         if (line['HCERES 2017']) {
-          info.tags = {hceres2017: line['HCERES 2017'].split(';')};
+          info.tags = {hceres2017: line['HCERES 2017'].split(';').map(tag => tag.trim())};
         }
 
         return info;
@@ -747,7 +747,8 @@ module.exports = {
             'bonuses',
             'distinctions',
             'deptMemberships',
-            'academicMemberships'
+            'academicMemberships',
+            'tags'
           ].forEach(prop => {
             if (person[prop])
               match[prop] = person[prop];
