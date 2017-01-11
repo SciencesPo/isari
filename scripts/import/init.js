@@ -134,6 +134,9 @@ const INDEXES = {
   }
 };
 
+// Dirty hack to be able to access indexes in strange places
+log.indexes = INDEXES;
+
 const counter = {
   Organization() {
     return Object.keys(INDEXES.Organization.id).length;

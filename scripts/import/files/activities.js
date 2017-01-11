@@ -727,21 +727,21 @@ module.exports = {
                 });
 
                 // TODO: maybe need to update previous membership's endDate?
-                if (!academicMembershipSet.has(hdr.organization)) {
-                  const membership = {
-                    organization: hdr.organization,
-                    membershipType: 'membre'
-                  };
+                // if (!academicMembershipSet.has(hdr.organization)) {
+                //   const membership = {
+                //     organization: hdr.organization,
+                //     membershipType: 'membre'
+                //   };
 
-                  if (hdr.startDate)
-                    membership.startDate = hdr.startDate;
-                  if (hdr.endDate)
-                    membership.endDate = hdr.endDate;
+                //   if (hdr.startDate)
+                //     membership.startDate = hdr.startDate;
+                //   if (hdr.endDate)
+                //     membership.endDate = hdr.endDate;
 
-                  academicMembershipSet.add(hdr.organization);
+                //   academicMembershipSet.add(hdr.organization);
 
-                  peopleInfo.academicMemberships.push(membership);
-                }
+                //   peopleInfo.academicMemberships.push(membership);
+                // }
 
                 if (!organizations[hdr.organization])
                   organizations[hdr.organization] = {
@@ -760,21 +760,21 @@ module.exports = {
                     name: hdr.organization2
                   };
 
-                if (!academicMembershipSet.has(hdr.organization2)) {
-                  const membership = {
-                    organization: hdr.organization2,
-                    membershipType: 'membre'
-                  };
+                // if (!academicMembershipSet.has(hdr.organization2)) {
+                //   const membership = {
+                //     organization: hdr.organization2,
+                //     membershipType: 'membre'
+                //   };
 
-                  if (hdr.startDate)
-                    membership.startDate = hdr.startDate;
-                  if (hdr.endDate)
-                    membership.endDate = hdr.endDate;
+                //   if (hdr.startDate)
+                //     membership.startDate = hdr.startDate;
+                //   if (hdr.endDate)
+                //     membership.endDate = hdr.endDate;
 
-                  academicMembershipSet.add(hdr.organization2);
+                //   academicMembershipSet.add(hdr.organization2);
 
-                  peopleInfo.academicMemberships.push(membership);
-                }
+                //   peopleInfo.academicMemberships.push(membership);
+                // }
               }
 
               activities.push(activity);
@@ -852,11 +852,17 @@ module.exports = {
             }
 
             (person.academicMemberships || []).forEach(membership => {
-              const orgKey = fingerprint(membership.organization);
+              const orgKey = fingerprint(membership.organization),
+                    indexedOrg = this.indexes.Organization.acronym[membership.organization];
 
               // Searching for an already existing relevant membership
               const relevantMembership = (match.academicMemberships || [])
-                .find(m => fingerprint(m.organization) === orgKey);
+                .find(m => {
+                  return (
+                    fingerprint(m.organization) === orgKey ||
+                    (indexedOrg && fingerprint(m.organization) === fingerprint(indexedOrg.name))
+                  );
+                });
 
               if (relevantMembership) {
 
