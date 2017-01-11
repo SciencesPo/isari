@@ -122,7 +122,8 @@ module.exports = {
               timepart: contract.timepart
             };
 
-            const jobNameLine = slice.find(line => !!line.jobName);
+            // Finding the last job name
+            const jobNameLine = slice.slice().reverse().find(line => !!line.jobName);
 
             if (jobNameLine)
               position.jobName = jobNameLine.jobName;
