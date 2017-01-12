@@ -84,7 +84,7 @@ function _applyTemplates (ownerDoc, object, meta, depth) {
 	// silly instances. I am sure we can do better...
 	if (object.virtuals && typeof object.virtuals === 'object') {
 		for (const k in object.virtuals) {
-			result[k] = object.virtuals[k];
+			result[k] = object.virtuals[k]
 		}
 	}
 
@@ -255,7 +255,7 @@ function _format (object, schema, shouldRemove, path, transform, rootDescription
 				else {
 
 					// NOTE: Achtung baby!
-					delete o[f];
+					delete o[f]
 				}
 			}
 		})
