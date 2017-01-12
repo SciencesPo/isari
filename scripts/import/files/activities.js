@@ -429,7 +429,7 @@ module.exports = {
         ]);
 
         // We must group lines per person
-        partitionBy(lines, 'bannerUid')
+        partitionBy(lines.filter(line => line.name !== 'NE PAS UTILISER'), 'bannerUid')
           .forEach(personLines => {
             const phd = personLines.find(person => !person.hdr && !FILTER.has(person.status)),
                   hdr = personLines.find(person => person.hdr && !FILTER.has(person.status)),
