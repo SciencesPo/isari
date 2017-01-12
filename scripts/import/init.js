@@ -1,4 +1,4 @@
-/* eslint no-loop-func: 0 */
+  /* eslint no-loop-func: 0 */
 /**
  * ISARI Init Import Script
  * =========================
@@ -480,6 +480,10 @@ function processRelations() {
       // Else solving the relation by acronym
       if (!related)
         related = INDEXES.Organization.acronym[rel];
+
+      // still not ? In despair, use fingerprint
+      if (!related)
+        related = INDEXES.Organization.fingerprint[fingerprint(rel)];
 
       // If we still have nothing, we should yell
       if (!related) {
