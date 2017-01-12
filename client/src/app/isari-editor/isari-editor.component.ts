@@ -7,7 +7,6 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
-import { diff as deepDiff } from 'deep-diff';
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 import { matchKeyCombo } from '../utils';
@@ -25,7 +24,6 @@ export class IsariEditorComponent implements OnInit {
   data: any;
   layout: any;
   lang: string;
-  previousFormValue: any;
   diff: Array<any> = [];
   form: FormGroup;
 
@@ -89,7 +87,6 @@ export class IsariEditorComponent implements OnInit {
         layout = this.isariDataService.translate(layout, lang);
         layout = this.isariDataService.closeAll(layout);
         this.form = this.isariDataService.buildForm(layout, this.data);
-        this.previousFormValue = this.form.value;
         this.layout = this.isariDataService.rows(layout);
 
         // disabled all form
@@ -137,18 +134,8 @@ export class IsariEditorComponent implements OnInit {
     }
   }
 
-  onUpdate() {
-    if (!this.form.disabled && this.form.valid && this.form.dirty) {
-
-      // Computing the diff of previous & current value
-      const diff = deepDiff(this.previousFormValue, this.form.value);
-
-      // Storing the diff
-      if (diff)
-        this.diff.push(diff);
-
-      // Next
-      this.previousFormValue = this.form.value;
-    }
+  onUpdate($event) {
+    console.log($event);
+    console.log(this.form.value);
   }
 }

@@ -11,6 +11,7 @@ import { FocusMeDirective } from '../focus-me.directive';
 export class IsariDateComponent {
 
   @Input() name: string;
+  @Input() path: string;
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() requirement: string;
@@ -93,7 +94,7 @@ export class IsariDateComponent {
     this.focused = false;
     this.runningClick = false;
 
-    this.onUpdate.emit($event);
+    this.onUpdate.emit({log: true, path: this.path, type: 'update'});
   }
 
   display(_displayed) {

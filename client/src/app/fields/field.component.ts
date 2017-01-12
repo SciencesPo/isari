@@ -75,7 +75,7 @@ export class FieldComponent implements OnChanges {
       this.isariDataService.getEmptyDataWith(this.field, this.feature, this.path)
         .then(data => {
           this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field, data);
-          this.update($event);
+          this.update({log: true, path: this.path, type: 'push'});
         });
     }
   }
@@ -84,7 +84,7 @@ export class FieldComponent implements OnChanges {
   remove($event) {
     if (this.form.controls[this.field.name] instanceof FormArray) {
       (<FormArray> this.form.controls[this.field.name]).removeAt(this.index);
-      this.update($event);
+      this.update({log: true, path: this.path.split('.').slice(0, -1).join('.'), index: this.index, type: 'delete'});
     }
   }
 }
