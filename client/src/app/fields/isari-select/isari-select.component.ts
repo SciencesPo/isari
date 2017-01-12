@@ -17,6 +17,7 @@ const ENTER = 13;
 export class IsariSelectComponent implements OnInit {
 
   @Input() name: string;
+  @Input() path: string;
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() requirement: string;
@@ -112,7 +113,7 @@ export class IsariSelectComponent implements OnInit {
 
     this.lastValidStringValue = this.selectControl.value;
 
-    this.update({});
+    this.update({log: true, path: this.path, type: 'update'});
   }
 
   onKey($event) {
@@ -129,7 +130,7 @@ export class IsariSelectComponent implements OnInit {
     this.create(this.selectControl.value).subscribe(item => {
       this.form.controls[this.name].setValue(item.id || item);
       this.form.controls[this.name].markAsDirty();
-      this.update({});
+      this.update({log: true, path: this.path, type: 'update'});
       this.lastValidStringValue = this.selectControl.value;
       this.selectControl.setValue(item.name || item);
     });

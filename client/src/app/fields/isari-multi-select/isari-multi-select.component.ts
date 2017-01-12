@@ -27,6 +27,7 @@ export class IsariMultiSelectComponent implements OnInit {
   altLabel: string;
 
   @Input() name: string;
+  @Input() path: string;
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() requirement: string;
@@ -112,9 +113,10 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   removeValue(value, $event) {
+    const removedIndex = this.values.findIndex(v => v === value);
     this.values = this.values.filter(v => v !== value);
     this.form.controls[this.name].markAsDirty();
-    this.onUpdate.emit({});
+    this.onUpdate.emit({log: true, path: this.path, index: removedIndex, type: 'delete'});
   }
 
   onSelect(index) {
@@ -128,7 +130,7 @@ export class IsariMultiSelectComponent implements OnInit {
     if (value && value.label && this.values.indexOf(value) === -1) { // uniq
       this.values = [value, ...this.values];
       this.form.controls[this.name].markAsDirty();
-      this.onUpdate.emit({});
+      this.onUpdate.emit({log: true, path: this.path, type: 'unshift'});
     }
     this.selectControl.setValue('');
   }

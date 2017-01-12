@@ -10,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class IsariInputComponent implements OnInit {
 
   @Input() name: string;
+  @Input() path: string;
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() description: string;
@@ -23,7 +24,7 @@ export class IsariInputComponent implements OnInit {
 
   update($event) {
     if (this.onUpdate) {
-      this.onUpdate.emit($event);
+      this.onUpdate.emit({log: true, path: this.path, type: 'update'});
     }
   }
 
