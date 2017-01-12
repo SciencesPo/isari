@@ -10,6 +10,7 @@ import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 import { matchKeyCombo } from '../utils';
+import get from 'lodash/get';
 
 @Component({
   selector: 'isari-editor',
@@ -109,11 +110,10 @@ export class IsariEditorComponent implements OnInit {
   }
 
   save($event) {
-    if (!this.form.disabled && this.form.valid && this.form.dirty) {
-      console.log(this.diff);
+    if (!this.form.disabled && this.form.valid && !!this.diff.length) {
       this.isariDataService.save(
         this.feature,
-        Object.assign({}, this.form.value, { id: this.id })
+        {id: this.id, diff: this.diff}
       ).then(data => {
           if (this.id !== data.id) {
             this.router.navigate([this.feature, data.id]);
@@ -135,7 +135,21 @@ export class IsariEditorComponent implements OnInit {
   }
 
   onUpdate($event) {
-    console.log($event);
-    console.log(this.form.value);
+
+    // Filtering form log events
+    if (!$event || !$event.log)
+      return;
+
+    const diff = {
+      type: $event.type,
+      path: $event.path.split('.'),
+      value: undefined
+    };
+
+    if ($event.type !== 'delete') {
+      diff.value = get(this.form.value, diff.path);
+    }
+
+    this.diff.push(diff);
   }
 }

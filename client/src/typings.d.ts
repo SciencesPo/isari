@@ -5,5 +5,6 @@ declare var System: any;
 declare var XLSX: any;
 declare module 'deep-diff';
 declare module 'file-saver';
+declare module 'lodash/get';
 declare module 'papaparse';
 declare module 'talisman/metrics/distance/damerau-levenshtein';
