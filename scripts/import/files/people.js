@@ -624,9 +624,11 @@ module.exports = {
                 if (!relevantMembership) {
                   relevantMembership = {
                     departement: membership.departement,
-                    startDate: !i && year.startDate ? year.startDate : year.year,
-                    endDate: year.year
+                    startDate: !i && year.startDate ? year.startDate : year.year
                   };
+
+                  if (relevantYears[i + 1] || year.year !== '2016')
+                    relevantMembership.endDate = year.year;
 
                   info.deptMemberships.push(relevantMembership);
                 }
@@ -663,9 +665,11 @@ module.exports = {
                   relevantMembership = {
                     organization: membership.organization,
                     startDate: !i && year.startDate ? year.startDate : year.year,
-                    endDate: year.year,
                     membershipType: 'membre'
                   };
+
+                  if (relevantYears[i + 1] || year.year !== '2016')
+                    relevantMembership.endDate = year.year;
 
                   info.academicMemberships.push(relevantMembership);
                 }
@@ -687,6 +691,7 @@ module.exports = {
 
           if (!info.academicMemberships.length)
             delete info.academicMemberships;
+
 
           // Grades academic
           info.grades = [];

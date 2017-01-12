@@ -443,6 +443,7 @@ const canViewConfidentialFields = (req) => Promise.resolve(
 )
 
 const computeRestrictedFieldsLong = (modelName, userCentralRole, userRoles, organizationId) => {
+
 	// Central admin → no restriction
 	if (userCentralRole === 'admin') {
 		return Promise.resolve({
@@ -470,7 +471,7 @@ const computeRestrictedFieldsLong = (modelName, userCentralRole, userRoles, orga
 	})
 }
 
-const computeRestrictedFieldsShort = (modelName, req) => computeRestrictedFieldsLong(modelName, req.userRoles, req.userScopeOrganizationId)
+const computeRestrictedFieldsShort = (modelName, req) => computeRestrictedFieldsLong(modelName, req.userCentralRole, req.userRoles, req.userScopeOrganizationId)
 
 exports.computeRestrictedFields = (modelName, userCentralRoleOrReq, userRoles = undefined, organizationId = undefined) => {
 	if (userRoles !== undefined && organizationId !== undefined) {
