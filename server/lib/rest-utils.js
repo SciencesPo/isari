@@ -174,7 +174,7 @@ const replaceModel = (Model, save, getPermissions) => {
 			debug('Applying diff operation', Model.modelName, operation)
 
 			if (operation.type === 'update') {
-				if (!('value' in operation) || operation.value === null) {
+				if (!('value' in operation) || operation.value === null || operation.value === '') {
 					unsetIn(updated, operation.path)
 				}
 				else {
