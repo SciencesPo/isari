@@ -1,7 +1,6 @@
 [
 	[
-		"departement",
-		"startDate",
-		"endDate"
-	]
+		"departement"
+	],
+	["startDate","endDate"]
 ]
