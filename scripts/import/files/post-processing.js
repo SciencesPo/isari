@@ -103,7 +103,6 @@ module.exports = {
     {
       name: 'SPIRE_personalActivities',
       path: 'people/SPIRE_personalActivities.csv',
-      skip: true,
       consumer(line) {
         const info = {
           idSpire: line['SPIRE ID'],

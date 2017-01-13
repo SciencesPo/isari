@@ -136,6 +136,7 @@ module.exports = {
           idHal: line.idHAL
         };
 
+
         if (line['Organisation Type (HCERES, SPIRE)'])
           info.organizationTypes = [line['Organisation Type (HCERES, SPIRE)']];
 
@@ -186,7 +187,8 @@ module.exports = {
             const merged = Object.assign({},
               sources.HCERES || {},
               sources.Banner || {},
-              sources.SPIRE || {}
+              sources.SPIRE || {},
+              sources.byhand || {}
             );
 
             delete merged.idBanner;
@@ -227,11 +229,13 @@ module.exports = {
       },
       indexer(indexes, org) {
 
+
         // Attempting to find the organization
         let match = indexes.name[org.name];
 
         if (!match && org.acronym)
           match = indexes.acronym[org.acronym];
+
 
         const key = fingerprint(org.name);
 
