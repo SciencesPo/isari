@@ -185,7 +185,8 @@ module.exports = {
             const merged = Object.assign({},
               sources.HCERES || {},
               sources.Banner || {},
-              sources.SPIRE || {}
+              sources.SPIRE || {},
+              sources.byhand || {}
             );
 
             delete merged.idBanner;
