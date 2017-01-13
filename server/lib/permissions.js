@@ -307,11 +307,19 @@ const listViewablePeople = (req, options = {}) => {
 		.match(filters) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
-		.then(ids => ({
-			// Populate to allow getPeoplePermissions to work
-			//add external people which doesn't have any academicMembership
-			query: People.find({$or:[{academicMemberships:{$exists:false}},{academicMemberships:[]},{ _id: { $in: ids } }]}).populate('academicMemberships.organization')
-		}))
+		.then(ids => {
+			let query
+			if (includeExternals)
+				//add external people which doesn't have any academicMembership
+				query = { $or: [ { academicMemberships: { $exists:false } }, { academicMemberships:[] }, { _id: { $in: ids } } ] }
+			else
+				// Populate to allow getPeoplePermissions to work
+				query = { _id: { $in: ids } }
+
+			return {
+				query: People.find(query).populate('academicMemberships.organization')
+			}
+		})
 }
 
 // Check if a people is editable by current user
