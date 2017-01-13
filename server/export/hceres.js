@@ -72,16 +72,22 @@ const SHEETS = [
     populate(models, centerId, callback) {
       const People = models.People;
 
-      People.find({
+      People.aggregate()
+      .match({
         academicMemberships: {
           $elemMatch: {
             organization: centerId
           }
         }
-      }, (err, people) => {
-        if (err)
-          return callback(err);
-
+      })
+      .lookup({
+          from: 'organizations',
+          localField: 'academicMemberships.organization',
+          foreignField: '_id',
+          as: 'tutelle'
+        })
+      .then( people => {
+        console.log(people)
         //-- 1) Filtering relevant people
         people = people.filter(person => {
           const validMembership = !!findRelevantItem(person.academicMemberships);
@@ -99,6 +105,7 @@ const SHEETS = [
 
         //-- 2) Retrieving necessary data
         people = people.map(person => {
+          
           const info = {
             name: person.name,
             firstName: person.firstName,
