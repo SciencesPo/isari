@@ -1,11 +1,11 @@
 {
   "admin": {
+    "AUT": "AP_tit",
     "ASDIREC": "AP_tit",
     "S2": "AP_tit",
     "S1": "AP_tit",
     "ASSPEC": "AP_tit",
     "CMission": "AP_tit",
-    "gradesAdmin": "gradesHceres",
     "TCN": "AP_tit",
     "TCS": "AP_tit",
     "APAB": "AP_tit",
@@ -55,7 +55,6 @@
     "cherchcontractuel": "Ch_aut",
     "profunivémérite": "EC_aut",
     "invité": "Ch_aut",
-    "gradesAcademic": "gradesHceres",
     "chargédétudes": "Ch_tit",
     "associateprofessor": "EC_tit",
     "ater": "EC_aut",
