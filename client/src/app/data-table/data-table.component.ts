@@ -70,6 +70,10 @@ export class DataTableComponent implements OnInit, OnChanges {
     if (changes['data'] && this.data && this.data.length) {
       this.unfilteredData = this.data;
       navigateToFirstPage = true;
+
+      if (this.cols.length) {
+        this.sortBy(this.cols[0]);
+      }
     }
     if (navigateToFirstPage) {
       this.calculPage(1);
@@ -82,10 +86,15 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   sortBy(col) {
-    // $event.preventDefault();
-    this.data.sort(this.dynamicSort(col.key, this.sortedState.key === col.key && !this.sortedState.reverse));
-    this.sortedState.reverse = (this.sortedState.key === col.key) ? !this.sortedState.reverse : false;
-    this.sortedState.key = col.key;
+    if (this.sortedState.key !== col.key) {
+      this.sortedState.key = col.key;
+      this.sortedState.reverse = false;
+    }
+    else {
+      this.sortedState.reverse = !this.sortedState.reverse;
+    }
+
+    this.data.sort(this.dynamicSort(col.key, this.sortedState.reverse));
     this.calculPage(1);
   }
 
