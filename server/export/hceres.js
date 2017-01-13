@@ -5,6 +5,13 @@
 const async = require('async'),
       moment = require('moment');
 
+const { getSimpleEnumValues, getNestedEnumValues } = require('../lib/enums')
+
+const hceres2017enums = {};
+getSimpleEnumValues('hceres2017').forEach(e => {
+  hceres2017enums[e.value]=e.label.fr;
+});
+
 const {
   createWorkbook,
   createSheet,
@@ -55,7 +62,12 @@ const SHEETS = [
       {key: 'grade', label: 'Corps-grade\n(1)'},
       {key: 'panel', label: 'Panels disciplinaires / Branches d\'Activités Profession. (BAP)\n(2)'},
       {key: 'hdr', label: 'HDR\n(3)'},
-      {key: 'organization', label: 'Etablissement ou organisme employeur\n(4)'}
+      {key: 'organization', label: 'Etablissement ou organisme employeur\n(4)'},
+      {key: 'uai', label: 'Code UAI '},
+      {key: 'tutelle', label: 'Ministère de tutelle'},
+      {key: 'startDate', label: 'Date d’arrivée dans l’unité'},
+      {key: 'futur', label: 'Participation au futur projet'},
+      {key: 'orcid', label: 'Identifiant ORCID'}
     ],
     populate(models, centerId, callback) {
       const People = models.People;
@@ -92,23 +104,41 @@ const SHEETS = [
             firstName: person.firstName,
             gender: GENDER_MAP[person.gender],
             hdr: 'NON',
-            organization: 'IEP Paris'
+            organization: 'IEP Paris',
+            tutelle: 'MENESR'
           };
 
           const relevantPosition = findRelevantItem(person.positions);
+
+          if (person.tags && person.tags.hceres2017){
+            console.log(person.tags.hceres2017);
+            
+            info.panel= person.tags.hceres2017
+            .map(t => {
+              if(hceres2017enums[t])
+                return hceres2017enums[t];
+            })
+            .filter(e => e)
+            .join(",")
+          }
+
+          if (person.ORCID)
+            info.orcid=person.ORCID
+
+          if (relevantPosition && relevantPosition.organization === 'CNRS')
+            info.organization = 'CNRS';
 
           const grade = findRelevantItem(person.grades);
 
           let gradeAdmin;
 
-          // if (relevantPosition)
-          //   gradeAdmin = findRelevantItem(relevantPosition.gradesAdmin);
 
           if (grade){
             if (grade.gradeStatus === "appuiadministratif" || grade.gradeStatus === "appuitechnique")
               info.jobType = GRADES_INDEX.admin[grade.grade];
             else
               info.jobType = GRADES_INDEX.academic[grade.grade];
+            info.startDate=grade.startDate
           }
           
           if (person.birthDate) {
