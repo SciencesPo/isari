@@ -1,8 +1,9 @@
 {
   "people": {
-    "defaults": ["firstName","name","grades","deptMemberships"],
+    "defaults": ["firstName","name","deptMemberships"],
     "selector": [
       "-tags",
+      "-grades",
       {
         "key": "email",
         "label": {

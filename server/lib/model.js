@@ -10,7 +10,7 @@ const timestamps = require('mongoose-timestamp')
 
 // Use native promises with Mongoose
 mongoose.Promise = Promise
-
+//mongoose.set('debug', true);
 
 module.exports = {
 	connect,

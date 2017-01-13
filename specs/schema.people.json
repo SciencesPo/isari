@@ -242,8 +242,8 @@
             "accessType": "confidential",
             "date": {
                 "label": {
-                    "fr": "Date d'évaluation",
-                    "en": "Review date"
+                    "fr": "Date",
+                    "en": "Date"
                 },
                 "type": "date"
             },
@@ -254,7 +254,7 @@
                 },
                 "enum": "facultyMonitoringTypes"
             },
-            "comment": {
+            "comments": {
                 "label": {
                     "fr": "Commentaires",
                     "en": "Comments"

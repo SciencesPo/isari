@@ -63,13 +63,33 @@ const SHEETS = [
       People.find({
         academicMemberships: {
           $elemMatch: {
-            organization: centerId
+            organization: ObjectId(centerId)
           }
         }
-      }, (err, people) => {
-        if (err)
-          return callback(err);
-
+      })
+      .unwind('academicMemberships')
+      .lookup({
+          from: 'organizations',
+          localField: 'academicMemberships.organization',
+          foreignField: '_id',
+          as: 'tutelles'
+        })
+      .unwind('tutelles')
+      .group({
+        _id:'$_id',
+        academicMemberships: {$push: '$academicMemberships'},
+        tutelles: {$push: '$tutelles'},
+        positions: { "$first": '$positions'},
+        grades: { "$first": '$grades'},
+        name: { "$first": '$name'},
+        firstName: { "$first": '$firstName'},
+        gender: { "$first": '$gender'},
+        tags: { "$first":'$tags'},
+        birthDate: { "$first": '$birthDate'},
+        distinctions: { "$first":'$distinctions'}
+      })
+      .then( people => {
+       
         //-- 1) Filtering relevant people
         people = people.filter(person => {
           const validMembership = !!findRelevantItem(person.academicMemberships);
@@ -87,6 +107,7 @@ const SHEETS = [
 
         //-- 2) Retrieving necessary data
         people = people.map(person => {
+
           const info = {
             name: person.name,
             firstName: person.firstName,
