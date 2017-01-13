@@ -33,8 +33,8 @@ const HCERES_DATE = '2017-06-30';
 function findRelevantItem(collection) {
   return collection.find(item => {
     return (
-      !item.endDate ||
-      parseDate(item.endDate).isSameOrAfter(HCERES_DATE)
+      (!item.endDate || parseDate(item.endDate).isSameOrAfter(HCERES_DATE)) &
+      parseDate(item.startDate).isSameOrBefore(HCERES_DATE)
     );
   });
 }
@@ -76,7 +76,7 @@ const SHEETS = [
 
           const relevantPosition = findRelevantItem(person.positions);
 
-          const relevantGrade = findRelevantItem(person.gradesAcademic);
+          const relevantGrade = findRelevantItem(person.grades);
 
           return (
             validMembership &&
@@ -97,18 +97,20 @@ const SHEETS = [
 
           const relevantPosition = findRelevantItem(person.positions);
 
-          const gradeAcademic = findRelevantItem(person.gradesAcademic);
+          const grade = findRelevantItem(person.grades);
 
           let gradeAdmin;
 
-          if (relevantPosition)
-            gradeAdmin = findRelevantItem(relevantPosition.gradesAdmin);
+          // if (relevantPosition)
+          //   gradeAdmin = findRelevantItem(relevantPosition.gradesAdmin);
 
-          if (gradeAcademic)
-            info.jobType = GRADES_INDEX.academic[gradeAcademic.grade];
-          else if (gradeAdmin)
-            info.jobType = GRADES_INDEX.admin[gradeAdmin.grade];
-
+          if (grade){
+            if (grade.gradeStatus === "appuiadministratif" || grade.gradeStatus === "appuitechnique")
+              info.jobType = GRADES_INDEX.admin[grade.grade];
+            else
+              info.jobType = GRADES_INDEX.academic[grade.grade];
+          }
+          
           if (person.birthDate) {
             const [year, month, day] = person.birthDate.split('-');
 
