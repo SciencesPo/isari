@@ -1,4 +1,4 @@
-/* eslint no-loop-func: 0 */
+  /* eslint no-loop-func: 0 */
 /**
  * ISARI Init Import Script
  * =========================
@@ -133,6 +133,9 @@ const INDEXES = {
     id: Object.create(null)
   }
 };
+
+// Dirty hack to be able to access indexes in strange places
+log.indexes = INDEXES;
 
 const counter = {
   Organization() {
@@ -478,6 +481,10 @@ function processRelations() {
       if (!related)
         related = INDEXES.Organization.acronym[rel];
 
+      // still not ? In despair, use fingerprint
+      if (!related)
+        related = INDEXES.Organization.fingerprint[fingerprint(rel)];
+
       // If we still have nothing, we should yell
       if (!related) {
         log.error(`Could not match the ${chalk.cyan(rel)} people->org.`);
@@ -703,28 +710,6 @@ async.series({
     log.success('Processing activity files...');
     return async.series(activityTasks, next);
   },
-  relations(next) {
-
-    // If we have validation errors, let's call it a day
-    if (NB_VALIDATION_ERRORS)
-      return next(new ProcessError());
-
-    const nbOrganization = Object.keys(INDEXES.Organization.id).length,
-          nbPeople = Object.keys(INDEXES.People.id).length,
-          nbActivity = Object.keys(INDEXES.Activity.id).length;
-
-    console.log();
-    log.success(`Finished processing ${chalk.cyan(NB_FILES)} files!`);
-    log.info(`Collected ${chalk.cyan(nbOrganization)} unique organizations.`);
-    log.info(`Collected ${chalk.cyan(nbPeople)} unique people.`);
-    log.info(`Collected ${chalk.cyan(nbActivity)} unique activities.`);
-
-    console.log();
-    log.success('Processing relations...');
-    processRelations();
-
-    return next();
-  },
   ldap(next) {
     console.log();
 
@@ -749,6 +734,28 @@ async.series({
     log.info('Post-processing...');
 
     return async.series(postProcessingTasks, next);
+  },
+  relations(next) {
+
+    // If we have validation errors, let's call it a day
+    if (NB_VALIDATION_ERRORS)
+      return next(new ProcessError());
+
+    const nbOrganization = Object.keys(INDEXES.Organization.id).length,
+          nbPeople = Object.keys(INDEXES.People.id).length,
+          nbActivity = Object.keys(INDEXES.Activity.id).length;
+
+    console.log();
+    log.success(`Finished processing ${chalk.cyan(NB_FILES)} files!`);
+    log.info(`Collected ${chalk.cyan(nbOrganization)} unique organizations.`);
+    log.info(`Collected ${chalk.cyan(nbPeople)} unique people.`);
+    log.info(`Collected ${chalk.cyan(nbActivity)} unique activities.`);
+
+    console.log();
+    log.success('Processing relations...');
+    processRelations();
+
+    return next();
   },
   technicalFields(next) {
 

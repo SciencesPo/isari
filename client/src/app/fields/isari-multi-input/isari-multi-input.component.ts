@@ -16,6 +16,7 @@ export class IsariMultiInputComponent implements OnInit {
   empty: boolean;
 
   @Input() name: string;
+  @Input() path: string;
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() requirement: string;
@@ -68,13 +69,17 @@ export class IsariMultiInputComponent implements OnInit {
   }
 
   removeValue(value, $event) {
+    const removedIndex = this.values.findIndex(v => v === value);
     this.values = this.values.filter(v => v !== value);
+
+    this.onUpdate.emit({log: true, path: this.path, index: removedIndex, type: 'delete'});
   }
 
   addValue(value) {
     this.selectControl.setValue('');
     if (value !== '' && this.values.indexOf(value) === -1) { // uniq
       this.values = [...this.values, value];
+      this.onUpdate.emit({log: true, path: this.path, type: 'push'});
     }
   }
 

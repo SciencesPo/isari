@@ -3,11 +3,14 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'isari-input',
-  templateUrl: './isari-input.component.html'
+  templateUrl: './isari-input.component.html',
+  styleUrls: ['./isari-input.component.css']
+
 })
 export class IsariInputComponent implements OnInit {
 
   @Input() name: string;
+  @Input() path: string;
   @Input() form: FormGroup;
   @Input() label: string;
   @Input() description: string;
@@ -21,7 +24,7 @@ export class IsariInputComponent implements OnInit {
 
   update($event) {
     if (this.onUpdate) {
-      this.onUpdate.emit($event);
+      this.onUpdate.emit({log: true, path: this.path, type: 'update'});
     }
   }
 

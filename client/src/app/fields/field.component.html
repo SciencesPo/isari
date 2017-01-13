@@ -6,7 +6,7 @@
       <isari-data-editor [class.multiple]="multiple"
         (onDelete)="remove($event)"
         (onUpdate)="update($event)"
-        [path]="path + (multiple ? '' : '.' + field.name)"
+        [path]="path"
         [deletable]="index !== null"
         [label]="field.label"
         [form]="getForm()"
@@ -18,6 +18,7 @@
 
     <isari-date *ngSwitchCase="'date'"
       (onUpdate)="update($event)"
+      [path]="path"
       [name]="field.name"
       [label]="field.label"
       [requirement]="field.requirement"
@@ -26,6 +27,7 @@
 
     <isari-select *ngSwitchCase="'select'"
       (onUpdate)="update($event)"
+      [path]="path"
       [src]="field.src"
       [stringValue]="field.stringValue"
       [extensible]="!!field.softenum || !!field.ref"
@@ -39,6 +41,7 @@
 
     <isari-checkbox *ngSwitchCase="'boolean'"
       (onUpdate)="update($event)"
+      [path]="path"
       [name]="field.name"
       [label]="field.label"
       [description]="field.description"
@@ -46,6 +49,7 @@
 
     <isari-textarea *ngSwitchCase="'text'"
       (onUpdate)="update($event)"
+      [path]="path"
       [name]="field.name"
       [label]="field.label"
       [description]="field.description"
@@ -53,6 +57,7 @@
 
     <isari-input *ngSwitchCase="'number'"
       (onUpdate)="update($event)"
+      [path]="path"
       [name]="field.name"
       [label]="field.label"
       [description]="field.description"
@@ -64,6 +69,7 @@
 
     <isari-input *ngSwitchDefault
       (onUpdate)="update($event)"
+      [path]="path"
       [name]="field.name"
       [label]="field.label"
       [description]="field.description"
@@ -76,6 +82,7 @@
 
     <isari-multi-select *ngSwitchCase="'select'"
       (onUpdate)="update($event)"
+      [path]="path"
       [src]="field.src"
       [stringValue]="field.stringValue"
       [extensible]="!!field.softenum || !!field.ref"
@@ -89,6 +96,7 @@
 
     <isari-multi-input *ngSwitchCase="'string'"
       (onUpdate)="update($event)"
+      [path]="path"
       [name]="field.name"
       [label]="field.label"
       [requirement]="field.requirement"

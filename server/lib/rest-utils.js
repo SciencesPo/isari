@@ -10,6 +10,9 @@ const debug = require('debug')('isari:rest')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('./permissions')
 const removeEmptyFields = require('./remove-empty-fields')
 const { getMeta, getVirtualColumn } = require('./specs')
+const getIn = require('lodash/get')
+const setIn = require('lodash/set')
+const unsetIn = require('lodash/unset')
 const config = require('config')
 const chalk = require('chalk')
 
@@ -93,7 +96,7 @@ const getVirtualColumns = reduce((vs, k) => {
 }, {})
 
 const mergeVirtuals = virtuals => object => {
-	object.virtuals = object.virtuals || {};
+	object.virtuals = object.virtuals || {}
 
 	for (let k in virtuals) {
 		object.virtuals[k] = virtuals[k](object)
@@ -160,24 +163,39 @@ const replaceModel = (Model, save, getPermissions) => {
 		if (!perms.editable) {
 			return Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))
 		}
-		// Build original values and new values, ignoring confidential fields
-		const original = filterConfidentialFields(Model.modelName, doc.toObject(), perms)
-		const updated = filterConfidentialFields(Model.modelName, removeEmptyFields(req.body), perms)
-		// Update with provided data
-		for (let f in updated) {
-			if (f === 'id' || f[0] === '_') {
-				continue // just in case client sent technical data
+
+		// TODO: the Shawarma knows what is bad here...
+
+		// Apply diff to the original object
+		let updated = doc.toObject()
+		const diff = req.body.diff
+
+		diff.forEach(operation => {
+			debug('Applying diff operation', Model.modelName, operation)
+
+			if (operation.type === 'update') {
+				if (!('value' in operation) || operation.value === null || operation.value === '') {
+					unsetIn(updated, operation.path)
+				}
+				else {
+					setIn(updated, operation.path, operation.value)
+				}
 			}
-			debug('Update', Model.modelName, doc.id, f, updated[f])
+			else if (operation.type === 'delete') {
+				getIn(updated, operation.path).splice(operation.index, 1)
+			}
+			else if (operation.type === 'push') {
+				getIn(updated, operation.path).push({})
+			}
+			else if (operation.type === 'unshift') {
+				getIn(updated, operation.path).unshift({})
+			}
+		})
+
+		for (const f in updated) {
 			doc[f] = updated[f]
 		}
-		// Also delete fields that are in 'original' but not in 'updated' anymore
-		for (let f in original) {
-			if (f !== 'id' && f[0] !== '_' && !(f in updated)) {
-				debug('Remove', Model.modelName, doc.id, f)
-				doc[f] = undefined
-			}
-		}
+
 		// Delete
 		doc.latestChangeBy = req.session.login // sign for EditLogs
 		debug('Save', Model.modelName, doc)

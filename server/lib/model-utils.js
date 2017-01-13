@@ -84,7 +84,7 @@ function _applyTemplates (ownerDoc, object, meta, depth) {
 	// silly instances. I am sure we can do better...
 	if (object.virtuals && typeof object.virtuals === 'object') {
 		for (const k in object.virtuals) {
-			result[k] = object.virtuals[k];
+			result[k] = object.virtuals[k]
 		}
 	}
 
@@ -151,7 +151,7 @@ function _getRefFields (baseName, meta, depth) {
 	return result
 }
 
-const pathToRegExp = memoize(path => new RegExp('^' + path.replace('.', '\\.').replace('.*', '..+') + '$'))
+const pathToRegExp = memoize(path => new RegExp('^' + path.replace(/\.\*\./g, '\\..+\\.') + '$'))
 
 const pathsTester = paths => {
 	const res = paths.map(pathToRegExp)
@@ -251,6 +251,11 @@ function _format (object, schema, shouldRemove, path, transform, rootDescription
 				const res = _format(o[f], schema[f], shouldRemove, path ? path + '.' + f : f, transform, rootDescription)
 				if (res !== REMOVED_FIELD) {
 					o[f] = res
+				}
+				else {
+
+					// NOTE: Achtung baby!
+					delete o[f]
 				}
 			}
 		})

@@ -10,6 +10,7 @@ import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 import { matchKeyCombo } from '../utils';
+import get from 'lodash/get';
 
 @Component({
   selector: 'isari-editor',
@@ -24,6 +25,7 @@ export class IsariEditorComponent implements OnInit {
   data: any;
   layout: any;
   lang: string;
+  diff: Array<any> = [];
   form: FormGroup;
 
   private pressedSaveShortcut: Function;
@@ -67,7 +69,7 @@ export class IsariEditorComponent implements OnInit {
       this.feature = feature;
       this.id = id;
       Promise.all([
-        this.isariDataService.getData(this.feature, String(id)),
+        this.isariDataService.getData(this.feature, id ? String(id) : null),
         this.isariDataService.getLayout(this.feature)
       ]).then(([data, layout]) => {
 
@@ -108,10 +110,10 @@ export class IsariEditorComponent implements OnInit {
   }
 
   save($event) {
-    if (!this.form.disabled && this.form.valid && this.form.dirty) {
+    if (!this.form.disabled && this.form.valid && !!this.diff.length) {
       this.isariDataService.save(
         this.feature,
-        Object.assign({}, this.form.value, { id: this.id })
+        {id: this.id, diff: this.diff}
       ).then(data => {
           if (this.id !== data.id) {
             this.router.navigate([this.feature, data.id]);
@@ -121,6 +123,9 @@ export class IsariEditorComponent implements OnInit {
         .catch(err => {
           this.toasterService.pop('error', 'Save', 'Error');
         });
+
+      // Clearing the diff
+      this.diff = [];
     }
     if (!this.form.valid) {
       // let errors = this.isariDataService.getErrorsFromControls(this.form.controls);
@@ -129,4 +134,29 @@ export class IsariEditorComponent implements OnInit {
     }
   }
 
+  onUpdate($event) {
+
+    // Filtering form log events
+    if (!$event || !$event.log)
+      return;
+
+    const diff = {
+      type: $event.type,
+      path: $event.path.split('.'),
+      value: undefined,
+      index: undefined
+    };
+
+    // We need the index in case of deletion
+    if ($event.type === 'delete') {
+      diff.index = $event.index;
+    }
+
+    // We need the value in case of update
+    if ($event.type === 'update') {
+      diff.value = get(this.form.value, diff.path);
+    }
+
+    this.diff.push(diff);
+  }
 }

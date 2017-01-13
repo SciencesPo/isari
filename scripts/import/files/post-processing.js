@@ -201,23 +201,7 @@ module.exports = {
           return false;
         }
 
-        let org;
-
-        if (orgaAcronym) {
-          org = indexes.Organization.acronym[orgaAcronym.toUpperCase()];
-
-          if (!org)
-            org = indexes.Organization.name[orgaAcronym];
-
-          if (!org)
-            org = indexes.Organization.fingerprint[fingerprint(orgaAcronym)];
-
-          if (!org) {
-            this.error(`Could not match organization with acronym ${chalk.green(orgaAcronym)}`);
-            return false;
-          }
-        }
-        else if (!/^central_/.test(isariRole)) {
+        if (!/^central_/.test(isariRole) & orgaAcronym) {
           this.error(`Inconsistent role for id ${chalk.green(ldapUid)}. Cannot be ${chalk.grey(isariRole)} and be attached to an organization.`);
           return false;
         }
@@ -225,7 +209,7 @@ module.exports = {
         person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
 
         // TODO: can we have a central role & an attached organization
-        let authorization = org && person.isariAuthorizedCenters.find(a => a.organization === org._id);
+        let authorization = orgaAcronym && person.isariAuthorizedCenters.find(a => a.organization === orgaAcronym);
 
         if (authorization) {
           authorization.isariRole = isariRole;
@@ -233,8 +217,8 @@ module.exports = {
         else {
           authorization = {isariRole};
 
-          if (org)
-            authorization.organization = org._id;
+          if (orgaAcronym)
+            authorization.organization = orgaAcronym;
 
           person.isariAuthorizedCenters.push(authorization);
         }

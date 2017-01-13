@@ -74,3 +74,9 @@ isari-login .md-input-underline .md-input-ripple,
 isari-editor .md-input-underline .md-input-ripple {
   background-color: #E6142D;
 }
+
+isari-editor .input .md-input-wrapper { width: 400px; }
+isari-editor .input-date .md-input-wrapper { width: 250px; }
+isari-editor .input-select .md-input-wrapper { width: 400px; }
+isari-editor .input-textarea .md-input-wrapper { width: 600px; }
+isari-editor .input-textarea .md-input-wrapper textarea { min-height: 100px; }

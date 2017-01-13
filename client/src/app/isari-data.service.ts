@@ -57,7 +57,7 @@ export class IsariDataService {
   }
 
   getData(feature: string, id?: string) {
-    if (id === undefined) {
+    if (!id) {
       return this.getEmptyDataWith({
         controlType: 'object',
         label: null,
@@ -283,7 +283,7 @@ export class IsariDataService {
 
     // build form from object after layout manipluation
     if (fields[0] instanceof Array) {
-      fields = fields.map(f => f[0]); // ? more than 0 ?
+      fields = fields.map(f => ({ fields: f}));
     }
 
     // normalize [[a, b ], c] -> [a, b, c]

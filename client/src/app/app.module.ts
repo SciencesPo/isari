@@ -43,6 +43,7 @@ import { IsariChartPeopleComponent } from './isari-chart/isari-chart-people/isar
 import { IsariDownloadButtonComponent } from './isari-list/isari-download-button/isari-download-button.component';
 import { CVComponent } from './cv/cv.component';
 import { FocusMeDirective } from './fields/focus-me.directive';
+import { ConfirmDialog } from './fields/confirm.component';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -76,7 +77,8 @@ export function createTranslateLoader(http: Http) {
     IsariChartPeopleComponent,
     IsariDownloadButtonComponent,
     CVComponent,
-    FocusMeDirective
+    FocusMeDirective,
+    ConfirmDialog
   ],
   imports: [
     BrowserModule,
@@ -101,6 +103,7 @@ export function createTranslateLoader(http: Http) {
   ],
   entryComponents: [
     AppComponent,
+    ConfirmDialog
   ],
   bootstrap: [
     AppComponent,

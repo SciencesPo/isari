@@ -939,7 +939,7 @@
         {
             "value": "mob_entrante",
             "label": {
-                "fr": "invité",
+                "fr": "invitation",
                 "en": ""
             }
         },
@@ -2036,13 +2036,6 @@
             "label": {
                 "fr": "appui technique",
                 "en": ""
-            }
-        },
-        {
-            "value": "doctorant",
-            "label": {
-                "fr": "Doctorant.e",
-                "en": "PhD student"
             }
         }
     ],

@@ -122,7 +122,8 @@ module.exports = {
               timepart: contract.timepart
             };
 
-            const jobNameLine = slice.find(line => !!line.jobName);
+            // Finding the last job name
+            const jobNameLine = slice.slice().reverse().find(line => !!line.jobName);
 
             if (jobNameLine)
               position.jobName = jobNameLine.jobName;
@@ -524,7 +525,7 @@ module.exports = {
         }
 
         if (line['HCERES 2017']) {
-          info.tags = {hceres2017: line['HCERES 2017'].split(';')};
+          info.tags = {hceres2017: line['HCERES 2017'].split(';').map(tag => tag.trim())};
         }
 
         return info;
@@ -623,9 +624,11 @@ module.exports = {
                 if (!relevantMembership) {
                   relevantMembership = {
                     departement: membership.departement,
-                    startDate: !i && year.startDate ? year.startDate : year.year,
-                    endDate: year.year
+                    startDate: !i && year.startDate ? year.startDate : year.year
                   };
+
+                  if (relevantYears[i + 1] || year.year !== '2016')
+                    relevantMembership.endDate = year.year;
 
                   info.deptMemberships.push(relevantMembership);
                 }
@@ -662,9 +665,11 @@ module.exports = {
                   relevantMembership = {
                     organization: membership.organization,
                     startDate: !i && year.startDate ? year.startDate : year.year,
-                    endDate: year.year,
                     membershipType: 'membre'
                   };
+
+                  if (relevantYears[i + 1] || year.year !== '2016')
+                    relevantMembership.endDate = year.year;
 
                   info.academicMemberships.push(relevantMembership);
                 }
@@ -686,6 +691,7 @@ module.exports = {
 
           if (!info.academicMemberships.length)
             delete info.academicMemberships;
+
 
           // Grades academic
           info.grades = [];
@@ -747,7 +753,8 @@ module.exports = {
             'bonuses',
             'distinctions',
             'deptMemberships',
-            'academicMemberships'
+            'academicMemberships',
+            'tags'
           ].forEach(prop => {
             if (person[prop])
               match[prop] = person[prop];

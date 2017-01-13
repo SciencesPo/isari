@@ -249,8 +249,8 @@ const listViewablePeople = (req, options = {}) => {
 			: // Limit to people from organizations he has access to
 				{ 'memberships.orgId': { $in: Object.keys(req.userRoles).map(ObjectId.createFromHexString) } }
 
-	// External people = ALL memberships are either expired or linked to an unmonitored organization
-	const isExternal = { memberships: { $not: { $elemMatch: { $and: isInternal } } } }
+	// External people = ALL memberships are either  expired or linked to an unmonitored organization
+	const isExternal = { memberships: {$not: { $elemMatch: { $and: isInternal } } } }
 
 	// Member in date range (like isInternal, without testing isariMonitored)
 	const isInRange = (start, end) => {
@@ -276,7 +276,7 @@ const listViewablePeople = (req, options = {}) => {
 			? { $or: [ isMember, isExternal ] }
 			: (includeExternals ? isExternal : isMember)
 
-	// Use aggregation to lookup organization and calculate union of "in scope" + "externals"
+	// here the mongo query of the death
 	return People.aggregate()
 		.project({ _id: 1, academicMemberships: 1 }) // Keep original data intact for later use
 		.unwind('academicMemberships') // Lookup only works with flat data, unwind array
@@ -307,10 +307,19 @@ const listViewablePeople = (req, options = {}) => {
 		.match(filters) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
-		.then(ids => ({
-			// Populate to allow getPeoplePermissions to work
-			query: People.find({ _id: { $in: ids } }).populate('academicMemberships.organization')
-		}))
+		.then(ids => {
+			let query
+			if (includeExternals)
+				//add external people which doesn't have any academicMembership
+				query = { $or: [ { academicMemberships: { $exists:false } }, { academicMemberships:[] }, { _id: { $in: ids } } ] }
+			else
+				// Populate to allow getPeoplePermissions to work
+				query = { _id: { $in: ids } }
+
+			return {
+				query: People.find(query).populate('academicMemberships.organization')
+			}
+		})
 }
 
 // Check if a people is editable by current user
@@ -443,6 +452,7 @@ const canViewConfidentialFields = (req) => Promise.resolve(
 )
 
 const computeRestrictedFieldsLong = (modelName, userCentralRole, userRoles, organizationId) => {
+
 	// Central admin → no restriction
 	if (userCentralRole === 'admin') {
 		return Promise.resolve({
@@ -470,7 +480,7 @@ const computeRestrictedFieldsLong = (modelName, userCentralRole, userRoles, orga
 	})
 }
 
-const computeRestrictedFieldsShort = (modelName, req) => computeRestrictedFieldsLong(modelName, req.userRoles, req.userScopeOrganizationId)
+const computeRestrictedFieldsShort = (modelName, req) => computeRestrictedFieldsLong(modelName, req.userCentralRole, req.userRoles, req.userScopeOrganizationId)
 
 exports.computeRestrictedFields = (modelName, userCentralRoleOrReq, userRoles = undefined, organizationId = undefined) => {
 	if (userRoles !== undefined && organizationId !== undefined) {

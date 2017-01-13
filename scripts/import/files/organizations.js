@@ -136,6 +136,7 @@ module.exports = {
           idHal: line.idHAL
         };
 
+
         if (line['Organisation Type (HCERES, SPIRE)'])
           info.organizationTypes = [line['Organisation Type (HCERES, SPIRE)']];
 
@@ -144,9 +145,9 @@ module.exports = {
 
         if (line['adresse banner'])
           info.address = line['adresse banner'];
-
-        if (line['SPIRE adresse'])
-          info.address = line['SPIRE adresse'];
+        else
+          if (line['SPIRE adresse'])
+            info.address = line['SPIRE adresse'];
 
         if (line['banner country alpha3']) {
           const match = ENUM_INDEXES.countries.alpha3[line['banner country alpha3']];
@@ -156,9 +157,10 @@ module.exports = {
           else
             info.countries = [match.alpha2];
         }
-
-        if (line['SPIRE country alpha2'])
-          info.countries = [line['SPIRE country alpha2']];
+        else {
+          if (line['SPIRE country alpha2'])
+            info.countries = [line['SPIRE country alpha2']];
+        }
 
         if (line['SPIRE ORGA Parent REC ID'])
           info.spireParent = line['SPIRE ORGA Parent REC ID'];
@@ -227,11 +229,13 @@ module.exports = {
       },
       indexer(indexes, org) {
 
+
         // Attempting to find the organization
         let match = indexes.name[org.name];
 
         if (!match && org.acronym)
           match = indexes.acronym[org.acronym];
+
 
         const key = fingerprint(org.name);
 
