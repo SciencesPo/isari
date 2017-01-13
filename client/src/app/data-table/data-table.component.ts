@@ -118,12 +118,12 @@ export class DataTableComponent implements OnInit, OnChanges {
     if (Array.isArray(item[key])) {
       target = item[key].map(e => {
         if (typeof e === 'object')
-          return e.label[this.lang];
+          return e.label[this.lang] || e.label[this.defaultLang];
         return e;
       }).join(' ');
     }
     else if (typeof item[key] === 'object') {
-      target = item[key].label[this.lang];
+      target = item[key].label[this.lang] || item[key].label[this.defaultLang];
     }
     else {
       target = item[key];
