@@ -13,6 +13,7 @@ import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-pag
 })
 export class DataTableComponent implements OnInit, OnChanges {
   page: any[];
+  filters: any = {};
   itemsPerPage = 10;
   sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
   unfilteredData: any[];
@@ -102,27 +103,48 @@ export class DataTableComponent implements OnInit, OnChanges {
   //   this.router.navigate([{ outlets: { editor: [ id ] } }]);
   }
 
-  private applyFilter(key: string, value: string) {
+  private compare(key, query, item) {
+    let target;
 
-    // TODO: this is temporary because enum labels are nested objects!
-    // TODO: this probably does not work with multi-filter!
+    if (Array.isArray(item[key])) {
+      target = item[key].map(e => {
+        if (typeof e === 'object')
+          return e.label[this.lang];
+        return e;
+      }).join(' ');
+    }
+    else if (typeof item[key] === 'object') {
+      target = item[key].label[this.lang];
+    }
+    else {
+      target = item[key];
+    }
+
+    if (!target)
+      return false;
+
+    return String(target).toLowerCase().indexOf(query.toLowerCase()) !== -1;
+  }
+
+  private applyFilter(key: string, query: string) {
+
+    // Updating the filters
+    if (!query) {
+      delete this.filters[key];
+    }
+    else {
+      this.filters[key] = query;
+    }
+
+    const filters = Object.keys(this.filters);
 
     this.data = this.unfilteredData
       .filter(item => {
-        let target;
-
-        if (Array.isArray(item[key])) {
-          target = item[key].join(' ');
-        }
-        else if (typeof item[key] === 'object') {
-          target = item[key].label[this.lang];
-        }
-        else {
-          target = item[key];
-        }
-
-        return String(target).toLowerCase().indexOf(value.toLowerCase()) !== -1;
+        return filters.every(f => {
+          return this.compare(f, this.filters[f], item);
+        });
       });
+
     this.calculPage(1);
     this.onFilter.emit({ data: this.data });
   }
