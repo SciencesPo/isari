@@ -147,11 +147,14 @@ export class IsariEditorComponent implements OnInit {
       index: undefined
     };
 
-    if ($event.type !== 'delete') {
-      diff.value = get(this.form.value, diff.path);
-    }
-    else {
+    // We need the index in case of deletion
+    if ($event.type === 'delete') {
       diff.index = $event.index;
+    }
+
+    // We need the value in case of update
+    if ($event.type === 'update') {
+      diff.value = get(this.form.value, diff.path);
     }
 
     this.diff.push(diff);

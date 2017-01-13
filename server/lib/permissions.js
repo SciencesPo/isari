@@ -1,4 +1,4 @@
- 'use strict'
+'use strict'
 
 const { map, flow, toPairs, filter, intersection } = require('lodash/fp')
 const { ServerError, UnauthorizedError, NotFoundError } = require('./errors')
@@ -311,7 +311,7 @@ const listViewablePeople = (req, options = {}) => {
 			// Populate to allow getPeoplePermissions to work
 			//add external people which doesn't have any academicMembership
 			query: People.find({$or:[{academicMemberships:{$exists:false}},{academicMemberships:[]},{ _id: { $in: ids } }]}).populate('academicMemberships.organization')
-		})) 
+		}))
 }
 
 // Check if a people is editable by current user

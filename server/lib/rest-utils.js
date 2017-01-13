@@ -185,10 +185,10 @@ const replaceModel = (Model, save, getPermissions) => {
 				getIn(updated, operation.path).splice(operation.index, 1)
 			}
 			else if (operation.type === 'push') {
-				getIn(updated, operation.path).push(removeEmptyFields(operation.value))
+				getIn(updated, operation.path).push({})
 			}
 			else if (operation.type === 'unshift') {
-				getIn(updated, operation.path).unshift(removeEmptyFields(operation.value))
+				getIn(updated, operation.path).unshift({})
 			}
 		})
 
