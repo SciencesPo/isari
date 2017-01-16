@@ -27,7 +27,7 @@ module.exports = {
       );
     }
 
-    const secondGroupRoles = new Set(['direction', 'codirection', 'presidence']);
+    const secondGroupRoles = new Set(['direction', 'codirection', 'présidence']);
 
     function secondGroupPredicate(personalActivity) {
       return (
