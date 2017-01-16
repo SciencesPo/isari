@@ -8,11 +8,11 @@ const async = require('async'),
 
 const ObjectId = mongoose.Types.ObjectId;
 
-const { getSimpleEnumValues, getNestedEnumValues } = require('../lib/enums')
+const {getSimpleEnumValues} = require('../lib/enums');
 
 const hceres2017enums = {};
 getSimpleEnumValues('hceres2017').forEach(e => {
-  hceres2017enums[e.value]=e.label.fr;
+  hceres2017enums[e.value] = e.label.fr;
 });
 
 const {
@@ -93,19 +93,19 @@ const SHEETS = [
         })
       .unwind('tutelles')
       .group({
-        _id:'$_id',
+        _id: '$_id',
         academicMemberships: {$push: '$academicMemberships'},
         tutelles: {$push: '$tutelles'},
-        positions: { "$first": '$positions'},
-        grades: { "$first": '$grades'},
-        name: { "$first": '$name'},
-        firstName: { "$first": '$firstName'},
-        gender: { "$first": '$gender'},
-        tags: { "$first":'$tags'},
-        birthDate: { "$first": '$birthDate'},
-        distinctions: { "$first":'$distinctions'}
+        positions: {$first: '$positions'},
+        grades: {$first: '$grades'},
+        name: {$first: '$name'},
+        firstName: {$first: '$firstName'},
+        gender: {$first: '$gender'},
+        tags: {$first: '$tags'},
+        birthDate: {$first: '$birthDate'},
+        distinctions: {$first: '$distinctions'}
       })
-      .then( people => {
+      .then(people => {
 
         //-- 1) Filtering relevant people
         people = people.filter(person => {
@@ -136,20 +136,20 @@ const SHEETS = [
 
           const relevantPosition = findRelevantItem(person.positions);
 
-          if (person.tags && person.tags.hceres2017){
+          if (person.tags && person.tags.hceres2017) {
             console.log(person.tags.hceres2017);
-            
-            info.panel= person.tags.hceres2017
+
+            info.panel = person.tags.hceres2017
             .map(t => {
-              if(hceres2017enums[t])
+              if (hceres2017enums[t])
                 return hceres2017enums[t];
             })
             .filter(e => e)
-            .join(",")
+            .join(',');
           }
 
           if (person.ORCID)
-            info.orcid=person.ORCID
+            info.orcid = person.ORCID;
 
           if (relevantPosition && relevantPosition.organization === 'CNRS')
             info.organization = 'CNRS';
@@ -159,14 +159,14 @@ const SHEETS = [
           let gradeAdmin;
 
 
-          if (grade){
-            if (grade.gradeStatus === "appuiadministratif" || grade.gradeStatus === "appuitechnique")
+          if (grade) {
+            if (grade.gradeStatus === 'appuiadministratif' || grade.gradeStatus === 'appuitechnique')
               info.jobType = GRADES_INDEX.admin[grade.grade];
             else
               info.jobType = GRADES_INDEX.academic[grade.grade];
-            info.startDate=grade.startDate
+            info.startDate = grade.startDate;
           }
-          
+
           if (person.birthDate) {
             const [year, month, day] = person.birthDate.split('-');
 
@@ -194,7 +194,7 @@ const SHEETS = [
     headers: [
       {key: 'name', label: 'Nom'},
       {key: 'firstName', label: 'Prénom'},
-      {key: 'gender', 'label': 'H/F'},
+      {key: 'gender', label: 'H/F'},
       {key: 'birthDate', label: 'Date de naissance'},
       {key: 'organization', label: 'Établissement ayant délivré le master (ou diplôme équivalent) du doctorant\n(1)'},
       {key: 'director', label: 'Directeur(s) de thèse\n(2)'},
