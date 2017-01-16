@@ -766,6 +766,34 @@ async.series({
 
     return next();
   },
+  finalValidation(next) {
+
+    // Here we validate again the items just to be sure the post-processing etc.
+    // did not miss something
+    console.log();
+    log.info('Performing final paranoid validation...');
+
+    for (const model in models) {
+      _.forEach(INDEXES[model].id, item => {
+        const errors = validate(models[model], item, '§');
+
+        if (errors.length)
+          console.log(item);
+
+        errors.forEach(error => {
+          log.error(error.formattedMessage, error);
+        });
+
+        NB_VALIDATION_ERRORS += errors.length;
+      });
+    }
+
+    // If we have validation errors, let's call it a day
+    if (NB_VALIDATION_ERRORS)
+      return next(new ProcessError());
+
+    return next();
+  },
   clusteringPeople(next) {
     if (!argv.clusterPeople)
       return next();
