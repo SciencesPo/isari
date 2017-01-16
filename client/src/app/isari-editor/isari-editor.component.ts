@@ -152,9 +152,17 @@ export class IsariEditorComponent implements OnInit {
       diff.index = $event.index;
     }
 
-    // We need the value in case of update
-    if ($event.type === 'update') {
+    // Else we need a value
+    else if ($event.type === 'update') {
       diff.value = get(this.form.value, diff.path);
+    }
+
+    else if ($event.type === 'push') {
+      diff.value = get(this.form.value, diff.path).slice(-1)[0];
+    }
+
+    else if ($event.type === 'unshift') {
+      diff.value = get(this.form.value, diff.path)[0];
     }
 
     this.diff.push(diff);
