@@ -84,19 +84,19 @@ const SHEETS = [
         }
       })
 
-      .unwind('academicMemberships')
+      .unwind('positions')
       .lookup({
           from: 'organizations',
-          localField: 'academicMemberships.organization',
+          localField: 'positions.organization',
           foreignField: '_id',
           as: 'tutelles'
         })
       .unwind('tutelles')
       .group({
         _id: '$_id',
-        academicMemberships: {$push: '$academicMemberships'},
+        academicMemberships: {$first: '$academicMemberships'},
         tutelles: {$push: '$tutelles'},
-        positions: {$first: '$positions'},
+        positions: {$push: '$positions'},
         grades: {$first: '$grades'},
         name: {$first: '$name'},
         firstName: {$first: '$firstName'},
@@ -137,8 +137,6 @@ const SHEETS = [
           const relevantPosition = findRelevantItem(person.positions);
 
           if (person.tags && person.tags.hceres2017) {
-            console.log(person.tags.hceres2017);
-
             info.panel = person.tags.hceres2017
             .map(t => {
               if (hceres2017enums[t])
@@ -150,8 +148,8 @@ const SHEETS = [
 
           if (person.ORCID)
             info.orcid = person.ORCID;
-
-          if (relevantPosition && relevantPosition.organization === 'CNRS')
+          console.log(person.tutelles);
+          if (person.tutelles && person.tutelles.find(t => t.acronym === 'CNRS'))
             info.organization = 'CNRS';
 
           const grade = findRelevantItem(person.grades);
@@ -165,6 +163,7 @@ const SHEETS = [
             else
               info.jobType = GRADES_INDEX.academic[grade.grade];
             info.startDate = grade.startDate;
+            info.grade = grade.grade
           }
 
           if (person.birthDate) {
@@ -183,62 +182,64 @@ const SHEETS = [
 
           return info;
         });
-
+        console.log(people)
         return callback(null, people);
       });
     }
-  },
-  {
-    id: 'doctorants',
-    name: '3.3. docteurs & doctorants',
-    headers: [
-      {key: 'name', label: 'Nom'},
-      {key: 'firstName', label: 'Prénom'},
-      {key: 'gender', label: 'H/F'},
-      {key: 'birthDate', label: 'Date de naissance'},
-      {key: 'organization', label: 'Établissement ayant délivré le master (ou diplôme équivalent) du doctorant\n(1)'},
-      {key: 'director', label: 'Directeur(s) de thèse\n(2)'},
-      {key: 'startDate', label: 'Date de début de thèse\n(3)'},
-      {key: 'endDate', label: 'Date de soutenance (pour les diplômés)\n(3)'},
-      {key: 'grant', label: 'Financement du doctorant\n(4)'},
-      {key: 'no', label: 'N° de l\'équipe interne de rattachement, le cas échéant\n(5)'}
-    ],
-    populate(models, centerId, callback) {
-      const People = models.People;
-
-      const query = [
-        {
-          $match: {
-            'academicMemberships.organization': ObjectId(centerId),
-            'distinctions.distinctionType': 'diplôme'
-          }
-        },
-        {
-          $lookup: {
-            from: 'activities',
-            localField: '_id',
-            foreignField: 'people.people',
-            as: 'activities'
-          }
-        },
-        {
-          $project: {
-            name: 1,
-            firstName: 1
-          }
-        }
-      ];
-
-      People.aggregate(query, (err, people) => {
-        if (err)
-          return callback(err);
-
-        console.log(people);
-
-        return callback(null, []);
-      });
-    }
   }
+  //,
+  // {
+  //   id: 'doctorants',
+  //   name: '3.3. docteurs & doctorants',
+  //   headers: [
+  //     {key: 'name', label: 'Nom'},
+  //     {key: 'firstName', label: 'Prénom'},
+  //     {key: 'gender', label: 'H/F'},
+  //     {key: 'birthDate', label: 'Date de naissance'},
+  //     {key: 'organization', label: 'Établissement ayant délivré le master (ou diplôme équivalent) du doctorant\n(1)'},
+  //     {key: 'director', label: 'Directeur(s) de thèse\n(2)'},
+  //     {key: 'startDate', label: 'Date de début de thèse\n(3)'},
+  //     {key: 'endDate', label: 'Date de soutenance (pour les diplômés)\n(3)'},
+  //     {key: 'grant', label: 'Financement du doctorant\n(4)'},
+  //     {key: 'no', label: 'N° de l\'équipe interne de rattachement, le cas échéant\n(5)'}
+  //   ],
+  //   populate(models, centerId, callback) {
+  //     const People = models.People;
+
+  //     const query = [
+  //       {
+  //         $match: {
+  //           'academicMemberships.organization': ObjectId(centerId),
+  //           'distinctions.distinctionType': 'diplôme'
+  //         }
+  //       },
+  //       {
+  //         $lookup: {
+  //           from: 'activities',
+  //           localField: '_id',
+  //           foreignField: 'people.people',
+  //           as: 'activities'
+  //         }
+  //       },
+  //       {
+  //         $project: {
+  //           name: 1,
+  //           firstName: 1,
+  //           activities: 1
+  //         }
+  //       }
+  //     ];
+
+  //     People.aggregate(query, (err, people) => {
+  //       if (err)
+  //         return callback(err);
+
+  //       console.log(people);
+
+  //       return callback(null, []);
+  //     });
+  //   }
+  // }
 ];
 
 /**
