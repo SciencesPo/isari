@@ -177,7 +177,8 @@ module.exports = {
 
           person.positions = positions;
 
-          // let's copy gradeSIRH to grades when postdoc is true
+          // let's copy gradeSIRH to grades
+          // todo : merger les grades consécutifs similaires.
           person.grades = _(positions)
             .filter(p => p.gradesSirh)
             .map(p => p.gradesSirh)
@@ -185,14 +186,17 @@ module.exports = {
             .map(originalGrade => {
               const postdoc = originalGrade.postdoc;
               delete originalGrade.postdoc;
-              if (postdoc) {
-                const grade = _.clone(originalGrade);
+              
+              const grade = _.clone(originalGrade);
+              if (postdoc){
                 grade.gradeStatus = 'chercheur';
                 grade.grade = 'postdoc';
-                return grade;
               }
-              else
-                return;
+              else{
+                grade.gradeStatus = 'appuiadministratif';
+                grade.grade = 'AUT'
+              }
+              return grade;
             })
             .compact()
             .value();
@@ -398,8 +402,9 @@ module.exports = {
           if (org !== 'FNSP')
               match.positions = match.positions.concat(person.positions);
 
+          // if admtech has a grade let's overwrite the default SIRH grade
           if (person.grades)
-            match.grades = (match.grades || []).concat(person.grades);
+            match.grades = person.grades;
 
           // Overriding academic memberships
           if (person.academicMemberships)
