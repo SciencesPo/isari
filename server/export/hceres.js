@@ -194,7 +194,7 @@ const SHEETS = [
   },
   {
     id: 'doctorants',
-    name: '3.3. docteurs & doctorants',
+    name: '3.3. docteurs et doctorants',
     headers: [
       {key: 'name', label: 'Nom'},
       {key: 'firstName', label: 'Prénom'},
@@ -210,64 +210,52 @@ const SHEETS = [
     populate(models, centerId, callback) {
       const Activity = models.Activity;
 
-      const query = [
-        {
-          $match: {
-            $and: [{activityType: 'doctorat'}, {organizations: {$elemMatch: {organization: ObjectId(centerId)}}}]
-          }
-        },
-        {$unwind: '$people'
-        },
-        {
-          $lookup: {
-            from: 'people',
-            localField: 'people.people',
-            foreignField: '_id',
-            as: 'peopleInfo'
-          }
-        },
-         {$unwind: '$peopleInfo'
-        },
-        {
-          $group: {
-            _id: '$_id',
-            people: {$push: '$people'},
-            peopleInfo: {$push: '$peopleInfo'},
-            startDate: {$first: '$startDate'},
-            endDate: {$first: '$endDate'},
-          }
-        }
-      ];
+      const query = {
+          $and: [
+            {activityType: 'doctorat'},
+            {organizations: {$elemMatch: {organization: ObjectId(centerId)}}}]
+      };
 
-      Activity.aggregate(query, (err, results) => {
+
+      Activity
+      .find(query)
+      .populate({
+        path: 'people.people',
+        populate: {path: 'distinctions.organizations'}
+      })
+      .exec((err, results) => {
         if (err)
           return callback(err);
 
         const exportLines = [];
 
-        results.forEach(result => {
-           // get the PHD students from people
-          if (result.peopleInfo) {
+        results
+        //Liste des docteurs ayant soutenu depuis le 1/01/2012 et des doctorants présents dans l’unité au 30 juin 2017
+        .filter(r => !r.endDate || parseDate(r.endDate) >= moment('2012-01-01'))
+        .forEach(result => {
+          // get the PHD students from people
+          const phdStudent = result.people.filter(p => p.role === 'doctorant(role)').map(p => p.people)[0];
+          const directors = result.people.filter(p => p.role === 'directeur' || p.role === 'codirecteur').map(p => p.people);
 
-            const phdStudent = result.peopleInfo.find(pi => pi._id.toString() === result.people.filter(p => p.role === 'doctorant(role)')[0].people.toString());
-            const directorsIDs = result.people.filter(p => p.role === 'directeur' || p.role === 'codirecteur').map(p => p.people.toString());
-            const directors = result.peopleInfo.filter(pi => directorsIDs.find(dids => dids === pi._id.toString()));
-
-            const info = {
-              name: phdStudent.name,
-              firstName: phdStudent.firstName,
-              gender: phdStudent.gender || '',
-              birthDate: formatDate(phdStudent.birthDate),
-              //organization
-              director: directors ? directors.map(d => `${d.name.toUpperCase()} ${_(d.firstName).capitalize()}`).join(',') : '',
-              startDate: formatDate(result.startDate),
-              endDate: formatDate(result.endDate)
-              //grant
-            };
-            exportLines.push(info);
+          const info = {
+            name: phdStudent.name,
+            firstName: phdStudent.firstName,
+            gender: phdStudent.gender ? GENDER_MAP[phdStudent.gender] : '',
+            birthDate: formatDate(phdStudent.birthDate),
+            //organization
+            director: directors ? directors.map(d => `${d.name.toUpperCase()} ${_(d.firstName).capitalize()}`).join(',') : '',
+            startDate: formatDate(result.startDate),
+            endDate: formatDate(result.endDate)
+            //grant
+          };
+          if (phdStudent.distinctions) {
+            const master = phdStudent.distinctions.filter(d => d.distinctionType === 'diplôme' && d.distinctionSubtype === 'master')[0];
+            if (master)
+               info.organization = master.organizations.map(o => o.name).join(',');
           }
-        });
 
+          exportLines.push(info);
+        });
 
         return callback(null, exportLines);
       });
@@ -287,7 +275,6 @@ module.exports = function(models, centerId, callback) {
     return sheet.populate(models, centerId, (err, collection) => {
       if (err)
         return next(err);
-
       addSheetToWorkbook(
         workbook,
         createSheet(sheet.headers, collection),
