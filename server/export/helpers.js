@@ -90,3 +90,16 @@ exports.parseDate = function(string) {
     return moment(string, 'YYYY-MM');
   return moment(string, 'YYYY-MM-DD');
 };
+
+/**
+ * Function checking overlap of two potentially non-ending periods.
+ */
+exports.overlap = function(A, B) {
+  if (!A.endDate && !B.endDate)
+    return true;
+  if (A.endDate > B.startDate)
+    return true;
+  if (A.startDate < B.startDate && A.endDate > B.endDate)
+    return true;
+  return false;
+};
