@@ -79,7 +79,7 @@ function computeGroups(definitions, people) {
       .map(person => {
         return {
           firstName: person.firstName,
-          name: person.name,
+          name: person.name.toUpperCase(),
           activities: person.personalActivities.filter(predicate)
         };
       });
@@ -195,6 +195,63 @@ const TABS = [
         groups
       });
     }
+  },
+  {
+    id: 'activites_expertise_scientifique',
+    title: '3. Activités d\'expertise scientifique',
+    render(id, title, people) {
+      const groupDefinitions = [
+        {
+          title: 'Activités de consultant',
+          predicate(personalActivity) {
+            return (
+              personalActivity.personalActivityType === 'expertise' &&
+              personalActivity.personalActivitySubtype === 'consultance'
+            );
+          }
+        },
+        {
+          title: 'Participation à des instances d’expertises (type Anses) ou de normalisation',
+          predicate(personalActivity) {
+            return (
+              personalActivity.personalActivityType === 'expertise' &&
+              personalActivity.personalActivitySubtype === 'instance'
+            );
+          }
+        },
+        {
+          title: 'Expertise juridique',
+          predicate(personalActivity) {
+            return (
+              personalActivity.personalActivityType === 'expertise' &&
+              personalActivity.personalActivitySubtype === 'juridique'
+            );
+          }
+        },
+        {
+          title: 'Autres expertise (Sciences Po)',
+          predicate(personalActivity) {
+            return (
+              personalActivity.personalActivityType === 'expertise' &&
+              (
+                !personalActivity.personalActivitySubtype ||
+                personalActivity.personalActivitySubtype === 'audition' ||
+                personalActivity.personalActivitySubtype === 'rapport'
+              )
+            );
+          }
+        }
+      ];
+
+      const groups = computeGroups(groupDefinitions, people);
+
+      // Applying template
+      return TEMPLATES.groups({
+        id,
+        title,
+        groups
+      });
+    }
   }
 ];
 
@@ -220,7 +277,7 @@ module.exports = function annex4(models, centerId, callback) {
         html: tab.render(tab.id, tab.title, people)
       };
     });
-// console.log(require('util').inspect(tabs, {depth: null}))
+
     // Rendering the full page
     const html = TEMPLATES.page({tabs});
 
