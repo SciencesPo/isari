@@ -40,7 +40,7 @@ export class IsariHeaderComponent implements OnInit {
       this.logged = !firstSegment || firstSegment.path !== 'login';
     });
     this.userService.isLoggedIn().subscribe(user => {
-      this.user = user.people
+      this.user = user.people;
     });
     this.lang = this.translate.currentLang;
   }

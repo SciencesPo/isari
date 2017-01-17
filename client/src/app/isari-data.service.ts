@@ -141,12 +141,12 @@ export class IsariDataService {
           // Server always adds 'type = object' on root description, we don't want to bother with that here
           delete schema.type;
           return schema;
-        })
+        });
     }
     if (path) {
       // We remove every ".0", ".1", etc… in path, as they refer to multiple fields
       // Note: we may add some checks here, worst case = return null, which is an expected possibility
-      return this.schemasCache[feature].then(get(path.replace(/\.\d+(?:\.|$)/, '')))
+      return this.schemasCache[feature].then(get(path.replace(/\.\d+(?:\.|$)/, '')));
     } else {
       return this.schemasCache[feature];
     }
@@ -164,7 +164,7 @@ export class IsariDataService {
         .filter(key => removedColumns.indexOf(key) === -1)
         .map(key => ({ key, label: schema[key].label }));
       const virtuals = info['selector']
-        .filter(col => typeof col === 'object' && col.key && col.label)
+        .filter(col => typeof col === 'object' && col.key && col.label);
       return reals.concat(virtuals);
     });
   }
@@ -184,7 +184,7 @@ export class IsariDataService {
   filterEnumValues (enumValues, term, lang) {
     return term
       ? sortByDistance(term, enumValues, e => e.label[lang] || e.label['fr']) // TODO make default lang configurable?
-      : enumValues
+      : enumValues;
   }
 
   srcEnumBuilder(src: string, materializedPath: string, lang: string) {
@@ -240,7 +240,7 @@ export class IsariDataService {
       .startWith('')
       .debounceTime(400) // pass as parameter ?
       .distinctUntilChanged()
-      .switchMap(term => this.rawSearch(src, term, path, feature))
+      .switchMap(term => this.rawSearch(src, term, path, feature));
   }
 
   // @TODO handle multiple values (array of ids)
@@ -290,7 +290,7 @@ export class IsariDataService {
     fields = fields.reduce((acc, c) => [...acc, ...(c.fields ? c.fields : [c]) ], []);
 
     fields.forEach(field => {
-      const hasData = data[field.name] !== null && data[field.name] !== undefined
+      const hasData = data[field.name] !== null && data[field.name] !== undefined;
       const fieldData = hasData ? data[field.name] : field.multiple ? [] : field.type === 'object' ? {} : '';
       if (field.multiple && field.type === 'object') {
         let fa = new FormArray([]);
@@ -377,8 +377,8 @@ export class IsariDataService {
      if (field.multiple) {
        return [];
      } else {
-       const def = schema && schema['default']
-       return def === undefined ? null : def
+       const def = schema && schema['default'];
+       return def === undefined ? null : def;
      }
     }
   }
