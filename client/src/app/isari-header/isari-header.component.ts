@@ -40,7 +40,7 @@ export class IsariHeaderComponent implements OnInit {
       this.logged = !firstSegment || firstSegment.path !== 'login';
     });
     this.userService.isLoggedIn().subscribe(user => {
-      this.user = user.people
+      this.user = user.people;
     });
     this.lang = this.translate.currentLang;
   }
@@ -71,6 +71,18 @@ export class IsariHeaderComponent implements OnInit {
     return this.isariDataService.createExportDownloadLink(
       'xlsx',
       'hceres',
+      {id: this.organization.id}
+    );
+  }
+
+  getAnnex4DownloadLink() {
+    if (!this.organization) {
+      return null;
+    }
+
+    return this.isariDataService.createExportDownloadLink(
+      'html',
+      'annex4',
       {id: this.organization.id}
     );
   }

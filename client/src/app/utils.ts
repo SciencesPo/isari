@@ -1,20 +1,20 @@
 import damerauLevenshtein from 'talisman/metrics/distance/damerau-levenshtein';
 
 // Words distance
-const wordsDistanceCache = {}
+const wordsDistanceCache = {};
 export function wordsDistance (a: string, b: string): number {
-  a = a.toLowerCase()
-  b = b.toLowerCase()
-  const k = a + '$' + b
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+  const k = a + '$' + b;
   if (wordsDistanceCache[k] === undefined) {
-    wordsDistanceCache[k] = damerauLevenshtein(a, b)
+    wordsDistanceCache[k] = damerauLevenshtein(a, b);
   }
   // Uncomment if you want to debug enum ordering, to know why "other" gets first or whatever
   //console.log('Distance', a, b, wordsDistanceCache[k])
-  return wordsDistanceCache[k]
+  return wordsDistanceCache[k];
 }
 export function sortByDistance<T> (str: string, words: T[], getter: (T) => string = (v) => v): T[] {
-  return words.slice().sort((a, b) => wordsDistance(str, getter(a)) - wordsDistance(str, getter(b)))
+  return words.slice().sort((a, b) => wordsDistance(str, getter(a)) - wordsDistance(str, getter(b)));
 }
 
 
@@ -80,17 +80,17 @@ const specialKeys = {
   124: 'f13',
   125: 'f14',
   126: 'f15'
-}
+};
 
-const False = () => false
+const False = () => false;
 
 export function matchKeyCombo (shortcuts: string | Array<string>) {
   // Cleanup keys: split into lists of combinations lower-cased and sorted to simplify comparison
   // e.g: 'Ctrl+Shift+F1'
   const expected: Array<string> = (typeof shortcuts === 'string' ? [ shortcuts ] : shortcuts).map(k => {
-    const parts = k.toLowerCase().split('+') // ['ctrl', 'shift', 'f1']
-    return parts.sort().join('+') // 'ctrl+f1+shift'
-  })
+    const parts = k.toLowerCase().split('+'); // ['ctrl', 'shift', 'f1']
+    return parts.sort().join('+'); // 'ctrl+f1+shift'
+  });
 
   if (expected.length === 0) {
     return False;
@@ -98,21 +98,21 @@ export function matchKeyCombo (shortcuts: string | Array<string>) {
 
   return (event: KeyboardEvent) => {
     // Modifiers (alphabetically sorted, to match provided keys)
-    let parts = []
+    let parts = [];
     if (event.shiftKey) {
       parts.push('shift');
     }
     if (event.altKey) {
-      parts.push('alt')
+      parts.push('alt');
     }
     if (event.ctrlKey) {
-      parts.push('ctrl')
+      parts.push('ctrl');
     }
     if (event.metaKey) {
-      parts.push('meta')
+      parts.push('meta');
     }
     parts.push(specialKeys[event.which] || String.fromCharCode(event.which).toLowerCase());
-    const pressed = parts.sort().join('+')
-    return expected.some(k => k === pressed)
-  }
+    const pressed = parts.sort().join('+');
+    return expected.some(k => k === pressed);
+  };
 }

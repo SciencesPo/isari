@@ -36,7 +36,7 @@ export class IsariListComponent implements OnInit {
 
         this.translate.get(feature).subscribe(featureTranslated => {
           this.titleService.setTitle(featureTranslated);
-        })
+        });
 
 
         this.externals = !!externals;

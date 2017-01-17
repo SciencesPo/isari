@@ -44,13 +44,13 @@ export class DataTableComponent implements OnInit, OnChanges {
 
   cellContent (data): string {
     if (data === null || data === undefined) {
-      return ''
+      return '';
     } else if (data instanceof Array) {
-      return data.map(v => this.cellContent(v)).join(', ')
+      return data.map(v => this.cellContent(v)).join(', ');
     } else if (data.label) {
-      return data.label[this.lang] || data.label[this.defaultLang] || ''
+      return data.label[this.lang] || data.label[this.defaultLang] || '';
     } else {
-      return String(data)
+      return String(data);
     }
   }
 
@@ -106,7 +106,7 @@ export class DataTableComponent implements OnInit, OnChanges {
     setTimeout(() => {
       let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
       this.pageScrollService.start(pageScrollInstance);
-    })
+    });
 
   // je ne sais pas pquoi ça marche pas
   //   this.router.navigate([{ outlets: { editor: [ id ] } }]);
