@@ -210,21 +210,21 @@
     ],
     "personalActivityRoles": [
         {
-            "value": "Direction",
+            "value": "direction",
             "label": {
                 "fr": "Direction",
                 "en": ""
             }
         },
         {
-            "value": "CoDirection",
+            "value": "codirection",
             "label": {
                 "fr": "Co-Direction",
                 "en": ""
             }
         },
         {
-            "value": "Présidence",
+            "value": "présidence",
             "label": {
                 "fr": "Présidence",
                 "en": ""

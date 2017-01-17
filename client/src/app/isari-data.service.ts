@@ -169,14 +169,14 @@ export class IsariDataService {
     });
   }
 
-  createExportDownloadLink(name, query) {
+  createExportDownloadLink(type, name, query) {
     const options = new URLSearchParams();
 
     for (const k in query) {
       options.set(k, query[k]);
     }
 
-    const url = `${this.exportUrl}/${name}?${options}`;
+    const url = `${this.exportUrl}/${type}/${name}?${options}`;
 
     return url;
   }
