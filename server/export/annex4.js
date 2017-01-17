@@ -10,12 +10,13 @@ const Handlebars = require('handlebars'),
  */
 const TEMPLATES = {
   groups: `
+    <h1>{{title}}</h1>
     {{#each groups}}
-      <h1>{{title}}</h1>
+      <h2>{{title}}</h2>
       <ul>
         {{#each people}}
           {{#each activities}}
-            <li>{{../firstName}} {{../name}}, {{description}}{{#if startDate}}, {{formatRange .}}{{/if}}</li>
+            <li><strong>{{../firstName}} {{../name}}</strong>, <em>{{description}}</em>{{#if startDate}}, {{formatRange .}}{{/if}}</li>
           {{/each}}
         {{/each}}
       </uL>
@@ -52,7 +53,7 @@ Handlebars.registerHelper('formatRange', formatRange);
 
 function computeGroups(definitions, people) {
   return definitions.map(definition => {
-    const {title, predicate, mapper} = definition;
+    const {title, predicate} = definition;
 
     const groupPeople = people
       .filter(person => {
@@ -127,7 +128,10 @@ module.exports = {
       const groups = computeGroups(groupDefinitions, people);
 
       // Applying template
-      const html = TEMPLATES.groups({groups});
+      const html = TEMPLATES.groups({
+        title: '1. Activités éditoriales',
+        groups
+      });
 
       return callback(null, html);
     });
@@ -135,6 +139,49 @@ module.exports = {
 
   2(models, centerId, callback) {
     const People = models.People;
+
+    const groupDefinitions = [
+      {
+        title: 'Responsabilités au sein d’instances d’évaluation',
+        predicate(personalActivity) {
+          return (
+            personalActivity.personalActivityType === 'évaluations' &&
+            (
+              personalActivity.personalActivitySubtype === 'responsinstanceevaluation' ||
+              personalActivity.personalActivitySubtype === 'communauteprogrammation' ||
+              personalActivity.personalActivitySubtype === 'evaluationpairs'
+            )
+          );
+        }
+      },
+      {
+        title: 'Évaluation d’articles et d’ouvrages scientifiques',
+        predicate(personalActivity) {
+          return (
+            personalActivity.personalActivityType === 'editorial' &&
+            personalActivity.role === 'reviewer'
+          );
+        }
+      },
+      {
+        title: 'Évaluation de laboratoires (type Hceres)',
+        predicate(personalActivity) {
+          return (
+            personalActivity.personalActivityType === 'editorial' &&
+            personalActivity.personalActivitySubtype === 'evaluationstructure'
+          );
+        }
+      },
+      {
+        title: 'Évaluation de projets de recherche',
+        predicate(personalActivity) {
+          return (
+            personalActivity.personalActivityType === 'évaluation' &&
+            personalActivity.personalActivitySubtype === 'evaluationprojets'
+          );
+        }
+      }
+    ];
 
     // Finding people having an academicMembership on our center
     return People.find({
@@ -145,8 +192,13 @@ module.exports = {
 
       people = people.map(person => person.toObject());
 
+      const groups = computeGroups(groupDefinitions, people);
+
       // Applying template
-      const html = TEMPLATES[2]({});
+      const html = TEMPLATES.groups({
+        title: '2. Activités d\'évaluation',
+        groups
+      });
 
       return callback(null, html);
     });

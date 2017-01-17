@@ -21,7 +21,7 @@ const XLSX_ROUTINES = {
 	}
 }
 
-const VIABLE_ANNEX4_TABS = new Set(['1'])
+const VIABLE_ANNEX4_TABS = new Set(['1', '2'])
 
 const HTML_ROUTINES = {
 	annex4: {
@@ -58,17 +58,17 @@ function sendHtmlExport(req, res) {
 
 	if (!routine)
 		return res
-      .status(400)
-      .send(ClientError({title: `Unknown HTML export "${name}"`, status: 400}))
+			.status(400)
+			.send(ClientError({title: `Unknown HTML export "${name}"`, status: 400}))
 
 	if (!routine.check(query))
 		return res
-      .status(400)
-      .send(ClientError({title: 'Invalid arguments.', status: 400}))
+			.status(400)
+			.send(ClientError({title: 'Invalid arguments.', status: 400}))
 
 	return routine.fn(query).apply(null, routine.args(query, (err, html) => {
-  	if (err)
-		return res.status(500).send(ServerError())
+		if (err)
+			return res.status(500).send(ServerError())
 
 		return res.status(200).send(html)
 	}))
@@ -81,13 +81,13 @@ function sendXlsxExport(req, res) {
 
 	if (!routine)
 		return res
-      .status(400)
-      .send(ClientError({title: `Unknown XLSX export "${name}"`, status: 400}))
+			.status(400)
+			.send(ClientError({title: `Unknown XLSX export "${name}"`, status: 400}))
 
 	if (!routine.check(query))
 		return res
-      .status(400)
-      .send(ClientError({title: 'Invalid arguments.', status: 400}))
+			.status(400)
+			.send(ClientError({title: 'Invalid arguments.', status: 400}))
 
 	return routine.fn.apply(null, routine.args(query, (err, workbook) => {
 		if (err)
