@@ -74,4 +74,16 @@ export class IsariHeaderComponent implements OnInit {
       {id: this.organization.id}
     );
   }
+
+  getAnnex4DownloadLink() {
+    if (!this.organization) {
+      return null;
+    }
+
+    return this.isariDataService.createExportDownloadLink(
+      'html',
+      'annex4',
+      {id: this.organization.id}
+    );
+  }
 }

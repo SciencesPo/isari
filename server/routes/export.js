@@ -21,21 +21,14 @@ const XLSX_ROUTINES = {
 	}
 }
 
-const VIABLE_ANNEX4_TABS = new Set(['1', '2'])
-
 const HTML_ROUTINES = {
 	annex4: {
-		fn(query) {
-			return require('../export/annex4.js')[query.tab]
-		},
+		fn: require('../export/annex4.js'),
 		args(query, next) {
 			return [models, query.id, next]
 		},
 		check(query) {
 			if (!query.id)
-				return false
-
-			if (!VIABLE_ANNEX4_TABS.has(query.tab))
 				return false
 
 			return true
@@ -66,7 +59,7 @@ function sendHtmlExport(req, res) {
 			.status(400)
 			.send(ClientError({title: 'Invalid arguments.', status: 400}))
 
-	return routine.fn(query).apply(null, routine.args(query, (err, html) => {
+	return routine.fn.apply(null, routine.args(query, (err, html) => {
 		if (err)
 			return res.status(500).send(ServerError())
 
