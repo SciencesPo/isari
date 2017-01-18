@@ -51,7 +51,7 @@ module.exports = {
           originCountry: line.Pays,
           originCity: line.Ville,
           type: line['Type de séjour'],
-          financing: line['Type de financement '],
+          financing: line['Type de financement'],
           startDate: line['Date début'],
           endDate: line['Date fin'],
           inviting: line['Invitant/Contact']
@@ -198,6 +198,20 @@ module.exports = {
               };
 
               activityInfo.organizations.push(linkInfo);
+
+              // Adding a visiting academicMembership
+              const membership = {
+                organization: org,
+                membershipType: 'visiting'
+              };
+
+              if (line.startDate)
+                membership.startDate = line.startDate;
+              if (line.endDate)
+                membership.endDate = line.endDate;
+
+              person.academicMemberships = person.academicMemberships || [];
+              person.academicMemberships.push(membership);
             });
           }
 
