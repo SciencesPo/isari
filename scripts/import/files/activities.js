@@ -887,7 +887,9 @@ module.exports = {
               }
             });
 
-            // TODO: merge the grades
+            // Merging the grades
+            match.grades = match.grades || [];
+            match.grades.push.apply(match.grades, person.grades);
 
             return;
           }
