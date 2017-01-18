@@ -178,7 +178,6 @@ module.exports = {
           person.positions = positions;
 
           // let's copy gradeSIRH to grades
-          // todo : merger les grades consécutifs similaires.
           person.grades = _(positions)
             .filter(p => p.gradesSirh)
             .map(p => p.gradesSirh)
@@ -186,19 +185,39 @@ module.exports = {
             .map(originalGrade => {
               const postdoc = originalGrade.postdoc;
               delete originalGrade.postdoc;
-              
+
               const grade = _.clone(originalGrade);
-              if (postdoc){
+              if (postdoc) {
                 grade.gradeStatus = 'chercheur';
                 grade.grade = 'postdoc';
               }
-              else{
+              else {
                 grade.gradeStatus = 'appuiadministratif';
-                grade.grade = 'AUT'
+                grade.grade = 'AUT';
               }
               return grade;
             })
-            .compact()
+            // let's merge contiguous grades
+            .groupBy(g => g.gradeStatus + g.grade)
+            .values()
+            .map(grades => {
+              return _.transform(grades, (r, o) => {
+                if (r.length && r[r.length - 1].endDate === o.startDate) {
+                  // we merge if we have same previous.enDate and next.startDate
+                  if (o.endDate)
+                    // update previous endDate
+                    r[r.length - 1].endDate = o.endDate;
+                  else
+                    // no endDate so delete previous one
+                    delete(r[r.length - 1].endDate);
+                }
+                else
+                  // no merge we add to accumulator
+                  r.push(o);
+                return true;
+              }, []);
+            })
+            .flatten()
             .value();
 
           // Computing academic memberships
