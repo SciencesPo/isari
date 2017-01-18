@@ -82,6 +82,9 @@ const TEMPLATES = {
         {{/each}}
       </ul>
     {{/each}}
+  `,
+  indices: `
+    <h2 id="{{id}}">{{title}}</h2>
   `
 };
 
@@ -548,6 +551,17 @@ const TABS = [
             projects: []
           }
         ]
+      });
+    }
+  },
+  {
+    id: 'indices_reconnaissance',
+    title: '8. Indices de reconnaissance',
+    render(id, title, data) {
+
+      return TEMPLATES.indices({
+        id,
+        title
       });
     }
   }
