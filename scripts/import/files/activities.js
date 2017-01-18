@@ -830,25 +830,35 @@ module.exports = {
               match.bannerUid = person.bannerUid;
 
             // Merging distinctions
-            const currentDistinctions = _.keyBy(match.distinctions, 'title'),
-                  newDistinctions = _.keyBy(person.distinctions, 'title');
+            const currentDistinctions = _.keyBy(match.distinctions, 'distinctionSubtype'),
+                  newDistinctions = _.keyBy(person.distinctions, 'distinctionSubtype');
 
             //-- 1) PHD
-            if (newDistinctions.Doctorat && currentDistinctions.Doctorat) {
-              Object.assign(currentDistinctions.Doctorat, newDistinctions.Doctorat);
+            if (newDistinctions.doctorat && currentDistinctions.doctorat) {
+              Object.assign(currentDistinctions.doctorat, newDistinctions.doctorat);
             }
-            else if (newDistinctions.Doctorat) {
+            else if (newDistinctions.doctorat) {
               match.distinctions = match.distinctions || [];
-              match.distinctions.push(newDistinctions.Doctorat);
+              match.distinctions.push(newDistinctions.doctorat);
             }
 
             //-- 2) HDR
-            if (newDistinctions.HDR && currentDistinctions.HDR) {
-              Object.assign(currentDistinctions.HDR, newDistinctions.HDR);
+            if (newDistinctions.hdr && currentDistinctions.hdr) {
+              Object.assign(currentDistinctions.hdr, newDistinctions.hdr);
             }
-            else if (newDistinctions.HDR) {
+            else if (newDistinctions.hdr) {
               match.distinctions = match.distinctions || [];
-              match.distinctions.push(newDistinctions.HDR);
+              match.distinctions.push(newDistinctions.hdr);
+            }
+
+            //-- 3) Other
+            if (newDistinctions.autre) {
+              match.distinctions = match.distinctions || [];
+              match.distinctions.unshift(newDistinctions.autre);
+            }
+            if (newDistinctions.master) {
+              match.distinctions = match.distinctions || [];
+              match.distinctions.unshift(newDistinctions.master);
             }
 
             (person.academicMemberships || []).forEach(membership => {
