@@ -51,7 +51,7 @@ module.exports = {
           originCountry: line.Pays,
           originCity: line.Ville,
           type: line['Type de séjour'],
-          financing: line['Type de financement '],
+          financing: line['Type de financement'],
           startDate: line['Date début'],
           endDate: line['Date fin'],
           inviting: line['Invitant/Contact']
