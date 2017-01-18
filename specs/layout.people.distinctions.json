@@ -1,4 +1,8 @@
 [
-	["title","date","distinctionType"],
-	["subject","honours","organizations","countries"]
+	[
+		["distinctionType","distinctionSubtype"],
+		["title","date"],
+		["subject","honours"],
+		["organizations","countries"]
+	]
 ]

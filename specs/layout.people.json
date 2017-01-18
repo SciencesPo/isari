@@ -1,148 +1,193 @@
 [
     [
-        ["firstName","name"]
+        [
+            "firstName",
+            "name"
+        ]
     ],
-     {
-
-        "fields": [
-            "gender",
-            "birthDate",
-            ["nationalities","langs"],
-            "birthName"
-        ],
-        "label": {"fr":"Informations Personnelles","en":"Personal Information"},
-        "collapsabled": true
-    },
-    {
-        "fields":  [
-            "contacts",
-            "office"
-        ],
-        "label": {"fr":"Coordonnées","en":"Contact details"},
-        "description":  {
-            "fr":"Coordonnées professionnelles et/ou personnelles",
-            "en":"Professional and/or personal contact details"
-        },
-        "collapsabled": true
-    },
-    {
-
-        "fields": ["academicMemberships"],
-        "label": {
-                "fr":"Rattachement labo",
-                "en":"Unit affiliation"
-            },
-        "description":  {
-            "fr":"Historique des rattachements scientifiques et administratifs au sein des unités de recherche de Sciences Po",
-            "en":"History of scientific and administrative affiliation to Sciences Po research units"
-            },
-        "collapsabled": true
-    },
-    {
-
-        "fields": ["grades"],
-        "label": {
-                "fr":"Statut et Grades",
-                "en":"Status & Grades"
-            },
-        "description":  {
-            "fr":"Historique des statuts et grades occupés",
-            "en":"History of statuses and grades"
-        },
-        "collapsabled": true
-    },
-    {
-
-        "fields": ["positions"],
-        "label": {"fr":"Parcours","en":"Trajectory"},
-        "description":  {
-            "fr":"Informations contractuelles",
-            "en":"Information concerning the employment contract"
-        },
-        "collapsabled": true
-    },
-    {
-        "fields": ["bonuses"],
-        "label": {"fr":"Primes","en":"Bonuses"},
-        "description":  {
-            "fr":"Information confidentielle, existence d’une prime",
-            "en":"Confidential information, existence of a bonus"
-        },
-        "collapsabled": true
-    },
-    {
-        "fields": ["facultyMonitoring"],
-        "label": {"fr":"Suivi de la faculté permanente","en":"Permanent faculty monitoring"},
-        "description":  {
-            "fr":"Informations administratives liées au processus de tenure track (étapes, dates)",
-            "en":"Administrative information concerning the tenure track process (steps, dates of evaluation)"
-        },
-        "collapsabled": true
-    },
-    {
-
-        "fields": ["deptMemberships"],
-
-        "label": {
-            "fr":"Rattachement département",
-            "en":"Departement affiliation"
-        },
-        "description":  {
-            "fr":"Historique des rattachements aux départements disciplinaires de Sciences Po",
-            "en":"History of affiliations to Sciences Po’s disciplinary departments"
-        },
-        "collapsabled": true
-    },
-    {
-
-        "fields": ["distinctions"],
-        "label": {"fr":"Diplômes et distinctions","en":"Diplomas and awards"},
-        "description":  {
-            "fr":"Diplômes, prix, distinctions obtenus",
-            "en":"Diplomas, awards, distinctions obtained"
-        },
-        "collapsabled": true
-    },
-    {
-        "fields": ["personalActivities"],
-        "label": {"fr":"Activités et responsabilités","en":"Activities and responsibilities"},
-        "description":  {
-            "fr":"Activités développées, responsabilités et mandats occupés par une personne (activités éditoriales, jurys, encadrement, expertise, évaluation, collaborations scientifiques…)",
-            "en":"Activities, responsibilities and mandates held by a person (editorial activities, supervision, expertise, evaluation, scientific collaborations, etc.)"
-        },
-        "collapsabled": true
-    },
-    {
-        "fields": ["tags"],
-        "label": {"fr":"Thématiques et domaines de recherche","en":"Research Themes and Domains"},
-        "description":  {
-            "fr":"Descriptif des intérêts de recherche et rattachement disciplinaire",
-            "en":"Description of research interests and disciplinary affiliation"
-        },
-        "collapsabled": true
-    },
     {
         "fields": [
             [
-            "ldapUid",
-            "sirhMatricule",
-            "bannerUid",
-            "idSpire"
+                "gender",
+                "birthDate"
             ],
             [
-            "ORCID",
-            "IDREF",
-            "idScopus"
-            ]
+                "nationalities",
+                "langs"
+            ],
+            "birthName"
         ],
-        "label": {"fr":"Identifiants","en":"Identifiers"},
+        "label": {
+            "fr": "Informations Personnelles",
+            "en": "Personal Information"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "contacts",
+            "office",
+            "computerInventoryNumber"
+        ],
+        "label": {
+            "fr": "Coordonnées",
+            "en": "Contact details"
+        },
+        "description": {
+            "fr": "Coordonnées professionnelles et/ou personnelles",
+            "en": "Professional and/or personal contact details"
+        },
+        "collapsabled": true
+    },
+    {
+            "fields": [
+                            "academicMemberships"
+            ],
+            "label": {
+                "fr": "Unités de recherche",
+                "en": "Research units"
+            },
+            "description": {
+                "fr": "Historique des rattachements au sein des unités de recherche et départements de Sciences Po",
+                "en": "History of affiliation to Sciences Po research units and departments"
+            },
+            "collapsabled": true
+    },
+    {
+            "fields": [
+                            "deptMemberships"
+            ],
+            "label": {
+                "fr": "Départements",
+                "en": "Departments"
+            },
+            "description": {
+                "fr": "Historique des rattachements au sein des unités de recherche et départements de Sciences Po",
+                "en": "History of affiliation to Sciences Po research units and departments"
+            },
+            "collapsabled": true
+    },
+    {
+        "fields": [
+            "grades"
+        ],
+        "label": {
+            "fr": "Statut et Grades",
+            "en": "Status & Grades"
+        },
+        "description": {
+            "fr": "Historique des statuts et grades occupés",
+            "en": "History of statuses and grades"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "positions"
+        ],
+        "label": {
+            "fr": "Parcours",
+            "en": "Trajectory"
+        },
+        "description": {
+            "fr": "Informations contractuelles",
+            "en": "Information concerning the employment contract"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "bonuses"
+        ],
+        "label": {
+            "fr": "Primes",
+            "en": "Bonuses"
+        },
+        "description": {
+            "fr": "Information confidentielle, existence d’une prime",
+            "en": "Confidential information, existence of a bonus"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "facultyMonitoring"
+        ],
+        "label": {
+            "fr": "Suivi de la faculté permanente",
+            "en": "Permanent faculty monitoring"
+        },
+        "description": {
+            "fr": "Informations administratives liées au processus de tenure track (étapes, dates)",
+            "en": "Administrative information concerning the tenure track process (steps, dates of evaluation)"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "distinctions"
+        ],
+        "label": {
+            "fr": "Diplômes et distinctions",
+            "en": "Diplomas and awards"
+        },
+        "description": {
+            "fr": "Diplômes, prix, distinctions obtenus",
+            "en": "Diplomas, awards, distinctions obtained"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "personalActivities"
+        ],
+        "label": {
+            "fr": "Activités et responsabilités",
+            "en": "Activities and responsibilities"
+        },
+        "description": {
+            "fr": "Activités développées, responsabilités et mandats occupés par une personne (activités éditoriales, jurys, encadrement, expertise, évaluation, collaborations scientifiques…)",
+            "en": "Activities, responsibilities and mandates held by a person (editorial activities, supervision, expertise, evaluation, scientific collaborations, etc.)"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+            "tags"
+        ],
+        "label": {
+            "fr": "Thématiques et domaines de recherche",
+            "en": "Research Themes and Domains"
+        },
+        "description": {
+            "fr": "Descriptif des intérêts de recherche et rattachement disciplinaire",
+            "en": "Description of research interests and disciplinary affiliation"
+        },
+        "collapsabled": true
+    },
+    {
+        "fields": [
+                  ["ORCID","IDREF"],
+                    ["idScopus","idSpire"],
+                    ["ldapUid","CNRSMatricule"],
+                    ["sirhMatricule","bannerUid"]
+                
+        ],
+        "label": {
+            "fr": "Identifiants",
+            "en": "Identifiers"
+        },
         "collapsabled": true
     },
     "biography",
     {
-        "fields": ["isariAuthorizedCenters"],
-        "label": {"fr":"Accès Isari","en":"ISARI access"},
+        "fields": [
+            "isariAuthorizedCenters"
+        ],
+        "label": {
+            "fr": "Accès Isari",
+            "en": "ISARI access"
+        },
         "collapsabled": true
     }
-
 ]
