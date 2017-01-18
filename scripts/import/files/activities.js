@@ -102,13 +102,15 @@ module.exports = {
                   gradeStatus
                 }];
               }
-
-              if (gradeLine.origin)
-                peopleInfo.academicMemberships = [{
-                  organization: gradeLine.origin,
-                  membershipType: 'membre'
-                }];
             }
+
+            const originLine = personLines.find(line => !!line.origin);
+
+            if (originLine)
+              peopleInfo.academicMemberships = [{
+                organization: originLine.origin,
+                membershipType: 'membre'
+              }];
 
             // Discipline
             const disciplineLine = personLines.find(line => !!line.discipline);
