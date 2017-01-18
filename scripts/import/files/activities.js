@@ -102,13 +102,15 @@ module.exports = {
                   gradeStatus
                 }];
               }
-
-              if (gradeLine.origin)
-                peopleInfo.academicMemberships = [{
-                  organization: gradeLine.origin,
-                  membershipType: 'membre'
-                }];
             }
+
+            const originLine = personLines.find(line => !!line.origin);
+
+            if (originLine)
+              peopleInfo.academicMemberships = [{
+                organization: originLine.origin,
+                membershipType: 'membre'
+              }];
 
             // Discipline
             const disciplineLine = personLines.find(line => !!line.discipline);
@@ -333,6 +335,13 @@ module.exports = {
           }
         };
 
+        if (/\bmasters?\b/i.test(line.LIB_DIPL_ADM_L1 || ''))
+          info.previous.type = 'master';
+        else if (/(?:doctorat|phd)/i.test(line.LIB_DIPL_ADM_L1 || ''))
+          info.previous.type = 'doctorat';
+        else
+          info.previous.type = 'autre';
+
         // Normalizing SIRH matricule
         if (info.sirhMatricule && info.sirhMatricule < 5)
           info.sirhMatricule = '0'.repeat(5 - info.sirhMatricule.length) + info.sirhMatricule;
@@ -425,7 +434,8 @@ module.exports = {
         // We only keep lines actually having finished the thesis
         const FILTER = new Set([
           'Abandon avant inscription',
-          'Dossier clos (abandon)'
+          'Dossier clos (abandon)',
+          'Suspension d\'études'
         ]);
 
         // We must group lines per person
@@ -604,7 +614,7 @@ module.exports = {
               if (phd.previous.idBanner) {
                 const previousDistinction = {
                   distinctionType: 'diplôme',
-                  distinctionSubtype: phd.previous.isMaster ? 'master' : 'autre',
+                  distinctionSubtype: phd.previous.type,
                   title: phd.previous.title,
                   organizations: [phd.previous.idBanner]
                 };
@@ -779,6 +789,26 @@ module.exports = {
 
               activities.push(activity);
 
+              // Add previous diploma
+              if (hdr.previous.idBanner) {
+                const previousDistinction = {
+                  distinctionType: 'diplôme',
+                  distinctionSubtype: hdr.previous.type,
+                  title: hdr.previous.title
+                };
+
+                if (hdr.previous.idBanner !== 'HORSRF')
+                  previousDistinction.organizations = [hdr.previous.idBanner];
+
+                if (hdr.previous.mention)
+                  previousDistinction.honours = hdr.previous.mention;
+
+                if (hdr.previous.date)
+                  previousDistinction.date = hdr.previous.date;
+
+                peopleInfo.distinctions.push(previousDistinction);
+              }
+
               const distinction = {
                 distinctionType: 'diplôme',
                 distinctionSubtype: 'hdr',
@@ -831,34 +861,34 @@ module.exports = {
 
             // Merging distinctions
             const currentDistinctions = _.keyBy(match.distinctions, 'distinctionSubtype'),
-                  newDistinctions = _.keyBy(person.distinctions, 'distinctionSubtype');
+                  newDistinctions = _.groupBy(person.distinctions, 'distinctionSubtype');
 
             //-- 1) PHD
             if (newDistinctions.doctorat && currentDistinctions.doctorat) {
-              Object.assign(currentDistinctions.doctorat, newDistinctions.doctorat);
-            }
-            else if (newDistinctions.doctorat) {
-              match.distinctions = match.distinctions || [];
-              match.distinctions.push(newDistinctions.doctorat);
+              match.distinctions = match.distinctions.filter(distinction => {
+                return distinction !== currentDistinctions.doctorat;
+              });
+
+              match.distinctions.push.apply(match.distinctions, newDistinctions.doctorat);
             }
 
             //-- 2) HDR
             if (newDistinctions.hdr && currentDistinctions.hdr) {
-              Object.assign(currentDistinctions.hdr, newDistinctions.hdr);
-            }
-            else if (newDistinctions.hdr) {
-              match.distinctions = match.distinctions || [];
-              match.distinctions.push(newDistinctions.hdr);
+              match.distinctions = match.distinctions.filter(distinction => {
+                return distinction !== currentDistinctions.hdr;
+              });
+
+              match.distinctions.push.apply(match.distinctions, newDistinctions.hdr);
             }
 
             //-- 3) Other
             if (newDistinctions.autre) {
               match.distinctions = match.distinctions || [];
-              match.distinctions.unshift(newDistinctions.autre);
+              match.distinctions.unshift.apply(match.distinctions, newDistinctions.autre);
             }
             if (newDistinctions.master) {
               match.distinctions = match.distinctions || [];
-              match.distinctions.unshift(newDistinctions.master);
+              match.distinctions.unshift.apply(match.distinctions, newDistinctions.master);
             }
 
             (person.academicMemberships || []).forEach(membership => {

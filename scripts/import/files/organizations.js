@@ -191,6 +191,7 @@ module.exports = {
               sources.byhand || {}
             );
 
+            delete merged.source;
             delete merged.idBanner;
             delete merged.idSpire;
 
