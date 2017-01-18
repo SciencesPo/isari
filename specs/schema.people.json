@@ -249,8 +249,8 @@
             },
             "facultyMonitoringType": {
                 "label": {
-                    "fr": "type d'événement",
-                    "en": "event type"
+                    "fr": "Tenure track, départ",
+                    "en": "Tenure track, leave"
                 },
                 "enum": "facultyMonitoringTypes"
             },
@@ -276,8 +276,8 @@
             "accessType": "confidential",
             "bonusType": {
                 "label": {
-                    "fr": "Type",
-                    "en": "Type"
+                    "fr": "Prime",
+                    "en": "Bonus"
                 },
                 "enum": "bonusTypes"
             },
@@ -534,8 +534,8 @@
             },
             "description": {
                 "label": {
-                    "fr": "Activités individuelles d’évaluation, d’expertise, d’encadrement, d’enseignement, activités éditoriales…",
-                    "en": "Personal activities : teaching, expertise..."
+                    "fr": "description",
+                    "en": "description"
                 }
             },
             "organizations": [
@@ -606,8 +606,8 @@
             },
             "distinctionSubtype": {
                 "label": {
-                    "fr": "Plus précisément",
-                    "en": "More precisely"
+                    "fr": "type de diplôme",
+                    "en": "degree type"
                 },
                 "enum": "distinctionSubtypes:./distinctionType"
             },
@@ -676,7 +676,7 @@
     },
     "computerInventoryNumber": [{
         "label": {
-                "fr": "numéro d'inventaire du poste informatique",
+                "fr": "n° poste informatique",
                 "en": "Computer inventory number"
             }
     }]

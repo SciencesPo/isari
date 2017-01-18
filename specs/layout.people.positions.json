@@ -1,21 +1,16 @@
 [
 	[
-		"organization",
-		"startDate",
-        "endDate"
-	],
-	[
-		"jobName",
-        "jobType",
-        "timepart"
-	],
-    {
+		["organization","timepart"],
+		["startDate", "endDate"],
+	    ["jobName","jobType"]
+	], 
+        {
         "fields": ["gradesSirh"],
         "label": {"fr":"grade DRH","en":"HR level"},
         "description":  {
-        	"fr":"Informations DRH Sciences Po",
-        	"en":"Information from the HR departement of Sciences Po"
+            "fr":"Informations DRH Sciences Po",
+            "en":"Information from the HR departement of Sciences Po"
         },
         "collapsabled": true
-    }
+    }   
 ]

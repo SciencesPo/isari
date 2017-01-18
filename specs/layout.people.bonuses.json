@@ -1,1 +1,4 @@
-[["bonusType","startDate","endDate"]]
+[[
+	["bonusType"],
+	["startDate","endDate"]
+]]
