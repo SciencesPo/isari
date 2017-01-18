@@ -63,10 +63,30 @@ const TEMPLATES = {
         <li><strong>{{firstName}} {{name}}</strong>{{#if organization}}, {{organization}}{{#if country}} ({{country}}){{/if}}{{/if}}{{#if startDate}}, {{formatRange .}}{{/if}}</li>
       {{/each}}
     </ul>
+  `,
+  contracts: `
+    <h2 id="{{id}}">{{title}}</h2>
+    {{#each groups}}
+      <h3>{{title}}</h3>
+      <ul>
+        {{#each projects}}
+          <li>
+            <strong>{{name}}</strong>
+            {{~#if acronym}} ({{acronym}}){{/if~}}
+            {{~#if organization}}, {{organization}}{{/if~}}
+            {{~#if program}}, {{program}}{{/if~}}
+            {{~#if instrument}}, {{instrument}}{{/if~}}
+            {{~#if manager}}, {{manager.firstName}} {{manager.name}}{{/if~}}
+            {{~#if role}}, {{role}}{{/if~}}
+          </li>
+        {{/each}}
+      </ul>
+    {{/each}}
+  `,
+  indices: `
+    <h2 id="{{id}}">{{title}}</h2>
   `
 };
-
-// people.name people.firstName, orga d’origine, pays de l’orga d’origine, activity.startDate - activity.endDate
 
 for (const k in TEMPLATES)
   TEMPLATES[k] = Handlebars.compile(TEMPLATES[k]);
@@ -395,6 +415,155 @@ const TABS = [
         invited
       });
     }
+  },
+  {
+    id: 'contrats_de_recherche',
+    title: '7. Contrats de recherche financés par des institutions publiques ou caritatives',
+    render(id, title, data, centerId) {
+      const activities = data.activities;
+
+      function mapper(activity) {
+        const info = {};
+
+        if (activity.acronym)
+          info.acronym = activity.acronym;
+
+        if (activity.name)
+          info.name = activity.name;
+
+        const grant = activity.grants.find(g => !!g.organization);
+
+        if (grant)
+          info.organization = grant.organization.name;
+
+        if (grant.grantProgram)
+          info.program = grant.grantProgram;
+
+        if (grant.grantInstrument)
+          info.instrument = grant.grantInstrument;
+
+        const manager = activity.people.find(person => {
+          return (
+            person.role === 'responsableScientifique' ||
+            person.role === 'PI'
+          );
+        });
+
+        if (manager)
+          info.manager = {
+            firstName: manager.people.firstName,
+            name: manager.people.name.toUpperCase()
+          };
+
+        const role = activity.organizations
+          .find(({organization}) => '' + organization._id === centerId)
+          .role;
+
+        info.role = role;
+
+        return info;
+      }
+
+      const projects = activities
+        .filter(activity => {
+          return (
+            activity.activityType === 'projetderecherche'
+          );
+        });
+
+      const european = projects
+        .filter(activity => {
+          return (
+            !!activity.grants &&
+            activity.grants &&
+            activity.grants.some(grant => {
+              return (
+                grant.grantType === 'collaboratifinternational' ||
+                grant.grantType === 'individuelinternational'
+              );
+            })
+          );
+        })
+        .map(mapper);
+
+      const national = projects
+        .filter(activity => {
+          return (
+            !!activity.grants &&
+            activity.grants &&
+            activity.grants.some(grant => {
+              return (
+                grant.grantType === 'collaboratifnational' ||
+                grant.grantType === 'individuelnational'
+              );
+            })
+          );
+        })
+        .map(mapper);
+
+      const territorial = projects
+        .filter(activity => {
+          return (
+            !!activity.grants &&
+            activity.grants &&
+            activity.grants.some(grant => {
+              return (
+                grant.grantType === 'collaboratifterritorial' ||
+                grant.grantType === 'individuelterritorial'
+              );
+            })
+          );
+        })
+        .map(mapper);
+
+      const PIA = projects
+        .filter(activity => {
+          return (
+            !!activity.grants &&
+            activity.grants &&
+            activity.grants.some(grant => grant.grantProgram === 'PIA')
+          );
+        })
+        .map(mapper);
+
+      return TEMPLATES.contracts({
+        id,
+        title,
+        groups: [
+          {
+            title: 'Contrats européens (ERC, H2020, etc.) et internationaux (NSF, JSPS, NIH, Banque mondiale, FAO , etc.)',
+            projects: european
+          },
+          {
+            title: 'Contrats nationaux (ANR, PHRC, FUI, INCA, etc.)',
+            projects: national
+          },
+          {
+            title: 'Contrats avec les collectivités territoriales',
+            projects: territorial
+          },
+          {
+            title: 'Contrats financés dans le cadre du PIA',
+            projects: PIA
+          },
+          {
+            title: 'Contrats financés par des associations caritatives et des fondations (ARC, FMR, etc.)',
+            projects: []
+          }
+        ]
+      });
+    }
+  },
+  {
+    id: 'indices_reconnaissance',
+    title: '8. Indices de reconnaissance',
+    render(id, title, data) {
+
+      return TEMPLATES.indices({
+        id,
+        title
+      });
+    }
   }
 ];
 
@@ -421,6 +590,7 @@ module.exports = function annex4(models, centerId, callback) {
         })
         .populate('people.people')
         .populate('organizations.organization')
+        .populate('grants.organization')
         .exec(next);
     }
   }, (err, data) => {
