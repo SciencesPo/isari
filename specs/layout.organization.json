@@ -1,28 +1,31 @@
 [
-	["name","acronym"],
-	{
-		"fields":	["url","address","countries"],
-		"label":{"fr":"Infos générales","en":"General info"},
-		"collapsabled": true
-	},
-	{
-		"fields":	["parentOrganizations","researchUnitCodes"],
-		"label":{"fr":"Tutelles","en":"Parent orgas"},
-		"collapsabled": true
-	},
-	{
-		"fields":	["organizationTypes","status","HCERESOrganizationType"],
-		"label":{"fr":"Infos complémentaires","en":"Other info"},
-		"collapsabled": true
-	},
-	{
-		"fields":["idRnsr","idScopus","idHal","codeUAI"],
-		"label":{"fr":"Identifiants","en":"Identifiers"},
-		"collapsabled": true
-	},
-	{
-		"fields":["UG","idsBanner","idsSpire"],
-		"label":{"fr":"Identifiants FNSP","en":"FNSP identifiers"},
-		"collapsabled": true
-	}
+	[
+		["name","acronym"],
+		"nameAcronymeAliases"
+	],
+		{
+			"fields":[
+				"url",
+				["address","countries"],
+				["organizationTypes","status"],
+				["parentOrganizations","HCERESOrganizationType"]
+			],
+			"label":{"fr":"Infos générales","en":"General info"},
+			"collapsabled": true
+		},
+		{
+			"fields":	["researchUnitCodes"],
+			"label":{"fr":"Code Unités de recherche","en":"research Unit Codes"},
+			"collapsabled": true
+		},
+		{
+			"fields":[
+				["idRnsr","idScopus"],
+				["idHal","codeUAI"],
+				["idsBanner","idsSpire"],
+				"UG"
+			],
+			"label":{"fr":"Identifiants","en":"Identifiers"},
+			"collapsabled": true
+		}	
 ]
