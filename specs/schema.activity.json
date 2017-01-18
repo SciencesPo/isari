@@ -117,8 +117,8 @@
     },
     "summary": {
         "label": {
-            "fr": "Description",
-            "en": "Description"
+            "fr": "Résumé",
+            "en": "Summary"
         },
         "type":"text"
     },
