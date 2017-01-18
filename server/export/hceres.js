@@ -20,7 +20,8 @@ const {
   createWorkbook,
   createSheet,
   addSheetToWorkbook,
-  parseDate
+  parseDate,
+  overlap
 } = require('./helpers.js');
 
 const GRADES_INDEX = require('../../specs/export/grades.json');
@@ -258,6 +259,127 @@ const SHEETS = [
         });
 
         return callback(null, exportLines);
+      });
+    }
+  },
+  {
+    id: 'postdoctorantsInvites',
+    name: '3.4 post-doc et invités',
+    headers: [
+      {key: 'name', label: 'Nom'},
+      {key: 'firstName', label: 'Prénom'},
+      {key: 'gender', label: 'H/F'},
+      {key: 'birthDate', label: 'Date de naissance\n(1)'},
+      {key: 'startDate', label: 'Date d\'arrivé dans l\'unité\n(1)'},
+      {key: 'endDate', label: 'Date de départ de l\'unité\n(1)'},
+      {key: 'equip', label: 'N° de l\'équipe interne de rattachement, le cas échéant\n(2)'}
+    ],
+    populate(models, centerId, callback) {
+      const People = models.People;
+      const Activity = models.Activity;
+
+      async.parallel({
+        people: next => {
+          return People.aggregate([
+            {
+              $match: {
+                 $and: [
+                    {grades: {$elemMatch: {grade: 'postdoc'}}},
+                    {'academicMemberships.organization': ObjectId(centerId)}
+                  ]
+              }
+            }], next);
+        },
+        activities: next => {
+          return Activity
+            .find({
+              $and: [
+                {'organizations.organization': ObjectId(centerId)},
+                {activityType: 'mob_entrante'}
+              ]
+            })
+            .populate('people.people')
+            .exec(next);
+        }
+      }, (err, data) => {
+        if (err)
+          return callback(err);
+        const {people, activities} = data;
+
+        // Tagging relevant memberships
+        people.forEach(person => {
+          const membership = person.academicMemberships
+            .find(m => '' + m.organization === centerId);
+
+          person.relevantMembership = membership;
+        });
+
+        // Finding postdocs
+        const postDocs = people
+        .filter(person => {
+
+          return (
+            person.grades &&
+            person.grades.length &&
+            person.grades.some(grade => {
+              return (
+                !!grade.startDate &&
+                grade.grade === 'postdoc' &&
+                overlap(grade, person.relevantMembership)
+              );
+            })
+          );
+        })
+        .map(person => {
+          const relevantGrade = person.grades.find(grade => {
+            return (
+              !!grade.startDate &&
+              overlap(grade, person.relevantMembership)
+            );
+          });
+
+          return {
+            name: person.name.toUpperCase(),
+            firstName: person.firstName,
+            birthDate: person.birthDate,
+            gender: GENDER_MAP[person.gender],
+            startDate: relevantGrade.startDate,
+            endDate: relevantGrade.endDate
+          };
+        });
+
+        const invited = activities
+          .filter(activity => {
+            const role = activity.organizations
+              .find(org => '' + org.organization === centerId)
+              .role;
+
+            const endDate = activity.endDate && parseDate(activity.endDate);
+
+            return (
+              activity.activityType === 'mob_entrante' &&
+              role === 'orgadaccueil' &&
+              (
+                !endDate ||
+                endDate.isSameOrAfter('2012-01-01')
+              )
+            );
+          })
+          .map(activity => {
+            const person = activity.people.find(p => p.role === 'visiting').people;
+
+            const info = {
+              name: person.name,
+              firstName: person.firstName,
+              birthDate: person.birthDate,
+              gender: GENDER_MAP[person.gender],
+              startDate: activity.startDate,
+              endDate: activity.endDate
+            };
+
+            return info;
+          });
+        return callback(null, postDocs.concat(invited));
       });
     }
   }
