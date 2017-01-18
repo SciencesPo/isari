@@ -1,10 +1,7 @@
 [
     [
-        "name",
-        "acronym",
-        ["subject","url"],
-        "summary",
         "activityType",
+        ["name","acronym"],
         ["startDate","endDate"]
     ],
     {
@@ -35,6 +32,10 @@
         },
         "collapsabled": true
     },
+    [
+        ["subject","url"],
+        "summary"
+    ],
     {
         "fields": ["grants"],
         "label": {"fr":"Financement","en":"Funding"},

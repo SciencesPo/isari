@@ -1,2 +1,8 @@
-[["methods","discipline","researchTheme"],
-["hceres2017","erc","aeres2012","free"]]
+[
+	[
+	  ["discipline", "methods"],
+	  ["researchTheme", "aeres2012"],
+	  ["erc", "hceres2017"],
+	  "free"
+	]
+]
