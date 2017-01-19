@@ -10,8 +10,9 @@ const XLSX = require('xlsx'),
 /**
  * Function creating a workbook in the format expected by the js-xlsx library.
  */
-exports.createWorkbook = function() {
+exports.createWorkbook = function(name) {
   return {
+    name,
     Sheets: {},
     SheetNames: []
   };

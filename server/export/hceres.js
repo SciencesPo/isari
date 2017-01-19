@@ -71,6 +71,47 @@ function formatDate(date) {
  */
 const SHEETS = [
   {
+    id: 'unit',
+    name: '2. Composition de l\'unité',
+    custom(models, centerId, callback) {
+
+      // Retrieving related people
+      return models.People
+        .find({
+          'academicMemberships.organization': centerId
+        })
+        .populate('positions.organization')
+        .exec((err, people) => {
+          if (err)
+            return callback(err);
+
+          const sheetData = {
+            A1: 'Professeurs et assimilés',
+            A2: 'Maîtres de conférences et assimilés',
+            A3: 'Directeurs de recherche et assimilés',
+            A4: 'Chargés de recherche et assimilés',
+            A5: 'Conservateurs, cadres scientifiques EPIC, fondations, industries…',
+            A6: 'Professeurs du secondaire détachés dans le supérieur',
+            A7: 'ITA-BIATSS autres personnels cadre et non cadre EPIC…',
+            '!ref': 'A1:A7'
+          };
+
+          people.forEach(person => {
+
+            // Finding relevant position
+            const position = findRelevantItem(person.positions || []),
+                  relevantGrade = findRelevantItem(person.grades || []),
+                  grade = relevantGrade && relevantGrade.grade,
+                  organization = position && position.organization.name,
+                  cnrs = organization === 'Centre National de la Recherche Scientifique',
+                  fnsp = organization === 'Fondation Nationale des Sciences Politiques';
+          });
+
+          return callback(null, sheetData);
+        });
+    }
+  },
+  {
     id: 'staff',
     name: '3.2. Liste des personnels',
     headers: [
@@ -414,14 +455,36 @@ const SHEETS = [
  * Process.
  */
 module.exports = function(models, centerId, callback) {
-  const workbook = createWorkbook();
-  workbook.name = FILENAME;
+  const workbook = createWorkbook(FILENAME);
 
   // TODO: check existence of center before!
   async.eachSeries(SHEETS, (sheet, next) => {
+
+    // Custom sheet
+    if (sheet.custom)
+      return sheet.custom(models, centerId, (err, sheetData) => {
+        if (err)
+          return next(err);
+
+        for (const k in sheetData) {
+          if (k !== '!ref')
+            sheetData[k] = {v: sheetData[k]};
+        }
+
+        addSheetToWorkbook(
+          workbook,
+          sheetData,
+          sheet.name
+        );
+
+        return next();
+      });
+
+    // Classical sheet with headers
     return sheet.populate(models, centerId, (err, collection) => {
       if (err)
         return next(err);
+
       addSheetToWorkbook(
         workbook,
         createSheet(sheet.headers, collection),
