@@ -79,7 +79,7 @@ module.exports = {
 
         const filteredLines = lines.filter(line => {
           // filtering SIRH cases which doesn't make sense for ISARI
-          return !(line.jobType === 'CDI' && line.gradeSirh === 'Hors Accord');
+          return !(line.jobType === 'CDI' && line.gradeRHLabel === 'Hors Accord');
         });
 
         // First we need to group the person by matricule
@@ -142,7 +142,7 @@ module.exports = {
 
             // Grades
             position.gradesSirh = _(slice)
-              .groupBy('gradeSirh')
+              .groupBy('gradeRH')
               .values()
               .map(grades => grades[0])
               .map((grade, i, grades) => {
@@ -153,14 +153,14 @@ module.exports = {
                 };
 
                 // filling grade with enum quality check
-                if (ENUM_INDEXES.grades.sirh[grade.gradeSirh])
-                  info.grade = grade.gradeSirh;
-                else{
+                if (ENUM_INDEXES.grades.sirh[grade.gradeRH])
+                  info.grade = grade.gradeRH;
+                else {
                   // trying to infer grade from grade label (shitty cases Hors Accord)
-                  _(ENUM_INDEXES.grades.sirh).forEach((v,k) => {
+                  _(ENUM_INDEXES.grades.sirh).forEach((v, k) => {
                     if (v === grade.gradeRHLabel)
                       info.grade = k;
-                  }) 
+                  });
                 }
                 if (!info.grade)
                   // fall back to Hors Accord
@@ -792,14 +792,12 @@ module.exports = {
             'distinctions',
             'deptMemberships',
             'academicMemberships',
-            'tags'
+            'tags',
+            'grades'
           ].forEach(prop => {
             if (person[prop])
               match[prop] = person[prop];
           });
-
-          if (person.grades)
-            match.grades = (match.grades || []).concat(person.grades);
 
           if (person.positions)
             match.positions = (person.positions || []).concat(match.positions);
