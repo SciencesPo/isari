@@ -727,6 +727,7 @@ const TABS = [
 module.exports = function annex4(models, centerId, callback) {
   const {Activity, People} = models;
 
+  // TODO: check existence of center before!
   return async.parallel({
     people: next => {
       return People.aggregate([
