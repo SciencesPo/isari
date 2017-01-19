@@ -85,6 +85,54 @@ const TEMPLATES = {
   `,
   indices: `
     <h2 id="{{id}}">{{title}}</h2>
+    <h3>Prix</h3>
+    <h4>Attribués à des personnes</h4>
+    <ul>
+      {{#each distinctionPeople}}
+        {{#each prices}}
+          <li>
+            <strong>{{../firstName}} {{../name}}</strong>
+            {{~#if title}}, <u>{{title}}</u>{{/if~}}
+            {{~#if date}}, {{formatDate date}}{{/if~}}
+          </li>
+        {{/each}}
+      {{/each}}
+    </ul>
+    <h4>Attribués à des activités</h4>
+    <ul>
+      {{#each distinctionActivities}}
+        {{#each prices}}
+          <li>
+            <strong>{{../name}}</strong>
+            {{~#if title}}, <u>{{title}}</u>{{/if~}}
+            {{~#if date}}, {{formatDate date}}{{/if~}}
+          </li>
+        {{/each}}
+      {{/each}}
+    </ul>
+    <h4>Responsabilités dans des sociétés savantes</h4>
+    <ul>
+      {{#each savants}}
+        {{#each activities}}
+          <li>
+            <strong>{{../firstName}} {{../name}}</strong>
+            {{~#if description}}, <u>{{description}}</u>{{/if~}}
+            {{~#if startDate}}, {{formatRange .}}{{/if~}}
+          </li>
+        {{/each}}
+      {{/each}}
+    </ul>
+    <h4>Invitations à des colloques / congrès à l’étranger, séjours dans des laboratoires étrangers</h4>
+    <ul>
+      {{#each invited}}
+        <li>
+          <strong>{{firstName}} {{name}}</strong>
+          {{~#if startDate}}, {{formatRange .}}{{/if~}}
+          {{~#if organization}}, {{organization}}{{/if~}}
+          {{~#if country}}, {{country}}{{/if~}}
+        </li>
+      {{/each}}
+    </ul>
   `
 };
 
@@ -99,6 +147,16 @@ const FORMAT_MAP = {
   2: 'MM/YYYY',
   3: 'DD/MM/YYYY'
 };
+
+function formatDate(date) {
+  if (!date)
+    return null;
+
+  const format = FORMAT_MAP[date.split('-').length];
+
+  return parseDate(date).format(format);
+}
+Handlebars.registerHelper('formatDate', formatDate);
 
 function formatRange(item) {
   let {startDate, endDate} = item;
@@ -559,9 +617,105 @@ const TABS = [
     title: '8. Indices de reconnaissance',
     render(id, title, data) {
 
+      const distinctionPeople = data.people
+        .filter(person => {
+          return (
+            person.distinctions &&
+            person.distinctions.some(distinction => distinction.distinctionType === 'distinction')
+          );
+        })
+        .map(person => {
+          return {
+            name: person.name.toUpperCase(),
+            firstName: person.firstName,
+            prices: person.distinctions
+              .filter(distinction => distinction.distinctionType === 'distinction')
+          };
+        });
+
+      const distinctionActivities = data.activities
+        .filter(activity => {
+          return (
+            activity.activityType === 'projetderecherche' &&
+            activity.distinctions &&
+            activity.distinctions.some(distinction => distinction.distinctionType === 'distinction')
+          );
+        })
+        .map(activity => {
+          return {
+            name: activity.name,
+            prices: activity.distinctions
+              .filter(distinction => distinction.distinctionType === 'distinction')
+          };
+        });
+
+      const savants = data.people
+        .filter(person => {
+          return (
+            person.personalActivities &&
+            person.personalActivities.some(personalActivity => {
+              return (
+                personalActivity.personalActivityType === 'collaborationsscientifiques' &&
+                (
+                  personalActivity.role === 'codirection' ||
+                  personalActivity.role === 'direction' ||
+                  personalActivity.role === 'présidence'
+                )
+              );
+            })
+          );
+        })
+        .map(person => {
+          return {
+            name: person.name.toUpperCase(),
+            firstName: person.firstName,
+            activities: person.personalActivities
+              .filter(personalActivity => {
+                return (
+                  personalActivity.personalActivityType === 'collaborationsscientifiques' &&
+                  (
+                    personalActivity.role === 'codirection' ||
+                    personalActivity.role === 'direction' ||
+                    personalActivity.role === 'présidence'
+                  )
+                );
+              })
+          };
+        });
+
+      const invited = data.activities
+        .filter(activity => activity.activityType === 'mob_sortante')
+        .map(activity => {
+          const person = activity.people
+            .find(p => !p.role || p.role === 'visiting')
+            .people;
+
+          const org = activity.organizations.find(o => o.role === 'orgadaccueil');
+
+          const info = {
+            name: person.name.toUpperCase(),
+            firstName: person.firstName,
+            startDate: activity.startDate,
+            endDate: activity.endDate
+          };
+
+          if (org) {
+            info.organization = org.organization.name;
+
+            if (org.organization.countries && org.organization.countries[0])
+              info.country = COUNTRIES_INDEX[org.organization.countries[0]].countryLabel.fr;
+          }
+
+          return info;
+        });
+
       return TEMPLATES.indices({
         id,
-        title
+        title,
+        distinctionPeople,
+        distinctionActivities,
+        savants,
+        invited
       });
     }
   }
