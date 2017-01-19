@@ -24,7 +24,8 @@ const {
   overlap
 } = require('./helpers.js');
 
-const GRADES_INDEX = require('../../specs/export/grades.json');
+//const GRADES_INDEX = require('../../specs/export/grades.json');
+const GRADES_INDEX = require('../../specs/export/grades2gradesHCERES.json');
 
 const GENDER_MAP = {
   m: 'H',
@@ -139,7 +140,7 @@ const SHEETS = [
         });
 
         //-- 2) Retrieving necessary data
-        people = people.map(person => {
+        people = _(people).map(person => {
 
           const info = {
             name: person.name,
@@ -169,14 +170,36 @@ const SHEETS = [
 
           const grade = findRelevantItem(person.grades);
 
-
           if (grade) {
-            if (grade.gradeStatus === 'appuiadministratif' || grade.gradeStatus === 'appuitechnique')
-              info.jobType = GRADES_INDEX.admin[grade.grade];
-            else
-              info.jobType = GRADES_INDEX.academic[grade.grade];
+            if (GRADES_INDEX[grade.gradeStatus] && GRADES_INDEX[grade.gradeStatus][grade.grade]) {
+              info.jobType = GRADES_INDEX[grade.gradeStatus][grade.grade].type_emploiHCERES;
+              info.grade = GRADES_INDEX[grade.gradeStatus][grade.grade].gradeHCERES;
+            }
+            else {
+              // grade not found in translation index let's try the gradeDRH
+              const position = findRelevantItem(person.positions);
+
+              if (position && position.gradesSirh) {
+                const relevantGradeDRH = findRelevantItem(position.gradesSirh);
+
+                if (relevantGradeDRH && GRADES_INDEX.gradeDRH[relevantGradeDRH.grade]) {
+                  info.jobType = GRADES_INDEX.gradeDRH[relevantGradeDRH.grade].type_emploiHCERES;
+                  info.grade = GRADES_INDEX.gradeDRH[relevantGradeDRH.grade].gradeHCERES;
+                }
+                else {
+                  // not found at all => out
+                  //remove from export by returning and removing those case by a compact
+                  return;
+                }
+              }
+              else {
+                  // no grade DRH ?
+                  info.jobType = '????';
+                  info.grade = '????';
+
+                }
+            }
             info.startDate = grade.startDate;
-            info.grade = grade.grade;
           }
 
           if (person.birthDate) {
@@ -187,7 +210,9 @@ const SHEETS = [
             info.hdr = 'OUI';
 
           return info;
-        });
+        })
+        // removing empty cases
+        .compact().value();
 
         return callback(null, people);
       });
