@@ -12,7 +12,7 @@ const COUNTRIES = require('../../specs/enum.countries.json'),
 
 const GRADE_ADMIN = new Set(NESTED_ENUMS.grade.appuiadministratif.map(g => g.value)),
       GRADE_TECHNIQUE = new Set(NESTED_ENUMS.grade.appuitechnique.map(g => g.value)),
-      GRADE_ACADEMIQUE = {};
+      GRADE_ACADEMIQUE = {},
       GRADE_SIRH = {};
 
 for (const k in NESTED_ENUMS.grade) {
@@ -23,7 +23,7 @@ for (const k in NESTED_ENUMS.grade) {
 }
 
 ENUMS.gradesSirh.forEach(e => {
-  GRADE_SIRH[e.value]=e.label.fr
+  GRADE_SIRH[e.value] = e.label.fr;
 });
 
 exports.ENUM_INDEXES = {
