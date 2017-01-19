@@ -1,0 +1,318 @@
+{
+  "enseignantchercheur": {
+    "ater": {
+      "gradeHCERES": "Autre_EC",
+      "type_emploiHCERES": "EC_aut"
+    },
+    "enseicherchcontractuel": {
+      "gradeHCERES": "ECC",
+      "type_emploiHCERES": "EC_aut"
+    },
+    "professeuruniv": {
+      "gradeHCERES": "PR",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "mconf": {
+      "gradeHCERES": "MCF",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "mconfHC": {
+      "gradeHCERES": "MCFHC",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "professeur2": {
+      "gradeHCERES": "PR2",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "professeur1": {
+      "gradeHCERES": "PR1",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "professeurex": {
+      "gradeHCERES": "PREX",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "profunivémérite": {
+      "gradeHCERES": "PREM",
+      "type_emploiHCERES": "EC_aut"
+    }
+  },
+  "appuitechnique": {
+    "IGR": {
+      "gradeHCERES": "IR",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "AJT": {
+      "gradeHCERES": "AJT",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "TCS": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "TCN": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "IGE": {
+      "gradeHCERES": "IE",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "AING": {
+      "gradeHCERES": "AI",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "TCH": {
+      "gradeHCERES": "TCH",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "TCE": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    }
+  },
+  "enseignant": {
+    "past": {
+      "gradeHCERES": "PAST",
+      "type_emploiHCERES": "AP_aut"
+    },
+    "prag": {
+      "gradeHCERES": "PRAG",
+      "type_emploiHCERES": "AP_tit"
+    }
+  },
+  "statut": {
+    "grade": {
+      "gradeHCERES": "gradeHCERES",
+      "type_emploiHCERES": "type_emploiHCERES"
+    }
+  },
+  "chercheurenseignant": {
+    "assistantprofessor": {
+      "gradeHCERES": "MCF",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "professeur": {
+      "gradeHCERES": "PR",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "associateprofessor": {
+      "gradeHCERES": "PR",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "profémérite": {
+      "gradeHCERES": "PREM",
+      "type_emploiHCERES": "EC_aut"
+    }
+  },
+  "chercheur": {
+    "directeurderechercheremerite": {
+      "gradeHCERES": "DREM",
+      "type_emploiHCERES": "Ch_aut"
+    },
+    "chargederecherche2": {
+      "gradeHCERES": "CR2",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "chargederecherche": {
+      "gradeHCERES": "CR",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "directeurderechercheex": {
+      "gradeHCERES": "DREX",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "chargederecherche1": {
+      "gradeHCERES": "CR1",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "directeurderecherche1": {
+      "gradeHCERES": "DR1",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "directeurderecherche2": {
+      "gradeHCERES": "DR2",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "directeurderecherche": {
+      "gradeHCERES": "DR",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "CASSIST": {
+      "gradeHCERES": "Autre_Ch",
+      "type_emploiHCERES": "Ch_aut"
+    },
+    "directeurétudes": {
+      "gradeHCERES": "DIRH",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "cherchcontractuel": {
+      "gradeHCERES": "Ch_contractuel",
+      "type_emploiHCERES": "Ch_aut"
+    }
+  },
+  "gradeDRH": {
+    "CHASSIST": {
+      "gradeHCERES": "Autre_Ch",
+      "type_emploiHCERES": "Ch_aut"
+    },
+    "ASDIREC": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ASPROF": {
+      "gradeHCERES": "MCF",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "ASSPEC": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "SN2": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ASSOCPROF": {
+      "gradeHCERES": "PR",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "SN1": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "DR": {
+      "gradeHCERES": "DR",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "ASCOORD": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "PROFESSEUR": {
+      "gradeHCERES": "PR",
+      "type_emploiHCERES": "EC_tit"
+    },
+    "INFTEC": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "INFENC": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "CM": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ASGESTION": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "DREXC": {
+      "gradeHCERES": "DREX",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "CR": {
+      "gradeHCERES": "CR",
+      "type_emploiHCERES": "Ch_tit"
+    },
+    "INFEXP": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ASSISTRECH": {
+      "gradeHCERES": "Autre_Ch",
+      "type_emploiHCERES": "Ch_aut"
+    },
+    "RESPADMIN": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "CM2": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ENCADTECH": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "BIB3": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "BIB2": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "CM3": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "APAGBUR": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "CM1": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "AGBIBSPE": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    }
+  },
+  "appuiadministratif": {
+    "TCN": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "IGR": {
+      "gradeHCERES": "IR",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "AING": {
+      "gradeHCERES": "AI",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ADAENES": {
+      "gradeHCERES": "ADAENES",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "AJT": {
+      "gradeHCERES": "AJT",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ADJAENES": {
+      "gradeHCERES": "ADJAENES",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "SAENES": {
+      "gradeHCERES": "SAENES",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ADMAENES": {
+      "gradeHCERES": "ADMAENES",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "TCS": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "IGE": {
+      "gradeHCERES": "IE",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "ABS": {
+      "gradeHCERES": "BIBAS",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "TCH": {
+      "gradeHCERES": "TCH",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "TCE": {
+      "gradeHCERES": "NonCadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    }
+  }
+}
