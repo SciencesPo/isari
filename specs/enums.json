@@ -1990,8 +1990,8 @@
         {
             "value": "distinction",
             "label": {
-                "fr": "Prix et autres distinctions",
-                "en": "Awards"
+                "fr": "distinction",
+                "en": "awards"
             }
         }
     ],
@@ -3133,6 +3133,295 @@
             "value": "ls9",
             "label": {
                 "fr": "LS9 Applied life sciences and biotechnology",
+                "en": ""
+            }
+        }
+    ],
+    "gradesSirh": [
+        {
+            "value": "CHASSIST",
+            "label": {
+                "fr": "Chercheur Assistant",
+                "en": ""
+            }
+        },
+        {
+            "value": "AGBIBSPE",
+            "label": {
+                "fr": "Agent de bibliothèque spécialisé",
+                "en": ""
+            }
+        },
+        {
+            "value": "APAGBUR",
+            "label": {
+                "fr": "Appariteur Agent de Bureau",
+                "en": ""
+            }
+        },
+        {
+            "value": "APCHEFEQ",
+            "label": {
+                "fr": "Appariteur Chef d'équipe",
+                "en": ""
+            }
+        },
+        {
+            "value": "APP",
+            "label": {
+                "fr": "Apprenti",
+                "en": ""
+            }
+        },
+        {
+            "value": "ASCOORD",
+            "label": {
+                "fr": "Assistant(e) coordinateur(trice)",
+                "en": ""
+            }
+        },
+        {
+            "value": "ASDIREC",
+            "label": {
+                "fr": "Assistant(e) de direction",
+                "en": ""
+            }
+        },
+        {
+            "value": "ASGESTION",
+            "label": {
+                "fr": "Assistant(e) de gestion",
+                "en": ""
+            }
+        },
+        {
+            "value": "ASPROF",
+            "label": {
+                "fr": "Assistant Professor",
+                "en": ""
+            }
+        },
+        {
+            "value": "ASSISTRECH",
+            "label": {
+                "fr": "Assistant de recherche",
+                "en": ""
+            }
+        },
+        {
+            "value": "ASSOCPROF",
+            "label": {
+                "fr": "Associate Professor",
+                "en": ""
+            }
+        },
+        {
+            "value": "ASSPEC",
+            "label": {
+                "fr": "Assistant(e) spécialisé(e)",
+                "en": ""
+            }
+        },
+        {
+            "value": "BIB2",
+            "label": {
+                "fr": "Bibliothécaire Niveau 2",
+                "en": ""
+            }
+        },
+        {
+            "value": "BIB3",
+            "label": {
+                "fr": "Bibliothécaire Niveau 3",
+                "en": ""
+            }
+        },
+        {
+            "value": "CASCOL",
+            "label": {
+                "fr": "Cadre de la scolarité",
+                "en": ""
+            }
+        },
+        {
+            "value": "CE",
+            "label": {
+                "fr": "Chargé d'études",
+                "en": ""
+            }
+        },
+        {
+            "value": "CE1",
+            "label": {
+                "fr": "Chargé d'études Niveau 1",
+                "en": ""
+            }
+        },
+        {
+            "value": "CE2",
+            "label": {
+                "fr": "Chargé d'études Niveau 2",
+                "en": ""
+            }
+        },
+        {
+            "value": "CM",
+            "label": {
+                "fr": "Chargé de mission",
+                "en": ""
+            }
+        },
+        {
+            "value": "CM1",
+            "label": {
+                "fr": "Chargé de mission Niveau 1",
+                "en": ""
+            }
+        },
+        {
+            "value": "CM2",
+            "label": {
+                "fr": "Chargé de mission Niveau 2",
+                "en": ""
+            }
+        },
+        {
+            "value": "CM3",
+            "label": {
+                "fr": "Chargé de mission niveau 3",
+                "en": ""
+            }
+        },
+        {
+            "value": "CR",
+            "label": {
+                "fr": "Chargé de Recherche",
+                "en": ""
+            }
+        },
+        {
+            "value": "DDOFCE",
+            "label": {
+                "fr": "Directeur et Adjoint Département OFCE",
+                "en": ""
+            }
+        },
+        {
+            "value": "DE",
+            "label": {
+                "fr": "Directeur d'études",
+                "en": ""
+            }
+        },
+        {
+            "value": "DIRIGE",
+            "label": {
+                "fr": "Cadre Dirigeant",
+                "en": ""
+            }
+        },
+        {
+            "value": "DR",
+            "label": {
+                "fr": "Directeur de Recherche",
+                "en": ""
+            }
+        },
+        {
+            "value": "DREXC",
+            "label": {
+                "fr": "Directeur de recherche Classe exceptionnelle",
+                "en": ""
+            }
+        },
+        {
+            "value": "ENCADTECH",
+            "label": {
+                "fr": "Encadrement Technique",
+                "en": ""
+            }
+        },
+        {
+            "value": "HA",
+            "label": {
+                "fr": "Hors Accord",
+                "en": ""
+            }
+        },
+        {
+            "value": "INFENC",
+            "label": {
+                "fr": "Informatique Encadrement",
+                "en": ""
+            }
+        },
+        {
+            "value": "INFEXP",
+            "label": {
+                "fr": "Informatique Exploitation",
+                "en": ""
+            }
+        },
+        {
+            "value": "INFTEC",
+            "label": {
+                "fr": "Informatique Technicien Nouvelle Spécialité",
+                "en": ""
+            }
+        },
+        {
+            "value": "PRO",
+            "label": {
+                "fr": "Contrat de professionalisation",
+                "en": ""
+            }
+        },
+        {
+            "value": "PROFASS",
+            "label": {
+                "fr": "Professeur Associé",
+                "en": ""
+            }
+        },
+        {
+            "value": "PROFESSEUR",
+            "label": {
+                "fr": "Professeur",
+                "en": ""
+            }
+        },
+        {
+            "value": "RESPADMIN",
+            "label": {
+                "fr": "Responsable administratif(ve)",
+                "en": ""
+            }
+        },
+        {
+            "value": "SN1",
+            "label": {
+                "fr": "Secrétaire Niveau 1",
+                "en": ""
+            }
+        },
+        {
+            "value": "SN2",
+            "label": {
+                "fr": "Secrétaire Niveau 2",
+                "en": ""
+            }
+        },
+        {
+            "value": "STAGE",
+            "label": {
+                "fr": "Stagiaire",
+                "en": ""
+            }
+        },
+        {
+            "value": "AFPROF",
+            "label": {
+                "fr": "Affiliate professor",
                 "en": ""
             }
         }

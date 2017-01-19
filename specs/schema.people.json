@@ -209,7 +209,8 @@
                         "label": {
                             "fr": "Grade",
                             "en": "Grade"
-                        }
+                        },
+                        "enum": "gradesSirh"
                     },
                     "startDate": {
                         "label": {

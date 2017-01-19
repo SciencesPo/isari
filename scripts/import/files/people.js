@@ -32,7 +32,8 @@ module.exports = {
           gender: line.gender,
           startDate: moment(line['Date de début'], 'YYYY-MM-DD'),
           jobType: line['Type de contrat'],
-          gradeSirh: line['Emploi Repère'],
+          gradeRHLabel: line['Emploi Repère'],
+          gradeRH: line['Code_Emploi Repère'],
           postdoc: line.Postdoc === 'x',
           jobName: line['Emploi Personnalisé'],
           academicMembership: line.Affiliation
@@ -148,9 +149,22 @@ module.exports = {
                 const nextGrade = grades[i + 1];
 
                 const info = {
-                  grade: grade.gradeSirh,
                   postdoc: grade.postdoc
                 };
+
+                // filling grade with enum quality check
+                if (ENUM_INDEXES.grades.sirh[grade.gradeSirh])
+                  info.grade = grade.gradeSirh;
+                else{
+                  // trying to infer grade from grade label (shitty cases Hors Accord)
+                  _(ENUM_INDEXES.grades.sirh).forEach((v,k) => {
+                    if (v === grade.gradeRHLabel)
+                      info.grade = k;
+                  }) 
+                }
+                if (!info.grade)
+                  // fall back to Hors Accord
+                  info.grade = 'HA';
 
                 if (grade.startDate) {
                   if (!i)
