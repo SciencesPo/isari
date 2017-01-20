@@ -436,7 +436,7 @@ const SHEETS = [
         if (err)
           return callback(err);
 
-        const exportLines = [];
+        let exportLines = [];
 
         results
         //Liste des docteurs ayant soutenu depuis le 1/01/2012 et des doctorants présents dans l’unité au 30 juin 2017
@@ -466,6 +466,9 @@ const SHEETS = [
           exportLines.push(info);
         });
 
+        //sort by name and firstname
+        exportLines = _.sortBy(exportLines, ['name', 'firstName']);
+
         return callback(null, exportLines);
       });
     }
@@ -480,7 +483,8 @@ const SHEETS = [
       {key: 'birthDate', label: 'Date de naissance\n(1)'},
       {key: 'startDate', label: 'Date d\'arrivé dans l\'unité\n(1)'},
       {key: 'endDate', label: 'Date de départ de l\'unité\n(1)'},
-      {key: 'equip', label: 'N° de l\'équipe interne de rattachement, le cas échéant\n(2)'}
+      {key: 'equip', label: 'N° de l\'équipe interne de rattachement, le cas échéant\n(2)'},
+      {key: 'status', label: 'statut'}
     ],
     populate(models, centerId, callback) {
       const People = models.People;
@@ -552,7 +556,8 @@ const SHEETS = [
             birthDate: person.birthDate,
             gender: GENDER_MAP[person.gender],
             startDate: relevantGrade.startDate,
-            endDate: relevantGrade.endDate
+            endDate: relevantGrade.endDate,
+            status: 'post-doc'
           };
         });
 
@@ -582,7 +587,8 @@ const SHEETS = [
               birthDate: person.birthDate,
               gender: GENDER_MAP[person.gender],
               startDate: activity.startDate,
-              endDate: activity.endDate
+              endDate: activity.endDate,
+              status: 'invité.e'
             };
 
             return info;
