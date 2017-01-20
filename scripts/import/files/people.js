@@ -206,8 +206,16 @@ module.exports = {
                 grade.grade = 'postdoc';
               }
               else {
-                grade.gradeStatus = 'appuiadministratif';
-                grade.grade = 'AUT';
+                // use a patch index which translate SIRH grades to grades
+                const newGrade = ENUM_INDEXES.grades.sirh2grades[grade.grade];
+                if (newGrade) {
+                  grade.gradeStatus = newGrade.gradeStatus;
+                  grade.grade = newGrade.grade;
+                }
+                else {
+                  grade.gradeStatus = 'appuiadministratif';
+                  grade.grade = 'AUT';
+                }
               }
               return grade;
             })

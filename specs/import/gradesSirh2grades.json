@@ -1,0 +1,146 @@
+{
+  "CHASSIST": {
+    "grade": "CASSIST",
+    "gradeStatus": "chercheur"
+  },
+  "ASDIREC": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "PRO": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "PROFASS": {
+    "grade": "professeurassocié",
+    "gradeStatus": "enseignant"
+  },
+  "ASPROF": {
+    "grade": "assistantprofessor",
+    "gradeStatus": "chercheurenseignant"
+  },
+  "ASSPEC": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "SN2": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "ASSOCPROF": {
+    "grade": "associateprofessor",
+    "gradeStatus": "chercheurenseignant"
+  },
+  "SN1": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "DR": {
+    "grade": "directeurderecherche",
+    "gradeStatus": "chercheur"
+  },
+  "APCHEFEQ": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "ASCOORD": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "PROFESSEUR": {
+    "grade": "professeur",
+    "gradeStatus": "chercheurenseignant"
+  },
+  "INFTEC": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "DREXC": {
+    "grade": "directeurderechercheex",
+    "gradeStatus": "chercheur"
+  },
+  "STAGE": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "DE": {
+    "grade": "directeurétudes",
+    "gradeStatus": "chercheur"
+  },
+  "CM": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "ASGESTION": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "INFENC": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "CE": {
+    "grade": "chargéétudes",
+    "gradeStatus": "chercheur"
+  },
+  "CE2": {
+    "grade": "chargéétudes",
+    "gradeStatus": "chercheur"
+  },
+  "CE1": {
+    "grade": "chargéétudes",
+    "gradeStatus": "chercheur"
+  },
+  "CR": {
+    "grade": "chargederecherche",
+    "gradeStatus": "chercheur"
+  },
+  "INFEXP": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "ASSISTRECH": {
+    "grade": "CASSIST",
+    "gradeStatus": "chercheur"
+  },
+  "RESPADMIN": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "APAGBUR": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "gradeDRH": {
+    "grade": "grade",
+    "gradeStatus": "gradeStatus"
+  },
+  "ENCADTECH": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "BIB3": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "BIB2": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  },
+  "CM3": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "CM2": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "CM1": {
+    "grade": "AUT",
+    "gradeStatus": "appuiadministratif"
+  },
+  "AGBIBSPE": {
+    "grade": "AUT",
+    "gradeStatus": "appuitechnique"
+  }
+}

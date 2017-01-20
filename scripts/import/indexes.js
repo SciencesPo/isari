@@ -8,7 +8,8 @@ const keyBy = require('lodash/keyBy');
 
 const COUNTRIES = require('../../specs/enum.countries.json'),
       NESTED_ENUMS = require('../../specs/enums.nested.json'),
-      ENUMS = require('../../specs/enums.json');
+      ENUMS = require('../../specs/enums.json'),
+      GRADESSIRH_TO_GRADES = require('../../specs/import/gradesSirh2grades.json');
 
 const GRADE_ADMIN = new Set(NESTED_ENUMS.grade.appuiadministratif.map(g => g.value)),
       GRADE_TECHNIQUE = new Set(NESTED_ENUMS.grade.appuitechnique.map(g => g.value)),
@@ -34,6 +35,7 @@ exports.ENUM_INDEXES = {
     admin: GRADE_ADMIN,
     technique: GRADE_TECHNIQUE,
     academique: GRADE_ACADEMIQUE,
-    sirh: GRADE_SIRH
+    sirh: GRADE_SIRH,
+    sirh2grades: GRADESSIRH_TO_GRADES
   }
 };
