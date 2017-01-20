@@ -667,14 +667,13 @@ const TABS = [
           return (
             activity.activityType === 'projetderecherche' &&
             activity.distinctions &&
-            activity.distinctions.some(distinction => distinction.distinctionType === 'distinction')
+            activity.distinctions.length
           );
         })
         .map(activity => {
           return {
             name: activity.name,
             prices: activity.distinctions
-              .filter(distinction => distinction.distinctionType === 'distinction')
           };
         });
 
