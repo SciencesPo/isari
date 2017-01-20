@@ -40,18 +40,27 @@ const {
  */
 const TEMPLATES = {
   page: `
-    <h1>HCERES - Annexe 4</h1>
-    <h2>Sommaire:</h2>
-    <ul>
-      {{#each tabs}}
-        <li>
-          <a href="#{{id}}">{{title}}</a>
-        </li>
-      {{/each}}
-    </ul>
-    {{#each tabs}}
-      {{{html}}}
-    {{/each}}
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Annexe 4 HCERES</title>
+      </head>
+      <body>
+        <h1>HCERES - Annexe 4</h1>
+        <h2>Sommaire:</h2>
+        <ul>
+          {{#each tabs}}
+            <li>
+              <a href="#{{id}}">{{title}}</a>
+            </li>
+          {{/each}}
+        </ul>
+        {{#each tabs}}
+          {{{html}}}
+        {{/each}}
+      </body>
+    </html>
   `,
   groups: `
     <h2 id="{{id}}">{{title}}</h2>
