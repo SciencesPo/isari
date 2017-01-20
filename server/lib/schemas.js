@@ -117,7 +117,8 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 
 	// Field description, we expect some fields and ignore others
 	// Other unknown field names will be treated as sub-fields
-	let schema = {}
+	// NOTE: dropping nested schema _id generation
+	let schema = {_id: false}
 
 	// If it's a document, do not set "type", "required", or any other field-related configuration
 	// Just define sub-fields and finish
@@ -213,9 +214,6 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 			schema[k] = desc[k]
 		}
 	})
-
-	// Disable automatic _id field
-	schema._id = false
 
 	return isArray ? [schema] : schema
 }
