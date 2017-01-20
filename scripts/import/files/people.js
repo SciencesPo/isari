@@ -168,14 +168,14 @@ module.exports = {
 
                 if (grade.startDate) {
                   if (!i)
-                    info.startDate = grade.startDate.format('YYYY');
+                    info.startDate = grade.startDate.format('YYYY-MM-DD');
                   else
                     info.startDate = grade.year;
                 }
 
                 if (grades.length === 1) {
                   if (grade.endDate)
-                    info.endDate = grade.endDate.format('YYYY');
+                    info.endDate = grade.endDate.format('YYYY-MM-DD');
                 }
                 else {
                   if (nextGrade)
@@ -322,11 +322,15 @@ module.exports = {
         else
           info.gradeStatus = 'appuiadministratif';
 
-        // fall back to AUTin case of unknown grade
-        if (!ENUM_INDEXES.grades.admin.has(line['Grade académique']) && !ENUM_INDEXES.grades.technique.has(line['Grade académique']))
+        // use a patch index which translate SIRH grades to grades
+        const newGrade = ENUM_INDEXES.grades.sirh2grades[line['Grade académique']];
+        if (newGrade) {
+          info.grade = newGrade.grade;
+        }
+        else {
+          // fall back to AUT in case of unknown grade
           info.grade = 'AUT';
-        else
-          info.grade = line['Grade académique'];
+        }
 
         return info;
       },
