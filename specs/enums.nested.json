@@ -893,7 +893,7 @@
         "doctorat": [
             {
                 "value": "Ancienne alloc. recherche MESR",
-                "labels": {
+                "label": {
                     "fr": "Ancienne alloc. recherche MESR",
                     "en": ""
                 }
