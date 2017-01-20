@@ -222,7 +222,7 @@
                     "fr": "Programme de financement",
                     "en": "funding program"
                 },
-                "enum": "grantsProgram"
+                "enum": "grantPrograms"
             },
             "grantInstrument":{
                 "label":{
