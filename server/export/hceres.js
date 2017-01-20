@@ -76,146 +76,181 @@ const SHEETS = [
     name: '2. Composition de l\'unité',
     custom(models, centerId, callback) {
 
-      // Retrieving related people
-      return models.People
-        .find({
-          'academicMemberships.organization': centerId
-        })
-        .populate('positions.organization')
-        .exec((err, people) => {
-          if (err)
-            return callback(err);
+      // Retrieving related people & activities
+      return async.parallel({
+        people: next => {
+          return models.People
+            .find({
+              'academicMemberships.organization': centerId
+            })
+            .populate('positions.organization')
+            .exec(next);
+        },
+        activities: next => {
+          return models.Activity
+            .find({
+              'organizations.organization': centerId
+            })
+            .exec(next);
+        }
+      }, (err, data) => {
+        if (err)
+          return callback(err);
 
-          const sheetData = {
-            A1: 'Professeurs et assimilés',
-              B1: 0,
-            A2: 'Maîtres de conférences et assimilés',
-              B2: 0,
-            A3: 'Directeurs de recherche et assimilés',
-              E3: 0,
-              F3: 0,
-            A4: 'Chargés de recherche et assimilés',
-              E4: 0,
-              F4: 0,
-            A5: 'Conservateurs, cadres scientifiques EPIC, fondations, industries…',
-            A6: 'Professeurs du secondaire détachés dans le supérieur',
-              B6: 0,
-            A7: 'ITA-BIATSS autres personnels cadre et non cadre EPIC…',
-              B7: 0,
-              E7: 0,
-              F7: 0
-          };
+        const {people} = data;
 
-          sheetData['!ref'] = 'A1:F7';
+        const sheetData = {
+          A1: 'Professeurs et assimilés',
+            B1: 0,
+          A2: 'Maîtres de conférences et assimilés',
+            B2: 0,
+          A3: 'Directeurs de recherche et assimilés',
+            E3: 0,
+            F3: 0,
+          A4: 'Chargés de recherche et assimilés',
+            E4: 0,
+            F4: 0,
+          A5: 'Conservateurs, cadres scientifiques EPIC, fondations, industries…',
+          A6: 'Professeurs du secondaire détachés dans le supérieur',
+            B6: 0,
+          A7: 'ITA-BIATSS autres personnels cadre et non cadre EPIC…',
+            B7: 0,
+            E7: 0,
+            F7: 0,
+          A8: 'Sous-total personnels permanents en activité',
 
-          people.forEach(person => {
+          // TODO...
+          A9: 'Enseignants-chercheurs non titulaires, émérites et autres (2)',
+            H9: 0,
+          A10: 'Chercheurs non titulaires, émérites et autres (3)',
+            H10: 0,
+          A11: 'Autres personnels non titulaires (4)',
+            H11: 0,
+          A12: 'Sous-total personnels non titulaires, émérites et autres',
+          A13: 'Total personnels de l\'unité',
+          A14: 'Nombre total de doctorants',
+            H14: 0,
+          A15: 'dont doctorants bénéficiant d\'un contrat spécifique au doctorat',
+          A16: 'Nombre de thèses soutenues (5)',
+            H16: 0,
+          A17: 'Nombre d\'HDR soutenues (5)',
+            H17: 0,
+          A18: 'Nombre de professeurs invités (5)',
+            H18: 0,
+          A19: 'Nombre de stagiaires accueillis (5)',
+            H19: 0
+        };
 
-            // Finding relevant position
-            const position = findRelevantItem(person.positions || []),
-                  relevantGrade = findRelevantItem(person.grades || []),
-                  grade = relevantGrade && relevantGrade.grade,
-                  gradeStatus = relevantGrade && relevantGrade.gradeStatus,
-                  organization = position && position.organization.acronym,
-                  cnrs = organization === 'CNRS',
-                  fnsp = organization === 'FNSP',
-                  mesr = organization === 'MESR';
+        sheetData['!ref'] = 'A1:H19';
 
-            // Professeur.es FNSP, Professeur.e.s des universités, Associate professors FNSP
-            if (
-              (
-                (fnsp && grade === 'professeuruniv') ||
-                (/professeur[12x]?/.test(grade)) ||
-                (fnsp && grade === 'associateprofessor')
-              )
-            ) {
-              sheetData.B1++;
-            }
+        people.forEach(person => {
 
-            // Maître.sse.s de conférence, Assistant professors FNSP
-            // NOTE: mconfHC?
-            if (
-              (grade === 'mconf') ||
-              (fnsp && grade === 'assistantprofessor')
-            ) {
-              sheetData.B2++;
-            }
+          // Finding relevant position
+          const position = findRelevantItem(person.positions || []),
+                relevantGrade = findRelevantItem(person.grades || []),
+                grade = relevantGrade && relevantGrade.grade,
+                gradeStatus = relevantGrade && relevantGrade.gradeStatus,
+                organization = position && position.organization.acronym,
+                cnrs = organization === 'CNRS',
+                fnsp = organization === 'FNSP',
+                mesr = organization === 'MESR';
 
-            // PRAG
-            if (grade === 'prag') {
-              sheetData.B6++;
-            }
+          // Professeur.es FNSP, Professeur.e.s des universités, Associate professors FNSP
+          if (
+            (
+              (fnsp && grade === 'professeuruniv') ||
+              (/professeur[12x]?/.test(grade)) ||
+              (fnsp && grade === 'associateprofessor')
+            )
+          ) {
+            sheetData.B1++;
+          }
 
-            // grades administratifs et techniques en CDI avec tutelle MESR
-            if (
-              mesr &&
-              (
-                gradeStatus === 'appuiadministratif' ||
-                gradeStatus === 'appuitechnique'
-              ) &&
-              position.jobType === 'CDI'
-            ) {
-              sheetData.B7++;
-            }
+          // Maître.sse.s de conférence, Assistant professors FNSP
+          // NOTE: mconfHC?
+          if (
+            (grade === 'mconf') ||
+            (fnsp && grade === 'assistantprofessor')
+          ) {
+            sheetData.B2++;
+          }
 
-            // Directrices, directeurs de recherche FNSP
-            if (
-              fnsp &&
-              /directeurderecherche[12x]?/.test(grade)
-            ) {
-              sheetData.E3++;
-            }
+          // PRAG
+          if (grade === 'prag') {
+            sheetData.B6++;
+          }
 
-            // Directrices, directeurs de recherche CNRS
-            if (
-              cnrs &&
-              /directeurderecherche[12x]?/.test(grade)
-            ) {
-              sheetData.F3++;
-            }
+          // grades administratifs et techniques en CDI avec tutelle MESR
+          if (
+            mesr &&
+            (
+              gradeStatus === 'appuiadministratif' ||
+              gradeStatus === 'appuitechnique'
+            ) &&
+            position.jobType === 'CDI'
+          ) {
+            sheetData.B7++;
+          }
 
-            // Chargé.e.s de recherche FNSP
-            if (
-              fnsp &&
-              /chargederecherche[12x]?/.test(grade)
-            ) {
-              sheetData.E4++;
-            }
+          // Directrices, directeurs de recherche FNSP
+          if (
+            fnsp &&
+            /directeurderecherche[12x]?/.test(grade)
+          ) {
+            sheetData.E3++;
+          }
 
-            // Chargé.e.s de recherche CNRS
-            if (
-              cnrs &&
-              /chargederecherche[12x]?/.test(grade)
-            ) {
-              sheetData.F4++;
-            }
+          // Directrices, directeurs de recherche CNRS
+          if (
+            cnrs &&
+            /directeurderecherche[12x]?/.test(grade)
+          ) {
+            sheetData.F3++;
+          }
 
-            // grades administratifs et techniques en CDI avec tutelle FNSP
-            if (
-              fnsp &&
-              (
-                gradeStatus === 'appuiadministratif' ||
-                gradeStatus === 'appuitechnique'
-              ) &&
-              position.jobType === 'CDI'
-            ) {
-              sheetData.E7++;
-            }
+          // Chargé.e.s de recherche FNSP
+          if (
+            fnsp &&
+            /chargederecherche[12x]?/.test(grade)
+          ) {
+            sheetData.E4++;
+          }
 
-            // grades administratifs et techniques en CDI avec tutelle CNRS
-            if (
-              cnrs &&
-              (
-                gradeStatus === 'appuiadministratif' ||
-                gradeStatus === 'appuitechnique'
-              ) &&
-              position.jobType === 'CDI'
-            ) {
-              sheetData.F7++;
-            }
-          });
+          // Chargé.e.s de recherche CNRS
+          if (
+            cnrs &&
+            /chargederecherche[12x]?/.test(grade)
+          ) {
+            sheetData.F4++;
+          }
 
-          return callback(null, sheetData);
+          // grades administratifs et techniques en CDI avec tutelle FNSP
+          if (
+            fnsp &&
+            (
+              gradeStatus === 'appuiadministratif' ||
+              gradeStatus === 'appuitechnique'
+            ) &&
+            position.jobType === 'CDI'
+          ) {
+            sheetData.E7++;
+          }
+
+          // grades administratifs et techniques en CDI avec tutelle CNRS
+          if (
+            cnrs &&
+            (
+              gradeStatus === 'appuiadministratif' ||
+              gradeStatus === 'appuitechnique'
+            ) &&
+            position.jobType === 'CDI'
+          ) {
+            sheetData.F7++;
+          }
         });
+
+        return callback(null, sheetData);
+      });
     }
   },
   {
