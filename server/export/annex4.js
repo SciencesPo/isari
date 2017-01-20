@@ -9,7 +9,24 @@ const Handlebars = require('handlebars'),
       COUNTRIES = require('../../specs/enum.countries.json'),
       keyBy = require('lodash/keyBy');
 
-const COUNTRIES_INDEX = keyBy(COUNTRIES, 'alpha2');
+const {
+  getSimpleEnumValues,
+  getNestedEnumValues
+} = require('../lib/enums');
+
+const COUNTRIES_INDEX = keyBy(COUNTRIES, 'alpha2'),
+      GRANT_PROGRAM_INDEX = keyBy(getSimpleEnumValues('grantPrograms'), 'value'),
+      GRANT_INSTRUMENT_INDEX = getNestedEnumValues('grantInstruments');
+
+for (const k in GRANT_PROGRAM_INDEX)
+  GRANT_PROGRAM_INDEX[k] = GRANT_PROGRAM_INDEX[k].label.fr;
+
+for (const k in GRANT_INSTRUMENT_INDEX) {
+  GRANT_INSTRUMENT_INDEX[k] = GRANT_INSTRUMENT_INDEX[k].reduce((index, item) => {
+    index[item.value] = item.label.fr;
+    return index;
+  }, {});
+}
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -495,10 +512,13 @@ const TABS = [
           info.organization = grant.organization.name;
 
         if (grant.grantProgram)
-          info.program = grant.grantProgram;
+          info.program = GRANT_PROGRAM_INDEX[grant.grantProgram] || grant.grantProgram;
 
-        if (grant.grantInstrument)
-          info.instrument = grant.grantInstrument;
+        if (grant.grantInstrument && grant.grantType) {
+          const index = GRANT_INSTRUMENT_INDEX[grant.grantType];
+
+          info.instrument = index[grant.grantInstrument] || grant.grantInstrument;
+        }
 
         const manager = activity.people.find(person => {
           return (
