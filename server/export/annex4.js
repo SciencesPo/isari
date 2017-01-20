@@ -43,7 +43,7 @@ const TEMPLATES = {
       <ul>
         {{#each people}}
           {{#each activities}}
-            <li><strong>{{../firstName}} {{../name}}</strong>, <em><u>{{description}}</u></em>{{#if startDate}}, {{formatRange .}}{{/if}}</li>
+            <li><strong>{{../firstName}} {{../name}}</strong>, {{description}}{{#if startDate}}, {{formatRange .}}{{/if}}</li>
           {{/each}}
         {{/each}}
       </uL>
@@ -92,7 +92,7 @@ const TEMPLATES = {
         {{#each prices}}
           <li>
             <strong>{{../firstName}} {{../name}}</strong>
-            {{~#if title}}, <u>{{title}}</u>{{/if~}}
+            {{~#if title}}, {{title}}{{/if~}}
             {{~#if date}}, {{formatDate date}}{{/if~}}
           </li>
         {{/each}}
@@ -104,7 +104,7 @@ const TEMPLATES = {
         {{#each prices}}
           <li>
             <strong>{{../name}}</strong>
-            {{~#if title}}, <u>{{title}}</u>{{/if~}}
+            {{~#if title}}, {{title}}{{/if~}}
             {{~#if date}}, {{formatDate date}}{{/if~}}
           </li>
         {{/each}}
@@ -116,7 +116,7 @@ const TEMPLATES = {
         {{#each activities}}
           <li>
             <strong>{{../firstName}} {{../name}}</strong>
-            {{~#if description}}, <u>{{description}}</u>{{/if~}}
+            {{~#if description}}, {{description}}{{/if~}}
             {{~#if startDate}}, {{formatRange .}}{{/if~}}
           </li>
         {{/each}}
