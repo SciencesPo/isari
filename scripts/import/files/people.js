@@ -246,7 +246,7 @@ module.exports = {
           person.academicMemberships = _(years)
             .groupBy('academicMembership')
             .values()
-            .map(memberships => _.last(memberships))
+            .map(memberships => _.first(memberships))
             .map((membership, i, memberships) => {
               const nextMembership = memberships[i + 1];
 
@@ -257,19 +257,19 @@ module.exports = {
 
               if (membership.startDate) {
                   if (!i)
-                    info.startDate = membership.startDate.format('YYYY');
+                    info.startDate = membership.startDate.format('YYYY-MM-DD');
                   else
                     info.startDate = membership.year;
-                }
+              }
 
-                if (memberships.length === 1) {
-                  if (membership.endDate)
-                    info.endDate = membership.endDate.format('YYYY');
-                }
-                else {
-                  if (nextMembership)
-                    info.endDate = nextMembership.year;
-                }
+              if (memberships.length === 1) {
+                if (membership.endDate)
+                  info.endDate = membership.endDate.format('YYYY-MM-DD');
+              }
+              else {
+                if (nextMembership)
+                  info.endDate = nextMembership.year;
+              }
 
               return info;
             })

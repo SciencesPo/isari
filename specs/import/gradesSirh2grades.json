@@ -11,17 +11,33 @@
     "grade": "professeurassocié",
     "gradeStatus": "enseignant"
   },
+  "S3": {
+    "grade": "CADRE",
+    "gradeStatus": "appuiadministratif"
+  },
   "RESPADMIN": {
     "grade": "CADRE",
+    "gradeStatus": "appuiadministratif"
+  },
+  "S1": {
+    "grade": "NONCADRE",
     "gradeStatus": "appuiadministratif"
   },
   "ASPROF": {
     "grade": "assistantprofessor",
     "gradeStatus": "chercheurenseignant"
   },
+  "professeur": {
+    "grade": "professeur",
+    "gradeStatus": "chercheurenseignant"
+  },
   "ASSPEC": {
     "grade": "NONCADRE",
     "gradeStatus": "appuiadministratif"
+  },
+  "professeuruniv": {
+    "grade": "professeuruniv",
+    "gradeStatus": "enseignantchercheur"
   },
   "SN2": {
     "grade": "NONCADRE",
@@ -31,7 +47,15 @@
     "grade": "associateprofessor",
     "gradeStatus": "chercheurenseignant"
   },
+  "mconf": {
+    "grade": "mconf",
+    "gradeStatus": "enseignantchercheur"
+  },
   "SN1": {
+    "grade": "NONCADRE",
+    "gradeStatus": "appuiadministratif"
+  },
+  "S2": {
     "grade": "NONCADRE",
     "gradeStatus": "appuiadministratif"
   },
@@ -47,9 +71,9 @@
     "grade": "CADRE",
     "gradeStatus": "appuiadministratif"
   },
-  "gradeDRH": {
-    "grade": "grade",
-    "gradeStatus": "gradeStatus"
+  "CASCOL": {
+    "grade": "CADRE",
+    "gradeStatus": "appuiadministratif"
   },
   "DR": {
     "grade": "directeurderecherche",
@@ -67,17 +91,57 @@
     "grade": "NONCADRE",
     "gradeStatus": "appuitechnique"
   },
-  "INFENC": {
-    "grade": "CADRE",
+  "APAB": {
+    "grade": "NONCADRE",
+    "gradeStatus": "appuiadministratif"
+  },
+  "APCE": {
+    "grade": "NONCADRE",
+    "gradeStatus": "appuiadministratif"
+  },
+  "TCN": {
+    "grade": "TCN",
+    "gradeStatus": "appuiadministratif"
+  },
+  "assistantprofessor": {
+    "grade": "assistantprofessor",
+    "gradeStatus": "chercheurenseignant"
+  },
+  "AING": {
+    "grade": "AING",
+    "gradeStatus": "appuitechnique"
+  },
+  "DREXC": {
+    "grade": "directeurderechercheex",
+    "gradeStatus": "chercheur"
+  },
+  "directeurderecherche": {
+    "grade": "directeurderecherche",
+    "gradeStatus": "chercheur"
+  },
+  "IENC": {
+    "grade": "IGE",
     "gradeStatus": "appuitechnique"
   },
   "STAGE": {
     "grade": "STAGE",
     "gradeStatus": "appuiadministratif"
   },
+  "IEX": {
+    "grade": "IGE",
+    "gradeStatus": "appuitechnique"
+  },
+  "INFENC": {
+    "grade": "CADRE",
+    "gradeStatus": "appuitechnique"
+  },
   "DE": {
     "grade": "directeurétudes",
     "gradeStatus": "chercheur"
+  },
+  "IGR": {
+    "grade": "IGR",
+    "gradeStatus": "appuitechnique"
   },
   "CM": {
     "grade": "CADRE",
@@ -87,13 +151,25 @@
     "grade": "NONCADRE",
     "gradeStatus": "appuiadministratif"
   },
-  "DREXC": {
-    "grade": "directeurderechercheex",
-    "gradeStatus": "chercheur"
+  "AGEST": {
+    "grade": "NONCADRE",
+    "gradeStatus": "appuiadministratif"
   },
   "CE": {
     "grade": "chargéétudes",
     "gradeStatus": "chercheur"
+  },
+  "TCS": {
+    "grade": "TCS",
+    "gradeStatus": "appuiadministratif"
+  },
+  "IGE": {
+    "grade": "IGE",
+    "gradeStatus": "appuitechnique"
+  },
+  "associateprofessor": {
+    "grade": "associateprofessor",
+    "gradeStatus": "chercheurenseignant"
   },
   "CE2": {
     "grade": "chargéétudes",
@@ -107,9 +183,21 @@
     "grade": "chargederecherche",
     "gradeStatus": "chercheur"
   },
+  "IE": {
+    "grade": "IGE",
+    "gradeStatus": "appuitechnique"
+  },
+  "INF": {
+    "grade": "NONCADRE",
+    "gradeStatus": "appuitechnique"
+  },
   "INFEXP": {
     "grade": "NONCADRE",
     "gradeStatus": "appuitechnique"
+  },
+  "TCE": {
+    "grade": "TCE",
+    "gradeStatus": "appuiadministratif"
   },
   "ASSISTRECH": {
     "grade": "CASSIST",
@@ -119,15 +207,31 @@
     "grade": "NONCADRE",
     "gradeStatus": "appuiadministratif"
   },
+  "prag": {
+    "grade": "prag",
+    "gradeStatus": "enseignant"
+  },
   "CM2": {
     "grade": "CADRE",
     "gradeStatus": "appuiadministratif"
   },
-  "CASCOL": {
-    "grade": "CADRE",
-    "gradeStatus": "appuiadministratif"
+  "gradeDRH": {
+    "grade": "grade",
+    "gradeStatus": "gradeStatus"
   },
   "ENCADTECH": {
+    "grade": "CADRE",
+    "gradeStatus": "appuitechnique"
+  },
+  "ABS": {
+    "grade": "ABS",
+    "gradeStatus": "appuiadministratif"
+  },
+  "B2": {
+    "grade": "CADRE",
+    "gradeStatus": "appuitechnique"
+  },
+  "B3": {
     "grade": "CADRE",
     "gradeStatus": "appuitechnique"
   },
