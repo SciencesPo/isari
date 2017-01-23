@@ -147,7 +147,14 @@
         {
             "value": "discipline646",
             "label": {
-                "fr": "Aménagement de l'espace, urbanisme”,”Droit privé et sciences criminelles",
+                "fr": "Aménagement de l'espace, urbanisme",
+                "en": ""
+            }
+        },
+        {
+            "value": "discipline711",
+            "label": {
+                "fr": "Droit privé et sciences criminelles",
                 "en": ""
             }
         },
@@ -576,6 +583,13 @@
         }
     ],
     "facultyMonitoringTypes": [
+        {
+            "value": "demission",
+            "label": {
+                "fr": "démission",
+                "en": "resignation"
+            }
+        },
         {
             "value": "ttreview",
             "label": {
