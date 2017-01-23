@@ -186,13 +186,13 @@ const replaceModel = (Model, save, getPermissions) => {
 			}
 			else if (operation.type === 'push') {
 				if (!getIn(updated, operation.path))
-					setIn(updated, operation.path, []);
+					setIn(updated, operation.path, [])
 
 				getIn(updated, operation.path).push(removeEmptyFields(operation.value))
 			}
 			else if (operation.type === 'unshift') {
 				if (!getIn(updated, operation.path))
-					setIn(updated, operation.path, []);
+					setIn(updated, operation.path, [])
 
 				getIn(updated, operation.path).unshift(removeEmptyFields(operation.value))
 			}
