@@ -576,6 +576,13 @@
         }
     ],
     "facultyMonitoringTypes": [
+       {
+            "value": "demission",
+            "label": {
+                "fr": "démission",
+                "en": "resignation"
+            }
+        },       
         {
             "value": "ttreview",
             "label": {
