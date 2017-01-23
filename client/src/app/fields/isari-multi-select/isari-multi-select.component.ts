@@ -162,7 +162,12 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   private findOption(item) {
-    return this.options.find(option => (option.value && option.value === item.value) || (option.id && option.id === item.id));
+    return this.options.find(option => {
+      return (
+        (option.value && option.value === item.value) ||
+        (option.id && option.id === item.id)
+      );
+    });
   }
 
   private setExtend() {

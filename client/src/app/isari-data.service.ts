@@ -562,7 +562,20 @@ export class IsariDataService {
     }
 
     const url = `${this.enumUrl}/${src}`;
-    let $enum = this.http.get(url).map(response => response.json())
+    let $enum = this.http.get(url)
+      .map(response => {
+        let json = response.json();
+
+        // NOTE: this is a dirty special case for nationalities.
+        // Might be generic one day...
+        if (src === 'nationalities') {
+          json = json.filter(item => {
+            return !!item.label.fr;
+          });
+        }
+
+        return json;
+      })
       .publishReplay(1)
       .refCount();
     this.enumsCache[src] = $enum;
