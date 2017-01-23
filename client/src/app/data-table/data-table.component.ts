@@ -57,7 +57,10 @@ export class DataTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     let navigateToFirstPage = false;
     if (changes['cols'] && this.cols && this.cols.length) {
-      // @TODO : destroy old filters ?
+
+      // Resetting filters
+      this.filters = {};
+
       this.cols = this.cols.map(col => {
         let filterControl = new FormControl('');
         filterControl.valueChanges.subscribe(value => {
