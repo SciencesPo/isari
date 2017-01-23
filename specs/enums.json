@@ -2076,90 +2076,6 @@
     ],
     "hceres2017": [
         {
-            "value": "st1",
-            "label": {
-                "fr": "ST1 Mathématiques",
-                "en": ""
-            }
-        },
-        {
-            "value": "st2",
-            "label": {
-                "fr": "ST2 Physique",
-                "en": ""
-            }
-        },
-        {
-            "value": "st3",
-            "label": {
-                "fr": "ST3 Sciences de la terre et de l'univers",
-                "en": ""
-            }
-        },
-        {
-            "value": "st4",
-            "label": {
-                "fr": "ST4 Chimie",
-                "en": ""
-            }
-        },
-        {
-            "value": "st5",
-            "label": {
-                "fr": "ST5 Sciences pour l'ingénieur",
-                "en": ""
-            }
-        },
-        {
-            "value": "st6",
-            "label": {
-                "fr": "ST6 Sciences et technologies de l'information et de la communication",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve1",
-            "label": {
-                "fr": "SVE1 Agronomie, Biologie Végétale, Ecologie, Environnement, Evolution",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve2",
-            "label": {
-                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Moléculaire, Biochimie, Génomique, Biologie Systémique, Développement, Biologie Structurale",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve3",
-            "label": {
-                "fr": "SVE3 Microbiologie, Immunité",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve4",
-            "label": {
-                "fr": "SVE4 Neurologie",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve5",
-            "label": {
-                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies Médicales",
-                "en": ""
-            }
-        },
-        {
-            "value": "sve6",
-            "label": {
-                "fr": "SVE6 Santé Publique, Epidémiologie, Recherche Clinique",
-                "en": ""
-            }
-        },
-        {
             "value": "shs11",
             "label": {
                 "fr": "SHS1_1 Economie",
@@ -2303,6 +2219,90 @@
             "value": "shs63",
             "label": {
                 "fr": "SHS6_3 Archéologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "st1",
+            "label": {
+                "fr": "ST1 Mathématiques",
+                "en": ""
+            }
+        },
+        {
+            "value": "st2",
+            "label": {
+                "fr": "ST2 Physique",
+                "en": ""
+            }
+        },
+        {
+            "value": "st3",
+            "label": {
+                "fr": "ST3 Sciences de la terre et de l'univers",
+                "en": ""
+            }
+        },
+        {
+            "value": "st4",
+            "label": {
+                "fr": "ST4 Chimie",
+                "en": ""
+            }
+        },
+        {
+            "value": "st5",
+            "label": {
+                "fr": "ST5 Sciences pour l'ingénieur",
+                "en": ""
+            }
+        },
+        {
+            "value": "st6",
+            "label": {
+                "fr": "ST6 Sciences et technologies de l'information et de la communication",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve1",
+            "label": {
+                "fr": "SVE1 Agronomie, Biologie Végétale, Ecologie, Environnement, Evolution",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve2",
+            "label": {
+                "fr": "SVE2 Biologie Cellulaire, Imagerie, Biologie Moléculaire, Biochimie, Génomique, Biologie Systémique, Développement, Biologie Structurale",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve3",
+            "label": {
+                "fr": "SVE3 Microbiologie, Immunité",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve4",
+            "label": {
+                "fr": "SVE4 Neurologie",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve5",
+            "label": {
+                "fr": "SVE5 Physiologie, Physiopathologie, Cardiologie, Pharmacologie, Endocrinologie, Cancer, Technologies Médicales",
+                "en": ""
+            }
+        },
+        {
+            "value": "sve6",
+            "label": {
+                "fr": "SVE6 Santé Publique, Epidémiologie, Recherche Clinique",
                 "en": ""
             }
         }
