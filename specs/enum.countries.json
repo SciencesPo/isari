@@ -1470,7 +1470,8 @@
     {
         "countryCode": "300",
         "nationalityLabel": {
-            "fr": ""
+            "fr": "Grecque",
+            "en": "Greek"
         },
         "region": "Europe",
         "subRegion": "Southern Europe",
@@ -1708,7 +1709,8 @@
     {
         "countryCode": "344",
         "nationalityLabel": {
-            "fr": ""
+            "fr": "Chinoise",
+            "en": "Chinese"
         },
         "region": "Asia",
         "subRegion": "Eastern Asia",
@@ -4003,7 +4005,8 @@
     {
         "countryCode": "826",
         "nationalityLabel": {
-            "fr": ""
+            "fr": "Britannique",
+            "en": "British"
         },
         "region": "Europe",
         "subRegion": "Northern Europe",
