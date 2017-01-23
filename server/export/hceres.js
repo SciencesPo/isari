@@ -7,6 +7,8 @@ const async = require('async'),
       mongoose = require('mongoose'),
       _ = require('lodash');
 
+const debug = require('debug')('isari:export');
+
 const ObjectId = mongoose.Types.ObjectId;
 
 const {getSimpleEnumValues} = require('../lib/enums');
@@ -44,13 +46,20 @@ const HCERES_DATE = '2017-06-30';
  * Helpers.
  */
 function findRelevantItem(collection) {
-  return collection.find(item => {
+  const relevants = collection.filter(item => {
     return (
       (!item.startDate && !item.endDate) ||
-      (!item.endDate || parseDate(item.endDate).isSameOrAfter(HCERES_DATE)) &&
-      parseDate(item.startDate).isSameOrBefore(HCERES_DATE)
+      (!item.endDate && parseDate(item.startDate).isSameOrBefore(HCERES_DATE)) ||
+      (
+        parseDate(item.endDate).isSameOrAfter(HCERES_DATE) &&
+        parseDate(item.startDate).isSameOrBefore(HCERES_DATE)
+      )
     );
   });
+  return _(relevants)
+  .sortBy(['endDate', 'startDate'])
+  .value()
+  .reverse()[0];
 }
 
 function formatDate(date) {
@@ -309,7 +318,7 @@ const SHEETS = [
 
         //-- 1) Filtering relevant people
         people = people.filter(person => {
-          const validMembership = !!findRelevantItem(person.academicMemberships);
+          const validMembership = !!findRelevantItem(person.academicMemberships.filter(am => am.organization.toString() === centerId));
 
           const relevantPosition = findRelevantItem(person.positions);
 
@@ -318,7 +327,11 @@ const SHEETS = [
           return (
             validMembership &&
             (!relevantPosition || relevantPosition.jobType !== 'stage') &&
-            (!relevantGrade || (relevantGrade.grade !== 'postdoc' && relevantGrade.grade !== 'doctorant(grade)'))
+            (!relevantGrade ||
+              (relevantGrade.grade !== 'postdoc' &&
+                relevantGrade.grade !== 'doctorant(grade)' &&
+                relevantGrade.grade !== 'STAGE')
+            )
           );
         });
 
@@ -348,8 +361,16 @@ const SHEETS = [
           if (person.ORCID)
             info.orcid = person.ORCID;
 
-          if (person.tutelles && person.tutelles.find(t => t.acronym === 'CNRS'))
-            info.organization = 'CNRS';
+          if (person.tutelles) {
+            if (person.tutelles.find(t => t.acronym === 'CNRS')) {
+              info.organization = 'CNRS';
+              info.uai = '0753639Y';
+            }
+            else {
+              info.organization = 'IEP Paris';
+              info.uai = '0753431X';
+            }
+          }
 
           const grade = findRelevantItem(person.grades);
 
@@ -359,31 +380,14 @@ const SHEETS = [
               info.grade = GRADES_INDEX[grade.gradeStatus][grade.grade].gradeHCERES;
             }
             else {
-              // grade not found in translation index let's try the gradeDRH
-              const position = findRelevantItem(person.positions);
-
-              if (position && position.gradesSirh) {
-                const relevantGradeDRH = findRelevantItem(position.gradesSirh);
-
-                if (relevantGradeDRH && GRADES_INDEX.gradeDRH[relevantGradeDRH.grade]) {
-                  info.jobType = GRADES_INDEX.gradeDRH[relevantGradeDRH.grade].type_emploiHCERES;
-                  info.grade = GRADES_INDEX.gradeDRH[relevantGradeDRH.grade].gradeHCERES;
-                }
-                else {
-                  // not found at all => out
-                  //remove from export by returning and removing those case by a compact
-                  return;
-                }
-              }
-              else {
                   // no grade DRH ?
-                  info.jobType = '????';
-                  info.grade = '????';
-
-                }
+                  info.jobType = '?? ' + grade.gradeStatus;
+                  info.grade = '?? ' + grade.grade;
             }
-            info.startDate = grade.startDate;
+            info.startDate = formatDate(grade.startDate);
           }
+          else
+            debug(`No grade found for ${person.name} ${person.firstName}`);
 
           if (person.birthDate) {
             info.birthDate = formatDate(person.birthDate);
@@ -395,7 +399,19 @@ const SHEETS = [
           return info;
         })
         // removing empty cases
-        .compact().value();
+        .compact()
+        .value();
+
+        // order by status
+        const orderByStatus = {
+          EC_tit: 1,
+          Ch_tit: 2,
+          AP_tit: 3,
+          EC_aut: 4,
+          Ch_aut: 5,
+          AP_aut: 6
+        };
+        people = _.sortBy(people, [p => orderByStatus[p.jobType] || 99, 'organization', 'name']);
 
         return callback(null, people);
       });
@@ -553,10 +569,10 @@ const SHEETS = [
           return {
             name: person.name.toUpperCase(),
             firstName: person.firstName,
-            birthDate: person.birthDate,
+            birthDate: formatDate(person.birthDate),
             gender: GENDER_MAP[person.gender],
-            startDate: relevantGrade.startDate,
-            endDate: relevantGrade.endDate,
+            startDate: formatDate(relevantGrade.startDate),
+            endDate: formatDate(relevantGrade.endDate),
             status: 'post-doc'
           };
         });
@@ -584,10 +600,10 @@ const SHEETS = [
             const info = {
               name: person.name,
               firstName: person.firstName,
-              birthDate: person.birthDate,
+              birthDate: formatDate(person.birthDate),
               gender: GENDER_MAP[person.gender],
-              startDate: activity.startDate,
-              endDate: activity.endDate,
+              startDate: formatDate(activity.startDate),
+              endDate: formatDate(activity.endDate),
               status: 'invité.e'
             };
 

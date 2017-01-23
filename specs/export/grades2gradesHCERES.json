@@ -38,6 +38,10 @@
     }
   },
   "appuitechnique": {
+    "CADRE": {
+      "gradeHCERES": "Cadre_EPIC",
+      "type_emploiHCERES": "AP_tit"
+    },
     "IGR": {
       "gradeHCERES": "IR",
       "type_emploiHCERES": "AP_tit"
@@ -47,11 +51,11 @@
       "type_emploiHCERES": "AP_tit"
     },
     "TCS": {
-      "gradeHCERES": "NonCadre_EPIC",
+      "gradeHCERES": "TCH",
       "type_emploiHCERES": "AP_tit"
     },
     "TCN": {
-      "gradeHCERES": "NonCadre_EPIC",
+      "gradeHCERES": "TCH",
       "type_emploiHCERES": "AP_tit"
     },
     "IGE": {
@@ -62,13 +66,29 @@
       "gradeHCERES": "AI",
       "type_emploiHCERES": "AP_tit"
     },
+    "AUT": {
+      "gradeHCERES": "Autre_AP",
+      "type_emploiHCERES": "AP_aut"
+    },
     "TCH": {
       "gradeHCERES": "TCH",
       "type_emploiHCERES": "AP_tit"
     },
-    "TCE": {
+    "NONCADRE": {
       "gradeHCERES": "NonCadre_EPIC",
       "type_emploiHCERES": "AP_tit"
+    },
+    "TEMPORAIRE": {
+      "gradeHCERES": "Autre_AP",
+      "type_emploiHCERES": "AP_aut"
+    },
+    "TCE": {
+      "gradeHCERES": "TCH",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "STAGE": {
+      "gradeHCERES": "Autre_AP",
+      "type_emploiHCERES": "AP_aut"
     }
   },
   "enseignant": {
@@ -151,119 +171,9 @@
       "type_emploiHCERES": "Ch_aut"
     }
   },
-  "gradeDRH": {
-    "CHASSIST": {
-      "gradeHCERES": "Autre_Ch",
-      "type_emploiHCERES": "Ch_aut"
-    },
-    "ASDIREC": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "ASPROF": {
-      "gradeHCERES": "MCF",
-      "type_emploiHCERES": "EC_tit"
-    },
-    "ASSPEC": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "SN2": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "ASSOCPROF": {
-      "gradeHCERES": "PR",
-      "type_emploiHCERES": "EC_tit"
-    },
-    "SN1": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "DR": {
-      "gradeHCERES": "DR",
-      "type_emploiHCERES": "Ch_tit"
-    },
-    "ASCOORD": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "PROFESSEUR": {
-      "gradeHCERES": "PR",
-      "type_emploiHCERES": "EC_tit"
-    },
-    "INFTEC": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "INFENC": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "CM": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "ASGESTION": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "DREXC": {
-      "gradeHCERES": "DREX",
-      "type_emploiHCERES": "Ch_tit"
-    },
-    "CR": {
-      "gradeHCERES": "CR",
-      "type_emploiHCERES": "Ch_tit"
-    },
-    "INFEXP": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "ASSISTRECH": {
-      "gradeHCERES": "Autre_Ch",
-      "type_emploiHCERES": "Ch_aut"
-    },
-    "RESPADMIN": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "CM2": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "ENCADTECH": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "BIB3": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "BIB2": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "CM3": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "APAGBUR": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "CM1": {
-      "gradeHCERES": "Cadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    },
-    "AGBIBSPE": {
-      "gradeHCERES": "NonCadre_EPIC",
-      "type_emploiHCERES": "AP_tit"
-    }
-  },
   "appuiadministratif": {
     "TCN": {
-      "gradeHCERES": "NonCadre_EPIC",
+      "gradeHCERES": "TCH",
       "type_emploiHCERES": "AP_tit"
     },
     "IGR": {
@@ -272,6 +182,10 @@
     },
     "AING": {
       "gradeHCERES": "AI",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "IGE": {
+      "gradeHCERES": "IE",
       "type_emploiHCERES": "AP_tit"
     },
     "ADAENES": {
@@ -295,11 +209,11 @@
       "type_emploiHCERES": "AP_tit"
     },
     "TCS": {
-      "gradeHCERES": "NonCadre_EPIC",
+      "gradeHCERES": "TCH",
       "type_emploiHCERES": "AP_tit"
     },
-    "IGE": {
-      "gradeHCERES": "IE",
+    "CADRE": {
+      "gradeHCERES": "Cadre_EPIC",
       "type_emploiHCERES": "AP_tit"
     },
     "ABS": {
@@ -310,9 +224,21 @@
       "gradeHCERES": "TCH",
       "type_emploiHCERES": "AP_tit"
     },
-    "TCE": {
+    "NONCADRE": {
       "gradeHCERES": "NonCadre_EPIC",
       "type_emploiHCERES": "AP_tit"
+    },
+    "TEMPORAIRE": {
+      "gradeHCERES": "Autre_AP",
+      "type_emploiHCERES": "AP_aut"
+    },
+    "TCE": {
+      "gradeHCERES": "TCH",
+      "type_emploiHCERES": "AP_tit"
+    },
+    "STAGE": {
+      "gradeHCERES": "Autre_AP",
+      "type_emploiHCERES": "AP_aut"
     }
   }
 }
