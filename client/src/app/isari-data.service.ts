@@ -294,7 +294,8 @@ export class IsariDataService {
       const fieldData = hasData ? data[field.name] : field.multiple ? [] : field.type === 'object' ? {} : '';
       if (field.multiple && field.type === 'object') {
         let fa = new FormArray([]);
-        if (this.disabled(data.opts, field.name)) {
+        // add '.x' for multiple fields (for matching fieldName.*)
+        if (this.disabled(data.opts, field.name + '.x')) {
           fa.disable(true);
         }
         fieldData.forEach((d, i) => {
