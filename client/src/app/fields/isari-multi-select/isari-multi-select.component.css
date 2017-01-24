@@ -2,10 +2,9 @@
   width: 100%;
 }
 .md-input-infix { position: initial; }
-/*.md-input-placeholder { top: 16px; }*/
 
 .md-input-infix.md-empty { position: relative; }
-.md-input-placeholder.md-empty { top: 0px; }
+.md-input-placeholder.md-empty { top: 0px; left: 32px; }
 
 .multiselect-container {
   display: flex; 

@@ -8,7 +8,7 @@
         (focus)="onFocus($event)"
         (blur)="onBlur($event)">
       <label class="md-input-placeholder md-float" [ngClass]="{'md-empty': empty }">{{ label }}</label>
-      <label class="md-input-placeholder md-float md-empty" *ngIf="!empty">{{ altLabel }}</label>
+      <label class="md-input-placeholder md-float md-empty" *ngIf="!empty && !disabled">{{ altLabel }}</label>
 
       <div class="md-menu" [hidden]="!focused">
         <button [ngClass]="{active: currentIndex === i}"
