@@ -6,6 +6,7 @@
       <div class="md-input-prefix"></div>
       <div class="md-input-infix">
         <input class="md-input-element"   
+          (keydown)="uneditable($event)"
           focusMe
           (focus)="onFocus($event)"
           (blur)="onBlur($event)"

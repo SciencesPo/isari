@@ -79,6 +79,11 @@ export class IsariDateComponent {
     }
   }
 
+  uneditable($event) {
+    $event.preventDefault();
+    return false;
+  }
+
   update($event) {
     this.form.controls[this.name].setValue([
       this.pad(this.year, 4),
