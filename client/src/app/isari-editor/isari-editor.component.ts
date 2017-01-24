@@ -101,6 +101,7 @@ export class IsariEditorComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeydown($event) {
     if (this.pressedSaveShortcut($event)) {
+      $event.view.document.activeElement.blur(); // fire blur : force update before save
       $event.preventDefault();
       this.save($event);
     }
