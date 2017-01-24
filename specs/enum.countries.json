@@ -790,7 +790,8 @@
     {
         "countryCode": "156",
         "nationalityLabel": {
-            "fr": "chinoise"
+            "fr": "chinoise",
+            "en": "chinese"
         },
         "region": "Asia",
         "subRegion": "Eastern Asia",
@@ -1470,8 +1471,8 @@
     {
         "countryCode": "300",
         "nationalityLabel": {
-            "fr": "Grecque",
-            "en": "Greek"
+            "fr": "grecque",
+            "en": "greek"
         },
         "region": "Europe",
         "subRegion": "Southern Europe",
@@ -1709,8 +1710,7 @@
     {
         "countryCode": "344",
         "nationalityLabel": {
-            "fr": "Chinoise",
-            "en": "Chinese"
+           "fr": ""
         },
         "region": "Asia",
         "subRegion": "Eastern Asia",
@@ -2543,8 +2543,8 @@
     {
         "countryCode": "499",
         "nationalityLabel": {
-            "fr": "Monténégrine",
-            "en": "Montenegrin"
+            "fr": "monténégrine",
+            "en": "montenegrin"
         },
         "region": "Europe",
         "subRegion": "Southern Europe",
@@ -4007,8 +4007,8 @@
     {
         "countryCode": "826",
         "nationalityLabel": {
-            "fr": "Britannique",
-            "en": "British"
+            "fr": "britannique",
+            "en": "british"
         },
         "region": "Europe",
         "subRegion": "Northern Europe",
