@@ -8,6 +8,7 @@ const es = require('./elasticsearch')
 const { applyTemplates, populateAllQuery, filterConfidentialFields } = require('./model-utils')
 const debug = require('debug')('isari:rest')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('./permissions')
+const modelTemplates = require('../../specs/templates.models')
 const removeEmptyFields = require('./remove-empty-fields')
 const { getMeta, getVirtualColumn } = require('./specs')
 const getIn = require('lodash/get')
@@ -78,6 +79,7 @@ exports.restRouter = (Model, format, getPermissions, buildListQuery = null) => {
 	}
 
 	router.get('/', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(listModel(Model, format, getPermissions, buildListQuery)))
+	router.get('/:id([A-Za-f0-9]{24})/relations', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(relationsModel(Model, getPermissions)))
 	router.get('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModel(Model, format, getPermissions)))
 	router.get('/:ids([A-Za-f0-9,]+)/string', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(getModelStrings(Model)))
 	router.put('/:id([A-Za-f0-9]{24})', parseJson, requiresAuthentication, scopeOrganizationMiddleware, restHandler(replaceModel(Model, save, getPermissions)))
@@ -137,6 +139,21 @@ const getModel = (Model, format, getPermissions) => req =>
 	.then(doc => getPermissions(req, doc).then(({ viewable }) => viewable ? doc : Promise.reject(ClientError({ status: 403, title: 'Permission refused' }))))
 	.then(formatWithOpts(req, format, getPermissions, false))
 	.then(removeEmptyFields)
+
+const relationsModel = (Model, getPermissions) => req => {
+
+	// TODO: handle permissions for retrieved relations
+	return Model.findById(req.params.id)
+		.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
+		.then(doc => getPermissions(req, doc).then(({ viewable }) => viewable ? doc : Promise.reject(ClientError({ status: 403, title: 'Permission refused' }))))
+		.then(doc => Model.relationsById(doc._id))
+		.then(relations => {
+			for (const k in relations)
+				relations[k] = relations[k].map(item => modelTemplates[k](item.toObject()))
+
+			return relations
+		})
+}
 
 // TODO Check permissions?
 const getModelStrings = Model => req => {
@@ -258,6 +275,7 @@ const deleteModel = (Model, getPermissions) => {
 		})
 	}
 }
+
 
 // TODO apply permissions filter & co
 // Examples:
