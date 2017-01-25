@@ -75,7 +75,7 @@ md-card-subtitle {
 
 .tooltip-desc {
   line-height: 20px;
-  width: 700px;
+  /*width: 700px;*/
   text-align: right;
   padding-right: 10px;
 }
