@@ -302,7 +302,7 @@ const SHEETS = [
 
         activities.forEach(activity => {
 
-          // Doctorats
+          // Doctorant.e.s
           if (
             activity.activityType === 'doctorat' &&
             activity.organizations.some(org => (
@@ -312,6 +312,25 @@ const SHEETS = [
             !!findRelevantItem([activity])
           ) {
             sheetData.H14++;
+          }
+
+          // Doctorant.e.s avec une date de soutenance comprise entre 01/01/12 et 30/06/17
+          if (
+            activity.activityType === 'doctorat' &&
+            activity.organizations.some(org => (
+              '' + org.organization._id === centerId &&
+              org.role === 'inscription'
+            )) &&
+            activity.endDate
+          ) {
+            const endDate = parseDate(activity.endDate);
+
+            if (
+              endDate.isSameOrAfter('2012-01-01') &&
+              endDate.isSameOrBefore('2017-06-30')
+            ) {
+              sheetData.H16++;
+            }
           }
         });
 
