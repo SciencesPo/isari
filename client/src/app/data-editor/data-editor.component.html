@@ -1,4 +1,4 @@
-<div [class.border]="deletable && form.enabled" form novalidate [formGroup]="form" *ngIf="form">
+<form [class.border]="deletable && form.enabled" novalidate [formGroup]="form" *ngIf="form">
   <div class="save-n-delete">
   <button *ngIf="!path"  class="save" md-button (click)="save($event)">{{ 'save' | translate }} <md-icon>done</md-icon></button>
   <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
@@ -33,4 +33,4 @@
 
   </md-card-content>
 
-</div>
+</form>
