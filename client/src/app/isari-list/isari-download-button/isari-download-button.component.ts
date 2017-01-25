@@ -13,6 +13,7 @@ const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.s
 })
 export class IsariDownloadButtonComponent implements OnInit {
   lang: string;
+  defaultLang: string = 'fr';
 
   @Input() data: any[] = [];
   @Input() feature: string;
@@ -37,6 +38,18 @@ export class IsariDownloadButtonComponent implements OnInit {
     return headerLine;
   }
 
+  cellContent (data): string {
+    if (data === null || data === undefined) {
+      return '';
+    } else if (data instanceof Array) {
+      return data.map(v => this.cellContent(v)).join(', ');
+    } else if (data.label) {
+      return data.label[this.lang] || data.label[this.defaultLang] || '';
+    } else {
+      return String(data);
+    }
+  }
+
   getDataToSave() {
     const columns = this.selectedColumns;
 
@@ -47,16 +60,7 @@ export class IsariDownloadButtonComponent implements OnInit {
         const column = columns[i],
               k = column.key;
 
-        let value;
-
-        if (Array.isArray(line[k]))
-          value = line[k].join(',');
-        else if (typeof line[k] === 'object')
-          value = line[k].label[this.lang];
-        else
-          value = line[k];
-
-        output[column.label[this.lang]] = value;
+        output[column.label[this.lang]] = this.cellContent(line[k]);
       }
 
       return output;
