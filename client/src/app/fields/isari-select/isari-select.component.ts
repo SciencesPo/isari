@@ -97,11 +97,11 @@ export class IsariSelectComponent implements OnInit {
 
   onBlur($event) {
     this.focused = false;
+    if (this.selectControl.value === '') {
+      this.update({log: true, path: this.path, type: 'update', value: ''});
+    }
     if (this.lastValidStringValue !== this.selectControl.value && this.selectControl.value !== '') {
       this.selectControl.setValue(this.lastValidStringValue);
-    }
-    if (this.selectControl.value === '') {
-      this.update({log: true, path: this.path, type: 'update'});
     }
   }
 

@@ -155,7 +155,7 @@ export class IsariEditorComponent implements OnInit {
 
     // Else we need a value
     else if ($event.type === 'update') {
-      diff.value = get(this.form.value, diff.path);
+      diff.value = ('value' in $event) ? $event.value : get(this.form.value, diff.path);
     }
 
     else if ($event.type === 'push') {
