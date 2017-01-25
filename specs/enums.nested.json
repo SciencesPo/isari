@@ -353,7 +353,7 @@
             {
                 "value": "referent",
                 "label": {
-                    "fr": "Référent",
+                    "fr": "Référent.e",
                     "en": "Local contact"
                 }
             },
@@ -376,15 +376,15 @@
             {
                 "value": "directeur",
                 "label": {
-                    "fr": "directeur de thèse",
-                    "en": ""
+                    "fr": "directeur.trice de thèse",
+                    "en": "PhD supervisor"
                 }
             },
             {
                 "value": "codirecteur",
                 "label": {
-                    "fr": "co-directeur de thèse",
-                    "en": ""
+                    "fr": "co-directeur.trice de thèse",
+                    "en": "PhD co-supervisor"
                 }
             },
             {
@@ -397,21 +397,21 @@
             {
                 "value": "presidentjury",
                 "label": {
-                    "fr": "président du jury",
+                    "fr": "président.e du jury",
                     "en": ""
                 }
             },
             {
                 "value": "rapporteurjury",
                 "label": {
-                    "fr": "rapporteur",
+                    "fr": "rapporteur.e",
                     "en": ""
                 }
             },
             {
                 "value": "doctorant(role)",
                 "label": {
-                    "fr": "doctorant",
+                    "fr": "doctorant.e",
                     "en": ""
                 }
             }
@@ -443,14 +443,14 @@
             {
                 "value": "visiting",
                 "label": {
-                    "fr": "Visiteur",
+                    "fr": "Visiteur.e",
                     "en": "Visiting"
                 }
             },
             {
                 "value": "referent",
                 "label": {
-                    "fr": "Référent",
+                    "fr": "Référent.e",
                     "en": "Local contact"
                 }
             }
@@ -459,14 +459,14 @@
             {
                 "value": "directeur",
                 "label": {
-                    "fr": "directeur de l'HDR",
+                    "fr": "directeur.trice de l'HDR",
                     "en": ""
                 }
             },
             {
                 "value": "codirecteur",
                 "label": {
-                    "fr": "co-directeur de l'HDR",
+                    "fr": "co-directeur.trice de l'HDR",
                     "en": ""
                 }
             },
@@ -480,21 +480,21 @@
             {
                 "value": "presidentjury",
                 "label": {
-                    "fr": "président du jury",
+                    "fr": "président.e du jury",
                     "en": ""
                 }
             },
             {
                 "value": "rapporteurjury",
                 "label": {
-                    "fr": "rapporteur",
+                    "fr": "rapporteur.e",
                     "en": ""
                 }
             },
             {
                 "value": "doctorant(role)",
                 "label": {
-                    "fr": "doctorant",
+                    "fr": "doctorant.e",
                     "en": ""
                 }
             }
@@ -503,14 +503,14 @@
             {
                 "value": "visiting",
                 "label": {
-                    "fr": "Visiteur",
+                    "fr": "Visiteur.e",
                     "en": "Visiting"
                 }
             },
             {
                 "value": "referent",
                 "label": {
-                    "fr": "Référent",
+                    "fr": "Référent.e",
                     "en": "Local contact"
                 }
             }
@@ -1080,21 +1080,21 @@
             {
                 "value": "chargéétudes",
                 "label": {
-                    "fr": "Chargé d'études",
+                    "fr": "Chargé.e d'études",
                     "en": ""
                 }
             },
             {
                 "value": "chargédétudes1",
                 "label": {
-                    "fr": "Chargé d'études niv1",
+                    "fr": "Chargé.e d'études niv1",
                     "en": ""
                 }
             },
             {
                 "value": "chargédétudes2",
                 "label": {
-                    "fr": "Chargé d'études niv2",
+                    "fr": "Chargé.e d'études niv2",
                     "en": ""
                 }
             },
