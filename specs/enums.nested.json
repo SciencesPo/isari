@@ -494,7 +494,7 @@
             {
                 "value": "doctorant(role)",
                 "label": {
-                    "fr": "doctorant.e",
+                    "fr": "candidat.e",
                     "en": ""
                 }
             }
