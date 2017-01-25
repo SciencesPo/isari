@@ -636,7 +636,7 @@ module.exports = {
             info.bonuses = bonusesYear.bonuses;
 
           // Chronologies: positions, dpt, academic memberships, gradesAcademic
-          const positionSlices = partitionBy(years.filter(year => year.organization !== 'FNSP'), 'organization');
+          const positionSlices = partitionBy(years, 'organization');
 
           // Positions
           info.positions = positionSlices.map((slice, i) => {
@@ -647,6 +647,14 @@ module.exports = {
               organization: slice[0].organization
             };
 
+            if (slice[0].organization.acronym === 'FNSP'){
+              if (slice[slice.lenght-1].grade === 'assistantprofessor')
+                jobInfo.jobType = 'CDD';
+              else
+                jobInfo.jobType = 'CDI';
+            }
+
+
             // Dates
             if (!i && slice[0].startDate)
               jobInfo.startDate = slice[0].startDate;
@@ -654,7 +662,7 @@ module.exports = {
               jobInfo.startDate = slice[0].year;
 
             if (nextSlice)
-              jobInfo.endDate = nextSlice[0].startDate;
+              jobInfo.endDate = nextSlice[0].year;
             else if (slice[slice.length - 1].year !== '2016')
               jobInfo.endDate = slice[slice.length - 1].year;
 
@@ -805,17 +813,15 @@ module.exports = {
             'deptMemberships',
             'academicMemberships',
             'tags',
-            'grades'
+            'grades',
           ].forEach(prop => {
             if (person[prop])
               match[prop] = person[prop];
           });
 
-          if (person.positions)
-            match.positions = (person.positions || []).concat(match.positions);
-
           return;
         }
+
 
         // Else we create the person
         indexes.hashed[key] = person;
