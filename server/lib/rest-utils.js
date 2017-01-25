@@ -62,7 +62,7 @@ const saveDocument = format => (doc, perms) => {
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	getPermissions(req, o).then(perms =>
 		Promise.resolve(format(applyTemplates ? o.applyTemplates() : o, perms))
-		.then(set('opts', { editable: perms.editable }))
+		.then(set('opts', { editable: perms.editable, deletable: perms.editable }))
 	)
 
 // buildListQuery can be a function returning an object { query: PromiseOfMongooseQuery } (embedding in an object to not accidentally convert query into a promise of Results)
