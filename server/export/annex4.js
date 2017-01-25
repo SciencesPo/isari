@@ -16,7 +16,7 @@ const {
 
 const COUNTRIES_INDEX = keyBy(COUNTRIES, 'alpha2'),
       GRANT_PROGRAM_INDEX = keyBy(getSimpleEnumValues('grantPrograms'), 'value'),
-      GRANT_INSTRUMENT_INDEX = getNestedEnumValues('grantInstruments');
+      GRANT_INSTRUMENT_INDEX = Object.assign({}, getNestedEnumValues('grantInstruments'));
 
 for (const k in GRANT_PROGRAM_INDEX)
   GRANT_PROGRAM_INDEX[k] = GRANT_PROGRAM_INDEX[k].label.fr;

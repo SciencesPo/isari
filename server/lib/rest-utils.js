@@ -229,11 +229,12 @@ const createModel = (Model, save, getPermissions) => (req, res) => Promise.resol
 		}
 	})
 
-const deleteModel = (Model, getPermissions) => (req, res) =>
-	Model.findById(req.params.id)
+const deleteModel = (Model, getPermissions) => (req, res) => {
+	return Model.findById(req.params.id)
 	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
 	.then(doc => getPermissions(req, doc).then(({ editable }) => editable ? doc : Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))))
 	.then(doc => {
+
 		doc.latestChangeBy = req.session.login
 		return doc.remove()
 	})
@@ -241,6 +242,7 @@ const deleteModel = (Model, getPermissions) => (req, res) =>
 		res.status(204)
 		return null
 	})
+}
 
 // TODO apply permissions filter & co
 // Examples:
