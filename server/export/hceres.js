@@ -284,35 +284,15 @@ const SHEETS = [
     populate(models, centerId, callback) {
       const People = models.People;
 
-      People.aggregate()
-      .match({
+      People.find({
         academicMemberships: {
           $elemMatch: {
             organization: ObjectId(centerId)
           }
         }
       })
-
-      .unwind('positions')
-      .lookup({
-          from: 'organizations',
-          localField: 'positions.organization',
-          foreignField: '_id',
-          as: 'tutelles'
-        })
-      .unwind('tutelles')
-      .group({
-        _id: '$_id',
-        academicMemberships: {$first: '$academicMemberships'},
-        tutelles: {$push: '$tutelles'},
-        positions: {$push: '$positions'},
-        grades: {$first: '$grades'},
-        name: {$first: '$name'},
-        firstName: {$first: '$firstName'},
-        gender: {$first: '$gender'},
-        tags: {$first: '$tags'},
-        birthDate: {$first: '$birthDate'},
-        distinctions: {$first: '$distinctions'}
+      .populate({
+        path: 'positions.organization',
       })
       .then(people => {
 
@@ -361,8 +341,8 @@ const SHEETS = [
           if (person.ORCID)
             info.orcid = person.ORCID;
 
-          if (person.tutelles) {
-            if (person.tutelles.find(t => t.acronym === 'CNRS')) {
+          if (person.positions) {
+            if (person.positions.map(p => p.organization).find(t => t.acronym === 'CNRS')) {
               info.organization = 'CNRS';
               info.uai = '0753639Y';
             }
@@ -371,6 +351,9 @@ const SHEETS = [
               info.uai = '0753431X';
             }
           }
+
+          // date d'arrivé
+          info.startDate = formatDate(findRelevantItem(person.academicMemberships).startDate);
 
           const grade = findRelevantItem(person.grades);
 
@@ -384,7 +367,6 @@ const SHEETS = [
                   info.jobType = '?? ' + grade.gradeStatus;
                   info.grade = '?? ' + grade.grade;
             }
-            info.startDate = formatDate(grade.startDate);
           }
           else
             debug(`No grade found for ${person.name} ${person.firstName}`);
