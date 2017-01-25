@@ -56,10 +56,11 @@ function findRelevantItem(collection) {
       )
     );
   });
+
   return _(relevants)
-  .sortBy(['endDate', 'startDate'])
-  .value()
-  .reverse()[0];
+    .sortBy(['endDate', 'startDate'])
+    .value()
+    .reverse()[0];
 }
 
 function formatDate(date) {
@@ -100,13 +101,14 @@ const SHEETS = [
             .find({
               'organizations.organization': centerId
             })
+            .populate('organizations.organization')
             .exec(next);
         }
       }, (err, data) => {
         if (err)
           return callback(err);
 
-        const {people} = data;
+        const {activities, people} = data;
 
         const headers = {
           A1: 'Personnels permanents en activité',
@@ -264,6 +266,21 @@ const SHEETS = [
             position.jobType === 'CDI'
           ) {
             sheetData.F7++;
+          }
+        });
+
+        activities.forEach(activity => {
+
+          // Doctorats
+          if (
+            activity.activityType === 'doctorat' &&
+            activity.organizations.some(org => (
+              '' + org.organization._id === centerId &&
+              org.role === 'inscription'
+            )) &&
+            !!findRelevantItem([activity])
+          ) {
+            sheetData.H9++;
           }
         });
 
