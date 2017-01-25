@@ -20,6 +20,7 @@ button {
 	text-align: center;
 	line-height: 48px;
 	min-width: 45px;
+	overflow: hidden;
 }
 
 div {
@@ -37,6 +38,10 @@ md-icon {
 
 [md-menu-item] md-icon {
 	margin-right: 0;
+}
+
+button.active md-icon {
+	color: #E6142D;
 }
 
 .tooltip {
