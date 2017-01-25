@@ -23,7 +23,7 @@ export class IsariInputComponent {
   constructor() { }
 
   update($event) {
-    if (isNaN(this.form.controls[this.name].value)) {
+    if (this.type === 'number' && Number.isNaN(this.form.controls[this.name].value)) {
       this.form.controls[this.name].setValue(null);
     }
     if (this.onUpdate) {
