@@ -44,6 +44,37 @@ d57466305690        mongo:3.2.9             "/entrypoint.sh mongo"   13 minutes 
 To be defined...
 
 
+## JIT
+
+### Building
+
+```
+-rw-rw-r-- 1 t8g t8g  23K janv. 24 18:01 dist/main.128c29937159af83fd92.bundle.js.gz
+-rw-rw-r-- 1 t8g t8g 9,1K janv. 24 18:01 dist/styles.f6bf9802b72ce139a43f.bundle.js.gz
+-rw-rw-r-- 1 t8g t8g 304K janv. 24 18:01 dist/vendor.8cca11f42c89e729bf23.bundle.js.gz
+```
+
+### Draw
+
+* People : 4.83s
+* Login : 2.97s
+
+## AOT
+
+### Building
+
+```
+-rw-rw-r-- 1 t8g t8g 105K janv. 24 18:04 dist/main.79fc0fa9aa5c0f062a85.bundle.js.gz
+-rw-rw-r-- 1 t8g t8g 9,1K janv. 24 18:04 dist/styles.4702ec2bf564b2eb5648.bundle.js.gz
+-rw-rw-r-- 1 t8g t8g 211K janv. 24 18:04 dist/vendor.a4881032dda088f78d32.bundle.js.gz
+```
+
+## Draw
+
+* People : 3.6s
+* Login : 1.05s
+
+
 
 
 
