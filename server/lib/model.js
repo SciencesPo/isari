@@ -72,8 +72,8 @@ function model (modelName, collectionName) {
 		return populateAll(this, modelName)
 	})
 
-	schema.method('applyTemplates', function (depth = 1) {
-		return applyTemplates(this, modelName, depth)
+	schema.method('applyTemplates', function (scope, depth = 1) {
+		return applyTemplates(this, modelName, scope, depth)
 	})
 
 	return mongoose.model(modelName, schema)

@@ -54,17 +54,21 @@ function getRelated(name) {
 	}
 }
 
-function applyTemplates (object, name, depth = 0) {
+function applyTemplates (object, name, scope, depth = 0) {
 	const meta = getMeta(name)
-	return _applyTemplates(object, object, meta, depth)
+	return _applyTemplates(object, object, meta, depth, scope)
 }
 
-function _applyTemplates (ownerDoc, object, meta, depth) {
+function _applyTemplates (ownerDoc, object, meta, depth, scope) {
+
 	if (object && Array.isArray(meta)) {
 		if (!Array.isArray(object)) {
 			throw new Error('Model inconsistency: meta declares array field, object is not an array')
 		}
-		return object.map(o => _applyTemplates(o, o, meta[0], depth))
+		if (templates[meta[0].template])
+			return templates[meta[0].template](object)
+		else
+			return object.map(o => _applyTemplates(o, o, meta[0], depth, scope))
 	}
 	if (!object) {
 		return object
@@ -98,7 +102,7 @@ function _applyTemplates (ownerDoc, object, meta, depth) {
 	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
 
 	fields.forEach(f => {
-		result[f] = _applyTemplates(object, object[f], meta[f], depth - 1)
+		result[f] = _applyTemplates(object, object[f], meta[f], depth - 1, scope)
 	})
 
 	result._id = object._id

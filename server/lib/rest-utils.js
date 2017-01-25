@@ -61,7 +61,7 @@ const saveDocument = format => (doc, perms) => {
 
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	getPermissions(req, o).then(perms =>
-		Promise.resolve(format(applyTemplates ? o.applyTemplates() : o, perms))
+		Promise.resolve(format(applyTemplates ? o.applyTemplates(req.query) : o, perms))
 		.then(set('opts', { editable: perms.editable, deletable: perms.editable }))
 	)
 
