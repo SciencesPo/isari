@@ -267,6 +267,37 @@ const SHEETS = [
           ) {
             sheetData.F7++;
           }
+
+          // Professeur.e.s FNSP émérites, Professeur.e.s des universités émérites, ATER
+          if (
+            grade === 'profunivémérite' ||
+            grade === 'ater' ||
+            (grade === 'profémérite' && fnsp)
+          ) {
+            sheetData.H9++;
+          }
+
+          // Directrices, directeurs de recherche FNSP émérites, Directrices, directeurs de recherche CNRS émérites, Assistant.e.s de recherche, Post-doctorant.e.s
+          if (
+            (fnsp && grade === 'directeurderechercheremerite') ||
+            (cnrs && grade === 'directeurderechercheremerite') ||
+            grade === 'CASSIST' ||
+            grade === 'postdoc'
+          ) {
+            sheetData.H10++;
+          }
+
+          // grades administratifs et techniques en CDD avec tutelle MESR, FNSP et CNRS
+          if (
+            (fnsp || mesr || cnrs) &&
+            (
+              gradeStatus === 'appuiadministratif' ||
+              gradeStatus === 'appuitechnique'
+            ) &&
+            position.jobType === 'CDD'
+          ) {
+            sheetData.H11++;
+          }
         });
 
         activities.forEach(activity => {
@@ -280,7 +311,7 @@ const SHEETS = [
             )) &&
             !!findRelevantItem([activity])
           ) {
-            sheetData.H9++;
+            sheetData.H14++;
           }
         });
 
