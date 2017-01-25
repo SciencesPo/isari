@@ -255,21 +255,14 @@ module.exports = {
                 membershipType: 'membre'
               };
 
-              if (membership.startDate) {
-                  if (!i)
+              if (membership.startDate)
                     info.startDate = membership.startDate.format('YYYY-MM-DD');
-                  else
-                    info.startDate = membership.year;
-              }
 
-              if (memberships.length === 1) {
-                if (membership.endDate)
+              if (membership.endDate)
                   info.endDate = membership.endDate.format('YYYY-MM-DD');
-              }
-              else {
+              else
                 if (nextMembership)
-                  info.endDate = nextMembership.year;
-              }
+                  info.endDate = nextMembership.starDate ? nextMembership.startDate : nextMembership.year;
 
               return info;
             })
