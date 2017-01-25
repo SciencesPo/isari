@@ -108,6 +108,17 @@ const SHEETS = [
 
         const {people} = data;
 
+        const headers = {
+          A1: 'Personnels permanents en activité',
+          B1: 'Enseignement supérieur* (6) :',
+          B2: 'IEP PARIS',
+          E1: 'Organismes de recherche employeur* (6) :',
+          E2: 'IEP PARIS',
+          G2: 'Autres',
+          F2: 'CNRS',
+          H1: 'Total'
+        };
+
         const sheetData = {
           A1: 'Professeurs et assimilés',
             B1: 0,
@@ -149,8 +160,6 @@ const SHEETS = [
           A19: 'Nombre de stagiaires accueillis (5)',
             H19: 0
         };
-
-        sheetData['!ref'] = 'A1:H19';
 
         people.forEach(person => {
 
@@ -258,7 +267,25 @@ const SHEETS = [
           }
         });
 
-        return callback(null, sheetData);
+        // Applying header
+        const adjusted = {};
+
+        for (const k in sheetData) {
+          const [, col, row] = k.match(/([A-Z])(\d+)/);
+          adjusted[col + (+row + 2)] = sheetData[k];
+        }
+
+        const sheetDataWithHeaders = Object.assign(headers, adjusted);
+
+        sheetDataWithHeaders['!ref'] = 'A1:H21';
+        sheetDataWithHeaders['!merges'] = [
+          'A1:A2',
+          'B1:C1',
+          'E1:F1',
+          'H1:H2'
+        ];
+
+        return callback(null, sheetDataWithHeaders);
       });
     }
   },
