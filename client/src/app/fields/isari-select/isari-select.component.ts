@@ -61,6 +61,7 @@ export class IsariSelectComponent implements OnInit {
         this.form.controls[this.name].setValue('');
         this.selectControl.setValue('');
         this.lastValidStringValue = '';
+        this.update({log: true, path: this.path, type: 'update'});
       }
       this.values = values.map(this.translateItem.bind(this));
       this.setExtend();
@@ -98,6 +99,9 @@ export class IsariSelectComponent implements OnInit {
     this.focused = false;
     if (this.lastValidStringValue !== this.selectControl.value && this.selectControl.value !== '') {
       this.selectControl.setValue(this.lastValidStringValue);
+    }
+    if (this.selectControl.value === '') {
+      this.update({log: true, path: this.path, type: 'update'});
     }
   }
 
