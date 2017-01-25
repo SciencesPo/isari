@@ -18,6 +18,18 @@ const XLSX_ROUTINES = {
 
 			return true
 		}
+	},
+	next: {
+		fn: require('../export/next.js'),
+		args(query, next) {
+			return [models, query.id, next]
+		},
+		check(query) {
+			if (!query.id)
+				return false
+
+			return true
+		}
 	}
 }
 

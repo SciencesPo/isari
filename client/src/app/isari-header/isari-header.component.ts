@@ -86,4 +86,16 @@ export class IsariHeaderComponent implements OnInit {
       {id: this.organization.id}
     );
   }
+
+  getHCERESNextDownloadLink() {
+    if (!this.organization) {
+      return null;
+    }
+
+    return this.isariDataService.createExportDownloadLink(
+      'xlsx',
+      'next',
+      {id: this.organization.id}
+    );
+  }
 }

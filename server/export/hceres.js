@@ -363,9 +363,9 @@ const SHEETS = [
               info.grade = GRADES_INDEX[grade.gradeStatus][grade.grade].gradeHCERES;
             }
             else {
-                  // no grade DRH ?
-                  info.jobType = '?? ' + grade.gradeStatus;
-                  info.grade = '?? ' + grade.grade;
+              // no grade DRH ?
+              info.jobType = '?? ' + grade.gradeStatus;
+              info.grade = '?? ' + grade.grade;
             }
           }
           else
@@ -384,16 +384,8 @@ const SHEETS = [
         .compact()
         .value();
 
-        // order by status
-        const orderByStatus = {
-          EC_tit: 1,
-          Ch_tit: 2,
-          AP_tit: 3,
-          EC_aut: 4,
-          Ch_aut: 5,
-          AP_aut: 6
-        };
-        people = _.sortBy(people, [p => orderByStatus[p.jobType] || 99, 'organization', 'name']);
+        // order by name
+        people = _.sortBy(people, p => `${p.name} - ${p.firstName}`);
 
         return callback(null, people);
       });
