@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 const { getMongooseSchema } = require('./schemas')
-const { populateAll, applyTemplates } = require('./model-utils')
+const { populateAll, applyTemplates, getRelated } = require('./model-utils')
 const config = require('config')
 const { EditLog, middleware: editLogMiddleware } = require('./edit-logs')
 const timestamps = require('mongoose-timestamp')
@@ -17,13 +17,17 @@ module.exports = {
 	EditLog
 }
 
+const modelNames = []
+
 for (const name in config.collections) {
 	module.exports[name] = model(name, config.collections[name])
+	modelNames.push(name)
 }
 
 
 function model (modelName, collectionName) {
 	const desc = getMongooseSchema(modelName)
+	const related = getRelated(modelName)
 
 	const schema = new mongoose.Schema(desc, {
 		strict: 'throw',
@@ -35,6 +39,33 @@ function model (modelName, collectionName) {
 
 	schema.static('removeById', function (id) {
 		return this.remove({ _id: id })
+	})
+
+	schema.static('relationsById', function(id) {
+		const promises = modelNames
+			.map(name => {
+				const paths = related[name]
+
+				if (!paths || !paths.length)
+					return Promise.resolve([])
+
+				const query = {
+					$or: paths.map(path => ({[path]: id}))
+				}
+
+				return module.exports[name].find(query).exec()
+			})
+
+		return Promise.all(promises)
+			.then(results => {
+				const o = {}
+
+				results.forEach((items, i) => {
+					o[modelNames[i]] = items
+				})
+
+				return o
+			})
 	})
 
 	schema.method('populateAll', function () {

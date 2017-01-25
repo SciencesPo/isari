@@ -62,7 +62,7 @@ const saveDocument = format => (doc, perms) => {
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	getPermissions(req, o).then(perms =>
 		Promise.resolve(format(applyTemplates ? o.applyTemplates() : o, perms))
-		.then(set('opts', { editable: perms.editable }))
+		.then(set('opts', { editable: perms.editable, deletable: perms.editable }))
 	)
 
 // buildListQuery can be a function returning an object { query: PromiseOfMongooseQuery } (embedding in an object to not accidentally convert query into a promise of Results)
@@ -229,19 +229,34 @@ const createModel = (Model, save, getPermissions) => (req, res) => Promise.resol
 		}
 	})
 
-const deleteModel = (Model, getPermissions) => (req, res) => {
-	return Model.findById(req.params.id)
-	.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
-	.then(doc => getPermissions(req, doc).then(({ editable }) => editable ? doc : Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))))
-	.then(doc => {
+const deleteModel = (Model, getPermissions) => {
+	return (req, res) => {
+		return Model.findById(req.params.id)
+		.then(found => found || Promise.reject(NotFoundError({ title: Model.modelName })))
+		.then(doc => getPermissions(req, doc).then(({ editable }) => editable ? doc : Promise.reject(ClientError({ status: 403, message: 'Permission refused' }))))
+		.then(doc => {
+			return Promise.all([
+				doc,
+				Model.relationsById(req.params.id)
+			])
+		})
+		.then(([doc, relations]) => {
 
-		doc.latestChangeBy = req.session.login
-		return doc.remove()
-	})
-	.then(() => {
-		res.status(204)
-		return null
-	})
+			// We won't delete if there are relations
+			const hasRelations = Object.keys(relations)
+				.some(relatedModelname => relations[relatedModelname].length)
+
+			if (hasRelations)
+				return Promise.reject(ClientError({ status: 403, message: 'Target still has relations' }))
+
+			doc.latestChangeBy = req.session.login
+			return doc.remove()
+		})
+		.then(() => {
+			res.status(204)
+			return null
+		})
+	}
 }
 
 // TODO apply permissions filter & co

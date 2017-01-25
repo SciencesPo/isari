@@ -18,6 +18,7 @@ module.exports = {
 	format,
 	filterConfidentialFields,
 	mongoID,
+	getRelated
 }
 
 
@@ -29,6 +30,29 @@ function mongoID (o) {
 
 const getRefFields = memoize((meta, depth) => _getRefFields('', meta, depth))
 
+
+const filterRelated = (o, name) => {
+	const result = []
+
+	for (const k in o) {
+		if (o[k] === name)
+			result.push(k)
+	}
+
+	return result
+}
+
+function getRelated(name) {
+	const People = filterRelated(getRefFields(getMeta('People')), name)
+	const Organization = filterRelated(getRefFields(getMeta('Organization')), name)
+	const Activity = filterRelated(getRefFields(getMeta('Activity')), name)
+
+	return {
+		People,
+		Organization,
+		Activity
+	}
+}
 
 function applyTemplates (object, name, depth = 0) {
 	const meta = getMeta(name)

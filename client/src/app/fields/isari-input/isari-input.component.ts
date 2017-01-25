@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./isari-input.component.css']
 
 })
-export class IsariInputComponent implements OnInit {
+export class IsariInputComponent {
 
   @Input() name: string;
   @Input() path: string;
@@ -23,12 +23,13 @@ export class IsariInputComponent implements OnInit {
   constructor() { }
 
   update($event) {
+    if (this.type === 'number' && Number.isNaN(this.form.controls[this.name].value)) {
+      this.form.controls[this.name].setValue(null);
+    }
     if (this.onUpdate) {
       this.onUpdate.emit({log: true, path: this.path, type: 'update'});
     }
   }
 
-  ngOnInit() {
-  }
 
 }
