@@ -45,3 +45,7 @@ button, a {
 li > a {
   cursor: pointer;
 }
+
+[md-raised-button].md-primary, [md-fab].md-primary, [md-mini-fab].md-primary {
+  background-color: #E6142D;
+}
