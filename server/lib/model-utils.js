@@ -1,6 +1,6 @@
 'use strict'
 
-const templates = require('../../specs/templates')
+const templates = require('../../specs/templates.fields')
 const { getMeta } = require('./specs')
 const { RESERVED_FIELDS, EXTRA_FIELDS } = require('./schemas')
 const { get, clone, isObject, isArray } = require('lodash/fp')
