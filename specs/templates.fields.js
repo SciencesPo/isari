@@ -1,18 +1,20 @@
 'use strict'
 
+//****** utils
 const { formatEnum } = require('../server/lib/enums')
 
 // datesPeriod
-const prettyPrintTimePeriod = o => {
-	let periodLabel = ''
-	if(o.startDate){
-		periodLabel = year(o.startDate)
+
+function prettyPrintTimePeriod(g){
+	if (g.startDate && g.endDate) {
+			return year(g.startDate) + '-' + year(g.endDate)
+	} else if (g.startDate) {
+		return  year(g.startDate) + '-…'
+	} else if (g.endDate) {
+		return ' …-' + year(g.endDate)
 	}
-	if(o.endDate){
-		periodLabel+=`-${year(o.endDate)}`
-	}
-	return periodLabel;
 }
+
 
 // Date parsing
 const date = string => {
@@ -34,18 +36,20 @@ const peopleName = p => {
 const objectName = o => o.name
 
 // oraganizationDates
-function organizationDates(p){
-	if (!p.organization) {
+function organizationDates(ps){
+	const formatPosition = p => {
+		if (!p.organization) {
 		return ''
+		}
+		let label = p.organization.acronym ? p.organization.acronym : p.organization.name
+		label += prettyPrintTimePeriod(p)
+		return label
 	}
-	let label = p.organization.acronym ? p.organization.acronym : p.organization.name
-	if(p.startDate){
-		label += " "+year(p.startDate)
-	}
-	if(p.endDate){
-		label+=`-${year(p.endDate)}`
-	}
-	return label
+
+	if (Array.isArray(ps))
+		return ps.map(p => formatPosition(p)).join(";")
+	else
+		return formatPosition(p)	
 }
 
 // department Memberships Dates
@@ -61,20 +65,14 @@ function deptMembershipsDates(p){
 
 // personnalActivities
 function personalActivity(p) {
-	return formatEnum('personalActivityTypes', p.personalActivityType, label => {
-		if (p.startDate && p.endDate) {
-			label += ' ' + year(p.startDate) + '-' + year(p.endDate)
-		} else if (p.startDate) {
-			label += ' ' + year(p.startDate) + '-…'
-		} else if (p.endDate) {
-			label += ' …-' + year(p.endDate)
-		}
-		return label
-	})
+	if (!Array.isArray(p))
+		p = [p]
+
+	return p.map(e => formatEnum('personalActivityTypes', e.personalActivityType, label => label + ' ' + prettyPrintTimePeriod(p))).join(';')
 }
 
 // distinctions
-const distinction = d => d.title
+const distinction = d => d.map(e => e.title).join(';')
 
 // oraganizationDates
 function researchUnitCode(p){
@@ -108,21 +106,11 @@ function peopleDates(p){
 	return label
 }
 
-function prefixDates(label,g){
-	if (g.startDate && g.endDate) {
-			label += ' ' + year(g.startDate) + '-' + year(g.endDate)
-	} else if (g.startDate) {
-		label += ' ' + year(g.startDate) + '-…'
-	} else if (g.endDate) {
-		label += ' …-' + year(g.endDate)
-	}
-	return label
-}
-
 // grades
 function peopleGrades(g){
-	
-	return formatEnum('gradeStatus', g.gradeStatus,label => {return prefixDates(label,g)})
+	if (!Array.isArray(g))
+		g = [g]
+	return g.map(e => formatEnum('gradeStatus', e.gradeStatus,label => {return label + ' '+ prettyPrintTimePeriod(e)})).join(";") 
 }
 
 exports.peopleName = peopleName

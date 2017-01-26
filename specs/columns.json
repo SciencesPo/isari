@@ -1,15 +1,38 @@
 {
   "people": {
-    "defaults": ["firstName","name","deptMemberships"],
+    "defaults": ["firstName","name","membershipType","gradeStatus","grade"],
     "selector": [
       "-tags",
+       {
+        "key": "membershipType",
+        "label": {
+          "fr": "Type d'affiliation",
+          "en": "Affiliation type"
+        }
+      },
       {
         "key": "email",
         "label": {
           "fr": "Adresse Email",
           "en": "Email Address"
         }
+      },
+      {
+        "key": "gradeStatus",
+        "label": {
+          "fr": "Statut",
+          "en": "Status"
+        }
+      },
+      {
+        "key": "grade",
+        "label": {
+          "fr": "Grade",
+          "en": "Grade"
+        }
       }
+
+     
     ]
   },
   "activities": {
