@@ -96,11 +96,15 @@ exports.parseDate = function(string) {
  * Function checking overlap of two potentially non-ending periods.
  */
 exports.overlap = function(A, B) {
-  if (!A.endDate && !B.endDate)
-    return true;
-  if (A.endDate > B.startDate)
-    return true;
-  if (A.startDate < B.startDate && A.endDate > B.endDate)
-    return true;
-  return false;
+
+  // Invalid ranges
+  if (!A.startDate && !B.startDate && !A.endDate && !B.endDate)
+    return false;
+
+  const startA = A.startDate || '0',
+        startB = B.startDate || '0',
+        endA = A.endDate || '5000',
+        endB = B.endDate || '5000';
+
+  return (startA <= endB) && (endA >= startB);
 };

@@ -102,6 +102,7 @@ const SHEETS = [
               'organizations.organization': centerId
             })
             .populate('organizations.organization')
+            .populate('people.people')
             .exec(next);
         }
       }, (err, data) => {
@@ -172,7 +173,7 @@ const SHEETS = [
                 gradeStatus = relevantGrade && relevantGrade.gradeStatus,
                 organization = position && position.organization.acronym,
                 cnrs = organization === 'CNRS',
-                fnsp = organization === 'FNSP',
+                fnsp = !position || organization === 'FNSP',
                 mesr = organization === 'MESR';
 
           // Professeur.es FNSP, Professeur.e.s des universités, Associate professors FNSP
@@ -207,7 +208,7 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position.jobType === 'CDI'
+            position && position.jobType === 'CDI'
           ) {
             sheetData.B7++;
           }
@@ -251,7 +252,7 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position.jobType === 'CDI'
+            position && position.jobType === 'CDI'
           ) {
             sheetData.E7++;
           }
@@ -263,7 +264,7 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position.jobType === 'CDI'
+            position && position.jobType === 'CDI'
           ) {
             sheetData.F7++;
           }
@@ -294,11 +295,21 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position.jobType === 'CDD'
+            position && position.jobType === 'CDD'
           ) {
             sheetData.H11++;
           }
+
+          // Stagiaires avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
+          if (
+            /stage/i.test(grade) &&
+            overlap(relevantGrade, {startDate: '2012-01-01', endDate: '2017-06-30'})
+          ) {
+            sheetData.H19++;
+          }
         });
+
+        const invitedSet = new Set();
 
         activities.forEach(activity => {
 
@@ -330,6 +341,42 @@ const SHEETS = [
               endDate.isSameOrBefore('2017-06-30')
             ) {
               sheetData.H16++;
+            }
+          }
+
+          // HDR avec une date de soutenance comprise entre 01/01/12 et 30/06/17
+          if (
+            activity.activityType === 'hdr' &&
+            activity.organizations.some(org => (
+              '' + org.organization._id === centerId &&
+              org.role === 'inscription'
+            )) &&
+            activity.endDate
+          ) {
+            const endDate = parseDate(activity.endDate);
+
+            if (
+              endDate.isSameOrAfter('2012-01-01') &&
+              endDate.isSameOrBefore('2017-06-30')
+            ) {
+              sheetData.H17++;
+            }
+          }
+
+          // Invité.e.s avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
+          if (
+            activity.activityType === 'mob_entrante' &&
+            activity.organizations.some(org => (
+              '' + org.organization._id === centerId &&
+              org.role === 'orgadaccueil'
+            )) &&
+            overlap(activity, {startDate: '2012-01-01', endDate: '2017-06-30'})
+          ) {
+            const invitedPerson = activity.people.find(p => p.role === 'visiting');
+
+            if (invitedPerson && !invitedSet.has(invitedPerson.people._id)) {
+              invitedSet.add(invitedPerson.people._id);
+              sheetData.H18++;
             }
           }
         });
