@@ -3,6 +3,7 @@
 const mongoose = require('mongoose')
 const deepDiff = require('deep-diff').diff
 const chalk = require('chalk')
+const removeEmptyFields = require('./remove-empty-fields')
 
 
 const EditLogSchema = new mongoose.Schema({
@@ -84,7 +85,7 @@ const middleware = schema => {
 		}
 
 		if (this.isNew) {
-			editLog.data = data
+			editLog.data = removeEmptyFields(data)
 		}
 		else {
 
@@ -114,6 +115,7 @@ const middleware = schema => {
 			model: modelName,
 			item: doc.id,
 			date: new Date(),
+			data: removeEmptyFields(doc.toObject()),
 			action: 'delete',
 			who
 		})

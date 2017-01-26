@@ -28,7 +28,7 @@
     "ng2-translate": "^4.0.0",
     "papaparse": "^4.1.2",
     "rxjs": "^5.0.1",
-    "talisman": "^0.14.0",
+    "talisman": "^0.16.0",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.7.2"
   },

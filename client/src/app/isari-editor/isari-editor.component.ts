@@ -112,9 +112,19 @@ export class IsariEditorComponent implements OnInit {
 
   save($event) {
     if (!this.form.disabled && this.form.valid && !!this.diff.length) {
+      let payload;
+
+      // Different payload for creation & update
+      if (this.id) {
+        payload = {id: this.id, diff: this.diff};
+      }
+      else {
+        payload = this.form.value;
+      }
+
       this.isariDataService.save(
         this.feature,
-        {id: this.id, diff: this.diff}
+        payload
       ).then(data => {
           if (this.id !== data.id) {
             this.router.navigate([this.feature, data.id]);

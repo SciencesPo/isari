@@ -229,7 +229,6 @@ const replaceModel = (Model, save, getPermissions) => {
 const createModel = (Model, save, getPermissions) => (req, res) => Promise.resolve()
 	.then(() => new Model(req.body))
 	.then(doc => getPermissions(req, doc).then(perms => {
-		doc = filterConfidentialFields(Model.modelName, doc, perms)
 		doc.latestChangeBy = req.session.login // sign for EditLogs
 		return save(doc, perms)
 	}))

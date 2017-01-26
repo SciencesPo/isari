@@ -1,20 +1,35 @@
-import damerauLevenshtein from 'talisman/metrics/distance/damerau-levenshtein';
+import deburr from 'lodash/deburr';
+import {createFuzzyPattern} from 'talisman/regexp';
 
-// Words distance
-const wordsDistanceCache = {};
-export function wordsDistance (a: string, b: string): number {
-  a = a.toLowerCase();
-  b = b.toLowerCase();
-  const k = a + '$' + b;
-  if (wordsDistanceCache[k] === undefined) {
-    wordsDistanceCache[k] = damerauLevenshtein(a, b);
-  }
-  // Uncomment if you want to debug enum ordering, to know why "other" gets first or whatever
-  //console.log('Distance', a, b, wordsDistanceCache[k])
-  return wordsDistanceCache[k];
+function normalize(str: string): string {
+  return deburr(str.trim().toLowerCase());
 }
+
 export function sortByDistance<T> (str: string, words: T[], getter: (T) => string = (v) => v): T[] {
-  return words.slice().sort((a, b) => wordsDistance(str, getter(a)) - wordsDistance(str, getter(b)));
+  const pattern = new RegExp(createFuzzyPattern(normalize(str)));
+
+  const matches = new Array(words.length);
+
+  for (let i = 0, l = matches.length; i < l; i++) {
+    const word = normalize(getter(words[i])),
+          match = word.match(pattern);
+
+    matches[i] = {score: 0, word: words[i]};
+
+    if (match) {
+
+      // Boost when substring is at start
+      if (!match.index)
+        matches[i].score = 10;
+      else
+        matches[i].score = 1;
+    }
+  }
+
+  return matches
+    .filter(({score}) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(match => match.word);
 }
 
 
