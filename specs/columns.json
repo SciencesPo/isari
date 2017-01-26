@@ -3,6 +3,13 @@
     "defaults": ["firstName","name","deptMemberships"],
     "selector": [
       "-tags",
+       {
+        "key": "membershipType",
+        "label": {
+          "fr": "Type d'affiliation",
+          "en": "Affiliation type"
+        }
+      },
       {
         "key": "email",
         "label": {
@@ -10,6 +17,7 @@
           "en": "Email Address"
         }
       }
+     
     ]
   },
   "activities": {

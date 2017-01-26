@@ -95,11 +95,11 @@ const getVirtualColumns = reduce((vs, k) => {
 	return vs
 }, {})
 
-const mergeVirtuals = virtuals => object => {
+const mergeVirtuals = (virtuals, scope) => object => {
 	object.virtuals = object.virtuals || {}
 
 	for (let k in virtuals) {
-		object.virtuals[k] = virtuals[k](object)
+		object.virtuals[k] = virtuals[k](object, scope)
 	}
 
 	return object
@@ -112,7 +112,7 @@ const listModel = (Model, format, getPermissions, buildListQuery = null) => req 
 	const applyTemplates = Boolean(Number(req.query.applyTemplates))
 	const formatOne = formatWithOpts(req, format, getPermissions, applyTemplates)
 	const virtuals = req.query.fields && getVirtualColumns(req.query.fields.split(','))
-	const addVirtuals = virtuals.length === 0 ? identity : mergeVirtuals(virtuals)
+	const addVirtuals = virtuals.length === 0 ? identity : mergeVirtuals(virtuals, req.query)
 	// Note: we don't apply field selection directly in query as some fields may be not asked, but
 	// required for some other fields' templates to be correctly calculated
 	const withPopulate = q => (applyTemplates ? populateAllQuery(q, Model.modelName) : q).exec()

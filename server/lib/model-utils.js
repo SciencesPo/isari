@@ -1,7 +1,7 @@
 'use strict'
 
 const templates = require('../../specs/templates.fields')
-const { getMeta } = require('./specs')
+const { getMeta, getVirtualColumn } = require('./specs')
 const { RESERVED_FIELDS, EXTRA_FIELDS } = require('./schemas')
 const { get, clone, isObject, isArray } = require('lodash/fp')
 const memoize = require('memoizee')
@@ -246,6 +246,11 @@ function _format (object, schema, shouldRemove, path, transform, rootDescription
 
 		// Extranous field: ignore it, but with a warning!
 		if (!schema) {
+
+			if (getVirtualColumn(path))
+				//case of virtual column, we keep it as is
+				return object
+
 			// TODO use proper logger
 			if (EXTRA_FIELDS.includes(path.replace(/^.*\./, ''))) {
 				// Do not log an error when extra field is one of the technical fields added by plugins
