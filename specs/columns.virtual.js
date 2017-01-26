@@ -3,6 +3,9 @@
 //****** utils
 const { formatEnum } = require('../server/lib/enums')
 
+
+
+
 exports.email = (people, scope) => {
   if (!people.contacts)
     return '';
@@ -22,9 +25,37 @@ exports.membershipType = (people, scope) => {
   if (af.length){
   	// take the last one
   	af = af[af.length -1]
-  	af = {label: formatEnum('academicMembershipType', af.membershipType).label}
+  	af = formatEnum('academicMembershipType', af.membershipType)
   	return af;
   }
   else
+  	return '';
+};
+
+exports.gradeStatus = (people, scope) => {
+	if (people.grades){
+	  let af = people.grades.sort(e => e.startDate)
+
+	  if (af.length){
+	  	// take the last one
+	  	af = af[af.length -1]
+	  	af = formatEnum('gradeStatus', af.gradeStatus)
+	  	return af;
+	  }
+	}
+  	return '';
+};
+
+exports.grade = (people, scope) => {
+	if (people.grades){
+	  let af = people.grades.sort(e => e.startDate)
+	  if (af.length){
+	  	// take the last one
+	  	af = af[af.length -1]
+	  	af = formatEnum('grade', [af.gradeStatus, af.grade])
+	  	console.log(af)
+	  	return af;
+	  }
+	}
   	return '';
 };

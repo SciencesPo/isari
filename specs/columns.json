@@ -1,6 +1,6 @@
 {
   "people": {
-    "defaults": ["firstName","name","deptMemberships"],
+    "defaults": ["firstName","name","membershipType","gradeStatus","grade"],
     "selector": [
       "-tags",
        {
@@ -16,7 +16,22 @@
           "fr": "Adresse Email",
           "en": "Email Address"
         }
+      },
+      {
+        "key": "gradeStatus",
+        "label": {
+          "fr": "Statut",
+          "en": "Status"
+        }
+      },
+      {
+        "key": "grade",
+        "label": {
+          "fr": "Grade",
+          "en": "Grade"
+        }
       }
+
      
     ]
   },

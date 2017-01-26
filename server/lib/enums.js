@@ -8,7 +8,7 @@ const languages = require('../../specs/enum.languages.json')
 const memoize = require('memoizee')
 
 
-exports.enumValueGetter = (description /*: { label, value }[] | string */) => {
+const enumValueGetter = exports.enumValueGetter = (description /*: { label, value }[] | string */) => {
 	// As an array: direct values not exported into enums module
 	if (Array.isArray(description)) {
 		return simpleFind(description)
@@ -103,11 +103,16 @@ const getSimpleEnumValues = exports.getSimpleEnumValues = memoize(name => {
 })
 
 exports.formatEnum = (name, value, customize) => {
-	if (name.indexOf(':') !== -1) {
-		throw new Error('Templates: Cannot format nested enums')
-	}
+	
 
-	const found = simpleFind(getSimpleEnumValues(name))(value)
+	let found
+	if (Array.isArray(value))
+		//nested enums		
+		found = simpleFind(getNestedEnumValues(name)[value[0]])(value[1])
+	else
+		found = simpleFind(getSimpleEnumValues(name))(value)
+	
+
 	if (found && customize && typeof found.label === 'object') {
 		let labels = Object.assign({}, found.label)
 		for (let lang in labels) {
