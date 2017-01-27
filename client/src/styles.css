@@ -3,7 +3,6 @@ html {
   height: 100%;
   box-sizing: border-box;
 }
-
 *,
 *:before,
 *:after {
@@ -15,11 +14,17 @@ body {
   background-color: #FAFAFA;
   min-height: 100vh;
   position: relative;
-  padding-bottom: 4rem
 }
 
 .app-content {
   padding: 20px;
+  margin-bottom: 80px;
+}
+
+@media (min-height: 1000px) {
+  .app.content {
+    margin-bottom: 0px;
+  }
 }
 
 .app-content md-card {

@@ -17,11 +17,10 @@ md-icon {
 .delete {
 	color: #E6142D;
 	padding-left: 0;
-	padding-top: 27px;
 	padding-bottom: auto;
-	width: 28px;
-	height: 28px;
-  padding-left: 20px;
+	width: 24px;
+	height: 24px;
+  outline: none;
 }
 
 .collapse md-icon {

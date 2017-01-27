@@ -5,7 +5,7 @@
  * Function used to cluster people & organizations' names.
  */
 const words = require('talisman/tokenizers/words'),
-      naiveClusterer = require('talisman/clustering/naive'),
+      naiveClusterer = require('talisman/clustering/record-linkage/naive'),
       fingerprint = require('talisman/keyers/fingerprint'),
       overlap = require('talisman/metrics/distance/overlap'),
       jaccard = require('talisman/metrics/distance/jaccard');

@@ -640,8 +640,8 @@ module.exports = {
               organization: slice[0].organization
             };
 
-            if (slice[0].organization.acronym === 'FNSP'){
-              if (slice[slice.lenght-1].grade === 'assistantprofessor')
+            if (slice[0].organization.acronym === 'FNSP') {
+              if (slice[slice.lenght - 1].grade === 'assistantprofessor')
                 jobInfo.jobType = 'CDD';
               else
                 jobInfo.jobType = 'CDI';

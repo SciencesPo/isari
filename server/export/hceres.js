@@ -418,6 +418,7 @@ const SHEETS = [
       {key: 'organization', label: 'Etablissement ou organisme employeur\n(4)'},
       {key: 'uai', label: 'Code UAI '},
       {key: 'tutelle', label: 'Ministère de tutelle'},
+      {key: 'no', label: 'N° de l\'équipe interne de rattachement'},
       {key: 'startDate', label: 'Date d’arrivée dans l’unité'},
       {key: 'futur', label: 'Participation au futur projet'},
       {key: 'orcid', label: 'Identifiant ORCID'}
