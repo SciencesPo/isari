@@ -1,4 +1,4 @@
-l<button md-raised-button (click)="toggleMenu($event)">{{ 'columns_select' | translate }}</button>
+<button md-raised-button (click)="toggleMenu($event)">{{ 'columns_select' | translate }}</button>
 
 <div class="md-menu" [hidden]="!open" x-position="before">
   <md-checkbox *ngFor="let col of cols;let i = index" [checked]="col.selected" (change)="col.selected = !col.selected">
