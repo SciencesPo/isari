@@ -139,9 +139,8 @@ export class IsariEditorComponent implements OnInit {
       this.diff = [];
     }
     if (!this.form.valid) {
-      // let errors = this.isariDataService.getErrorsFromControls(this.form.controls);
-      // console.log(errors);
-      this.toasterService.pop('error', 'Save', 'Save error');
+      //let errors = this.isariDataService.getErrorsFromControls(this.form.controls);
+      this.toasterService.pop('error', 'Save', 'Des informations obligatoires doivent être renseignées');
     }
   }
 

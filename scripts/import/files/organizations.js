@@ -185,10 +185,10 @@ module.exports = {
             const sources = _.keyBy(sourceLines, 'source');
 
             const merged = Object.assign({},
-              sources.HCERES || {},
-              sources.Banner || {},
+              sources.byhand || {},
               sources.SPIRE || {},
-              sources.byhand || {}
+              sources.Banner || {},
+              sources.HCERES || {}
             );
 
             delete merged.source;
@@ -229,7 +229,6 @@ module.exports = {
           });
       },
       indexer(indexes, org) {
-
 
         // Attempting to find the organization
         let match = indexes.name[org.name];
