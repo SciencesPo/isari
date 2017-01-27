@@ -12,10 +12,18 @@ isari-date {
     top: 40px;
     left: 0;
     z-index: 100000;
-    width: 296px;
+    width: 340px;
     background: #fff;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-    justify-content: space-around;
+    justify-content: space-between;
+}
+
+* {
+  min-width: inherit;
+}
+
+.md-menu > span {
+  justify-content: space-around;
 }
 
 .calendar {
@@ -26,6 +34,10 @@ isari-date {
   display:flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.calendar-years > button {
+  min-width: 88px;
 }
 
 .calendar-months {
@@ -39,12 +51,14 @@ isari-date {
 }
 
 .remove-content {
-  justify-content: space-around;
-  width: 100%;
-  text-align: center;
+  text-align: left;
+  max-width: 24px;
+  height: 38px;
+  padding-left: 0px;
+  line-height: 38px;
 }
 
-.validate-cancel {
+.validate {
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
@@ -53,7 +67,7 @@ isari-date {
   margin-top: 5px;
 }
 
-.validate-cancel > button {
+.validate > button {
   width: 32px;
   height: 32px;
   padding: inherit;
@@ -65,7 +79,7 @@ isari-date {
   border-radius: 100%;
 }
 
-.validate-cancel > button > md-icon{
+.validate > button > md-icon{
 
   color: #E6142D;
 }
@@ -90,5 +104,9 @@ md-icon {
 }
 
 .md-menu > span {
+  color: #E6142D;
+}
+
+md-icon {
   color: #E6142D;
 }

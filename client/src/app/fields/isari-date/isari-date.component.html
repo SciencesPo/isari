@@ -29,22 +29,25 @@
   <div class="md-menu" [hidden]="!focused">
     <span md-menu-item disabled>
       <button tabindex="-1" md-button (mousedown)="display('days')">{{ day || ('day' | translate) }}</button>
+      <div class="remove-content" tabindex="-1" (mousedown)="setDay(null, $event)" md-button>
+        <md-icon>clear</md-icon>
+      </div>
       <button tabindex="-1" md-button (mousedown)="display('months')">{{ months[lang][month - 1] || ('month' | translate) }}</button>
+      <div class="remove-content" tabindex="-1" (mousedown)="setMonth(null, $event)" md-button>
+        <md-icon>clear</md-icon>
+      </div>
       <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || ('year' | translate) }}</button>
+      <div class="remove-content" tabindex="-1" (mousedown)="deleteDate(y, $event)" md-button>
+        <md-icon>clear</md-icon>
+      </div>
     </span>
 
     <div *ngIf="displayed === 'days'" class="calendar">
       <button tabindex="-1"  *ngFor="let d of days" (mousedown)="setDay(d, $event)" md-icon-button>{{ d }}</button>
-      <div class="remove-content">
-        <button tabindex="-1" (mousedown)="setDay(null, $event)" md-icon-button><md-icon>delete</md-icon></button>
-      </div>
     </div>
 
     <div *ngIf="displayed === 'months'" class="calendar-months">
       <button tabindex="-1" *ngFor="let m of months[lang]; let i = index" (mousedown)="setMonth(i+1, $event)" md-button>{{ m }}</button>
-      <div class="remove-content">
-        <button tabindex="-1" (mousedown)="setMonth(null, $event)" md-button><md-icon>delete</md-icon></button>
-      </div>
     </div>
 
     <div *ngIf="displayed === 'years'" class="calendar-years">
@@ -53,15 +56,7 @@
       <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" md-button><md-icon>keyboard_arrow_right</md-icon></button>
     </div>
 
-    <div class="validate-cancel">
-      <button tabindex="-1" (mousedown)="undoDate(y, $event)" md-menu-item>
-        <md-icon color="primary">undo</md-icon>
-      </button>
-
-      <button tabindex="-1" (mousedown)="deleteDate(y, $event)" md-menu-item>
-        <md-icon color="primary">clear</md-icon>
-      </button>
-
+    <div class="validate">
       <button tabindex="-1" (mousedown)="update($event)" md-menu-item>
         <md-icon color="primary">done</md-icon>
       </button>

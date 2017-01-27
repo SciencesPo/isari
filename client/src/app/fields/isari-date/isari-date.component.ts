@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { FocusMeDirective } from '../focus-me.directive';
+import { matchKeyCombo } from '../../utils';
 
 @Component({
   selector: 'isari-date',
@@ -17,6 +18,7 @@ export class IsariDateComponent {
   @Input() requirement: string;
   @Input() description: string;
   @Output() onUpdate = new EventEmitter<any>();
+  @Input() escapeKey: Array<string> = ['esc'];
 
   @ViewChild(FocusMeDirective) focusMe;
 
@@ -38,6 +40,8 @@ export class IsariDateComponent {
   runningClick = false;
   lang: string;
 
+  private pressedEscapeKey: Function;
+
   constructor(private translate: TranslateService) {
     this.year = (new Date()).getFullYear();
   }
@@ -47,6 +51,8 @@ export class IsariDateComponent {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+
+    this.pressedEscapeKey = matchKeyCombo(this.escapeKey);
 
     [this.year, this.month, this.day] = this.form.controls[this.name].value.split('-').map(v => Number(v));
 
@@ -144,8 +150,11 @@ export class IsariDateComponent {
   }
 
   undoDate($event) {
-    this.ngOnInit();
-    this.focused = false;
+    // Not actually working ...
+    if (this.pressedEscapeKey($event)) {
+      this.ngOnInit();
+      this.focused = false; 
+    }
   }
 
   navigateYears(y, $event) {
