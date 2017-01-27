@@ -95,16 +95,27 @@ exports.parseDate = function(string) {
 /**
  * Function checking overlap of two potentially non-ending periods.
  */
+
+const fillIncompleteDate = function(d,start = true) {
+  if (d){
+    if (d.length === 4)
+    return start ? `${d}-01-01` : `${d}-12-31`
+  if (d.length === 7)
+    return start ? `${d}-01` : `${d}-31`  
+  }
+  return d
+}
+
 exports.overlap = function(A, B) {
 
   // Invalid ranges
   if (!A.startDate && !B.startDate && !A.endDate && !B.endDate)
     return false;
 
-  const startA = A.startDate || '0',
-        startB = B.startDate || '0',
-        endA = A.endDate || '5000',
-        endB = B.endDate || '5000';
+  const startA = fillIncompleteDate(A.startDate) || '0',
+        startB = fillIncompleteDate(B.startDate) || '0',
+        endA = fillIncompleteDate(A.endDate) || '5000',
+        endB = fillIncompleteDate(B.endDate) || '5000';
 
   return (startA <= endB) && (endA >= startB);
 };

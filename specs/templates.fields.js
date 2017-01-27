@@ -3,6 +3,7 @@
 //****** utils
 const { formatEnum } = require('../server/lib/enums')
 const moment = require('../server/node_modules/moment')
+const { overlap } = require('../server/export/helpers')
 
 // datesPeriod
 
@@ -53,12 +54,13 @@ function organizationDates(ps){
 		return formatPosition(p)	
 }
 
-function currentOrganizationDates(afs,scope){
+function currentMemberships(afs,scope){
 	if (!afs)
 		return '';
 	const thisMonth = moment().format('YYYY-MM') 
 	// keep only memberships active this month
-	const r = afs.filter(a => (!a.startDate || a.startDate <= thisMonth) && (!a.endDate || a.endDate >= thisMonth))
+	const r = afs.filter(a => a.membershipType !== 'visiting' && a.membershipType !== 'associé')
+				.filter(a => overlap(a,{'startDate': thisMonth,'endDate': thisMonth}))
 		// sort orga from scope first and then by alphabetic order 
 		.sort(e => (e.organization._id.toString() === scope.organization) ? 'aaaaaaaaaa' : e.organization.acronym || e.organization.name)
 	if (r.length){
@@ -86,7 +88,7 @@ function currentDeptMembershipsDates(p){
 	if (p){
 		const thisMonth = moment().format('YYYY-MM')
 		// keep only memberships active this month
-	  	const afs = p.filter(a => (!a.startDate || a.startDate <= thisMonth) && (!a.endDate || a.endDate >= thisMonth))
+	  	const afs = p.filter(a => overlap(a,{'startDate': thisMonth,'endDate': thisMonth}))
 	  				// sort orga from scope first and then by alphabetic order 
 	  				.sort(e => e.departement)
 	  if (afs.length){
@@ -158,4 +160,4 @@ exports.researchUnitCode = researchUnitCode
 exports.peopleDates = peopleDates
 exports.peopleGrades = peopleGrades
 exports.organizationDates = organizationDates
-exports.currentOrganizationDates = currentOrganizationDates
+exports.currentMemberships = currentMemberships
