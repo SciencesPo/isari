@@ -3,8 +3,16 @@
     "defaults": ["firstName","name","academicMemberships","gradeStatus","grade"],
     "selector": [
       "-grades",
-      "-personnalActivities",
+      "-personalActivities",
       "-tags",
+      "-birthName",
+      "-CNRSMatricule",
+      "-IDREF",
+      "-positions",
+      "-facultyMonitoring",
+      "-biography",
+      "-contacts",
+      "-distinctions",
        {
         "key": "membershipType",
         "label": {

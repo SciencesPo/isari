@@ -3,8 +3,8 @@
         {
             "accessType": "confidential",
             "label": {
-                "fr": "Accès au(x) centre(s)",
-                "en": "Center(s) access"
+                "fr": "Accès Isari",
+                "en": "Isari access"
             },
             "organization": {
                 "label": {
@@ -19,7 +19,8 @@
                     "en": "Role"
                 },
                 "enum": "isariRoles"
-            }
+            },
+            "template": "isariAuthorizedCenters"
         }
     ],
     "firstName": {

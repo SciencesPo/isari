@@ -165,6 +165,16 @@ exports.bonuses = bonuses => {
     return []
 }
 
+exports.isariAuthorizedCenters = (as,scope) => {
+  const l = as.map(a => formatEnum('isariRoles',a.isariRole, label => {
+    if (!a.organization || a.organization._id.toString() === scope.organization )
+      return label
+    else
+      return label + ' ' + (a.organization.acronym || a.organization.name)
+  }))
+  return l
+}
+
 exports.peopleName = peopleName
 exports.objectName = objectName
 exports.deptMembershipsDates = deptMembershipsDates
