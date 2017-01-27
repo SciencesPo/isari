@@ -1,7 +1,9 @@
 {
   "people": {
-    "defaults": ["firstName","name","membershipType","gradeStatus","grade"],
+    "defaults": ["firstName","name","affiliations","gradeStatus","grade"],
     "selector": [
+      "-grades",
+      "-personnalActivities",
       "-tags",
        {
         "key": "membershipType",
@@ -29,6 +31,13 @@
         "label": {
           "fr": "Grade",
           "en": "Grade"
+        }
+      },
+      {
+        "key":"affiliations",
+        "label": {
+          "fr": "Affiliation.s",
+          "en": "Affiliation.s"
         }
       }
 
