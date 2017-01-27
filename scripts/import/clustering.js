@@ -10,7 +10,8 @@ const words = require('talisman/tokenizers/words'),
       fingerprint = require('talisman/keyers/fingerprint'),
       // fingerpintTokenizer = require('talisman/tokenizers/fingerprint'),
       overlap = require('talisman/metrics/distance/overlap'),
-      jaccard = require('talisman/metrics/distance/jaccard');
+      jaccard = require('talisman/metrics/distance/jaccard'),
+      levenshtein = require('talisman/metrics/distance/levenshtein');
 
 const helpers = require('./helpers');
 
@@ -40,18 +41,18 @@ const organizationSimilarity = (a, b) => {
 exports.people = function(people) {
 
   // Tokenizing
-  people = people.map(person => {
-    const key = words(helpers.normalizeName(person.name))
-      .concat(words(helpers.normalizeName(person.firstName)));
+  // people = people.map(person => {
+  //   const key = words(helpers.normalizeName(person.name))
+  //     .concat(words(helpers.normalizeName(person.firstName)));
 
-    return {
-      key,
-      person
-    };
-  });
+  //   return {
+  //     key,
+  //     person
+  //   };
+  // });
 
-  return naiveClusterer({similarity: peopleSimilarity}, people)
-    .map(cluster => cluster.map(item => item.person));
+  return naiveClusterer({similarity: (a, b) => levenshtein(helpers.hashPeople(a), helpers.hashPeople(b)) <= 2}, people)
+    // .map(cluster => cluster.map(item => item.person));
 };
 
 /**
