@@ -371,7 +371,7 @@
                 },
                 "type": "date"
             },
-            "template": "currentMemberships",
+            "template": "memberships",
             "membershipType": {
                 "label": {
                     "fr": "Type d'affiliation",
