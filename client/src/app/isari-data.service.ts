@@ -76,14 +76,18 @@ export class IsariDataService {
   }
 
   getDatas(feature: string,
-    { fields, applyTemplates, externals }: { fields: string[], applyTemplates: boolean, externals: boolean }) {
+    { fields, applyTemplates, externals, start, end }: { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string }) {
     const url = `${this.dataUrl}/${feature}`;
     fields.push('id'); // force id
 
     let options = this.getHttpOptions({
       fields: fields.join(','),
       applyTemplates: (applyTemplates ? 1 : 0).toString(),
-      include: externals ? 'externals' : 'members'
+      include: externals ?
+        'externals' :
+        (start || end ? 'range' : 'members'),
+      start: start || null,
+      end: end || null,
     });
 
     return this.http.get(url, options)

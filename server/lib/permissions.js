@@ -211,7 +211,7 @@ const listViewablePeople = (req, options = {}) => {
 		return Promise.reject(Error('Invalid usage of "listViewablePeople" without prior usage of "scopeOrganizationMiddleware"'))
 	}
 
-	const {
+	let {
 		includeExternals = true, includeMembers = true,
 		membershipStart = null, membershipEnd = null, includeRange = true
 	} = options
@@ -219,11 +219,19 @@ const listViewablePeople = (req, options = {}) => {
 	if (includeRange && (includeExternals || includeMembers)) {
 		return Promise.reject(Error('Incompatible options "includeRange" with "includeExternals" and "includeMembers"'))
 	}
-	if (includeRange && (!membershipStart || !membershipEnd)) {
-		return Promise.reject(Error('Incomplete usage of "includeRange": missing values for start and end'))
+	if (includeRange && (!membershipStart && !membershipEnd)) {
+		return Promise.reject(Error('Incomplete usage of "includeRange": missing values for start or end'))
 	}
 	if (includeRange && !req.userScopeOrganizationId) {
 		return Promise.reject(Error('Invalid usage of "includeRange" without organization id provided'))
+	}
+
+	// Setting absurd dates to permit no start or end date
+	if (includeRange && !membershipStart) {
+		membershipStart = '1000-01-01'
+	}
+	if (includeRange && !membershipEnd) {
+		membershipEnd = '9999-01-01'
 	}
 
 	// Note: A && B && (C || D) is not supported by Mongo

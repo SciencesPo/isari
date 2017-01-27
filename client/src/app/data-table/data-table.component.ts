@@ -20,7 +20,6 @@ export class DataTableComponent implements OnInit, OnChanges {
   lang: string;
   defaultLang: string = 'fr';
 
-  @Input() loading: boolean = false;
   @Input() data: any[];
   @Input() cols: any[];
   @Input() editedId: string;

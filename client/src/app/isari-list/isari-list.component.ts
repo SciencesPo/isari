@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
@@ -22,14 +23,20 @@ export class IsariListComponent implements OnInit {
   cols: any[] = [];
   editedId: string = '';
   selectedColumns: any[] = [];
+  dateForm: FormGroup;
 
   constructor (
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     private translate: TranslateService,
     private titleService: Title) {}
 
   ngOnInit() {
+    this.dateForm = new FormGroup({
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
+    });
+
     this.route.params
       .subscribe(({ feature, externals }) => {
         this.feature = feature;
@@ -67,17 +74,27 @@ export class IsariListComponent implements OnInit {
     this.loadDatas();
   }
 
+  startDateUpdated($event) {
+    this.loadDatas();
+  }
+
+  endDateUpdated($event) {
+    this.loadDatas();
+  }
+
   filtered($event) {
     this.filteredData = $event.data;
   }
 
   private loadDatas() {
-    this.data = [];
+    // this.data = [];
     this.loading = true;
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
       applyTemplates: true,
-      externals: this.externals
+      externals: this.externals,
+      start: this.dateForm.value.startDate,
+      end: this.dateForm.value.endDate
     }).then(data => {
       this.loading = false;
       this.data = data;

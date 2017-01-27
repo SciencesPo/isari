@@ -31,6 +31,8 @@
   "day": "Day",
   "month": "Month",
   "year": "Year",
+  "startDate": "Start date",
+  "endDate": "End date",
   "personal-space": "Personal Space",
   "multiplechoices": "You can enter several values",
   "footermentions" : "Legal notices & GCU",
