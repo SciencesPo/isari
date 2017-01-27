@@ -66,7 +66,7 @@ function _applyTemplates (ownerDoc, object, meta, depth, scope) {
 			throw new Error('Model inconsistency: meta declares array field, object is not an array')
 		}
 		if (templates[meta[0].template])
-			return templates[meta[0].template](object)
+			return templates[meta[0].template](object, scope)
 		else
 			return object.map(o => _applyTemplates(o, o, meta[0], depth, scope))
 	}
@@ -94,7 +94,7 @@ function _applyTemplates (ownerDoc, object, meta, depth, scope) {
 
 	// No depth: simple string representation
 	if (depth === 0) {
-		return templates[meta.template](object)
+		return templates[meta.template](object, scope)
 	}
 
 	// Depth: generate string representations for fields

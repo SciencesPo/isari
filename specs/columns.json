@@ -1,6 +1,6 @@
 {
   "people": {
-    "defaults": ["firstName","name","affiliations","gradeStatus","grade"],
+    "defaults": ["firstName","name","academicMemberships","gradeStatus","grade"],
     "selector": [
       "-grades",
       "-personnalActivities",
@@ -32,15 +32,7 @@
           "fr": "Grade",
           "en": "Grade"
         }
-      },
-      {
-        "key":"affiliations",
-        "label": {
-          "fr": "Affiliation.s",
-          "en": "Affiliation.s"
-        }
       }
-
      
     ]
   },

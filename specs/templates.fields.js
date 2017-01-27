@@ -2,6 +2,7 @@
 
 //****** utils
 const { formatEnum } = require('../server/lib/enums')
+const moment = require('../server/node_modules/moment')
 
 // datesPeriod
 
@@ -52,6 +53,24 @@ function organizationDates(ps){
 		return formatPosition(p)	
 }
 
+function currentOrganizationDates(afs,scope){
+	if (!afs)
+		return '';
+	const thisMonth = moment().format('YYYY-MM') 
+	// keep only memberships active this month
+	const r = afs.filter(a => (!a.startDate || a.startDate <= thisMonth) && (!a.endDate || a.endDate >= thisMonth))
+		// sort orga from scope first and then by alphabetic order 
+		.sort(e => (e.organization._id.toString() === scope.organization) ? 'aaaaaaaaaa' : e.organization.acronym || e.organization.name)
+	if (r.length){
+	  	// take the last one
+	  	return r.map(af => af.organization.acronym || af.organization.name).join(", ");
+	}
+	
+	return '';
+
+}
+
+
 // department Memberships Dates
 function deptMembershipsDates(p){
 	if (!p.departement) {
@@ -62,6 +81,23 @@ function deptMembershipsDates(p){
 		return label
 	}) 
 }
+
+function currentDeptMembershipsDates(p){
+	if (p){
+		const thisMonth = moment().format('YYYY-MM')
+		// keep only memberships active this month
+	  	const afs = p.filter(a => (!a.startDate || a.startDate <= thisMonth) && (!a.endDate || a.endDate >= thisMonth))
+	  				// sort orga from scope first and then by alphabetic order 
+	  				.sort(e => e.departement)
+	  if (afs.length){
+	  	// take the last one
+	  	console.log(afs.map(af => formatEnum('teachingDepartements', af.departement)))
+	  	return afs.map(af => formatEnum('teachingDepartements', af.departement));
+	  }
+	}
+  	return '';
+  }
+
 
 // personnalActivities
 function personalActivity(p) {
@@ -116,9 +152,11 @@ function peopleGrades(g){
 exports.peopleName = peopleName
 exports.objectName = objectName
 exports.deptMembershipsDates = deptMembershipsDates
+exports.currentDeptMembershipsDates = currentDeptMembershipsDates
 exports.distinction = distinction
 exports.personalActivity = personalActivity
 exports.researchUnitCode = researchUnitCode
 exports.peopleDates = peopleDates
 exports.peopleGrades = peopleGrades
 exports.organizationDates = organizationDates
+exports.currentOrganizationDates = currentOrganizationDates

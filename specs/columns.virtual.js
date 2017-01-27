@@ -64,18 +64,3 @@ exports.grade = (people, scope) => {
   	return '';
 };
 
-exports.affiliations = (people, scope) => {
-	if (people.academicMemberships){
-		const thisMonth = moment().format('YYYY-MM') 
-	  const afs = people.academicMemberships
-	  				// keep only memberships active this month
-	  				.filter(a => (!a.startDate || a.startDate <= thisMonth) && (!a.endDate || a.endDate >= thisMonth))
-	  				// sort orga from scope first and then by alphabetic order 
-	  				.sort(e => (e.organization._id.toString() === scope.organization) ? 'aaaaaaaaaa' : e.organization.acronym || e.organization.name)
-	  if (afs.length){
-	  	// take the last one
-	  	return afs.map(af => af.organization.acronym || af.organization.name).join(", ");
-	  }
-	}
-  	return '';
-};
