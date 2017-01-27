@@ -112,10 +112,10 @@ exports.overlap = function(A, B) {
   if (!A.startDate && !B.startDate && !A.endDate && !B.endDate)
     return false;
 
-  const startA = fillIncompleteDate(A.startDate) || '0',
-        startB = fillIncompleteDate(B.startDate) || '0',
-        endA = fillIncompleteDate(A.endDate) || '5000',
-        endB = fillIncompleteDate(B.endDate) || '5000';
+  const startA = fillIncompleteDate(A.startDate, true) || '0',
+        startB = fillIncompleteDate(B.startDate, true) || '0',
+        endA = fillIncompleteDate(A.endDate, false) || '5000',
+        endB = fillIncompleteDate(B.endDate, false) || '5000';
 
   return (startA <= endB) && (endA >= startB);
 };
