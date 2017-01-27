@@ -14,7 +14,7 @@
     </md-menu>
 
     <isari-date
-      *ngIf="feature !== 'organizations'"
+      *ngIf="feature === 'people'"
       (onUpdate)="startDateUpdated($event)"
       [form]="dateForm"
       [name]="'startDate'"
@@ -23,7 +23,7 @@
       [form]="null"></isari-date>
 
     <isari-date
-      *ngIf="feature !== 'organizations'"
+      *ngIf="feature === 'people'"
       (onUpdate)="endDateUpdated($event)"
       [form]="dateForm"
       [name]="'endDate'"
@@ -41,7 +41,9 @@
 
   </md-toolbar>
 
-  <isari-data-table (onFilter)="filtered($event)" [data]="data" [cols]="selectedColumns" [editedId]="editedId" [loading]="loading"></isari-data-table>
+  <isari-spinner *ngIf="loading"></isari-spinner>
+
+  <isari-data-table *ngIf="!loading" (onFilter)="filtered($event)" [data]="data" [cols]="selectedColumns" [editedId]="editedId"></isari-data-table>
 </md-card>
 
 <router-outlet name="editor"></router-outlet>

@@ -75,11 +75,11 @@ export class IsariListComponent implements OnInit {
   }
 
   startDateUpdated($event) {
-    console.log($event, this.dateForm.value);
+    this.loadDatas();
   }
 
-  endDateUpdate($event) {
-    console.log($event, this.dateForm.value);
+  endDateUpdated($event) {
+    this.loadDatas();
   }
 
   filtered($event) {
@@ -87,12 +87,14 @@ export class IsariListComponent implements OnInit {
   }
 
   private loadDatas() {
-    this.data = [];
+    // this.data = [];
     this.loading = true;
     this.isariDataService.getDatas(this.feature, {
       fields: this.selectedColumns.map(col => col.key),
       applyTemplates: true,
-      externals: this.externals
+      externals: this.externals,
+      start: this.dateForm.value.startDate,
+      end: this.dateForm.value.endDate
     }).then(data => {
       this.loading = false;
       this.data = data;
