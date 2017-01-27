@@ -46,6 +46,17 @@ export class FieldComponent implements OnChanges {
         this.field.stringValue = this.isariDataService.getForeignLabel(this.field.ref, this.form.controls[this.field.name].value);
         this.field.create = this.isariDataService.getForeignCreate(this.field.ref);
       }
+
+      // @TODO : message erreur spécifique. Raf : valeurs initiales fausses (ajout) et pb sur les select + remonter l'info
+      // if (!this.field.multiple && this.field.type !== 'object') {
+      //   this.form.controls[this.field.name].statusChanges.subscribe(status => {
+      //     console.log(this.field.label, status)
+      //     if (status === 'INVALID') {
+      //       console.log({ [this.field.label]: Object.keys(this.form.controls[this.field.name].errors) });
+      //     }
+      //   });
+      // }
+
     }
   }
 

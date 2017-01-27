@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, RequestOptions } from '@angular/http';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
@@ -463,31 +463,30 @@ export class IsariDataService {
       });
   }
 
-  // getErrors(form: FormGroup) {
-  //   return this.getErrorsFromControls(form.controls);
-  // }
-
-  // getErrorsFromControls(controls: { [key: string]: AbstractControl}) {
-  //   let errors = [];
-  //   for (let fieldName of Object.keys(controls)){
-  //     let control = controls[fieldName];
-  //     if (control instanceof FormGroup) {
-  //       errors = [...errors, ...this.getErrorsFromControls(control.controls)];
-  //       this.getErrorsFromControls(control.controls);
-  //     }
-  //     if (control instanceof FormArray) {
-  //       control.controls
-  //         .filter(ctrl => ctrl.invalid)
-  //         .forEach(ctrl => {
-  //           errors = [...errors, ...this.getErrorsFromControls( (<FormGroup>ctrl).controls)];
-  //         });
-  //     }
-  //     if (control.errors) {
-  //       errors.push(fieldName);
-  //     }
-  //   }
-  //   return errors;
-  // }
+  getErrorsFromControls(controls: { [key: string]: AbstractControl}) {
+    let errors = [];
+    for (let fieldName of Object.keys(controls)){
+      let control = controls[fieldName];
+      if (control instanceof FormGroup) {
+        errors = [...errors, ...this.getErrorsFromControls(control.controls)];
+        this.getErrorsFromControls(control.controls);
+      }
+      if (control instanceof FormArray) {
+        control.controls
+          .filter(ctrl => ctrl.invalid)
+          .forEach(ctrl => {
+            errors = [...errors, ...this.getErrorsFromControls( (<FormGroup>ctrl).controls)];
+          });
+      }
+      if (control.errors) {
+        errors.push({
+          field: fieldName,
+          errors: Object.keys(control.errors)
+        });
+      }
+    }
+    return errors;
+  }
 
   clearCache () {
     this.enumsCache = {};

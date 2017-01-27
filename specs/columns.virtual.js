@@ -20,6 +20,9 @@ exports.email = (people, scope) => {
 };
 
 exports.membershipType = (people, scope) => {
+  if (!people.academicMemberships)
+    return '';
+
   let af = people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization)
   af.sort(e => e.startDate)
 
@@ -44,7 +47,8 @@ exports.gradeStatus = (people, scope) => {
 	  	return af;
 	  }
 	}
-  	return '';
+
+  return '';
 };
 
 exports.grade = (people, scope) => {
