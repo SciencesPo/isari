@@ -31,6 +31,8 @@
   "day": "Jour",
   "month": "Mois",
   "year": "Année",
+  "startDate": "Date de début",
+  "endDate": "Date de fin",
   "personal-space": "Espace Personnel",
   "multiplechoices": "Vous pouvez renseigner plusieurs valeurs",
   "footermentions" : "Mentions Légales et CGU",
