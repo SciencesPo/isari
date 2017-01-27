@@ -18,6 +18,7 @@ import { MdDialogRef } from '@angular/material';
   styles: [
     `button { outline:none; margin: 0px 30px 0px 30px; border: 2px solid #E6142D; border-radius:100%; background-color: white; cursor:pointer }`,
     `md-dialog-actions { text-align: center }`,
+    `md-icon { line-height: 33px }`,
     `h1 { font-family: 'Roboto', sans-serif }`
   ]
 })
