@@ -70,6 +70,8 @@ export class IsariDateComponent {
 
     this.days = this.setDays(this.year, this.month);
     this.years = this.setYears(this.year || new Date().getFullYear());
+
+    this.runningClick = false;
   }
 
   onFocus($event) {
@@ -152,12 +154,14 @@ export class IsariDateComponent {
   undoDate($event) {
     if (this.pressedEscapeKey($event)) {
       this.ngOnInit();
-      this.focused = false;
+      this.focused = false; 
     }
   }
 
   navigateYears(y, $event) {
     this.years = this.setYears(y);
+    // Fixing focus for Chrome when navigating in 'years' display
+    this.focused = true;
   }
 
   private getDisplayedValue (year, month, day) {
