@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, HostListener } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { FocusMeDirective } from '../focus-me.directive';
@@ -19,6 +19,7 @@ export class IsariDateComponent {
   @Input() description: string;
   @Output() onUpdate = new EventEmitter<any>();
   @Input() escapeKey: Array<string> = ['esc'];
+  @Input() enterKey: Array<string> = ['enter'];
 
   @ViewChild(FocusMeDirective) focusMe;
 
@@ -41,6 +42,7 @@ export class IsariDateComponent {
   lang: string;
 
   private pressedEscapeKey: Function;
+  private pressedEnterKey: Function;
 
   constructor(private translate: TranslateService) {
     this.year = (new Date()).getFullYear();
@@ -53,6 +55,7 @@ export class IsariDateComponent {
     });
 
     this.pressedEscapeKey = matchKeyCombo(this.escapeKey);
+    this.pressedEnterKey = matchKeyCombo(this.enterKey);
 
     [this.year, this.month, this.day] = this.form.controls[this.name].value.split('-').map(v => Number(v));
 
@@ -68,10 +71,11 @@ export class IsariDateComponent {
       this.display('years');
     }
 
+    this.focused = false;
+    this.runningClick = false;
+
     this.days = this.setDays(this.year, this.month);
     this.years = this.setYears(this.year || new Date().getFullYear());
-
-    this.runningClick = false;
   }
 
   onFocus($event) {
@@ -81,6 +85,7 @@ export class IsariDateComponent {
   onBlur($event) {
     if (!this.runningClick) {
       this.focused = false;
+      this.ngOnInit();
     } else {
       this.runningClick = false;
       this.focusMe.setFocus();
@@ -152,16 +157,24 @@ export class IsariDateComponent {
   }
 
   undoDate($event) {
-    if (this.pressedEscapeKey($event)) {
-      this.ngOnInit();
-      this.focused = false; 
-    }
+    this.ngOnInit();
+    this.focused = false;
+    this.runningClick = false;
   }
 
   navigateYears(y, $event) {
     this.years = this.setYears(y);
-    // Fixing focus for Chrome when navigating in 'years' display
-    this.focused = true;
+    this.runningClick = true;
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeydown($event) {
+    if (this.pressedEscapeKey($event)) {
+      this.undoDate($event);
+    }
+    if (this.pressedEnterKey($event)) {
+      this.update($event);
+    }
   }
 
   private getDisplayedValue (year, month, day) {

@@ -57,6 +57,11 @@
     </div>
 
     <div class="validate">
+
+      <button tabindex="-1" (mousedown)="undoDate($event)" md-menu-item>
+        <md-icon color="primary">undo</md-icon>
+      </button>
+
       <button tabindex="-1" (mousedown)="update($event)" md-menu-item>
         <md-icon color="primary">done</md-icon>
       </button>
