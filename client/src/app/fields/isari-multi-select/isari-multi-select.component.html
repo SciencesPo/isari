@@ -1,7 +1,7 @@
 <div class="md-input-wrapper" (keyup)="onKey($event)">
   <div class="multiselect-container">
     
-    <div [ngClass]="{'md-empty': empty }">
+    <div [ngClass]="{'md-empty': empty }" style="flex-grow: 1">
 
       <input *ngIf="!disabled" class="md-input-element" spellcheck="false" type="text"
         [formControl]="selectControl"
@@ -25,18 +25,18 @@
       
     </div>
 
-    <div>
-      <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
-      <md-icon class="tooltip-fields" *ngIf="description" [md-tooltip]="description">info_outline</md-icon>
-      <md-icon class="tooltip-fields" [md-tooltip]="'multiplechoices' | translate ">info_outline</md-icon>
-    </div>
-
-    <div style="flex-grow: 1">
+    <div style="flex-grow: 2">
       <div *ngFor="let item of _values" class="multiselect-tag" [class.edit]="item.id" style="display:inline-block">
         {{ item.label }}
         <a *ngIf="item.id && !disabled" routerLink="/{{ api }}/{{ item.id }}" target="_blank" preserveQueryParams><md-icon>open_in_new</md-icon></a>
         <md-icon *ngIf="!disabled" (click)="removeValue(item, $event)" style="vertical-align: middle;">delete</md-icon>
       </div>
+    </div>
+
+    <div style="flex-grow: 1;text-align: right;">
+      <span *ngIf="requirement === 'recommended' && !_values.length" class="recommended-field">{{ 'recommended' | translate }}</span>
+      <md-icon class="tooltip-fields" *ngIf="description" [md-tooltip]="description">info_outline</md-icon>
+      <md-icon class="tooltip-fields" [md-tooltip]="'multiplechoices' | translate ">info_outline</md-icon>
     </div>
 
   </div>

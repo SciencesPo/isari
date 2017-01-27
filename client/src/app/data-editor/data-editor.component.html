@@ -1,8 +1,8 @@
 <form [class.border]="deletable && form.enabled" novalidate [formGroup]="form" *ngIf="form">
-  <div class="save-n-delete">
-  <button *ngIf="!path"  class="save" md-button (click)="save($event)">{{ 'save' | translate }} <md-icon>done</md-icon></button>
-  <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
-    <md-icon>delete</md-icon>
+  <div class="save-n-delete" *ngIf="!path || (deletable && form.enabled)">
+    <button *ngIf="!path"  class="save" md-button (click)="save($event)">{{ 'save' | translate }} <md-icon>done</md-icon></button>
+    <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
+      <md-icon>delete</md-icon>
     </a>
   </div>
 
@@ -16,7 +16,7 @@
       </div>
     </md-card-subtitle>
 
-    <table [hidden]="group.collapsed">
+    <table [hidden]="group.collapsed" style="width:100%">
       <tr *ngFor="let row of group.fields">
           <td *ngFor="let field of row" [colSpan]="row.colspan">
             <isari-field
