@@ -6,11 +6,22 @@
  */
 const words = require('talisman/tokenizers/words'),
       naiveClusterer = require('talisman/clustering/record-linkage/naive'),
+      keyCollision = require('talisman/clustering/record-linkage/key-collision'),
       fingerprint = require('talisman/keyers/fingerprint'),
+      // fingerpintTokenizer = require('talisman/tokenizers/fingerprint'),
       overlap = require('talisman/metrics/distance/overlap'),
       jaccard = require('talisman/metrics/distance/jaccard');
 
 const helpers = require('./helpers');
+
+/**
+ * Special keyer.
+ */
+// const IEPKeyer = name => {
+//   const tokens = fingerpintTokenizer(name.replace(/sciences\s*po/ig, 'IEP'));
+
+//   return tokens.join(' ');
+// };
 
 /**
  * Similarity metrics.
@@ -40,7 +51,6 @@ exports.people = function(people) {
   });
 
   return naiveClusterer({similarity: peopleSimilarity}, people)
-    .filter(cluster => cluster.length > 1)
     .map(cluster => cluster.map(item => item.person));
 };
 
@@ -58,6 +68,11 @@ exports.organizations = function(organizations) {
   });
 
   return naiveClusterer({similarity: organizationSimilarity}, organizations)
-    .filter(cluster => cluster.length > 1)
     .map(cluster => cluster.map(item => item.org));
 };
+
+// exports.organizations = function(organizations) {
+//   return keyCollision({
+//     key: org => IEPKeyer(org.name)
+//   }, organizations);
+// };
