@@ -19,6 +19,9 @@ exports.email = (people, scope) => {
 };
 
 exports.membershipType = (people, scope) => {
+  if (!people.academicMemberships)
+    return '';
+
   let af = people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization)
   af.sort(e => e.startDate)
 
@@ -43,7 +46,8 @@ exports.gradeStatus = (people, scope) => {
 	  	return af;
 	  }
 	}
-  	return '';
+
+  return '';
 };
 
 exports.grade = (people, scope) => {
@@ -53,9 +57,10 @@ exports.grade = (people, scope) => {
 	  	// take the last one
 	  	af = af[af.length -1]
 	  	af = formatEnum('grade', [af.gradeStatus, af.grade])
-	  	console.log(af)
+	  	// console.log(af)
 	  	return af;
 	  }
 	}
-  	return '';
+
+  return '';
 };
