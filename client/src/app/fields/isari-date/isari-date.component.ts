@@ -150,10 +150,9 @@ export class IsariDateComponent {
   }
 
   undoDate($event) {
-    // Not actually working ...
     if (this.pressedEscapeKey($event)) {
       this.ngOnInit();
-      this.focused = false; 
+      this.focused = false;
     }
   }
 
