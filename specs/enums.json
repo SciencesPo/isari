@@ -1990,28 +1990,28 @@
         {
             "value": "chercheur",
             "label": {
-                "fr": "chercheur",
+                "fr": "chercheur.e",
                 "en": ""
             }
         },
         {
             "value": "chercheurenseignant",
             "label": {
-                "fr": "chercheur enseignant",
+                "fr": "chercheur.e enseignant.e",
                 "en": ""
             }
         },
         {
             "value": "enseignantchercheur",
             "label": {
-                "fr": "enseignant chercheur",
+                "fr": "enseignant.e chercheur.e",
                 "en": ""
             }
         },
         {
             "value": "enseignant",
             "label": {
-                "fr": "enseignant",
+                "fr": "enseignant.e",
                 "en": ""
             }
         },

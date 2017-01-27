@@ -8,17 +8,17 @@ import { MdDialogRef } from '@angular/material';
 
   <md-dialog-actions>
     <button (click)="dialogRef.close(true)">
-    	<md-icon>done</md-icon>
+    	<div>Oui</div>
     </button>
     <button md-dialog-close>
-    	<md-icon>clear</md-icon>
+    	<div>Annuler</div>
     </button>
   </md-dialog-actions>
   `,
   styles: [
-    `button { outline:none; margin: 0px 30px 0px 30px; border: 2px solid #E6142D; border-radius:100%; background-color: white; cursor:pointer }`,
+    `button { outline:none; margin: 0px 30px 0px 30px; border-radius:10%; background-color: white; cursor:pointer }`,
     `md-dialog-actions { text-align: center }`,
-    `md-icon { line-height: 33px }`,
+    `div { color: black; font-size: 16px; padding: 5px }`,
     `h1 { font-family: 'Roboto', sans-serif }`
   ]
 })
