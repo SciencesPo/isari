@@ -91,7 +91,6 @@ function currentDeptMembershipsDates(p){
 	  				.sort(e => e.departement)
 	  if (afs.length){
 	  	// take the last one
-	  	console.log(afs.map(af => formatEnum('teachingDepartements', af.departement)))
 	  	return afs.map(af => formatEnum('teachingDepartements', af.departement));
 	  }
 	}
