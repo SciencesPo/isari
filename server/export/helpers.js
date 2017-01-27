@@ -96,15 +96,15 @@ exports.parseDate = function(string) {
  * Function checking overlap of two potentially non-ending periods.
  */
 
-const fillIncompleteDate = function(d,start = true) {
-  if (d){
+const fillIncompleteDate = function(d, start = true) {
+  if (d) {
     if (d.length === 4)
-    return start ? `${d}-01-01` : `${d}-12-31`
+    return start ? `${d}-01-01` : `${d}-12-31`;
   if (d.length === 7)
-    return start ? `${d}-01` : `${d}-31`  
+    return start ? `${d}-01` : `${d}-31`;
   }
-  return d
-}
+  return d;
+};
 
 exports.overlap = function(A, B) {
 
@@ -118,4 +118,19 @@ exports.overlap = function(A, B) {
         endB = fillIncompleteDate(B.endDate, false) || '5000';
 
   return (startA <= endB) && (endA >= startB);
+};
+
+
+exports.formatDate = function(date) {
+  if (date) {
+    const [year, month, day] = date.split('-');
+    if (day)
+      return moment(date).format('DD/MM/YYYY');
+    else if (month)
+      return `${year}/${month}`;
+    else
+      return year;
+  }
+  else
+    return '';
 };

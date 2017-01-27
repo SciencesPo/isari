@@ -32,6 +32,55 @@
           "fr": "Grade",
           "en": "Grade"
         }
+      },
+      {
+        "key": "tutelle",
+        "label": {
+          "fr": "Tutelle.s",
+          "en": "Employer.s"
+        }
+      },
+      {
+        "key": "entryDate",
+        "label": {
+          "fr": "Date d'entrée",
+          "en": "Entry date"
+        }
+      },
+      {
+        "key": "leavingDate",
+        "label": {
+          "fr": "Date de sortie",
+          "en": "Leaving date"
+        }
+      },
+      {
+        "key": "jobType",
+        "label": {
+          "fr": "Contrat",
+          "en": "Contract"
+        }
+      },
+      {
+        "key": "jobName",
+        "label": {
+          "fr": "Emploi personnalisé",
+          "en": "Job name"
+        }
+      },
+      {
+        "key": "timepart",
+        "label": {
+          "fr": "ETP",
+          "en": "ETP"
+        }
+      },
+      {
+        "key": "degree",
+        "label": {
+          "fr": "Dernier diplôme",
+          "en": "last degree"
+        }
       }
      
     ]

@@ -8,7 +8,7 @@ const languages = require('../../specs/enum.languages.json')
 const memoize = require('memoizee')
 
 
-const enumValueGetter = exports.enumValueGetter = (description /*: { label, value }[] | string */) => {
+exports.enumValueGetter = (description /*: { label, value }[] | string */) => {
 	// As an array: direct values not exported into enums module
 	if (Array.isArray(description)) {
 		return simpleFind(description)

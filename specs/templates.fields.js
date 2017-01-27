@@ -91,11 +91,11 @@ function deptMembershipsDates(p){
   }) 
 }
 
-function currentDeptMembershipsDates(p){
+function currentDeptMembershipsDates(p,scope){
   if (p){
     const thisMonth = moment().format('YYYY-MM')
     // keep only memberships active this month
-      const afs = p.filter(a => overlap(a,{'startDate': thisMonth,'endDate': thisMonth}))
+      const afs = p.filter(a => overlap(a,{'startDate': scope.start ? scope.start : thisMonth,'endDate': scope.end ? scope.end : thisMonth}))
             // sort orga from scope first and then by alphabetic order 
             .sort(e => e.departement)
     if (afs.length){
@@ -154,7 +154,15 @@ function peopleDates(p){
 function peopleGrades(g){
   if (!Array.isArray(g))
     g = [g]
-  return g.map(e => formatEnum('gradeStatus', e.gradeStatus,label => {return label + ' '+ prettyPrintTimePeriod(e)})).join(";") 
+  return g.map(e => formatEnum('gradeStatus', e.gradeStatus, label => {return label + ' '+ prettyPrintTimePeriod(e)})).join(";") 
+}
+
+//Bonus
+exports.bonuses = bonuses => {
+  if (bonuses.length)
+    return bonuses.map(b => formatEnum('bonusTypes', b.bonusType, label => {return label + ' '+ prettyPrintTimePeriod(b)}))
+  else
+    return []
 }
 
 exports.peopleName = peopleName

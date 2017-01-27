@@ -23,7 +23,8 @@ const {
   createSheet,
   addSheetToWorkbook,
   parseDate,
-  overlap
+  overlap,
+  formatDate
 } = require('./helpers.js');
 
 //const GRADES_INDEX = require('../../specs/export/grades.json');
@@ -63,19 +64,6 @@ function findRelevantItem(collection) {
     .reverse()[0];
 }
 
-function formatDate(date) {
-  if (date) {
-    const [year, month, day] = date.split('-');
-    if (day)
-      return moment(date).format('DD/MM/YYYY');
-    else if (month)
-      return `${year}/${month}`;
-    else
-      return year;
-  }
-  else
-    return '';
-}
 
 /**
  * Sheets definitions.

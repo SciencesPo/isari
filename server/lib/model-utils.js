@@ -247,7 +247,7 @@ function _format (object, schema, shouldRemove, path, transform, rootDescription
 		// Extranous field: ignore it, but with a warning!
 		if (!schema) {
 
-			if (getVirtualColumn(path))
+			if (getVirtualColumn(path.split('.')[0]))
 				//case of virtual column, we keep it as is
 				return object
 
