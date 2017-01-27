@@ -177,7 +177,7 @@ module.exports = {
       resolver(lines) {
 
         // Priority: HCERES > Banner > Spire
-        return partitionBy(lines, line => `${line.acronym}§${line.name}`)
+        return partitionBy(lines, line => line.name)
           .map(sourceLines => {
             if (sourceLines.length > 3)
               this.error(`Too many different sources for organization: "${sourceLines[0].name}".`);
@@ -235,7 +235,6 @@ module.exports = {
 
         if (!match && org.acronym)
           match = indexes.acronym[org.acronym];
-
 
         const key = fingerprint(org.name);
 
