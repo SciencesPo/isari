@@ -44,7 +44,7 @@
       <button *ngIf="user" md-button [md-menu-trigger-for]="menu">{{ user.firstName }} {{ user.name }}</button>
 
       <md-menu x-position="before" #menu="mdMenu">
-        <button *ngIf="user" md-menu-item [routerLink]="['/cv']">Mon Profil</button>
+        <a *ngIf="user" md-menu-item [routerLink]="['/cv']" target="_blank">Mon Profil</a>
         <a md-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
       </md-menu>
     </div>
