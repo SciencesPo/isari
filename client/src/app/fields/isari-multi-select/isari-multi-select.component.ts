@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/skip';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 const ENTER = 13;
@@ -59,7 +60,7 @@ export class IsariMultiSelectComponent implements OnInit {
     });
 
     Observable.combineLatest(
-      this.src(this.selectControl.valueChanges, this.max),
+      this.src(this.selectControl.valueChanges.skip(1), this.max),
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
