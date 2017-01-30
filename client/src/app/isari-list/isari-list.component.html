@@ -20,7 +20,7 @@
     </md-menu>
 
     <isari-date
-      *ngIf="feature === 'people' && !externals"
+      *ngIf="(feature === 'people' && !externals) || feature === 'activities'"
       (onUpdate)="startDateUpdated($event)"
       [form]="dateForm"
       [name]="'startDate'"
@@ -29,7 +29,7 @@
       [form]="null"></isari-date>
 
     <isari-date
-      *ngIf="feature === 'people' && !externals"
+      *ngIf="(feature === 'people' && !externals) || feature === 'activities'"
       (onUpdate)="endDateUpdated($event)"
       [form]="dateForm"
       [name]="'endDate'"
