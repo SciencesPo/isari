@@ -76,7 +76,7 @@ export class IsariDataService {
   }
 
   getDatas(feature: string,
-    { fields, applyTemplates, externals, start, end }: { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string }) {
+    { fields, applyTemplates, externals, start, end, type }: { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }) {
     const url = `${this.dataUrl}/${feature}`;
     fields.push('id'); // force id
 
@@ -88,6 +88,7 @@ export class IsariDataService {
         (start || end ? 'range' : 'members'),
       start: start || null,
       end: end || null,
+      type: type || null
     });
 
     return this.http.get(url, options)
@@ -552,7 +553,7 @@ export class IsariDataService {
     return (scheme ? scheme + SCHEME : '') + (prependSlash ? SLASH : BLANK) + result;
   }
 
-  private getEnum(src: string) {
+  getEnum(src: string) {
 
     // nested
     const nestedPos = src.indexOf(':');

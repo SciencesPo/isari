@@ -26,6 +26,9 @@ export class IsariListComponent implements OnInit {
   editedId: string = '';
   selectedColumns: any[] = [];
   dateForm: FormGroup;
+  activityTypes: any[] = [];
+  activityType: string;
+  activityTypeLabel: string;
 
   constructor (
     private route: ActivatedRoute,
@@ -41,13 +44,17 @@ export class IsariListComponent implements OnInit {
     });
 
     this.route.params
-      .subscribe(({ feature, externals }) => {
+      .subscribe(({ feature, externals, type }) => {
         this.feature = feature;
 
         this.translate.get(feature).subscribe(featureTranslated => {
           this.titleService.setTitle(featureTranslated);
         });
 
+        this.activityType = type || null;
+        this.activityTypeLabel = this.activityTypes.length && this.activityType ?
+          this.activityTypes.find(type => type.value === this.activityType).label.fr :
+          null;
 
         this.externals = !!externals;
         this.isariDataService.getColumns(feature)
@@ -61,6 +68,19 @@ export class IsariListComponent implements OnInit {
             this.loadDatas();
           });
 
+      });
+
+    this.isariDataService.getEnum('activityTypes')
+
+      // Je ne comprends pas pourquoi je suis obligé de faire ça sous peine d'erreur TS
+      .subscribe((...args) => {
+
+        // TODO: translate
+        this.activityTypes = args[0];
+
+        if (this.activityType) {
+          this.activityTypeLabel = this.activityTypes.find(type => type.value === this.activityType).label.fr;
+        }
       });
 
     // get activated item in editor
@@ -112,7 +132,8 @@ export class IsariListComponent implements OnInit {
       applyTemplates: true,
       externals: this.externals,
       start: this.dateForm.value.startDate,
-      end: this.dateForm.value.endDate
+      end: this.dateForm.value.endDate,
+      type: this.activityType
     }).then(data => {
       this.loading = false;
       this.data = data;

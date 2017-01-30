@@ -7,10 +7,16 @@
     <span>{{ feature | translate }}</span>
     &nbsp;
 
-    <button *ngIf="feature === 'people'" md-raised-button [md-menu-trigger-for]="menu">{{ (externals ? 'others' : 'members') | translate }}</button>
-    <md-menu #menu="mdMenu">
+    <button *ngIf="feature === 'people'" md-raised-button [md-menu-trigger-for]="menuPeople">{{ (externals ? 'others' : 'members') | translate }}</button>
+    <md-menu #menuPeople="mdMenu">
       <a md-menu-item [routerLink]="['/', feature]" preserveQueryParams>{{ 'members' | translate }}</a>
       <a md-menu-item [routerLink]="[{ externals: true }]" preserveQueryParams>{{ 'others' | translate }}</a>
+    </md-menu>
+
+    <button *ngIf="feature === 'activities' && activityTypes.length" md-raised-button [md-menu-trigger-for]="menuActivities">{{ (!activityType) ? ('all_activities' | translate) : (activityTypeLabel) }}</button>
+    <md-menu #menuActivities="mdMenu">
+      <a md-menu-item [routerLink]="['/', feature]" preserveQueryParams>{{ 'all_activities' | translate }}</a>
+      <a *ngFor="let type of activityTypes" md-menu-item [routerLink]="[{type: type.value}]" preserveQueryParams>{{ type.label.fr }}</a>
     </md-menu>
 
     <isari-date
