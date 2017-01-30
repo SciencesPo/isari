@@ -1154,12 +1154,12 @@ module.exports = {
 
         if (line['people.role=PI']) {
           info.peoplePI = JSON.parse(line['people.role=PI']);
-          PISet = new Set(info.peoplePI.map(person => `${person.name}§${person.firstName}`));
+          PISet = new Set(info.peoplePI.map(person => hashPeople(person)));
         }
 
         if (line['people.role=responsableScientifique Only IF different from PI'])
           info.peopleScientific = JSON.parse(line['people.role=responsableScientifique Only IF different from PI'])
-            .filter(person => !PISet.has(`${person.name}§${person.firstName}`));
+            .filter(person => !PISet.has(hashPeople(person)));
 
         if (line['people.role=membre'])
           info.peopleMembre = JSON.parse(line['people.role=membre']);
