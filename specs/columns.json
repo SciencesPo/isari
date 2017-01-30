@@ -94,11 +94,46 @@
     ]
   },
   "activities": {
-    "defaults": ["acronym","name","activityType","startDate","endDate"],
-    "selector": []
+    "defaults": ["name","activityType","startDate","endDate","activityMainPeople"],
+    "selector": [
+      "-url",
+      "-distinctions",
+      "-tags",
+      "-organizations",
+      "-people",
+      {
+        "key": "activityMainPeople",
+        "label": {
+          "fr": "Participant principal",
+          "en": "Main people"
+        }
+      },
+      {
+        "key": "activityOtherPeople",
+        "label": {
+          "fr": "Autre.s participant.s",
+          "en": "Other people"
+        }
+      },
+      {
+        "key": "activityMainOrga",
+        "label": {
+          "fr": "Partenaire.s principal.aux",
+          "en": "Main Organization.s"
+        }
+      },
+      {
+        "key": "activityOtherOrga",
+        "label": {
+          "fr": "Autre.s partenaire.s",
+          "en": "Other organization.s"
+        }
+      }
+
+    ]
   },
   "organizations": {
     "defaults": ["name","acronym","countries"],
-    "selector": []
+    "selector": ["-nameAcronymeAliases"]
   }
 }

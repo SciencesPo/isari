@@ -242,9 +242,10 @@ module.exports = {
             .flatten()
             .value();
 
+
           // Computing academic memberships
           person.academicMemberships = _(years)
-            .groupBy('academicMembership')
+            .groupBy(y => y.academicMembership + y.startDate)
             .values()
             .map(memberships => _.first(memberships))
             .map((membership, i, memberships) => {
