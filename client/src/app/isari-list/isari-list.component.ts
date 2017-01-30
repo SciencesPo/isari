@@ -6,7 +6,8 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
 import { TranslateService } from 'ng2-translate';
-
+import { MdDialogRef, MdDialog } from '@angular/material';
+import { IsariCreationModal } from '../isari-creation-modal/isari-creation-modal.component';
 
 @Component({
   selector: 'isari-list',
@@ -15,6 +16,7 @@ import { TranslateService } from 'ng2-translate';
 })
 export class IsariListComponent implements OnInit {
 
+  dialogRef: MdDialogRef<IsariCreationModal>;
   feature: string;
   externals: boolean;
   loading: boolean = false;
@@ -29,7 +31,8 @@ export class IsariListComponent implements OnInit {
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     private translate: TranslateService,
-    private titleService: Title) {}
+    private titleService: Title,
+    private dialog: MdDialog) {}
 
   ngOnInit() {
     this.dateForm = new FormGroup({
@@ -84,6 +87,21 @@ export class IsariListComponent implements OnInit {
 
   filtered($event) {
     this.filteredData = $event.data;
+  }
+
+  createObject() {
+      this.dialogRef = this.dialog.open(IsariCreationModal, {
+        disableClose: false
+      });
+
+      this.dialogRef.componentInstance.feature = this.feature;
+
+      this.dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          //this.onDelete.emit($event);
+        }
+        this.dialogRef = null;
+      });
   }
 
   private loadDatas() {

@@ -272,7 +272,7 @@ export class IsariDataService {
   }
 
   rawSearch(feature: string, query: string, path?: string, rootFeature?: string) {
-    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/search`;
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/search`;
     return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature }))
       .map(response => response.json())
       .map(items => ({
