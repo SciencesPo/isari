@@ -138,7 +138,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userListViewablePeople = options => listViewablePeople(req, options)
 		req.userCanEditActivity = a => canEditActivity(req, a)
 		req.userCanViewActivity = a => canViewActivity(req, a)
-		req.userListViewableActivities = () => listViewableActivities(req)
+		req.userListViewableActivities = options => listViewableActivities(req, options)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
 		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
 		req.userComputeRestrictedFields = modelName => computeRestrictedFieldsShort(modelName, req)
@@ -382,10 +382,12 @@ Who can *view* an activity?
 - anyone having access to any of its organizations
 (access has been checked by scope earlier, so it's just about checking if activity.organizations contains requested scope)
 */
-const listViewableActivities = (req) => {
+const listViewableActivities = (req, options = {}) => {
 	if (!req._scopeOrganizationMiddleware) {
 		return Promise.reject(Error('Invalid usage of "listViewableActivities" without prior usage of "scopeOrganizationMiddleware"'))
 	}
+
+	const activityType = options.type
 
 	const filter = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
@@ -396,6 +398,10 @@ const listViewableActivities = (req) => {
 				{}
 			: // Limit to activities of organizations he has access to
 				{ 'organizations.organization': { $in: Object.keys(req.userRoles) } }
+
+	if (activityType) {
+		filter.activityType = activityType
+	}
 
 	return Promise.resolve({ query: Activity.find(filter) })
 }
