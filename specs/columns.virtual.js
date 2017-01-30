@@ -80,13 +80,13 @@ exports.grade = (people, scope) => {
 
 exports.entryDate = (people, scope) => {
 	if (people.academicMemberships)
-	  return _.min(people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization).map(e => formatDate(e.startDate)))
+	  return _.min(people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization).map(e => e.startDate))
   	return '';
 };
 
 exports.leavingDate = (people, scope) => {
 	if (people.academicMemberships)
-	  return _.max(people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization).map(e => formatDate(e.endDate)))
+	  return _.max(people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization).map(e => e.endDate))
   	return '';
 };
 
@@ -135,3 +135,76 @@ exports.timepart = (people, scope) => {
   	return '';
 };
 
+
+/// Activities
+
+// people
+
+const activityPeople = (activity, scope, main = true) => {
+	let peopleRoleFilter = {}
+	if (main){
+		peopleRoleFilter = {
+			doctorat: ['doctorant(role)'],
+			partenariat: ['responsableScientifique'],
+			projetderecherche: ['PI'],
+			mob_entrante: ['visiting'],
+			hdr: ['doctorant(role)'],
+			mob_sortante: ['visiting']
+		};
+	}
+	else{
+		peopleRoleFilter = {
+			doctorat: ['directeur','codirecteur'],
+			partenariat: ['referent','participant'],
+			projetderecherche: ['responsableScientifique','membre'],
+			mob_entrante: ['referent'],
+			hdr: ['directeur','codirecteur'],
+			mob_sortante: ['referent']
+		};
+	}
+
+	if (activity.people){
+		if (peopleRoleFilter[activity.activityType])
+			return activity.people.filter(p => peopleRoleFilter[activity.activityType].find(e => e === p.role)).map(p => `${p.people.firstName} ${p.people.name}`)
+		else 
+			return ''
+	}
+}
+exports.activityMainPeople = (a, s) => activityPeople(a, s, true)
+exports.activityOtherPeople = (a, s) => activityPeople(a, s, false)
+
+// organization
+
+const activityOrganization = (activity, scope, main = true) => {
+
+	let orgaRoleFilter={}
+	if (main){
+		orgaRoleFilter = {			
+			partenariat: ['coordinateur'],
+			projetderecherche: ['coordinateur'],
+			mob_entrante: ['orgadorigine'],
+			mob_sortante: ['orgadaccueil']
+		};
+	}
+	else{
+		orgaRoleFilter = {
+			partenariat: ['partenaire'],
+			projetderecherche: ['partenaire'],
+			mob_entrante: ['orgadaccueil'],
+			mob_sortante: ['orgadorigine']
+		};
+	}
+
+	if (activity.organizations){
+		if (orgaRoleFilter[activity.activityType])
+			return activity.organizations.filter(o => orgaRoleFilter[activity.activityType].find(e => e === o.role)).map(o => o.organization.acronym || o.organization.name )
+		else
+			// HDR and doctorat specific cases 
+			if (main)
+				return activity.organizations.filter(o => o.organization.acronym !== 'FNSP').map(o => o.organization.acronym || o.organization.name )
+			else
+				return activity.organizations.filter(o => o.organization.acronym === 'FNSP').map(o => o.organization.acronym || o.organization.name )
+	}
+}
+exports.activityMainOrga = (a, s) => activityOrganization(a, s, true)
+exports.activityOtherOrga = (a, s) => activityOrganization(a, s, false)
