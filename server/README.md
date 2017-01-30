@@ -80,7 +80,10 @@ npm install --production
 	* input: full Item
 	* output: Item + 200 or 400
 * `DELETE /:collection/:id`
+	* throws 400 if the item still has relations
 	* output: 204
+* `GET /:collection/:id/relations`
+	* output: formatted items (strings probably)
 * `GET /:collection/search`
 	* Endpoint for autocomplete suggestions
 	* output: Array(AutoCompleteItem) or Array(Item)
