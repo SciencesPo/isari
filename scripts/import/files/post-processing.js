@@ -208,7 +208,7 @@ module.exports = {
 
         person.isariAuthorizedCenters = person.isariAuthorizedCenters || [];
 
-        // TODO: can we have a central role & an attached organization
+        // Normally we can't have a central role & an attached organization
         let authorization = orgaAcronym && person.isariAuthorizedCenters.find(a => a.organization === orgaAcronym);
 
         if (authorization) {

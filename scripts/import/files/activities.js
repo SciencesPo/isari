@@ -777,7 +777,7 @@ module.exports = {
                   role: 'inscription'
                 });
 
-                // TODO: maybe need to update previous membership's endDate?
+                // NOTE: maybe need to update previous membership's endDate?
                 // if (!academicMembershipSet.has(hdr.organization)) {
                 //   const membership = {
                 //     organization: hdr.organization,
@@ -1029,7 +1029,6 @@ module.exports = {
               people = {},
               activities = [];
 
-        // TODO: forgot something?
         lines.forEach(line => {
 
           // Handling the person
