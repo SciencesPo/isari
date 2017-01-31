@@ -16,7 +16,7 @@ exports.partitionBy = function(collection, predicate) {
 // Function normalizing a single name
 function normalizeName(name) {
 
-  // TODO: for a better version drop more punct
+  // NOTE: for a better version drop more punct
   return _.deburr(name)
     .toUpperCase()
     .replace(/[A-Z]\./g, '')

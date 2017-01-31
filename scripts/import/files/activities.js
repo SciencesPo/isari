@@ -304,7 +304,34 @@ module.exports = {
 
           if (match) {
 
-            // TODO: merge
+            // If no nationality we add the one we have
+            if (
+              (
+                !match.nationalities ||
+                !match.nationalities.length
+              ) &&
+              (
+                !!person.nationalities &&
+                !!person.nationalities.length
+              )
+            ) {
+              match.nationalities = person.nationalities;
+            }
+
+            // Idem for grades
+            if (
+              (
+                !match.grades ||
+                !match.grades.length
+              ) &&
+              (
+                !!person.grades &&
+                !!person.grades.length
+              )
+            ) {
+              match.grades = person.grades;
+            }
+
             return;
           }
 
