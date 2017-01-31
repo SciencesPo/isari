@@ -16,7 +16,8 @@ import { get, sortByDistance } from './utils';
 const mongoSchema2Api = {
   'Organization': 'organizations',
   'People': 'people',
-  'Activities': 'activities'
+  'Activities': 'activities',
+  'Activity': 'activities'
 };
 
 const singular = {
@@ -103,6 +104,14 @@ export class IsariDataService {
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
+  }
+
+  removeData(feature: string, id: string) {
+    const url = `${this.dataUrl}/${feature}/${id}`;
+    return this.http.delete(url, this.getHttpOptions())
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);    
   }
 
   getLayout(feature: string) {

@@ -11,6 +11,8 @@ import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 import { matchKeyCombo } from '../utils';
 import get from 'lodash/get';
+import { MdDialogRef, MdDialog } from '@angular/material';
+import { ConfirmDialog } from '../fields/confirm.component';
 
 @Component({
   selector: 'isari-editor',
@@ -18,6 +20,7 @@ import get from 'lodash/get';
   styleUrls: ['./isari-editor.component.css']
 })
 export class IsariEditorComponent implements OnInit {
+  dialogRef: MdDialogRef<ConfirmDialog>;
 
   @Input() id: number;
   @Input() feature: string;
@@ -28,7 +31,7 @@ export class IsariEditorComponent implements OnInit {
   diff: Array<any> = [];
   form: FormGroup;
   deletable = false;
-  relations: { label: string, value: Array<any>, show: boolean }[];
+  relations: { label: string, value: Array<any>, show: boolean, feature: string }[];
 
   private pressedSaveShortcut: Function;
 
@@ -40,7 +43,8 @@ export class IsariEditorComponent implements OnInit {
     private translate: TranslateService,
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef,
-    private titleService: Title) {}
+    private titleService: Title,
+    private dialog: MdDialog) {}
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
@@ -79,7 +83,8 @@ export class IsariEditorComponent implements OnInit {
         this.relations = Object.keys(relations).map(key => ({
           value: relations[key], 
           label: `linked${key}`,
-          show: false
+          show: false,
+          feature: this.isariDataService.getSchemaApi(key)
         }));
 
         this.deletable = this.relations.reduce((acc, i) => acc && !i.value.length, true);
@@ -154,6 +159,24 @@ export class IsariEditorComponent implements OnInit {
       this.toasterService.pop('error', 'Save', 'Des informations obligatoires doivent être renseignées');
     }
   }
+
+  delete($event) {
+    $event.preventDefault();
+    if (this.deletable) {
+      this.dialogRef = this.dialog.open(ConfirmDialog, {
+        disableClose: false
+      });
+
+      this.dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.isariDataService.removeData(this.feature, this.data.id)
+            .then(() => this.isariDataService.removeData(this.feature, this.data.id));
+        }
+        this.dialogRef = null;
+      });
+    }
+  }
+
 
   onUpdate($event) {
 

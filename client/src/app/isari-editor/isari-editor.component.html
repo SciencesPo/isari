@@ -13,7 +13,12 @@
             <table class="striped" *ngIf="relation.show">
                 <tbody>
                     <tr *ngFor="let item of relation.value">
-                        <td>{{ item }} </td>
+                        <td>{{ item.label }} </td>
+                        <td>
+                            <a [routerLink]="['/', relation.feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" preserveQueryParams>
+                                <md-icon>open_in_new</md-icon>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -21,7 +26,7 @@
     </template>
 
     <div style="text-align: right;flex-grow:1;">
-        <button [disabled]="!deletable" type="button" md-raised-button color="primary">{{ 'delete' | translate }}</button>
+        <button [disabled]="!deletable" type="button" md-raised-button color="primary" (click)="delete($event)">{{ 'delete' | translate }}</button>
         <p *ngIf="!deletable"  style="color:#666;">{{ 'warning' + feature + 'Delete' | translate }}</p>
     </div>
 
