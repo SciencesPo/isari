@@ -32,6 +32,7 @@ export class IsariEditorComponent implements OnInit {
   form: FormGroup;
   deletable = false;
   relations: { label: string, value: Array<any>, show: boolean, feature: string }[];
+  private errors: any;
 
   private pressedSaveShortcut: Function;
 
@@ -79,6 +80,8 @@ export class IsariEditorComponent implements OnInit {
         this.isariDataService.getLayout(this.feature),
         this.isariDataService.getRelations(this.feature, id ? String(id): null)
       ]).then(([data, layout, relations]) => {
+
+        this.errors = {};
 
         this.relations = Object.keys(relations).map(key => ({
           value: relations[key], 
@@ -155,8 +158,15 @@ export class IsariEditorComponent implements OnInit {
       this.diff = [];
     }
     if (!this.form.valid) {
-      //let errors = this.isariDataService.getErrorsFromControls(this.form.controls);
-      this.toasterService.pop('error', 'Save', 'Des informations obligatoires doivent être renseignées');
+      this.toasterService.pop('error', 'Save', `Merci de corriger les erreurs sur ces champs : ${ Object.keys(this.errors).map(err => this.errors[err].label).join(', ') }`);
+    }
+  }
+
+  cumulError($event) {
+    if ($event.errors) {
+      this.errors[$event.path] = $event;
+    } else if (this.errors[$event.path]) {
+      delete this.errors[$event.path];
     }
   }
 

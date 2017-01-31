@@ -23,6 +23,7 @@ export class DataEditorComponent {
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onSave = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
+  @Output() onError = new EventEmitter<any>();
 
   constructor(private dialog: MdDialog) {}
 
@@ -53,6 +54,10 @@ export class DataEditorComponent {
   collapse($event, group) {
     $event.preventDefault();
     group.collapsed = !group.collapsed;
+  }
+
+  cumulError($event) {
+    this.onError.emit($event);
   }
 
 }

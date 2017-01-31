@@ -101,6 +101,7 @@ export class IsariSelectComponent implements OnInit {
     this.focused = false;
     if (this.selectControl.value === '') {
       this.update({log: true, path: this.path, type: 'update', value: ''});
+      this.form.controls[this.name].setValue('');
     }
     if (this.lastValidStringValue !== this.selectControl.value && this.selectControl.value !== '') {
       this.selectControl.setValue(this.lastValidStringValue);

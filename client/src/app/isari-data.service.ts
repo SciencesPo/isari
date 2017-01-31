@@ -486,31 +486,6 @@ export class IsariDataService {
       });
   }
 
-  getErrorsFromControls(controls: { [key: string]: AbstractControl}) {
-    let errors = [];
-    for (let fieldName of Object.keys(controls)){
-      let control = controls[fieldName];
-      if (control instanceof FormGroup) {
-        errors = [...errors, ...this.getErrorsFromControls(control.controls)];
-        this.getErrorsFromControls(control.controls);
-      }
-      if (control instanceof FormArray) {
-        control.controls
-          .filter(ctrl => ctrl.invalid)
-          .forEach(ctrl => {
-            errors = [...errors, ...this.getErrorsFromControls( (<FormGroup>ctrl).controls)];
-          });
-      }
-      if (control.errors) {
-        errors.push({
-          field: fieldName,
-          errors: Object.keys(control.errors)
-        });
-      }
-    }
-    return errors;
-  }
-
   clearCache () {
     this.enumsCache = {};
     this.layoutsCache = {};

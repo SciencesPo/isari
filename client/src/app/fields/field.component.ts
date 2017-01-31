@@ -25,6 +25,7 @@ export class FieldComponent implements OnChanges {
   @Input() multiple = false;
   @Input() feature: string;
   @Output() onUpdate = new EventEmitter<any>();
+  @Output() onError = new EventEmitter<any>();
   @Input() rootFeature: string;
 
   constructor(private isariDataService: IsariDataService) {}
@@ -48,14 +49,10 @@ export class FieldComponent implements OnChanges {
       }
 
       // @TODO : message erreur spécifique. Raf : valeurs initiales fausses (ajout) et pb sur les select + remonter l'info
-      // if (!this.field.multiple && this.field.type !== 'object') {
-      //   this.form.controls[this.field.name].statusChanges.subscribe(status => {
-      //     console.log(this.field.label, status)
-      //     if (status === 'INVALID') {
-      //       console.log({ [this.field.label]: Object.keys(this.form.controls[this.field.name].errors) });
-      //     }
-      //   });
-      // }
+      if (!this.field.multiple && this.field.type !== 'object') {
+        this.invalid(); // 1st check
+        this.form.controls[this.field.name].statusChanges.subscribe(status => this.invalid());
+      }
 
     }
   }
@@ -97,5 +94,20 @@ export class FieldComponent implements OnChanges {
       (<FormArray> this.form.controls[this.field.name]).removeAt(this.index);
       this.update({log: true, path: this.path.split('.').slice(0, -1).join('.'), index: this.index, type: 'delete'});
     }
+  }
+
+  cumulError($event) {
+    this.onError.emit($event);
+  }
+
+  private invalid() {
+    const err = { path: this.path };
+    if (this.form.controls[this.field.name].status === 'INVALID') {
+      Object.assign(err, {
+        label: this.field.label,
+        errors: Object.keys(this.form.controls[this.field.name].errors)
+      });
+    }
+    this.onError.emit(err);
   }
 }

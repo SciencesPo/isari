@@ -20,6 +20,7 @@
       <tr *ngFor="let row of group.fields">
           <td *ngFor="let field of row" [colSpan]="row.colspan">
             <isari-field
+              (onError)="cumulError($event)"
               (onUpdate)="update($event)"
               [form]="form"
               [field]="field"
