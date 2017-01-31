@@ -58,9 +58,9 @@ module.exports = {
         };
 
         if (line['email adress'])
-          info.contacts = {
+          info.contacts = [{
             email: line['email adress']
-          };
+          }];
 
         return info;
       },
@@ -396,9 +396,9 @@ module.exports = {
         info.firstName = firstName.trim();
 
         if (line.EMAIL)
-          info.contacts = {
+          info.contacts = [{
             email: line.EMAIL
-          };
+          }];
 
         if (line.CODE_NATIONALITE)
           info.nationalities = [line.CODE_NATIONALITE];

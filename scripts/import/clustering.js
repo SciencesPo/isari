@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ISARI Import Scripts Clustering
  * ================================
