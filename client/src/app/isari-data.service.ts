@@ -99,6 +99,7 @@ export class IsariDataService {
   }
 
   getRelations(feature: string, id: string) {
+    if (!id) return Promise.resolve({}); // no id === creation === no relations
     const url = `${this.dataUrl}/${feature}/${id}/relations`;
     return this.http.get(url, this.getHttpOptions())
       .toPromise()
