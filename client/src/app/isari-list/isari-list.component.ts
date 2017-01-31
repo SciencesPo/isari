@@ -6,7 +6,8 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
 import { TranslateService } from 'ng2-translate';
-
+import { MdDialogRef, MdDialog } from '@angular/material';
+import { IsariCreationModal } from '../isari-creation-modal/isari-creation-modal.component';
 
 @Component({
   selector: 'isari-list',
@@ -15,6 +16,7 @@ import { TranslateService } from 'ng2-translate';
 })
 export class IsariListComponent implements OnInit {
 
+  dialogRef: MdDialogRef<IsariCreationModal>;
   feature: string;
   externals: boolean;
   loading: boolean = false;
@@ -24,12 +26,16 @@ export class IsariListComponent implements OnInit {
   editedId: string = '';
   selectedColumns: any[] = [];
   dateForm: FormGroup;
+  activityTypes: any[] = [];
+  activityType: string;
+  activityTypeLabel: string;
 
   constructor (
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     private translate: TranslateService,
-    private titleService: Title) {}
+    private titleService: Title,
+    private dialog: MdDialog) {}
 
   ngOnInit() {
     this.dateForm = new FormGroup({
@@ -38,13 +44,17 @@ export class IsariListComponent implements OnInit {
     });
 
     this.route.params
-      .subscribe(({ feature, externals }) => {
+      .subscribe(({ feature, externals, type }) => {
         this.feature = feature;
 
         this.translate.get(feature).subscribe(featureTranslated => {
           this.titleService.setTitle(featureTranslated);
         });
 
+        this.activityType = type || null;
+        this.activityTypeLabel = this.activityTypes.length && this.activityType ?
+          this.activityTypes.find(type => type.value === this.activityType).label.fr :
+          null;
 
         this.externals = !!externals;
         this.isariDataService.getColumns(feature)
@@ -58,6 +68,19 @@ export class IsariListComponent implements OnInit {
             this.loadDatas();
           });
 
+      });
+
+    this.isariDataService.getEnum('activityTypes')
+
+      // Je ne comprends pas pourquoi je suis obligé de faire ça sous peine d'erreur TS
+      .subscribe((...args) => {
+
+        // TODO: translate
+        this.activityTypes = args[0];
+
+        if (this.activityType) {
+          this.activityTypeLabel = this.activityTypes.find(type => type.value === this.activityType).label.fr;
+        }
       });
 
     // get activated item in editor
@@ -86,6 +109,21 @@ export class IsariListComponent implements OnInit {
     this.filteredData = $event.data;
   }
 
+  createObject() {
+      this.dialogRef = this.dialog.open(IsariCreationModal, {
+        disableClose: false
+      });
+
+      this.dialogRef.componentInstance.feature = this.feature;
+
+      this.dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          //this.onDelete.emit($event);
+        }
+        this.dialogRef = null;
+      });
+  }
+
   private loadDatas() {
     // this.data = [];
     this.loading = true;
@@ -94,7 +132,8 @@ export class IsariListComponent implements OnInit {
       applyTemplates: true,
       externals: this.externals,
       start: this.dateForm.value.startDate,
-      end: this.dateForm.value.endDate
+      end: this.dateForm.value.endDate,
+      type: this.activityType
     }).then(data => {
       this.loading = false;
       this.data = data;

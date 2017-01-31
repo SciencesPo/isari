@@ -138,7 +138,7 @@ exports.rolesMiddleware = (req, res, next) => {
 		req.userListViewablePeople = options => listViewablePeople(req, options)
 		req.userCanEditActivity = a => canEditActivity(req, a)
 		req.userCanViewActivity = a => canViewActivity(req, a)
-		req.userListViewableActivities = () => listViewableActivities(req)
+		req.userListViewableActivities = options => listViewableActivities(req, options)
 		req.userCanEditOrganization = o => canEditOrganization(req, o)
 		req.userCanViewConfidentialFields = () => canViewConfidentialFields(req)
 		req.userComputeRestrictedFields = modelName => computeRestrictedFieldsShort(modelName, req)
@@ -312,6 +312,7 @@ const listViewablePeople = (req, options = {}) => {
 			memberships: { $push: '$membership' },
 			people: { $first: '$people' }
 		}) // Now regroup membership data to single people
+		// NOTE: we should perform a match way above
 		.match(filters) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
@@ -382,22 +383,96 @@ Who can *view* an activity?
 - anyone having access to any of its organizations
 (access has been checked by scope earlier, so it's just about checking if activity.organizations contains requested scope)
 */
-const listViewableActivities = (req) => {
+const listViewableActivities = (req, options = {}) => {
 	if (!req._scopeOrganizationMiddleware) {
 		return Promise.reject(Error('Invalid usage of "listViewableActivities" without prior usage of "scopeOrganizationMiddleware"'))
 	}
 
-	const filter = req.userScopeOrganizationId
+	const activityType = options.type
+	const range = options.range
+	let startDate = options.startDate
+	let endDate = options.endDate
+
+	// Setting absurd dates to permit no start or end date
+	if (range && !startDate) {
+		startDate = '1000-01-01'
+	}
+	if (range && !endDate) {
+		endDate = '9999-01-01'
+	}
+
+	let filter = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
-			{ 'organizations.organization': req.userScopeOrganizationId }
+			{ 'organizations.organization': ObjectId(req.userScopeOrganizationId) }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
 				{}
 			: // Limit to activities of organizations he has access to
-				{ 'organizations.organization': { $in: Object.keys(req.userRoles) } }
+				{ 'organizations.organization': { $in: Object.keys(req.userRoles).map(k => ObjectId(k)) } }
 
-	return Promise.resolve({ query: Activity.find(filter) })
+	if (activityType) {
+		filter.activityType = activityType
+	}
+
+	if (!range)
+		return Promise.resolve({ query: Activity.find(filter) })
+
+	filter.orgId = filter['organizations.organization']
+	delete filter['organizations.organization']
+
+	filter = {
+		periods: {
+			$elemMatch: {
+				$and: [filter]
+			}
+		}
+	}
+
+	filter.periods.$elemMatch.$and.push({
+		$or: buildDateQuery('end', '$gte', startDate).concat([{ endDate: { $exists: false } }])
+	})
+
+	filter.periods.$elemMatch.$and.push({
+		$or: buildDateQuery('start', '$lte', endDate)
+	})
+
+	// Range query
+	return Activity.aggregate()
+		.project({ _id: 1, startDate: 1, endDate: 1, organizations: 1, activityType: 1 }) // Keep original data intact for later use
+		.unwind('organizations') // Lookup only works with flat data, unwind array
+		.lookup({
+			from: Organization.collection.name,
+			localField: 'organizations.organization',
+			foreignField: '_id',
+			as: 'org'
+		}) // LEFT JOIN Organization
+		.unwind('org') // "orgs" can be a zero-or-one-item array, unwind that before grouping
+		.project({ _id: 1, period: {
+			orgId: '$org._id',
+			activityType: '$activityType',
+			endDate: '$endDate',
+			startDate: '$startDate',
+			endYear: { $substr: [ '$endDate', 0, 4 ] },
+			endMonth: { $substr: [ '$endDate', 5, 2 ] },
+			endDay: { $substr: [ '$endDate', 8, 2 ] },
+			startYear: { $substr: [ '$startDate', 0, 4 ] },
+			startMonth: { $substr: [ '$startDate', 5, 2 ] },
+			startDay: { $substr: [ '$startDate', 8, 2 ] }
+		} }) // Group period info together
+		.group({
+			_id: '$_id',
+			periods: { $push: '$period' }
+		}) // Now regroup membership data to single people
+		// NOTE: we should perform a match way above
+		.match(filter) // Finally apply filters
+		.project({ _id: 1 }) // Keep only id
+		.then(map('_id'))
+		.then(ids => {
+			return {
+				query: Activity.find({ _id: { $in: ids } })
+			}
+		})
 }
 
 // Check if an activity is editable by current user

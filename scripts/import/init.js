@@ -650,9 +650,12 @@ function retrieveLDAPInformation(callback) {
     if (people.name.split('-').length > 1)
       filter += `(uid=${normalize(people.firstName)}.${normalize(people.name.split('-')[0])})`;
 
-    if (people.contacts && people.contacts.email) {
-      filter += `(uid=${people.contacts.email.split('@')[0]})`;
-      filter += `(mail=${people.contacts.email})`;
+    if (
+      people.contacts &&
+      people.contacts[0] &&
+      people.contacts[0].email) {
+      filter += `(uid=${people.contacts[0].email.split('@')[0]})`;
+      filter += `(mail=${people.contacts[0].email})`;
     }
 
     filter += ')';
@@ -797,8 +800,6 @@ async.series({
   clusteringPeople(next) {
     if (!argv.clusterPeople)
       return next();
-
-    // TODO: clustering by email also
 
     console.log();
     log.info(`Attempting to cluster the names due to ${chalk.grey('--cluster-people')}.`);

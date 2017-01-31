@@ -242,9 +242,10 @@ module.exports = {
             .flatten()
             .value();
 
+
           // Computing academic memberships
           person.academicMemberships = _(years)
-            .groupBy('academicMembership')
+            .groupBy(y => y.academicMembership + y.startDate)
             .values()
             .map(memberships => _.first(memberships))
             .map((membership, i, memberships) => {
@@ -305,9 +306,9 @@ module.exports = {
         };
 
         if (line.Mail)
-          info.contacts = {
+          info.contacts = [{
             email: line.Mail
-          };
+          }];
 
         // converting typeAppui to gradeStatus
         if (line.type_appui === 'AT')
@@ -449,8 +450,10 @@ module.exports = {
             match.academicMemberships = person.academicMemberships;
 
           // Mail
-          if (person.contacts)
-            match.contacts = person.contacts;
+          if (person.contacts) {
+            match.contacts = match.contacts || [];
+            match.contacts.push.apply(match.contacts, person.contacts);
+          }
 
           return;
         }
@@ -481,9 +484,9 @@ module.exports = {
         };
 
         if (line.Mail)
-          info.contacts = {
+          info.contacts = [{
             email: line.Mail
-          };
+          }];
 
         if (line.Nationalité)
           info.nationalities = line.Nationalité.split(',');

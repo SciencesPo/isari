@@ -134,9 +134,10 @@ export class IsariDateComponent {
   setMonth(m , $event) {
     this.month = m;
     this.days = this.setDays(this.year, this.month);
-    this.display('months');
+    this.display('days');
     if (!this.month) {
       this.day = null;
+      this.display('months');
     }
   }
 

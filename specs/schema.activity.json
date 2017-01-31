@@ -209,7 +209,7 @@
                 },
                 "ref": "Organization"
             },
-            "template":"organizationDates",
+            "template":"grant",
             "grantType": {
                 "label": {
                     "fr": "Type",

@@ -17,9 +17,10 @@ import { MdDialogRef } from '@angular/material';
   `,
   styles: [
     `button { outline:none; margin: 0px 30px 0px 30px; border-radius:10%; background-color: white; cursor:pointer }`,
+    `button:hover { border-color: #E6142D }`,
     `md-dialog-actions { text-align: center }`,
     `div { color: black; font-size: 16px; padding: 5px }`,
-    `h1 { font-family: 'Roboto', sans-serif }`
+    `h1 { font-family: 'Roboto', sans-serif; text-align: center }`
   ]
 })
 export class ConfirmDialog {

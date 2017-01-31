@@ -30,3 +30,10 @@ md-card {
 	flex-direction: column;
 	justify-content: space-between;
 }
+
+/* Following instructions works for Chrome only */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.md-card-all {
+		height: 175px
+	}
+}

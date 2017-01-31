@@ -114,25 +114,25 @@ export class DataTableComponent implements OnInit, OnChanges {
   //   this.router.navigate([{ outlets: { editor: [ id ] } }]);
   }
 
-  private compare(key, query, item) {
-    let target;
-
+  // NOTE: ce genre de truc est utilisé un peu partout. Possibilité de refacto!
+  private getValueForKey(item, key): string {
     if (Array.isArray(item[key])) {
-      target = item[key].map(e => {
+      return item[key].map(e => {
         if (typeof e === 'object')
           return e.label[this.lang] || e.label[this.defaultLang];
         return e;
       }).join(' ');
     }
     else if (typeof item[key] === 'object') {
-      target = item[key].label[this.lang] || item[key].label[this.defaultLang];
+      return item[key].label[this.lang] || item[key].label[this.defaultLang];
     }
     else {
-      target = item[key];
+      return item[key] || '';
     }
+  }
 
-    if (!target)
-      return false;
+  private compare(key, query, item) {
+    let target = this.getValueForKey(item, key);
 
     return String(target).toLowerCase().indexOf(query.toLowerCase()) !== -1;
   }
@@ -166,9 +166,13 @@ export class DataTableComponent implements OnInit, OnChanges {
 
   private dynamicSort(property, reverse) {
     let sortOrder = reverse ? -1 : 1;
-    return function (a, b) {
-        let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
+    return (a, b) => {
+      const valueA = this.getValueForKey(a, property).toLowerCase(),
+            valueB = this.getValueForKey(b, property).toLowerCase();
+
+      let result = (valueA < valueB) ? -1 : (valueA > valueB) ? 1 : 0;
+
+      return result * sortOrder;
     };
   }
 

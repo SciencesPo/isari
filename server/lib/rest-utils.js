@@ -149,7 +149,12 @@ const relationsModel = (Model, getPermissions) => req => {
 		.then(doc => Model.relationsById(doc._id))
 		.then(relations => {
 			for (const k in relations)
-				relations[k] = relations[k].map(item => modelTemplates[k](item.toObject()))
+				relations[k] = relations[k].map(item => {
+					return {
+						id: item._id,
+						label: modelTemplates[k](item.toObject())
+					}
+				})
 
 			return relations
 		})

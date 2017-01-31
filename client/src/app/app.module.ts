@@ -44,6 +44,7 @@ import { IsariDownloadButtonComponent } from './isari-list/isari-download-button
 import { CVComponent } from './cv/cv.component';
 import { FocusMeDirective } from './fields/focus-me.directive';
 import { ConfirmDialog } from './fields/confirm.component';
+import { IsariCreationModal } from './isari-creation-modal/isari-creation-modal.component';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -78,7 +79,8 @@ export function createTranslateLoader(http: Http) {
     IsariDownloadButtonComponent,
     CVComponent,
     FocusMeDirective,
-    ConfirmDialog
+    ConfirmDialog,
+    IsariCreationModal
   ],
   imports: [
     BrowserModule,
@@ -103,7 +105,8 @@ export function createTranslateLoader(http: Http) {
   ],
   entryComponents: [
     AppComponent,
-    ConfirmDialog
+    ConfirmDialog,
+    IsariCreationModal
   ],
   bootstrap: [
     AppComponent,

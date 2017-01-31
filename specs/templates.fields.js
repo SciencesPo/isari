@@ -45,7 +45,7 @@ function organizationDates(ps){
     return ''
     }
     let label = p.organization.acronym ? p.organization.acronym : p.organization.name
-    label += prettyPrintTimePeriod(p)
+    label += ' '+prettyPrintTimePeriod(p)
     return label
   }
 
@@ -173,6 +173,13 @@ exports.isariAuthorizedCenters = (as,scope) => {
       return label + ' ' + (a.organization.acronym || a.organization.name)
   }))
   return l
+}
+
+exports.grant = (gs,scope)=>{
+  let r = gs.filter(g => g.grantType).map(g => formatEnum('grantTypes', g.grantType))
+  if (!r.length)
+    r = gs.filter(g => g.organization).map(g => g.organization.acronym || g.organization.name)
+  return r;
 }
 
 exports.peopleName = peopleName

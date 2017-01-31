@@ -58,9 +58,9 @@ module.exports = {
         };
 
         if (line['email adress'])
-          info.contacts = {
+          info.contacts = [{
             email: line['email adress']
-          };
+          }];
 
         return info;
       },
@@ -304,7 +304,34 @@ module.exports = {
 
           if (match) {
 
-            // TODO: merge
+            // If no nationality we add the one we have
+            if (
+              (
+                !match.nationalities ||
+                !match.nationalities.length
+              ) &&
+              (
+                !!person.nationalities &&
+                !!person.nationalities.length
+              )
+            ) {
+              match.nationalities = person.nationalities;
+            }
+
+            // Idem for grades
+            if (
+              (
+                !match.grades ||
+                !match.grades.length
+              ) &&
+              (
+                !!person.grades &&
+                !!person.grades.length
+              )
+            ) {
+              match.grades = person.grades;
+            }
+
             return;
           }
 
@@ -369,9 +396,9 @@ module.exports = {
         info.firstName = firstName.trim();
 
         if (line.EMAIL)
-          info.contacts = {
+          info.contacts = [{
             email: line.EMAIL
-          };
+          }];
 
         if (line.CODE_NATIONALITE)
           info.nationalities = [line.CODE_NATIONALITE];
@@ -750,7 +777,7 @@ module.exports = {
                   role: 'inscription'
                 });
 
-                // TODO: maybe need to update previous membership's endDate?
+                // NOTE: maybe need to update previous membership's endDate?
                 // if (!academicMembershipSet.has(hdr.organization)) {
                 //   const membership = {
                 //     organization: hdr.organization,
@@ -1002,7 +1029,6 @@ module.exports = {
               people = {},
               activities = [];
 
-        // TODO: forgot something?
         lines.forEach(line => {
 
           // Handling the person
@@ -1154,12 +1180,12 @@ module.exports = {
 
         if (line['people.role=PI']) {
           info.peoplePI = JSON.parse(line['people.role=PI']);
-          PISet = new Set(info.peoplePI.map(person => `${person.name}§${person.firstName}`));
+          PISet = new Set(info.peoplePI.map(person => hashPeople(person)));
         }
 
         if (line['people.role=responsableScientifique Only IF different from PI'])
           info.peopleScientific = JSON.parse(line['people.role=responsableScientifique Only IF different from PI'])
-            .filter(person => !PISet.has(`${person.name}§${person.firstName}`));
+            .filter(person => !PISet.has(hashPeople(person)));
 
         if (line['people.role=membre'])
           info.peopleMembre = JSON.parse(line['people.role=membre']);

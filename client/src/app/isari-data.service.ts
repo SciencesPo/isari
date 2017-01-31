@@ -16,7 +16,8 @@ import { get, sortByDistance } from './utils';
 const mongoSchema2Api = {
   'Organization': 'organizations',
   'People': 'people',
-  'Activities': 'activities'
+  'Activities': 'activities',
+  'Activity': 'activities'
 };
 
 const singular = {
@@ -76,7 +77,7 @@ export class IsariDataService {
   }
 
   getDatas(feature: string,
-    { fields, applyTemplates, externals, start, end }: { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string }) {
+    { fields, applyTemplates, externals, start, end, type }: { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }) {
     const url = `${this.dataUrl}/${feature}`;
     fields.push('id'); // force id
 
@@ -88,12 +89,30 @@ export class IsariDataService {
         (start || end ? 'range' : 'members'),
       start: start || null,
       end: end || null,
+      type: type || null
     });
 
     return this.http.get(url, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
+  }
+
+  getRelations(feature: string, id: string) {
+    if (!id) return Promise.resolve({}); // no id === creation === no relations
+    const url = `${this.dataUrl}/${feature}/${id}/relations`;
+    return this.http.get(url, this.getHttpOptions())
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
+  }
+
+  removeData(feature: string, id: string) {
+    const url = `${this.dataUrl}/${feature}/${id}`;
+    return this.http.delete(url, this.getHttpOptions())
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);    
   }
 
   getLayout(feature: string) {
@@ -272,7 +291,7 @@ export class IsariDataService {
   }
 
   rawSearch(feature: string, query: string, path?: string, rootFeature?: string) {
-    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/search`;
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/search`;
     return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature }))
       .map(response => response.json())
       .map(items => ({
@@ -467,31 +486,6 @@ export class IsariDataService {
       });
   }
 
-  getErrorsFromControls(controls: { [key: string]: AbstractControl}) {
-    let errors = [];
-    for (let fieldName of Object.keys(controls)){
-      let control = controls[fieldName];
-      if (control instanceof FormGroup) {
-        errors = [...errors, ...this.getErrorsFromControls(control.controls)];
-        this.getErrorsFromControls(control.controls);
-      }
-      if (control instanceof FormArray) {
-        control.controls
-          .filter(ctrl => ctrl.invalid)
-          .forEach(ctrl => {
-            errors = [...errors, ...this.getErrorsFromControls( (<FormGroup>ctrl).controls)];
-          });
-      }
-      if (control.errors) {
-        errors.push({
-          field: fieldName,
-          errors: Object.keys(control.errors)
-        });
-      }
-    }
-    return errors;
-  }
-
   clearCache () {
     this.enumsCache = {};
     this.layoutsCache = {};
@@ -552,7 +546,7 @@ export class IsariDataService {
     return (scheme ? scheme + SCHEME : '') + (prependSlash ? SLASH : BLANK) + result;
   }
 
-  private getEnum(src: string) {
+  getEnum(src: string) {
 
     // nested
     const nestedPos = src.indexOf(':');

@@ -72,16 +72,27 @@ md-toolbar.md-primary h2 {
 }
 
 isari-login .md-input-placeholder.md-focused,
-isari-editor .md-input-placeholder.md-focused {
+isari-editor .md-input-placeholder.md-focused,
+md-dialog-container .md-input-placeholder.md-focused {
   color: #E6142D;
 }
 isari-login .md-input-underline .md-input-ripple,
-isari-editor .md-input-underline .md-input-ripple {
+isari-editor .md-input-underline .md-input-ripple,
+md-dialog-container .md-input-underline .md-input-ripple {
   background-color: #E6142D;
 }
 
 isari-editor .input .md-input-wrapper { width: 400px; }
 isari-editor .input-date .md-input-wrapper { width: 250px; }
 isari-editor .input-select .md-input-wrapper { width: 400px; }
+md-dialog-container .input-select .md-input-wrapper { width: 400px; }
 isari-editor .input-textarea .md-input-wrapper { width: 600px; }
 isari-editor .input-textarea .md-input-wrapper textarea { min-height: 100px; }
+
+md-dialog-container {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+md-dialog-container [md-raised-button].md-primary {
+  background-color: #E6142D;
+}
