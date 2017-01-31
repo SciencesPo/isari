@@ -27,6 +27,8 @@ export class IsariEditorComponent implements OnInit {
   lang: string;
   diff: Array<any> = [];
   form: FormGroup;
+  deletable = false;
+  relations: { label: string, value: Array<any>, show: boolean }[];
 
   private pressedSaveShortcut: Function;
 
@@ -70,8 +72,17 @@ export class IsariEditorComponent implements OnInit {
       this.id = id;
       Promise.all([
         this.isariDataService.getData(this.feature, id ? String(id) : null),
-        this.isariDataService.getLayout(this.feature)
-      ]).then(([data, layout]) => {
+        this.isariDataService.getLayout(this.feature),
+        this.isariDataService.getRelations(this.feature, id ? String(id): null)
+      ]).then(([data, layout, relations]) => {
+
+        this.relations = Object.keys(relations).map(key => ({
+          value: relations[key], 
+          label: `linked${key}`,
+          show: false
+        }));
+
+        this.deletable = this.relations.reduce((acc, i) => acc && !i.value.length, true);
 
         if (data.firstName && data.name) {
           this.titleService.setTitle([data.name, data.firstName].filter(x => !!x).join(' '));

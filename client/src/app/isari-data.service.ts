@@ -97,6 +97,14 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
+  getRelations(feature: string, id: string) {
+    const url = `${this.dataUrl}/${feature}/${id}/relations`;
+    return this.http.get(url, this.getHttpOptions())
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
+  }
+
   getLayout(feature: string) {
     // check for cached results
     if (this.layoutsCache[feature]) {

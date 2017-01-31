@@ -38,5 +38,9 @@
   "footermentions" : "Legal notices & GCU",
   "footeraccess" : "Manage your accesses",
   "footerinfo" : "If you have any question",
-  "all_activities": "Every activity"
+  "all_activities": "Every activity",
+  "linkedActivity": "Linked activities",
+  "linkedPeople": "Linked people",
+  "linkedOrganization": "Linked organizations",
+  "delete": "Delete"
 }

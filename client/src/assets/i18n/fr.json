@@ -38,5 +38,10 @@
   "footermentions" : "Mentions Légales et CGU",
   "footeraccess" : "Gérer vos accès",
   "footerinfo" : "Pour toute question",
-  "all_activities": "Toutes les activités"
+  "all_activities": "Toutes les activités",
+  "linkedActivity": "Activités liées",
+  "linkedPeople": "Personnes liées",
+  "linkedOrganization": "Organisations liées",
+  "delete": "Supprimer",
+  "warningpeopleDelete": "Impossible de supprimer car cette personne est liée"
 }
