@@ -42,5 +42,12 @@
   "linkedActivity": "Linked activities",
   "linkedPeople": "Linked people",
   "linkedOrganization": "Linked organizations",
-  "delete": "Delete"
+  "delete": "Delete",
+  "warningpeopleDelete": "Impossible de supprimer car cette personne est liée",
+  "checkExistence": {
+    "people": "Pour ajouter des Personnes, merci de vérifier d'abord si elles n'existent pas déjà.",
+    "activities": "Pour ajouter des Organisations, merci de vérifier d'abord si elles n'existent pas déjà.",
+    "organizations": "Pour ajouter des Activités, merci de vérifier d'abord si elles n'existent pas déjà."
+  },
+  "no matching": "Aucune correspondance ?"
 }

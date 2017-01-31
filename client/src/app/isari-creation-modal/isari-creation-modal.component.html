@@ -1,6 +1,4 @@
-<p>
-    Merci de vérifier l'existence de ce {{ feature | translate }} avant de continuer.
-</p>
+<p>{{ 'checkExistence.' + feature | translate }}</p>
 
 <md-input [formControl]="queryControl" placeholder="Rechercher ..."></md-input>
 
@@ -18,6 +16,6 @@
 </table>
 
 <p>
-    Aucune correspondance ?
+    {{ 'no matching' | translate }}
     <a [disabled]="!minimalSearchDone" md-raised-button color="primary" [routerLink]="['/', feature , { outlets: { primary: 'new', editor: null } }]" preserveQueryParams target="_blank">{{ 'Continuer' | translate }}</a>
 </p>

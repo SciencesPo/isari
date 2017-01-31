@@ -170,7 +170,7 @@ export class IsariEditorComponent implements OnInit {
       this.dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.isariDataService.removeData(this.feature, this.data.id)
-            .then(() => this.isariDataService.removeData(this.feature, this.data.id));
+            .then(() => this.router.navigate(['/', this.feature, { outlets: { editor: null } }], { preserveQueryParams: true }));
         }
         this.dialogRef = null;
       });
