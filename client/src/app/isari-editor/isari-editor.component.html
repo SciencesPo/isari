@@ -2,7 +2,7 @@
     <isari-data-editor [feature]="feature" [form]="form" [layout]="layout" (onSave)="save($event)" (onUpdate)="onUpdate($event)" [path]="" [lang]="lang"></isari-data-editor>
 </md-card>
 
-<md-card *ngIf="data?.opts.deletable" style="display: flex;justify-content: space-between;">
+<md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
 
     <template ngFor let-relation [ngForOf]="relations" let-i="index" [ngForTrackBy]="trackByFn">
         <div *ngIf="relation.value.length" style="margin-right:1em;">
@@ -27,7 +27,7 @@
 
     <div style="text-align: right;flex-grow:1;">
         <button [disabled]="!deletable" type="button" md-raised-button color="primary" class="delete" (click)="delete($event)">{{ 'delete' | translate }}</button>
-        <p *ngIf="!deletable"  style="color:#666;">{{ 'warning' + feature + 'Delete' | translate }}</p>
+        <p *ngIf="!deletable"  style="color:#666;">{{ 'warningDelete.' + feature | translate }}</p>
     </div>
 
 </md-card>

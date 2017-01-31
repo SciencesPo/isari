@@ -43,7 +43,11 @@
   "linkedPeople": "Personnes liées",
   "linkedOrganization": "Organisations liées",
   "delete": "Supprimer",
-  "warningpeopleDelete": "Impossible de supprimer car cette personne est liée",
+  "warningDelete": {
+    "people": "Impossible de supprimer car cette personne est liée",
+    "activities": "Impossible de supprimer car cette activité est liée",
+    "organizations": "Impossible de supprimer car cette organisation est liée"
+  },
   "checkExistence": {
     "people": "Pour ajouter des Personnes, merci de vérifier d'abord si elles n'existent pas déjà.",
     "activities": "Pour ajouter des Organisations, merci de vérifier d'abord si elles n'existent pas déjà.",
