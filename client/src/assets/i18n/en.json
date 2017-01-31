@@ -49,5 +49,6 @@
     "activities": "Pour ajouter des Organisations, merci de vérifier d'abord si elles n'existent pas déjà.",
     "organizations": "Pour ajouter des Activités, merci de vérifier d'abord si elles n'existent pas déjà."
   },
-  "no matching": "Aucune correspondance ?"
+  "no matching": "Aucune correspondance ?",
+  "add": "Add"
 }

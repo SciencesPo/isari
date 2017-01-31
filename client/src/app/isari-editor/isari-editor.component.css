@@ -1,0 +1,13 @@
+.delete {
+  background-color: white;
+  border: 2px solid #E6142D;
+  border-radius: 4px;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: black;
+  box-shadow: none;
+}
+
+.delete:hover {
+	background-color: #ccc;
+}
