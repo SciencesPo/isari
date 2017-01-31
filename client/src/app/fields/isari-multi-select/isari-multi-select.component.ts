@@ -8,6 +8,8 @@ import { TranslateService, LangChangeEvent } from 'ng2-translate';
 
 const ENTER = 13;
 const BACKSPACE = 8;
+const UP_ARROW = 38;
+const DOWN_ARROW = 40;
 
 @Component({
   selector: 'isari-multi-select',
@@ -25,6 +27,7 @@ export class IsariMultiSelectComponent implements OnInit {
   extend = false;
   lang: string;
   disabled: boolean;
+  currentIndex = -1;
   altLabel: string;
 
   @Input() name: string;
@@ -111,6 +114,13 @@ export class IsariMultiSelectComponent implements OnInit {
     if ($event.keyCode === BACKSPACE && this.selectControl.value === '' && this.values.length > 0) {
       this.removeValue(this.values[this.values.length - 1], {});
     }
+    if ($event.keyCode === DOWN_ARROW) {
+      this.currentIndex = Math.min(this.currentIndex + 1, this.options.length - 1);
+    } else if ($event.keyCode === UP_ARROW) {
+      this.currentIndex = Math.max(this.currentIndex - 1, 0);
+    } else if ($event.keyCode === ENTER && this.currentIndex >= 0) {
+      this.onSelect(this.currentIndex);
+    }
   }
 
   removeValue(value, $event) {
@@ -120,8 +130,9 @@ export class IsariMultiSelectComponent implements OnInit {
     this.onUpdate.emit({log: true, path: this.path, index: removedIndex, type: 'delete'});
   }
 
-  onSelect(index) {
-    this.addValue(this.options[index]);
+  onSelect(idx) {
+    this.currentIndex = idx;
+    this.addValue(this.options[this.currentIndex]);
   }
 
   addValue(value) {
