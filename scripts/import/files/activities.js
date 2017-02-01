@@ -229,13 +229,15 @@ module.exports = {
           if (!line.origin && !!line.originCountry) {
             const name = `Invité - Organisation inconnue (${line.originCountry})`;
 
-            const org = {name};
+            const org = {
+              name,
+              organizationTypes: ['inconnue']
+            };
             organizations[name] = org;
 
             const linkInfo = {
               organization: name,
-              role: 'orgadorigine',
-              organizationTypes: ['inconnue']
+              role: 'orgadorigine'
             };
 
             activityInfo.organizations.push(linkInfo);
