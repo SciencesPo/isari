@@ -535,7 +535,7 @@
                 },
                 "softenum": "personalActivityRoles"
             },
-            "description": {
+            "summary": {
                 "label": {
                     "fr": "description",
                     "en": "description"

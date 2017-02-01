@@ -1,7 +1,7 @@
 [
   [
 	["personalActivityType","personalActivitySubtype"],
-    ["role","description"],
+    ["role","summary"],
 	["startDate","endDate"],
 	["organizations","people"]
  ]
