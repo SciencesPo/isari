@@ -31,7 +31,6 @@ if (config.log.format) {
 app.use(session({
 	secret: config.session.secret,
 	cookie: {
-		secure: true,
 		httpOnly: false
 	},
 	resave: true,
