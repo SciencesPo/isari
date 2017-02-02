@@ -360,6 +360,9 @@ module.exports = {
               organization: job.organization
             }];
 
+            if (job.organization === 'CNRS' || job.organization === 'MESR')
+              person.positions.jobType = 'emploipublic'
+
             if (start)
               person.positions[0].startDate = start.startDate;
 
@@ -643,8 +646,8 @@ module.exports = {
               organization: slice[0].organization
             };
 
-            if (slice[0].organization.acronym === 'FNSP') {
-              if (slice[slice.lenght - 1].grade === 'assistantprofessor')
+            if (slice[0].organization === 'FNSP') {
+              if (slice[slice.length - 1].grade === 'assistantprofessor')
                 jobInfo.jobType = 'CDD';
               else
                 jobInfo.jobType = 'CDI';
