@@ -12,7 +12,7 @@
     <span class="app-toolbar-filler"></span>
 
     <div *ngIf="logged">
-      <button [routerLinkActive]="['active']" *ngIf="organization" [md-menu-trigger-for]="exportMenu" md-menu-item>
+      <button [routerLinkActive]="['active']" *ngIf="organization && organization.id" [md-menu-trigger-for]="exportMenu" md-menu-item>
         <md-icon>file_download</md-icon>
         <div class="tooltip" id="hceres-export">Export HCERES</div>
       </button>
