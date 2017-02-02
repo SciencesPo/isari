@@ -57,15 +57,59 @@ const buildDateQuery = (dateField, op, d) => {
 	const mm = d.m ? String(d.m) : null
 	const dd = d.d ? String(d.d) : null
 
-	let q = [ { [yearField]: { [op]: yyyy } } ]
-	if (mm !== null) {
-		q.push({ [yearField]: yyyy, [monthField]: { [op]: mm } })
-		if (dd !== null) {
-			q.push({ [yearField]: yyyy, [monthField]: mm, [dayField]: { [op]: dd } })
-		}
-	}
 
-	return q
+	if (mm === null && dd === null) 
+		return [ { 
+			[yearField]: { [op]: yyyy }}]
+
+	if (dd === null) 
+		return [
+			// case of incomplete dates, don't test month and day
+			{ 
+				[yearField]: { [op]: yyyy }, 
+				[monthField]: "",
+				[dayField]:""
+			},
+			// don't test month if year is not exactly the one searched
+			{ 
+				[yearField]: { [op.replace('e','')]: yyyy }
+			},
+			// test the month
+			{
+				[yearField]:  yyyy , 
+				[monthField]: { [op]: mm }
+			}
+		]
+
+	return [
+		// case of incomplete dates, don't test month and day
+		{ 
+			[yearField]: { [op]: yyyy }, 
+			[monthField]: "",
+			[dayField]: ""  
+		},
+		// don't test month if year and month are not exactly the one searched
+		{ 
+				[yearField]: { [op.replace('e','')]: yyyy }
+		},
+		{ 
+				[yearField]: yyyy,
+				[monthField]: { [op.replace('e','')]: mm }
+		},
+		// case of incomplete dates, don't test day
+		{
+			[yearField]:  yyyy , 
+			[monthField]: { [op]: mm },
+			[dayField]: ""
+		},
+		// test the day
+		{ 
+			[yearField]:  yyyy, 
+			[monthField]: mm, 
+			[dayField]: { [op]: dd }
+		}
+	]
+
 }
 
 
@@ -222,7 +266,7 @@ const listViewablePeople = (req, options = {}) => {
 	if (includeRange && (!membershipStart && !membershipEnd)) {
 		return Promise.reject(Error('Incomplete usage of "includeRange": missing values for start or end'))
 	}
-	if (includeRange && !req.userScopeOrganizationId) {
+	if (includeRange && !req.userScopeOrganizationId && !req.userCentralRole) {
 		return Promise.reject(Error('Invalid usage of "includeRange" without organization id provided'))
 	}
 
@@ -237,52 +281,57 @@ const listViewablePeople = (req, options = {}) => {
 	// Note: A && B && (C || D) is not supported by Mongo
 	// i.e. this must be transformed into (A && B && C) || (A && B && D)
 
-	const now = today()
-
-	// Projected fields, see 'memberships' projection below
-	const isInternal = [
-		{ orgMonitored: true },
-		{ $or: [ { endDate: { $exists: false } } ].concat(buildDateQuery('end', '$gte', now)) }
-	]
-
+	// member = specific orgid OR central & orgMonitored: true 
 	const orgId = req.userScopeOrganizationId && ObjectId.createFromHexString(req.userScopeOrganizationId)
 
+	// members test on one orga or on orgMonitored for central roles 
 	const isMember = orgId
 		? // Scoped: limit to people from this organization
-			{ 'memberships': { $elemMatch: { $and: isInternal.concat([ { orgId } ]) } } }
+			[{ orgId }]
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
-				{}
+				[{ orgMonitored: true }]
 			: // Limit to people from organizations he has access to
-				{ 'memberships.orgId': { $in: Object.keys(req.userRoles).map(ObjectId.createFromHexString) } }
+				[{ 'memberships.orgId': { $in: Object.keys(req.userRoles).map(ObjectId.createFromHexString) } }]
 
-	// External people = ALL memberships are either  expired or linked to an unmonitored organization
-	const isExternal = { memberships: {$not: { $elemMatch: { $and: isInternal } } } }
 
-	// Member in date range (like isInternal, without testing isariMonitored)
-	const isInRange = (start, end) => {
-		// in range = ! (start > membership.endDate || end < membership.startDate)
-		//          <=> start <= membership.endDate && end >= membership.startDate
-		let inRange = [ { orgId } ]
-		if (start) {
-			inRange.push({
-				$or: buildDateQuery('end', '$gte', start).concat([{ endDate: { $exists: false } }])
-			})
-		}
-		if (end) {
-			inRange.push({
-				$or: buildDateQuery('start', '$lte', end)
-			})
-		}
-		return { 'memberships': { $elemMatch: { $and: inRange } } }
+	const now = today()
+
+	// External people = ALL memberships are either expired (as of today) or linked to an unmonitored organization
+	const isExternal = { memberships: 
+						{ $elemMatch: {
+							$or: [
+									{orgMonitored: false},
+									{$and: [
+										{orgMonitored: true},
+										{ endDate: { $exists: true } } ,
+										{$or:[].concat(buildDateQuery('end', '$lte', now))}
+									]}
+							]}
+						}
+					}
+
+	
+	// in range = ! (start > membership.endDate || end < membership.startDate)
+	//          <=> start <= membership.endDate && end >= membership.startDate
+	// inRange is added to isMember case as it works only for members
+	if (includeRange && membershipStart) {
+		isMember.push({
+			$or: buildDateQuery('end', '$gte', membershipStart).concat([{ endDate: { $exists: false } }])
+		})
 	}
+	if (includeRange && membershipEnd) {
+		isMember.push({
+			$or: buildDateQuery('start', '$lte', membershipEnd)
+		})
+	}
+	// no range = look for people at the current date
+	if (!membershipStart && !membershipEnd)
+		isMember.push({ $or: [ { endDate: { $exists: false } } ].concat(buildDateQuery('end', '$gte', now)) })
 
-	const filters = includeRange
-		? isInRange(membershipStart, membershipEnd)
-		: (includeExternals && includeMembers)
-			? { $or: [ isMember, isExternal ] }
-			: (includeExternals ? isExternal : isMember)
+	// we looke for members with sometimes a range or for externals 
+	const filters = includeRange || includeMembers ?{ 'memberships': { $elemMatch: { $and: isMember } } } : isExternal
 
 	// here the mongo query of the death
 	return People.aggregate()
@@ -322,10 +371,10 @@ const listViewablePeople = (req, options = {}) => {
 				//add external people which doesn't have any academicMembership
 				query = { $or: [ { academicMemberships: { $exists:false } }, { academicMemberships:[] }, { _id: { $in: ids } } ] }
 			else
-				// Populate to allow getPeoplePermissions to work
 				query = { _id: { $in: ids } }
 
 			return {
+				//Populate to allow getPeoplePermissions to work
 				query: People.find(query).populate('academicMemberships.organization')
 			}
 		})

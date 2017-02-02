@@ -168,15 +168,16 @@ export class IsariDateComponent {
     this.runningClick = true;
   }
 
-  @HostListener('window:keydown', ['$event'])
-  onKeydown($event) {
-    if (this.pressedEscapeKey($event)) {
-      this.undoDate($event);
-    }
-    if (this.pressedEnterKey($event)) {
-      this.update($event);
-    }
-  }
+  // NOTE: fix this later
+  // @HostListener('window:keydown', ['$event'])
+  // onKeydown($event) {
+  //   if (this.pressedEscapeKey($event)) {
+  //     this.undoDate($event);
+  //   }
+  //   if (this.pressedEnterKey($event)) {
+  //     this.update($event);
+  //   }
+  // }
 
   private getDisplayedValue (year, month, day) {
     if (!year) {

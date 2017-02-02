@@ -165,8 +165,6 @@ module.exports = {
           });
 
         // 3) Generating activities
-        // NOTE: don't forget phantom organization if !origin && country
-        // (address would be the city if we have it)
         const activities = lines.map(line => {
 
           // People
@@ -226,20 +224,22 @@ module.exports = {
           }
 
           // Phantom organization
-          if (!line.origin && !!line.originCountry) {
-            const name = `Invité - Organisation inconnue (${line.originCountry})`;
+          // if (!line.origin && !!line.originCountry) {
+          //   const name = `Invité - Organisation inconnue (${line.originCountry})`;
 
-            const org = {name};
-            organizations[name] = org;
+          //   const org = {
+          //     name,
+          //     organizationTypes: ['inconnue']
+          //   };
+          //   organizations[name] = org;
 
-            const linkInfo = {
-              organization: name,
-              role: 'orgadorigine',
-              organizationTypes: ['inconnue']
-            };
+          //   const linkInfo = {
+          //     organization: name,
+          //     role: 'orgadorigine'
+          //   };
 
-            activityInfo.organizations.push(linkInfo);
-          }
+          //   activityInfo.organizations.push(linkInfo);
+          // }
 
           // Subject
           const subject = [];
@@ -1077,7 +1077,6 @@ module.exports = {
             organizations: []
           };
 
-          // TODO: phantom
           if (org)
             activity.organizations.push({
               organization: org.name,

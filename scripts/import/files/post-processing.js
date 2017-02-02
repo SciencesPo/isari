@@ -110,7 +110,7 @@ module.exports = {
           name: line['People.name'],
           personalActivity: {
             personalActivityType: line['People.personalActivities.personalActivityType'],
-            description: line['People.personalActivities.description']
+            summary: line['People.personalActivities.description']
           }
         };
 

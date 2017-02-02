@@ -315,7 +315,8 @@ const searchModel = (esIndex, Model, format) => req => {
 		const fixedPath = path.replace(/\.\d+(\.|$)/g, '.0$1')
 		const field = get(fixedPath, schema)
 		// Got field description and it has suggestions info
-		if (field && field.suggestions) {
+		// !!RUSTINE!!: if query, we don't need topX
+		if (query === '*' && field && field.suggestions) {
 			// Is it a top_X suggestion?
 			if (typeof field.suggestions === 'string' && field.suggestions.match(/^top_\d+$/)) {
 				topX = Number(field.suggestions.substring(4))
@@ -334,7 +335,7 @@ const searchModel = (esIndex, Model, format) => req => {
 	const size = topX ? config.elasticsearch.maxSize : resultSize
 
 	const itemsP = fuzzy
-		? es.q.forSuggestions({ type: esIndex, size, query, fields })
+		? es.q.forSuggestions({ type: esIndex, size, query, fields, includeInfo: true })
 		: es.q({ type: esIndex, size, query: { query_string: { query, fields } } })
 
 	const sortedItemsP = topX
@@ -355,7 +356,19 @@ const searchModel = (esIndex, Model, format) => req => {
 		: itemsP
 
 	return sortedItemsP
-		.then(results => results.slice(0, resultSize))
+		.then(results => {
+			if (results[0] && results[0]._score) {
+				results.sort((a, b) => {
+					if (a._score > b._score)
+						return -1
+					if (a._score < b._score)
+						return 1
+					return 0
+				})
+			}
+
+			return results.slice(0, resultSize)
+		})
 		.then(map(o => full
 			? format(o)
 			: { value: o._id, label: applyTemplates(o, Model.modelName, req.query, 0) }

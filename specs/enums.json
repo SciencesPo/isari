@@ -484,7 +484,7 @@
         {
             "value": "central_admin",
             "label": {
-                "fr": "adminsitrateur central",
+                "fr": "administrateur central",
                 "en": "central administrator"
             }
         },
@@ -960,8 +960,8 @@
         {
             "value": "hdr",
             "label": {
-                "fr": "Habilitation à Diriger des Recherches",
-                "en": ""
+                "fr": "HDR",
+                "en": "HDR"
             }
         },
         {
