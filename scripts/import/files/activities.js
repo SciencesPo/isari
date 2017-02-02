@@ -912,6 +912,10 @@ module.exports = {
 
               match.distinctions.push.apply(match.distinctions, newDistinctions.doctorat);
             }
+            else if (newDistinctions.doctorat) {
+              match.distinctions = match.distinctions || [];
+              match.distinctions.push.apply(match.distinctions, newDistinctions.doctorat);
+            }
 
             //-- 2) HDR
             if (newDistinctions.hdr && currentDistinctions.hdr) {
@@ -919,6 +923,10 @@ module.exports = {
                 return distinction !== currentDistinctions.hdr;
               });
 
+              match.distinctions.push.apply(match.distinctions, newDistinctions.hdr);
+            }
+            else if (newDistinctions.hdr) {
+              match.distinctions = match.distinctions || [];
               match.distinctions.push.apply(match.distinctions, newDistinctions.hdr);
             }
 

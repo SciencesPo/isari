@@ -67,8 +67,8 @@ const buildDateQuery = (dateField, op, d) => {
 			// case of incomplete dates, don't test month and day
 			{ 
 				[yearField]: { [op]: yyyy }, 
-				[monthField]: "",
-				[dayField]:""
+				[monthField]: '',
+				[dayField]:''
 			},
 			// don't test month if year is not exactly the one searched
 			{ 
@@ -85,22 +85,22 @@ const buildDateQuery = (dateField, op, d) => {
 		// case of incomplete dates, don't test month and day
 		{ 
 			[yearField]: { [op]: yyyy }, 
-			[monthField]: "",
-			[dayField]: ""  
+			[monthField]: '',
+			[dayField]: ''  
 		},
 		// don't test month if year and month are not exactly the one searched
 		{ 
-				[yearField]: { [op.replace('e','')]: yyyy }
+			[yearField]: { [op.replace('e','')]: yyyy }
 		},
 		{ 
-				[yearField]: yyyy,
-				[monthField]: { [op.replace('e','')]: mm }
+			[yearField]: yyyy,
+			[monthField]: { [op.replace('e','')]: mm }
 		},
 		// case of incomplete dates, don't test day
 		{
 			[yearField]:  yyyy , 
 			[monthField]: { [op]: mm },
-			[dayField]: ""
+			[dayField]: ''
 		},
 		// test the day
 		{ 
@@ -300,17 +300,17 @@ const listViewablePeople = (req, options = {}) => {
 
 	// External people = ALL memberships are either expired (as of today) or linked to an unmonitored organization
 	const isExternal = { memberships: 
-						{ $elemMatch: {
-							$or: [
+	{ $elemMatch: {
+		$or: [
 									{orgMonitored: false},
-									{$and: [
+			{$and: [
 										{orgMonitored: true},
 										{ endDate: { $exists: true } } ,
 										{$or:[].concat(buildDateQuery('end', '$lte', now))}
-									]}
-							]}
-						}
-					}
+			]}
+		]}
+	}
+	}
 
 	
 	// in range = ! (start > membership.endDate || end < membership.startDate)
