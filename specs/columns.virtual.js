@@ -9,15 +9,15 @@ const { overlap, formatDate } = require('../server/export/helpers');
 const selectPeriodFromScope = (periods, scope) => {	
 	const thisMonth = moment().format('YYYY-MM');
 	const scopePeriod = {
-		startDate: scope.start ? scope.start : thisMonth,
-		endDate: scope.end ? scope.end : thisMonth
+		startDate: scope.query.start ? scope.query.start : thisMonth,
+		endDate: scope.query.end ? scope.query.end : thisMonth
 	};
 	// keep only periods active during scope or this month
     return _.sortBy(periods.filter(p => overlap(p,scopePeriod)), [p => p.endDate || p.startDate]).reverse()
 }
 
 
-exports.email = (people, scope) => {
+exports.email = (people) => {
   if (!people.contacts)
     return '';
 
@@ -33,7 +33,14 @@ exports.membershipType = (people, scope) => {
   if (!people.academicMemberships)
     return '';
 
-  let af = people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization)
+  let af = [];
+  if (scope.userScopeOrganizationId)
+  	af = people.academicMemberships.filter(e => e.organization._id.toString() === scope.userScopeOrganizationId);
+  else
+  	// central point of view let's check if the correct role is set
+  	if (scope.userCentralRole)
+  		af = people.academicMemberships.filter(e => e.organization.isariMonitored);
+
   af = af.sort(e => e.startDate)
 
   if (af.length){
@@ -49,7 +56,7 @@ exports.membershipType = (people, scope) => {
 
 // grade
 
-exports.gradeStatus = (people, scope) => {
+exports.gradeStatus = (people) => {
 	if (people.grades){
 	  let af = _.sortBy(people.grades, [e => e.startDate])
 
@@ -64,7 +71,7 @@ exports.gradeStatus = (people, scope) => {
   return '';
 };
 
-exports.grade = (people, scope) => {
+exports.grade = (people) => {
 	if (people.grades){
 	  let af = _.sortBy(people.grades, [e => e.startDate])
 	  
@@ -80,13 +87,23 @@ exports.grade = (people, scope) => {
 
 exports.entryDate = (people, scope) => {
 	if (people.academicMemberships)
-	  return _.min(people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization).map(e => e.startDate))
+		if (scope.userScopeOrganizationId)
+	  		return _.min(people.academicMemberships.filter(e => e.organization._id.toString() === scope.userScopeOrganizationId).map(e => e.startDate))
+  		else
+  			// central point of view let's check if the correct role is set
+  			if (scope.userCentralRole)
+	  			return _.min(people.academicMemberships.filter(e => e.organization.isariMonitored).map(e => e.startDate))
   	return '';
 };
 
 exports.leavingDate = (people, scope) => {
 	if (people.academicMemberships)
-	  return _.max(people.academicMemberships.filter(e => e.organization._id.toString() === scope.organization).map(e => e.endDate))
+		if (scope.userScopeOrganizationId)
+		  return _.max(people.academicMemberships.filter(e => e.organization._id.toString() === scope.userScopeOrganizationId).map(e => e.endDate))
+		else
+  			// central point of view let's check if the correct role is set
+  			if (scope.userCentralRole)
+	  			return _.maxBy(people.academicMemberships.filter(e => e.organization.isariMonitored).map(e => e.endDate), d => d || Infinity )
   	return '';
 };
 
@@ -118,7 +135,7 @@ exports.timepart = (people, scope) => {
 
 // distinctions
 
- exports.degree = (people, scope) => {
+ exports.degree = (people) => {
 	if (people.distinctions) {
 		const order = {
 			hdr: 1,
@@ -140,7 +157,7 @@ exports.timepart = (people, scope) => {
 
 // people
 
-const activityPeople = (activity, scope, main = true) => {
+const activityPeople = (activity, main = true) => {
 	let peopleRoleFilter = {}
 	if (main){
 		peopleRoleFilter = {
@@ -175,7 +192,7 @@ exports.activityOtherPeople = (a, s) => activityPeople(a, s, false)
 
 // organization
 
-const activityOrganization = (activity, scope, main = true) => {
+const activityOrganization = (activity, main = true) => {
 
 	let orgaRoleFilter={}
 	if (main){
