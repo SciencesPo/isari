@@ -62,7 +62,7 @@ const saveDocument = format => (doc, perms) => {
 
 const formatWithOpts = (req, format, getPermissions, applyTemplates) => o =>
 	getPermissions(req, o).then(perms =>
-		Promise.resolve(format(applyTemplates ? o.applyTemplates(req.query) : o, perms))
+		Promise.resolve(format(applyTemplates ? o.applyTemplates(req) : o, perms))
 		.then(set('opts', { editable: perms.editable, deletable: perms.editable }))
 	)
 
@@ -114,7 +114,7 @@ const listModel = (Model, format, getPermissions, buildListQuery = null) => req 
 	const applyTemplates = Boolean(Number(req.query.applyTemplates))
 	const formatOne = formatWithOpts(req, format, getPermissions, applyTemplates)
 	const virtuals = req.query.fields && getVirtualColumns(req.query.fields.split(','))
-	const addVirtuals = virtuals.length === 0 ? identity : mergeVirtuals(virtuals, req.query)
+	const addVirtuals = virtuals.length === 0 ? identity : mergeVirtuals(virtuals, req)
 	// Note: we don't apply field selection directly in query as some fields may be not asked, but
 	// required for some other fields' templates to be correctly calculated
 	const withPopulate = q => (applyTemplates ? populateAllQuery(q, Model.modelName) : q).exec()
@@ -176,7 +176,7 @@ const getModelStrings = Model => req => {
 			// Map over ids instead of found object to keep initial order
 			return Promise.all(ids.map(id => founds.find(o => o.id === id).populateAll()))
 		})
-		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(req.query,0) })))
+		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(req,0) })))
 }
 
 const replaceModel = (Model, save, getPermissions) => {
@@ -371,7 +371,7 @@ const searchModel = (esIndex, Model, format) => req => {
 		})
 		.then(map(o => full
 			? format(o)
-			: { value: o._id, label: applyTemplates(o, Model.modelName, req.query, 0) }
+			: { value: o._id, label: applyTemplates(o, Model.modelName, req, 0) }
 		))
 }
 

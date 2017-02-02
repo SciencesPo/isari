@@ -59,21 +59,21 @@ function memberships(afs,scope){
   if (!afs)
     return '';
   const thisMonth = moment().format('YYYY-MM') 
-          // remove lab aff when visiting or associate
+          // remove lab aff when visiting or associate only if scope set to one lab
   const r = _.sortBy(
-    afs.filter(a => a.membershipType !== 'visiting' && a.membershipType !== 'associé')
+    afs.filter(a => !scope.userScopeOrganizationId || (a.membershipType !== 'visiting' && a.membershipType !== 'associé'))
         // keep only memberships active this month
        .filter(a => overlap(a, {
-          'startDate': scope.start ? scope.start : thisMonth, 
-          'endDate': scope.end ? scope.end : thisMonth
+          'startDate': scope.query.start ? scope.query.start : thisMonth, 
+          'endDate': scope.query.end ? scope.query.end : thisMonth
         }))
     ,
     // sort orga from scope first and then by alphabetic order
-    [a => a.organization._id.toString() === scope.organization ? 'AAAAAAAAA' : (a.organization.acronym || a.organization.name)] 
+    [a => a.organization._id.toString() === scope.userScopeOrganizationId ? 'AAAAAAAAA' : (a.organization.acronym || a.organization.name)] 
   )
   
   if (r.length)
-      return r.map(af => af.organization.acronym || af.organization.name).join(", ");
+      return _.uniq(r.map(af => af.organization.acronym || af.organization.name));
   
   return '';
 
@@ -95,7 +95,7 @@ function currentDeptMembershipsDates(p,scope){
   if (p){
     const thisMonth = moment().format('YYYY-MM')
     // keep only memberships active this month
-      const afs = p.filter(a => overlap(a,{'startDate': scope.start ? scope.start : thisMonth,'endDate': scope.end ? scope.end : thisMonth}))
+      const afs = p.filter(a => overlap(a,{'startDate': scope.query.start ? scope.query.start : thisMonth,'endDate': scope.query.end ? scope.query.end : thisMonth}))
             // sort orga from scope first and then by alphabetic order 
             .sort(e => e.departement)
     if (afs.length){
@@ -167,7 +167,7 @@ exports.bonuses = bonuses => {
 
 exports.isariAuthorizedCenters = (as,scope) => {
   const l = as.map(a => formatEnum('isariRoles',a.isariRole, label => {
-    if (!a.organization || a.organization._id.toString() === scope.organization )
+    if (!a.organization || a.organization._id.toString() === scope.userScopeOrganizationId )
       return label
     else
       return label + ' ' + (a.organization.acronym || a.organization.name)
@@ -175,7 +175,7 @@ exports.isariAuthorizedCenters = (as,scope) => {
   return l
 }
 
-exports.grant = (gs,scope)=>{
+exports.grant = (gs)=>{
   let r = gs.filter(g => g.grantType).map(g => formatEnum('grantTypes', g.grantType))
   if (!r.length)
     r = gs.filter(g => g.organization).map(g => g.organization.acronym || g.organization.name)
