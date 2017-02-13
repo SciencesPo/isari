@@ -213,6 +213,13 @@
                 "fr": "Informatique et applications",
                 "en": ""
             }
+        },
+        {
+            "value": "discipline632",
+            "label": {
+                "fr": "Sciences de l'information et de la communication",
+                "en": ""
+            }
         }
     ],
     "personalActivityRoles": [
