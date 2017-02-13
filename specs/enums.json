@@ -1034,8 +1034,8 @@
         {
             "value": "visiting",
             "label": {
-                "fr": "visiting",
-                "en": ""
+                "fr": "invité",
+                "en": "visiting"
             }
         }
     ],
