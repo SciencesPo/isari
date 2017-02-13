@@ -1,6 +1,6 @@
 {
   "people": {
-    "defaults": ["firstName","name","academicMemberships","gradeStatus","grade"],
+    "defaults": ["firstName","name","academicMemberships","gradeStatus","grade","tutelle"],
     "selector": [
       "-grades",
       "-personalActivities",
