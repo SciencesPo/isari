@@ -12,7 +12,7 @@ import { IsariDataService } from '../isari-data.service';
   ]
 })
 export class IsariCreationModal implements OnInit {
-    
+
     public feature: string;
     public label = 'Rechercher ...';
     public queryControl: FormControl;
@@ -45,6 +45,10 @@ export class IsariCreationModal implements OnInit {
                 this.items = [];
             }
         });
+    }
+
+    closeMe() {
+      this.dialogRef.close();
     }
 
     private translateItem (item) {
