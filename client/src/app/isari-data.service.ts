@@ -10,6 +10,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/publishReplay';
+import deburr from 'lodash/deburr';
 import { UserService } from './user.service';
 import { get, sortByDistance } from './utils';
 
@@ -112,7 +113,7 @@ export class IsariDataService {
     return this.http.delete(url, this.getHttpOptions())
       .toPromise()
       .then(response => response.json())
-      .catch(this.handleError);    
+      .catch(this.handleError);
   }
 
   getLayout(feature: string) {
@@ -292,7 +293,7 @@ export class IsariDataService {
 
   rawSearch(feature: string, query: string, path?: string, rootFeature?: string) {
     const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/search`;
-    return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature }))
+    return this.http.get(url, this.getHttpOptions({ q: deburr(query) || '*', path, rootFeature }))
       .map(response => response.json())
       .map(items => ({
         reset: false,
