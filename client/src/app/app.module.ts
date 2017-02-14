@@ -45,6 +45,7 @@ import { CVComponent } from './cv/cv.component';
 import { FocusMeDirective } from './fields/focus-me.directive';
 import { ConfirmDialog } from './fields/confirm.component';
 import { IsariCreationModal } from './isari-creation-modal/isari-creation-modal.component';
+import { StorageService } from './storage.service';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -80,7 +81,7 @@ export function createTranslateLoader(http: Http) {
     CVComponent,
     FocusMeDirective,
     ConfirmDialog,
-    IsariCreationModal
+    IsariCreationModal,
   ],
   imports: [
     BrowserModule,
@@ -102,11 +103,12 @@ export function createTranslateLoader(http: Http) {
     UserService,
     LoggedInGuard,
     OrganizationResolver,
+    StorageService,
   ],
   entryComponents: [
     AppComponent,
     ConfirmDialog,
-    IsariCreationModal
+    IsariCreationModal,
   ],
   bootstrap: [
     AppComponent,

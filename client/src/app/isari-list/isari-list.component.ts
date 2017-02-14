@@ -8,6 +8,7 @@ import { IsariDataService } from '../isari-data.service';
 import { TranslateService } from 'ng2-translate';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { IsariCreationModal } from '../isari-creation-modal/isari-creation-modal.component';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'isari-list',
@@ -31,6 +32,7 @@ export class IsariListComponent implements OnInit {
   activityTypeLabel: string;
 
   constructor (
+    private StorageService: StorageService,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     private translate: TranslateService,
@@ -62,11 +64,17 @@ export class IsariListComponent implements OnInit {
             this.cols = columns;
           });
 
-        this.isariDataService.getColumnsWithDefault(feature)
-          .then(defaultColumns => {
-            this.selectedColumns = defaultColumns;
-            this.loadDatas();
-          });
+        this.selectedColumns = this.StorageService.get('colSelected', this.feature);
+        if (!this.selectedColumns) {
+          this.isariDataService.getColumnsWithDefault(feature)
+            .then(defaultColumns => {
+              this.selectedColumns = defaultColumns;
+              this.loadDatas();
+            });
+        } else {
+          this.loadDatas();
+        }
+
 
       });
 
@@ -93,6 +101,7 @@ export class IsariListComponent implements OnInit {
   }
 
   colSelected($event) {
+    this.StorageService.save($event.cols, 'colSelected', this.feature);
     this.selectedColumns = $event.cols;
     this.loadDatas();
   }
