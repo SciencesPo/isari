@@ -66,8 +66,8 @@ export class DataTableComponent implements OnInit, OnChanges {
       this.cols = this.cols.map(col => {
         let filterControl = new FormControl(this.filters[col.key] || '');
         filterControl.valueChanges.subscribe(value => {
-          this.storageService.save(this.filters, 'filters', this.feature);
           this.applyFilter(col.key, value);
+          this.storageService.save(this.filters, 'filters', this.feature);
         });
         return Object.assign({}, col, { filterControl });
       });
