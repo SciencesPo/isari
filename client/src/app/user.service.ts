@@ -12,7 +12,7 @@ export class UserService {
   private checkUrl = `${environment.API_BASE_URL}/auth/myself`;
   private permissionsUrl = `${environment.API_BASE_URL}/auth/permissions`;
   private httpOptions: RequestOptions;
-  private organizations: any;
+  public organizations: any;
   private currentOrganizationId;
 
   constructor(private http: Http) {
