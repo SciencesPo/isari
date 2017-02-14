@@ -124,6 +124,10 @@ export class IsariListComponent implements OnInit {
       });
   }
 
+  refresh() {
+    this.loadDatas()
+  }
+
   private loadDatas() {
     // this.data = [];
     this.loading = true;

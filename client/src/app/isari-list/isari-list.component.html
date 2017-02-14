@@ -45,6 +45,10 @@
       {{ ('btn_add_' + feature) | translate }}
     </button>
 
+    <button md-icon-button (click)="refresh()">
+      <md-icon>refresh</md-icon>
+    </button>
+
   </md-toolbar>
 
   <isari-spinner *ngIf="loading"></isari-spinner>
