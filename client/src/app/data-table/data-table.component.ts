@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
-
+import { removeDiacritics } from '../utils';
 import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
 
 @Component({
@@ -134,7 +134,10 @@ export class DataTableComponent implements OnInit, OnChanges {
   private compare(key, query, item) {
     let target = this.getValueForKey(item, key);
 
-    return String(target).toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    const a = removeDiacritics(String(target).toLowerCase());
+    const b = removeDiacritics(query.toLowerCase());
+
+    return a.indexOf(b) !== -1;
   }
 
   private applyFilter(key: string, query: string) {
