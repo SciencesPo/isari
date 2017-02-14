@@ -1,14 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { ConfirmDialog } from '../fields/confirm.component';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'isari-data-editor',
   templateUrl: './data-editor.component.html',
   styleUrls: ['./data-editor.component.css']
 })
-export class DataEditorComponent {
+export class DataEditorComponent implements OnChanges {
   dialogRef: MdDialogRef<ConfirmDialog>;
 
   @Input() form: FormGroup;
@@ -25,7 +26,22 @@ export class DataEditorComponent {
   @Output() onDelete = new EventEmitter<any>();
   @Output() onError = new EventEmitter<any>();
 
-  constructor(private dialog: MdDialog) {}
+  constructor(
+    private storageService: StorageService,
+    private dialog: MdDialog
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.layout) {
+      const collapsableGroups = this.layout
+        .filter(group => group.collapsabled)
+        .map(group => ({ collapsed: group.collapsed, label: group.label }));
+      if (collapsableGroups.length) {
+        const storedCollapsed = this.storageService.get('collapsed', this.feature);
+        this.layout = this.layout.map(group => storedCollapsed[group.label] ? Object.assign(group, storedCollapsed[group.label]) : group);
+      }
+    }
+  }
 
   update($event) {
     this.onUpdate.emit($event);
@@ -54,6 +70,7 @@ export class DataEditorComponent {
   collapse($event, group) {
     $event.preventDefault();
     group.collapsed = !group.collapsed;
+    this.storageService.upsert({ collapsed: group.collapsed, label: group.label }, 'collapsed', this.feature, 'label');
   }
 
   cumulError($event) {

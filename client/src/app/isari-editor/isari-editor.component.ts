@@ -32,6 +32,7 @@ export class IsariEditorComponent implements OnInit {
   form: FormGroup;
   deletable = false;
   relations: { label: string, value: Array<any>, show: boolean, feature: string }[];
+  exist = false;
   private errors: any;
 
   private pressedSaveShortcut: Function;
@@ -84,7 +85,7 @@ export class IsariEditorComponent implements OnInit {
         this.errors = {};
 
         this.relations = Object.keys(relations).map(key => ({
-          value: relations[key], 
+          value: relations[key],
           label: `linked${key}`,
           show: false,
           feature: this.isariDataService.getSchemaApi(key)
@@ -98,6 +99,7 @@ export class IsariEditorComponent implements OnInit {
           this.titleService.setTitle(data.name);
         }
 
+        this.exist = true;
         this.data = data;
         this.data.opts = Object.assign({ editable: true }, this.data.opts || {}, {
           restrictedFields: restrictedFields[feature],
@@ -180,7 +182,8 @@ export class IsariEditorComponent implements OnInit {
       this.dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.isariDataService.removeData(this.feature, this.data.id)
-            .then(() => this.router.navigate(['/', this.feature, { outlets: { editor: null } }], { preserveQueryParams: true }));
+            .then(() => this.exist = false) //this.router.navigate(['/', this.feature, { outlets: { editor: null } }], { preserveQueryParams: true }));
+            .then(() => this.toasterService.pop('success', 'Delete', 'Success'));
         }
         this.dialogRef = null;
       });

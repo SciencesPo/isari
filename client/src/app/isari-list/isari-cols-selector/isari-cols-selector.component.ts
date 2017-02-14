@@ -1,5 +1,6 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, HostListener, ElementRef, EventEmitter } from '@angular/core';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import sortBy from 'lodash/sortBy';
 
 @Component({
   selector: 'isari-cols-selector',
@@ -28,6 +29,9 @@ export class IsariColsSelectorComponent implements OnInit, OnChanges {
       this.cols = this.cols.map(col => Object.assign(col, {
         selected: !!this.selectedColumns.find(selectedCol => selectedCol.key === col.key)
       }));
+    }
+    if (this.cols.length && this.lang) {
+      this.cols = sortBy(this.cols, col => col.label[this.lang]);
     }
   }
 

@@ -1,42 +1,43 @@
-<md-card id="form">
-    <isari-data-editor 
-        [feature]="feature" 
-        [form]="form" 
-        [layout]="layout" 
-        (onSave)="save($event)" 
-        (onUpdate)="onUpdate($event)" 
-        (onError)="cumulError($event)"
-        [path]="" 
-        [lang]="lang"></isari-data-editor>
-</md-card>
+<div *ngIf="exist">
+  <md-card id="form">
+      <isari-data-editor
+          [feature]="feature"
+          [form]="form"
+          [layout]="layout"
+          (onSave)="save($event)"
+          (onUpdate)="onUpdate($event)"
+          (onError)="cumulError($event)"
+          [path]=""
+          [lang]="lang"></isari-data-editor>
+  </md-card>
 
-<md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
+  <md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
 
-    <template ngFor let-relation [ngForOf]="relations" let-i="index" [ngForTrackBy]="trackByFn">
-        <div *ngIf="relation.value.length" style="margin-right:1em;">
-            <button type="button" md-raised-button (click)="relation.show = !relation.show">
-                ({{ relation.value.length }}) {{ relation.label | translate }}
-                <md-icon>arrow_drop_down_circle</md-icon>
-            </button>
-            <table class="striped" *ngIf="relation.show">
-                <tbody>
-                    <tr *ngFor="let item of relation.value">
-                        <td>{{ item.label }} </td>
-                        <td>
-                            <a [routerLink]="['/', relation.feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" preserveQueryParams>
-                                <md-icon>open_in_new</md-icon>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </template>
+      <template ngFor let-relation [ngForOf]="relations" let-i="index" [ngForTrackBy]="trackByFn">
+          <div *ngIf="relation.value.length" style="margin-right:1em;">
+              <button type="button" md-raised-button (click)="relation.show = !relation.show">
+                  ({{ relation.value.length }}) {{ relation.label | translate }}
+                  <md-icon>arrow_drop_down_circle</md-icon>
+              </button>
+              <table class="striped" *ngIf="relation.show">
+                  <tbody>
+                      <tr *ngFor="let item of relation.value">
+                          <td>{{ item.label }} </td>
+                          <td>
+                              <a [routerLink]="['/', relation.feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" preserveQueryParams>
+                                  <md-icon>open_in_new</md-icon>
+                              </a>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </template>
 
-    <div style="text-align: right;flex-grow:1;">
-        <button [disabled]="!deletable" type="button" md-raised-button color="primary" class="delete" (click)="delete($event)">{{ 'delete' | translate }}</button>
-        <p *ngIf="!deletable"  style="color:#666;">{{ 'warningDelete.' + feature | translate }}</p>
-    </div>
+      <div style="text-align: right;flex-grow:1;">
+          <button [disabled]="!deletable" type="button" md-raised-button color="primary" class="delete" (click)="delete($event)">{{ 'delete' | translate }}</button>
+          <p *ngIf="!deletable"  style="color:#666;">{{ 'warningDelete.' + feature | translate }}</p>
+      </div>
 
-</md-card>
-
+  </md-card>
+</div>

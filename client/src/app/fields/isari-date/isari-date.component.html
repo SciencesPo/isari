@@ -5,7 +5,7 @@
     <div class="md-input-table">
       <div class="md-input-prefix"></div>
       <div class="md-input-infix">
-        <input class="md-input-element"   
+        <input class="md-input-element"
           (keydown)="uneditable($event)"
           focusMe
           (focus)="onFocus($event)"
@@ -51,7 +51,7 @@
     </div>
 
     <div *ngIf="displayed === 'years'" class="calendar-years">
-      <button tabindex="-1" (mousedown)="navigateYears(years[0]-10, $event)" md-button><md-icon>keyboard_arrow_left</md-icon></button>
+      <button tabindex="-1" (mousedown)="navigateYears(years[0]-8, $event)" md-button><md-icon>keyboard_arrow_left</md-icon></button>
         <button tabindex="-1" *ngFor="let y of years" (mousedown)="setYear(y, $event)" md-button color="">{{ y }}</button>
       <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" md-button><md-icon>keyboard_arrow_right</md-icon></button>
     </div>

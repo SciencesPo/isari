@@ -17,5 +17,5 @@
 
 <p>
     {{ 'no matching' | translate }}
-    <a [disabled]="!minimalSearchDone" md-raised-button color="primary" [routerLink]="['/', feature , { outlets: { primary: 'new', editor: null } }]" preserveQueryParams target="_blank">{{ 'Continuer' | translate }}</a>
+    <a (click)="closeMe()" [disabled]="!minimalSearchDone" md-raised-button color="primary" [routerLink]="['/', feature , { outlets: { primary: 'new', editor: null } }]" preserveQueryParams target="_blank">{{ 'Continuer' | translate }}</a>
 </p>

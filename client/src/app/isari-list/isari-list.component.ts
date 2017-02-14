@@ -8,6 +8,9 @@ import { IsariDataService } from '../isari-data.service';
 import { TranslateService } from 'ng2-translate';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { IsariCreationModal } from '../isari-creation-modal/isari-creation-modal.component';
+import { StorageService } from '../storage.service';
+import { UserService } from '../user.service';
+import { pad } from '../utils';
 
 @Component({
   selector: 'isari-list',
@@ -29,19 +32,30 @@ export class IsariListComponent implements OnInit {
   activityTypes: any[] = [];
   activityType: string;
   activityTypeLabel: string;
+  canCreate = false;
 
   constructor (
+    private userService: UserService,
+    private storageService: StorageService,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     private translate: TranslateService,
     private titleService: Title,
     private dialog: MdDialog) {}
 
+  private today() {
+    const d = new Date();
+    return [pad(d.getFullYear(), 4), pad(d.getMonth() + 1, 2), pad(d.getDate(), 2)].join('-');
+  }
+
   ngOnInit() {
+    const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
     this.dateForm = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl('')
+      startDate: new FormControl(dateFilters['startDate'] || this.today()),
+      endDate: new FormControl(dateFilters['endDate'] || '')
     });
+
+    this.userService.organizations.subscribe(orgs => this.canCreate = orgs.central !== 'reader');
 
     this.route.params
       .subscribe(({ feature, externals, type }) => {
@@ -62,11 +76,17 @@ export class IsariListComponent implements OnInit {
             this.cols = columns;
           });
 
-        this.isariDataService.getColumnsWithDefault(feature)
-          .then(defaultColumns => {
-            this.selectedColumns = defaultColumns;
-            this.loadDatas();
-          });
+        this.selectedColumns = this.storageService.get('colSelected', this.feature);
+        if (!this.selectedColumns) {
+          this.isariDataService.getColumnsWithDefault(feature)
+            .then(defaultColumns => {
+              this.selectedColumns = defaultColumns;
+              this.loadDatas();
+            });
+        } else {
+          this.loadDatas();
+        }
+
 
       });
 
@@ -93,15 +113,18 @@ export class IsariListComponent implements OnInit {
   }
 
   colSelected($event) {
+    this.storageService.save($event.cols, 'colSelected', this.feature);
     this.selectedColumns = $event.cols;
     this.loadDatas();
   }
 
   startDateUpdated($event) {
+    this.storageService.upsert(this.dateForm.value.startDate, 'dateFilters', this.feature, 'startDate');
     this.loadDatas();
   }
 
   endDateUpdated($event) {
+    this.storageService.upsert(this.dateForm.value.endDate, 'dateFilters', this.feature, 'endDate');
     this.loadDatas();
   }
 
@@ -122,6 +145,10 @@ export class IsariListComponent implements OnInit {
         }
         this.dialogRef = null;
       });
+  }
+
+  refresh() {
+    this.loadDatas()
   }
 
   private loadDatas() {

@@ -131,3 +131,10 @@ export function matchKeyCombo (shortcuts: string | Array<string>) {
     return expected.some(k => k === pressed);
   };
 }
+
+  export function pad(n: number, size: number): string | null {
+    if (!n) {
+      return null;
+    }
+    return ('0000' + n).substr(-size, size);
+  }
