@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, HostListener } from 
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { FocusMeDirective } from '../focus-me.directive';
-import { matchKeyCombo } from '../../utils';
+import { matchKeyCombo, pad } from '../../utils';
 
 @Component({
   selector: 'isari-date',
@@ -99,9 +99,9 @@ export class IsariDateComponent {
 
   update($event) {
     this.form.controls[this.name].setValue([
-      this.pad(this.year, 4),
-      this.pad(this.month, 2),
-      this.pad(this.day, 2)
+      pad(this.year, 4),
+      pad(this.month, 2),
+      pad(this.day, 2)
     ].filter(v => !!v).join('-'));
     this.form.controls[this.name].markAsDirty();
 
@@ -198,13 +198,6 @@ export class IsariDateComponent {
     }
     const daysInMonth = new Date(+year, +month, 0).getDate();
     return [...Array.apply(null, {length: daysInMonth}).map((v, i) => i + 1)];
-  }
-
-  private pad(n: number, size: number): string | null {
-    if (!n) {
-      return null;
-    }
-    return ('0000' + n).substr(-size, size);
   }
 
 }

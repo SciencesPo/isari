@@ -9,6 +9,7 @@ import { TranslateService } from 'ng2-translate';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { IsariCreationModal } from '../isari-creation-modal/isari-creation-modal.component';
 import { StorageService } from '../storage.service';
+import { pad } from '../utils';
 
 @Component({
   selector: 'isari-list',
@@ -39,10 +40,15 @@ export class IsariListComponent implements OnInit {
     private titleService: Title,
     private dialog: MdDialog) {}
 
+  private today() {
+    const d = new Date();
+    return [pad(d.getFullYear(), 4), pad(d.getMonth() + 1, 2), pad(d.getDate(), 2)].join('-');
+  }
+
   ngOnInit() {
     const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
     this.dateForm = new FormGroup({
-      startDate: new FormControl(dateFilters['startDate'] || ''),
+      startDate: new FormControl(dateFilters['startDate'] || this.today()),
       endDate: new FormControl(dateFilters['endDate'] || '')
     });
 
