@@ -1641,15 +1641,6 @@
         "zh",
         "zu"
     ],
-    "enum": [
-        {
-            "value": "value",
-            "label": {
-                "fr": "label_fr",
-                "en": "label_en"
-            }
-        }
-    ],
     "nationalities": [
         "AD",
         "AE",
