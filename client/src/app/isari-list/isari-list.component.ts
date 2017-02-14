@@ -40,9 +40,10 @@ export class IsariListComponent implements OnInit {
     private dialog: MdDialog) {}
 
   ngOnInit() {
+    const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
     this.dateForm = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl('')
+      startDate: new FormControl(dateFilters['startDate'] || ''),
+      endDate: new FormControl(dateFilters['endDate'] || '')
     });
 
     this.route.params
@@ -107,10 +108,12 @@ export class IsariListComponent implements OnInit {
   }
 
   startDateUpdated($event) {
+    this.storageService.upsert(this.dateForm.value.startDate, 'dateFilters', this.feature, 'startDate');
     this.loadDatas();
   }
 
   endDateUpdated($event) {
+    this.storageService.upsert(this.dateForm.value.endDate, 'dateFilters', this.feature, 'endDate');
     this.loadDatas();
   }
 

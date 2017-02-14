@@ -25,8 +25,7 @@
       [form]="dateForm"
       [name]="'startDate'"
       [label]="translate.instant('startDate')"
-      [requirement]="false"
-      [form]="null"></isari-date>
+      [requirement]="false"></isari-date>
 
     <isari-date
       *ngIf="(feature === 'people' && !externals) || feature === 'activities'"
@@ -34,8 +33,7 @@
       [form]="dateForm"
       [name]="'endDate'"
       [label]="translate.instant('endDate')"
-      [requirement]="false"
-      [form]="null"></isari-date>
+      [requirement]="false"></isari-date>
 
     <span class="filer"></span>
 

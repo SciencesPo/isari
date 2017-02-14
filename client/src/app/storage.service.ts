@@ -13,7 +13,7 @@ export class StorageService {
 
   upsert(value, key, feature, searchKey) {
     const map = this.get(key, feature) || {};
-    map[value[searchKey]] = value;
+    map[value[searchKey] || searchKey] = value;
     this.save(map, key, feature);
   }
 
