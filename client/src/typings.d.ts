@@ -7,5 +7,6 @@ declare module 'deep-diff';
 declare module 'file-saver';
 declare module 'lodash/deburr';
 declare module 'lodash/get';
+declare module 'lodash/sortBy';
 declare module 'papaparse';
 declare module 'talisman/regexp';
