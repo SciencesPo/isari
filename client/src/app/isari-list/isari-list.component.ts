@@ -32,7 +32,7 @@ export class IsariListComponent implements OnInit {
   activityTypeLabel: string;
 
   constructor (
-    private StorageService: StorageService,
+    private storageService: StorageService,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     private translate: TranslateService,
@@ -64,7 +64,7 @@ export class IsariListComponent implements OnInit {
             this.cols = columns;
           });
 
-        this.selectedColumns = this.StorageService.get('colSelected', this.feature);
+        this.selectedColumns = this.storageService.get('colSelected', this.feature);
         if (!this.selectedColumns) {
           this.isariDataService.getColumnsWithDefault(feature)
             .then(defaultColumns => {
@@ -101,7 +101,7 @@ export class IsariListComponent implements OnInit {
   }
 
   colSelected($event) {
-    this.StorageService.save($event.cols, 'colSelected', this.feature);
+    this.storageService.save($event.cols, 'colSelected', this.feature);
     this.selectedColumns = $event.cols;
     this.loadDatas();
   }

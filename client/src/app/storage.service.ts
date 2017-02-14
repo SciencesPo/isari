@@ -11,4 +11,10 @@ export class StorageService {
     return JSON.parse(localStorage.getItem(`${feature}.${key}`));
   }
 
+  upsert(value, key, feature, searchKey) {
+    const map = this.get(key, feature) || {};
+    map[value[searchKey]] = value;
+    this.save(map, key, feature);
+  }
+
 }
