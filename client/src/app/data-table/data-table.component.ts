@@ -5,6 +5,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import deburr from 'lodash/deburr';
 import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'isari-data-table',
@@ -24,8 +25,10 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input() cols: any[];
   @Input() editedId: string;
   @Output() onFilter = new EventEmitter<any>();
+  @Input() feature: string;
 
   constructor(
+    private storageService: StorageService,
     private router: Router,
     private pageScrollService: PageScrollService,
     private translate: TranslateService,
@@ -58,11 +61,12 @@ export class DataTableComponent implements OnInit, OnChanges {
     if (changes['cols'] && this.cols && this.cols.length) {
 
       // Resetting filters
-      this.filters = {};
+      this.filters = this.storageService.get('filters', this.feature) || {};
 
       this.cols = this.cols.map(col => {
-        let filterControl = new FormControl('');
+        let filterControl = new FormControl(this.filters[col.key] || '');
         filterControl.valueChanges.subscribe(value => {
+          this.storageService.save(this.filters, 'filters', this.feature);
           this.applyFilter(col.key, value);
         });
         return Object.assign({}, col, { filterControl });
@@ -76,6 +80,7 @@ export class DataTableComponent implements OnInit, OnChanges {
       if (this.cols.length) {
         this.sortBy(this.cols[0]);
       }
+      this.filterData();
     }
     if (navigateToFirstPage) {
       this.calculPage(1);
@@ -150,17 +155,19 @@ export class DataTableComponent implements OnInit, OnChanges {
       this.filters[key] = query;
     }
 
-    const filters = Object.keys(this.filters);
+    this.filterData();
+    this.onFilter.emit({ data: this.data });
+  }
 
+  private filterData() {
+    const filters = Object.keys(this.filters);
     this.data = this.unfilteredData
       .filter(item => {
         return filters.every(f => {
           return this.compare(f, this.filters[f], item);
         });
       });
-
     this.calculPage(1);
-    this.onFilter.emit({ data: this.data });
   }
 
   private calculPage(page: number) {

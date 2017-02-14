@@ -53,7 +53,7 @@
 
   <isari-spinner *ngIf="loading"></isari-spinner>
 
-  <isari-data-table *ngIf="!loading" (onFilter)="filtered($event)" [data]="data" [cols]="selectedColumns" [editedId]="editedId"></isari-data-table>
+  <isari-data-table *ngIf="!loading" (onFilter)="filtered($event)" [data]="data" [cols]="selectedColumns" [editedId]="editedId" [feature]="feature"></isari-data-table>
 </md-card>
 
 <router-outlet name="editor"></router-outlet>
