@@ -1,10 +1,8 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, Inject, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import deburr from 'lodash/deburr';
-import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
 import { StorageService } from '../storage.service';
 
 @Component({
@@ -30,12 +28,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   constructor(
     private storageService: StorageService,
     private router: Router,
-    private pageScrollService: PageScrollService,
-    private translate: TranslateService,
-    @Inject(DOCUMENT) private document: any) {
-    PageScrollConfig.defaultScrollOffset = 50;
-    PageScrollConfig.defaultDuration = 500;
-  }
+    private translate: TranslateService) {}
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
@@ -113,15 +106,6 @@ export class DataTableComponent implements OnInit, OnChanges {
   edit(id) {
     // highlight row
     this.editedId = id;
-
-    // scroll to form
-    setTimeout(() => {
-      let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
-      this.pageScrollService.start(pageScrollInstance);
-    });
-
-  // je ne sais pas pquoi ça marche pas
-  //   this.router.navigate([{ outlets: { editor: [ id ] } }]);
   }
 
   // NOTE: ce genre de truc est utilisé un peu partout. Possibilité de refacto!

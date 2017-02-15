@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, Input, HostListener } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
@@ -13,6 +13,8 @@ import { matchKeyCombo } from '../utils';
 import get from 'lodash/get';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { ConfirmDialog } from '../fields/confirm.component';
+import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'isari-editor',
@@ -38,6 +40,8 @@ export class IsariEditorComponent implements OnInit {
   private pressedSaveShortcut: Function;
 
   constructor(
+    private pageScrollService: PageScrollService,
+    @Inject(DOCUMENT) private document: any,
     private router: Router,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
@@ -46,7 +50,10 @@ export class IsariEditorComponent implements OnInit {
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private dialog: MdDialog) {}
+    private dialog: MdDialog) {
+      PageScrollConfig.defaultScrollOffset = 50;
+      PageScrollConfig.defaultDuration = 500;
+    }
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
@@ -115,6 +122,11 @@ export class IsariEditorComponent implements OnInit {
         if (this.data.opts && this.data.opts.editable === false) {
           this.form.disable();
         }
+
+        // scroll to form
+        let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
+        this.pageScrollService.start(pageScrollInstance);
+
       });
     });
   }
