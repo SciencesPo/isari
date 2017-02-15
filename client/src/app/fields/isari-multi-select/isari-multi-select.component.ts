@@ -108,9 +108,6 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   onKey($event) {
-    if ($event.keyCode === ENTER) {
-      this.addValue(this.selectControl.value);
-    }
     if ($event.keyCode === BACKSPACE && this.selectControl.value === '' && this.values.length > 0) {
       this.removeValue(this.values[this.values.length - 1], {});
     }
