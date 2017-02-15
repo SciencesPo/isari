@@ -1,4 +1,4 @@
-<form [class.border]="deletable && form.enabled" novalidate [formGroup]="form" *ngIf="form">
+<form [class.border]="deletable && form.enabled" novalidate [formGroup]="form" *ngIf="form" (keydown.enter)="$event.preventDefault()">
   <div class="save-n-delete" *ngIf="!path || (deletable && form.enabled)">
     <button *ngIf="!path"  class="save" md-button (click)="save($event)">{{ 'save' | translate }} <md-icon>done</md-icon></button>
     <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
