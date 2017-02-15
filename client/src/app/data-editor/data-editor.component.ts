@@ -38,7 +38,7 @@ export class DataEditorComponent implements OnChanges {
         .map(group => ({ collapsed: group.collapsed, label: group.label }));
       if (collapsableGroups.length) {
         const storedCollapsed = this.storageService.get('collapsed', this.feature);
-        this.layout = this.layout.map(group => storedCollapsed[group.label] ? Object.assign(group, storedCollapsed[group.label]) : group);
+        this.layout = this.layout.map(group => storedCollapsed && storedCollapsed[group.label] ? Object.assign(group, storedCollapsed[group.label]) : group);
       }
     }
   }
