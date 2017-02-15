@@ -53,31 +53,17 @@ exports.membershipType = (people, scope) => {
 
 // grade
 
-exports.gradeStatus = (people) => {
+exports.gradeStatus = (people, scope) => {
 	if (people.grades){
-	  let af = _.sortBy(people.grades, [e => e.startDate])
-
-	  if (af.length){
-	  	// take the last one
-	  	af = af[af.length -1]
-	  	af = formatEnum('gradeStatus', af.gradeStatus)
-	  	return af;
-	  }
+	  return selectPeriodFromScope(people.grades, scope).map(a => formatEnum('gradeStatus', a.gradeStatus))
 	}
 
   return '';
 };
 
-exports.grade = (people) => {
+exports.grade = (people, scope) => {
 	if (people.grades){
-	  let af = _.sortBy(people.grades, [e => e.startDate])
-	  
-	  if (af.length){
-	  	// take the last one
-	  	af = af[af.length -1]
-	  	af = formatEnum('grade', [af.gradeStatus, af.grade])
-	  	return af;
-	  }
+		return selectPeriodFromScope(people.grades, scope).map(a => formatEnum('grade', [a.gradeStatus, a.grade]))
 	}
   	return '';
 };

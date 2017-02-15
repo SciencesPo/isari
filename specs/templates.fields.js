@@ -26,10 +26,7 @@ function testingPeriodFrom(scope){
     startDate = scope.query.start ? scope.query.start : scope.query.end
     endDate = scope.query.end ? scope.query.end : scope.query.start 
   }
-  else {
-    startDate = moment().format('YYYY-MM')
-    endDate = startDate
-  }
+
 
   if (startDate > endDate){
     const swap = endDate
