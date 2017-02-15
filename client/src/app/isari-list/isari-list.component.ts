@@ -77,7 +77,7 @@ export class IsariListComponent implements OnInit {
 
         // set date filters
         const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
-        this.dateForm.controls['startDate'].setValue(dateFilters['startDate'] || this.today());
+        this.dateForm.controls['startDate'].setValue(dateFilters['startDate'] || (!dateFilters['endDate']? this.today():''));
         this.dateForm.controls['endDate'].setValue(dateFilters['endDate'] || '');
 
         this.selectedColumns = this.storageService.get('colSelected', this.feature);
