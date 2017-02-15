@@ -444,23 +444,15 @@ const listViewableActivities = (req, options = {}) => {
 	let startDate = options.startDate
 	let endDate = options.endDate
 
-	// Setting absurd dates to permit no start or end date
-	if (range && !startDate) {
-		startDate = '1000-01-01'
-	}
-	if (range && !endDate) {
-		endDate = '9999-01-01'
-	}
-
 	let filter = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
-			{ 'organizations.organization': ObjectId(req.userScopeOrganizationId) }
+			{ 'orgId': ObjectId(req.userScopeOrganizationId) }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
 				{}
 			: // Limit to activities of organizations he has access to
-				{ 'organizations.organization': { $in: Object.keys(req.userRoles).map(k => ObjectId(k)) } }
+				{ 'orgId': { $in: Object.keys(req.userRoles).map(k => ObjectId(k)) } }
 
 	if (activityType) {
 		filter.activityType = activityType
@@ -469,8 +461,6 @@ const listViewableActivities = (req, options = {}) => {
 	if (!range)
 		return Promise.resolve({ query: Activity.find(filter) })
 
-	filter.orgId = filter['organizations.organization']
-	delete filter['organizations.organization']
 
 	filter = {
 		periods: {
@@ -480,13 +470,25 @@ const listViewableActivities = (req, options = {}) => {
 		}
 	}
 
-	filter.periods.$elemMatch.$and.push({
-		$or: buildDateQuery('end', '$gte', startDate).concat([{ endDate: { $exists: false } }])
-	})
+	// if one date is empty copy the other one
+	if ((!startDate || !endDate) && (startDate || endDate))		
+		startDate = endDate = startDate || endDate
 
-	filter.periods.$elemMatch.$and.push({
-		$or: buildDateQuery('start', '$lte', endDate)
-	})
+	// check start < end if not swap
+	if (startDate > endDate){
+		const swap = endDate
+		endDate = startDate
+		startDate = swap
+	}
+	
+	if (startDate)
+		filter.periods.$elemMatch.$and.push({
+			$or: buildDateQuery('end', '$gte', startDate).concat([{ endDate: { $exists: false } }])
+		})
+	if (endDate)
+		filter.periods.$elemMatch.$and.push({
+			$or: buildDateQuery('start', '$lte', endDate).concat([{ startDate: { $exists: false } }])
+		})
 
 	// Range query
 	return Activity.aggregate()
