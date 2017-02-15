@@ -270,13 +270,6 @@ const listViewablePeople = (req, options = {}) => {
 		return Promise.reject(Error('Invalid usage of "includeRange" without organization id provided'))
 	}
 
-	// Setting absurd dates to permit no start or end date
-	if (includeRange && !membershipStart) {
-		membershipStart = '1000-01-01'
-	}
-	if (includeRange && !membershipEnd) {
-		membershipEnd = '9999-01-01'
-	}
 
 	// Note: A && B && (C || D) is not supported by Mongo
 	// i.e. this must be transformed into (A && B && C) || (A && B && D)
@@ -302,35 +295,44 @@ const listViewablePeople = (req, options = {}) => {
 	const isExternal = { memberships: 
 	{ $elemMatch: {
 		$or: [
-									{orgMonitored: false},
+			{orgMonitored: false},
 			{$and: [
-										{orgMonitored: true},
-										{ endDate: { $exists: true } } ,
-										{$or:[].concat(buildDateQuery('end', '$lte', now))}
+				{orgMonitored: true},
+				{ endDate: { $exists: true } } ,
+				{$or:[].concat(buildDateQuery('end', '$lte', now))}
 			]}
 		]}
 	}
 	}
 
 	
-	// in range = ! (start > membership.endDate || end < membership.startDate)
-	//          <=> start <= membership.endDate && end >= membership.startDate
-	// inRange is added to isMember case as it works only for members
-	if (includeRange && membershipStart) {
+
+	// if one memberhsip is empty copy the other one
+	if ((!membershipStart || !membershipEnd) && (membershipStart || membershipEnd))		
+		membershipStart = membershipEnd = membershipStart || membershipEnd
+
+	// check start < end if not swap
+	if (membershipStart > membershipEnd){
+		const swap = membershipEnd
+		membershipEnd = membershipStart
+		membershipStart = swap
+	}
+	
+
+	// case only membershipStart = start <= membershipStart && end >= membershipStart
+	// case both membershipStart and membershipEnd = start <= membershipEnd && end >= membershipStart
+	// Thus same test if membershipStart=membershipEnd when we only have membershipStart
+	if (membershipStart && membershipEnd) {
 		isMember.push({
 			$or: buildDateQuery('end', '$gte', membershipStart).concat([{ endDate: { $exists: false } }])
 		})
-	}
-	if (includeRange && membershipEnd) {
 		isMember.push({
-			$or: buildDateQuery('start', '$lte', membershipEnd)
+			$or: buildDateQuery('start', '$lte', membershipEnd).concat([{ startDate: { $exists: false } }])
 		})
 	}
-	// no range = look for people at the current date
-	if (!membershipStart && !membershipEnd)
-		isMember.push({ $or: [ { endDate: { $exists: false } } ].concat(buildDateQuery('end', '$gte', now)) })
-
-	// we looke for members with sometimes a range or for externals 
+	// when no dates are there, we don't modify isMember. No time constraints set.
+	
+	// we look for members with sometimes a range or for externals 
 	const filters = includeRange || includeMembers ?{ 'memberships': { $elemMatch: { $and: isMember } } } : isExternal
 
 	// here the mongo query of the death
