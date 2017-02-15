@@ -199,8 +199,6 @@ exports.grant = (gs)=>{
 exports.facultyMonitoring = (fm, scope)=>{
 
   if (fm.length){
-    console.log(fm)
-    console.log(testingPeriodFrom(scope))
     return fm.map(f => {
       return {
         startDate: f.date, 
