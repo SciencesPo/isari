@@ -89,7 +89,7 @@ export class IsariListComponent implements OnInit {
         // set date filters
         const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
         this.dateForm.controls['startDate'].setValue(dateFilters['startDate'] || this.today());
-        this.dateForm.controls['endDate'].setValue(dateFilters['endDate']);
+        this.dateForm.controls['endDate'].setValue(dateFilters['endDate'] || '');
 
       });
 
