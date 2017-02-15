@@ -270,13 +270,6 @@ const listViewablePeople = (req, options = {}) => {
 		return Promise.reject(Error('Invalid usage of "includeRange" without organization id provided'))
 	}
 
-	// Setting absurd dates to permit no start or end date
-	if (includeRange && !membershipStart) {
-		membershipStart = '1000-01-01'
-	}
-	if (includeRange && !membershipEnd) {
-		membershipEnd = '9999-01-01'
-	}
 
 	// Note: A && B && (C || D) is not supported by Mongo
 	// i.e. this must be transformed into (A && B && C) || (A && B && D)
@@ -302,35 +295,44 @@ const listViewablePeople = (req, options = {}) => {
 	const isExternal = { memberships: 
 	{ $elemMatch: {
 		$or: [
-									{orgMonitored: false},
+			{orgMonitored: false},
 			{$and: [
-										{orgMonitored: true},
-										{ endDate: { $exists: true } } ,
-										{$or:[].concat(buildDateQuery('end', '$lte', now))}
+				{orgMonitored: true},
+				{ endDate: { $exists: true } } ,
+				{$or:[].concat(buildDateQuery('end', '$lte', now))}
 			]}
 		]}
 	}
 	}
 
 	
-	// in range = ! (start > membership.endDate || end < membership.startDate)
-	//          <=> start <= membership.endDate && end >= membership.startDate
-	// inRange is added to isMember case as it works only for members
-	if (includeRange && membershipStart) {
+
+	// if one memberhsip is empty copy the other one
+	if ((!membershipStart || !membershipEnd) && (membershipStart || membershipEnd))		
+		membershipStart = membershipEnd = membershipStart || membershipEnd
+
+	// check start < end if not swap
+	if (membershipStart > membershipEnd){
+		const swap = membershipEnd
+		membershipEnd = membershipStart
+		membershipStart = swap
+	}
+	
+
+	// case only membershipStart = start <= membershipStart && end >= membershipStart
+	// case both membershipStart and membershipEnd = start <= membershipEnd && end >= membershipStart
+	// Thus same test if membershipStart=membershipEnd when we only have membershipStart
+	if (membershipStart && membershipEnd) {
 		isMember.push({
 			$or: buildDateQuery('end', '$gte', membershipStart).concat([{ endDate: { $exists: false } }])
 		})
-	}
-	if (includeRange && membershipEnd) {
 		isMember.push({
-			$or: buildDateQuery('start', '$lte', membershipEnd)
+			$or: buildDateQuery('start', '$lte', membershipEnd).concat([{ startDate: { $exists: false } }])
 		})
 	}
-	// no range = look for people at the current date
-	if (!membershipStart && !membershipEnd)
-		isMember.push({ $or: [ { endDate: { $exists: false } } ].concat(buildDateQuery('end', '$gte', now)) })
-
-	// we looke for members with sometimes a range or for externals 
+	// when no dates are there, we don't modify isMember. No time constraints set.
+	
+	// we look for members with sometimes a range or for externals 
 	const filters = includeRange || includeMembers ?{ 'memberships': { $elemMatch: { $and: isMember } } } : isExternal
 
 	// here the mongo query of the death
@@ -442,23 +444,15 @@ const listViewableActivities = (req, options = {}) => {
 	let startDate = options.startDate
 	let endDate = options.endDate
 
-	// Setting absurd dates to permit no start or end date
-	if (range && !startDate) {
-		startDate = '1000-01-01'
-	}
-	if (range && !endDate) {
-		endDate = '9999-01-01'
-	}
-
 	let filter = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
-			{ 'organizations.organization': ObjectId(req.userScopeOrganizationId) }
+			{ 'orgId': ObjectId(req.userScopeOrganizationId) }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
 				{}
 			: // Limit to activities of organizations he has access to
-				{ 'organizations.organization': { $in: Object.keys(req.userRoles).map(k => ObjectId(k)) } }
+				{ 'orgId': { $in: Object.keys(req.userRoles).map(k => ObjectId(k)) } }
 
 	if (activityType) {
 		filter.activityType = activityType
@@ -467,8 +461,6 @@ const listViewableActivities = (req, options = {}) => {
 	if (!range)
 		return Promise.resolve({ query: Activity.find(filter) })
 
-	filter.orgId = filter['organizations.organization']
-	delete filter['organizations.organization']
 
 	filter = {
 		periods: {
@@ -478,13 +470,25 @@ const listViewableActivities = (req, options = {}) => {
 		}
 	}
 
-	filter.periods.$elemMatch.$and.push({
-		$or: buildDateQuery('end', '$gte', startDate).concat([{ endDate: { $exists: false } }])
-	})
+	// if one date is empty copy the other one
+	if ((!startDate || !endDate) && (startDate || endDate))		
+		startDate = endDate = startDate || endDate
 
-	filter.periods.$elemMatch.$and.push({
-		$or: buildDateQuery('start', '$lte', endDate)
-	})
+	// check start < end if not swap
+	if (startDate > endDate){
+		const swap = endDate
+		endDate = startDate
+		startDate = swap
+	}
+	
+	if (startDate)
+		filter.periods.$elemMatch.$and.push({
+			$or: buildDateQuery('end', '$gte', startDate).concat([{ endDate: { $exists: false } }])
+		})
+	if (endDate)
+		filter.periods.$elemMatch.$and.push({
+			$or: buildDateQuery('start', '$lte', endDate).concat([{ startDate: { $exists: false } }])
+		})
 
 	// Range query
 	return Activity.aggregate()
