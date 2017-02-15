@@ -18,6 +18,26 @@ function prettyPrintTimePeriod(g){
   }
 }
 
+// period from scope
+function testingPeriodFrom(scope){
+  let startDate
+  let endDate
+  if (scope.query.start || scope.query.end) {
+    startDate = scope.query.start ? scope.query.start : scope.query.end
+    endDate = scope.query.end ? scope.query.end : scope.query.start 
+  }
+  else {
+    startDate = moment().format('YYYY-MM')
+    endDate = startDate
+  }
+
+  if (startDate > endDate){
+    const swap = endDate
+    endDate = startDate
+    startDate = swap 
+  }
+  return { endDate, startDate }
+}
 
 // Date parsing
 const date = string => {
@@ -58,15 +78,12 @@ function organizationDates(ps){
 function memberships(afs,scope){
   if (!afs)
     return '';
-  const thisMonth = moment().format('YYYY-MM') 
-          // remove lab aff when visiting or associate only if scope set to one lab
+
   const r = _.sortBy(
+    // remove lab aff when visiting or associate only if scope set to one lab
     afs.filter(a => !scope.userScopeOrganizationId || (a.membershipType !== 'visiting' && a.membershipType !== 'associé'))
         // keep only memberships active this month
-       .filter(a => overlap(a, {
-          'startDate': scope.query.start ? scope.query.start : thisMonth, 
-          'endDate': scope.query.end ? scope.query.end : thisMonth
-        }))
+       .filter(a => overlap(a, testingPeriodFrom(scope)))
     ,
     // sort orga from scope first and then by alphabetic order
     [a => a.organization._id.toString() === scope.userScopeOrganizationId ? 'AAAAAAAAA' : (a.organization.acronym || a.organization.name)] 
@@ -95,7 +112,7 @@ function currentDeptMembershipsDates(p,scope){
   if (p){
     const thisMonth = moment().format('YYYY-MM')
     // keep only memberships active this month
-      const afs = p.filter(a => overlap(a,{'startDate': scope.query.start ? scope.query.start : thisMonth,'endDate': scope.query.end ? scope.query.end : thisMonth}))
+      const afs = p.filter(a => overlap(a,testingPeriodFrom(scope)))
             // sort orga from scope first and then by alphabetic order 
             .sort(e => e.departement)
     if (afs.length){
@@ -130,7 +147,7 @@ function researchUnitCode(p){
     label += `-${year(p.endDate)}`
   }
   else{
-    if(p.starDate)
+    if(p.startDate)
       label += "..."
   }
   if(p.startDate || p.enDate)
@@ -193,3 +210,6 @@ exports.peopleDates = peopleDates
 exports.peopleGrades = peopleGrades
 exports.organizationDates = organizationDates
 exports.memberships = memberships
+
+// exports utility function to be shared with columns.virtual.js
+exports.testingPeriodFrom = testingPeriodFrom

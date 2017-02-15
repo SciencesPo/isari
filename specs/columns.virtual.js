@@ -5,13 +5,10 @@ const { formatEnum } = require('../server/lib/enums');
 const moment = require('../server/node_modules/moment');
 const _ = require('../server/node_modules/lodash');
 const { overlap, formatDate } = require('../server/export/helpers');
+const { testingPeriodFrom } = require('./templates.fields')
 
 const selectPeriodFromScope = (periods, scope) => {	
-	const thisMonth = moment().format('YYYY-MM');
-	const scopePeriod = {
-		startDate: scope.query.start ? scope.query.start : thisMonth,
-		endDate: scope.query.end ? scope.query.end : thisMonth
-	};
+	const scopePeriod = testingPeriodFrom(scope)
 	// keep only periods active during scope or this month
     return _.sortBy(periods.filter(p => overlap(p,scopePeriod)), [p => p.endDate || p.startDate]).reverse()
 }
