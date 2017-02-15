@@ -141,7 +141,7 @@ export function pad(n: number, size: number): string | null {
 }
 
 export function createAutoCorrectedDatePipe(dateFormat = 'mm dd yyyy') {
-  return function(conformedValue) {
+  return function(conformedValue): (boolean | { value: string, indexesOfPipedChars: number[]}) {
     const indexesOfPipedChars = []
     const dateFormatArray = dateFormat.split(/[^dmy]+/)
     const maxValue = {'dd': 31, 'mm': 12, 'yyyy': 9999}
