@@ -24,6 +24,7 @@ export class IsariDateComponent {
   @ViewChild(FocusMeDirective) focusMe;
 
   selectControl: FormControl;
+  selectIsoControl: FormControl;
   focused: boolean = false;
   disabled: boolean = false;
   displayed: string = 'days';
@@ -40,6 +41,8 @@ export class IsariDateComponent {
   years: number[];
   runningClick = false;
   lang: string;
+  //mask = [/d/, /\d/, /\d/, /\d/, '-', /[01]/, /\d/, '-', /[0-3]/, /\d/];
+  mask = [/\d/, /\d/, /\d/, /\d/, '-', /[0-1]/, /\d/, '-', /[0-3]/, /\d/];
 
   private pressedEscapeKey: Function;
   private pressedEnterKey: Function;
@@ -64,6 +67,14 @@ export class IsariDateComponent {
       disabled: this.form.controls[this.name].disabled
     });
 
+    this.selectIsoControl = new FormControl('');
+    this.selectIsoControl.valueChanges.subscribe(value => {
+      const dateArray = value.replace(/_/g, '').split('-');
+      this.year = dateArray[0] && dateArray[0].length === 4 ? Number(dateArray[0]) : null;
+      this.month = dateArray[1] && dateArray[1].length === 2 ? Number(dateArray[1]) : null;
+      this.day = dateArray[2] && dateArray[2].length === 2 ? Number(dateArray[2]) : null;
+    })
+
     if (!this.month) {
       this.display('months');
     }
@@ -80,6 +91,12 @@ export class IsariDateComponent {
 
   onFocus($event) {
     this.focused = true;
+    this.selectIsoControl.setValue([
+      pad(this.year, 4),
+      pad(this.month, 2),
+      pad(this.day, 2)
+    ].filter(v => !!v).join('-'));
+    setTimeout(() => this.focusMe.setFocus());
   }
 
   onBlur($event) {

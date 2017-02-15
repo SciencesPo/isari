@@ -8,6 +8,7 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { MaterialModule } from '@angular/material';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { IsariDataService } from './isari-data.service';
 import { UserService } from './user.service';
@@ -97,6 +98,7 @@ export function createTranslateLoader(http: Http) {
       deps: [Http]
     }),
     ToasterModule,
+    TextMaskModule,
   ],
   providers: [
     IsariDataService,
