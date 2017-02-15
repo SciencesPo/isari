@@ -398,8 +398,7 @@
                     "fr": "Département d'enseignement",
                     "en": "Teaching departement"
                 },
-                "enum": "teachingDepartements",
-                "requirement": "mandatory"
+                "enum": "teachingDepartements"
             },
             "startDate": {
                 "label": {

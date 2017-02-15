@@ -909,29 +909,29 @@
         {
             "value": "submitted",
             "label": {
-                "fr": "submitted",
-                "en": ""
+                "fr": "soumis",
+                "en": "submitted"
             }
         },
         {
             "value": "accepted",
             "label": {
-                "fr": "accepted",
-                "en": ""
+                "fr": "accepté",
+                "en": "accepted"
             }
         },
         {
             "value": "ongoing",
             "label": {
-                "fr": "ongoing",
-                "en": ""
+                "fr": "en cours",
+                "en": "ongoing"
             }
         },
         {
             "value": "rejected",
             "label": {
-                "fr": "rejected",
-                "en": ""
+                "fr": "non retenu",
+                "en": "rejected"
             }
         }
     ],
