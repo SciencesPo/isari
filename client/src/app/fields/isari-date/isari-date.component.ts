@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, HostListener } from 
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { FocusMeDirective } from '../focus-me.directive';
-import { matchKeyCombo, pad } from '../../utils';
+import { matchKeyCombo, pad, createAutoCorrectedDatePipe } from '../../utils';
 
 @Component({
   selector: 'isari-date',
@@ -41,8 +41,8 @@ export class IsariDateComponent {
   years: number[];
   runningClick = false;
   lang: string;
-  //mask = [/d/, /\d/, /\d/, /\d/, '-', /[01]/, /\d/, '-', /[0-3]/, /\d/];
   mask = [/\d/, /\d/, /\d/, /\d/, '-', /[0-1]/, /\d/, '-', /[0-3]/, /\d/];
+  pipe = createAutoCorrectedDatePipe('yyyy-mm-dd');
 
   private pressedEscapeKey: Function;
   private pressedEnterKey: Function;

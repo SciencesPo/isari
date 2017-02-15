@@ -13,7 +13,7 @@
           focusMe
           (blur)="onBlur($event)"
           [formControl]="selectIsoControl"
-          [textMask]="{mask: mask}" *ngIf="focused">
+          [textMask]="{mask: mask, pipe: pipe}" *ngIf="focused">
         <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
           {{ label }}
         </label>
