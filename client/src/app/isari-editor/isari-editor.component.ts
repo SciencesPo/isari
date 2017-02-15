@@ -127,7 +127,7 @@ export class IsariEditorComponent implements OnInit {
         setTimeout(() => {
           let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
           this.pageScrollService.start(pageScrollInstance);
-        }
+        });
 
       });
     });
