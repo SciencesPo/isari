@@ -262,7 +262,8 @@
                     "en": "Comments"
                 },
                 "type": "text"
-            }
+            },
+            "template":"facultyMonitoring"
         }
     ],
     "bonuses": [

@@ -4,7 +4,7 @@
 const { formatEnum } = require('../server/lib/enums')
 const moment = require('../server/node_modules/moment')
 const _ = require('../server/node_modules/lodash')
-const { overlap } = require('../server/export/helpers')
+const { overlap, formatDate } = require('../server/export/helpers')
 
 // datesPeriod
 
@@ -194,6 +194,24 @@ exports.grant = (gs)=>{
   if (!r.length)
     r = gs.filter(g => g.organization).map(g => g.organization.acronym || g.organization.name)
   return r;
+}
+
+exports.facultyMonitoring = (fm, scope)=>{
+
+  if (fm.length){
+    console.log(fm)
+    console.log(testingPeriodFrom(scope))
+    return fm.map(f => {
+      return {
+        startDate: f.date, 
+        endDate: f.date,
+        facultyMonitoringType: f.facultyMonitoringType }
+    })
+    .filter(a => overlap(a,testingPeriodFrom(scope)))
+    .map(a => formatEnum('facultyMonitoringTypes', a.facultyMonitoringType, label => `${label} ${formatDate(a.startDate)}`))
+  }
+
+  return '';
 }
 
 exports.peopleName = peopleName
