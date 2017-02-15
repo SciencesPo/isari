@@ -6,11 +6,14 @@
       <div class="md-input-prefix"></div>
       <div class="md-input-infix">
         <input class="md-input-element"
-          (keydown)="uneditable($event)"
-          focusMe
           (focus)="onFocus($event)"
+          [formControl]="selectControl" *ngIf="!focused">
+        <input class="md-input-element"
+          (keydown.enter)="update($event)"
+          focusMe
           (blur)="onBlur($event)"
-          [formControl]="selectControl">
+          [formControl]="selectIsoControl"
+          [textMask]="{mask: mask}" *ngIf="focused">
         <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
           {{ label }}
         </label>
