@@ -27,7 +27,8 @@ export function sortByDistance<T> (str: string, words: T[], getter: (T) => strin
   }
 
   return matches
-    .filter(({score}) => score > 0)
+    // remove filter #338
+    //.filter(({score}) => score > 0)
     .sort((a, b) => b.score - a.score)
     .map(match => match.word);
 }
