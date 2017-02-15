@@ -49,10 +49,9 @@ export class IsariListComponent implements OnInit {
   }
 
   ngOnInit() {
-    const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
     this.dateForm = new FormGroup({
-      startDate: new FormControl(dateFilters['startDate'] || this.today()),
-      endDate: new FormControl(dateFilters['endDate'] || '')
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
     });
 
     this.userService.organizations.subscribe(orgs => this.canCreate = orgs.central !== 'reader');
@@ -87,6 +86,10 @@ export class IsariListComponent implements OnInit {
           this.loadDatas();
         }
 
+        // set date filters
+        const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
+        this.dateForm.controls['startDate'].setValue(dateFilters['startDate'] || this.today());
+        this.dateForm.controls['endDate'].setValue(dateFilters['endDate']);
 
       });
 
