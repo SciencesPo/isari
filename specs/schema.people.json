@@ -1,40 +1,16 @@
 {
-    "isariAuthorizedCenters": [
-        {
-            "accessType": "confidential",
-            "label": {
-                "fr": "Accès Isari",
-                "en": "Isari access"
-            },
-            "organization": {
-                "label": {
-                    "fr": "Centre de recherche",
-                    "en": "Research unit"
-                },
-                "ref": "Organization"
-            },
-            "isariRole": {
-                "label": {
-                    "fr": "Role",
-                    "en": "Role"
-                },
-                "enum": "isariRoles"
-            },
-            "template": "isariAuthorizedCenters"
-        }
-    ],
-    "firstName": {
-        "label": {
-            "fr": "Prénom",
-            "en": "Firstname"
-        },
-        "accessMonitoring": "corporate"
-    },
     "name": {
         "requirement": "mandatory",
         "label": {
             "fr": "Nom",
             "en": "Name"
+        },
+        "accessMonitoring": "corporate"
+    },
+    "firstName": {
+        "label": {
+            "fr": "Prénom",
+            "en": "Firstname"
         },
         "accessMonitoring": "corporate"
     },
@@ -74,66 +50,6 @@
             "enum": "nationalities"
         }
     ],
-    "ldapUid": {
-        "label": {
-            "fr": "Identifiant annuaire Sciences Po",
-            "en": "Sciences Po's directory identifier"
-        },
-        "service": "ldap"
-    },
-    "idScopus": {
-        "label": {
-            "fr": "ID Scopus",
-            "en": "Scopus identifier"
-        }
-    },
-    "bannerUid": {
-        "label": {
-            "fr": "Identifiant scolarité Sciences Po",
-            "en": "Sciences Po's teaching identifier"
-        },
-        "service": "banner"
-    },
-    "sirhMatricule": {
-        "label": {
-            "fr": "Identifiant RH Sciences Po",
-            "en": "Sciences Po's HR identifier"
-        },
-        "service": "sirh"
-    },
-    "CNRSMatricule": {
-        "label": {
-            "fr": "Identifiant CNRS",
-            "en": "CNRS identifier"
-        }
-    },
-    "idSpire": {
-        "label": {
-            "fr": "ID SPIRE",
-            "en": "SPIRE identifier"
-        },
-        "service": "spire"
-    },
-    "ORCID": {
-        "label": {
-            "fr": "ORCID",
-            "en": "ORCID"
-        },
-        "description": {
-            "fr": "Identifiant ouvert pour chercheur et contributeur",
-            "en": "Open Researcher and Contributor ID"
-        }
-    },
-    "IDREF": {
-        "label": {
-            "fr": "IDREF",
-            "en": "IDREF"
-        },
-        "description": {
-            "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
-            "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
-        }
-    },
     "positions": [
         {
             "label": {
@@ -229,6 +145,78 @@
                     }
                 }
             ]
+        }
+    ],
+     "academicMemberships": [
+        {
+            "label": {
+                "fr": "Rattachement labo",
+                "en": "Unit affiliation"
+            },
+            "requirement": "recommended",
+            "accessMonitoring": "corporate",
+            "organization": {
+                "label": {
+                    "fr": "Laboratoire de recherche",
+                    "en": "Research Lab"
+                },
+                "ref": "Organization"
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            },
+            "template": "memberships",
+            "membershipType": {
+                "label": {
+                    "fr": "Type d'affiliation",
+                    "en": "Affiliation type"
+                },
+                "enum": "academicMembershipType",
+                "default": "membre"
+            }
+        }
+    ],
+    "deptMemberships": [
+        {
+            "label": {
+                "fr": "Rattachement département",
+                "en": "Departement affiliation"
+            },
+            "requirement": "recommended",
+            "accessMonitoring": "corporate",
+            "departement": {
+                "label": {
+                    "fr": "Département d'enseignement",
+                    "en": "Teaching departement"
+                },
+                "enum": "teachingDepartements"
+            },
+            "startDate": {
+                "label": {
+                    "fr": "Date de début",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
+                },
+                "type": "date"
+            },
+            "template": "currentDeptMembershipsDates"
         }
     ],
     "facultyMonitoring": [
@@ -343,78 +331,6 @@
                 "type": "date"
             },
             "template": "peopleGrades"
-        }
-    ],
-    "academicMemberships": [
-        {
-            "label": {
-                "fr": "Rattachement labo",
-                "en": "Unit affiliation"
-            },
-            "requirement": "recommended",
-            "accessMonitoring": "corporate",
-            "organization": {
-                "label": {
-                    "fr": "Laboratoire de recherche",
-                    "en": "Research Lab"
-                },
-                "ref": "Organization"
-            },
-            "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            },
-            "template": "memberships",
-            "membershipType": {
-                "label": {
-                    "fr": "Type d'affiliation",
-                    "en": "Affiliation type"
-                },
-                "enum": "academicMembershipType",
-                "default": "membre"
-            }
-        }
-    ],
-    "deptMemberships": [
-        {
-            "label": {
-                "fr": "Rattachement département",
-                "en": "Departement affiliation"
-            },
-            "requirement": "recommended",
-            "accessMonitoring": "corporate",
-            "departement": {
-                "label": {
-                    "fr": "Département d'enseignement",
-                    "en": "Teaching departement"
-                },
-                "enum": "teachingDepartements"
-            },
-            "startDate": {
-                "label": {
-                    "fr": "Date de début",
-                    "en": "Start date"
-                },
-                "type": "date"
-            },
-            "endDate": {
-                "label": {
-                    "fr": "Date de fin",
-                    "en": "End date"
-                },
-                "type": "date"
-            },
-            "template": "currentDeptMembershipsDates"
         }
     ],
     "biography": {
@@ -682,5 +598,89 @@
                 "fr": "n° poste informatique",
                 "en": "Computer inventory number"
             }
-    }]
+    }],
+     "ldapUid": {
+        "label": {
+            "fr": "Identifiant annuaire Sciences Po",
+            "en": "Sciences Po's directory identifier"
+        },
+        "service": "ldap"
+    },
+    "idScopus": {
+        "label": {
+            "fr": "ID Scopus",
+            "en": "Scopus identifier"
+        }
+    },
+    "bannerUid": {
+        "label": {
+            "fr": "Identifiant scolarité Sciences Po",
+            "en": "Sciences Po's teaching identifier"
+        },
+        "service": "banner"
+    },
+    "sirhMatricule": {
+        "label": {
+            "fr": "Identifiant RH Sciences Po",
+            "en": "Sciences Po's HR identifier"
+        },
+        "service": "sirh"
+    },
+    "CNRSMatricule": {
+        "label": {
+            "fr": "Identifiant CNRS",
+            "en": "CNRS identifier"
+        }
+    },
+    "idSpire": {
+        "label": {
+            "fr": "ID SPIRE",
+            "en": "SPIRE identifier"
+        },
+        "service": "spire"
+    },
+    "ORCID": {
+        "label": {
+            "fr": "ORCID",
+            "en": "ORCID"
+        },
+        "description": {
+            "fr": "Identifiant ouvert pour chercheur et contributeur",
+            "en": "Open Researcher and Contributor ID"
+        }
+    },
+    "IDREF": {
+        "label": {
+            "fr": "IDREF",
+            "en": "IDREF"
+        },
+        "description": {
+            "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
+            "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
+        }
+    },
+    "isariAuthorizedCenters": [
+        {
+            "accessType": "confidential",
+            "label": {
+                "fr": "Accès Isari",
+                "en": "Isari access"
+            },
+            "organization": {
+                "label": {
+                    "fr": "Centre de recherche",
+                    "en": "Research unit"
+                },
+                "ref": "Organization"
+            },
+            "isariRole": {
+                "label": {
+                    "fr": "Role",
+                    "en": "Role"
+                },
+                "enum": "isariRoles"
+            },
+            "template": "isariAuthorizedCenters"
+        }
+    ]
 }
