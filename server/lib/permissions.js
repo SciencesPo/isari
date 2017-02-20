@@ -444,28 +444,28 @@ const listViewableActivities = (req, options = {}) => {
 	let startDate = options.startDate
 	let endDate = options.endDate
 
-	let filter = req.userScopeOrganizationId
+	let activityFilter = req.userScopeOrganizationId
 		? // Scoped: limit to people from this organization
-			{ 'orgId': ObjectId(req.userScopeOrganizationId) }
+			{ 'organizations.organization': ObjectId(req.userScopeOrganizationId) }
 		: // Unscoped: at this point he MUST be central, but let's imagine we allow non-central users to have unscoped access, we don't want to mess here
 			req.userCentralRole
 			? // Central user: access to EVERYTHING
 				{}
 			: // Limit to activities of organizations he has access to
-				{ 'orgId': { $in: Object.keys(req.userRoles).map(k => ObjectId(k)) } }
+				{ 'organizations.organization': { $in: Object.keys(req.userRoles).map(k => ObjectId(k)) } }
 
 	if (activityType) {
-		filter.activityType = activityType
+		activityFilter.activityType = activityType
 	}
 
 	if (!range)
-		return Promise.resolve({ query: Activity.find(filter) })
+		return Promise.resolve({ query: Activity.find(activityFilter) })
 
 
-	filter = {
+	let dateFilter = {
 		periods: {
 			$elemMatch: {
-				$and: [filter]
+				$and: []
 			}
 		}
 	}
@@ -482,27 +482,18 @@ const listViewableActivities = (req, options = {}) => {
 	}
 	
 	if (startDate)
-		filter.periods.$elemMatch.$and.push({
+		dateFilter.periods.$elemMatch.$and.push({
 			$or: buildDateQuery('end', '$gte', startDate).concat([{ endDate: { $exists: false } }])
 		})
 	if (endDate)
-		filter.periods.$elemMatch.$and.push({
+		dateFilter.periods.$elemMatch.$and.push({
 			$or: buildDateQuery('start', '$lte', endDate).concat([{ startDate: { $exists: false } }])
 		})
 
 	// Range query
 	return Activity.aggregate()
-		.project({ _id: 1, startDate: 1, endDate: 1, organizations: 1, activityType: 1 }) // Keep original data intact for later use
-		.unwind('organizations') // Lookup only works with flat data, unwind array
-		.lookup({
-			from: Organization.collection.name,
-			localField: 'organizations.organization',
-			foreignField: '_id',
-			as: 'org'
-		}) // LEFT JOIN Organization
-		.unwind('org') // "orgs" can be a zero-or-one-item array, unwind that before grouping
+		.match(activityFilter)
 		.project({ _id: 1, period: {
-			orgId: '$org._id',
 			activityType: '$activityType',
 			endDate: '$endDate',
 			startDate: '$startDate',
@@ -518,7 +509,7 @@ const listViewableActivities = (req, options = {}) => {
 			periods: { $push: '$period' }
 		}) // Now regroup membership data to single people
 		// NOTE: we should perform a match way above
-		.match(filter) // Finally apply filters
+		.match(dateFilter) // Finally apply filters
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
 		.then(ids => {
