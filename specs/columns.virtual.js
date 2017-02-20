@@ -170,8 +170,8 @@ const activityPeople = (activity, main = true) => {
 			return ''
 	}
 }
-exports.activityMainPeople = (a, s) => activityPeople(a, s, true)
-exports.activityOtherPeople = (a, s) => activityPeople(a, s, false)
+exports.activityMainPeople = (a, s) => activityPeople(a, true)
+exports.activityOtherPeople = (a, s) => activityPeople(a, false)
 
 // organization
 
@@ -196,8 +196,9 @@ const activityOrganization = (activity, main = true) => {
 	}
 
 	if (activity.organizations){
-		if (orgaRoleFilter[activity.activityType])
+		if (orgaRoleFilter[activity.activityType]){
 			return activity.organizations.filter(o => orgaRoleFilter[activity.activityType].find(e => e === o.role)).map(o => o.organization.acronym || o.organization.name )
+		}
 		else
 			// HDR and doctorat specific cases 
 			if (main)
@@ -206,5 +207,5 @@ const activityOrganization = (activity, main = true) => {
 				return activity.organizations.filter(o => o.organization.acronym === 'FNSP').map(o => o.organization.acronym || o.organization.name )
 	}
 }
-exports.activityMainOrga = (a, s) => activityOrganization(a, s, true)
-exports.activityOtherOrga = (a, s) => activityOrganization(a, s, false)
+exports.activityMainOrga = (a, s) => activityOrganization(a, true)
+exports.activityOtherOrga = (a, s) => activityOrganization(a, false)
