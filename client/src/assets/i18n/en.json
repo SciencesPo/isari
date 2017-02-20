@@ -54,5 +54,7 @@
     "activities": "Pour ajouter des Activités, merci de vérifier d'abord si elles n'existent pas déjà."
   },
   "no matching": "Aucune correspondance ?",
-  "add": "Add"
+  "add": "Add",
+  "user_guide": "User's guide",
+  "fields_list": "Fields list"
 }
