@@ -30,14 +30,13 @@ services:
       - db
 # Mongo-connector
   connector:
-    image: totem/docker-mongo-es
+    image: jrisp/docker-mongo-es
     restart: unless-stopped
     links:
       - index
       - db
     environment:
       - MONGO_URL=mongodb://db:27017
-      - MONGO_INCLUDES=isari.people,isari.organizations,isari.activities,isaridev.people,isaridev.organizations,isaridev.activities,isaritest.people,isaritest.organizations,isaritest.activities
       - ES_URL=index:9200
       - CONFIG_LOCATION=file:///opt/mongo-connector/optional-config.json
     volumes:
