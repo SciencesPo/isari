@@ -45,7 +45,8 @@
                     "fr": "Organisation",
                     "en": "Organization"
                 },
-                "ref": "Organization"
+                "ref": "Organization",
+                "requirement": "mandatory"
             },
             "role": {
                 "label": {
@@ -84,7 +85,8 @@
                     "en": "participant"
                 },
                 "ref": "People",
-                "index": true
+                "index": true,
+                "requirement": "mandatory"
             },
             "role": {
                 "label": {

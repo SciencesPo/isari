@@ -165,7 +165,7 @@ const activityPeople = (activity, main = true) => {
 
 	if (activity.people){
 		if (peopleRoleFilter[activity.activityType])
-			return activity.people.filter(p => peopleRoleFilter[activity.activityType].find(e => e === p.role)).map(p => `${p.people.firstName} ${p.people.name}`)
+			return activity.people.filter(p => peopleRoleFilter[activity.activityType].find(e => e === p.role) && p.people).map(p => `${p.people.firstName} ${p.people.name}`)
 		else 
 			return ''
 	}
@@ -197,14 +197,14 @@ const activityOrganization = (activity, main = true) => {
 
 	if (activity.organizations){
 		if (orgaRoleFilter[activity.activityType]){
-			return activity.organizations.filter(o => orgaRoleFilter[activity.activityType].find(e => e === o.role)).map(o => o.organization.acronym || o.organization.name )
+			return activity.organizations.filter(o => orgaRoleFilter[activity.activityType].find(e => e === o.role) && o.organization).map(o => o.organization.acronym || o.organization.name )
 		}
 		else
 			// HDR and doctorat specific cases 
 			if (main)
-				return activity.organizations.filter(o => o.organization.acronym !== 'FNSP').map(o => o.organization.acronym || o.organization.name )
+				return activity.organizations.filter(o => o.organization && o.organization.acronym !== 'FNSP').map(o => o.organization.acronym || o.organization.name )
 			else
-				return activity.organizations.filter(o => o.organization.acronym === 'FNSP').map(o => o.organization.acronym || o.organization.name )
+				return activity.organizations.filter(o => o.organization && o.organization.acronym === 'FNSP').map(o => o.organization.acronym || o.organization.name )
 	}
 }
 exports.activityMainOrga = (a, s) => activityOrganization(a, true)
