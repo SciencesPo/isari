@@ -75,6 +75,11 @@ export class DataTableComponent implements OnInit, OnChanges {
         this.applySort();
       }
       this.filterData();
+
+      // NOTE: this is a duct tape kind of setTimeout
+      setTimeout(() => {
+        this.onFilter.emit({ data: this.data });
+      }, 0);
     }
     if (navigateToFirstPage) {
       this.calculPage(1);
