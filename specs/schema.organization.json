@@ -23,7 +23,8 @@
                 "label": {
                     "fr": "Code",
                     "en": "Code"
-                }
+                },
+                "requirement": "mandatory"
             },
             "startDate": {
                 "label": {

@@ -160,7 +160,8 @@
                     "fr": "Laboratoire de recherche",
                     "en": "Research Lab"
                 },
-                "ref": "Organization"
+                "ref": "Organization",
+                "requirement": "mandatory"
             },
             "startDate": {
                 "label": {
@@ -200,7 +201,8 @@
                     "fr": "Département d'enseignement",
                     "en": "Teaching departement"
                 },
-                "enum": "teachingDepartements"
+                "enum": "teachingDepartements",
+                "requirement": "mandatory"
             },
             "startDate": {
                 "label": {
@@ -242,7 +244,8 @@
                     "fr": "Tenure track, départ",
                     "en": "Tenure track, leave"
                 },
-                "enum": "facultyMonitoringTypes"
+                "enum": "facultyMonitoringTypes",
+                "requirement": "mandatory"
             },
             "comments": {
                 "label": {
@@ -270,7 +273,8 @@
                     "fr": "Prime",
                     "en": "Bonus"
                 },
-                "enum": "bonusTypes"
+                "enum": "bonusTypes",
+                "requirement": "mandatory"
             },
             "startDate": {
                 "label": {
@@ -305,7 +309,8 @@
                     "fr": "Statut",
                     "en": "Status"
                 },
-                "enum": "gradeStatus"
+                "enum": "gradeStatus",
+                "requirement": "mandatory"
             },
             "grade": {
                 "requirement": "recommended",
@@ -420,7 +425,8 @@
                     "fr": "Type d'activité",
                     "en": "Activity type"
                 },
-                "enum": "personalActivityTypes"
+                "enum": "personalActivityTypes",
+                "requirement": "mandatory"
             },
             "personalActivitySubtype": {
                 "label": {
@@ -487,8 +493,7 @@
                 "label": {
                     "fr": "Intitulé",
                     "en": "Title"
-                },
-                "requirement": "mandatory"
+                }
             },
             "template": "distinction",
             "organizations": [
@@ -521,7 +526,8 @@
                     "fr": "Type de distinction",
                     "en": "Distinction type"
                 },
-                "enum": "distinctionTypes"
+                "enum": "distinctionTypes",
+                "requirement": "mandatory"
             },
             "distinctionSubtype": {
                 "label": {
@@ -678,7 +684,8 @@
                     "fr": "Role",
                     "en": "Role"
                 },
-                "enum": "isariRoles"
+                "enum": "isariRoles",
+                "requirement": "mandatory"
             },
             "template": "isariAuthorizedCenters"
         }

@@ -69,7 +69,8 @@
                 },
                 "type": "date"
             },
-            "template":"organizationDates"
+            "template":"organizationDates",
+            "requirement": "mandatory"
         }
     ],
     "people": [
