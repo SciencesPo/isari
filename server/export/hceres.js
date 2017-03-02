@@ -578,7 +578,12 @@ const SHEETS = [
             //grant
           };
           if (phdStudent.distinctions) {
-            const master = phdStudent.distinctions.filter(d => d.distinctionType === 'diplôme' && d.distinctionSubtype === 'master')[0];
+            const masterAndOthers = _.sortBy(phdStudent
+              .distinctions
+              .filter(d => {
+                return d.distinctionType === 'diplôme' && ['master','autre'].includes(d.distinctionSubtype)
+              }),[d => d.date])
+            const master = _.last(masterAndOthers)
             if (master)
                info.organization = master.organizations.map(o => o.name).join(',');
           }
