@@ -292,6 +292,8 @@ const listViewablePeople = (req, options = {}) => {
 	const now = today()
 
 	// External people = ALL memberships are either expired (as of today) or linked to an unmonitored organization
+	// This query does not work as it tests true element where we want it to test the absence of elements..
+	// To be fixed if we put the feature back in the front. 
 	const isExternal = { memberships: 
 	{ $elemMatch: {
 		$or: [

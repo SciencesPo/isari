@@ -10,7 +10,7 @@ const formatObject = (p, perms) => format(People.modelName, p, perms)
 
 // Default ?include = members + externals
 const buildListQuery = (req) => req.userListViewablePeople({
-	includeExternals: req.query.include !== 'range' && (!req.query.include || req.query.include === 'both' || req.query.include === 'externals'),
+	includeExternals: false,
 	includeMembers: req.query.include !== 'range' && (!req.query.include || req.query.include === 'both' || req.query.include === 'members'),
 	includeRange: req.query.include === 'range',
 	membershipStart: req.query.start,
