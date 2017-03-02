@@ -69,7 +69,7 @@ const TEMPLATES = {
       <ul>
         {{#each people}}
           {{#each activities}}
-            <li><strong>{{../firstName}} {{../name}}</strong>, {{description}}{{#if startDate}}, {{formatRange .}}{{/if}}</li>
+            <li><strong>{{../firstName}} {{../name}}</strong>, {{summary}}{{#if startDate}}, {{formatRange .}}{{/if}}</li>
           {{/each}}
         {{/each}}
       </uL>
@@ -142,7 +142,7 @@ const TEMPLATES = {
         {{#each activities}}
           <li>
             <strong>{{../firstName}} {{../name}}</strong>
-            {{~#if description}}, {{description}}{{/if~}}
+            {{~#if summary}}, {{summary}}{{/if~}}
             {{~#if startDate}}, {{formatRange .}}{{/if~}}
           </li>
         {{/each}}
@@ -452,6 +452,7 @@ const TABS = [
       const invited = activities
         .filter(activity => {
           const role = activity.organizations
+            .filter(org => org.organization)
             .find(org => '' + org.organization._id === centerId)
             .role;
 
