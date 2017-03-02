@@ -614,6 +614,27 @@ const TABS = [
         })
         .map(mapper);
 
+      const others = projects
+        .filter(activity => {
+          return (
+            !!activity.grants &&
+            activity.grants &&
+            activity.grants.every(grant => {
+              return(
+                grant.grantProgram !== 'PIA' &&
+                !['collaboratifterritorial',
+                  'individuelterritorial',
+                  'individuelnational',
+                  'collaboratifnational',
+                  'individuelinternational',
+                  'collaboratifinternational',
+                  'interne'].includes(grant.grantType)
+                )
+            })
+            );
+        })
+        .map(mapper);
+
       return TEMPLATES.contracts({
         id,
         title,
@@ -637,6 +658,10 @@ const TABS = [
           {
             title: 'Contrats financés par des associations caritatives et des fondations (ARC, FMR, etc.)',
             projects: []
+          },
+          {
+            title: 'Autres contrats à trier',
+            projects: others
           }
         ]
       });
