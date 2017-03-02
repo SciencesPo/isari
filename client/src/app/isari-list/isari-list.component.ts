@@ -77,7 +77,10 @@ export class IsariListComponent implements OnInit {
 
         // set date filters
         const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
-        this.dateForm.controls['startDate'].setValue(dateFilters['startDate'] || (!dateFilters['endDate']? this.today():''));
+        //We removed the adding today's date as defautl startDate
+        //This mask a bug: the setValue doesnot properly update the date fields
+        // when not reloading completely the page (type of activity switch) 
+        this.dateForm.controls['startDate'].setValue(dateFilters['startDate'] || '');
         this.dateForm.controls['endDate'].setValue(dateFilters['endDate'] || '');
 
         this.selectedColumns = this.storageService.get('colSelected', this.feature);
