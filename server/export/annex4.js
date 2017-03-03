@@ -508,7 +508,13 @@ const TABS = [
       const activities = data.activities;
 
       function mapper(activity) {
-        const info = {};
+        const info = {
+          acronym:'',
+          name:'',
+          organization:'',
+          program:'',
+          instrument:''
+        };
 
         if (activity.acronym)
           info.acronym = activity.acronym;
@@ -516,17 +522,18 @@ const TABS = [
         if (activity.name)
           info.name = activity.name;
 
-        const grant = activity.grants.find(g => !!g.organization);
+        let grant = activity.grants.find(g => !!g.organization);
 
         if (grant)
           info.organization = grant.organization.name;
+        else
+          grant = activity.grants[0]
 
         if (grant.grantProgram)
           info.program = GRANT_PROGRAM_INDEX[grant.grantProgram] || grant.grantProgram;
 
         if (grant.grantInstrument && grant.grantType) {
           const index = GRANT_INSTRUMENT_INDEX[grant.grantType];
-
           info.instrument = index[grant.grantInstrument] || grant.grantInstrument;
         }
 
