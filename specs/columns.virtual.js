@@ -82,7 +82,7 @@ exports.entryDate = (people, scope) => {
 exports.leavingDate = (people, scope) => {
 	if (people.academicMemberships)
 		if (scope.userScopeOrganizationId)
-		  return _.max(people.academicMemberships.filter(e => e.organization._id.toString() === scope.userScopeOrganizationId).map(e => e.endDate))
+		  return _.maxBy(people.academicMemberships.filter(e => e.organization._id.toString() === scope.userScopeOrganizationId).map(e => e.endDate), d => d || Infinity )
 		else
   			// central point of view let's check if the correct role is set
   			if (scope.userCentralRole)
