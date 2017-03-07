@@ -41,7 +41,7 @@ client.q.forSuggestions = ({ type, query, size = config.elasticsearch.defaultSiz
 	// Duplicate each term to create a query based on prefixes + fuzzy matching
 	.reduce((terms, term) => term.match(/(\*|\~.+?)$/)
 		? terms.concat([term]) // already an advanced term, don't modify
-		: terms.concat([term + '*', term + '~']) // prefix + fuzzy
+		: terms.concat([term, term + '*', term + '~']) // prefix + fuzzy
 	, [])
 	// Re-build query
 	.join(' OR ')
