@@ -104,6 +104,7 @@ const TEMPLATES = {
             {{~#if instrument}}, {{instrument}}{{/if~}}
             {{~#if manager}}, {{manager.firstName}} {{manager.name}}{{/if~}}
             {{~#if role}}, {{role}}{{/if~}}
+            {{~#if startDate}}, {{formatRange .}}{{/if~}}
           </li>
         {{/each}}
       </ul>
@@ -513,7 +514,9 @@ const TABS = [
           name:'',
           organization:'',
           program:'',
-          instrument:''
+          instrument:'',
+          startDate:'',
+          endDate:''
         };
 
         if (activity.acronym)
@@ -536,6 +539,12 @@ const TABS = [
           const index = GRANT_INSTRUMENT_INDEX[grant.grantType];
           info.instrument = index[grant.grantInstrument] || grant.grantInstrument;
         }
+
+        if (activity.startDate)
+          info.startDate = activity.startDate;
+
+        if (activity.endDate)
+          info.endDate = activity.endDate;
 
         const manager = activity.people.find(person => {
           return (
