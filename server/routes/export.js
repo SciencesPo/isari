@@ -30,6 +30,24 @@ const XLSX_ROUTINES = {
 
 			return true
 		}
+	},
+	faculty: {
+		fn: require('../export/faculty.js'),
+		args(query, next) {
+			
+
+			let range = []
+			if (query.start)
+				range.push(query.start)
+			if (query.end)
+				range.push(query.end)
+			range = range.sort()
+
+			return [models, query.id, range, next]
+		},
+		check(query) {
+			return true
+		}
 	}
 }
 
@@ -58,7 +76,7 @@ module.exports = Router()
 
 function sendHtmlExport(req, res) {
 	const name = req.params.name
-	const query = req.query
+	let query = req.query
 	const routine = HTML_ROUTINES[name]
 
 	if (!routine)
@@ -83,6 +101,13 @@ function sendXlsxExport(req, res) {
 	const name = req.params.name
 	const query = req.query
 	const routine = XLSX_ROUTINES[name]
+
+	//check rights to export the requested id.s
+	if ((!Object.keys(req.userRoles).includes(query.id) && query.id !== '' && !req.userCentralRole) ||
+		(!req.userCentralRole && query.id === ''))
+		return res
+			.status(403)
+			.send(ClientError({title: `Access forbidden for this/those organization.s`, status: 403}))
 
 	if (!routine)
 		return res

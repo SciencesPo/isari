@@ -96,7 +96,7 @@ exports.parseDate = function(string) {
  * Function checking overlap of two potentially non-ending periods.
  */
 
-const fillIncompleteDate = function(d, start = true) {
+fillIncompleteDate = function(d, start = true) {
   if (d) {
     if (d.length === 4)
     return start ? `${d}-01-01` : `${d}-12-31`;
@@ -105,6 +105,7 @@ const fillIncompleteDate = function(d, start = true) {
   }
   return d;
 };
+exports.fillIncompleteDate = fillIncompleteDate
 
 exports.overlap = function(A, B) {
 
