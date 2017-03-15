@@ -7,7 +7,7 @@ const Handlebars = require('handlebars'),
       async = require('async'),
       helpers = require('./helpers.js'),
       COUNTRIES = require('../../specs/enum.countries.json'),
-      keyBy = require('lodash/keyBy');
+      {keyBy, sortBy} = require('lodash');
 
 const {
   getSimpleEnumValues,
@@ -772,7 +772,7 @@ const TABS = [
           };
         });
 
-      const invited = data.activities
+      let invited = data.activities
         .filter(activity => activity.activityType === 'mob_sortante')
         .map(activity => {
           const person = activity.people
@@ -797,6 +797,8 @@ const TABS = [
 
           return info;
         });
+        invited = sortBy(invited, info => info.name);
+  
 
       return TEMPLATES.indices({
         id,
@@ -824,6 +826,11 @@ module.exports = function annex4(models, centerId, callback) {
           $match: {
             'academicMemberships.organization': ObjectId(centerId)
           }
+        },
+        {
+          $sort:{
+            'name': 1
+          }
         }
       ], next);
     },
@@ -832,6 +839,7 @@ module.exports = function annex4(models, centerId, callback) {
         .find({
           'organizations.organization': ObjectId(centerId)
         })
+        .sort({'name':1,'acronym':1})
         .populate('people.people')
         .populate('organizations.organization')
         .populate('grants.organization')
