@@ -195,8 +195,9 @@ const SHEETS = [
             (
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
-            ) &&
-            position && position.jobType === 'CDI'
+            ) 
+            //&&
+            //position && position.jobType === 'CDI'
           ) {
             sheetData.B7++;
           }
@@ -251,8 +252,9 @@ const SHEETS = [
             (
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
-            ) &&
-            position && position.jobType === 'CDI'
+            ) 
+            //&&
+            //position && position.jobType === 'CDI'
           ) {
             sheetData.F7++;
           }
@@ -283,16 +285,22 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position && position.jobType === 'CDD'
+            (position && (!position.jobType || position.jobType === 'CDD'))
           ) {
             sheetData.H11++;
+          
           }
 
           // Stagiaires avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
           if (
-            /stage/i.test(grade) &&
-            overlap(relevantGrade, {startDate: '2012-01-01', endDate: '2017-06-30'})
+            person.grades.some(grade =>
+              // grade de stagiaire ?
+              /stage/i.test(grade) &&
+              // sur la période HCERES ?
+              overlap(grade, {startDate: '2012-01-01', endDate: '2017-06-30'})
+            )
           ) {
+            console.log(` found a stagiaire ${person.name}`);
             sheetData.H19++;
           }
         });
@@ -704,8 +712,11 @@ const SHEETS = [
             );
           })
           .map(activity => {
-            const person = activity.people.find(p => p.role === 'visiting').people;
-
+            let person = activity.people.find(p => p.role === 'visiting')
+            if (person)
+              person = person.people;
+            else
+              return undefined
             const info = {
               name: person.name,
               firstName: person.firstName,
@@ -717,7 +728,8 @@ const SHEETS = [
             };
 
             return info;
-          });
+          })
+          .filter(i => i);
         return callback(null, postDocs.concat(invited));
       });
     }
