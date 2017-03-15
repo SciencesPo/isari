@@ -486,7 +486,11 @@ const TABS = [
           );
         })
         .map(activity => {
-          const person = activity.people.find(p => p.role === 'visiting').people;
+          let person = activity.people.find(p => p.role === 'visiting')
+          if (person)
+            person = person.people;
+          else
+            return undefined;
 
           let origin = activity.organizations.find(org => org.role === 'orgadorigine');
 
@@ -504,7 +508,8 @@ const TABS = [
             info.country = COUNTRIES_INDEX[origin.countries[0]].countryLabel.fr;
 
           return info;
-        });
+        })
+        .filter(p => p);
 
       return TEMPLATES.tab5({
         id,
