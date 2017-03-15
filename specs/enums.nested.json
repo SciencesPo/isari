@@ -1333,28 +1333,28 @@
             {
                 "value": "CADRE",
                 "label": {
-                    "fr": "cadre Sciences Po",
+                    "fr": "permanent cadre Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "NONCADRE",
                 "label": {
-                    "fr": "non cadre Sciences Po",
+                    "fr": "permanent non cadre Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "TEMPORAIRE",
                 "label": {
-                    "fr": "durée déterminée",
+                    "fr": "non permanent Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "STAGE",
                 "label": {
-                    "fr": "stage",
+                    "fr": "stage / apprentissage",
                     "en": ""
                 }
             },
@@ -1482,28 +1482,28 @@
              {
                 "value": "CADRE",
                 "label": {
-                    "fr": "cadre Sciences Po",
+                    "fr": "permanent cadre Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "NONCADRE",
                 "label": {
-                    "fr": "non cadre Sciences Po",
+                    "fr": "permanent non cadre Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "TEMPORAIRE",
                 "label": {
-                    "fr": "durée déterminée",
+                    "fr": "non permanent Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "STAGE",
                 "label": {
-                    "fr": "stage",
+                    "fr": "stage / apprentissage",
                     "en": ""
                 }
             }
