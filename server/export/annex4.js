@@ -824,7 +824,21 @@ module.exports = function annex4(models, centerId, callback) {
       return People.aggregate([
         {
           $match: {
-            'academicMemberships.organization': ObjectId(centerId)
+            academicMemberships: {
+                $elemMatch:{
+                  $and:[
+                    {organization: ObjectId(centerId)},
+                    {$or: [
+                        {endDate:{$gte: HCERESPERIOD.startDate}},
+                        {endDate:{$exists: false }}
+                    ]},
+                    {$or: [
+                        {startDate:{$lte: HCERESPERIOD.endDate}},
+                        {startDate:{$exists: false }}
+                    ]}
+                  ]
+                }
+            }
           }
         },
         {
