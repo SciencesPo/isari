@@ -35,6 +35,8 @@ const {
   overlap
 } = helpers;
 
+const HCERESPERIOD = {startDate:'2012-01-01', endDate:'2017-06-30'};
+
 /**
  * Handlebars templates.
  */
@@ -258,7 +260,8 @@ const TABS = [
                   personalActivity.personalActivitySubtype === 'collectionScientifique' &&
                   personalActivity.role === 'membre'
                 )
-              )
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -269,8 +272,9 @@ const TABS = [
               personalActivity.personalActivityType === 'editorial' &&
               (
                 personalActivity.personalActivitySubtype === 'collectionScientifique' &&
-                secondGroupRoles.has(personalActivity.role)
-              )
+                secondGroupRoles.has(personalActivity.role) 
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         }
@@ -302,7 +306,8 @@ const TABS = [
                 personalActivity.personalActivitySubtype === 'responsinstanceevaluation' ||
                 personalActivity.personalActivitySubtype === 'communauteprogrammation' ||
                 personalActivity.personalActivitySubtype === 'evaluationpairs'
-              )
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -311,7 +316,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'editorial' &&
-              personalActivity.role === 'reviewer'
+              personalActivity.role === 'reviewer' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -320,7 +326,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'editorial' &&
-              personalActivity.personalActivitySubtype === 'evaluationstructure'
+              personalActivity.personalActivitySubtype === 'evaluationstructure' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -329,7 +336,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'évaluation' &&
-              personalActivity.personalActivitySubtype === 'evaluationprojets'
+              personalActivity.personalActivitySubtype === 'evaluationprojets' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         }
@@ -357,7 +365,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'expertise' &&
-              personalActivity.personalActivitySubtype === 'consultance'
+              personalActivity.personalActivitySubtype === 'consultance' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -366,7 +375,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'expertise' &&
-              personalActivity.personalActivitySubtype === 'instance'
+              personalActivity.personalActivitySubtype === 'instance' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -375,7 +385,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'expertise' &&
-              personalActivity.personalActivitySubtype === 'juridique'
+              personalActivity.personalActivitySubtype === 'juridique' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -388,7 +399,8 @@ const TABS = [
                 !personalActivity.personalActivitySubtype ||
                 personalActivity.personalActivitySubtype === 'audition' ||
                 personalActivity.personalActivitySubtype === 'rapport'
-              )
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         }
@@ -506,7 +518,7 @@ const TABS = [
     id: 'contrats_de_recherche',
     title: '7. Contrats de recherche financés par des institutions publiques ou caritatives',
     render(id, title, data, centerId) {
-      const activities = data.activities;
+      const activities = data.activities.filter(a => overlap(a,HCERESPERIOD));
 
       function mapper(activity) {
         const info = {
@@ -692,7 +704,10 @@ const TABS = [
         .filter(person => {
           return (
             person.distinctions &&
-            person.distinctions.some(distinction => distinction.distinctionType === 'distinction')
+            person.distinctions.some(distinction => 
+              distinction.distinctionType === 'distinction' &&
+              overlap({startDate:distinction.date, endDate:distinction.date}, HCERESPERIOD)
+            )
           );
         })
         .map(person => {
@@ -700,7 +715,9 @@ const TABS = [
             name: person.name.toUpperCase(),
             firstName: person.firstName,
             prices: person.distinctions
-              .filter(distinction => distinction.distinctionType === 'distinction')
+              .filter(distinction => distinction.distinctionType === 'distinction' &&
+              overlap({startDate:distinction.date, endDate:distinction.date}, HCERESPERIOD)
+              )
           };
         });
 
@@ -730,7 +747,8 @@ const TABS = [
                   personalActivity.role === 'codirection' ||
                   personalActivity.role === 'direction' ||
                   personalActivity.role === 'présidence'
-                )
+                ) &&
+                overlap(personalActivity, HCERESPERIOD)
               );
             })
           );
@@ -747,7 +765,8 @@ const TABS = [
                     personalActivity.role === 'codirection' ||
                     personalActivity.role === 'direction' ||
                     personalActivity.role === 'présidence'
-                  )
+                  ) &&
+                  overlap(personalActivity, HCERESPERIOD)
                 );
               })
           };
