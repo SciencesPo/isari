@@ -30,6 +30,21 @@ const {
 //const GRADES_INDEX = require('../../specs/export/grades.json');
 const GRADES_INDEX = require('../../specs/export/grades2gradesHCERES.json');
 
+const PERMANENT = 'permanent';
+const TEMPORARY = 'temporary';
+const permanentTemporary = (jobType) => {
+  const PERMANENT_JOBTYPES = ['CDI', 'disponibilité', 'détachement', 'emploipublic']
+  const TEMPORARY_JOBTYPES = ['CDD', 'stage', 'alternance', 'COD', 'CDDdusage'];
+  if (PERMANENT_JOBTYPES.includes(jobType))
+    return PERMANENT;
+  else
+    if (TEMPORARY_JOBTYPES.includes(jobType))
+      return TEMPORARY;
+    else
+      return undefined;
+}
+
+
 const GENDER_MAP = {
   m: 'H',
   f: 'F',
@@ -196,8 +211,8 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) 
-            //&&
-            //position && position.jobType === 'CDI'
+            &&
+            position && permanentTemporary(position.jobType) === PERMANENT
           ) {
             sheetData.B7++;
           }
@@ -241,7 +256,7 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position && position.jobType === 'CDI'
+            position && permanentTemporary(position.jobType) === PERMANENT
           ) {
             sheetData.E7++;
           }
@@ -252,9 +267,8 @@ const SHEETS = [
             (
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
-            ) 
-            //&&
-            //position && position.jobType === 'CDI'
+            ) &&
+            position && permanentTemporary(position.jobType) === PERMANENT
           ) {
             sheetData.F7++;
           }
@@ -285,7 +299,7 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            (position && (!position.jobType || position.jobType === 'CDD'))
+            position && permanentTemporary(position.jobType) === TEMPORARY
           ) {
             sheetData.H11++;
           
@@ -300,7 +314,6 @@ const SHEETS = [
               overlap(grade, {startDate: '2012-01-01', endDate: '2017-06-30'})
             )
           ) {
-            console.log(` found a stagiaire ${person.name}`);
             sheetData.H19++;
           }
         });
@@ -376,6 +389,22 @@ const SHEETS = [
             }
           }
         });
+
+        // computing totals
+        sheetData.H1 = sheetData.B1;
+        sheetData.H2 = sheetData.C2;
+        sheetData.H3 = sheetData.E3 + sheetData.F3;
+        sheetData.H4 = sheetData.E4 + sheetData.F4;
+        sheetData.H6 = sheetData.B6;
+        sheetData.H7 = sheetData.B7 + sheetData.E7 + sheetData.F7;
+        sheetData.B8 = sheetData.B1 + sheetData.B2 + sheetData.B6 + sheetData.B7;
+        sheetData.E8 = sheetData.E3 + sheetData.E4 + sheetData.E7;
+        sheetData.F8 = sheetData.F3 + sheetData.F4 + sheetData.F7;
+        sheetData.H8 = sheetData.B8 + sheetData.E8 + sheetData.F8;
+        if (sheetData.H8 !== (sheetData.H1 + sheetData.H2 + sheetData.H3 + sheetData.H4 + sheetData.H6 + sheetData.H7))
+          sheetData.I8 = 'erreur total';
+        sheetData.H12 = sheetData.H9 + sheetData.H10 + sheetData.H11;
+        sheetData.H13 = sheetData.H8 + sheetData.H12;
 
         // Applying header
         const adjusted = {};
