@@ -1333,21 +1333,14 @@
             {
                 "value": "CADRE",
                 "label": {
-                    "fr": "permanent cadre Sciences Po",
+                    "fr": "cadre Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "NONCADRE",
                 "label": {
-                    "fr": "permanent non cadre Sciences Po",
-                    "en": ""
-                }
-            },
-            {
-                "value": "TEMPORAIRE",
-                "label": {
-                    "fr": "non permanent Sciences Po",
+                    "fr": "non cadre Sciences Po",
                     "en": ""
                 }
             },
@@ -1482,21 +1475,14 @@
              {
                 "value": "CADRE",
                 "label": {
-                    "fr": "permanent cadre Sciences Po",
+                    "fr": "cadre Sciences Po",
                     "en": ""
                 }
             },
             {
                 "value": "NONCADRE",
                 "label": {
-                    "fr": "permanent non cadre Sciences Po",
-                    "en": ""
-                }
-            },
-            {
-                "value": "TEMPORAIRE",
-                "label": {
-                    "fr": "non permanent Sciences Po",
+                    "fr": "non cadre Sciences Po",
                     "en": ""
                 }
             },
