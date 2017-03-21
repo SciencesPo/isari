@@ -316,7 +316,8 @@ const SHEETS = [
           if (
             (fnsp && grade === 'directeurderechercheremerite') ||
             (cnrs && grade === 'directeurderechercheremerite') ||
-            grade === 'CASSIST'
+            grade === 'CASSIST' ||
+            grade === 'postdoc'
           ) {
             sheetData.H10++;
             return;
@@ -392,20 +393,26 @@ const SHEETS = [
             }
           }
 
-          // Invité.e.s avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
+          // Invité.e.s avec une date de présence dans l'unité au 30/06/17
+          // et présent au moins 8 semaines à compter dans Chercheurs non titulaires, émérites et autres (3)
           if (
             activity.activityType === 'mob_entrante' &&
             activity.organizations.some(org => (
               '' + org.organization._id === centerId &&
               org.role === 'orgadaccueil'
             )) &&
-            overlap(activity, {startDate: '2012-01-01', endDate: '2017-06-30'})
+            overlap(activity, {startDate: HCERES_DATE, endDate: HCERES_DATE}) &&
+            (activity.endDate &&
+              activity.startDate &&
+              moment(activity.endDate).diff(moment(activity.startDate), 'week') >= 8
+            )
+
           ) {
             const invitedPerson = activity.people.find(p => p.role === 'visiting');
 
             if (invitedPerson && !invitedSet.has(invitedPerson.people._id)) {
               invitedSet.add(invitedPerson.people._id);
-              sheetData.H18++;
+              sheetData.H10++;
             }
           }
         });
