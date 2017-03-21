@@ -174,7 +174,7 @@ const SHEETS = [
                                                 .academicMemberships
                                                 .filter(a => 
                                                   a.organization.toString() === centerId &&
-                                                  a.membershipType === 'membre')),
+                                                  ['membre', 'rattaché'].includes(a.membershipType))),
                 grade = relevantGrade && relevantGrade.grade,
                 gradeStatus = relevantGrade && relevantGrade.gradeStatus,
                 organization = position && position.organization.acronym,
@@ -487,7 +487,7 @@ const SHEETS = [
         people = people.filter(person => {
           const validMembership = !!findRelevantItem(person.academicMemberships.filter(am => 
             am.organization.toString() === centerId &&
-            am.membershipType === 'membre' ));
+            ['membre', 'rattaché'].includes(am.membershipType) ));
 
           const relevantPosition = findRelevantItem(person.positions);
 
