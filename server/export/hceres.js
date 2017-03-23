@@ -182,9 +182,7 @@ const SHEETS = [
                 fnsp = !position || organization === 'FNSP',
                 mesr = organization === 'MESR';
 
-          if (!academicMembership)
-            // filtering out past members
-            return;
+      
           
           // Stagiaires avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
           if (
@@ -197,6 +195,10 @@ const SHEETS = [
           ) {
             sheetData.H19++;
           }
+
+          if (!academicMembership)
+            // filtering out past members
+            return;
 
           // Professeur.es FNSP, Professeur.e.s des universités, Associate professors FNSP
           if (
