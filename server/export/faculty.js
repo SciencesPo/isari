@@ -17,10 +17,12 @@ const {
 
 const NATIONALITIES = getSimpleEnumValues('nationalities')
 
-const hceres2017enums = {};
-getSimpleEnumValues('hceres2017').forEach(e => {
-  hceres2017enums[e.value] = e.label.fr;
-});
+
+
+const simpleEnumValue = (enumName, value) =>{
+  const e = getSimpleEnumValues(enumName).find(e => e.value === value)
+  return e ? e.label.fr : value
+};
 
 const {
   createWorkbook,
@@ -49,21 +51,11 @@ const FILENAME = 'faculté_permanente.xlsx';
 /**
  * Helpers.
  */
-function findRelevantItem(collection) {
-  const relevants = collection.filter(item => {
-    return (
-      (!item.startDate && !item.endDate) ||
-      (!item.endDate && parseDate(item.startDate).isSameOrBefore(HCERES_DATE)) ||
-      (
-        parseDate(item.endDate).isSameOrAfter(HCERES_DATE) &&
-        parseDate(item.startDate).isSameOrBefore(HCERES_DATE)
-      )
-    );
-  });
-  return _(relevants)
-  .sortBy(['endDate', 'startDate'])
-  .value()
-  .reverse()[0];
+function findAndSortRelevantItems(collection) {
+  return _.sortBy(collection
+             .filter(e => overlap(e,reportPeriod)),
+           [e => e.endDate ? e.endDate : Infinity]
+           ).reverse();
 }
 
 function formatDate(date) {
@@ -95,15 +87,20 @@ const SHEETS = [
       {key: 'gender', label: 'Genre'},
       {key: 'nationalities', label: 'Nationalité.s'},
       {key: 'emails', label: 'Email.s'},
-      {key: 'lab1', label: 'Laboratoire de rattachement actuel 1'},
-      {key: 'lab2', label: 'Laboratoire de rattachement actuel 2'},
+      {key: 'lab1', label: 'Laboratoire de rattachement 1 dernier connu sur la période'},
+      {key: 'lab2', label: 'Laboratoire de rattachement 2 avant-dernier connu sur la période'},
       {key: 'dept1', label: 'Département de rattachement actuel 1'},
       {key: 'dept2', label: 'Département de rattachement actuel 2'},
-      {key: 'status', label: 'Statut actuel'},
-      {key: 'grade', label: 'Grade actuel'},
-      {key: 'tutelle', label: 'Tutelle'},
-      {key: 'startDate', label: 'Date de début'},
-      {key: 'endDate', label: 'Date de fin'},
+      {key: 'status', label: 'Statut dernier connu sur la période'},
+      {key: 'grade', label: 'Grade  dernier connu sur la période'},
+      {key: 'tutelle', label: 'Tutelle dernière connue'},
+      {key: 'startTutelle', label: 'Date de début dernière tutelle'},
+      {key: 'endTutelle', label: 'Date de fin derière tutelle'},
+      {key: 'startDate', label: 'Date d\'entrée'},
+      {key: 'bonuses', label: 'Primes sur la période'},
+      {key: 'facultyMonitoring', label: 'Suivi faculté permanente'},
+      {key: 'facultyMonitoringDate', label: 'Suivi faculté permanente Date'},
+      {key: 'facultyMonitoringComment', label: 'Suivi faculté permanente Commentaire'}
     ],
     populate(models, centerId, range, callback) {
       const People = models.People;
@@ -122,7 +119,13 @@ const SHEETS = [
       
       start = fillIncompleteDate(start, true);
       end = fillIncompleteDate(end, false);
-
+      const reportPeriod = {startDate:start, endDate:end}
+      const findAndSortRelevantItems = (collection) => {
+        return _.sortBy(collection
+                   .filter(e => overlap(e,reportPeriod)),
+                 [e => e.endDate ? e.endDate : Infinity]
+                 ).reverse();
+      };
 
 
       async.waterfall([
@@ -152,6 +155,7 @@ const SHEETS = [
                 $elemMatch:{
                   $and:[
                     orgFilter,
+                    {membershipType:{$in:['membre', 'rattaché']}},
                     {$or: [
                         {endDate:{$gte: start}},
                         {endDate:{$exists: false }}
@@ -203,26 +207,81 @@ const SHEETS = [
 
               if (person.nationalities && person.nationalities.length > 0) {
                 info.nationalities = person.nationalities.map(n => 
-                 NATIONALITIES.find(en => en.value === n).label.fr
+                 simpleEnumValue('nationalities',n)
                 ).join(', ');
               }        
 
+              if (person.contacts && person.contacts.length>0)
+              {
+                info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
+              }
+
+
+
+              const labos = findAndSortRelevantItems(person.academicMemberships);
+              info.lab1 = labos.length > 0 ? labos[0].organization.acronym || labos[0].organization.name : '';
+              info.lab2 = labos.length > 1 ? labos[1].organization.acronym || labos[1].organization.name : '';
+
+              if (person.deptMemberships && person.deptMemberships.length>0){
+                const departements = findAndSortRelevantItems(person.deptMemberships);
+                info.dept1 = departements.length > 0 ? simpleEnumValue('teachingDepartements',departements[0].departement) : '';
+                info.dept2 = departements.length > 1 ? simpleEnumValue('teachingDepartements',departements[1].departement)  : '';
+              }
+
+              if (person.positions && person.positions.length > 0){
+                const positions = findAndSortRelevantItems(person.positions);
+                if (positions && positions.length > 0 && positions[0].organization){
+                  info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
+                  info.startTutelle = positions[0].startDate;
+                  info.endTutelle = positions[0].endDate;
+                }
+              }
+
+              const startDates = person.academicMemberships
+                  .filter(am => am.organization.isariMonitored)
+                  .map(am => am.startDate)
+                  .concat(person.positions
+                    .filter(p => p.organization.acronym &&
+                                 ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym))
+                    .map(p => p.startDate)
+                  ).sort()
+              if (startDates && startDates.length > 0)
+                info.startDate = startDates[0]
+
+
               if (person.grades){
-                  grade = _.sortBy(
-                            person.grades.filter(p =>
-                             overlap(p,[start,end])
-                             && !['appuiadministratif','appuitechnique'].includes(p.gradeStatus) 
-                            ),
-                            [p => p.endDate || p.startDate])
-                            .reverse()[0]
+                  grade = findAndSortRelevantItems(person.grades).filter(p =>
+                              !['appuiadministratif','appuitechnique'].includes(p.gradeStatus) 
+                            )[0]
                   if (grade){
                     if(grade.gradeStatus)
-                      info.status = getSimpleEnumValues('gradeStatus').find(g => g.value === grade.gradeStatus).label.fr
+                      info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
                     if(grade.grade && grade.gradeStatus)
                       info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
                   
                   }
               }
+
+              if (person.bonuses && person.bonuses.length > 0){
+                info.bonuses = findAndSortRelevantItems(person.bonuses)
+                  .map(b => {
+                    const type = simpleEnumValue('bonusTypes',b.bonusType);
+                    const startYear = b.startDate ? b.startDate.slice(0,4):'';
+                    const endYear = b.endDate ? '-'+b.endDate.slice(0,4):'';
+                    return `${type} ${startYear}${endYear}` 
+                  }).join(", ")
+              }
+
+              if (person.facultyMonitoring && person.facultyMonitoring.length > 0){
+                const fms = findAndSortRelevantItems(person.facultyMonitoring);
+                if (fms && fms.length > 0){
+                  const fm = fms[0];
+                  info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
+                  info.facultyMonitoringDate = fm.date ? fm.date : '';
+                  info.facultyMonitoringComment = fm.comments ? fm.comments : '';
+                }
+              }
+
 
               if (person.ORCID)
                 info.orcid = person.ORCID;
