@@ -188,7 +188,7 @@ const SHEETS = [
           if (
             person.grades.some(grade =>
               // grade de stagiaire ?
-              grade === 'STAGE' &&
+              grade.grade === 'STAGE' &&
               // sur la période HCERES ?
               overlap(grade, {startDate: '2012-01-01', endDate: '2017-06-30'}) &&
               // stage pendant une afiliation au labo
@@ -205,9 +205,10 @@ const SHEETS = [
               .filter(a => a.organization.toString() === centerId)
               .some(am => overlap(am,p))
             )
-          ) {
+          ) {       
             sheetData.H19++;
           }
+
 
           if (!academicMembership)
             // filtering out past members
@@ -216,7 +217,7 @@ const SHEETS = [
           // Professeur.es FNSP, Professeur.e.s des universités, Associate professors FNSP
           if (
             (
-              (fnsp && grade === 'professeuruniv') ||
+              (mesr && grade === 'professeuruniv') ||
               (/^professeur([12]|ex)?$/.test(grade)) ||
               (fnsp && grade === 'associateprofessor')
             )
