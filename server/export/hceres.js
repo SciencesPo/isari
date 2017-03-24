@@ -30,6 +30,21 @@ const {
 //const GRADES_INDEX = require('../../specs/export/grades.json');
 const GRADES_INDEX = require('../../specs/export/grades2gradesHCERES.json');
 
+const PERMANENT = 'permanent';
+const TEMPORARY = 'temporary';
+const permanentTemporary = (jobType) => {
+  const PERMANENT_JOBTYPES = ['CDI', 'disponibilité', 'détachement', 'emploipublic']
+  const TEMPORARY_JOBTYPES = ['CDD', 'stage', 'alternance', 'COD', 'CDDdusage'];
+  if (PERMANENT_JOBTYPES.includes(jobType))
+    return PERMANENT;
+  else
+    if (TEMPORARY_JOBTYPES.includes(jobType))
+      return TEMPORARY;
+    else
+      return undefined;
+}
+
+
 const GENDER_MAP = {
   m: 'H',
   f: 'F',
@@ -48,14 +63,7 @@ const HCERES_DATE = '2017-06-30';
  */
 function findRelevantItem(collection) {
   const relevants = collection.filter(item => {
-    return (
-      (!item.startDate && !item.endDate) ||
-      (!item.endDate && parseDate(item.startDate).isSameOrBefore(HCERES_DATE)) ||
-      (
-        parseDate(item.endDate).isSameOrAfter(HCERES_DATE) &&
-        parseDate(item.startDate).isSameOrBefore(HCERES_DATE)
-      )
-    );
+    return overlap(item,{startDate:HCERES_DATE,endDate:HCERES_DATE});
   });
 
   return _(relevants)
@@ -79,7 +87,12 @@ const SHEETS = [
         people: next => {
           return models.People
             .find({
-              'academicMemberships.organization': centerId
+              'academicMemberships':{
+                $elemMatch:{
+                  'organization': centerId,
+                  'membershipType':'membre'
+                }
+              }
             })
             .populate('positions.organization')
             .exec(next);
@@ -157,22 +170,59 @@ const SHEETS = [
           // Finding relevant position
           const position = findRelevantItem(person.positions || []),
                 relevantGrade = findRelevantItem(person.grades || []),
+                academicMembership = findRelevantItem(person
+                                                .academicMemberships
+                                                .filter(a => 
+                                                  a.organization.toString() === centerId &&
+                                                  ['membre', 'rattaché'].includes(a.membershipType))),
                 grade = relevantGrade && relevantGrade.grade,
                 gradeStatus = relevantGrade && relevantGrade.gradeStatus,
                 organization = position && position.organization.acronym,
                 cnrs = organization === 'CNRS',
-                fnsp = !position || organization === 'FNSP',
+                fnsp = organization === 'FNSP',
                 mesr = organization === 'MESR';
+
+      
+          
+          // Stagiaires avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
+          if (
+            person.grades.some(grade =>
+              // grade de stagiaire ?
+              grade === 'STAGE' &&
+              // sur la période HCERES ?
+              overlap(grade, {startDate: '2012-01-01', endDate: '2017-06-30'}) &&
+              // stage pendant une afiliation au labo
+              person.academicMemberships
+              .filter(a => a.organization.toString() === centerId)
+              .some(am => overlap(am,grade))
+            )||
+            person.positions.some(p =>
+              p.jobType === 'stage' &&
+              // sur la période HCERES ?
+              overlap(p, {startDate: '2012-01-01', endDate: '2017-06-30'}) &&
+              // stage pendant une afiliation au labo
+              person.academicMemberships
+              .filter(a => a.organization.toString() === centerId)
+              .some(am => overlap(am,p))
+            )
+          ) {
+            sheetData.H19++;
+          }
+
+          if (!academicMembership)
+            // filtering out past members
+            return;
 
           // Professeur.es FNSP, Professeur.e.s des universités, Associate professors FNSP
           if (
             (
               (fnsp && grade === 'professeuruniv') ||
-              (/professeur[12x]?/.test(grade)) ||
+              (/^professeur([12]|ex)?$/.test(grade)) ||
               (fnsp && grade === 'associateprofessor')
             )
           ) {
             sheetData.B1++;
+            return;
           }
 
           // Maître.sse.s de conférence, Assistant professors FNSP
@@ -182,11 +232,13 @@ const SHEETS = [
             (fnsp && grade === 'assistantprofessor')
           ) {
             sheetData.B2++;
+            return;
           }
 
           // PRAG
           if (grade === 'prag') {
             sheetData.B6++;
+            return;
           }
 
           // grades administratifs et techniques en CDI avec tutelle MESR
@@ -195,42 +247,48 @@ const SHEETS = [
             (
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
-            ) &&
-            position && position.jobType === 'CDI'
+            ) 
+            &&
+            position && permanentTemporary(position.jobType) === PERMANENT
           ) {
             sheetData.B7++;
+            return;
           }
 
           // Directrices, directeurs de recherche FNSP
           if (
             fnsp &&
-            /directeurderecherche[12x]?/.test(grade)
+            /^directeurderecherche[12x]?$/.test(grade)
           ) {
             sheetData.E3++;
+            return;
           }
 
           // Directrices, directeurs de recherche CNRS
           if (
             cnrs &&
-            /directeurderecherche[12x]?/.test(grade)
+            /^directeurderecherche[12x]?$/.test(grade)
           ) {
             sheetData.F3++;
+            return;
           }
 
           // Chargé.e.s de recherche FNSP
           if (
             fnsp &&
-            /chargederecherche[12x]?/.test(grade)
+            /^chargederecherche[12]?$/.test(grade)
           ) {
             sheetData.E4++;
+            return;
           }
 
           // Chargé.e.s de recherche CNRS
           if (
             cnrs &&
-            /chargederecherche[12x]?/.test(grade)
+            /^chargederecherche[12]?$/.test(grade)
           ) {
             sheetData.F4++;
+            return;
           }
 
           // grades administratifs et techniques en CDI avec tutelle FNSP
@@ -240,9 +298,10 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position && position.jobType === 'CDI'
+            position && permanentTemporary(position.jobType) === PERMANENT
           ) {
             sheetData.E7++;
+            return;
           }
 
           // grades administratifs et techniques en CDI avec tutelle CNRS
@@ -252,49 +311,45 @@ const SHEETS = [
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position && position.jobType === 'CDI'
+            position && permanentTemporary(position.jobType) === PERMANENT
           ) {
             sheetData.F7++;
+            return;
           }
 
           // Professeur.e.s FNSP émérites, Professeur.e.s des universités émérites, ATER
           if (
             grade === 'profunivémérite' ||
             grade === 'ater' ||
-            (grade === 'profémérite' && fnsp)
+            (grade === 'profémérite')
           ) {
             sheetData.H9++;
+            return;
           }
 
-          // Directrices, directeurs de recherche FNSP émérites, Directrices, directeurs de recherche CNRS émérites, Assistant.e.s de recherche, Post-doctorant.e.s
+          // Directrices, directeurs de recherche FNSP émérites, Directrices, directeurs de recherche CNRS émérites, Assistant.e.s de recherche
           if (
-            (fnsp && grade === 'directeurderechercheremerite') ||
-            (cnrs && grade === 'directeurderechercheremerite') ||
+            (grade === 'directeurderechercheremerite') ||
             grade === 'CASSIST' ||
             grade === 'postdoc'
           ) {
             sheetData.H10++;
+            return;
           }
 
           // grades administratifs et techniques en CDD avec tutelle MESR, FNSP et CNRS
           if (
-            (fnsp || mesr || cnrs) &&
             (
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
             ) &&
-            position && position.jobType === 'CDD'
+            position && permanentTemporary(position.jobType) === TEMPORARY
           ) {
             sheetData.H11++;
+            return;
           }
 
-          // Stagiaires avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
-          if (
-            /stage/i.test(grade) &&
-            overlap(relevantGrade, {startDate: '2012-01-01', endDate: '2017-06-30'})
-          ) {
-            sheetData.H19++;
-          }
+          
         });
 
         const invitedSet = new Set();
@@ -351,23 +406,45 @@ const SHEETS = [
             }
           }
 
-          // Invité.e.s avec une date de présence dans l'unité comprise entre 01/01/12 et 30/06/17
+          // Invité.e.s avec une date de présence dans l'unité au 30/06/17
+          // et présent au moins 8 semaines à compter dans Chercheurs non titulaires, émérites et autres (3)
           if (
             activity.activityType === 'mob_entrante' &&
             activity.organizations.some(org => (
               '' + org.organization._id === centerId &&
               org.role === 'orgadaccueil'
             )) &&
-            overlap(activity, {startDate: '2012-01-01', endDate: '2017-06-30'})
+            overlap(activity, {startDate: HCERES_DATE, endDate: HCERES_DATE}) &&
+            (activity.endDate &&
+              activity.startDate &&
+              moment(activity.endDate).diff(moment(activity.startDate), 'week') >= 8
+            )
+
           ) {
             const invitedPerson = activity.people.find(p => p.role === 'visiting');
 
             if (invitedPerson && !invitedSet.has(invitedPerson.people._id)) {
               invitedSet.add(invitedPerson.people._id);
-              sheetData.H18++;
+              sheetData.H10++;
             }
           }
         });
+
+        // computing totals
+        sheetData.H1 = sheetData.B1;
+        sheetData.H2 = sheetData.B2;
+        sheetData.H3 = sheetData.E3 + sheetData.F3;
+        sheetData.H4 = sheetData.E4 + sheetData.F4;
+        sheetData.H6 = sheetData.B6;
+        sheetData.H7 = sheetData.B7 + sheetData.E7 + sheetData.F7;
+        sheetData.B8 = sheetData.B1 + sheetData.B2 + sheetData.B6 + sheetData.B7;
+        sheetData.E8 = sheetData.E3 + sheetData.E4 + sheetData.E7;
+        sheetData.F8 = sheetData.F3 + sheetData.F4 + sheetData.F7;
+        sheetData.H8 = sheetData.B8 + sheetData.E8 + sheetData.F8;
+        if (sheetData.H8 !== (sheetData.H1 + sheetData.H2 + sheetData.H3 + sheetData.H4 + sheetData.H6 + sheetData.H7))
+          sheetData.I8 = 'erreur total';
+        sheetData.H12 = sheetData.H9 + sheetData.H10 + sheetData.H11;
+        sheetData.H13 = sheetData.H8 + sheetData.H12;
 
         // Applying header
         const adjusted = {};
@@ -428,7 +505,9 @@ const SHEETS = [
 
         //-- 1) Filtering relevant people
         people = people.filter(person => {
-          const validMembership = !!findRelevantItem(person.academicMemberships.filter(am => am.organization.toString() === centerId));
+          const validMembership = !!findRelevantItem(person.academicMemberships.filter(am => 
+            am.organization.toString() === centerId &&
+            ['membre', 'rattaché'].includes(am.membershipType) ));
 
           const relevantPosition = findRelevantItem(person.positions);
 
@@ -447,16 +526,14 @@ const SHEETS = [
 
         //-- 2) Retrieving necessary data
         people = _(people).map(person => {
-
+          
           const info = {
             name: person.name,
             firstName: person.firstName,
             gender: GENDER_MAP[person.gender],
             hdr: 'NON',
-            organization: 'IEP Paris',
             tutelle: 'MENESR'
           };
-
 
           if (person.tags && person.tags.hceres2017) {
             info.panel = person.tags.hceres2017
@@ -471,8 +548,15 @@ const SHEETS = [
           if (person.ORCID)
             info.orcid = person.ORCID;
 
-          if (person.positions) {
-            if (person.positions.map(p => p.organization).find(t => t.acronym === 'CNRS')) {
+          // date d'arrivé
+          info.startDate = formatDate(findRelevantItem(person.academicMemberships).startDate);
+
+          const grade = findRelevantItem(person.grades);
+          const position = findRelevantItem(person.positions);
+
+          if (position){
+            // tutelle
+            if (position.organization.acronym === 'CNRS') {
               info.organization = 'CNRS';
               info.uai = '0753639Y';
             }
@@ -482,24 +566,24 @@ const SHEETS = [
             }
           }
 
-          // date d'arrivé
-          info.startDate = formatDate(findRelevantItem(person.academicMemberships).startDate);
-
-          const grade = findRelevantItem(person.grades);
-
-          if (grade) {
-            if (GRADES_INDEX[grade.gradeStatus] && GRADES_INDEX[grade.gradeStatus][grade.grade]) {
-              info.jobType = GRADES_INDEX[grade.gradeStatus][grade.grade].type_emploiHCERES;
-              info.grade = GRADES_INDEX[grade.gradeStatus][grade.grade].gradeHCERES;
-            }
-            else {
-              // no grade DRH ?
-              info.jobType = '?? ' + grade.gradeStatus;
-              info.grade = '?? ' + grade.grade;
-            }
+          // for admin and tech people => use isari jobType for HCERES jobType
+          if (grade && ['appuitechnique','appuiadministratif'].includes(grade.gradeStatus)){
+            if (position && permanentTemporary(position.jobType) === PERMANENT)
+              info.jobType = 'AP_tit';
+            else
+              if (position && permanentTemporary(position.jobType) === TEMPORARY)
+                info.jobType = 'AP_aut';
           }
           else
-            debug(`No grade found for ${person.name} ${person.firstName}`);
+            if (grade && GRADES_INDEX[grade.gradeStatus] && GRADES_INDEX[grade.gradeStatus][grade.grade])
+              //HCERES jobType translasted from grade fro academic folks
+              info.jobType = GRADES_INDEX[grade.gradeStatus][grade.grade].type_emploiHCERES;
+
+          // grade
+          if (grade && GRADES_INDEX[grade.gradeStatus] && GRADES_INDEX[grade.gradeStatus][grade.grade])
+            // HCERES grade translated from ISARI grade
+            info.grade = GRADES_INDEX[grade.gradeStatus][grade.grade].gradeHCERES;
+          
 
           if (person.birthDate) {
             info.birthDate = formatDate(person.birthDate);
@@ -704,8 +788,11 @@ const SHEETS = [
             );
           })
           .map(activity => {
-            const person = activity.people.find(p => p.role === 'visiting').people;
-
+            let person = activity.people.find(p => p.role === 'visiting')
+            if (person)
+              person = person.people;
+            else
+              return undefined
             const info = {
               name: person.name,
               firstName: person.firstName,
@@ -717,7 +804,8 @@ const SHEETS = [
             };
 
             return info;
-          });
+          })
+          .filter(i => i);
         return callback(null, postDocs.concat(invited));
       });
     }

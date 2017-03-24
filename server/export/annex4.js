@@ -7,7 +7,7 @@ const Handlebars = require('handlebars'),
       async = require('async'),
       helpers = require('./helpers.js'),
       COUNTRIES = require('../../specs/enum.countries.json'),
-      keyBy = require('lodash/keyBy');
+      {keyBy, sortBy} = require('lodash');
 
 const {
   getSimpleEnumValues,
@@ -34,6 +34,8 @@ const {
   parseDate,
   overlap
 } = helpers;
+
+const HCERESPERIOD = {startDate:'2012-01-01', endDate:'2017-06-30'};
 
 /**
  * Handlebars templates.
@@ -258,7 +260,8 @@ const TABS = [
                   personalActivity.personalActivitySubtype === 'collectionScientifique' &&
                   personalActivity.role === 'membre'
                 )
-              )
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -269,8 +272,9 @@ const TABS = [
               personalActivity.personalActivityType === 'editorial' &&
               (
                 personalActivity.personalActivitySubtype === 'collectionScientifique' &&
-                secondGroupRoles.has(personalActivity.role)
-              )
+                secondGroupRoles.has(personalActivity.role) 
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         }
@@ -302,7 +306,8 @@ const TABS = [
                 personalActivity.personalActivitySubtype === 'responsinstanceevaluation' ||
                 personalActivity.personalActivitySubtype === 'communauteprogrammation' ||
                 personalActivity.personalActivitySubtype === 'evaluationpairs'
-              )
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -311,7 +316,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'editorial' &&
-              personalActivity.role === 'reviewer'
+              personalActivity.role === 'reviewer' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -320,7 +326,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'editorial' &&
-              personalActivity.personalActivitySubtype === 'evaluationstructure'
+              personalActivity.personalActivitySubtype === 'evaluationstructure' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -329,7 +336,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'évaluation' &&
-              personalActivity.personalActivitySubtype === 'evaluationprojets'
+              personalActivity.personalActivitySubtype === 'evaluationprojets' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         }
@@ -357,7 +365,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'expertise' &&
-              personalActivity.personalActivitySubtype === 'consultance'
+              personalActivity.personalActivitySubtype === 'consultance' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -366,7 +375,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'expertise' &&
-              personalActivity.personalActivitySubtype === 'instance'
+              personalActivity.personalActivitySubtype === 'instance' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -375,7 +385,8 @@ const TABS = [
           predicate(personalActivity) {
             return (
               personalActivity.personalActivityType === 'expertise' &&
-              personalActivity.personalActivitySubtype === 'juridique'
+              personalActivity.personalActivitySubtype === 'juridique' &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         },
@@ -388,7 +399,8 @@ const TABS = [
                 !personalActivity.personalActivitySubtype ||
                 personalActivity.personalActivitySubtype === 'audition' ||
                 personalActivity.personalActivitySubtype === 'rapport'
-              )
+              ) &&
+              overlap(personalActivity,HCERESPERIOD)
             );
           }
         }
@@ -474,7 +486,11 @@ const TABS = [
           );
         })
         .map(activity => {
-          const person = activity.people.find(p => p.role === 'visiting').people;
+          let person = activity.people.find(p => p.role === 'visiting')
+          if (person)
+            person = person.people;
+          else
+            return undefined;
 
           let origin = activity.organizations.find(org => org.role === 'orgadorigine');
 
@@ -492,7 +508,8 @@ const TABS = [
             info.country = COUNTRIES_INDEX[origin.countries[0]].countryLabel.fr;
 
           return info;
-        });
+        })
+        .filter(p => p);
 
       return TEMPLATES.tab5({
         id,
@@ -506,7 +523,7 @@ const TABS = [
     id: 'contrats_de_recherche',
     title: '7. Contrats de recherche financés par des institutions publiques ou caritatives',
     render(id, title, data, centerId) {
-      const activities = data.activities;
+      const activities = data.activities.filter(a => overlap(a,HCERESPERIOD));
 
       function mapper(activity) {
         const info = {
@@ -582,8 +599,9 @@ const TABS = [
             activity.grants &&
             activity.grants.some(grant => {
               return (
-                grant.grantType === 'collaboratifinternational' ||
-                grant.grantType === 'individuelinternational'
+                ['ongoing','accepted'].includes(grant.status) &&
+                (grant.grantType === 'collaboratifinternational' ||
+                grant.grantType === 'individuelinternational')
               );
             })
           );
@@ -597,8 +615,9 @@ const TABS = [
             activity.grants &&
             activity.grants.some(grant => {
               return (
-                grant.grantType === 'collaboratifnational' ||
-                grant.grantType === 'individuelnational'
+                ['ongoing','accepted'].includes(grant.status) &&
+                (grant.grantType === 'collaboratifnational' ||
+                grant.grantType === 'individuelnational')
               );
             })
           );
@@ -612,8 +631,9 @@ const TABS = [
             activity.grants &&
             activity.grants.some(grant => {
               return (
-                grant.grantType === 'collaboratifterritorial' ||
-                grant.grantType === 'individuelterritorial'
+                ['ongoing','accepted'].includes(grant.status) &&
+                (grant.grantType === 'collaboratifterritorial' ||
+                grant.grantType === 'individuelterritorial')
               );
             })
           );
@@ -625,7 +645,9 @@ const TABS = [
           return (
             !!activity.grants &&
             activity.grants &&
-            activity.grants.some(grant => grant.grantProgram === 'PIA')
+            activity.grants.some(grant =>  
+              ['ongoing','accepted'].includes(grant.status) &&
+              grant.grantProgram === 'PIA')
           );
         })
         .map(mapper);
@@ -637,6 +659,7 @@ const TABS = [
             activity.grants &&
             activity.grants.every(grant => {
               return(
+                ['ongoing','accepted'].includes(grant.status) &&
                 grant.grantProgram !== 'PIA' &&
                 !['collaboratifterritorial',
                   'individuelterritorial',
@@ -692,7 +715,10 @@ const TABS = [
         .filter(person => {
           return (
             person.distinctions &&
-            person.distinctions.some(distinction => distinction.distinctionType === 'distinction')
+            person.distinctions.some(distinction => 
+              distinction.distinctionType === 'distinction' &&
+              overlap({startDate:distinction.date, endDate:distinction.date}, HCERESPERIOD)
+            )
           );
         })
         .map(person => {
@@ -700,7 +726,9 @@ const TABS = [
             name: person.name.toUpperCase(),
             firstName: person.firstName,
             prices: person.distinctions
-              .filter(distinction => distinction.distinctionType === 'distinction')
+              .filter(distinction => distinction.distinctionType === 'distinction' &&
+              overlap({startDate:distinction.date, endDate:distinction.date}, HCERESPERIOD)
+              )
           };
         });
 
@@ -730,7 +758,8 @@ const TABS = [
                   personalActivity.role === 'codirection' ||
                   personalActivity.role === 'direction' ||
                   personalActivity.role === 'présidence'
-                )
+                ) &&
+                overlap(personalActivity, HCERESPERIOD)
               );
             })
           );
@@ -747,13 +776,14 @@ const TABS = [
                     personalActivity.role === 'codirection' ||
                     personalActivity.role === 'direction' ||
                     personalActivity.role === 'présidence'
-                  )
+                  ) &&
+                  overlap(personalActivity, HCERESPERIOD)
                 );
               })
           };
         });
 
-      const invited = data.activities
+      let invited = data.activities
         .filter(activity => activity.activityType === 'mob_sortante')
         .map(activity => {
           const person = activity.people
@@ -778,6 +808,8 @@ const TABS = [
 
           return info;
         });
+        invited = sortBy(invited, info => info.name);
+  
 
       return TEMPLATES.indices({
         id,
@@ -803,7 +835,26 @@ module.exports = function annex4(models, centerId, callback) {
       return People.aggregate([
         {
           $match: {
-            'academicMemberships.organization': ObjectId(centerId)
+            academicMemberships: {
+                $elemMatch:{
+                  $and:[
+                    {organization: ObjectId(centerId)},
+                    {$or: [
+                        {endDate:{$gte: HCERESPERIOD.startDate}},
+                        {endDate:{$exists: false }}
+                    ]},
+                    {$or: [
+                        {startDate:{$lte: HCERESPERIOD.endDate}},
+                        {startDate:{$exists: false }}
+                    ]}
+                  ]
+                }
+            }
+          }
+        },
+        {
+          $sort:{
+            'name': 1
           }
         }
       ], next);
@@ -813,6 +864,7 @@ module.exports = function annex4(models, centerId, callback) {
         .find({
           'organizations.organization': ObjectId(centerId)
         })
+        .sort({'name':1,'acronym':1})
         .populate('people.people')
         .populate('organizations.organization')
         .populate('grants.organization')

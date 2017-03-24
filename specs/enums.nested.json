@@ -1345,16 +1345,9 @@
                 }
             },
             {
-                "value": "TEMPORAIRE",
-                "label": {
-                    "fr": "durée déterminée",
-                    "en": ""
-                }
-            },
-            {
                 "value": "STAGE",
                 "label": {
-                    "fr": "stage",
+                    "fr": "stage / apprentissage",
                     "en": ""
                 }
             },
@@ -1494,16 +1487,9 @@
                 }
             },
             {
-                "value": "TEMPORAIRE",
-                "label": {
-                    "fr": "durée déterminée",
-                    "en": ""
-                }
-            },
-            {
                 "value": "STAGE",
                 "label": {
-                    "fr": "stage",
+                    "fr": "stage / apprentissage",
                     "en": ""
                 }
             }
