@@ -638,6 +638,13 @@
                 "fr": "décès",
                 "en": "death"
             }
+        },
+        {
+            "value": "autre",
+            "label": {
+                "fr": "autre",
+                "en": "other"
+            }
         }
     ],
     "bonusTypes": [
