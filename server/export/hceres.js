@@ -179,7 +179,7 @@ const SHEETS = [
                 gradeStatus = relevantGrade && relevantGrade.gradeStatus,
                 organization = position && position.organization.acronym,
                 cnrs = organization === 'CNRS',
-                fnsp = !position || organization === 'FNSP',
+                fnsp = organization === 'FNSP',
                 mesr = organization === 'MESR';
 
       
@@ -188,9 +188,22 @@ const SHEETS = [
           if (
             person.grades.some(grade =>
               // grade de stagiaire ?
-              /stage/i.test(grade) &&
+              grade === 'STAGE' &&
               // sur la période HCERES ?
-              overlap(grade, {startDate: '2012-01-01', endDate: '2017-06-30'})
+              overlap(grade, {startDate: '2012-01-01', endDate: '2017-06-30'}) &&
+              // stage pendant une afiliation au labo
+              person.academicMemberships
+              .filter(a => a.organization.toString() === centerId)
+              .some(am => overlap(am,grade))
+            )||
+            person.positions.some(p =>
+              p.jobType === 'stage' &&
+              // sur la période HCERES ?
+              overlap(p, {startDate: '2012-01-01', endDate: '2017-06-30'}) &&
+              // stage pendant une afiliation au labo
+              person.academicMemberships
+              .filter(a => a.organization.toString() === centerId)
+              .some(am => overlap(am,p))
             )
           ) {
             sheetData.H19++;
@@ -204,7 +217,7 @@ const SHEETS = [
           if (
             (
               (fnsp && grade === 'professeuruniv') ||
-              (/professeur[12x]?/.test(grade)) ||
+              (/^professeur([12]|ex)?$/.test(grade)) ||
               (fnsp && grade === 'associateprofessor')
             )
           ) {
@@ -245,7 +258,7 @@ const SHEETS = [
           // Directrices, directeurs de recherche FNSP
           if (
             fnsp &&
-            /directeurderecherche[12x]?/.test(grade)
+            /^directeurderecherche[12x]?$/.test(grade)
           ) {
             sheetData.E3++;
             return;
@@ -254,7 +267,7 @@ const SHEETS = [
           // Directrices, directeurs de recherche CNRS
           if (
             cnrs &&
-            /directeurderecherche[12x]?/.test(grade)
+            /^directeurderecherche[12x]?$/.test(grade)
           ) {
             sheetData.F3++;
             return;
@@ -263,7 +276,7 @@ const SHEETS = [
           // Chargé.e.s de recherche FNSP
           if (
             fnsp &&
-            /chargederecherche[12x]?/.test(grade)
+            /^chargederecherche[12]?$/.test(grade)
           ) {
             sheetData.E4++;
             return;
@@ -272,7 +285,7 @@ const SHEETS = [
           // Chargé.e.s de recherche CNRS
           if (
             cnrs &&
-            /chargederecherche[12x]?/.test(grade)
+            /^chargederecherche[12]?$/.test(grade)
           ) {
             sheetData.F4++;
             return;
@@ -308,7 +321,7 @@ const SHEETS = [
           if (
             grade === 'profunivémérite' ||
             grade === 'ater' ||
-            (grade === 'profémérite' && fnsp)
+            (grade === 'profémérite')
           ) {
             sheetData.H9++;
             return;
@@ -316,8 +329,7 @@ const SHEETS = [
 
           // Directrices, directeurs de recherche FNSP émérites, Directrices, directeurs de recherche CNRS émérites, Assistant.e.s de recherche
           if (
-            (fnsp && grade === 'directeurderechercheremerite') ||
-            (cnrs && grade === 'directeurderechercheremerite') ||
+            (grade === 'directeurderechercheremerite') ||
             grade === 'CASSIST' ||
             grade === 'postdoc'
           ) {
@@ -327,7 +339,6 @@ const SHEETS = [
 
           // grades administratifs et techniques en CDD avec tutelle MESR, FNSP et CNRS
           if (
-            (fnsp || mesr || cnrs) &&
             (
               gradeStatus === 'appuiadministratif' ||
               gradeStatus === 'appuitechnique'
