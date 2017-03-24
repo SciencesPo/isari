@@ -26,6 +26,11 @@ function testingPeriodFrom(scope){
     startDate = scope.query.start ? scope.query.start : scope.query.end
     endDate = scope.query.end ? scope.query.end : scope.query.start 
   }
+  else{
+    // no scope, take everything
+    startDate = '0000-00-00'
+    endDate = '9999-12-31'
+  }
 
 
   if (startDate > endDate){
