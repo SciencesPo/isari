@@ -599,8 +599,9 @@ const TABS = [
             activity.grants &&
             activity.grants.some(grant => {
               return (
-                grant.grantType === 'collaboratifinternational' ||
-                grant.grantType === 'individuelinternational'
+                ['ongoing','accepted'].includes(grant.status) &&
+                (grant.grantType === 'collaboratifinternational' ||
+                grant.grantType === 'individuelinternational')
               );
             })
           );
@@ -614,8 +615,9 @@ const TABS = [
             activity.grants &&
             activity.grants.some(grant => {
               return (
-                grant.grantType === 'collaboratifnational' ||
-                grant.grantType === 'individuelnational'
+                ['ongoing','accepted'].includes(grant.status) &&
+                (grant.grantType === 'collaboratifnational' ||
+                grant.grantType === 'individuelnational')
               );
             })
           );
@@ -629,8 +631,9 @@ const TABS = [
             activity.grants &&
             activity.grants.some(grant => {
               return (
-                grant.grantType === 'collaboratifterritorial' ||
-                grant.grantType === 'individuelterritorial'
+                ['ongoing','accepted'].includes(grant.status) &&
+                (grant.grantType === 'collaboratifterritorial' ||
+                grant.grantType === 'individuelterritorial')
               );
             })
           );
@@ -642,7 +645,9 @@ const TABS = [
           return (
             !!activity.grants &&
             activity.grants &&
-            activity.grants.some(grant => grant.grantProgram === 'PIA')
+            activity.grants.some(grant =>  
+              ['ongoing','accepted'].includes(grant.status) &&
+              grant.grantProgram === 'PIA')
           );
         })
         .map(mapper);
@@ -654,6 +659,7 @@ const TABS = [
             activity.grants &&
             activity.grants.every(grant => {
               return(
+                ['ongoing','accepted'].includes(grant.status) &&
                 grant.grantProgram !== 'PIA' &&
                 !['collaboratifterritorial',
                   'individuelterritorial',
