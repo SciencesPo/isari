@@ -205,8 +205,7 @@ const SHEETS = [
               .filter(a => a.organization.toString() === centerId)
               .some(am => overlap(am,p))
             )
-          ) {
-            console.log(person.name);
+          ) {       
             sheetData.H19++;
           }
 
@@ -218,7 +217,7 @@ const SHEETS = [
           // Professeur.es FNSP, Professeur.e.s des universités, Associate professors FNSP
           if (
             (
-              (fnsp && grade === 'professeuruniv') ||
+              (mesr && grade === 'professeuruniv') ||
               (/^professeur([12]|ex)?$/.test(grade)) ||
               (fnsp && grade === 'associateprofessor')
             )
