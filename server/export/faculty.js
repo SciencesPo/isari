@@ -15,6 +15,8 @@ const {
   getSimpleEnumValues,
   getNestedEnumValues} = require('../lib/enums');
 
+const NATIONALITIES = getSimpleEnumValues('nationalities')
+
 const hceres2017enums = {};
 getSimpleEnumValues('hceres2017').forEach(e => {
   hceres2017enums[e.value] = e.label.fr;
@@ -198,6 +200,13 @@ const SHEETS = [
                 info.birthDate = formatDate(person.birthDate);
               }
               
+
+              if (person.nationalities && person.nationalities.length > 0) {
+                info.nationalities = person.nationalities.map(n => 
+                 NATIONALITIES.find(en => en.value === n).label.fr
+                ).join(', ');
+              }        
+
               if (person.grades){
                   grade = _.sortBy(
                             person.grades.filter(p =>
@@ -207,8 +216,10 @@ const SHEETS = [
                             [p => p.endDate || p.startDate])
                             .reverse()[0]
                   if (grade){
-                    info.status = getSimpleEnumValues('gradeStatus').find(g => g.value === grade.gradeStatus).label.fr
-                    info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+                    if(grade.gradeStatus)
+                      info.status = getSimpleEnumValues('gradeStatus').find(g => g.value === grade.gradeStatus).label.fr
+                    if(grade.grade && grade.gradeStatus)
+                      info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
                   
                   }
               }
