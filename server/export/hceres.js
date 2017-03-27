@@ -754,6 +754,7 @@ const SHEETS = [
                 person.academicMemberships
                   .some(m => 
                     '' + m.organization === centerId &&
+                    ['membre', 'rattaché'].includes(m.membershipType) &&
                     overlap(grade, m)    
                     ) 
               );
