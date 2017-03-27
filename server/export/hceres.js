@@ -728,64 +728,51 @@ const SHEETS = [
           return callback(err);
         const {people, activities} = data;
 
-        // Tagging relevant memberships
-        people.forEach(person => {
-          const membership = person.academicMemberships
-            .find(m => '' + m.organization === centerId);
-
-          person.relevantMembership = membership;
-        });
+        const HCERES_PERIOD = {startDate:'2012-01-01', endDate:'2017-06-30'};
 
         // Finding postdocs
-        const postDocs = people
-        .filter(person => {
-
-          return (
-            person.grades &&
-            person.grades.length &&
-            person.grades.some(grade => {
-              return (
+        const postDocs = _.sortBy(people
+        .map(person => {
+          const relevantGrades = person.grades.filter(grade => {
+            return (
                 !!grade.startDate &&
                 grade.grade === 'postdoc' &&
-                overlap(grade, person.relevantMembership)
+                overlap(grade,HCERES_PERIOD) &&
+                person.academicMemberships
+                  .some(m => 
+                    '' + m.organization === centerId &&
+                    overlap(grade, m)    
+                    ) 
               );
-            })
-          );
-        })
-        .map(person => {
-          const relevantGrade = person.grades.find(grade => {
-            return (
-              !!grade.startDate &&
-              overlap(grade, person.relevantMembership)
-            );
           });
+          if (relevantGrades && relevantGrades.length > 0){
+            //select most recent postdoc if many
+            const relevantGrade = _.sortBy(relevantGrades,g => g.endDate || Infinity).reverse()[0];
+            return {
+              name: person.name.toUpperCase(),
+              firstName: person.firstName,
+              birthDate: formatDate(person.birthDate),
+              gender: GENDER_MAP[person.gender],
+              startDate: formatDate(relevantGrade.startDate),
+              endDate: formatDate(relevantGrade.endDate),
+              status: 'post-doc'
+            };
+          }
+          else
+            return undefined
+        }).filter(p => p),
+        p => p.name+p.firstName);
 
-          return {
-            name: person.name.toUpperCase(),
-            firstName: person.firstName,
-            birthDate: formatDate(person.birthDate),
-            gender: GENDER_MAP[person.gender],
-            startDate: formatDate(relevantGrade.startDate),
-            endDate: formatDate(relevantGrade.endDate),
-            status: 'post-doc'
-          };
-        });
-
-        const invited = activities
+        const invited = _.sortBy(activities
           .filter(activity => {
             const role = activity.organizations
               .find(org => '' + org.organization === centerId)
               .role;
 
-            const endDate = activity.endDate && parseDate(activity.endDate);
-
             return (
               activity.activityType === 'mob_entrante' &&
               role === 'orgadaccueil' &&
-              (
-                !endDate ||
-                endDate.isSameOrAfter('2012-01-01')
-              )
+              overlap(activity, HCERES_PERIOD)
             );
           })
           .map(activity => {
@@ -806,7 +793,9 @@ const SHEETS = [
 
             return info;
           })
-          .filter(i => i);
+          .filter(i => i),
+          i => i.name+i.firstName
+          );
         return callback(null, postDocs.concat(invited));
       });
     }
