@@ -29,6 +29,7 @@ const {
 
 //const GRADES_INDEX = require('../../specs/export/grades.json');
 const GRADES_INDEX = require('../../specs/export/grades2gradesHCERES.json');
+const PHD_GRANT_INDEX = require('../../specs/export/docoratGrantInstrument2HCERES.json');
 
 const PERMANENT = 'permanent';
 const TEMPORARY = 'temporary';
@@ -57,6 +58,7 @@ const GENDER_MAP = {
 const FILENAME = 'hceres.xlsx';
 
 const HCERES_DATE = '2017-06-30';
+const HCERES_PERIOD = {startDate:'2012-01-01', endDate:'2017-06-30'};
 
 /**
  * Helpers.
@@ -645,11 +647,21 @@ const SHEETS = [
 
         results
         //Liste des docteurs ayant soutenu depuis le 1/01/2012 et des doctorants présents dans l’unité au 30 juin 2017
-        .filter(r => !r.endDate || parseDate(r.endDate) >= moment('2012-01-01'))
+        .filter(r => overlap(r, HCERES_PERIOD))
         .forEach(result => {
           // get the PHD students from people
           const phdStudent = result.people.filter(p => p.role === 'doctorant(role)').map(p => p.people)[0];
           const directors = result.people.filter(p => p.role === 'directeur' || p.role === 'codirecteur').map(p => p.people);
+
+          let grant = ''
+          if (result.grants && result.grants.length > 0){
+            grant = result.grants.map(g => {
+              if (g.grantType === "doctorat" && g.grantInstrument in PHD_GRANT_INDEX)
+                return PHD_GRANT_INDEX[g.grantInstrument].HCERES_code;
+              else 
+                return undefined;
+            }).filter(g => g).join(', ');
+          }
 
           const info = {
             name: phdStudent.name,
@@ -659,8 +671,9 @@ const SHEETS = [
             //organization
             director: directors ? directors.map(d => `${d.name.toUpperCase()} ${_(d.firstName).capitalize()}`).join(',') : '',
             startDate: formatDate(result.startDate),
-            endDate: formatDate(result.endDate)
+            endDate: formatDate(result.endDate),
             //grant
+            grant: grant
           };
           if (phdStudent.distinctions) {
             const masterAndOthers = _.sortBy(phdStudent
@@ -728,7 +741,7 @@ const SHEETS = [
           return callback(err);
         const {people, activities} = data;
 
-        const HCERES_PERIOD = {startDate:'2012-01-01', endDate:'2017-06-30'};
+       
 
         // Finding postdocs
         const postDocs = _.sortBy(people
