@@ -29,7 +29,7 @@ const {
 
 //const GRADES_INDEX = require('../../specs/export/grades.json');
 const GRADES_INDEX = require('../../specs/export/grades2gradesHCERES.json');
-const PHD_GRANT_INDEX = require('../../specs/export/docoratGrantInstrument2HCERES.json');
+const PHD_GRANT_INDEX = require('../../specs/export/doctoratGrantInstrument2HCERES.json');
 
 const PERMANENT = 'permanent';
 const TEMPORARY = 'temporary';
