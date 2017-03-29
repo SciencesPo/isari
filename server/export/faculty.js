@@ -45,7 +45,7 @@ const GENDER_MAP = {
 /**
  * Constants.
  */
-const FILENAME = 'faculté_permanente.xlsx';
+
 
 
 /**
@@ -127,6 +127,19 @@ const SHEETS = [
                  ).reverse();
       };
 
+      const mongoEndDateQuery = { $or: [ 
+                { endDate: { $exists: false }},
+                { $and: [{ endDate: {$regex: /^.{4}$/}},{ endDate: {$gte:start.slice(0,4)}}]},
+                { $and: [{ endDate: {$regex: /^.{7}$/}},{ endDate: {$gte:start.slice(0,7)}}]},
+                { $and: [{ endDate: {$regex: /^.{10}$/}},{ endDate: {$gte:start.slice(0,10)}}]}
+                ] }
+        const mongoStartDateQuery = { $or: [ 
+                { startDate: { $exists: false }},
+                { $and: [{ startDate: {$regex: /^.{4}$/}},{ startDate: {$lte:end.slice(0,4)}}]},
+                { $and: [{ startDate: {$regex: /^.{7}$/}},{ startDate: {$lte:end.slice(0,7)}}]},
+                { $and: [{ startDate: {$regex: /^.{10}$/}},{ startDate: {$lte:end.slice(0,10)}}]}
+                ] }
+
 
       async.waterfall([
         next => {
@@ -156,14 +169,8 @@ const SHEETS = [
                   $and:[
                     orgFilter,
                     {membershipType:{$in:['membre', 'rattaché']}},
-                    {$or: [
-                        {endDate:{$gte: start}},
-                        {endDate:{$exists: false }}
-                    ]},
-                    {$or: [
-                        {startDate:{$lte: end}},
-                        {startDate:{$exists: false }}
-                    ]}
+                    mongoStartDateQuery,
+                    mongoEndDateQuery
                   ]
                 }
               }},
@@ -171,14 +178,8 @@ const SHEETS = [
                 $elemMatch: {
                   $and:[
                     {gradeStatus: { $not:{$in: ['appuiadministratif','appuitechnique']} }},
-                    {$or: [
-                          {endDate:{$gte: start}},
-                          {endDate:{$exists: false }}
-                      ]},
-                      {$or: [
-                          {startDate:{$lte: end}},
-                          {startDate:{$exists: false }}
-                      ]}
+                    mongoStartDateQuery,
+                    mongoEndDateQuery
                   ]
                 }
               }}
@@ -344,51 +345,74 @@ const SHEETS = [
  * Process.
  */
 module.exports = function(models, centerId, range, callback) {
-  const workbook = createWorkbook(FILENAME);
 
-  // TODO: check existence of center before!
-  async.eachSeries(SHEETS, (sheet, next) => {
+  const filename = (orgaName,range) => `effectifs_${orgaName}${_(range).values().value().join('-')}.xlsx`
 
-    // Custom sheet
-    if (sheet.custom)
-      return sheet.custom(models, centerId, range, (err, sheetData) => {
+  async.waterfall([next=>{
+    if (centerId){
+      models.Organization.find({_id:ObjectId(centerId)}).then(data =>{
+        if (data.length > 0){
+          const orgaName = data[0].name
+          next(null, createWorkbook(filename(orgaName,range)))
+        }
+        else
+          throw new Error('centerId unknown')
+      })
+    }
+    else{
+      next(null,createWorkbook(filename('SciencesPo',range)))
+    }
+  },
+  (workbook,next) => {
+      console.log(workbook)
+      console.log(SHEETS)
+      async.eachSeries(SHEETS, (sheet, nextInSeries) => {
+        console.log(sheet.name)
+        // Custom sheet
+        if (sheet.custom)
+          return sheet.custom(models, centerId, range, (err, sheetData) => {
+            if (err)
+              return nextInSeries(err);
+
+            for (const k in sheetData) {
+              if (k !== '!ref')
+                sheetData[k] = {
+                  v: sheetData[k],
+                  t: typeof sheetData[k] === 'number' ? 'n' : 's'
+                };
+            }
+
+            addSheetToWorkbook(
+              workbook,
+              sheetData,
+              sheet.name
+            );
+
+            return nextInSeries();
+          });
+
+        // Classical sheet with headers
+        return sheet.populate(models, centerId, range, (err, collection) => {
+          if (err){
+            return nextInSeries(err);
+          }
+
+          addSheetToWorkbook(
+            workbook,
+            createSheet(sheet.headers, collection),
+            sheet.name
+          );
+
+          return nextInSeries();
+        });
+      }, err => {
         if (err)
           return next(err);
-
-        for (const k in sheetData) {
-          if (k !== '!ref')
-            sheetData[k] = {
-              v: sheetData[k],
-              t: typeof sheetData[k] === 'number' ? 'n' : 's'
-            };
-        }
-
-        addSheetToWorkbook(
-          workbook,
-          sheetData,
-          sheet.name
-        );
-
-        return next();
+        return next(null, workbook);
       });
-
-    // Classical sheet with headers
-    return sheet.populate(models, centerId, range, (err, collection) => {
+  }], (err,workbook) => {
       if (err)
-        return next(err);
-
-      addSheetToWorkbook(
-        workbook,
-        createSheet(sheet.headers, collection),
-        sheet.name
-      );
-
-      return next();
+        return callback(err);
+      return callback(null, workbook);
     });
-  }, err => {
-    if (err)
-      return callback(err);
-
-    return callback(null, workbook);
-  });
 };
