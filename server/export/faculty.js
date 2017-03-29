@@ -88,6 +88,7 @@ const SHEETS = [
       {key: 'nationalities', label: 'Nationalité.s'},
       {key: 'emails', label: 'Email.s'},
       {key: 'lab1', label: 'Laboratoire de rattachement 1 dernier connu sur la période'},
+      {key: 'lab1Type', label: 'Affiliation laboratoire de rattachement 1'},
       {key: 'lab2', label: 'Laboratoire de rattachement 2 avant-dernier connu sur la période'},
       {key: 'dept1', label: 'Département de rattachement actuel 1'},
       {key: 'dept2', label: 'Département de rattachement actuel 2'},
@@ -220,13 +221,25 @@ const SHEETS = [
 
 
               const labos = findAndSortRelevantItems(person.academicMemberships);
-              info.lab1 = labos.length > 0 ? labos[0].organization.acronym || labos[0].organization.name : '';
-              info.lab2 = labos.length > 1 ? labos[1].organization.acronym || labos[1].organization.name : '';
-
+              if (labos.length > 0){
+                info.lab1 = labos[0].organization.acronym || labos[0].organization.name;
+                info.lab1Type = simpleEnumValue('academicMembershipType',labos[0].membershipType);
+              }
+              if (labos.length > 1 
+                && overlap(labos[0],labos[1])
+                && labos[0].organization._id !== labos[1].organization._id){
+                info.lab2 =  labos[1].organization ? labos[1].organization.acronym || labos[1].organization.name : '';
+              }
               if (person.deptMemberships && person.deptMemberships.length>0){
                 const departements = findAndSortRelevantItems(person.deptMemberships);
                 info.dept1 = departements.length > 0 ? simpleEnumValue('teachingDepartements',departements[0].departement) : '';
-                info.dept2 = departements.length > 1 ? simpleEnumValue('teachingDepartements',departements[1].departement)  : '';
+                
+                if( departements.length > 1 && 
+                  overlap(departements[0],departements[1]) &&
+                  departements[0].departement !== departements[1].departement){
+                  
+                  info.dept2 = simpleEnumValue('teachingDepartements',departements[1].departement);
+                }
               }
 
               if (person.positions && person.positions.length > 0){
