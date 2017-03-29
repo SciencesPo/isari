@@ -29,6 +29,7 @@ const {
 
 //const GRADES_INDEX = require('../../specs/export/grades.json');
 const GRADES_INDEX = require('../../specs/export/grades2gradesHCERES.json');
+const PHD_GRANT_INDEX = require('../../specs/export/doctoratGrantInstrument2HCERES.json');
 
 const PERMANENT = 'permanent';
 const TEMPORARY = 'temporary';
@@ -57,6 +58,7 @@ const GENDER_MAP = {
 const FILENAME = 'hceres.xlsx';
 
 const HCERES_DATE = '2017-06-30';
+const HCERES_PERIOD = {startDate:'2012-01-01', endDate:'2017-06-30'};
 
 /**
  * Helpers.
@@ -645,11 +647,21 @@ const SHEETS = [
 
         results
         //Liste des docteurs ayant soutenu depuis le 1/01/2012 et des doctorants présents dans l’unité au 30 juin 2017
-        .filter(r => !r.endDate || parseDate(r.endDate) >= moment('2012-01-01'))
+        .filter(r => overlap(r, HCERES_PERIOD))
         .forEach(result => {
           // get the PHD students from people
           const phdStudent = result.people.filter(p => p.role === 'doctorant(role)').map(p => p.people)[0];
           const directors = result.people.filter(p => p.role === 'directeur' || p.role === 'codirecteur').map(p => p.people);
+
+          let grant = ''
+          if (result.grants && result.grants.length > 0){
+            grant = result.grants.map(g => {
+              if (g.grantType === "doctorat" && g.grantInstrument in PHD_GRANT_INDEX)
+                return PHD_GRANT_INDEX[g.grantInstrument].HCERES_code;
+              else 
+                return undefined;
+            }).filter(g => g).join(', ');
+          }
 
           const info = {
             name: phdStudent.name,
@@ -659,8 +671,9 @@ const SHEETS = [
             //organization
             director: directors ? directors.map(d => `${d.name.toUpperCase()} ${_(d.firstName).capitalize()}`).join(',') : '',
             startDate: formatDate(result.startDate),
-            endDate: formatDate(result.endDate)
+            endDate: formatDate(result.endDate),
             //grant
+            grant: grant
           };
           if (phdStudent.distinctions) {
             const masterAndOthers = _.sortBy(phdStudent
@@ -728,64 +741,52 @@ const SHEETS = [
           return callback(err);
         const {people, activities} = data;
 
-        // Tagging relevant memberships
-        people.forEach(person => {
-          const membership = person.academicMemberships
-            .find(m => '' + m.organization === centerId);
-
-          person.relevantMembership = membership;
-        });
+       
 
         // Finding postdocs
-        const postDocs = people
-        .filter(person => {
-
-          return (
-            person.grades &&
-            person.grades.length &&
-            person.grades.some(grade => {
-              return (
+        const postDocs = _.sortBy(people
+        .map(person => {
+          const relevantGrades = person.grades.filter(grade => {
+            return (
                 !!grade.startDate &&
                 grade.grade === 'postdoc' &&
-                overlap(grade, person.relevantMembership)
+                overlap(grade,HCERES_PERIOD) &&
+                person.academicMemberships
+                  .some(m => 
+                    '' + m.organization === centerId &&
+                    ['membre', 'rattaché'].includes(m.membershipType) &&
+                    overlap(grade, m)    
+                    ) 
               );
-            })
-          );
-        })
-        .map(person => {
-          const relevantGrade = person.grades.find(grade => {
-            return (
-              !!grade.startDate &&
-              overlap(grade, person.relevantMembership)
-            );
           });
+          if (relevantGrades && relevantGrades.length > 0){
+            //select most recent postdoc if many
+            const relevantGrade = _.sortBy(relevantGrades,g => g.endDate || Infinity).reverse()[0];
+            return {
+              name: person.name.toUpperCase(),
+              firstName: person.firstName,
+              birthDate: formatDate(person.birthDate),
+              gender: GENDER_MAP[person.gender],
+              startDate: formatDate(relevantGrade.startDate),
+              endDate: formatDate(relevantGrade.endDate),
+              status: 'post-doc'
+            };
+          }
+          else
+            return undefined
+        }).filter(p => p),
+        p => p.name+p.firstName);
 
-          return {
-            name: person.name.toUpperCase(),
-            firstName: person.firstName,
-            birthDate: formatDate(person.birthDate),
-            gender: GENDER_MAP[person.gender],
-            startDate: formatDate(relevantGrade.startDate),
-            endDate: formatDate(relevantGrade.endDate),
-            status: 'post-doc'
-          };
-        });
-
-        const invited = activities
+        const invited = _.sortBy(activities
           .filter(activity => {
             const role = activity.organizations
               .find(org => '' + org.organization === centerId)
               .role;
 
-            const endDate = activity.endDate && parseDate(activity.endDate);
-
             return (
               activity.activityType === 'mob_entrante' &&
               role === 'orgadaccueil' &&
-              (
-                !endDate ||
-                endDate.isSameOrAfter('2012-01-01')
-              )
+              overlap(activity, HCERES_PERIOD)
             );
           })
           .map(activity => {
@@ -806,7 +807,9 @@ const SHEETS = [
 
             return info;
           })
-          .filter(i => i);
+          .filter(i => i),
+          i => i.name+i.firstName
+          );
         return callback(null, postDocs.concat(invited));
       });
     }

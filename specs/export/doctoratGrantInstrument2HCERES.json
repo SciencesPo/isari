@@ -1,0 +1,82 @@
+{
+    "Ancienne alloc. recherche MESR": {
+        "STVSOFF_CODE": "T001",
+        "HCERES_code": "AM",
+        "HCERES_lab": "Allocataire-moniteur (avant décret 2009)"
+    },
+    "Associations et fondations": {
+        "STVSOFF_CODE": "T002",
+        "HCERES_code": "ASSOC",
+        "HCERES_lab": "Bourse association"
+    },
+    "Autre allocation": {
+        "STVSOFF_CODE": "T003",
+        "HCERES_code": "AUTRE",
+        "HCERES_lab": "Autre financement"
+    },
+    "Bourse doctorale FNSP": {
+        "STVSOFF_CODE": "T004",
+        "HCERES_code": "FNSP",
+        "HCERES_lab": "Bourse doctorale FNSP (spécifique FNSP)"
+    },
+    "Bourse gouv. français/étranger": {
+        "STVSOFF_CODE": "T005",
+        "HCERES_code": "ETR",
+        "HCERES_lab": "Bourse pour étudiant étranger"
+    },
+    "CIFRE": {
+        "STVSOFF_CODE": "T006",
+        "HCERES_code": "CIFRE",
+        "HCERES_lab": "Convention industrielle de formation par la recherche"
+    },
+    "Contrat doct. autre ministère": {
+        "STVSOFF_CODE": "T007",
+        "HCERES_code": "CD",
+        "HCERES_lab": "Contrat doctoral uniquement recherche"
+    },
+    "Contrat doct. financé par rég.": {
+        "STVSOFF_CODE": "T008",
+        "HCERES_code": "CD",
+        "HCERES_lab": "Contrat doctoral uniquement recherche"
+    },
+    "Contrat doct. MESR hors ScPo": {
+        "STVSOFF_CODE": "T009",
+        "HCERES_code": "CD",
+        "HCERES_lab": "Contrat doctoral uniquement recherche"
+    },
+    "Contrat doct. MESR ScPo": {
+        "STVSOFF_CODE": "T010",
+        "HCERES_code": "CDE",
+        "HCERES_lab": "Contrat doctoral avec activités complémentaires (e.g. enseignement)"
+    },
+    "Entreprise - Hors CIFRE": {
+        "STVSOFF_CODE": "T011",
+        "HCERES_code": "INDUSTR",
+        "HCERES_lab": "Bourse industrie"
+    },
+    "Organismes de recherche": {
+        "STVSOFF_CODE": "T013",
+        "HCERES_code": "CTO",
+        "HCERES_lab": "Contrat de thèse d'autres organismes"
+    },
+    "Université étrangère": {
+        "STVSOFF_CODE": "T014",
+        "HCERES_code": "ETR",
+        "HCERES_lab": "Bourse pour étudiant étranger"
+    },
+    "SANS FINANCEMENT": {
+        "STVSOFF_CODE": "T015",
+        "HCERES_code": "AUCUN",
+        "HCERES_lab": "Aucun financement"
+    },
+    "Salarié(e) secteur privé": {
+        "STVSOFF_CODE": "T016",
+        "HCERES_code": "AUTRE",
+        "HCERES_lab": "Autre financement"
+    },
+    "Salarié(e) secteur public": {
+        "STVSOFF_CODE": "T017",
+        "HCERES_code": "SECD",
+        "HCERES_lab": "Enseignant du second degré"
+    }
+}
