@@ -412,10 +412,8 @@ module.exports = function(models, centerId, range, callback) {
     }
   },
   (workbook,next) => {
-      console.log(workbook)
-      console.log(SHEETS)
       async.eachSeries(SHEETS, (sheet, nextInSeries) => {
-        console.log(sheet.name)
+
         // Custom sheet
         if (sheet.custom)
           return sheet.custom(models, centerId, range, (err, sheetData) => {
