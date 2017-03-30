@@ -43,14 +43,46 @@ const GENDER_MAP = {
 };
 
 /**
- * Constants.
- */
-
-
-
-/**
  * Helpers.
  */
+
+
+const outputDistinctions = (distinctions, distinctionSubtype) => {
+
+  let distinctionInfos = undefined
+  if (distinctions) {
+    const dists = _.sortBy(distinctions.filter(
+                                d => d.distinctionType === 'diplôme' &&
+                                     d.distinctionSubtype === distinctionSubtype)
+                          ,d => d.date)
+                  .reverse()
+    if (dists.length > 0) {
+      distinctionInfos = {};
+      distinctionInfos.date = dists.map(d => d.date).join(', ');  
+      distinctionInfos.countries = _(dists.map(d =>{
+              if (d.countries && d.countries.length > 0)
+                return d.countries.map(c => simpleEnumValue('countries',c));
+              if (d.organizations)
+                return _(d.organizations.filter(o => o.countries)
+                                        .map(o => 
+                                          o.countries.map(c => simpleEnumValue('countries',c))
+                                          )).flatten().value()
+            }))
+            .flatten()
+            .value()
+            .join(', ');
+
+      distinctionInfos.orgas = _(dists.filter(d => d.organizations).map(d => {
+        return d.organizations.map(o => o.acronym || o.name)
+      }))
+      .flatten()
+      .value()
+      .join(', ');
+    }
+  }
+  return distinctionInfos
+}
+
 function findAndSortRelevantItems(collection) {
   return _.sortBy(collection
              .filter(e => overlap(e,reportPeriod)),
@@ -98,10 +130,23 @@ const SHEETS = [
       {key: 'startTutelle', label: 'Date de début dernière tutelle'},
       {key: 'endTutelle', label: 'Date de fin derière tutelle'},
       {key: 'startDate', label: 'Date d\'entrée'},
+      {key: 'HDR', label: 'HDR'},      
+      {key: 'dateHDR', label: 'date HDR'},      
+      {key: 'orgasHDR', label: 'organisation HDR'},
+      {key: 'countriesHDR', label: 'pays HDR'},
+      {key: 'doctorat', label: 'Doctorat'},      
+      {key: 'dateDoctorat', label: 'date doctorat'},      
+      {key: 'orgasDoctorat', label: 'organisation doctorat'},
+      {key: 'countriesDoctorat', label: 'pays doctorat'},
       {key: 'bonuses', label: 'Primes sur la période'},
       {key: 'facultyMonitoring', label: 'Suivi faculté permanente'},
       {key: 'facultyMonitoringDate', label: 'Suivi faculté permanente Date'},
-      {key: 'facultyMonitoringComment', label: 'Suivi faculté permanente Commentaire'}
+      {key: 'facultyMonitoringComment', label: 'Suivi faculté permanente Commentaire'},
+      {key: 'bannerUid', label: 'id banner'},
+      {key: 'sirhMatricule', label: 'matricule DRH'},
+      {key: 'idSpire', label: 'id Spire'},
+      {key: 'CNRSMatricule', label: 'matricule CNRS'}
+
     ],
     populate(models, centerId, range, callback) {
       const People = models.People;
@@ -192,9 +237,13 @@ const SHEETS = [
           .populate({
             path: 'academicMemberships.organization',
           })
+          .populate({
+            path: 'distinctions.organizations',
+          })
           .then(people => {
+            
             //-- 2) Retrieving necessary data
-            facultyMember = _(people).map(person => {
+            let facultyMember = _(people).map(person => {
 
               const info = {
                 name: person.name,
@@ -251,14 +300,11 @@ const SHEETS = [
                 }
               }
 
-              const startDates = person.academicMemberships
-                  .filter(am => am.organization.isariMonitored)
-                  .map(am => am.startDate)
-                  .concat(person.positions
-                    .filter(p => p.organization.acronym &&
+              const startDates = person.positions
+                    .filter(p => p.organization && p.organization.acronym &&
                                  ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym))
                     .map(p => p.startDate)
-                  ).sort()
+                    .sort()
               if (startDates && startDates.length > 0)
                 info.startDate = startDates[0]
 
@@ -286,7 +332,7 @@ const SHEETS = [
                   }).join(", ")
               }
 
-              if (person.facultyMonitoring && person.facultyMonitoring.length > 0){
+              if (person.facultyMonitoring && person.facultyMonitoring.length > 0) {
                 const fms = findAndSortRelevantItems(person.facultyMonitoring);
                 if (fms && fms.length > 0){
                   const fm = fms[0];
@@ -296,44 +342,32 @@ const SHEETS = [
                 }
               }
 
+              const HDR = outputDistinctions(person.distinctions, "hdr")
+              if (HDR) {
+                info.HDR = "oui";
+                info.dateHDR = HDR.date;
+                info.orgasHDR = HDR.orgas;
+                info.countriesHDR = HDR.countries;
+              }
+
+              const doctorat = outputDistinctions(person.distinctions, "doctorat")
+              if (doctorat) {
+                info.doctorat = "oui";
+                info.dateDoctorat = doctorat.date;
+                info.orgasDoctorat = doctorat.orgas;
+                info.countriesDoctorat = doctorat.countries;
+              }
 
               if (person.ORCID)
                 info.orcid = person.ORCID;
-
-              // if (person.positions) {
-              //   if (person.positions.map(p => p.organization).find(t => t.acronym === 'CNRS')) {
-              //     info.organization = 'CNRS';
-              //     info.uai = '0753639Y';
-              //   }
-              //   else {
-              //     info.organization = 'IEP Paris';
-              //     info.uai = '0753431X';
-              //   }
-              // }
-
-              // // date d'arrivé
-              // info.startDate = formatDate(findRelevantItem(person.academicMemberships).startDate);
-
-              // const grade = findRelevantItem(person.grades);
-
-              // if (grade) {
-              //   if (GRADES_INDEX[grade.gradeStatus] && GRADES_INDEX[grade.gradeStatus][grade.grade]) {
-              //     info.jobType = GRADES_INDEX[grade.gradeStatus][grade.grade].type_emploiHCERES;
-              //     info.grade = GRADES_INDEX[grade.gradeStatus][grade.grade].gradeHCERES;
-              //   }
-              //   else {
-              //     // no grade DRH ?
-              //     info.jobType = '?? ' + grade.gradeStatus;
-              //     info.grade = '?? ' + grade.grade;
-              //   }
-              // }
-              // else
-              //   debug(`No grade found for ${person.name} ${person.firstName}`);
-
-              
-
-              // if (person.distinctions && person.distinctions.some(d => d.title === 'HDR'))
-              //   info.hdr = 'OUI';
+              if (person.sirhMatricule)
+                info.sirhMatricule = person.sirhMatricule;
+              if (person.bannerUid)
+                info.bannerUid = person.bannerUid;
+              if(person.idSpire)
+                info.idSpire = person.idSpire;
+              if (person.CNRSMatricule)
+                info.CNRSMatricule = CNRSMatricule
 
               return info;
             })
@@ -344,7 +378,8 @@ const SHEETS = [
             facultyMember = _.sortBy(facultyMember, p => `${p.name} - ${p.firstName}`);
 
             next(null, facultyMember);
-          });
+
+          })
       }], (err,p) =>{
         if (err) throw err;
         callback(null, p);
