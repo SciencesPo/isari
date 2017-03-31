@@ -9,8 +9,8 @@ const models = require('../lib/model')
 const XLSX_ROUTINES = {
 	hceres: {
 		fn: require('../export/hceres.js'),
-		args(query, next) {
-			return [models, query.id, next]
+		args(req, next) {
+			return [models, req.query.id, next]
 		},
 		check(query) {
 			if (!query.id)
@@ -21,8 +21,8 @@ const XLSX_ROUTINES = {
 	},
 	next: {
 		fn: require('../export/next.js'),
-		args(query, next) {
-			return [models, query.id, next]
+		args(req, next) {
+			return [models, req.query.id, next]
 		},
 		check(query) {
 			if (!query.id)
@@ -31,19 +31,20 @@ const XLSX_ROUTINES = {
 			return true
 		}
 	},
-	faculty: {
-		fn: require('../export/faculty.js'),
-		args(query, next) {
-			
-
+	staff: {
+		fn: require('../export/staff.js'),
+		args(req, next) {
+			//range
 			let range = []
-			if (query.start)
-				range.push(query.start)
-			if (query.end)
-				range.push(query.end)
+			if (req.query.start)
+				range.push(req.query.start)
+			if (req.query.end)
+				range.push(req.query.end)
 			range = range.sort()
-
-			return [models, query.id, range, next]
+			//role
+			const role = req.userCentralRole ?  'central_'+req.userCentralRole : req.userRoles[req.query.id]
+			
+			return [models, req.query.id, range, role, next]
 		},
 		check(query) {
 			return true
@@ -54,8 +55,8 @@ const XLSX_ROUTINES = {
 const HTML_ROUTINES = {
 	annex4: {
 		fn: require('../export/annex4.js'),
-		args(query, next) {
-			return [models, query.id, next]
+		args(req, next) {
+			return [models, req.query.id, next]
 		},
 		check(query) {
 			if (!query.id)
@@ -89,7 +90,7 @@ function sendHtmlExport(req, res) {
 			.status(400)
 			.send(ClientError({title: 'Invalid arguments.', status: 400}))
 
-	return routine.fn.apply(null, routine.args(query, (err, html) => {
+	return routine.fn.apply(null, routine.args(req, (err, html) => {
 		if (err)
 			return res.status(500).send(ServerError())
 
@@ -103,7 +104,7 @@ function sendXlsxExport(req, res) {
 	const routine = XLSX_ROUTINES[name]
 
 	//check rights to export the requested id.s
-	if ((!Object.keys(req.userRoles).includes(query.id) && query.id !== '' && !req.userCentralRole) ||
+	if ((req.userRoles && !Object.keys(req.userRoles).includes(query.id) && query.id !== '' && !req.userCentralRole) ||
 		(!req.userCentralRole && query.id === ''))
 		return res
 			.status(403)
@@ -119,7 +120,7 @@ function sendXlsxExport(req, res) {
 			.status(400)
 			.send(ClientError({title: 'Invalid arguments.', status: 400}))
 
-	return routine.fn.apply(null, routine.args(query, (err, workbook) => {
+	return routine.fn.apply(null, routine.args(req, (err, workbook) => {
 		if (err)
 			return res.status(500).send(ServerError())
 

@@ -60,17 +60,20 @@ const outputDistinctions = (distinctions, distinctionSubtype) => {
       distinctionInfos = {};
       distinctionInfos.date = dists.map(d => d.date).join(', ');  
       distinctionInfos.countries = _(dists.map(d =>{
+              let countries = []
               if (d.countries && d.countries.length > 0)
-                return d.countries.map(c => simpleEnumValue('countries',c));
+                countries = countries.concat(d.countries.map(c => simpleEnumValue('countries',c)));
               if (d.organizations)
-                return _(d.organizations.filter(o => o.countries)
+                countries = countries.concat(_(d.organizations.filter(o => o.countries)
                                         .map(o => 
                                           o.countries.map(c => simpleEnumValue('countries',c))
-                                          )).flatten().value()
+                                          )).flatten().value())
+
+              return countries
             }))
             .flatten()
             .value()
-            .join(', ');
+      distinctionInfos.countries = _.uniq(distinctionInfos.countries).join(', ');
 
       distinctionInfos.orgas = _(dists.filter(d => d.organizations).map(d => {
         return d.organizations.map(o => o.acronym || o.name)
@@ -138,17 +141,17 @@ const SHEETS = [
       {key: 'dateDoctorat', label: 'date doctorat'},      
       {key: 'orgasDoctorat', label: 'organisation doctorat'},
       {key: 'countriesDoctorat', label: 'pays doctorat'},
-      {key: 'bonuses', label: 'Primes sur la période'},
-      {key: 'facultyMonitoring', label: 'Suivi faculté permanente'},
-      {key: 'facultyMonitoringDate', label: 'Suivi faculté permanente Date'},
-      {key: 'facultyMonitoringComment', label: 'Suivi faculté permanente Commentaire'},
+      {key: 'bonuses', label: 'Primes sur la période', 'accessType': 'confidential'},
+      {key: 'facultyMonitoring', label: 'Suivi faculté permanente', 'accessType': 'confidential'},
+      {key: 'facultyMonitoringDate', label: 'Suivi faculté permanente Date', 'accessType': 'confidential'},
+      {key: 'facultyMonitoringComment', label: 'Suivi faculté permanente Commentaire', 'accessType': 'confidential'},
       {key: 'bannerUid', label: 'id banner'},
       {key: 'sirhMatricule', label: 'matricule DRH'},
       {key: 'idSpire', label: 'id Spire'},
       {key: 'CNRSMatricule', label: 'matricule CNRS'}
 
     ],
-    populate(models, centerId, range, callback) {
+    populate(models, centerId, range, role, callback) {
       const People = models.People;
       let facultyMember = []
 
@@ -322,23 +325,26 @@ const SHEETS = [
                   }
               }
 
-              if (person.bonuses && person.bonuses.length > 0){
-                info.bonuses = findAndSortRelevantItems(person.bonuses)
-                  .map(b => {
-                    const type = simpleEnumValue('bonusTypes',b.bonusType);
-                    const startYear = b.startDate ? b.startDate.slice(0,4):'';
-                    const endYear = b.endDate ? '-'+b.endDate.slice(0,4):'';
-                    return `${type} ${startYear}${endYear}` 
-                  }).join(", ")
-              }
+              if (['central_admin', 'central_reader', 'center_admin'].includes(role)) {
+                //protected fields
+                if (person.bonuses && person.bonuses.length > 0){
+                  info.bonuses = findAndSortRelevantItems(person.bonuses)
+                    .map(b => {
+                      const type = simpleEnumValue('bonusTypes',b.bonusType);
+                      const startYear = b.startDate ? b.startDate.slice(0,4):'';
+                      const endYear = b.endDate ? '-'+b.endDate.slice(0,4):'';
+                      return `${type} ${startYear}${endYear}` 
+                    }).join(", ")
+                }
 
-              if (person.facultyMonitoring && person.facultyMonitoring.length > 0) {
-                const fms = findAndSortRelevantItems(person.facultyMonitoring);
-                if (fms && fms.length > 0){
-                  const fm = fms[0];
-                  info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
-                  info.facultyMonitoringDate = fm.date ? fm.date : '';
-                  info.facultyMonitoringComment = fm.comments ? fm.comments : '';
+                if (person.facultyMonitoring && person.facultyMonitoring.length > 0) {
+                  const fms = findAndSortRelevantItems(person.facultyMonitoring);
+                  if (fms && fms.length > 0){
+                    const fm = fms[0];
+                    info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
+                    info.facultyMonitoringDate = fm.date ? fm.date : '';
+                    info.facultyMonitoringComment = fm.comments ? fm.comments : '';
+                  }
                 }
               }
 
@@ -392,7 +398,7 @@ const SHEETS = [
 /**
  * Process.
  */
-module.exports = function(models, centerId, range, callback) {
+module.exports = function(models, centerId, range, role, callback) {
 
   const filename = (orgaName,range) => `effectifs_${orgaName}${_(range).values().value().join('-')}.xlsx`
 
@@ -416,7 +422,7 @@ module.exports = function(models, centerId, range, callback) {
 
         // Custom sheet
         if (sheet.custom)
-          return sheet.custom(models, centerId, range, (err, sheetData) => {
+          return sheet.custom(models, centerId, range, role, (err, sheetData) => {
             if (err)
               return nextInSeries(err);
 
@@ -438,14 +444,19 @@ module.exports = function(models, centerId, range, callback) {
           });
 
         // Classical sheet with headers
-        return sheet.populate(models, centerId, range, (err, collection) => {
+        return sheet.populate(models, centerId, range, role, (err, collection) => {
           if (err){
             return nextInSeries(err);
+          }
+          //filter confidential headers
+          let headers = sheet.headers
+          if (!['central_admin', 'central_reader', 'center_admin'].includes(role)) {
+            headers = sheet.headers.filter(h => !h.accessType || h.accessType !== 'confidential')
           }
 
           addSheetToWorkbook(
             workbook,
-            createSheet(sheet.headers, collection),
+            createSheet(headers, collection),
             sheet.name
           );
 
