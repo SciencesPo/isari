@@ -373,7 +373,7 @@ const SHEETS = [
               if(person.idSpire)
                 info.idSpire = person.idSpire;
               if (person.CNRSMatricule)
-                info.CNRSMatricule = CNRSMatricule
+                info.CNRSMatricule = person.CNRSMatricule
 
               return info;
             })
