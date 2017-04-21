@@ -118,37 +118,38 @@ const SHEETS = [
       
       {key: 'name', label: 'Nom'},
       {key: 'firstName', label: 'Prénom'},
-      {key: 'birthDate', label: 'Date de naissance'},
+      {key: 'birthDate', label: 'Naissance'},
       {key: 'gender', label: 'Genre'},
-      {key: 'nationalities', label: 'Nationalité.s'},
-      {key: 'emails', label: 'Email.s'},
-      {key: 'lab1', label: 'Laboratoire de rattachement 1 dernier connu sur la période'},
-      {key: 'lab1Type', label: 'Affiliation laboratoire de rattachement 1'},
-      {key: 'lab2', label: 'Laboratoire de rattachement 2 avant-dernier connu sur la période'},
-      {key: 'dept1', label: 'Département de rattachement actuel 1'},
-      {key: 'dept2', label: 'Département de rattachement actuel 2'},
-      {key: 'status', label: 'Statut dernier connu sur la période'},
-      {key: 'grade', label: 'Grade  dernier connu sur la période'},
-      {key: 'tutelle', label: 'Tutelle dernière connue'},
+      {key: 'nationalities', label: 'Nationalité.s'},  
+      {key: 'lab1', label: 'Labo 1'},
+      {key: 'lab1Type', label: 'Affil. labo 1'},
+      {key: 'lab2', label: 'Labo 2'},
+      {key: 'dept1', label: 'Dpt 1'},
+      {key: 'dept2', label: 'Dpt 2'},
+      {key: 'status', label: 'Statut'},
+      {key: 'grade', label: 'Grade'},
+      {key: 'tutelle', label: 'Tutelle'},
       {key: 'startTutelle', label: 'Date de début dernière tutelle'},
       {key: 'endTutelle', label: 'Date de fin derière tutelle'},
       {key: 'startDate', label: 'Date d\'entrée'},
+      {key: 'doctorat', label: 'PHD'},      
+      {key: 'dateDoctorat', label: 'date PHD'},      
+      {key: 'orgasDoctorat', label: 'orga. PHD'},
+      {key: 'countriesDoctorat', label: 'pays PHD'},
       {key: 'HDR', label: 'HDR'},      
       {key: 'dateHDR', label: 'date HDR'},      
-      {key: 'orgasHDR', label: 'organisation HDR'},
+      {key: 'orgasHDR', label: 'orga. HDR'},
       {key: 'countriesHDR', label: 'pays HDR'},
-      {key: 'doctorat', label: 'Doctorat'},      
-      {key: 'dateDoctorat', label: 'date doctorat'},      
-      {key: 'orgasDoctorat', label: 'organisation doctorat'},
-      {key: 'countriesDoctorat', label: 'pays doctorat'},
-      {key: 'bonuses', label: 'Primes sur la période', 'accessType': 'confidential'},
-      {key: 'facultyMonitoring', label: 'Suivi faculté permanente', 'accessType': 'confidential'},
-      {key: 'facultyMonitoringDate', label: 'Suivi faculté permanente Date', 'accessType': 'confidential'},
-      {key: 'facultyMonitoringComment', label: 'Suivi faculté permanente Commentaire', 'accessType': 'confidential'},
-      {key: 'bannerUid', label: 'id banner'},
-      {key: 'sirhMatricule', label: 'matricule DRH'},
-      {key: 'idSpire', label: 'id Spire'},
-      {key: 'CNRSMatricule', label: 'matricule CNRS'}
+      {key: 'bonuses', label: 'Prime.s', 'accessType': 'confidential'},
+      {key: 'facultyMonitoring', label: 'Suivi F.P.', 'accessType': 'confidential'},
+      {key: 'facultyMonitoringDate', label: 'Suivi F.P. Date', 'accessType': 'confidential'},
+      {key: 'facultyMonitoringComment', label: 'Suivi F.P. détails', 'accessType': 'confidential'},
+      {key: 'emails', label: 'Email.s'},
+      {key: 'bannerUid', label: 'ID banner'},
+      {key: 'sirhMatricule', label: 'ID DRH'},
+      {key: 'idSpire', label: 'ID Spire'},
+      {key: 'CNRSMatricule', label: 'ID CNRS'},
+      {key: 'orcid', label: 'ORCID'}
 
     ],
     populate(models, centerId, range, role, callback) {
@@ -255,7 +256,7 @@ const SHEETS = [
               };
 
               if (person.birthDate) {
-                info.birthDate = formatDate(person.birthDate);
+                info.birthDate = person.birthDate;
               }
               
 
@@ -295,7 +296,8 @@ const SHEETS = [
               }
 
               if (person.positions && person.positions.length > 0){
-                const positions = findAndSortRelevantItems(person.positions);
+                const positions = findAndSortRelevantItems(person.positions.filter(p => p.organization && p.organization.acronym &&
+                                 ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym)));
                 if (positions && positions.length > 0 && positions[0].organization){
                   info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
                   info.startTutelle = positions[0].startDate;
@@ -348,21 +350,25 @@ const SHEETS = [
                 }
               }
 
-              const HDR = outputDistinctions(person.distinctions, "hdr")
+              const HDR = outputDistinctions(person.distinctions, 'hdr')
               if (HDR) {
-                info.HDR = "oui";
+                info.HDR = 'oui';
                 info.dateHDR = HDR.date;
                 info.orgasHDR = HDR.orgas;
                 info.countriesHDR = HDR.countries;
               }
+              else
+                info.HDR = 'non';
 
-              const doctorat = outputDistinctions(person.distinctions, "doctorat")
+              const doctorat = outputDistinctions(person.distinctions, 'doctorat')
               if (doctorat) {
-                info.doctorat = "oui";
+                info.doctorat = 'oui';
                 info.dateDoctorat = doctorat.date;
                 info.orgasDoctorat = doctorat.orgas;
                 info.countriesDoctorat = doctorat.countries;
               }
+              else
+                info.doctorat = 'non';
 
               if (person.ORCID)
                 info.orcid = person.ORCID;
