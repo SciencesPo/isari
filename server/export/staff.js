@@ -16,7 +16,7 @@ const {
   getNestedEnumValues} = require('../lib/enums');
 
 const NATIONALITIES = getSimpleEnumValues('nationalities')
-
+const GRADE_STATUS = require('../../specs/enums.nested.json').grade
 
 
 const simpleEnumValue = (enumName, value) =>{
@@ -105,12 +105,8 @@ function formatDate(date) {
 /**
  * Sheets definitions.
  */
-const SHEETS = [
-  {
-    id: 'staff',
-    name: 'faculté permanente',
-    headers: [
-      
+const FACULTY_SHEET_TEMPLATE ={
+  headers:[   
       {key: 'name', label: 'Nom'},
       {key: 'firstName', label: 'Prénom'},
       {key: 'birthDate', label: 'Naissance'},
@@ -145,9 +141,8 @@ const SHEETS = [
       {key: 'idSpire', label: 'ID Spire'},
       {key: 'CNRSMatricule', label: 'ID CNRS'},
       {key: 'orcid', label: 'ORCID'}
-
     ],
-    populate(models, centerId, range, role, callback) {
+  populate(models, centerId, range, gradeStatusBlacklist, role, callback) {
       const People = models.People;
       let facultyMember = []
 
@@ -178,13 +173,14 @@ const SHEETS = [
                 { $and: [{ endDate: {$regex: /^.{7}$/}},{ endDate: {$gte:start.slice(0,7)}}]},
                 { $and: [{ endDate: {$regex: /^.{10}$/}},{ endDate: {$gte:start.slice(0,10)}}]}
                 ] }
-        const mongoStartDateQuery = { $or: [ 
+      const mongoStartDateQuery = { $or: [ 
                 { startDate: { $exists: false }},
                 { $and: [{ startDate: {$regex: /^.{4}$/}},{ startDate: {$lte:end.slice(0,4)}}]},
                 { $and: [{ startDate: {$regex: /^.{7}$/}},{ startDate: {$lte:end.slice(0,7)}}]},
                 { $and: [{ startDate: {$regex: /^.{10}$/}},{ startDate: {$lte:end.slice(0,10)}}]}
                 ] }
-
+      const gradeStatusQuery = {gradeStatus: { $not:{$in: gradeStatusBlacklist.gradeStatus ? gradeStatusBlacklist.gradeStatus : []} }}
+      const gradeQuery = {grade: { $not:{$in: gradeStatusBlacklist.grade ? gradeStatusBlacklist.grade : []} }}
 
       async.waterfall([
         next => {
@@ -222,7 +218,8 @@ const SHEETS = [
               {grades: {
                 $elemMatch: {
                   $and:[
-                    {gradeStatus: { $not:{$in: ['appuiadministratif','appuitechnique']} }},
+                    gradeQuery,
+                    gradeStatusQuery,
                     mongoStartDateQuery,
                     mongoEndDateQuery
                   ]
@@ -243,6 +240,22 @@ const SHEETS = [
             
             //-- 2) Retrieving necessary data
             let facultyMember = _(people).map(person => {
+
+              const internalMemberships = findAndSortRelevantItems(person.academicMemberships
+                                                .filter(am =>
+                                                  ['membre', 'rattaché'].includes(am.membershipType) &&
+                                                  am.organization.isariMonitored
+                                                ));
+              const relevantGrades = findAndSortRelevantItems(person.grades).filter(p =>
+                              !gradeStatusBlacklist.gradeStatus.includes(p.gradeStatus) &&
+                              !gradeStatusBlacklist.grade.includes(p.grade) &&
+                              _.some(internalMemberships, im => overlap(p,im))
+                              )
+              // if no filtered grade matched an internal membership, discard
+              if (relevantGrades.length === 0){                
+                return undefined
+              }
+              
 
               //******** PERSONAL INFO
               const info = {
@@ -268,11 +281,11 @@ const SHEETS = [
               }
 
               //******** LAB AFFILIATION
-              const labos = findAndSortRelevantItems(person
-                                                      .academicMemberships
-                                                      .filter(am =>{
-                                                        return ['membre', 'rattaché'].includes(am.membershipType)
-                                                      }));
+              const labos = findAndSortRelevantItems(person.academicMemberships)
+                                    .filter(am =>
+                                            ['membre', 'rattaché'].includes(am.membershipType) &&
+                                            _.some(relevantGrades, rg => overlap(rg,am))
+                                    );
              
               if (labos.length > 0){
                 info.lab1 = labos[0].organization.acronym || labos[0].organization.name;
@@ -284,7 +297,8 @@ const SHEETS = [
                 info.lab2 =  labos[1].organization ? labos[1].organization.acronym || labos[1].organization.name : '';
               }
               if (person.deptMemberships && person.deptMemberships.length>0){
-                const departements = findAndSortRelevantItems(person.deptMemberships);
+                const departements = findAndSortRelevantItems(person.deptMemberships)
+                                        .filter(am => _.some(relevantGrades, rg => overlap(rg,am)));
                 info.dept1 = departements.length > 0 ? simpleEnumValue('teachingDepartements',departements[0].departement) : '';
                 
                 if( departements.length > 1 && 
@@ -297,8 +311,10 @@ const SHEETS = [
 
               //******** TUTELLE
               if (person.positions && person.positions.length > 0){
-                const positions = findAndSortRelevantItems(person.positions.filter(p => p.organization && p.organization.acronym &&
-                                 ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym)));
+                const positions = findAndSortRelevantItems(person.positions).filter(p =>
+                                        p.organization && p.organization.acronym &&
+                                        ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym) &&
+                                        _.some(relevantGrades, rg => overlap(rg,p)));
                 if (positions && positions.length > 0 && positions[0].organization){
                   info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
                   info.startTutelle = positions[0].startDate;
@@ -306,28 +322,23 @@ const SHEETS = [
                 }
               }
 
-              const startDates = person.positions
-                    .filter(p => p.organization && p.organization.acronym &&
-                                 ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym))
-                    .map(p => p.startDate)
-                    .sort()
-              if (startDates && startDates.length > 0)
-                info.startDate = startDates[0]
-
+              // const startDates = person.positions
+              //       .filter(p => p.organization && p.organization.acronym &&
+              //                    ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym))
+              //       .map(p => p.startDate)
+              //       .sort()
+              // if (startDates && startDates.length > 0)
+              //   info.startDate = startDates[0]
+              const relevantMemberships = internalMemberships.filter(im => _.some(relevantGrades, rg => overlap(rg,im)))
+              info.startDate = _.min(relevantMemberships.map(rg => rg.startDate))
 
               //******** GRADE & STATUS
-              if (person.grades){
-                  grade = findAndSortRelevantItems(person.grades).filter(p =>
-                              !['appuiadministratif','appuitechnique'].includes(p.gradeStatus) 
-                            )[0]
-                  if (grade){
-                    if(grade.gradeStatus)
-                      info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
-                    if(grade.grade && grade.gradeStatus)
-                      info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+              const grade = relevantGrades[0]
+              if(grade.gradeStatus)
+                info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
+              if(grade.grade && grade.gradeStatus)
+                info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
                   
-                  }
-              }
 
 
               //******** CONFIDENTIAL INFO
@@ -403,6 +414,48 @@ const SHEETS = [
         callback(null, p);
       } );
       
+    }
+}
+
+const TEMP_FACULTY_GRADES = ['directeurderechercheremerite','cherchcontractuel','postdoc','invité','CASSIST','doctorant(grade)','profémérite','profunivémérite','enseicherchcontractuel','ater']
+
+
+const SHEETS = [
+  {
+    id: 'permFaculty',
+    name: 'faculté permanente',
+    headers: FACULTY_SHEET_TEMPLATE.headers,
+    populate(models, centerId, range, role, callback){
+      gradeStatusBlacklist = {
+       gradeStatus: ['appuiadministratif','appuitechnique','enseignant'],
+       grade: TEMP_FACULTY_GRADES
+     }
+     return FACULTY_SHEET_TEMPLATE.populate(models, centerId, range, gradeStatusBlacklist, role, callback)
+    }
+  },
+  {
+    id: 'tempFaculty',
+    name: 'faculté temporaire',
+    headers: FACULTY_SHEET_TEMPLATE.headers,
+    populate(models, centerId, range, role, callback){
+
+      // find all grades not included in TEMP_FACULTY_GRADES
+      let permFacultyGrades = []
+      _.forEach(GRADE_STATUS,(grades,status) =>{
+        // don't need to test those status
+        if (!['appuiadministratif', 'appuitechnique', 'enseignant'].includes(status)){
+          _.forEach(grades, g => {
+            if (!TEMP_FACULTY_GRADES.includes(g.value))
+              permFacultyGrades.push(g.value)
+          });
+        }
+      })
+      console.log(permFacultyGrades)
+      gradeStatusBlacklist = {
+       gradeStatus: ['appuiadministratif','appuitechnique'],
+       grade: permFacultyGrades
+     }
+     return FACULTY_SHEET_TEMPLATE.populate(models, centerId, range, gradeStatusBlacklist, role, callback)
     }
   }
 ];
