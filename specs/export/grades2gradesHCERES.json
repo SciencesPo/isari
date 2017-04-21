@@ -101,12 +101,6 @@
       "type_emploiHCERES": "AP_tit"
     }
   },
-  "statut": {
-    "grade": {
-      "gradeHCERES": "gradeHCERES",
-      "type_emploiHCERES": "type_emploiHCERES"
-    }
-  },
   "chercheurenseignant": {
     "assistantprofessor": {
       "gradeHCERES": "MCF",
