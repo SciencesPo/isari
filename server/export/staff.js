@@ -86,12 +86,7 @@ const outputDistinctions = (distinctions, distinctionSubtype) => {
   return distinctionInfos
 }
 
-function findAndSortRelevantItems(collection) {
-  return _.sortBy(collection
-             .filter(e => overlap(e,reportPeriod)),
-           [e => e.endDate ? e.endDate : Infinity]
-           ).reverse();
-}
+
 
 function formatDate(date) {
   if (date) {
@@ -173,7 +168,7 @@ const SHEETS = [
       const findAndSortRelevantItems = (collection) => {
         return _.sortBy(collection
                    .filter(e => overlap(e,reportPeriod)),
-                 [e => e.endDate ? e.endDate : Infinity]
+                 [e => e.endDate ? e.endDate : '9999']
                  ).reverse();
       };
 
@@ -249,6 +244,7 @@ const SHEETS = [
             //-- 2) Retrieving necessary data
             let facultyMember = _(people).map(person => {
 
+              //******** PERSONAL INFO
               const info = {
                 name: person.name,
                 firstName: person.firstName,
@@ -271,9 +267,13 @@ const SHEETS = [
                 info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
               }
 
-
-
-              const labos = findAndSortRelevantItems(person.academicMemberships);
+              //******** LAB AFFILIATION
+              const labos = findAndSortRelevantItems(person
+                                                      .academicMemberships
+                                                      .filter(am =>{
+                                                        return ['membre', 'rattaché'].includes(am.membershipType)
+                                                      }));
+             
               if (labos.length > 0){
                 info.lab1 = labos[0].organization.acronym || labos[0].organization.name;
                 info.lab1Type = simpleEnumValue('academicMembershipType',labos[0].membershipType);
@@ -295,6 +295,7 @@ const SHEETS = [
                 }
               }
 
+              //******** TUTELLE
               if (person.positions && person.positions.length > 0){
                 const positions = findAndSortRelevantItems(person.positions.filter(p => p.organization && p.organization.acronym &&
                                  ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym)));
@@ -314,6 +315,7 @@ const SHEETS = [
                 info.startDate = startDates[0]
 
 
+              //******** GRADE & STATUS
               if (person.grades){
                   grade = findAndSortRelevantItems(person.grades).filter(p =>
                               !['appuiadministratif','appuitechnique'].includes(p.gradeStatus) 
@@ -327,6 +329,8 @@ const SHEETS = [
                   }
               }
 
+
+              //******** CONFIDENTIAL INFO
               if (['central_admin', 'central_reader', 'center_admin'].includes(role)) {
                 //protected fields
                 if (person.bonuses && person.bonuses.length > 0){
@@ -350,6 +354,7 @@ const SHEETS = [
                 }
               }
 
+              //******** HDR & PHD
               const HDR = outputDistinctions(person.distinctions, 'hdr')
               if (HDR) {
                 info.HDR = 'oui';
@@ -370,6 +375,7 @@ const SHEETS = [
               else
                 info.doctorat = 'non';
 
+              //******** IDENTIFIERS
               if (person.ORCID)
                 info.orcid = person.ORCID;
               if (person.sirhMatricule)
