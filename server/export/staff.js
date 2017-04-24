@@ -119,10 +119,10 @@ const FACULTY_SHEET_TEMPLATE ={
       {key: 'dept2', label: 'Dpt 2'},
       {key: 'status', label: 'Statut'},
       {key: 'grade', label: 'Grade'},
-      {key: 'tutelle', label: 'Tutelle'},
-      {key: 'startTutelle', label: 'Date de début dernière tutelle'},
-      {key: 'endTutelle', label: 'Date de fin derière tutelle'},
+      {key: 'tutelle', label: 'Tutelle'},  
       {key: 'startDate', label: 'Date d\'entrée'},
+      {key: 'startTutelle', label: 'Début'},
+      {key: 'endTutelle', label: 'Fin'},
       {key: 'doctorat', label: 'PHD'},      
       {key: 'dateDoctorat', label: 'date PHD'},      
       {key: 'orgasDoctorat', label: 'orga. PHD'},
@@ -160,9 +160,10 @@ const FACULTY_SHEET_TEMPLATE ={
       start = fillIncompleteDate(start, true);
       end = fillIncompleteDate(end, false);
       const reportPeriod = {startDate:start, endDate:end}
-      const findAndSortRelevantItems = (collection) => {
+      const findAndSortRelevantItems = (collection, periods) => {
         return _.sortBy(collection
-                   .filter(e => overlap(e,reportPeriod)),
+                   .filter(e => overlap(e,reportPeriod) && 
+                                (!periods ? true : _.some(periods,p => overlap(e,p)))),
                  [e => e.endDate ? e.endDate : '9999']
                  ).reverse();
       };
@@ -241,22 +242,6 @@ const FACULTY_SHEET_TEMPLATE ={
             //-- 2) Retrieving necessary data
             let facultyMember = _(people).map(person => {
 
-              const internalMemberships = findAndSortRelevantItems(person.academicMemberships
-                                                .filter(am =>
-                                                  ['membre', 'rattaché'].includes(am.membershipType) &&
-                                                  am.organization.isariMonitored
-                                                ));
-              const relevantGrades = findAndSortRelevantItems(person.grades).filter(p =>
-                              !gradeStatusBlacklist.gradeStatus.includes(p.gradeStatus) &&
-                              !gradeStatusBlacklist.grade.includes(p.grade) &&
-                              _.some(internalMemberships, im => overlap(p,im))
-                              )
-              // if no filtered grade matched an internal membership, discard
-              if (relevantGrades.length === 0){                
-                return undefined
-              }
-              
-
               //******** PERSONAL INFO
               const info = {
                 name: person.name,
@@ -280,13 +265,61 @@ const FACULTY_SHEET_TEMPLATE ={
                 info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
               }
 
+              const internalMemberships = person.academicMemberships
+                                                .filter(am =>
+                                                  ['membre', 'rattaché'].includes(am.membershipType) &&
+                                                  am.organization.isariMonitored
+                                                );
+              let relevantGrades = person.grades.filter(p =>
+                              !gradeStatusBlacklist.gradeStatus.includes(p.gradeStatus) &&
+                              !gradeStatusBlacklist.grade.includes(p.grade));
+
+              // calculate intersection period between relevant grades and internalMemberships
+              let relevantPeriods = _(relevantGrades)
+                                        .map(grade =>{
+                                          return internalMemberships
+                                                .map(im => {
+                                                  if (overlap(grade,im)){
+                                                    const startDate = _.max([grade.startDate,im.startDate]);
+                                                    const endDate = _.min([grade.endDate,im.endDate]);
+                                                    let period = {}
+                                                    if (startDate)
+                                                      period.startDate = startDate
+                                                    if (endDate)
+                                                      period.endDate = endDate
+                                                    return period
+                                                  }
+                                                })
+                                                
+                                        })
+                                        .flatten()
+                                        .compact()
+                                        .value()
+
+              // store min starDate as date d'entrée
+              info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
+              // then filter in requested period
+              relevantPeriods = findAndSortRelevantItems(relevantPeriods)
+              relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
+              // store relevant periods boundaries 
+              info.startTutelle = _.min(relevantPeriods.map(rp => rp.startDate))
+              info.endTutelle = _.max(relevantPeriods.map(rp => rp.endDate))
+
+          
+              // if no filtered grade matched an internal membership, discard
+              if (relevantPeriods.length === 0){                
+                return undefined
+              }
+              
+
+              
+
               //******** LAB AFFILIATION
-              const labos = findAndSortRelevantItems(person.academicMemberships)
+              const labos = findAndSortRelevantItems(person.academicMemberships
                                     .filter(am =>
-                                            ['membre', 'rattaché'].includes(am.membershipType) &&
-                                            _.some(relevantGrades, rg => overlap(rg,am))
-                                    );
-             
+                                            ['membre', 'rattaché'].includes(am.membershipType)
+                                    ), relevantPeriods);
+
               if (labos.length > 0){
                 info.lab1 = labos[0].organization.acronym || labos[0].organization.name;
                 info.lab1Type = simpleEnumValue('academicMembershipType',labos[0].membershipType);
@@ -296,9 +329,11 @@ const FACULTY_SHEET_TEMPLATE ={
                 && labos[0].organization._id !== labos[1].organization._id){
                 info.lab2 =  labos[1].organization ? labos[1].organization.acronym || labos[1].organization.name : '';
               }
+
+              //********* DEPT AFFILIATION
+
               if (person.deptMemberships && person.deptMemberships.length>0){
-                const departements = findAndSortRelevantItems(person.deptMemberships)
-                                        .filter(am => _.some(relevantGrades, rg => overlap(rg,am)));
+                const departements = findAndSortRelevantItems(person.deptMemberships, relevantPeriods);
                 info.dept1 = departements.length > 0 ? simpleEnumValue('teachingDepartements',departements[0].departement) : '';
                 
                 if( departements.length > 1 && 
@@ -311,14 +346,13 @@ const FACULTY_SHEET_TEMPLATE ={
 
               //******** TUTELLE
               if (person.positions && person.positions.length > 0){
-                const positions = findAndSortRelevantItems(person.positions).filter(p =>
+                const positions = findAndSortRelevantItems(person.positions.filter(p =>
                                         p.organization && p.organization.acronym &&
-                                        ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym) &&
-                                        _.some(relevantGrades, rg => overlap(rg,p)));
+                                        ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym)), relevantPeriods);
                 if (positions && positions.length > 0 && positions[0].organization){
                   info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
-                  info.startTutelle = positions[0].startDate;
-                  info.endTutelle = positions[0].endDate;
+                  // info.startTutelle = positions[0].startDate;
+                  // info.endTutelle = positions[0].endDate;
                 }
               }
 
@@ -329,8 +363,6 @@ const FACULTY_SHEET_TEMPLATE ={
               //       .sort()
               // if (startDates && startDates.length > 0)
               //   info.startDate = startDates[0]
-              const relevantMemberships = internalMemberships.filter(im => _.some(relevantGrades, rg => overlap(rg,im)))
-              info.startDate = _.min(relevantMemberships.map(rg => rg.startDate))
 
               //******** GRADE & STATUS
               const grade = relevantGrades[0]
@@ -345,7 +377,7 @@ const FACULTY_SHEET_TEMPLATE ={
               if (['central_admin', 'central_reader', 'center_admin'].includes(role)) {
                 //protected fields
                 if (person.bonuses && person.bonuses.length > 0){
-                  info.bonuses = findAndSortRelevantItems(person.bonuses)
+                  info.bonuses = findAndSortRelevantItems(person.bonuses, relevantPeriods)
                     .map(b => {
                       const type = simpleEnumValue('bonusTypes',b.bonusType);
                       const startYear = b.startDate ? b.startDate.slice(0,4):'';
@@ -355,7 +387,7 @@ const FACULTY_SHEET_TEMPLATE ={
                 }
 
                 if (person.facultyMonitoring && person.facultyMonitoring.length > 0) {
-                  const fms = findAndSortRelevantItems(person.facultyMonitoring);
+                  const fms = findAndSortRelevantItems(person.facultyMonitoring, relevantPeriods);
                   if (fms && fms.length > 0){
                     const fm = fms[0];
                     info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
@@ -450,7 +482,6 @@ const SHEETS = [
           });
         }
       })
-      console.log(permFacultyGrades)
       gradeStatusBlacklist = {
        gradeStatus: ['appuiadministratif','appuitechnique'],
        grade: permFacultyGrades
