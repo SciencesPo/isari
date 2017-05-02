@@ -53,4 +53,4 @@ if [[ -n "$LDAP_SKIP" ]]; then
 	sed  -E -i '/^\[ldap\]$/,/^\[/ s/^skip\s*=.*/skip = '"$LDAP_SKIP"'/' $CONFIG_FILE
 fi
 
-exec node server
+exec su -l node -c "node server" -m -p 
