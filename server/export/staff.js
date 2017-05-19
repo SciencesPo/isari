@@ -163,8 +163,8 @@ const FACULTY_SHEET_TEMPLATE ={
         return _.sortBy(collection
                    .filter(e => overlap(e,reportPeriod) && 
                                 (!periods ? true : _.some(periods,p => overlap(e,p)))),
-                 [e => e.endDate ? e.endDate : '9999']
-                 ).reverse();
+                 [e => e.endDate ? -e.endDate.replace('-','') : -9999]
+                 );
       };
 
       const mongoEndDateQuery = { $or: [ 
@@ -313,10 +313,22 @@ const FACULTY_SHEET_TEMPLATE ={
               
 
               //******** LAB AFFILIATION
-              const labos = findAndSortRelevantItems(person.academicMemberships
+              let labos = findAndSortRelevantItems(person.academicMemberships
                                     .filter(am =>
                                             ['membre', 'rattaché'].includes(am.membershipType)
                                     ), relevantPeriods);
+              // force MAXPO and LIEPP labs and non-FNSP labs to lab2 column
+              if (labos.length > 1 
+                && overlap(labos[0],labos[1])
+                && labos[0].organization._id !== labos[1].organization._id
+                && (['MAXPO', 'LIEPP'].includes(labos[0].organization.acronym) 
+                    || !labos[0].organization.isariMonitored)
+                ){
+                // swap lab 1 and 2
+                const swap = labos[0];
+                labos[0] = labos[1];
+                labos[1] = swap;
+              }
 
               if (labos.length > 0){
                 info.lab1 = labos[0].organization.acronym || labos[0].organization.name;
