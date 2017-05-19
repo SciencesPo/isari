@@ -86,8 +86,6 @@ const outputDistinctions = (distinctions, distinctionSubtype) => {
   return distinctionInfos
 }
 
-
-
 function formatDate(date) {
   if (date) {
     const [year, month, day] = date.split('-');
@@ -100,6 +98,79 @@ function formatDate(date) {
   }
   else
     return '';
+}
+
+const findAndSortRelevantItemsFactory = (reportPeriod) => (collection, periods) => {
+        return _.sortBy(collection
+                   .filter(e => overlap(e,reportPeriod) && 
+                                (!periods ? true : _.some(periods,p => overlap(e,p)))),
+                 [e => e.endDate ? -e.endDate.replace('-','') : -9999]
+                 );
+      };
+
+function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlacklist, callback){
+
+  async.waterfall([
+      next => {// org filter
+        let orgFilter = false;
+        if (centerId){
+          orgFilter = {organization: ObjectId(centerId)};
+          next(null,orgFilter) 
+        }
+        else{
+          Organization.aggregate([
+            {$match:{isariMonitored:true}},
+            {$project:{_id:1}}
+          ]).then( orgs =>{
+              orgFilter = {organization:{$in:orgs.map(o => o._id)}};
+              next(null,orgFilter);
+          }
+          )
+        }
+      },
+      (orgFilter, next) => {
+          const mongoEndDateQuery = { $or: [ 
+                { endDate: { $exists: false }},
+                { $and: [{ endDate: {$regex: /^.{4}$/}},{ endDate: {$gte:reportPeriod.startDate.slice(0,4)}}]},
+                { $and: [{ endDate: {$regex: /^.{7}$/}},{ endDate: {$gte:reportPeriod.startDate.slice(0,7)}}]},
+                { $and: [{ endDate: {$regex: /^.{10}$/}},{ endDate: {$gte:reportPeriod.startDate.slice(0,10)}}]}
+                ] }
+          const mongoStartDateQuery = { $or: [ 
+                        { startDate: { $exists: false }},
+                        { $and: [{ startDate: {$regex: /^.{4}$/}},{ startDate: {$lte:reportPeriod.endDate.slice(0,4)}}]},
+                        { $and: [{ startDate: {$regex: /^.{7}$/}},{ startDate: {$lte:reportPeriod.endDate.slice(0,7)}}]},
+                        { $and: [{ startDate: {$regex: /^.{10}$/}},{ startDate: {$lte:reportPeriod.endDate.slice(0,10)}}]}
+                        ] }
+          const gradeStatusQuery = {gradeStatus: { $not:{$in: gradeStatusBlacklist.gradeStatus ? gradeStatusBlacklist.gradeStatus : []} }}
+          const gradeQuery = {grade: { $not:{$in: gradeStatusBlacklist.grade ? gradeStatusBlacklist.grade : []} }}
+          return next(null,{
+                    $and:[
+                      {academicMemberships: {
+                        $elemMatch:{
+                          $and:[
+                            orgFilter,
+                            {membershipType:{$in:['membre', 'rattaché']}},
+                            mongoStartDateQuery,
+                            mongoEndDateQuery
+                          ]
+                        }
+                      }},
+                      {grades: {
+                        $elemMatch: {
+                          $and:[
+                            gradeQuery,
+                            gradeStatusQuery,
+                            mongoStartDateQuery,
+                            mongoEndDateQuery
+                          ]
+                        }
+                      }}
+                    ]
+                  })
+        }
+    ], (err, query) => {
+      callback(err, query)
+    })
 }
 
 /**
@@ -141,92 +212,15 @@ const FACULTY_SHEET_TEMPLATE ={
       {key: 'CNRSMatricule', label: 'ID CNRS'},
       {key: 'orcid', label: 'ORCID'}
     ],
-  populate(models, centerId, range, gradeStatusBlacklist, role, callback) {
+  populate(models, centerId, reportPeriod, gradeStatusBlacklist, role, callback) {
       const People = models.People;
-      let facultyMember = []
-
-      let [start, end] = ['0000','9999'];
-      
-      if (range.length === 1){
-        start = range[0];
-        end = range[0];
-      }
-      if (range.length === 2){
-        start = range[0];
-        end = range[1];
-      }
-      
-      start = fillIncompleteDate(start, true);
-      end = fillIncompleteDate(end, false);
-      const reportPeriod = {startDate:start, endDate:end}
-      const findAndSortRelevantItems = (collection, periods) => {
-        return _.sortBy(collection
-                   .filter(e => overlap(e,reportPeriod) && 
-                                (!periods ? true : _.some(periods,p => overlap(e,p)))),
-                 [e => e.endDate ? -e.endDate.replace('-','') : -9999]
-                 );
-      };
-
-      const mongoEndDateQuery = { $or: [ 
-                { endDate: { $exists: false }},
-                { $and: [{ endDate: {$regex: /^.{4}$/}},{ endDate: {$gte:start.slice(0,4)}}]},
-                { $and: [{ endDate: {$regex: /^.{7}$/}},{ endDate: {$gte:start.slice(0,7)}}]},
-                { $and: [{ endDate: {$regex: /^.{10}$/}},{ endDate: {$gte:start.slice(0,10)}}]}
-                ] }
-      const mongoStartDateQuery = { $or: [ 
-                { startDate: { $exists: false }},
-                { $and: [{ startDate: {$regex: /^.{4}$/}},{ startDate: {$lte:end.slice(0,4)}}]},
-                { $and: [{ startDate: {$regex: /^.{7}$/}},{ startDate: {$lte:end.slice(0,7)}}]},
-                { $and: [{ startDate: {$regex: /^.{10}$/}},{ startDate: {$lte:end.slice(0,10)}}]}
-                ] }
-      const gradeStatusQuery = {gradeStatus: { $not:{$in: gradeStatusBlacklist.gradeStatus ? gradeStatusBlacklist.gradeStatus : []} }}
-      const gradeQuery = {grade: { $not:{$in: gradeStatusBlacklist.grade ? gradeStatusBlacklist.grade : []} }}
 
       async.waterfall([
         next => {
-          // org filter
-          let orgFilter = false;
-          if (centerId){
-            orgFilter = {organization: ObjectId(centerId)};
-            next(null,orgFilter) 
-          }
-          else{
-            const Organization = models.Organization;
-            Organization.aggregate([
-              {$match:{isariMonitored:true}},
-              {$project:{_id:1}}
-            ]).then( orgs =>{
-                orgFilter = {organization:{$in:orgs.map(o => o._id)}};
-                next(null,orgFilter);
-            }
-            )
-          }
+          staffMongoQuery(models.Organization, centerId, reportPeriod, gradeStatusBlacklist,next)
         },
-        (orgFilter,next) => {
-          People.find({
-            $and:[
-              {academicMemberships: {
-                $elemMatch:{
-                  $and:[
-                    orgFilter,
-                    {membershipType:{$in:['membre', 'rattaché']}},
-                    mongoStartDateQuery,
-                    mongoEndDateQuery
-                  ]
-                }
-              }},
-              {grades: {
-                $elemMatch: {
-                  $and:[
-                    gradeQuery,
-                    gradeStatusQuery,
-                    mongoStartDateQuery,
-                    mongoEndDateQuery
-                  ]
-                }
-              }}
-            ]
-          })
+        (mongoQuery,next) => {
+          People.find(mongoQuery)
           .populate({
             path: 'positions.organization',
           })
@@ -237,6 +231,8 @@ const FACULTY_SHEET_TEMPLATE ={
             path: 'distinctions.organizations',
           })
           .then(people => {
+
+            const findAndSortRelevantItems = findAndSortRelevantItemsFactory(reportPeriod)
             
             //-- 2) Retrieving necessary data
             let facultyMember = _(people).map(person => {
@@ -308,8 +304,6 @@ const FACULTY_SHEET_TEMPLATE ={
               if (relevantPeriods.length === 0){                
                 return undefined
               }
-              
-
               
 
               //******** LAB AFFILIATION
@@ -452,8 +446,7 @@ const FACULTY_SHEET_TEMPLATE ={
 
           })
       }], (err,p) =>{
-        if (err) throw err;
-        callback(null, p);
+        callback(err, p);
       } );
       
     }
@@ -467,19 +460,19 @@ const SHEETS = [
     id: 'permFaculty',
     name: 'faculté permanente',
     headers: FACULTY_SHEET_TEMPLATE.headers,
-    populate(models, centerId, range, role, callback){
+    populate(models, centerId, reportPeriod, role, callback){
       gradeStatusBlacklist = {
        gradeStatus: ['appuiadministratif','appuitechnique','enseignant'],
        grade: TEMP_FACULTY_GRADES
      }
-     return FACULTY_SHEET_TEMPLATE.populate(models, centerId, range, gradeStatusBlacklist, role, callback)
+     return FACULTY_SHEET_TEMPLATE.populate(models, centerId, reportPeriod, gradeStatusBlacklist, role, callback)
     }
   },
   {
     id: 'tempFaculty',
     name: 'faculté temporaire',
     headers: FACULTY_SHEET_TEMPLATE.headers,
-    populate(models, centerId, range, role, callback){
+    populate(models, centerId, reportPeriod, role, callback){
 
       // find all grades not included in TEMP_FACULTY_GRADES
       let permFacultyGrades = []
@@ -496,7 +489,7 @@ const SHEETS = [
        gradeStatus: ['appuiadministratif','appuitechnique'],
        grade: permFacultyGrades
      }
-     return FACULTY_SHEET_TEMPLATE.populate(models, centerId, range, gradeStatusBlacklist, role, callback)
+     return FACULTY_SHEET_TEMPLATE.populate(models, centerId, reportPeriod, gradeStatusBlacklist, role, callback)
     }
   }
 ];
@@ -507,6 +500,22 @@ const SHEETS = [
 module.exports = function(models, centerId, range, role, callback) {
 
   const filename = (orgaName,range) => `effectifs_${orgaName}${_(range).values().value().join('-')}.xlsx`
+
+  let [start, end] = ['0000','9999'];
+      
+  if (range.length === 1){
+    start = range[0];
+    end = range[0];
+  }
+  if (range.length === 2){
+    start = range[0];
+    end = range[1];
+  }
+  
+  start = fillIncompleteDate(start, true);
+  end = fillIncompleteDate(end, false);
+  const reportPeriod = {startDate:start, endDate:end}
+
 
   async.waterfall([next=>{
     if (centerId){
@@ -527,30 +536,30 @@ module.exports = function(models, centerId, range, role, callback) {
       async.eachSeries(SHEETS, (sheet, nextInSeries) => {
 
         // Custom sheet
-        if (sheet.custom)
-          return sheet.custom(models, centerId, range, role, (err, sheetData) => {
-            if (err)
-              return nextInSeries(err);
+        // if (sheet.custom)
+        //   return sheet.custom(models, centerId, range, role, (err, sheetData) => {
+        //     if (err)
+        //       return nextInSeries(err);
 
-            for (const k in sheetData) {
-              if (k !== '!ref')
-                sheetData[k] = {
-                  v: sheetData[k],
-                  t: typeof sheetData[k] === 'number' ? 'n' : 's'
-                };
-            }
+        //     for (const k in sheetData) {
+        //       if (k !== '!ref')
+        //         sheetData[k] = {
+        //           v: sheetData[k],
+        //           t: typeof sheetData[k] === 'number' ? 'n' : 's'
+        //         };
+        //     }
 
-            addSheetToWorkbook(
-              workbook,
-              sheetData,
-              sheet.name
-            );
+        //     addSheetToWorkbook(
+        //       workbook,
+        //       sheetData,
+        //       sheet.name
+        //     );
 
-            return nextInSeries();
-          });
+        //     return nextInSeries();
+        //   });
 
         // Classical sheet with headers
-        return sheet.populate(models, centerId, range, role, (err, collection) => {
+        return sheet.populate(models, centerId, reportPeriod, role, (err, collection) => {
           if (err){
             return nextInSeries(err);
           }
