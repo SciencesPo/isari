@@ -108,7 +108,7 @@ const findAndSortRelevantItemsFactory = (reportPeriod) => (collection, periods) 
                  );
       };
 
-function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlacklist, callback){
+function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlacklist, membershipTypes, callback){
 
   async.waterfall([
       next => {// org filter
@@ -149,7 +149,7 @@ function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlackl
                         $elemMatch:{
                           $and:[
                             orgFilter,
-                            {membershipType:{$in:['membre', 'rattaché']}},
+                            {membershipType:{$in:membershipTypes}},
                             mongoStartDateQuery,
                             mongoEndDateQuery
                           ]
@@ -217,7 +217,7 @@ const FACULTY_SHEET_TEMPLATE ={
 
       async.waterfall([
         next => {
-          staffMongoQuery(models.Organization, centerId, reportPeriod, gradeStatusBlacklist,next)
+          staffMongoQuery(models.Organization, centerId, reportPeriod, gradeStatusBlacklist, ['membre', 'rattaché'],next)
         },
         (mongoQuery,next) => {
           People.find(mongoQuery)
@@ -494,7 +494,7 @@ const SHEETS = [
   },
   {
     id: 'appui',
-    name: 'Appui administratif et technique',
+    name: 'Appui admin et tech',
     headers: [   
       {key: 'name', label: 'Nom'},
       {key: 'firstName', label: 'Prénom'},
@@ -528,7 +528,7 @@ const SHEETS = [
       const People = models.People;
       async.waterfall([
         next => {
-          staffMongoQuery(models.Organization, centerId, reportPeriod, gradeStatusBlacklist,next)
+          staffMongoQuery(models.Organization, centerId, reportPeriod, gradeStatusBlacklist, ['membre', 'rattaché'],next)
         },
         (mongoQuery,next) => {
           People.find(mongoQuery)
@@ -542,165 +542,347 @@ const SHEETS = [
             path: 'distinctions.organizations',
           })
           .then(people => {
-
-            const findAndSortRelevantItems = findAndSortRelevantItemsFactory(reportPeriod);
-            
-            //-- 2) Retrieving necessary data
-            let facultyMember = _(people).map(person => {
-
-              //******** PERSONAL INFO
-              const info = {
-                name: person.name,
-                firstName: person.firstName,
-                gender: GENDER_MAP[person.gender],
-              };
-
-              if (person.birthDate) {
-                info.birthDate = person.birthDate;
-              }
+              const findAndSortRelevantItems = findAndSortRelevantItemsFactory(reportPeriod);
               
+              //-- 2) Retrieving necessary data
+              let facultyMember = _(people).map(person => {
 
-              if (person.nationalities && person.nationalities.length > 0) {
-                info.nationalities = person.nationalities.map(n => 
-                 simpleEnumValue('nationalities',n)
-                ).join(', ');
-              }        
+                //******** PERSONAL INFO
+                const info = {
+                  name: person.name,
+                  firstName: person.firstName,
+                  gender: GENDER_MAP[person.gender],
+                };
 
-              if (person.contacts && person.contacts.length>0)
-              {
-                info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
-              }
-
-              const internalMemberships = person.academicMemberships
-                                                .filter(am =>
-                                                  ['membre', 'rattaché'].includes(am.membershipType) &&
-                                                  am.organization.isariMonitored
-                                                );
-              let relevantGrades = person.grades.filter(p =>
-                              !gradeStatusBlacklist.gradeStatus.includes(p.gradeStatus) &&
-                              !gradeStatusBlacklist.grade.includes(p.grade));
-
-              // calculate intersection period between relevant grades and internalMemberships
-              let relevantPeriods = _(relevantGrades)
-                                        .map(grade =>{
-                                          return internalMemberships
-                                                .map(im => {
-                                                  if (overlap(grade,im)){
-                                                    const startDate = _.max([grade.startDate,im.startDate]);
-                                                    const endDate = _.min([grade.endDate,im.endDate]);
-                                                    let period = {}
-                                                    if (startDate)
-                                                      period.startDate = startDate
-                                                    if (endDate)
-                                                      period.endDate = endDate
-                                                    return period
-                                                  }
-                                                })
-                                                
-                                        })
-                                        .flatten()
-                                        .compact()
-                                        .value()
-
-              // store min starDate as date d'entrée
-              info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-              const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-              info.endDate = endDate
-              // then filter in requested period
-              relevantPeriods = findAndSortRelevantItems(relevantPeriods)
-              relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
-              
-          
-              // if no filtered grade matched an internal membership, discard
-              if (relevantPeriods.length === 0){                
-                return undefined
-              }
-              
-
-              //******** LAB AFFILIATION
-              let labos = findAndSortRelevantItems(person.academicMemberships
-                                    .filter(am =>
-                                            ['membre', 'rattaché'].includes(am.membershipType)
-                                    ), relevantPeriods);
-              // force MAXPO and LIEPP labs and non-FNSP labs to lab2 column
-              if (labos.length > 1 
-                && overlap(labos[0],labos[1])
-                && labos[0].organization._id !== labos[1].organization._id
-                && (['MAXPO', 'LIEPP'].includes(labos[0].organization.acronym) 
-                    || !labos[0].organization.isariMonitored)
-                ){
-                // swap lab 1 and 2
-                const swap = labos[0];
-                labos[0] = labos[1];
-                labos[1] = swap;
-              }
-
-              if (labos.length > 0){
-                info.lab1 = labos[0].organization.acronym || labos[0].organization.name;
-                info.lab1Type = simpleEnumValue('academicMembershipType',labos[0].membershipType);
-              }
-              if (labos.length > 1 
-                && overlap(labos[0],labos[1])
-                && labos[0].organization._id !== labos[1].organization._id){
-                info.lab2 =  labos[1].organization ? labos[1].organization.acronym || labos[1].organization.name : '';
-              }
-
-              //******** TUTELLE
-              if (person.positions && person.positions.length > 0){
-                const positions = findAndSortRelevantItems(person.positions.filter(p =>
-                                        p.organization && p.organization.acronym &&
-                                        ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym)), relevantPeriods);
-                if (positions && positions.length > 0 && positions[0].organization){
-                  info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
-                  info.jobName = positions[0].jobName
-                  info.jobType = positions[0].jobType 
-                  info.timepart = positions[0].timepart 
+                if (person.birthDate) {
+                  info.birthDate = person.birthDate;
                 }
-              }
+                
 
-              //******** GRADE & STATUS
-              const grade = relevantGrades[0]
-              if(grade.gradeStatus)
-                info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
-              if(grade.grade && grade.gradeStatus)
-                info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+                if (person.nationalities && person.nationalities.length > 0) {
+                  info.nationalities = person.nationalities.map(n => 
+                   simpleEnumValue('nationalities',n)
+                  ).join(', ');
+                }        
 
-              //******** PHD
-              const doctorat = outputDistinctions(person.distinctions, 'doctorat')
-              if (doctorat) {
-                info.doctorat = 'oui';
-              }
-              else
-                info.doctorat = 'non';
+                if (person.contacts && person.contacts.length>0)
+                {
+                  info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
+                }
 
-              //******** IDENTIFIERS
-              if (person.ORCID)
-                info.orcid = person.ORCID;
-              if (person.sirhMatricule)
-                info.sirhMatricule = person.sirhMatricule;
-              if (person.bannerUid)
-                info.bannerUid = person.bannerUid;
-              if(person.idSpire)
-                info.idSpire = person.idSpire;
-              if (person.CNRSMatricule)
-                info.CNRSMatricule = person.CNRSMatricule
+                const internalMemberships = person.academicMemberships
+                                                  .filter(am =>
+                                                    ['membre', 'rattaché'].includes(am.membershipType) &&
+                                                    am.organization.isariMonitored
+                                                  );
+                let relevantGrades = person.grades.filter(p =>
+                                !gradeStatusBlacklist.gradeStatus.includes(p.gradeStatus) &&
+                                !gradeStatusBlacklist.grade.includes(p.grade));
 
-              return info;
-            })
-            // removing empty cases
-            .compact()
-            .value();
-            // order by name
-            facultyMember = _.sortBy(facultyMember, p => `${p.name} - ${p.firstName}`);
+                // calculate intersection period between relevant grades and internalMemberships
+                let relevantPeriods = _(relevantGrades)
+                                          .map(grade =>{
+                                            return internalMemberships
+                                                  .map(im => {
+                                                    if (overlap(grade,im)){
+                                                      const startDate = _.max([grade.startDate,im.startDate]);
+                                                      const endDate = _.min([grade.endDate,im.endDate]);
+                                                      let period = {}
+                                                      if (startDate)
+                                                        period.startDate = startDate
+                                                      if (endDate)
+                                                        period.endDate = endDate
+                                                      return period
+                                                    }
+                                                  })
+                                                  
+                                          })
+                                          .flatten()
+                                          .compact()
+                                          .value()
 
-            next(null, facultyMember);
+                // store min starDate as date d'entrée
+                info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
+                const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
+                info.endDate = endDate
+                // then filter in requested period
+                relevantPeriods = findAndSortRelevantItems(relevantPeriods)
+                relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
+                
+            
+                // if no filtered grade matched an internal membership, discard
+                if (relevantPeriods.length === 0){                
+                  return undefined
+                }
+                
 
+                //******** LAB AFFILIATION
+                let labos = findAndSortRelevantItems(person.academicMemberships
+                                      .filter(am =>
+                                              ['membre', 'rattaché'].includes(am.membershipType)
+                                      ), relevantPeriods);
+                // force MAXPO and LIEPP labs and non-FNSP labs to lab2 column
+                if (labos.length > 1 
+                  && overlap(labos[0],labos[1])
+                  && labos[0].organization._id !== labos[1].organization._id
+                  && (['MAXPO', 'LIEPP'].includes(labos[0].organization.acronym) 
+                      || !labos[0].organization.isariMonitored)
+                  ){
+                  // swap lab 1 and 2
+                  const swap = labos[0];
+                  labos[0] = labos[1];
+                  labos[1] = swap;
+                }
+
+                if (labos.length > 0){
+                  info.lab1 = labos[0].organization.acronym || labos[0].organization.name;
+                  info.lab1Type = simpleEnumValue('academicMembershipType',labos[0].membershipType);
+                }
+                if (labos.length > 1 
+                  && overlap(labos[0],labos[1])
+                  && labos[0].organization._id !== labos[1].organization._id){
+                  info.lab2 =  labos[1].organization ? labos[1].organization.acronym || labos[1].organization.name : '';
+                }
+
+                //******** TUTELLE
+                if (person.positions && person.positions.length > 0){
+                  const positions = findAndSortRelevantItems(person.positions.filter(p =>
+                                          p.organization && p.organization.acronym &&
+                                          ['FNSP', 'CNRS', 'MESR'].includes(p.organization.acronym)), relevantPeriods);
+                  if (positions && positions.length > 0 && positions[0].organization){
+                    info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
+                    info.jobName = positions[0].jobName
+                    info.jobType = positions[0].jobType 
+                    info.timepart = positions[0].timepart 
+                  }
+                }
+
+                //******** GRADE & STATUS
+                const grade = relevantGrades[0]
+                if(grade.gradeStatus)
+                  info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
+                if(grade.grade && grade.gradeStatus)
+                  info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+
+                //******** PHD
+                const doctorat = outputDistinctions(person.distinctions, 'doctorat')
+                if (doctorat) {
+                  info.doctorat = 'oui';
+                }
+                else
+                  info.doctorat = 'non';
+
+                //******** IDENTIFIERS
+                if (person.ORCID)
+                  info.orcid = person.ORCID;
+                if (person.sirhMatricule)
+                  info.sirhMatricule = person.sirhMatricule;
+                if (person.bannerUid)
+                  info.bannerUid = person.bannerUid;
+                if(person.idSpire)
+                  info.idSpire = person.idSpire;
+                if (person.CNRSMatricule)
+                  info.CNRSMatricule = person.CNRSMatricule
+
+                return info;
+              })
+              // removing empty cases
+              .compact()
+              .value();
+              // order by name
+              facultyMember = _.sortBy(facultyMember, p => `${p.name} - ${p.firstName}`);
+              next(null, facultyMember);
           });
         }],
         (err,p) =>{
           callback(err, p);
         }
       );
+    }
+  },
+  {
+    id: 'invited',
+    name: 'Associés et invités',
+    headers: [   
+      {key: 'name', label: 'Nom'},
+      {key: 'firstName', label: 'Prénom'},
+      {key: 'birthDate', label: 'Naissance'},
+      {key: 'gender', label: 'Genre'},
+      {key: 'nationalities', label: 'Nationalité.s'},
+      {key: 'lab1', label: 'Labo 1'},
+      {key: 'lab1Type', label: 'Affil. labo 1'},
+      {key: 'lab2', label: 'Labo 2'},
+      {key: 'countryLab2', label: 'Pays labo 2'},
+      {key: 'status', label: 'Statut'},
+      {key: 'grade', label: 'Grade'},
+      {key: 'startDate', label: 'Date d\'entrée'},
+      {key: 'endDate', label: 'Date de sortie'},
+      {key: 'emails', label: 'Email.s'}
+    ],
+    populate(models, centerId, reportPeriod, role, callback){
+      const gradeStatusBlacklist = {
+       gradeStatus: [],
+       grade: []
+      }
+      
+      const membershipTypes = ['associé', 'affilié', 'visiting'];
+      const People = models.People;
+       async.parallel({
+        people: parallelNext => {
+          async.waterfall([
+            next => {
+              staffMongoQuery(models.Organization, centerId, reportPeriod, gradeStatusBlacklist, membershipTypes,next)
+            },
+            (mongoQuery,next) => {
+              People.find(mongoQuery)
+              .populate({
+                path: 'positions.organization',
+              })
+              .populate({
+                path: 'academicMemberships.organization',
+              })
+              .populate({
+                path: 'distinctions.organizations',
+              })
+              .then(people => next(null, people));
+            }],(err,people) => {
+              
+              parallelNext(err, people)});
+        },
+        activities: parallelNext => {
+          let orgFilter = []
+          if (centerId)
+            orgFilter = [ {'organizations.organization': ObjectId(centerId)}]
+          return models.Activity
+            .find({
+              $and: [
+                {activityType: 'mob_entrante'}
+              ].concat(orgFilter)
+            })
+            .populate({ path: 'organizations.organization'})
+            .exec(parallelNext);
+        }
+      }, 
+      (err, data) => {
+
+        if (err)
+          return callback(err);
+        const {people, activities} = data;
+
+        const findAndSortRelevantItems = findAndSortRelevantItemsFactory(reportPeriod);
+        
+        //-- 2) Retrieving necessary data
+        let facultyMember = _(people).map(person => {
+
+          //******** PERSONAL INFO
+          const info = {
+            name: person.name,
+            firstName: person.firstName,
+            gender: GENDER_MAP[person.gender],
+          };
+
+          if (person.birthDate) {
+            info.birthDate = person.birthDate;
+          }
+          
+
+          if (person.nationalities && person.nationalities.length > 0) {
+            info.nationalities = person.nationalities.map(n => 
+             simpleEnumValue('nationalities',n)
+            ).join(', ');
+          }        
+
+          if (person.contacts && person.contacts.length>0)
+          {
+            info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
+          }
+
+          const internalMemberships = person.academicMemberships
+                                            .filter(am =>
+                                              membershipTypes.includes(am.membershipType) &&
+                                              am.organization.isariMonitored
+                                            );
+
+          // calculate intersection period between relevant grades and internalMemberships
+          let relevantPeriods = internalMemberships
+          // store min starDate as date d'entrée
+          info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
+          const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
+          info.endDate = endDate
+          // then filter in requested period
+          relevantPeriods = findAndSortRelevantItems(relevantPeriods)
+          relevantGrades = findAndSortRelevantItems(person.grades, relevantPeriods)
+          
+      
+          // if no filtered grade matched an internal membership, discard
+          if (relevantPeriods.length === 0){                
+            return undefined
+          }
+          
+
+          //******** LAB AFFILIATION
+          //let internalLabos = findAndSortRelevantItems(internalMemberships, relevantPeriods);
+          // force MAXPO and LIEPP labs and non-FNSP labs to lab2 column
+          if (internalMemberships.length > 1 
+            && overlap(internalMemberships[0],internalMemberships[1])
+            && internalMemberships[0].organization._id !== internalMemberships[1].organization._id
+            && (['MAXPO', 'LIEPP'].includes(internalMemberships[0].organization.acronym))
+            ){
+            // swap lab 1 and 2
+            const swap = internalMemberships[0];
+            internalMemberships[0] = internalMemberships[1];
+            internalMemberships[1] = swap;
+          }
+
+          if (internalMemberships.length > 0){
+            info.lab1 = internalMemberships[0].organization.acronym || internalMemberships[0].organization.name;
+            info.lab1Type = simpleEnumValue('academicMembershipType',internalMemberships[0].membershipType);
+            let externalLabos = findAndSortRelevantItems(person.academicMemberships
+                                                           .filter(am => am.organization._id != internalMemberships[0].organization._id
+                                                            && !am.organization.isariMonitored),
+                                                           [internalMemberships[0]])
+
+            if (internalMemberships[0].membershipType === 'visiting' && externalLabos.length  === 0){
+              // orga d'origine is missing, let's use activity visiting
+              
+              
+              const visitingActivities = activities.filter(a => 
+                                  a.people.some(p=> p.people && p.people.toString() === person._id.toString() 
+                                                    && p.role === 'visiting')
+                                  && overlap(internalMemberships[0],a)
+                                  && a.organizations.some(o => o.organization.toString() === internalMemberships[0].organization.toString()
+                                                             && o.role === 'orgadaccueil'))
+
+              if (visitingActivities.length > 0)
+                externalLabos = _(visitingActivities).map(a => a.organizations.filter(o => o.role === 'orgadorigine')).flatten().value()
+              console.log(externalLabos)
+            }
+            if (externalLabos.length > 0){
+              info.lab2 =  externalLabos[0].organization ? externalLabos[0].organization.acronym || externalLabos[0].organization.name : '';
+              info.countryLab2 = externalLabos[0].organization ? externalLabos[0].organization.countries.map(c => simpleEnumValue('countries',c)).join(',') : '';
+            }
+          }
+
+          //******** GRADE & STATUS
+          if(relevantGrades.length>0){
+            const grade = relevantGrades[0]
+            if(grade.gradeStatus)
+              info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
+            if(grade.grade && grade.gradeStatus)
+              info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+          }
+
+          return info;
+        })
+        // removing empty cases
+        .compact()
+        .value();
+        // order by name
+        facultyMember = _.sortBy(facultyMember, p => `${p.name} - ${p.firstName}`);
+        
+        return callback(null, facultyMember);
+      });
+       
     }
   }
 ];
