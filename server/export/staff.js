@@ -121,8 +121,7 @@ const FACULTY_SHEET_TEMPLATE ={
       {key: 'grade', label: 'Grade'},
       {key: 'tutelle', label: 'Tutelle'},  
       {key: 'startDate', label: 'Date d\'entrée'},
-      {key: 'startTutelle', label: 'Début'},
-      {key: 'endTutelle', label: 'Fin'},
+     // {key: 'endDate', label: 'Date de sortie'},
       {key: 'doctorat', label: 'PHD'},      
       {key: 'dateDoctorat', label: 'date PHD'},      
       {key: 'orgasDoctorat', label: 'orga. PHD'},
@@ -298,13 +297,12 @@ const FACULTY_SHEET_TEMPLATE ={
 
               // store min starDate as date d'entrée
               info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
+              // const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
+              // info.endDate = endDate
               // then filter in requested period
               relevantPeriods = findAndSortRelevantItems(relevantPeriods)
               relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
-              // store relevant periods boundaries 
-              info.startTutelle = _.min(relevantPeriods.map(rp => rp.startDate))
-              info.endTutelle = _.max(relevantPeriods.map(rp => rp.endDate))
-
+              
           
               // if no filtered grade matched an internal membership, discard
               if (relevantPeriods.length === 0){                
@@ -377,7 +375,7 @@ const FACULTY_SHEET_TEMPLATE ={
               if (['central_admin', 'central_reader', 'center_admin'].includes(role)) {
                 //protected fields
                 if (person.bonuses && person.bonuses.length > 0){
-                  info.bonuses = findAndSortRelevantItems(person.bonuses, relevantPeriods)
+                  info.bonuses = findAndSortRelevantItems(person.bonuses)
                     .map(b => {
                       const type = simpleEnumValue('bonusTypes',b.bonusType);
                       const startYear = b.startDate ? b.startDate.slice(0,4):'';
@@ -387,7 +385,7 @@ const FACULTY_SHEET_TEMPLATE ={
                 }
 
                 if (person.facultyMonitoring && person.facultyMonitoring.length > 0) {
-                  const fms = findAndSortRelevantItems(person.facultyMonitoring, relevantPeriods);
+                  const fms = findAndSortRelevantItems(person.facultyMonitoring);
                   if (fms && fms.length > 0){
                     const fm = fms[0];
                     info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
