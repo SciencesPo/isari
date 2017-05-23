@@ -855,7 +855,6 @@ const SHEETS = [
 
               if (visitingActivities.length > 0)
                 externalLabos = _(visitingActivities).map(a => a.organizations.filter(o => o.role === 'orgadorigine')).flatten().value()
-              console.log(externalLabos)
             }
             if (externalLabos.length > 0){
               info.lab2 =  externalLabos[0].organization ? externalLabos[0].organization.acronym || externalLabos[0].organization.name : '';
