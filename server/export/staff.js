@@ -192,7 +192,7 @@ const FACULTY_SHEET_TEMPLATE ={
       {key: 'grade', label: 'Grade'},
       {key: 'tutelle', label: 'Tutelle'},  
       {key: 'startDate', label: 'Date d\'entrée'},
-     // {key: 'endDate', label: 'Date de sortie'},
+      {key: 'endDate', label: 'Date de sortie'},
       {key: 'doctorat', label: 'PHD'},      
       {key: 'dateDoctorat', label: 'date PHD'},      
       {key: 'orgasDoctorat', label: 'orga. PHD'},
@@ -293,8 +293,8 @@ const FACULTY_SHEET_TEMPLATE ={
 
               // store min starDate as date d'entrée
               info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-              // const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-              // info.endDate = endDate
+              const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
+              info.endDate = endDate
               // then filter in requested period
               relevantPeriods = findAndSortRelevantItems(relevantPeriods)
               relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
