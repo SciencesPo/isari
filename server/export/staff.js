@@ -702,7 +702,7 @@ const SHEETS = [
   },
   {
     id: 'invited',
-    name: 'Associés et invités',
+    name: 'Assoc. invit. aff.',
     headers: [   
       {key: 'name', label: 'Nom'},
       {key: 'firstName', label: 'Prénom'},
