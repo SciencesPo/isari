@@ -848,7 +848,7 @@ const SHEETS = [
               
               const visitingActivities = activities.filter(a => 
                                   a.people.some(p=> p.people && p.people.toString() === person._id.toString() 
-                                                    && p.role === 'visiting')
+                                                    )
                                   && overlap(internalMemberships[0],a)
                                   && a.organizations.some(o => o.organization.toString() === internalMemberships[0].organization.toString()
                                                              && o.role === 'orgadaccueil'))
