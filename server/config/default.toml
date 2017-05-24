@@ -35,9 +35,11 @@ defaultSize = 10
 maxSize = 5000
 
 [ldap]
-url = 'ldap://ldap.sciences-po.fr'
-dn = 'ou=Users,o=sciences-po,c=fr'
-activeFlag = 'scpoActifSI'
+url = 'ldap://ldap-pprd.sciences-po.fr:389'
+dn = 'DC=sciencespo,DC=fr'
+loginAtt = 'supannAliasLogin'
+activeFlag = 'scpoAllActifSI'
 # WARNING! USE WITH CAUTION!
 # Set to true to fully disable LDAP, meaning login/password will be automatically accepted with no check
 skip = false
+

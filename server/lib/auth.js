@@ -17,11 +17,11 @@ function connectedAuth () {
 
 	return (login, password) => baseClient
 		// Search for user
-		.then(search(config.ldap.dn, { scope: 'sub', filter: `(uid=${login})` }))
+		.then(search(config.ldap.dn, { scope: 'sub', filter: `(${config.ldap.loginAtt}=${login})` }))
 		// Found user?
 		.then(entries => entries.length === 0
 			? Promise.reject(Error('LDAP User Not Found'))
-			: entries.find(e => e.uid === login)
+			: entries.find(e => e[config.ldap.loginAtt] === login)
 		)
 		// Is user active?
 		.then(entry => !Number(entry[config.ldap.activeFlag])
