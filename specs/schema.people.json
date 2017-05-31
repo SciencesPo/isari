@@ -610,7 +610,9 @@
             "fr": "Identifiant annuaire Sciences Po",
             "en": "Sciences Po's directory identifier"
         },
-        "service": "ldap"
+        "service": "ldap",
+        "unique": true,
+        "sparse": true
     },
     "idScopus": {
         "label": {
