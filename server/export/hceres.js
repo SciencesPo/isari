@@ -663,30 +663,32 @@ const SHEETS = [
             }).filter(g => g).join(', ');
           }
 
-          const info = {
-            name: phdStudent.name,
-            firstName: phdStudent.firstName,
-            gender: phdStudent.gender ? GENDER_MAP[phdStudent.gender] : '',
-            birthDate: formatDate(phdStudent.birthDate),
-            //organization
-            director: directors ? directors.map(d => `${d.name.toUpperCase()} ${_(d.firstName).capitalize()}`).join(',') : '',
-            startDate: formatDate(result.startDate),
-            endDate: formatDate(result.endDate),
-            //grant
-            grant: grant
-          };
-          if (phdStudent.distinctions) {
-            const masterAndOthers = _.sortBy(phdStudent
-              .distinctions
-              .filter(d => {
-                return d.distinctionType === 'diplôme' && ['master','autre'].includes(d.distinctionSubtype)
-              }),[d => d.date])
-            const master = _.last(masterAndOthers)
-            if (master)
-               info.organization = master.organizations.map(o => o.name).join(',');
-          }
+          if (phdStudent){  
+            const info = {
+              name: phdStudent ? phdStudent.name : '???',
+              firstName: phdStudent ? phdStudent.firstName : '???',
+              gender: phdStudent && phdStudent.gender ? GENDER_MAP[phdStudent.gender] : '',
+              birthDate: phdStudent ? formatDate(phdStudent.birthDate) : '',
+              //organization
+              director: directors ? directors.map(d => `${d.name.toUpperCase()} ${_(d.firstName).capitalize()}`).join(',') : '',
+              startDate: formatDate(result.startDate),
+              endDate: formatDate(result.endDate),
+              //grant
+              grant: grant
+            };
+            if (phdStudent && phdStudent.distinctions) {
+              const masterAndOthers = _.sortBy(phdStudent
+                .distinctions
+                .filter(d => {
+                  return d.distinctionType === 'diplôme' && ['master','autre'].includes(d.distinctionSubtype)
+                }),[d => d.date])
+              const master = _.last(masterAndOthers)
+              if (master)
+                 info.organization = master.organizations.map(o => o.name).join(',');
+            }
 
-          exportLines.push(info);
+            exportLines.push(info);
+          }
         });
 
         //sort by name and firstname
