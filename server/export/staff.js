@@ -602,9 +602,15 @@ const SHEETS = [
                                           .value()
 
                 // store min starDate as date d'entrée
-                info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-                const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-                info.endDate = endDate
+
+                // startDate = minimum startDate of relevantPeriods & startDates of position with Sciences Po
+                FNSPPositions = person.positions.filter(p =>
+                                          p.startDate &&
+                                          p.organization && p.organization.acronym &&
+                                          p.organization.acronym === 'FNSP')
+                info.startDate = _.min(relevantPeriods.concat(FNSPPositions).map(rp => rp.startDate))
+                const endDate = _.max(relevantPeriods.concat(FNSPPositions).map(rp => rp.endDate ? rp.endDate : '9999'))
+                info.endDate = endDate === '9999' ? '' : endDate 
                 // then filter in requested period
                 relevantPeriods = findAndSortRelevantItems(relevantPeriods)
                 relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
@@ -807,8 +813,8 @@ const SHEETS = [
           let relevantPeriods = internalMemberships
           // store min starDate as date d'entrée
           info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-          const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-          info.endDate = endDate
+          const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : '9999'))
+          info.endDate = endDate === '9999' ? '' : endDate
           // then filter in requested period
           relevantPeriods = findAndSortRelevantItems(relevantPeriods)
           relevantGrades = findAndSortRelevantItems(person.grades, relevantPeriods)
