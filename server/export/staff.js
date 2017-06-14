@@ -293,8 +293,8 @@ const FACULTY_SHEET_TEMPLATE ={
 
               // store min starDate as date d'entrée
               info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-              const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-              info.endDate = endDate
+              const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : '9999'))
+              info.endDate = endDate === '9999' ? '' : endDate
               // then filter in requested period
               relevantPeriods = findAndSortRelevantItems(relevantPeriods)
               relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)

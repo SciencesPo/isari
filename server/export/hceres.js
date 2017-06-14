@@ -763,7 +763,7 @@ const SHEETS = [
           });
           if (relevantGrades && relevantGrades.length > 0){
             //select most recent postdoc if many
-            const relevantGrade = _.sortBy(relevantGrades,g => g.endDate || Infinity).reverse()[0];
+            const relevantGrade = _.sortBy(relevantGrades,g => g.endDate || '9999').reverse()[0];
             return {
               name: person.name.toUpperCase(),
               firstName: person.firstName,
