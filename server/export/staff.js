@@ -721,8 +721,8 @@ const SHEETS = [
       {key: 'countryLab2', label: 'Pays labo 2'},
       {key: 'status', label: 'Statut'},
       {key: 'grade', label: 'Grade'},
-      {key: 'startDate', label: 'Date d\'entrée'},
-      {key: 'endDate', label: 'Date de sortie'},
+      {key: 'startDate', label: 'Date de début'},
+      {key: 'endDate', label: 'Date de fin'},
       {key: 'emails', label: 'Email.s'}
     ],
     populate(models, centerId, reportPeriod, role, callback){
@@ -778,7 +778,7 @@ const SHEETS = [
         const findAndSortRelevantItems = findAndSortRelevantItemsFactory(reportPeriod);
         
         //-- 2) Retrieving necessary data
-        let facultyMember = _(people).map(person => {
+        let visitingAssociatesAffiliates = _(people).map(person => {
 
           //******** PERSONAL INFO
           const info = {
@@ -803,89 +803,71 @@ const SHEETS = [
             info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
           }
 
-          const internalMemberships = person.academicMemberships
+          // filter academicMemberships to internal only + with scope request 
+          const internalMemberships = findAndSortRelevantItems(person.academicMemberships
                                             .filter(am =>
                                               membershipTypes.includes(am.membershipType) &&
                                               am.organization.isariMonitored
-                                            );
+                                            ));
 
-          // calculate intersection period between relevant grades and internalMemberships
-          let relevantPeriods = internalMemberships
-          // store min starDate as date d'entrée
-          info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-          const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : '9999'))
-          info.endDate = endDate === '9999' ? '' : endDate
-          // then filter in requested period
-          relevantPeriods = findAndSortRelevantItems(relevantPeriods)
-          relevantGrades = findAndSortRelevantItems(person.grades, relevantPeriods)
-          
-      
-          // if no filtered grade matched an internal membership, discard
-          if (relevantPeriods.length === 0){                
-            return undefined
-          }
-          
+          // we create one line in export by memberships duplicating personal info
+          const infos = []
+          let extraInfo = {}
+          internalMemberships.forEach(im => {
+            extraInfo = {startDate:im.startDate,endDate:im.endDate};
+            
+           
+            
+            extraInfo.lab1 = im.organization.acronym || im.organization.name;
+            extraInfo.lab1Type = simpleEnumValue('academicMembershipType',im.membershipType);
 
-          //******** LAB AFFILIATION
-          //let internalLabos = findAndSortRelevantItems(internalMemberships, relevantPeriods);
-          // force MAXPO and LIEPP labs and non-FNSP labs to lab2 column
-          if (internalMemberships.length > 1 
-            && overlap(internalMemberships[0],internalMemberships[1])
-            && internalMemberships[0].organization._id !== internalMemberships[1].organization._id
-            && (['MAXPO', 'LIEPP'].includes(internalMemberships[0].organization.acronym))
-            ){
-            // swap lab 1 and 2
-            const swap = internalMemberships[0];
-            internalMemberships[0] = internalMemberships[1];
-            internalMemberships[1] = swap;
-          }
-
-          if (internalMemberships.length > 0){
-            info.lab1 = internalMemberships[0].organization.acronym || internalMemberships[0].organization.name;
-            info.lab1Type = simpleEnumValue('academicMembershipType',internalMemberships[0].membershipType);
             let externalLabos = findAndSortRelevantItems(person.academicMemberships
-                                                           .filter(am => am.organization._id != internalMemberships[0].organization._id
+                                                           .filter(am => am.organization._id != im.organization._id
                                                             && !am.organization.isariMonitored),
-                                                           [internalMemberships[0]])
+                                                           [im])
 
-            if (internalMemberships[0].membershipType === 'visiting' && externalLabos.length  === 0){
+            if (im === 'visiting' && externalLabos.length  === 0){
               // orga d'origine is missing, let's use activity visiting
-              
               
               const visitingActivities = activities.filter(a => 
                                   a.people.some(p=> p.people && p.people.toString() === person._id.toString() 
                                                     )
-                                  && overlap(internalMemberships[0],a)
-                                  && a.organizations.some(o => o.organization.toString() === internalMemberships[0].organization.toString()
+                                  && overlap(im,a)
+                                  && a.organizations.some(o => o.organization.toString() === im.organization.toString()
                                                              && o.role === 'orgadaccueil'))
 
               if (visitingActivities.length > 0)
                 externalLabos = _(visitingActivities).map(a => a.organizations.filter(o => o.role === 'orgadorigine')).flatten().value()
             }
             if (externalLabos.length > 0){
-              info.lab2 =  externalLabos[0].organization ? externalLabos[0].organization.acronym || externalLabos[0].organization.name : '';
-              info.countryLab2 = externalLabos[0].organization ? externalLabos[0].organization.countries.map(c => simpleEnumValue('countries',c)).join(',') : '';
+              extraInfo.lab2 =  externalLabos[0].organization ? externalLabos[0].organization.acronym || externalLabos[0].organization.name : '';
+              extraInfo.countryLab2 = externalLabos[0].organization ? externalLabos[0].organization.countries.map(c => simpleEnumValue('countries',c)).join(',') : '';
             }
-          }
 
-          //******** GRADE & STATUS
-          if(relevantGrades.length>0){
-            const grade = relevantGrades[0]
-            if(grade.gradeStatus)
-              info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
-            if(grade.grade && grade.gradeStatus)
-              info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
-          }
+            //******** GRADE & STATUS
+            relevantGrades = findAndSortRelevantItems(person.grades, [im]);
+            if(relevantGrades.length>0){
+              const grade = relevantGrades[0]
+              if(grade.gradeStatus)
+                extraInfo.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
+              if(grade.grade && grade.gradeStatus)
+                extraInfo.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+            }
 
-          return info;
+            infos.push(Object.assign({},info,extraInfo))
+          })
+
+          return infos;
         })
+        // flatten multilines by people into one list of lines
+        .flatten()
         // removing empty cases
         .compact()
         .value();
         // order by name
-        facultyMember = _.sortBy(facultyMember, p => `${p.name} - ${p.firstName}`);
+        visitingAssociatesAffiliates = _.sortBy(visitingAssociatesAffiliates, p => `${p.name} - ${p.firstName}`);
         
-        return callback(null, facultyMember);
+        return callback(null, visitingAssociatesAffiliates);
       });
        
     }
