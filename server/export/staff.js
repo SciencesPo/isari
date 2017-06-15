@@ -658,7 +658,7 @@ const SHEETS = [
                   if (positions && positions.length > 0 && positions[0].organization){
                     info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
                     info.jobName = positions[0].jobName
-                    info.jobType = positions[0].jobType 
+                    info.jobType = simpleEnumValue('jobType',positions[0].jobType) 
                     info.timepart = positions[0].timepart 
                   }
                 }
@@ -855,7 +855,7 @@ const SHEETS = [
             }
 
             infos.push(Object.assign({},info,extraInfo))
-          })
+          })    
 
           return infos;
         })
