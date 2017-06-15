@@ -234,8 +234,15 @@
             "accessType": "confidential",
             "date": {
                 "label": {
-                    "fr": "Date",
-                    "en": "Date"
+                    "fr": "Date (de début)",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
                 },
                 "type": "date"
             },

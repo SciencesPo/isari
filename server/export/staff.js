@@ -204,6 +204,7 @@ const FACULTY_SHEET_TEMPLATE ={
       {key: 'bonuses', label: 'Prime.s', 'accessType': 'confidential'},
       {key: 'facultyMonitoring', label: 'Suivi F.P.', 'accessType': 'confidential'},
       {key: 'facultyMonitoringDate', label: 'Suivi F.P. Date', 'accessType': 'confidential'},
+      {key: 'facultyMonitoringEndDate', label: 'Suivi F.P. Date de fin', 'accessType': 'confidential'},
       {key: 'facultyMonitoringComment', label: 'Suivi F.P. détails', 'accessType': 'confidential'},
       {key: 'emails', label: 'Email.s'},
       {key: 'bannerUid', label: 'ID banner'},
@@ -372,8 +373,10 @@ const FACULTY_SHEET_TEMPLATE ={
               const grade = relevantGrades[0]
               if(grade.gradeStatus)
                 info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
-              if(grade.grade && grade.gradeStatus)
-                info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+              if(grade.grade && grade.gradeStatus){
+                const gradeEnum = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade)
+                info.grade = gradeEnum ? gradeEnum.label.fr : ''
+              }
                   
 
 
@@ -391,12 +394,20 @@ const FACULTY_SHEET_TEMPLATE ={
                 }
 
                 if (person.facultyMonitoring && person.facultyMonitoring.length > 0) {
-                  const fms = findAndSortRelevantItems(person.facultyMonitoring);
+                  const fms = findAndSortRelevantItems(person.facultyMonitoring.map(fm => {
+                    return {
+                      startDate:fm.date,
+                      endDate:fm.endDate ? fm.endDate : fm.date,
+                      facultyMonitoringType:fm.facultyMonitoringType,
+                      comments:fm.comments
+                    }
+                  }));
                   if (fms && fms.length > 0){
                     const fm = fms[0];
-                    info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
-                    info.facultyMonitoringDate = fm.date ? fm.date : '';
-                    info.facultyMonitoringComment = fm.comments ? fm.comments : '';
+                   info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
+                   info.facultyMonitoringDate = fm.startDate ? fm.startDate : '';
+                   info.facultyMonitoringEndDate = fm.endDate && fm.endDate !== fm.startDate ? fm.endDate : '';
+                   info.facultyMonitoringComment = fm.comments ? fm.comments : '';
                   }
                 }
               }
