@@ -511,7 +511,7 @@ const SHEETS = [
       {key: 'endDate', label: 'Date de sortie'},
       {key: 'jobName', label: 'Emploi personnalisé'},
       {key: 'jobType', label: 'Type de contrat'},
-      {key: 'timepart', label: 'Grade'},
+      {key: 'timepart', label: 'Taux d\'occupation'},
       {key: 'doctorat', label: 'PHD'},  
       {key: 'emails', label: 'Email.s'},
       {key: 'bannerUid', label: 'ID banner'},

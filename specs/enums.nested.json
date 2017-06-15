@@ -1252,13 +1252,6 @@
         ],
         "enseignant": [
             {
-                "value": "professeurassocié",
-                "label": {
-                    "fr": "Professeur.e associé.e",
-                    "en": ""
-                }
-            },
-            {
                 "value": "prag",
                 "label": {
                     "fr": "PRAG",
