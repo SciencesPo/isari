@@ -132,10 +132,15 @@ function currentDeptMembershipsDates(p,scope){
 
 // personnalActivities
 function personalActivity(p) {
+
   if (!Array.isArray(p))
     p = [p]
 
-  return p.map(e => formatEnum('personalActivityTypes', e.personalActivityType, label => label + ' ' + prettyPrintTimePeriod(p))).join(';')
+  return p.map(e => {
+    if (e)
+     return formatEnum('personalActivityTypes', e.personalActivityType, label => label + ' ' + prettyPrintTimePeriod(p))
+    }
+    ).join(';')
 }
 
 // distinctions
