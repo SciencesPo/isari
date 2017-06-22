@@ -1,6 +1,12 @@
 <button md-raised-button [md-menu-trigger-for]="menu">{{ 'download_select' | translate }}</button>
 
 <md-menu #menu="mdMenu">
-  <button md-menu-item (click)="downloadXLSX()">Excel</button>
-  <button md-menu-item (click)="downloadCSV()">CSV</button>
+
+  <a md-menu-item
+	*ngIf="(feature === 'people' && !externals)"
+   	href="{{ getExportDowloadLink('staff') }}">{{ 'download_staff_export'  | translate}}
+  </a>
+  <!-- a other button to add for grant download if feature === 'activities' -->
+  <button md-menu-item (click)="downloadXLSX()">{{ 'download_excel_table'  | translate}}</button>
+  <button md-menu-item (click)="downloadCSV()">{{ 'download_csv_table'  | translate}}</button>
 </md-menu>

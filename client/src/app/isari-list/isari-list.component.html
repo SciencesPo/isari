@@ -32,7 +32,7 @@
 
     <span class="filer"></span>
 
-    <isari-download-button [feature]="feature" [data]="filteredData" [selectedColumns]="selectedColumns"></isari-download-button>
+    <isari-download-button [feature]="feature" [startDate]="dateForm.value.startDate" [endDate]="dateForm.value.endDate"  [data]="filteredData" [selectedColumns]="selectedColumns"></isari-download-button>
     <isari-cols-selector [cols]="cols" [selectedColumns]="selectedColumns" (onColSeleted)="colSelected($event)"></isari-cols-selector>
     <button *ngIf="canCreate" md-raised-button [disableRipple]="true" (click)="createObject()">
       {{ ('btn_add_' + feature) | translate }}
