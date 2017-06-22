@@ -37,6 +37,8 @@ maxSize = 5000
 [ldap]
 url = 'ldap://ldap-pprd.sciences-po.fr:389'
 dn = 'DC=sciencespo,DC=fr'
+bind_dn = 'cn=ACCOUNT, ou=ACCOUNT_TYPE, dc=sciencespo,dc=fr'
+password = 'SECRET'
 loginAtt = 'supannAliasLogin'
 activeFlag = 'scpoAllActifSI'
 # WARNING! USE WITH CAUTION!

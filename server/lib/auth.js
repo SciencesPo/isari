@@ -16,6 +16,8 @@ function connectedAuth () {
 	const baseClient = connect()
 
 	return (login, password) => baseClient
+		// authenticate
+		.then(bind(config.ldap.bind_dn, config.ldap.password))
 		// Search for user
 		.then(search(config.ldap.dn, { scope: 'sub', filter: `(${config.ldap.loginAtt}=${login})` }))
 		// Found user?
