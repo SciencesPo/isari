@@ -325,7 +325,7 @@ const TABS = [
           title: 'Évaluation de laboratoires (type Hceres)',
           predicate(personalActivity) {
             return (
-              personalActivity.personalActivityType === 'editorial' &&
+              personalActivity.personalActivityType === 'évaluations' &&
               personalActivity.personalActivitySubtype === 'evaluationstructure' &&
               overlap(personalActivity,HCERESPERIOD)
             );
@@ -335,7 +335,7 @@ const TABS = [
           title: 'Évaluation de projets de recherche',
           predicate(personalActivity) {
             return (
-              personalActivity.personalActivityType === 'évaluation' &&
+              personalActivity.personalActivityType === 'évaluations' &&
               personalActivity.personalActivitySubtype === 'evaluationprojets' &&
               overlap(personalActivity,HCERESPERIOD)
             );
