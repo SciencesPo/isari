@@ -38,7 +38,7 @@ exports.membershipType = (people, scope) => {
   	if (scope.userCentralRole)
   		af = people.academicMemberships.filter(e => e.organization.isariMonitored);
 
-  af = af.sort(e => e.startDate)
+  af = selectPeriodFromScope(af, scope).sort(e => e.startDate)
 
   if (af.length){
   	// take the last one
