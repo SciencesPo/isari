@@ -38,13 +38,10 @@ exports.membershipType = (people, scope) => {
   	if (scope.userCentralRole)
   		af = people.academicMemberships.filter(e => e.organization.isariMonitored);
 
-  af = selectPeriodFromScope(af, scope).sort(e => e.startDate)
+  af = selectPeriodFromScope(af, scope)
 
   if (af.length){
-  	// take the last one
-  	af = af[af.length -1]
-  	af = formatEnum('academicMembershipType', af.membershipType)
-  	return af;
+  	return _(af.map(a => formatEnum('academicMembershipType', a.membershipType))).uniq();
   }
   else
   	return '';
