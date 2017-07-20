@@ -49,6 +49,25 @@ const XLSX_ROUTINES = {
 		check(query) {
 			return true
 		}
+	},
+	grants: {
+		fn: require('../export/grants.js'),
+		args(req, next) {
+			//range
+			let range = []
+			if (req.query.start)
+				range.push(req.query.start)
+			if (req.query.end)
+				range.push(req.query.end)
+			range = range.sort()
+			//role
+			const role = req.userCentralRole ?  'central_'+req.userCentralRole : req.userRoles[req.query.id]
+			
+			return [models, req.query.id, range, role, next]
+		},
+		check(query) {
+			return true
+		}
 	}
 }
 
