@@ -304,6 +304,13 @@
                 },
                 "type": "date"
             },
+            "signatureDate": {
+                "label": {
+                    "fr": "Date signature convention",
+                    "en": "Contract signature date"
+                },
+                "type": "date"
+            },
             "startDate": {
                 "label": {
                     "fr": "Date de début",
@@ -345,6 +352,13 @@
                     "en": "gestion déléguée au CNRS"
                 },
                 "type": "boolean"
+            },
+            "remarks":{
+                "label": {
+                    "fr": "commentaires",
+                    "en": "comments"
+                },
+                "type": "text"
             }
         }
     ],

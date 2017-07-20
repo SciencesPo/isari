@@ -940,6 +940,13 @@
                 "fr": "non retenu",
                 "en": "rejected"
             }
+        },
+        {
+            "value": "finished",
+            "label": {
+                "fr": "terminé",
+                "en": "finished"
+            }
         }
     ],
     "activityTypes": [
