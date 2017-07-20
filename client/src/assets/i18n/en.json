@@ -12,6 +12,7 @@
   "columns_select": "Column selection",
   "download_select": "Download",
   "download_staff_export" : "Staff export in Excel",
+  "download_grants_export" : "Projects grants in Excel",
   "download_excel_table" : "This table in Excel",
   "download_csv_table" : "This table in CSV",
   "btn_apply": "Apply",
