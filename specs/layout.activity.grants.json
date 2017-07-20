@@ -5,10 +5,11 @@
 	 	["grantProgram","grantCall"],
 	 	["submissionDate","signatureDate"],
 		["startDate","endDate"],
-		["status","durationInMonths",],
+		["status","durationInMonths"],
 		["currencyAmount","overheadsCalculation"],
 		["UG","delegationCNRS"],
 		"amounts",
-		"remarks"
+		"remarks",
+		"reports"
 	]
 ]

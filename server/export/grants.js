@@ -163,7 +163,7 @@ module.exports = function(models, centerId, range, role, callback) {
           })
           .then(activities => {
               const findAndSortRelevantItems = findAndSortRelevantItemsFactory(reportPeriod)
-
+              let reportsLines = []
               grantsInfo = _(activities).map(a => {
                 
                 let lines = []
@@ -233,7 +233,7 @@ module.exports = function(models, centerId, range, role, callback) {
                       if (p.people.contacts.length > 0)
                         activityHeaders.respScientifiquesEmails.push(p.people.contacts[0].email)
                       break;
-                    case 'chefProjet' :
+                    case 'projectManager' :
                       activityHeaders.projectManagers.push(p.people.firstName+' '+p.people.name)
                       if (p.people.contacts.length > 0)
                         activityHeaders.projectManagersEmails.push(p.people.contacts[0].email)
@@ -244,19 +244,15 @@ module.exports = function(models, centerId, range, role, callback) {
                   if (['central_admin', 'central_reader', 'center_admin'].includes(role)) {
                     //protected fields
                     // is that people from Sciences Po, count by gender
-                    console.log(p.people.academicMemberships,{depth:null})
-                    console.log(findAndSortRelevantItems(p.people.academicMemberships, [a])
-                        .find(am => am.organization.isariMonitored))
-
+                    
                     if (findAndSortRelevantItems(p.people.academicMemberships, [a])
                         .find(am => am.organization.isariMonitored)){
-                      console.log(`counting gendre for ${p.people.name}`)
                       switch(p.people.gender){
                         case 'm': 
                           switch(p.role){
                             case 'PI': activityHeaders.sciencesPomPIs++; break;
                             case 'responsableScientifique': activityHeaders.sciencesPomRespScientifiques++; break;
-                            case 'chefProjet' : activityHeaders.sciencesPomProjectManagers++; break;
+                            case 'projectManager' : activityHeaders.sciencesPomProjectManagers++; break;
                             break;
                           }
                           break;
@@ -264,7 +260,7 @@ module.exports = function(models, centerId, range, role, callback) {
                           switch(p.role){
                             case 'PI': activityHeaders.sciencesPofPIs++; break;
                             case 'responsableScientifique': activityHeaders.sciencesPofRespScientifiques++; break;
-                            case 'chefProjet' : activityHeaders.sciencesPofProjectManagers++; break;
+                            case 'projectManager' : activityHeaders.sciencesPofProjectManagers++; break;
                             break;
                           }
                           break;
@@ -272,7 +268,7 @@ module.exports = function(models, centerId, range, role, callback) {
                           switch(p.role){
                             case 'PI': activityHeaders.sciencesPooPIs++; break;
                             case 'responsableScientifique': activityHeaders.sciencesPooRespScientifiques++; break;
-                            case 'chefProjet' : activityHeaders.sciencesPooProjectManagers++; break;
+                            case 'projectManager' : activityHeaders.sciencesPooProjectManagers++; break;
                             break;
                           }
                           break;
@@ -313,9 +309,36 @@ module.exports = function(models, centerId, range, role, callback) {
                     if (a.amountType === 'consortiumobtenu' && a.budgetType === 'total')
                         line.totalConsortium = a.amount
                   })
-                  // line.grantComment = g.grantComment
+                  line.grantComment = g.remarks
 
                   lines.push(line)
+
+                  // prepare reports tab data
+                  if (g.reports && g.reports.length >0){
+                    g.reports.forEach(r => {
+                      const reportLine = {}
+                      // intitulé projet
+                      reportLine.projectName = a.acronym || a.name
+                      // type de rapport - scientifique/financier -
+                      reportLine.reportType = r.reportType
+                      // période 1,2, 3, 4 +
+                      reportLine.reportPeriod = r.period
+                      // date début,
+                      reportLine.startDate = r.startDate
+                      // date fin,
+                      reportLine.endDate = r.endDate
+                      // date début rapport,
+                      reportLine.reportStartDate = r.reportStartDate
+                      // date livraison rapport,
+                      reportLine.reportEndDate = r.reportEndDate
+                      // CAC - oui/non
+                      reportLine.cac = r.cac
+
+                      reportsLines.push(reportLine)
+                    })
+                  }
+
+
                 })
 
                 return lines
@@ -386,8 +409,28 @@ module.exports = function(models, centerId, range, role, callback) {
                 workbook,
                 createSheet(grantInfosHeaders,
                   grantsInfo),
-                  'grantInfo'
+                  'Financements'
                 );
+
+              // report tab headers
+              let grantReportsHeaders = [
+                {key: 'projectName', label: 'Projet'},
+                {key: 'reportType', label: 'type'},
+                {key: 'reportPeriod', label: 'période'},
+                {key: 'startDate', label: 'Date de début'},
+                {key: 'endDate', label: 'Date de fin'},
+                {key: 'reportStartDate', label: 'Date début du raport'},
+                {key: 'reportEndDate', label: 'Date livraison'},
+                {key: 'cac', label: 'Commissaire au compte'}
+              ]
+              addSheetToWorkbook(
+                workbook,
+                createSheet(grantReportsHeaders,
+                  reportsLines),
+                  'Rapports'
+                );
+
+
               return next2(null)
           })
         }
