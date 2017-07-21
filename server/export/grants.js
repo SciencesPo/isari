@@ -309,7 +309,7 @@ module.exports = function(models, centerId, range, role, callback) {
                     if (a.amountType === 'consortiumobtenu' && a.budgetType === 'total')
                         line.totalConsortium = a.amount
                   })
-                  line.grantComment = g.remarks
+                
 
                   lines.push(line)
 
@@ -333,6 +333,8 @@ module.exports = function(models, centerId, range, role, callback) {
                       reportLine.reportEndDate = r.reportEndDate
                       // CAC - oui/non
                       reportLine.cac = r.cac
+                      // remarks
+                      reportLine.comments = r.remarks
 
                       reportsLines.push(reportLine)
                     })
@@ -421,7 +423,8 @@ module.exports = function(models, centerId, range, role, callback) {
                 {key: 'endDate', label: 'Date de fin'},
                 {key: 'reportStartDate', label: 'Date début du raport'},
                 {key: 'reportEndDate', label: 'Date livraison'},
-                {key: 'cac', label: 'Commissaire au compte'}
+                {key: 'cac', label: 'Commissaire au compte'},
+                {key: 'comments', label: 'Commentaires'}
               ]
               addSheetToWorkbook(
                 workbook,

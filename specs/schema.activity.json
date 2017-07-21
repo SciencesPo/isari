@@ -353,18 +353,11 @@
                 },
                 "type": "boolean"
             },
-            "remarks":{
-                "label": {
-                    "fr": "commentaires",
-                    "en": "comments"
-                },
-                "type": "text"
-            },
             "reports":[{
                 "accessType": "confidential",
                 "label":{
-                    "fr": "Rapports financiers",
-                    "en": "Financial reports"
+                    "fr": "Rapports financiers/scientifiques",
+                    "en": "Financial/scientific reports"
                 },
                 "reportType":{
                     "label":{
@@ -377,7 +370,8 @@
                     "label":{
                         "fr": "Période",
                         "en": "Period"
-                    }
+                    },
+                    "enum":"grantReportPeriods"
                 },
                 "startDate": {
                     "label": {
