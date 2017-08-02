@@ -432,6 +432,13 @@
                 }
             },
             {
+                "value": "projectManager",
+                "label": {
+                    "fr": "Project manager",
+                    "en": "Project manager"
+                }
+            },
+            {
                 "value": "membre",
                 "label": {
                     "fr": "Membre de l'équipe de recherche",
@@ -555,6 +562,13 @@
                 "label": {
                     "fr": "Partenaire",
                     "en": "Partner"
+                }
+            },
+            {
+                "value": "partieTierce",
+                "label": {
+                    "fr": "Partie tierce",
+                    "en": "Third party"
                 }
             }
         ],
@@ -1251,13 +1265,6 @@
             }
         ],
         "enseignant": [
-            {
-                "value": "professeurassocié",
-                "label": {
-                    "fr": "Professeur.e associé.e",
-                    "en": ""
-                }
-            },
             {
                 "value": "prag",
                 "label": {

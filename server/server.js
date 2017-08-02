@@ -12,6 +12,11 @@ const { connect } = require('./lib/model')
 
 const server = createServer(app)
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at:', p);
+  // application specific logging, throwing an error, or other logic here
+});
+
 server.on('listening', () => {
 	const addr = server.address()
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port

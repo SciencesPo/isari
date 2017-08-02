@@ -325,7 +325,7 @@ const TABS = [
           title: 'Évaluation de laboratoires (type Hceres)',
           predicate(personalActivity) {
             return (
-              personalActivity.personalActivityType === 'editorial' &&
+              personalActivity.personalActivityType === 'évaluations' &&
               personalActivity.personalActivitySubtype === 'evaluationstructure' &&
               overlap(personalActivity,HCERESPERIOD)
             );
@@ -335,7 +335,7 @@ const TABS = [
           title: 'Évaluation de projets de recherche',
           predicate(personalActivity) {
             return (
-              personalActivity.personalActivityType === 'évaluation' &&
+              personalActivity.personalActivityType === 'évaluations' &&
               personalActivity.personalActivitySubtype === 'evaluationprojets' &&
               overlap(personalActivity,HCERESPERIOD)
             );
@@ -786,19 +786,24 @@ const TABS = [
       let invited = data.activities
         .filter(activity => activity.activityType === 'mob_sortante')
         .map(activity => {
-          const person = activity.people
-            .find(p => !p.role || p.role === 'visiting')
-            .people;
-
-          const org = activity.organizations.find(o => o.role === 'orgadaccueil');
 
           const info = {
-            name: person.name.toUpperCase(),
-            firstName: person.firstName,
             startDate: activity.startDate,
             endDate: activity.endDate
           };
 
+          const person = activity.people
+            .find(p => !p.role || p.role === 'visiting')
+          if (person){
+            info.name = person.people.name.toUpperCase();
+            info.firstName = person.people.firstName;
+          }
+          else{
+            info.name = '???';
+            info.firstName = '???';
+          }
+
+          const org = activity.organizations.find(o => o.role === 'orgadaccueil');
           if (org) {
             info.organization = org.organization.name;
 

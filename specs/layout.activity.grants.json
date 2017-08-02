@@ -3,11 +3,12 @@
 		["organization","grantIdentifier"],
 		["grantType","grantInstrument"],
 	 	["grantProgram","grantCall"],
-	 	["status","submissionDate"],
+	 	["submissionDate","signatureDate"],
 		["startDate","endDate"],
-		["durationInMonths","currencyAmount"],
-		["UG","overheadsCalculation"],
-		"delegationCNRS",
-		"amounts"
+		["status","durationInMonths"],
+		["currencyAmount","overheadsCalculation"],
+		["UG","delegationCNRS"],
+		"amounts",
+		"reports"
 	]
 ]

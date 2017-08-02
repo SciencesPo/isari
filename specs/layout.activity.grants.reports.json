@@ -1,0 +1,9 @@
+[
+	[
+		["reportType", "period"],
+		["startDate", "endDate"],
+		["reportStartDate", "reportEndDate"],
+		"cac",
+		"remarks"
+	]
+]

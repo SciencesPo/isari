@@ -304,6 +304,13 @@
                 },
                 "type": "date"
             },
+            "signatureDate": {
+                "label": {
+                    "fr": "Date signature convention",
+                    "en": "Contract signature date"
+                },
+                "type": "date"
+            },
             "startDate": {
                 "label": {
                     "fr": "Date de début",
@@ -345,7 +352,70 @@
                     "en": "gestion déléguée au CNRS"
                 },
                 "type": "boolean"
-            }
+            },
+            "reports":[{
+                "accessType": "confidential",
+                "label":{
+                    "fr": "Rapports financiers/scientifiques",
+                    "en": "Financial/scientific reports"
+                },
+                "reportType":{
+                    "label":{
+                        "fr": "Type de rapport",
+                        "en": "Report type"
+                    },
+                    "enum":"grantReportType"
+                },
+                "period":{
+                    "label":{
+                        "fr": "Période",
+                        "en": "Period"
+                    },
+                    "enum":"grantReportPeriods"
+                },
+                "startDate": {
+                    "label": {
+                        "fr": "Début de la période",
+                        "en": "Period start date"
+                    },
+                    "type": "date"
+                },
+                "endDate": {
+                    "label": {
+                        "fr": "Fin de la période",
+                        "en": "Period end date"
+                    },
+                    "type": "date"
+                },
+                "reportStartDate": {
+                    "label": {
+                        "fr": "Date de début du rapport",
+                        "en": "Report start date"
+                    },
+                    "type": "date"
+                },
+                "reportEndDate": {
+                    "label": {
+                        "fr": "Rapport attendu au",
+                        "en": "Report expected on"
+                    },
+                    "type": "date"
+                },
+                "cac": {
+                    "label": {
+                        "fr": "Commissaire au compte",
+                        "en": "Cost certificate"
+                    },
+                    "type": "boolean"
+                },
+                "remarks":{
+                    "label": {
+                        "fr": "commentaires",
+                        "en": "comments"
+                    },
+                    "type": "text"
+                }
+            }]
         }
     ],
     "distinctions": [

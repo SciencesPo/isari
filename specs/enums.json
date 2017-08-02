@@ -940,6 +940,13 @@
                 "fr": "non retenu",
                 "en": "rejected"
             }
+        },
+        {
+            "value": "finished",
+            "label": {
+                "fr": "terminé",
+                "en": "finished"
+            }
         }
     ],
     "activityTypes": [
@@ -3466,6 +3473,54 @@
                 "fr": "Autre",
                 "en": "Other"
             }
+        }
+    ],
+    "grantReportType": [
+         {
+            "value": "financial",
+            "label": {
+                "fr": "Financier",
+                "en": "Financial"
+            }
+        },
+        {
+            "value": "scientific",
+            "label": {
+                "fr": "Scientifique",
+                "en": "Scientific"
+            }
+        }
+    ],
+    "grantReportPeriods":[
+        {
+            "value": "1","label": {"fr": "1","en": "1"}
+        },
+        {
+            "value": "2","label": {"fr": "2","en": "2"}
+        },
+        {
+            "value": "3","label": {"fr": "3","en": "3"}
+        },
+        {
+            "value": "4","label": {"fr": "4","en": "4"}
+        },
+        {
+            "value": "5","label": {"fr": "5","en": "5"}
+        },
+        {
+            "value": "6","label": {"fr": "6","en": "6"}
+        },
+        {
+            "value": "7","label": {"fr": "7","en": "7"}
+        },
+        {
+            "value": "8","label": {"fr": "8","en": "8"}
+        },
+        {
+            "value": "9","label": {"fr": "9","en": "9"}
+        },
+        {
+            "value": "10","label": {"fr": "10","en": "10"}
         }
     ]
 }

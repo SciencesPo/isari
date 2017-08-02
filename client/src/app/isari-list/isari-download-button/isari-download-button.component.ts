@@ -2,6 +2,8 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import {saveAs} from 'file-saver';
 import Papa from 'papaparse';
+import { IsariDataService } from '../../isari-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       CSV_MIME = 'text/csv;charset=utf-8';
@@ -14,17 +16,27 @@ const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.s
 export class IsariDownloadButtonComponent implements OnInit {
   lang: string;
   defaultLang: string = 'fr';
+  organization: any;
 
   @Input() data: any[] = [];
   @Input() feature: string;
+  @Input() startDate: string;
+  @Input() endDate: string;
   @Input() selectedColumns: any[] = [];
 
-  constructor(private elementRef: ElementRef, private translate: TranslateService) { }
+  constructor(
+    private elementRef: ElementRef,
+    private translate: TranslateService,
+    private isariDataService: IsariDataService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+    });
+    this.route.data.subscribe(({ organization }) => {
+      this.organization = organization;
     });
   }
 
@@ -138,5 +150,19 @@ export class IsariDownloadButtonComponent implements OnInit {
           blob = new Blob([csvString], {type: CSV_MIME});
 
     saveAs(blob, `${this.feature}.csv`);
+  }
+
+   getExportDowloadLink(route) {
+    if (!this.organization) {
+      return null;
+    }
+  
+    return this.isariDataService.createExportDownloadLink(
+      'xlsx',
+      route,
+      {id: this.organization.id,
+        start: this.startDate,
+        end: this.endDate}
+    );
   }
 }

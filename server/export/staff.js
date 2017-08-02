@@ -204,6 +204,7 @@ const FACULTY_SHEET_TEMPLATE ={
       {key: 'bonuses', label: 'Prime.s', 'accessType': 'confidential'},
       {key: 'facultyMonitoring', label: 'Suivi F.P.', 'accessType': 'confidential'},
       {key: 'facultyMonitoringDate', label: 'Suivi F.P. Date', 'accessType': 'confidential'},
+      {key: 'facultyMonitoringEndDate', label: 'Suivi F.P. Date de fin', 'accessType': 'confidential'},
       {key: 'facultyMonitoringComment', label: 'Suivi F.P. détails', 'accessType': 'confidential'},
       {key: 'emails', label: 'Email.s'},
       {key: 'bannerUid', label: 'ID banner'},
@@ -293,8 +294,8 @@ const FACULTY_SHEET_TEMPLATE ={
 
               // store min starDate as date d'entrée
               info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-              const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-              info.endDate = endDate
+              const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : '9999'))
+              info.endDate = endDate === '9999' ? '' : endDate
               // then filter in requested period
               relevantPeriods = findAndSortRelevantItems(relevantPeriods)
               relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
@@ -372,8 +373,10 @@ const FACULTY_SHEET_TEMPLATE ={
               const grade = relevantGrades[0]
               if(grade.gradeStatus)
                 info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
-              if(grade.grade && grade.gradeStatus)
-                info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+              if(grade.grade && grade.gradeStatus){
+                const gradeEnum = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade)
+                info.grade = gradeEnum ? gradeEnum.label.fr : ''
+              }
                   
 
 
@@ -391,12 +394,20 @@ const FACULTY_SHEET_TEMPLATE ={
                 }
 
                 if (person.facultyMonitoring && person.facultyMonitoring.length > 0) {
-                  const fms = findAndSortRelevantItems(person.facultyMonitoring);
+                  const fms = findAndSortRelevantItems(person.facultyMonitoring.map(fm => {
+                    return {
+                      startDate:fm.date,
+                      endDate:fm.endDate ? fm.endDate : fm.date,
+                      facultyMonitoringType:fm.facultyMonitoringType,
+                      comments:fm.comments
+                    }
+                  }));
                   if (fms && fms.length > 0){
                     const fm = fms[0];
-                    info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
-                    info.facultyMonitoringDate = fm.date ? fm.date : '';
-                    info.facultyMonitoringComment = fm.comments ? fm.comments : '';
+                   info.facultyMonitoring = simpleEnumValue('facultyMonitoringTypes', fm.facultyMonitoringType)
+                   info.facultyMonitoringDate = fm.startDate ? fm.startDate : '';
+                   info.facultyMonitoringEndDate = fm.endDate && fm.endDate !== fm.startDate ? fm.endDate : '';
+                   info.facultyMonitoringComment = fm.comments ? fm.comments : '';
                   }
                 }
               }
@@ -511,7 +522,7 @@ const SHEETS = [
       {key: 'endDate', label: 'Date de sortie'},
       {key: 'jobName', label: 'Emploi personnalisé'},
       {key: 'jobType', label: 'Type de contrat'},
-      {key: 'timepart', label: 'Grade'},
+      {key: 'timepart', label: 'Taux d\'occupation'},
       {key: 'doctorat', label: 'PHD'},  
       {key: 'emails', label: 'Email.s'},
       {key: 'bannerUid', label: 'ID banner'},
@@ -602,9 +613,15 @@ const SHEETS = [
                                           .value()
 
                 // store min starDate as date d'entrée
-                info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-                const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-                info.endDate = endDate
+
+                // startDate = minimum startDate of relevantPeriods & startDates of position with Sciences Po
+                FNSPPositions = person.positions.filter(p =>
+                                          p.startDate &&
+                                          p.organization && p.organization.acronym &&
+                                          p.organization.acronym === 'FNSP')
+                info.startDate = _.min(relevantPeriods.concat(FNSPPositions).map(rp => rp.startDate))
+                const endDate = _.max(relevantPeriods.concat(FNSPPositions).map(rp => rp.endDate ? rp.endDate : '9999'))
+                info.endDate = endDate === '9999' ? '' : endDate 
                 // then filter in requested period
                 relevantPeriods = findAndSortRelevantItems(relevantPeriods)
                 relevantGrades = findAndSortRelevantItems(relevantGrades, relevantPeriods)
@@ -652,7 +669,7 @@ const SHEETS = [
                   if (positions && positions.length > 0 && positions[0].organization){
                     info.tutelle =  positions[0].organization.acronym || positions[0].organization.name;
                     info.jobName = positions[0].jobName
-                    info.jobType = positions[0].jobType 
+                    info.jobType = simpleEnumValue('jobType',positions[0].jobType) 
                     info.timepart = positions[0].timepart 
                   }
                 }
@@ -715,8 +732,8 @@ const SHEETS = [
       {key: 'countryLab2', label: 'Pays labo 2'},
       {key: 'status', label: 'Statut'},
       {key: 'grade', label: 'Grade'},
-      {key: 'startDate', label: 'Date d\'entrée'},
-      {key: 'endDate', label: 'Date de sortie'},
+      {key: 'startDate', label: 'Date de début'},
+      {key: 'endDate', label: 'Date de fin'},
       {key: 'emails', label: 'Email.s'}
     ],
     populate(models, centerId, reportPeriod, role, callback){
@@ -772,7 +789,7 @@ const SHEETS = [
         const findAndSortRelevantItems = findAndSortRelevantItemsFactory(reportPeriod);
         
         //-- 2) Retrieving necessary data
-        let facultyMember = _(people).map(person => {
+        let visitingAssociatesAffiliates = _(people).map(person => {
 
           //******** PERSONAL INFO
           const info = {
@@ -797,89 +814,71 @@ const SHEETS = [
             info.emails = person.contacts.map(c => c.email).filter(e => e).join(', '); 
           }
 
-          const internalMemberships = person.academicMemberships
+          // filter academicMemberships to internal only + with scope request 
+          const internalMemberships = findAndSortRelevantItems(person.academicMemberships
                                             .filter(am =>
                                               membershipTypes.includes(am.membershipType) &&
                                               am.organization.isariMonitored
-                                            );
+                                            ));
 
-          // calculate intersection period between relevant grades and internalMemberships
-          let relevantPeriods = internalMemberships
-          // store min starDate as date d'entrée
-          info.startDate = _.min(relevantPeriods.map(rp => rp.startDate))
-          const endDate = _.max(relevantPeriods.map(rp => rp.endDate ? rp.endDate : ''))
-          info.endDate = endDate
-          // then filter in requested period
-          relevantPeriods = findAndSortRelevantItems(relevantPeriods)
-          relevantGrades = findAndSortRelevantItems(person.grades, relevantPeriods)
-          
-      
-          // if no filtered grade matched an internal membership, discard
-          if (relevantPeriods.length === 0){                
-            return undefined
-          }
-          
+          // we create one line in export by memberships duplicating personal info
+          const infos = []
+          let extraInfo = {}
+          internalMemberships.forEach(im => {
+            extraInfo = {startDate:im.startDate,endDate:im.endDate};
+            
+           
+            
+            extraInfo.lab1 = im.organization.acronym || im.organization.name;
+            extraInfo.lab1Type = simpleEnumValue('academicMembershipType',im.membershipType);
 
-          //******** LAB AFFILIATION
-          //let internalLabos = findAndSortRelevantItems(internalMemberships, relevantPeriods);
-          // force MAXPO and LIEPP labs and non-FNSP labs to lab2 column
-          if (internalMemberships.length > 1 
-            && overlap(internalMemberships[0],internalMemberships[1])
-            && internalMemberships[0].organization._id !== internalMemberships[1].organization._id
-            && (['MAXPO', 'LIEPP'].includes(internalMemberships[0].organization.acronym))
-            ){
-            // swap lab 1 and 2
-            const swap = internalMemberships[0];
-            internalMemberships[0] = internalMemberships[1];
-            internalMemberships[1] = swap;
-          }
-
-          if (internalMemberships.length > 0){
-            info.lab1 = internalMemberships[0].organization.acronym || internalMemberships[0].organization.name;
-            info.lab1Type = simpleEnumValue('academicMembershipType',internalMemberships[0].membershipType);
             let externalLabos = findAndSortRelevantItems(person.academicMemberships
-                                                           .filter(am => am.organization._id != internalMemberships[0].organization._id
+                                                           .filter(am => am.organization._id != im.organization._id
                                                             && !am.organization.isariMonitored),
-                                                           [internalMemberships[0]])
+                                                           [im])
 
-            if (internalMemberships[0].membershipType === 'visiting' && externalLabos.length  === 0){
+            if (im === 'visiting' && externalLabos.length  === 0){
               // orga d'origine is missing, let's use activity visiting
-              
               
               const visitingActivities = activities.filter(a => 
                                   a.people.some(p=> p.people && p.people.toString() === person._id.toString() 
                                                     )
-                                  && overlap(internalMemberships[0],a)
-                                  && a.organizations.some(o => o.organization.toString() === internalMemberships[0].organization.toString()
+                                  && overlap(im,a)
+                                  && a.organizations.some(o => o.organization.toString() === im.organization.toString()
                                                              && o.role === 'orgadaccueil'))
 
               if (visitingActivities.length > 0)
                 externalLabos = _(visitingActivities).map(a => a.organizations.filter(o => o.role === 'orgadorigine')).flatten().value()
             }
             if (externalLabos.length > 0){
-              info.lab2 =  externalLabos[0].organization ? externalLabos[0].organization.acronym || externalLabos[0].organization.name : '';
-              info.countryLab2 = externalLabos[0].organization ? externalLabos[0].organization.countries.map(c => simpleEnumValue('countries',c)).join(',') : '';
+              extraInfo.lab2 =  externalLabos[0].organization ? externalLabos[0].organization.acronym || externalLabos[0].organization.name : '';
+              extraInfo.countryLab2 = externalLabos[0].organization ? externalLabos[0].organization.countries.map(c => simpleEnumValue('countries',c)).join(',') : '';
             }
-          }
 
-          //******** GRADE & STATUS
-          if(relevantGrades.length>0){
-            const grade = relevantGrades[0]
-            if(grade.gradeStatus)
-              info.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
-            if(grade.grade && grade.gradeStatus)
-              info.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
-          }
+            //******** GRADE & STATUS
+            relevantGrades = findAndSortRelevantItems(person.grades, [im]);
+            if(relevantGrades.length>0){
+              const grade = relevantGrades[0]
+              if(grade.gradeStatus)
+                extraInfo.status = simpleEnumValue('gradeStatus', grade.gradeStatus)
+              if(grade.grade && grade.gradeStatus)
+                extraInfo.grade = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade).label.fr
+            }
 
-          return info;
+            infos.push(Object.assign({},info,extraInfo))
+          })    
+
+          return infos;
         })
+        // flatten multilines by people into one list of lines
+        .flatten()
         // removing empty cases
         .compact()
         .value();
         // order by name
-        facultyMember = _.sortBy(facultyMember, p => `${p.name} - ${p.firstName}`);
+        visitingAssociatesAffiliates = _.sortBy(visitingAssociatesAffiliates, p => `${p.name} - ${p.firstName}`);
         
-        return callback(null, facultyMember);
+        return callback(null, visitingAssociatesAffiliates);
       });
        
     }

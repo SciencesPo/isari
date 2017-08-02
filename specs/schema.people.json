@@ -234,8 +234,15 @@
             "accessType": "confidential",
             "date": {
                 "label": {
-                    "fr": "Date",
-                    "en": "Date"
+                    "fr": "Date (de début)",
+                    "en": "Start date"
+                },
+                "type": "date"
+            },
+            "endDate": {
+                "label": {
+                    "fr": "Date de fin",
+                    "en": "End date"
                 },
                 "type": "date"
             },
@@ -610,40 +617,52 @@
             "fr": "Identifiant annuaire Sciences Po",
             "en": "Sciences Po's directory identifier"
         },
-        "service": "ldap"
+        "service": "ldap",
+        "unique": true,
+        "sparse": true
     },
     "idScopus": {
         "label": {
             "fr": "ID Scopus",
             "en": "Scopus identifier"
-        }
+        },
+        "unique": true,
+        "sparse": true
     },
     "bannerUid": {
         "label": {
             "fr": "Identifiant scolarité Sciences Po",
             "en": "Sciences Po's teaching identifier"
         },
-        "service": "banner"
+        "service": "banner",
+        "unique": true,
+        "sparse": true
     },
     "sirhMatricule": {
         "label": {
             "fr": "Identifiant RH Sciences Po",
             "en": "Sciences Po's HR identifier"
         },
-        "service": "sirh"
+        "service": "sirh",
+        "unique": true,
+        "sparse": true
     },
     "CNRSMatricule": {
         "label": {
             "fr": "Identifiant CNRS",
             "en": "CNRS identifier"
-        }
+        },
+        "unique": true,
+        "sparse": true
     },
     "idSpire": {
         "label": {
             "fr": "ID SPIRE",
             "en": "SPIRE identifier"
         },
-        "service": "spire"
+        "service": "spire",
+        "unique": true,
+        "sparse": true
     },
     "ORCID": {
         "label": {
@@ -653,7 +672,9 @@
         "description": {
             "fr": "Identifiant ouvert pour chercheur et contributeur",
             "en": "Open Researcher and Contributor ID"
-        }
+        },
+        "unique": true,
+        "sparse": true
     },
     "IDREF": {
         "label": {
@@ -663,7 +684,9 @@
         "description": {
             "fr": "Identifiant ouvert pour chercheur et contributeur compatible SUDOC, STAR, STEP, Calames",
             "en": "Identifier complying with SUDOC, STAR, STEP, Calames"
-        }
+        },
+        "unique": true,
+        "sparse": true
     },
     "isariAuthorizedCenters": [
         {

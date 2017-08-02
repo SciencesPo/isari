@@ -120,7 +120,7 @@
       [lang]="lang"
       [field]="getField(field)"></isari-field>
 
-    <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled"><md-icon>add</md-icon> {{ 'add' | translate }}</a>
+    <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled"><md-icon>add</md-icon> {{ 'add' | translate }} {{field.label}}</a>
 
   </span>
 

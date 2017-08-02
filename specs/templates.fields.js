@@ -10,12 +10,16 @@ const { overlap, formatDate } = require('../server/export/helpers')
 
 function prettyPrintTimePeriod(g){
   if (g.startDate && g.endDate) {
-      return year(g.startDate) + '-' + year(g.endDate)
+      if (year(g.endDate) != year(g.startDate))
+        return year(g.startDate) + '-' + year(g.endDate)
+      else
+        return year(g.startDate)
   } else if (g.startDate) {
     return  year(g.startDate) + '-…'
   } else if (g.endDate) {
     return ' …-' + year(g.endDate)
   }
+  return ''
 }
 
 // period from scope
@@ -128,10 +132,15 @@ function currentDeptMembershipsDates(p,scope){
 
 // personnalActivities
 function personalActivity(p) {
+
   if (!Array.isArray(p))
     p = [p]
 
-  return p.map(e => formatEnum('personalActivityTypes', e.personalActivityType, label => label + ' ' + prettyPrintTimePeriod(p))).join(';')
+  return p.map(e => {
+    if (e)
+     return formatEnum('personalActivityTypes', e.personalActivityType, label => label + ' ' + prettyPrintTimePeriod(p))
+    }
+    ).join(';')
 }
 
 // distinctions
@@ -207,11 +216,13 @@ exports.facultyMonitoring = (fm, scope)=>{
     return fm.map(f => {
       return {
         startDate: f.date, 
-        endDate: f.date,
+        endDate: f.endDate ? f.endDate : f.date,
         facultyMonitoringType: f.facultyMonitoringType }
     })
     .filter(a => overlap(a,testingPeriodFrom(scope)))
-    .map(a => formatEnum('facultyMonitoringTypes', a.facultyMonitoringType, label => `${label} ${formatDate(a.startDate)}`))
+    .map(a => {
+      return formatEnum('facultyMonitoringTypes', a.facultyMonitoringType, label => `${label} ${prettyPrintTimePeriod(a)}`)
+    })
   }
 
   return '';

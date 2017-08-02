@@ -38,13 +38,10 @@ exports.membershipType = (people, scope) => {
   	if (scope.userCentralRole)
   		af = people.academicMemberships.filter(e => e.organization.isariMonitored);
 
-  af = af.sort(e => e.startDate)
+  af = selectPeriodFromScope(af, scope)
 
   if (af.length){
-  	// take the last one
-  	af = af[af.length -1]
-  	af = formatEnum('academicMembershipType', af.membershipType)
-  	return af;
+  	return _(af.map(a => formatEnum('academicMembershipType', a.membershipType))).uniq();
   }
   else
   	return '';
@@ -82,11 +79,11 @@ exports.entryDate = (people, scope) => {
 exports.leavingDate = (people, scope) => {
 	if (people.academicMemberships)
 		if (scope.userScopeOrganizationId)
-		  return _.maxBy(people.academicMemberships.filter(e => e.organization._id.toString() === scope.userScopeOrganizationId).map(e => e.endDate), d => d || Infinity )
+		  return _.maxBy(people.academicMemberships.filter(e => e.organization._id.toString() === scope.userScopeOrganizationId).map(e => e.endDate), d => d || '9999' )
 		else
   			// central point of view let's check if the correct role is set
   			if (scope.userCentralRole)
-	  			return _.maxBy(people.academicMemberships.filter(e => e.organization.isariMonitored).map(e => e.endDate), d => d || Infinity )
+	  			return _.maxBy(people.academicMemberships.filter(e => e.organization.isariMonitored).map(e => e.endDate), d => d || '9999' )
   	return '';
 };
 
