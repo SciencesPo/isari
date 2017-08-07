@@ -16,6 +16,8 @@ CONFIG_FILE=/isari/server/config/default.toml
 : ${LDAP_ACTIVE_FLAG:=Active}
 : ${LDAP_SKIP:=true}
 : ${LDAP_LOGINATT:=uid}
+: ${LDAP_BIND_DN:=cn=user,dc=example,dc=com}
+: ${LDAP_PASSWORD:=secret}
 
 
 if [[ -n "$SERVER_PORT" ]]; then 
@@ -58,4 +60,11 @@ if [[ -n "$LDAP_LOGINATT" ]]; then
 	sed  -E -i '/^\[ldap\]$/,/^\[/ s/^loginAtt\s*=.*/loginAtt = '"\'$LDAP_LOGINATT\'"'/' $CONFIG_FILE
 fi
 
+if [[ -n "$LDAP_BIND_DN" ]]; then 
+	sed  -E -i '/^\[ldap\]$/,/^\[/ s/^bind_dn\s*=.*/bind_dn = '"\'$LDAP_BIND_DN\'"'/' $CONFIG_FILE
+fi
+
+if [[ -n "$LDAP_PASSWORD" ]]; then 
+	sed  -E -i '/^\[ldap\]$/,/^\[/ s/^password\s*=.*/password = '"\'$LDAP_PASSWORD\'"'/' $CONFIG_FILE
+fi
 exec gosu node:node bash -c "node server"
