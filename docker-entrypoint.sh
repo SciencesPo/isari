@@ -1,5 +1,10 @@
 #!/bin/bash
 
+bashEscape() {
+   sed 's#\([]\!\(\)\#\%\@\*\$\/&\-\=[]\)#\\\1#g'
+}
+
+
 CONFIG_FILE=/isari/server/config/default.toml
 
 : ${SERVER_PORT:=8080}
@@ -65,6 +70,7 @@ if [[ -n "$LDAP_BIND_DN" ]]; then
 fi
 
 if [[ -n "$LDAP_PASSWORD" ]]; then 
+        LDAP_PASSWORD=$(echo $LDAP_PASSWORD | bashEscape)
 	sed  -E -i '/^\[ldap\]$/,/^\[/ s/^password\s*=.*/password = '"\'$LDAP_PASSWORD\'"'/' $CONFIG_FILE
 fi
 exec gosu node:node bash -c "node server"
