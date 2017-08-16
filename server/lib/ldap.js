@@ -2,18 +2,31 @@
 
 const config = require('config')
 const { createClient } = require('ldapjs')
+const debug = require('debug')('isari:ldap')
 
 
 const connect = (url = config.ldap.url) =>
-	Promise.resolve().then(() => createClient({ url }))
+	Promise.resolve().then(() => {
+		debug('connecting')
+		const ldapClient = createClient({ url,  reconnect: true, timeout: 2000, connectTimeout:2000 })
+		ldapClient.on('error', err => {
+  			debug('LDAP connection failed', err)
+  			throw err
+		})
+		return ldapClient
+	})
 
-const bind = (dn, password) => client =>
-	new Promise((resolve, reject) => client.bind(dn, password, err => err ? reject(err) : resolve(client)))
+
+const bind = (dn, password) => client =>{
+	debug(`binding ${dn}`)
+	return new Promise((resolve, reject) => client.bind(dn, password, err => err ? reject(err) : resolve(client)))
+}
 
 const unbind = client => new Promise((resolve, reject) => client.unbind(err => err ? reject(err) : resolve()))
 
-const search = (dn, opts) => client => new Promise((resolve, reject) =>
-	client.search(dn, opts, (err, res) => {
+const search = (dn, opts) => client => new Promise((resolve, reject) =>{
+	debug(`searching ${dn}`)
+	return client.search(dn, opts, (err, res) => {
 		if (err) {
 			return reject(err)
 		}
@@ -30,11 +43,15 @@ const search = (dn, opts) => client => new Promise((resolve, reject) =>
 			}
 		})
 		res.on('end', () => {
+			client.unbind(e => {
+				client.destroy()
+				debug("disconnected")
+			}) 
 			if (!rejected) {
 				resolve(entries)
 			}
 		})
-	}))
+	})})
 
 
 module.exports = {
