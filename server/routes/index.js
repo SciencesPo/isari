@@ -19,6 +19,7 @@ exports.layouts = require('./layouts')
 exports.columns = require('./columns')
 
 exports.export = require('./export')
+exports.editLog = require('./editLog')
 
 exports.errors = require('./errors')
 exports.auth = require('./auth')
