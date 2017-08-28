@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -50,10 +51,17 @@ export class IsariEditorComponent implements OnInit {
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private dialog: MdDialog) {
+    private dialog: MdDialog,
+    private http: Http) {
       PageScrollConfig.defaultScrollOffset = 50;
       PageScrollConfig.defaultDuration = 500;
     }
+
+  history() {
+    console.log('history')
+    // this.http.get('')
+  }
+
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
