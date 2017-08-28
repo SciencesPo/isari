@@ -58,16 +58,51 @@ function getEditLog(req, res){
 		mongoQuery.item = itemId
 
 
-	EditLog.find(mongoQuery)
-	// skip and limit
-	.skip(query.skip ? +query.skip : 0)
-	.limit(query.limit ? +query.limit : 50).then(data => {
+	EditLog.aggregate([
+		{'$match':mongoQuery},
+		{'$lookup':{
+	          from: "people",
+	          localField: "whoID",
+	          foreignField: "_id",
+	          as: "creator"
+        }},
+        // {'$lookup':{
+	       //    from: "organizations",
+	       //    localField: "creator.isariAuthorizedCenters.organization",
+	       //    foreignField: "_id",
+	       //    as: "isariLabs"
+        // }},
+        {'$lookup':{
+	          from: model === 'People' ? 'people' : (model === 'Organization' ? 'organizations' : 'activities'),
+	          localField: "item",
+	          foreignField: "_id",
+	          as: "itemObject"
+        }},
+		// skip and limit
+		{'$skip':query.skip ? +query.skip : 0},
+		{'$limit':query.limit ? +query.limit : 50}
+
+		])
+		.then(data => {
 		const edits = []
 		data.forEach(d => {
 			const edit = {}
-			edit.who = d.who
+			edit.who = {
+				id: d.whoID,
+				name: (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name,
+				roles: d.creator[0].isariAuthorizedCenters ? 
+						d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
+						[]
+			}
+			console.log(d)
 			edit.date = d.date
-			edit.item = d.item
+			edit.item = { id:d.item}
+			if (model === "People" && d.itemObject[0])
+				edit.item.name = (d.itemObject[0].firstName ? d.itemObject[0].firstName+' ': '')+ d.itemObject[0].name
+			else
+				if (d.itemObject[0])
+					edit.item.name = d.itemObject[0].acronym || d.itemObject[0].name
+
 			edit.action = d.action
 
 			if (edit.action === 'update'){
