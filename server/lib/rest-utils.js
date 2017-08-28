@@ -225,7 +225,7 @@ const replaceModel = (Model, save, getPermissions) => {
 		}
 
 		// Delete
-		doc.latestChangeBy = req.session.login // sign for EditLogs
+		doc.latestChangeBy = req.userId // sign for EditLogs
 		debug('Save', Model.modelName, doc)
 		return save(doc, perms)
 	}))
@@ -234,7 +234,7 @@ const replaceModel = (Model, save, getPermissions) => {
 const createModel = (Model, save, getPermissions) => (req, res) => Promise.resolve()
 	.then(() => new Model(removeEmptyFields(req.body)))
 	.then(doc => getPermissions(req, doc).then(perms => {
-		doc.latestChangeBy = req.session.login // sign for EditLogs
+		doc.latestChangeBy = req.userId // sign for EditLogs
 		return save(doc, perms)
 	}))
 	.then(saved => {
@@ -270,7 +270,7 @@ const deleteModel = (Model, getPermissions) => {
 			if (hasRelations)
 				return Promise.reject(ClientError({ status: 403, message: 'Target still has relations' }))
 
-			doc.latestChangeBy = req.session.login
+			doc.latestChangeBy = req.userId
 			return doc.remove()
 		})
 		.then(() => {
