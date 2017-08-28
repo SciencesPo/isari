@@ -33,6 +33,7 @@ export class IsariListComponent implements OnInit {
   activityType: string;
   activityTypeLabel: string;
   canCreate = false;
+  itemsPerPage: number;
 
   constructor (
     private userService: UserService,
@@ -79,7 +80,7 @@ export class IsariListComponent implements OnInit {
         const dateFilters = this.storageService.get('dateFilters', this.feature) || {};
         //We removed the adding today's date as defautl startDate
         //This mask a bug: the setValue doesnot properly update the date fields
-        // when not reloading completely the page (type of activity switch) 
+        // when not reloading completely the page (type of activity switch)
         this.dateForm.controls['startDate'].setValue(dateFilters['startDate'] || '');
         this.dateForm.controls['endDate'].setValue(dateFilters['endDate'] || '');
 
@@ -93,6 +94,9 @@ export class IsariListComponent implements OnInit {
         } else {
           this.loadDatas();
         }
+
+        // set itemsPerPage
+        this.itemsPerPage = this.storageService.get('itemsPerPage', this.feature) || 10;
 
       });
 
@@ -132,6 +136,10 @@ export class IsariListComponent implements OnInit {
   endDateUpdated($event) {
     this.storageService.upsert(this.dateForm.value.endDate, 'dateFilters', this.feature, 'endDate');
     this.loadDatas();
+  }
+
+  storeItemsPerPage(itemsPerPage) {
+    this.storageService.save(itemsPerPage, 'itemsPerPage', this.feature);
   }
 
   filtered($event) {

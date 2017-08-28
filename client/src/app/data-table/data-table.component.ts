@@ -13,7 +13,6 @@ import { StorageService } from '../storage.service';
 export class DataTableComponent implements OnInit, OnChanges {
   page: any[];
   filters: any = {};
-  itemsPerPage = 10;
   sortedState: { key: string, reverse: boolean } = { key: '', reverse: false };
   unfilteredData: any[];
   lang: string;
@@ -23,6 +22,8 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input() cols: any[];
   @Input() editedId: string;
   @Output() onFilter = new EventEmitter<any>();
+  @Output() onItemsPerPageChange = new EventEmitter<number>();
+  @Input() itemsPerPage: number = 10;
   @Input() feature: string;
 
   constructor(
@@ -87,6 +88,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   pageChanged($event) {
+    if (this.itemsPerPage !== $event.itemsPerPage) this.onItemsPerPageChange.emit($event.itemsPerPage);
     this.itemsPerPage = $event.itemsPerPage;
     this.calculPage($event.page);
   }
