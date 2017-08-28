@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { environment } from '../environments/environment';
@@ -41,7 +42,8 @@ export class UserService {
 
   isLoggedIn() {
     return this.http.get(this.checkUrl, this.httpOptions)
-      .map(response => response.json()).publishReplay(1).refCount();
+      .map(response => response.json()).publishReplay(1).refCount()
+      .catch(err => Observable.throw(err));
   }
 
   getOrganizations() {

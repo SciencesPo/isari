@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
@@ -31,6 +31,7 @@ export class IsariSelectComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<any>();
 
   max = 20;
+  skip = 0;
   values: any[] = [];
   allValues: any[] = [];
   selectControl: FormControl;
@@ -41,6 +42,9 @@ export class IsariSelectComponent implements OnInit {
   lang: string;
   id: string | undefined;
   lastValidStringValue: any;
+  noblur: boolean = false;
+
+  @ViewChild('search') inputElement: ElementRef;
 
   constructor(private translate: TranslateService) { }
 
@@ -65,7 +69,9 @@ export class IsariSelectComponent implements OnInit {
         this.lastValidStringValue = '';
         this.update({log: true, path: this.path, type: 'update'});
       }
-      this.values = values.map(this.translateItem.bind(this));
+      this.allValues = values;
+      this.skip = 0;
+      this.values = this.allValues.slice(this.skip, this.max).map(this.translateItem.bind(this));
       this.setExtend();
     });
 
@@ -90,14 +96,19 @@ export class IsariSelectComponent implements OnInit {
 
   onFocus($event) {
     // force reload of values https://github.com/SciencesPo/isari/issues/132
-    if (this.selectControl.value === '') {
-      (<EventEmitter<any>>this.selectControl.valueChanges).emit(' ');
-      (<EventEmitter<any>>this.selectControl.valueChanges).emit(''); // maybe useless
+    if (this.selectControl.value === '' && !this.noblur) {
+      // (<EventEmitter<any>>this.selectControl.valueChanges).emit(' ');
+      // (<EventEmitter<any>>this.selectControl.valueChanges).emit(''); // maybe useless
     }
+    this.noblur = false;
     this.focused = true;
   }
 
   onBlur($event) {
+    if (this.noblur) {
+      this.inputElement.nativeElement.focus();
+      return;
+    }
     this.focused = false;
     if (this.selectControl.value === '') {
       this.update({log: true, path: this.path, type: 'update', value: ''});
@@ -156,6 +167,13 @@ export class IsariSelectComponent implements OnInit {
       label = item.label['fr'];
     }
     return Object.assign({}, item, { label });
+  }
+
+  paginate (direction: number) {
+    if (direction > 0) this.skip += this.max;
+    if (direction < 0) this.skip -= this.max;
+    this.values = this.allValues.slice(this.skip, this.skip + this.max).map(this.translateItem.bind(this));
+    this.noblur = true;
   }
 
   private setExtend() {

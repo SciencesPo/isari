@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
@@ -19,7 +19,9 @@ const DOWN_ARROW = 40;
 export class IsariMultiSelectComponent implements OnInit {
 
   max = 20;
+  skip = 0;
   _values = [];
+  allOptions: any[] = [];
   options: any[] = [];
   selectControl: FormControl;
   empty: boolean = true;
@@ -29,6 +31,7 @@ export class IsariMultiSelectComponent implements OnInit {
   disabled: boolean;
   currentIndex = -1;
   altLabel: string;
+  noblur: boolean = false;
 
   @Input() name: string;
   @Input() path: string;
@@ -42,6 +45,8 @@ export class IsariMultiSelectComponent implements OnInit {
   @Input() create: Function;
   @Input() extensible = false;
   @Input() stringValue: Observable<string[]>;
+
+  @ViewChild('search') inputElement: ElementRef;
 
   constructor(private translate: TranslateService) { }
 
@@ -69,7 +74,9 @@ export class IsariMultiSelectComponent implements OnInit {
         .startWith(this.translate.currentLang)
     ).subscribe(([{values}, lang]: [{values: any[]}, string]) => {
       this.lang = lang;
-      this.options = values.map(this.translateItem.bind(this));
+      this.allOptions = values;
+      this.skip = 0;
+      this.options = this.allOptions.splice(this.skip, this.skip + this.max).map(this.translateItem.bind(this));
       this.setExtend();
     });
 
@@ -98,9 +105,14 @@ export class IsariMultiSelectComponent implements OnInit {
     this.empty = false;
     this.focused = true;
     this.altLabel = '';
+    this.noblur = false;
   }
 
   onBlur($event) {
+    if (this.noblur) {
+      this.inputElement.nativeElement.focus();
+      return;
+    }
     this.addValue(this.selectControl.value);
     this.empty = this.values.length === 0;
     this.focused = false;
@@ -158,6 +170,13 @@ export class IsariMultiSelectComponent implements OnInit {
       }
       this.addValue(item);
     });
+  }
+
+  paginate (direction: number) {
+    if (direction > 0) this.skip += this.max;
+    if (direction < 0) this.skip -= this.max;
+    this.options = this.allOptions.slice(this.skip, this.skip + this.max).map(this.translateItem.bind(this));
+    this.noblur = true;
   }
 
   private translateItem (item) {

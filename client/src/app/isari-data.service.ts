@@ -225,9 +225,10 @@ export class IsariDataService {
           enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
 
          // term = this.normalize(term.toLowerCase());
-          return ({
+         return ({
             reset: false,
-            values: this.filterEnumValues(enumValues, term, lang).slice(0, max)
+            values: this.filterEnumValues(enumValues, term, lang), //.slice(0, max),
+            // size: values.length
           });
         });
 
