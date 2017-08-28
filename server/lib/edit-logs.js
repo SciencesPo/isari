@@ -35,6 +35,10 @@ const EditLogSchema = new mongoose.Schema({
 	who: {
 		type: String,
 		required: false
+	},
+	whoID: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: false
 	}
 })
 
@@ -81,7 +85,7 @@ const middleware = schema => {
 			item: data._id,
 			date: new Date(),
 			action: this.isNew ? 'create' : 'update',
-			who
+			whoID: who
 		}
 
 		if (this.isNew) {

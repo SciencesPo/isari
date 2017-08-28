@@ -3,6 +3,9 @@ const {EditLog} = require('../../server/lib/edit-logs')
 const async = require('async')
 const _ = require('lodash')
 
+const mongoose = require('../../server/node_modules/mongoose')
+const ObjectId = mongoose.Types.ObjectId;
+
 console.log('starting migration')
 models.connect()
 
@@ -17,10 +20,13 @@ async.waterfall([
 	(data,next) => {
 		// update edtilogs
 		async.parallelLimit(
-			data.map(e => (nextParallel) => EditLog.updateMany(
-				{who:e.ldapUid},
-				{who:e._id},
-				(error,cursor) => nextParallel(null, cursor.modifiedCount))),
+			data.map(e => (nextParallel) => {
+
+				return EditLog.updateMany(
+				{who: e.ldapUid},
+				{whoID: ObjectId(e._id)},
+				(error,cursor) => nextParallel(null, cursor.modifiedCount))
+			}),
 			100,
 			(err, counts) => {
 				console.log(`wrote ${_.sum(counts)} modifications on editLogs`)
@@ -32,7 +38,7 @@ async.waterfall([
 		async.parallelLimit(
 			data.map(e => (nextParallel) => models.People.updateMany(
 				{latestChangeBy:e.ldapUid},
-				{latestChangeBy:e._id},
+				{latestChangeBy: ObjectId(e._id)},
 				(error,cursor) => nextParallel(null, cursor.modifiedCount))),
 			100,
 			(err, counts) => {
@@ -45,7 +51,7 @@ async.waterfall([
 		async.parallelLimit(
 			data.map(e => (nextParallel) => models.Organization.updateMany(
 				{latestChangeBy:e.ldapUid},
-				{latestChangeBy:e._id},
+				{latestChangeBy: ObjectId(e._id)},
 				(error,cursor) => nextParallel(null, cursor.modifiedCount))),
 			100,
 			(err, counts) => {
@@ -58,7 +64,7 @@ async.waterfall([
 		async.parallelLimit(
 			data.map(e => (nextParallel) => models.Activity.updateMany(
 				{latestChangeBy:e.ldapUid},
-				{latestChangeBy:e._id},
+				{latestChangeBy: ObjectId(e._id)},
 				(error,cursor) => nextParallel(null, cursor.modifiedCount))),
 			100,
 			(err, counts) => {
