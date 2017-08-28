@@ -197,7 +197,7 @@ const replaceModel = (Model, save, getPermissions) => {
 
 			if (operation.type === 'update') {
 				if (!('value' in operation) || operation.value === null || operation.value === '') {
-					unsetIn(updated, operation.path)
+					setIn(updated, operation.path, 'TO.BE.REMOVED')
 				}
 				else {
 					setIn(updated, operation.path, operation.value)
@@ -221,7 +221,8 @@ const replaceModel = (Model, save, getPermissions) => {
 		})
 
 		for (const f in updated) {
-			doc[f] = updated[f]
+			if (updated[f] === 'TO.BE.REMOVED') doc.set(f, undefined, {strict: false} )
+			else doc[f] = updated[f]
 		}
 
 		// Delete

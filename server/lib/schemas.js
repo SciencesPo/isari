@@ -152,7 +152,8 @@ function getField (name, meta, parentDesc, rootDesc = null) {
 		schema.type = String
 		// Ensure leading zeros are always here
 		schema.match = /^[12][0-9]{3}(?:-(?:0[1-9]|1[0-2]))?(?:-(?:0[1-9]|[12][0-9]|3[01]))?$/
-		schema.set = s => s.replace(/^([12][0-9]{3})(?:-(0?[1-9]|1[0-2]))?(?:-(0?[1-9]|[12]\d|3[01]))?$/, (ymd, y, m, d) => y + (m ? m.length === 1 ? '-0' + m : '-' + m : '') + (d ? d.length === 1 ? '-0' + d : '-' + d : ''))
+		// transform if data is given, but allow undefined #403
+		schema.set = s => s ? s.replace(/^([12][0-9]{3})(?:-(0?[1-9]|1[0-2]))?(?:-(0?[1-9]|[12]\d|3[01]))?$/, (ymd, y, m, d) => y + (m ? m.length === 1 ? '-0' + m : '-' + m : '') + (d ? d.length === 1 ? '-0' + d : '-' + d : '')) : s
 	} else if (type === 'ref') {
 		schema.type = Schema.Types.ObjectId
 		if (!desc.ref) {
