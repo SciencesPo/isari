@@ -7,7 +7,7 @@
         <tr *ngFor="let item of items">
             <td>{{ item.value }}</td>
             <td>
-                <a [routerLink]="['/', feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" preserveQueryParams>
+                <a [routerLink]="['/', feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" queryParamsHandling="preserve">
                     <md-icon>open_in_new</md-icon>
                 </a>
             </td>
@@ -17,5 +17,5 @@
 
 <p>
     {{ 'no matching' | translate }}
-    <a (click)="closeMe()" [disabled]="!minimalSearchDone" md-raised-button color="primary" [routerLink]="['/', feature , { outlets: { primary: 'new', editor: null } }]" preserveQueryParams target="_blank">{{ 'Continuer' | translate }}</a>
+    <a (click)="closeMe()" [disabled]="!minimalSearchDone" md-raised-button color="primary" [routerLink]="['/', feature , { outlets: { primary: 'new', editor: null } }]" queryParamsHandling="preserve" target="_blank">{{ 'Continuer' | translate }}</a>
 </p>

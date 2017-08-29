@@ -1,4 +1,3 @@
-import { Http } from '@angular/http';
 import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -36,6 +35,7 @@ export class IsariEditorComponent implements OnInit {
   deletable = false;
   relations: { label: string, value: Array<any>, show: boolean, feature: string }[];
   exist = false;
+  logs: any[];
   private errors: any;
 
   private pressedSaveShortcut: Function;
@@ -51,17 +51,15 @@ export class IsariEditorComponent implements OnInit {
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private dialog: MdDialog,
-    private http: Http) {
+    private dialog: MdDialog) {
       PageScrollConfig.defaultScrollOffset = 50;
       PageScrollConfig.defaultDuration = 500;
     }
 
   history() {
-    console.log('history')
-    // this.http.get('')
+    this.isariDataService.getHistory(this.feature, { id: this.id })
+    .subscribe(logs => this.logs = logs);
   }
-
 
   ngOnInit() {
     this.lang = this.translate.currentLang;

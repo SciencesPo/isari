@@ -16,7 +16,7 @@
         <md-icon>file_download</md-icon>
         <div class="tooltip" id="hceres-export">Export HCERES</div>
       </button>
-      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/people" preserveQueryParams>
+      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/people" queryParamsHandling="preserve">
         <md-icon>people</md-icon>
         <div class="tooltip" id="people">{{ 'people' | translate }}</div>
       </button>
@@ -24,11 +24,11 @@
         <md-icon>account_balance</md-icon>
         <div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div>
       </button>
-      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/organizations" preserveQueryParams>
+      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/organizations" queryParamsHandling="preserve">
         <md-icon>account_balance</md-icon>
         <div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div>
       </button>
-      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/activities" preserveQueryParams>
+      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/activities" queryParamsHandling="preserve">
         <md-icon>apps</md-icon>
         <div class="tooltip" id="activities">{{ 'activities' | translate }}</div>
       </button>
