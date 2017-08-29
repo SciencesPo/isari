@@ -34,6 +34,7 @@ module.exports = Router().get('/:model/:itemId?', requiresAuthentication, getEdi
 
 function getEditLog(req, res){
 	let model = req.params.model
+	// params
 	const itemId = req.params.itemId
 	const query = req.query
 
@@ -55,7 +56,12 @@ function getEditLog(req, res){
 	model = _.capitalize(model)
 	const mongoQuery = {model}
 	if (itemId)
-		mongoQuery.item = itemId
+		mongoQuery.item = ObjectId(itemId)
+	console.log(query.path)
+	if (query.path)
+		mongoQuery['diff'] = {'$elemMatch': {"0.path":query.path}} 
+	if (query.action)
+		mongoQuery['action'] = query.action
 
 
 	EditLog.aggregate([
@@ -78,9 +84,17 @@ function getEditLog(req, res){
 	          foreignField: "_id",
 	          as: "itemObject"
         }},
+        // TODO : project to only usefull fields to limit payload
+        // {'$project':{
+        // 	whoID:1,
+        // 	"creator.firstName":1,
+        // 	"creator.name":1,
+        // 	"creator.isariAuthorizedCenters":1,
+
+        // }}
 		// skip and limit
 		{'$skip':query.skip ? +query.skip : 0},
-		{'$limit':query.limit ? +query.limit : 50}
+		{'$limit':query.limit ? +query.limit : 100}
 
 		])
 		.then(data => {
@@ -94,7 +108,7 @@ function getEditLog(req, res){
 						d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
 						[]
 			}
-			console.log(d)
+
 			edit.date = d.date
 			edit.item = { id:d.item}
 			if (model === "People" && d.itemObject[0])
@@ -133,7 +147,17 @@ function getEditLog(req, res){
 							}).filter(d => d)
 			}
 			else{
-				edit.diff = d.data
+				// that's actually a bad idea, performance-wise.
+				// This data contain the whole document !
+				edit.diff = {}
+				if (edit.action === "create"){
+					edit.diff.valueAfter = d.data
+					edit.diff.editType = 'create'
+				}
+				if (edit.action === "delete"){
+					edit.diff.valueBefore = d.data
+					edit.diff.editType = 'delete'
+				}
 			}
 
 			edits.push(edit)
