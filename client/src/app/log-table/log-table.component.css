@@ -1,0 +1,63 @@
+table {
+  width: 100%;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+table tbody tr {
+  cursor: pointer;
+}
+
+table.bordered > thead > tr,
+table.bordered > tbody > tr {
+  border-bottom: 1px solid #d0d0d0;
+}
+
+table.striped > tbody > tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+table.striped > tbody > tr:hover {
+  background-color: #ddd;
+}
+
+table.striped > tbody > tr > td {
+  border-radius: 0;
+  vertical-align: top;
+}
+
+table.striped > tbody > tr > td > p {
+  margin: 0;
+}
+
+table.striped > tbody > tr.active {
+  background-color: #b0bec5;
+  color: #fff;
+}
+
+table.centered thead tr th, table.centered tbody tr td {
+  text-align: center;
+}
+
+thead {
+  border-bottom: 1px solid #d0d0d0;
+}
+
+td, th {
+  padding: 15px 5px;
+  display: table-cell;
+  text-align: left;
+  vertical-align: middle;
+  border-radius: 2px;
+  max-width: 400px;
+}

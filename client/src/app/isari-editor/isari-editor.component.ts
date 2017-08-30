@@ -35,8 +35,8 @@ export class IsariEditorComponent implements OnInit {
   deletable = false;
   relations: { label: string, value: Array<any>, show: boolean, feature: string }[];
   exist = false;
-  logs: any[];
   private errors: any;
+  organization: string;
 
   private pressedSaveShortcut: Function;
 
@@ -56,11 +56,6 @@ export class IsariEditorComponent implements OnInit {
       PageScrollConfig.defaultDuration = 500;
     }
 
-  history() {
-    this.isariDataService.getHistory(this.feature, { id: this.id })
-    .subscribe(logs => this.logs = logs);
-  }
-
   ngOnInit() {
     this.lang = this.translate.currentLang;
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -79,6 +74,8 @@ export class IsariEditorComponent implements OnInit {
         .combineLatest(this.route.parent.params, this.route.params)
         .map(([x, y]) => Object.assign({}, x, y))
       : this.route.params;
+
+    this.route.queryParams.subscribe(({organization}) => this.organization = organization);
 
     Observable.combineLatest(
       $routeParams,
