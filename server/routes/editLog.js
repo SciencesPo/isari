@@ -157,14 +157,19 @@ function getEditLog(req, res){
 										})
 			}
 			else{
-				edit.diff=[{
-					editType: d.action
-				}]
+				edit.diff = []
 				// in case of create or delete diff data is stored in data
 				// we filter tecnical fields
 				const data = _.omit(d.data,editLogsDataKeysBlacklist)
-				// sotred in value After or Before as other diffs
-				edit.diff[0][d.action === 'create' ? 'valueAfter' : 'valueBefore'] = data					
+				_.forOwn(data, (value,key) => {
+					const diff = {
+						editType: d.action,
+						path: key
+					}
+					// store in value After or Before as other diffs
+					diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
+					edit.diff.push(diff)
+				})
 			}
 
 			if (edit.diff.length === 0){
