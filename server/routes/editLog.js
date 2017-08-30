@@ -74,6 +74,7 @@ function getEditLog(req, res){
 		mongoQuery['action'] = query.action
 
 
+
 	EditLog.aggregate([
 		{'$match':mongoQuery},
 		{'$lookup':{
@@ -164,7 +165,7 @@ function getEditLog(req, res){
 				_.forOwn(data, (value,key) => {
 					const diff = {
 						editType: d.action,
-						path: key
+						path: [key]
 					}
 					// store in value After or Before as other diffs
 					diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
