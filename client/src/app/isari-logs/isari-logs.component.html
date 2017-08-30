@@ -3,12 +3,17 @@
 <div class="app-content">
 
     <md-card>
-        <md-toolbar [color]="primary">
+        <md-toolbar>
           <span>{{ 'history' | translate }} : {{ feature | translate }}</span>
           &nbsp;
         </md-toolbar>
 
-        <isari-log-table [feature]="feature" [logs]="logs" [labs]="labs$ | async" *ngIf="logs$ | async as logs else loading"></isari-log-table>
+        <isari-log-table *ngIf="logs$ | async as logs else loading"
+          [feature]="feature"
+          [logs]="logs"
+          [labs]="labs$ | async"
+          [options]="options"
+          (onOptionsChange)="changeOpt($event)"></isari-log-table>
 
         <ng-template #loading>
           <isari-spinner></isari-spinner>

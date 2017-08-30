@@ -19,7 +19,7 @@ import uniq from 'lodash/uniq';
 export class IsariLogsComponent implements OnInit {
 
   feature: string;
-  options: { id: string };
+  options: { id?: string, skip?: number, limit?: number } = { skip: 0, limit: 5 };
   logs$: Observable<any[]>;
   labs$: Observable<any[]>;
 
@@ -30,26 +30,35 @@ export class IsariLogsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.logs$ = Observable
-      .combineLatest([
-        this.route.params,
-        this.route.queryParams,
-        this.translate.onLangChange
-          .map((event: LangChangeEvent) => event.lang)
-          .startWith(this.translate.currentLang)
-      ])
-      .switchMap(([{ feature }, options, lang]) => {
-        this.feature = feature;
-        this.options = omit(options, ['organization']);
+    this.fetch();
+  }
 
-        return this.isariDataService
-          .getHistory(this.feature, this.options, lang)
-      })
-      .map(logs => {
-        this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
-          .map(labs => keyBy(labs, 'id'));
-        return logs;
-      });
+  changeOpt(options) {
+    this.options = options;
+    this.fetch();
+  }
+
+  private fetch() {
+    this.logs$ = Observable
+    .combineLatest([
+      this.route.params,
+      this.route.queryParams,
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ])
+    .switchMap(([params, options, lang]) => {
+      this.feature = params['feature'];
+      this.options = Object.assign({}, this.options, omit(options, ['organization']));
+
+      return this.isariDataService
+        .getHistory(this.feature, this.options, lang)
+    })
+    .map(logs => {
+      this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
+        .map(labs => keyBy(labs, 'id'));
+      return logs;
+    });
   }
 
 }
