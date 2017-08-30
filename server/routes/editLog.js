@@ -4,11 +4,11 @@ const { Router } = require('express')
 const { UnauthorizedError } = require('../lib/errors')
 const {EditLog} = require('../lib/edit-logs')
 const { requiresAuthentication } = require('../lib/permissions')
-
+const models = require('../lib/model')
 const mongoose = require('mongoose')
 const _ = require('lodash')
 
-//const async = require('async')
+const async = require('async')
 const debug = require('debug')('isari:export')
 
 const ObjectId = mongoose.Types.ObjectId
@@ -62,126 +62,153 @@ function getEditLog(req, res){
 		res.send(UnauthorizedError({ title: 'Write access is mandatory to access EditLog'}))
 	}
 
-	// build the mongo query to editLog collection
-	model = _.capitalize(model)
-	const mongoQuery = {model}
-	if (itemId)
-		mongoQuery.item = ObjectId(itemId)
-
-	if (query.path)
-		mongoQuery['diff'] = {'$elemMatch': {'0.path':query.path}} 
-	if (query.action)
-		mongoQuery['action'] = query.action
 
 
+	async.waterfall([
+		next => {
+			if (!query.whoID && (query.isariLab || query.isariRole)){
+				//need to retrieve list of targeted creators first
+				const mongoQueryPeople = {}
+				if (query.isariLab)
+					mongoQueryPeople['isariAuthorizedCenters.organization'] = ObjectId(query.isariLab)
+				if (query.isariRole)
+					mongoQueryPeople['isariAuthorizedCenters.isariRole'] = query.isariRole
 
-	EditLog.aggregate([
-		{'$match':mongoQuery},
-		{'$lookup':{
-			from: 'people',
-			localField: 'whoID',
-			foreignField: '_id',
-			as: 'creator'
-		}},
-		// {'$lookup':{
-		//    from: "organizations",
-		//    localField: "creator.isariAuthorizedCenters.organization",
-		//    foreignField: "_id",
-		//    as: "isariLabs"
-		// }},
-		{'$lookup':{
-			from: model === 'People' ? 'people' : (model === 'Organization' ? 'organizations' : 'activities'),
-			localField: 'item',
-			foreignField: '_id',
-			as: 'itemObject'
-		}},
-		// TODO : project to only usefull fields to limit payload
-		// {'$project':{
-		//  whoID:1,
-		//  "creator.firstName":1,
-		//  "creator.name":1,
-		//  "creator.isariAuthorizedCenters":1,
-
-		// }}
-		// skip and limit
-		{'$skip':query.skip ? +query.skip : 0},
-		{'$limit':query.limit ? +query.limit : 100}
-
-	])
-	.then(data => {
-		const edits = []
-		data.forEach(d => {
-			const edit = {}
-			edit.who = {
-				id: d.whoID,
-				name: (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name,
-				roles: d.creator[0].isariAuthorizedCenters ? 
-								d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
-								[]
-			}
-
-			edit.date = d.date
-			edit.item = { id:d.item}
-			if (model === 'People' && d.itemObject[0]){
-				edit.item.name = (d.itemObject[0].firstName ? d.itemObject[0].firstName+' ': '')+ d.itemObject[0].name
-			}else
-					if (d.itemObject[0])
-						edit.item.name = d.itemObject[0].acronym || d.itemObject[0].name
-
-			edit.action = d.action
-
-			if (edit.action === 'update'){
-				edit.diff = d.diff.filter(d => editLogsPathFilter(d[0].path))
-																	// blaclisting weird diffs
-										.map(d => {
-											d = d[0]
-
-											// remove index of element in array from path
-											const diff = {path: d.path.filter(e => typeof e !== 'number')}
-
-											if (d.kind === 'A'){
-												//array case...
-												if (d.item.lhs)
-													diff.valueBefore = d.item.lhs
-												if(d.item.rhs)
-													diff.valueAfter = d.item.rhs
-												diff.editType = formatKind(d.item.kind)
-											}
-											else {
-												if (d.lhs)
-													diff.valueBefore = d.lhs
-												if( d.rhs)
-													diff.valueAfter = d.rhs
-												diff.editType = formatKind(d.kind)
-											}
-											return diff
-										})
+				models.People.aggregate([
+					{$match:mongoQueryPeople},
+					{$project:{_id:1}}
+				]).then(whoIds => next(null, whoIds.map(r => r._id)))
 			}
 			else{
-				edit.diff = []
-				// in case of create or delete diff data is stored in data
-				// we filter tecnical fields
-				const data = _.omit(d.data,editLogsDataKeysBlacklist)
-				_.forOwn(data, (value,key) => {
-					const diff = {
-						editType: d.action,
-						path: [key]
+				next(null, undefined)
+			}
+		},
+		(whoIds, next) =>{
+			// build the mongo query to editLog collection
+			model = _.capitalize(model)
+			const mongoQuery = {model}
+			if (itemId)
+				mongoQuery.item = ObjectId(itemId)
+
+			if (query.whoID)
+				mongoQuery['whoID'] = query.whoID
+			else 
+				if (whoIds)
+					mongoQuery['whoID'] = {$in:whoIds} 
+			
+			if (query.path)
+				mongoQuery['diff'] = {'$elemMatch': {'0.path':query.path}} 
+			
+			if (query.action)
+				mongoQuery['action'] = query.action
+
+			EditLog.aggregate([
+				{'$match':mongoQuery},
+				{'$lookup':{
+					from: 'people',
+					localField: 'whoID',
+					foreignField: '_id',
+					as: 'creator'
+				}},
+				{'$lookup':{
+					from: model === 'People' ? 'people' : (model === 'Organization' ? 'organizations' : 'activities'),
+					localField: 'item',
+					foreignField: '_id',
+					as: 'itemObject'
+				}},
+				// TODO : project to only usefull fields to limit payload
+				// {'$project':{
+				//  whoID:1,
+				//  "creator.firstName":1,
+				//  "creator.name":1,
+				//  "creator.isariAuthorizedCenters":1,
+
+				// }}
+				// skip and limit
+				{'$skip':query.skip ? +query.skip : 0},
+				{'$limit':query.limit ? +query.limit : 100}
+
+			])
+			.then(data => {
+				const edits = []
+				data.forEach(d => {
+					const edit = {}
+					edit.who = {
+						id: d.whoID,
+						name: (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name,
+						roles: d.creator[0].isariAuthorizedCenters ? 
+										d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
+										[]
 					}
-					// store in value After or Before as other diffs
-					diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
-					edit.diff.push(diff)
-				})
-			}
 
-			if (edit.diff.length === 0){
-				debug('empty diff in :')
-				debug(edit)
-			}
-			else
-				edits.push(edit)
-		})      
-		return res.status(200).send(edits)
+					edit.date = d.date
+					edit.item = { id:d.item}
+					if (model === 'People' && d.itemObject[0]){
+						edit.item.name = (d.itemObject[0].firstName ? d.itemObject[0].firstName+' ': '')+ d.itemObject[0].name
+					}else
+							if (d.itemObject[0])
+								edit.item.name = d.itemObject[0].acronym || d.itemObject[0].name
+
+					edit.action = d.action
+
+					if (edit.action === 'update'){
+						edit.diff = d.diff.filter(d => editLogsPathFilter(d[0].path))
+																			// blaclisting weird diffs
+												.map(d => {
+													d = d[0]
+
+													// remove index of element in array from path
+													const diff = {path: d.path.filter(e => typeof e !== 'number')}
+
+													if (d.kind === 'A'){
+														//array case...
+														if (d.item.lhs)
+															diff.valueBefore = d.item.lhs
+														if(d.item.rhs)
+															diff.valueAfter = d.item.rhs
+														diff.editType = formatKind(d.item.kind)
+													}
+													else {
+														if (d.lhs)
+															diff.valueBefore = d.lhs
+														if( d.rhs)
+															diff.valueAfter = d.rhs
+														diff.editType = formatKind(d.kind)
+													}
+													return diff
+												})
+					}
+					else{
+						edit.diff = []
+						// in case of create or delete diff data is stored in data
+						// we filter tecnical fields
+						const data = _.omit(d.data,editLogsDataKeysBlacklist)
+						_.forOwn(data, (value,key) => {
+							const diff = {
+								editType: d.action,
+								path: [key]
+							}
+							// store in value After or Before as other diffs
+							diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
+							edit.diff.push(diff)
+						})
+					}
+
+					if (edit.diff.length === 0){
+						debug('empty diff in :')
+						debug(edit)
+					}
+					else
+						edits.push(edit)
+				})      
+				next(null,edits)
 	})
-		
 
+		}
+	],
+		(error,edits) =>{
+			if (error) res.status(500).send(error) 
+			return res.status(200).send(edits)
+		}
+	)
 }
