@@ -5,6 +5,9 @@ const { UnauthorizedError } = require('../lib/errors')
 const {EditLog} = require('../lib/edit-logs')
 const { requiresAuthentication } = require('../lib/permissions')
 const models = require('../lib/model')
+const {fillIncompleteDate} = require('../export/helpers')
+
+
 const mongoose = require('mongoose')
 const _ = require('lodash')
 
@@ -101,6 +104,20 @@ function getEditLog(req, res){
 			
 			if (query.action)
 				mongoQuery['action'] = query.action
+
+			//dates 
+			if (query.startDate)
+				mongoQuery['date'] = {'$gte': new Date(fillIncompleteDate(query.startDate, true))}
+
+			if (query.endDate){
+				const endDate = new Date(fillIncompleteDate(query.endDate, false))
+				endDate.setHours(23)
+				endDate.setMinutes(59)
+				if (mongoQuery['date'])
+					mongoQuery['date']['$lte'] = endDate
+				else
+					mongoQuery['date']= {'$lte': endDate}
+			}
 
 			EditLog.aggregate([
 				{'$match':mongoQuery},
