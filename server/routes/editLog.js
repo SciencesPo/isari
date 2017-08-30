@@ -141,6 +141,7 @@ function getEditLog(req, res){
 				//  "creator.isariAuthorizedCenters":1,
 
 				// }}
+				{'$sort':{date:-1}},
 				// skip and limit
 				{'$skip':query.skip ? +query.skip : 0},
 				{'$limit':query.limit ? +query.limit : 100}
