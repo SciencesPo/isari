@@ -61,3 +61,55 @@ td, th {
   border-radius: 2px;
   max-width: 400px;
 }
+
+.pagination {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.pagination ul  {
+  vertical-align: middle;
+}
+
+.pagination ul li * {
+  line-height: 36px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.pagination ul li {
+  display: inline-block;
+  border-radius: 2px;
+  text-align: center;
+  height: 36px;
+}
+
+.pagination ul li a {
+  min-width: 0;
+  vertical-align: top;
+}
+
+.pagination ul, li, a, md-icon, button {
+  font-size: 16px;
+  line-height: 36px;
+  vertical-align:top;
+  height: 36px;
+}
+
+.pagination md-icon {
+  font-size: 160%;
+  cursor: pointer;
+}
+
+.pagination button, a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.pagination li > a {
+  cursor: pointer;
+}
+
+[md-raised-button].md-primary, [md-fab].md-primary, [md-mini-fab].md-primary {
+  background-color: #E6142D;
+}

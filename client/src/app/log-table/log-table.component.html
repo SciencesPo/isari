@@ -2,32 +2,35 @@
 
   <thead>
     <tr>
+      <th>{{ 'editLogs.date' | translate }}</th>
+      <th>{{ 'editLogs.object' | translate }}</th>
+      <th>{{ 'editLogs.action' | translate }}</th>
+
       <th>{{ 'editLogs.who' | translate }}</th>
       <th>{{ 'editLogs.lab' | translate }}</th>
+
       <th>{{ 'editLogs.role' | translate }}</th>
-      <th>{{ 'editLogs.date' | translate }}</th>
-      <th>{{ 'editLogs.action' | translate }}</th>
-      <th>{{ 'editLogs.object' | translate }}</th>
       <th>{{ 'editLogs.fields' | translate }}</th>
     </tr>
   </thead>
 
   <tbody>
     <tr *ngFor="let log of logs">
+      <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
+      <td>
+          <a [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
+      </td>
+      <td>{{ 'editLogs.actions.' + log.action | translate }}</td>
+
       <td>{{ log.who.name }}</td>
       <td>
         <p *ngFor="let role of log.who.roles">
-          <a [routerLink]="['/organizations', { outlets: { editor: role.lab } }]" queryParamsHandling="preserve" *ngIf="labs">{{ labs[role.lab]?.value }}</a>
+          <a [routerLink]="['/organizations', { outlets: { editor: role.lab } }]" queryParamsHandling="preserve" *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</a>
         </p>
       </td>
+
       <td>
           <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
-      </td>
-      <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
-      <td>{{ 'editLogs.actions.' + log.action | translate }}</td>
-      <td>
-          <a [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
-
       </td>
       <td>
         <p *ngFor="let label of log._labels">{{ label.join(' : ') }}</p>
@@ -36,3 +39,10 @@
   </tbody>
 
 </table>
+
+<div class="pagination">
+  <ul>
+    <li><a md-button (click)="navigatePrev()"><md-icon>navigate_before</md-icon></a>
+    <li><a md-button (click)="navigateNext()"><md-icon>navigate_next</md-icon></a>
+  </ul>
+</div>

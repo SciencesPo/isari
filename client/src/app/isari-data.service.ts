@@ -16,6 +16,7 @@ import { UserService } from './user.service';
 import { get, sortByDistance } from './utils';
 import _get from 'lodash/get';
 import keyBy from 'lodash/keyBy';
+import omit from 'lodash/omit';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -103,9 +104,8 @@ export class IsariDataService {
   }
 
   getHistory (feature: string, query: any, lang) {
-
     return Observable.combineLatest([
-      this.http.get(`${this.editLogUrl}/${feature}/${query.id}`, this.getHttpOptions())
+      this.http.get(`${this.editLogUrl}/${feature}` + (query.id ? `/${query.id}` : ''), this.getHttpOptions(omit(query, 'id')))
         .map((response) => response.json()),
       Observable.fromPromise(this.getSchema(feature)),
       this.getEnum('isariRoles')
