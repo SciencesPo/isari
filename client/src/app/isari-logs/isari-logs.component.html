@@ -1,0 +1,9 @@
+<isari-header></isari-header>
+
+<div class="app-content">
+
+  <isari-log-table [feature]="feature" [logs]="logs" [labs]="labs$ | async" *ngIf="logs$ | async as logs else loading"></isari-log-table>
+
+  <ng-template #loading>Loading ...</ng-template>
+
+</div>

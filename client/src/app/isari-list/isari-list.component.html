@@ -10,8 +10,8 @@
 
     <button *ngIf="feature === 'activities' && activityTypes.length" md-raised-button [md-menu-trigger-for]="menuActivities">{{ (!activityType) ? ('all_activities' | translate) : (activityTypeLabel) }}</button>
     <md-menu #menuActivities="mdMenu">
-      <a md-menu-item [routerLink]="['/', feature]" preserveQueryParams>{{ 'all_activities' | translate }}</a>
-      <a *ngFor="let type of activityTypes" md-menu-item [routerLink]="[{type: type.value}]" preserveQueryParams>{{ type.label.fr }}</a>
+      <a md-menu-item [routerLink]="['/', feature]" queryParamsHandling="preserve">{{ 'all_activities' | translate }}</a>
+      <a *ngFor="let type of activityTypes" md-menu-item [routerLink]="[{type: type.value}]" queryParamsHandling="preserve">{{ type.label.fr }}</a>
     </md-menu>
 
     <isari-date

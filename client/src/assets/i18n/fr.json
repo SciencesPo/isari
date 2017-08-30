@@ -61,5 +61,15 @@
   "add": "Ajouter",
   "help": "Aide",
   "user_guide": "Guide utilisateur",
-  "fields_list": "Liste des champs"
+  "fields_list": "Liste des champs",
+  "editLogs": {
+    "who": "qui",
+    "date": "date",
+    "action": "action",
+    "actions": {
+      "create": "création",
+      "update": "édition",
+      "delete": "suppression"
+    }
+  }
 }

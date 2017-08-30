@@ -10,9 +10,12 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/publishReplay';
+import 'rxjs/add/observable/fromPromise';
 import deburr from 'lodash/deburr';
 import { UserService } from './user.service';
 import { get, sortByDistance } from './utils';
+import _get from 'lodash/get';
+import keyBy from 'lodash/keyBy';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -41,6 +44,7 @@ export class IsariDataService {
   private schemaUrl = `${environment.API_BASE_URL}/schemas`;
   private columnsUrl = `${environment.API_BASE_URL}/columns`;
   private exportUrl = `${environment.API_BASE_URL}/export`;
+  private editLogUrl = `${environment.API_BASE_URL}/editLog`;
 
   constructor(private http: Http, private fb: FormBuilder, private userService: UserService) {}
 
@@ -69,7 +73,6 @@ export class IsariDataService {
         type: 'object'
       }, feature);
     }
-
     const url = `${this.dataUrl}/${feature}/${id}`;
     return this.http.get(url, this.getHttpOptions())
       .toPromise()
@@ -97,6 +100,34 @@ export class IsariDataService {
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
+  }
+
+  getHistory (feature: string, query: any, lang) {
+
+    return Observable.combineLatest([
+      this.http.get(`${this.editLogUrl}/${feature}/${query.id}`, this.getHttpOptions())
+        .map((response) => response.json()),
+      Observable.fromPromise(this.getSchema(feature)),
+      this.getEnum('isariRoles')
+        .map(roles => keyBy(roles, 'value')),
+    ])
+
+    .map(([logs, schema, roles]) => {
+      logs = (<any[]>logs).map(log => {
+        log.diff = log.diff.map(diff => Object.assign(diff, {
+          // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
+          _label: diff.path.reduce((a, v, i, s) => [...a, _get(schema, [...s.slice(0, i), v].join('.')).label[lang]], [])
+        }))
+        // all diffs labels
+        log._labels = log.diff.map(diff => diff._label);
+        log.who.roles = log.who.roles.map(role => Object.assign(role, {
+          _label: roles[role.role].label[lang],
+          //_lab$: this.getForeignLabel('Organization', role.lab),
+        }));
+        return log;
+      });
+      return logs;
+    });
   }
 
   getRelations(feature: string, id: string) {

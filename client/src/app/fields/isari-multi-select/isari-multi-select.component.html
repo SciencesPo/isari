@@ -34,7 +34,7 @@
     <div style="flex-grow: 2">
       <div *ngFor="let item of _values" class="multiselect-tag" [class.edit]="item.id" style="display:inline-block">
         {{ item.label }}
-        <a *ngIf="item.id && !disabled" routerLink="/{{ api }}/{{ item.id }}" target="_blank" preserveQueryParams><md-icon>open_in_new</md-icon></a>
+        <a *ngIf="item.id && !disabled" routerLink="/{{ api }}/{{ item.id }}" target="_blank" queryParamsHandling="preserve"><md-icon>open_in_new</md-icon></a>
         <md-icon *ngIf="!disabled" (click)="removeValue(item, $event)" style="vertical-align: middle;">delete</md-icon>
       </div>
     </div>

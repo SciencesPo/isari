@@ -1,4 +1,3 @@
-import { Http } from '@angular/http';
 import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,6 +36,7 @@ export class IsariEditorComponent implements OnInit {
   relations: { label: string, value: Array<any>, show: boolean, feature: string }[];
   exist = false;
   private errors: any;
+  organization: string;
 
   private pressedSaveShortcut: Function;
 
@@ -51,17 +51,10 @@ export class IsariEditorComponent implements OnInit {
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private dialog: MdDialog,
-    private http: Http) {
+    private dialog: MdDialog) {
       PageScrollConfig.defaultScrollOffset = 50;
       PageScrollConfig.defaultDuration = 500;
     }
-
-  history() {
-    console.log('history')
-    // this.http.get('')
-  }
-
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
@@ -81,6 +74,8 @@ export class IsariEditorComponent implements OnInit {
         .combineLatest(this.route.parent.params, this.route.params)
         .map(([x, y]) => Object.assign({}, x, y))
       : this.route.params;
+
+    this.route.queryParams.subscribe(({organization}) => this.organization = organization);
 
     Observable.combineLatest(
       $routeParams,

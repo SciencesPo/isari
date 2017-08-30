@@ -47,6 +47,8 @@ import { FocusMeDirective } from './fields/focus-me.directive';
 import { ConfirmDialog } from './fields/confirm.component';
 import { IsariCreationModal } from './isari-creation-modal/isari-creation-modal.component';
 import { StorageService } from './storage.service';
+import { LogTableComponent } from './log-table/log-table.component';
+import { IsariLogsComponent } from './isari-logs/isari-logs.component';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -83,6 +85,8 @@ export function createTranslateLoader(http: Http) {
     FocusMeDirective,
     ConfirmDialog,
     IsariCreationModal,
+    LogTableComponent,
+    IsariLogsComponent
   ],
   imports: [
     BrowserModule,
