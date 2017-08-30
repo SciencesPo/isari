@@ -118,8 +118,7 @@ function getEditLog(req, res){
 				else
 					mongoQuery['date']= {'$lte': endDate}
 			}
-
-			EditLog.aggregate([
+			const aggregationPipeline = [
 				{'$match':mongoQuery},
 				{'$lookup':{
 					from: 'people',
@@ -148,13 +147,31 @@ function getEditLog(req, res){
 					'creator.name':1,
 					'creator.isariAuthorizedCenters':1
 				}},
-				{'$sort':{date:-1}},
-				// skip and limit
-				{'$skip':query.skip ? +query.skip : 0},
-				{'$limit':query.limit ? +query.limit : 100}
+				{'$sort':{date:-1}}
+				
+			]
+			debug('count?')
+			debug(query.count)
+			//count
+			if (query.count)
+				aggregationPipeline.push({
+					'$group': {
+						'_id' : null, 
+						'count' : {$sum : 1}
+					}
+				})
 
-			])
+			// skip and limit
+			if (!query.count && query.skip)
+				aggregationPipeline.push({'$skip':query.skip})
+			if (!query.count && query.limit)
+				aggregationPipeline.push({'$limit':query.limit})
+
+			EditLog.aggregate(aggregationPipeline)
 			.then(data => {
+				if (query.count)
+					return next(null, data[0])
+
 				const edits = []
 				data.forEach(d => {
 					const edit = {}
