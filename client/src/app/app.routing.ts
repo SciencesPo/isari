@@ -30,7 +30,10 @@ const isariRoutes: Routes = [
   {
     path: 'logs/:feature',
     component: IsariLogsComponent,
-    canActivate: [ LoggedInGuard ]
+    canActivate: [ LoggedInGuard ],
+    resolve: {
+      organization: OrganizationResolver
+    }
   },
   {
     path: ':feature',
