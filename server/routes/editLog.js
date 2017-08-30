@@ -134,13 +134,20 @@ function getEditLog(req, res){
 					as: 'itemObject'
 				}},
 				// TODO : project to only usefull fields to limit payload
-				// {'$project':{
-				//  whoID:1,
-				//  "creator.firstName":1,
-				//  "creator.name":1,
-				//  "creator.isariAuthorizedCenters":1,
-
-				// }}
+				{'$project':{
+					whoID:1,
+					date:1,
+					item:1,
+					diff:1,
+					data:1,
+					action:1,
+					'itemObject.name':1,
+					'itemObject.firstName':1,
+					'itemObject.acronym':1,
+					'creator.firstName':1,
+					'creator.name':1,
+					'creator.isariAuthorizedCenters':1
+				}},
 				{'$sort':{date:-1}},
 				// skip and limit
 				{'$skip':query.skip ? +query.skip : 0},
@@ -170,28 +177,28 @@ function getEditLog(req, res){
 					edit.action = d.action
 
 					if (edit.action === 'update'){
-						edit.diff = d.diff.filter(d => editLogsPathFilter(d[0].path))
+						edit.diff = d.diff.filter(dd => editLogsPathFilter(dd[0].path))
 																			// blaclisting weird diffs
-												.map(d => {
-													d = d[0]
+												.map(dd => {
+													dd = dd[0]
 
 													// remove index of element in array from path
-													const diff = {path: d.path.filter(e => typeof e !== 'number')}
+													const diff = {path: dd.path.filter(e => typeof e !== 'number')}
 
-													if (d.kind === 'A'){
+													if (dd.kind === 'A'){
 														//array case...
-														if (d.item.lhs)
-															diff.valueBefore = d.item.lhs
-														if(d.item.rhs)
-															diff.valueAfter = d.item.rhs
-														diff.editType = formatKind(d.item.kind)
+														if (dd.item.lhs)
+															diff.valueBefore = dd.item.lhs
+														if(dd.item.rhs)
+															diff.valueAfter = dd.item.rhs
+														diff.editType = formatKind(dd.item.kind)
 													}
 													else {
-														if (d.lhs)
-															diff.valueBefore = d.lhs
-														if( d.rhs)
-															diff.valueAfter = d.rhs
-														diff.editType = formatKind(d.kind)
+														if (dd.lhs)
+															diff.valueBefore = dd.lhs
+														if( dd.rhs)
+															diff.valueAfter = dd.rhs
+														diff.editType = formatKind(dd.kind)
 													}
 													return diff
 												})
@@ -199,16 +206,17 @@ function getEditLog(req, res){
 					else{
 						edit.diff = []
 						// in case of create or delete diff data is stored in data
-						// we filter tecnical fields
-						const data = _.omit(d.data,editLogsDataKeysBlacklist)
-						_.forOwn(data, (value,key) => {
-							const diff = {
-								editType: d.action,
-								path: [key]
-							}
-							// store in value After or Before as other diffs
-							diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
-							edit.diff.push(diff)
+						_.forOwn(d.data, (value,key) => {
+							// we filter tecnical fields
+							if (!editLogsDataKeysBlacklist.includes(key)){
+								const diff = {
+									editType: d.action,
+									path: [key]
+								}
+								// store in value After or Before as other diffs
+								diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
+								edit.diff.push(diff)
+							}	
 						})
 					}
 
@@ -220,8 +228,7 @@ function getEditLog(req, res){
 						edits.push(edit)
 				})      
 				next(null,edits)
-	})
-
+			})
 		}
 	],
 		(error,edits) =>{
