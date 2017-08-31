@@ -43,12 +43,12 @@ const editLogsDataKeysBlacklist = ['_id', 'latestChangeBy']
 
 
 
-module.exports = Router().get('/:model/:itemId?', requiresAuthentication, getEditLog)
+module.exports = Router().get('/:model', requiresAuthentication, getEditLog)
 
 function getEditLog(req, res){
 	let model = req.params.model
 	// params
-	const itemId = req.params.itemId
+	const itemId = req.query.itemId
 	const query = req.query
 
 	// User has to be central admin to access editLog list feature
