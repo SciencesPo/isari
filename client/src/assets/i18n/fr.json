@@ -63,12 +63,16 @@
   "user_guide": "Guide utilisateur",
   "fields_list": "Liste des champs",
   "editLogs": {
-    "who": "Qui",
+    "who": "Modifié par",
     "date": "Date",
     "action": "Action",
     "role": "Rôle",
     "lab": "Organisation",
     "fields": "Champs modifiés",
+    "object": {
+      "people": "Membre",
+      "organization": "Organisation"
+    },
     "actions": {
       "create": "Création",
       "update": "Édition",

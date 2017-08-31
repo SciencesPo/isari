@@ -10,12 +10,12 @@ import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angu
 })
 export class LogTableComponent implements OnInit {
 
-  actions = [
-    { value: '', label: 'all' },
-    { value: 'create', label: 'create' },
-    { value: 'update', label: 'update' },
-    { value: 'delete', label: 'delete' }
-  ];
+  actions = ['create', 'update', 'delete'];
+  //   { value: '', label: 'all' },
+  //   { value: 'create', label: 'create' },
+  //   { value: 'update', label: 'update' },
+  //   { value: 'delete', label: 'delete' }
+  // ];
   field: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
 
   filterForm: FormGroup;

@@ -3,10 +3,11 @@
   <thead>
     <tr>
       <th>{{ 'editLogs.date' | translate }}</th>
-      <th>{{ 'editLogs.object' | translate }}</th>
+      <th>{{ 'editLogs.object.' + feature | translate }}</th>
       <th>
         <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
-          <md-option *ngFor="let action of actions" [value]="action.value">{{ 'editLogs.actions.' + action.label | translate }}</md-option>
+            <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
+          <md-option *ngFor="let action of actions" [value]="action">{{ 'editLogs.actions.' + action | translate }}</md-option>
         </md-select>
       </th>
 
