@@ -5,12 +5,22 @@
       <th>{{ 'editLogs.date' | translate }}</th>
       <th>{{ 'editLogs.object' | translate }}</th>
       <th>
-        <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filters.action">
+        <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
           <md-option *ngFor="let action of actions" [value]="action.value">{{ 'editLogs.actions.' + action.label | translate }}</md-option>
         </md-select>
       </th>
 
-      <th>{{ 'editLogs.who' | translate }}</th>
+      <th>
+        <!-- {{ 'editLogs.who' | translate }} -->
+        <isari-select
+        [src]="field.src"
+        [stringValue]="field.stringValue"
+        [api]="field.api"
+        [name]="'whoID'"
+        [label]="'tata'"
+        [requirement]="false"
+        [form]="filterForm"></isari-select>
+      </th>
       <th>{{ 'editLogs.lab' | translate }}</th>
 
       <th>{{ 'editLogs.role' | translate }}</th>
@@ -50,3 +60,6 @@
     <li><a md-button (click)="navigateNext()"><md-icon>navigate_next</md-icon></a>
   </ul>
 </div>
+
+<!-- remove me style WTF ??? -->
+<md-input placeholder="Company (disabled)" disabled value="Google"></md-input>
