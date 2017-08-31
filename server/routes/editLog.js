@@ -94,7 +94,7 @@ function getEditLog(req, res){
 				mongoQuery.item = ObjectId(itemID)
 
 			if (query.whoID)
-				mongoQuery['whoID'] = query.whoID
+				mongoQuery['whoID'] = ObjectId(query.whoID)
 			else 
 				if (whoIds)
 					mongoQuery['whoID'] = {$in:whoIds} 
