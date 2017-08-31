@@ -40,7 +40,7 @@ export class IsariListComponent implements OnInit {
     private storageService: StorageService,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private titleService: Title,
     private dialog: MdDialog) {}
 
