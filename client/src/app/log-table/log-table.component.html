@@ -5,17 +5,17 @@
       <th>{{ 'editLogs.date' | translate }}</th>
       <th>
           <isari-select
-          [src]="itemSettings.src"
-          [stringValue]="itemSettings.stringValue"
-          [api]="itemSettings.api"
-          [name]="'itemID'"
-          [label]="'editLogs.object.' + feature | translate"
-          [requirement]="false"
-          [form]="filterForm"></isari-select>
+            [src]="itemSettings.src"
+            [stringValue]="itemSettings.stringValue"
+            [api]="itemSettings.api"
+            [name]="'itemID'"
+            [label]="'editLogs.object.' + feature | translate"
+            [requirement]="false"
+            [form]="filterForm"></isari-select>
       </th>
       <th>
         <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
-            <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
+          <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
           <md-option *ngFor="let action of actions" [value]="action">{{ 'editLogs.actions.' + action | translate }}</md-option>
         </md-select>
       </th>
@@ -25,24 +25,30 @@
       <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
         <div style="display:flex">
           <isari-select
-          style="flex-grow:1;width:33%;"
-          [src]="whoSettings.src"
-          [stringValue]="whoSettings.stringValue"
-          [api]="whoSettings.api"
-          [name]="'whoID'"
-          [label]="'editLogs.who' | translate"
-          [requirement]="false"
-          [form]="filterForm"></isari-select>
+            style="flex-grow:1;width:33%;"
+            [src]="whoSettings.src"
+            [stringValue]="whoSettings.stringValue"
+            [api]="whoSettings.api"
+            [name]="'whoID'"
+            [label]="'editLogs.who' | translate"
+            [requirement]="false"
+            [form]="filterForm"></isari-select>
           <isari-select
-          style="flex-grow:1;width:33%;"
-          [src]="labSettings.src"
-          [stringValue]="labSettings.stringValue"
-          [api]="labSettings.api"
-          [name]="'isariLab'"
-          [label]="'editLogs.lab' | translate"
-          [requirement]="false"
-          [form]="filterForm"></isari-select>
-          <div style="flex-grow:1;width:33%;">{{ 'editLogs.role' | translate }}</div>
+            style="flex-grow:1;width:33%;"
+            [src]="labSettings.src"
+            [stringValue]="labSettings.stringValue"
+            [api]="labSettings.api"
+            [name]="'isariLab'"
+            [label]="'editLogs.lab' | translate"
+            [requirement]="false"
+            [form]="filterForm"></isari-select>
+          <md-select *ngIf="filterForm.controls['isariRole']"
+            style="flex-grow:1;width:33%;align-self:center;"
+            [placeholder]="'editLogs.role' | translate"
+            [formControl]="filterForm.controls['isariRole']">
+            <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
+            <md-option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</md-option>
+          </md-select>
         </div>
       </th>
 

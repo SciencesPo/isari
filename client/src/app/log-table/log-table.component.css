@@ -51,7 +51,7 @@ thead {
 }
 
 td, th {
-  padding: 5px;
+  padding: 10px 5px;
   display: table-cell;
   text-align: left;
   vertical-align: middle;
@@ -86,7 +86,7 @@ td, th {
   vertical-align: top;
 }
 
-.pagination ul, li, a, md-icon, button {
+.pagination ul li a, md-icon, button {
   font-size: 16px;
   line-height: 36px;
   vertical-align:top;

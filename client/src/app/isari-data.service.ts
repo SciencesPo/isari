@@ -107,7 +107,7 @@ export class IsariDataService {
 
     function getLabel(schema, path, lang) {
       const item = _get(schema, path);
-      return item ? item.label[lang] : '';
+      return item && item.label ? item.label[lang] : '';
     }
 
     return Observable.combineLatest([
@@ -128,7 +128,6 @@ export class IsariDataService {
         log._labels = log.diff.map(diff => diff._label);
         log.who.roles = log.who.roles.map(role => Object.assign(role, {
           _label: roles[role.role].label[lang],
-          //_lab$: this.getForeignLabel('Organization', role.lab),
         }));
         return log;
       });

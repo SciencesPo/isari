@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
 import { TranslateService } from 'ng2-translate';
@@ -14,6 +15,7 @@ export class LogTableComponent implements OnInit {
   whoSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   itemSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   labSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
+  roles: any[];
 
   filterForm: FormGroup;
 
@@ -35,6 +37,7 @@ export class LogTableComponent implements OnInit {
       'whoID',
       'itemID',
       'isariLab',
+      'isariRole',
     ].forEach(key => {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
@@ -57,6 +60,11 @@ export class LogTableComponent implements OnInit {
     this.labSettings.api = this.isariDataService.getSchemaApi('organizations');
     this.labSettings.src = this.isariDataService.srcForeignBuilder('organizations');
     this.labSettings.stringValue = this.isariDataService.getForeignLabel('organizations', this.options.isariLab);
+
+    this.isariDataService.getEnum('isariRoles')
+      .subscribe(roles => this.roles = roles.map(role => Object.assign({}, role, {
+        label: role.label[this.translate.currentLang]
+      })));
 
   }
 
