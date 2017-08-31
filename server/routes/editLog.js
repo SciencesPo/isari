@@ -48,19 +48,19 @@ module.exports = Router().get('/:model', requiresAuthentication, getEditLog)
 function getEditLog(req, res){
 	let model = req.params.model
 	// params
-	const itemId = req.query.itemId
+	const itemID = req.query.itemID
 	const query = req.query
 
 	// User has to be central admin to access editLog list feature
-	if (!itemId && req.userCentralRole !== 'admin'){
+	if (!itemID && req.userCentralRole !== 'admin'){
 		res.send(UnauthorizedError({ title: 'EditLog is restricted to central admin users'}))
 	}
 
 	// User has to have write access on an object to access its editlog
 	if(
-			(model === 'people' && itemId && !req.userCanEditPeople(itemId)) ||
-			(model === 'activity' && itemId && !req.userCanEditActivity(itemId)) ||
-			(model === 'organization' && itemId && !req.userCanEditOrganization(itemId))
+			(model === 'people' && itemID && !req.userCanEditPeople(itemID)) ||
+			(model === 'activity' && itemID && !req.userCanEditActivity(itemID)) ||
+			(model === 'organization' && itemID && !req.userCanEditOrganization(itemID))
 	){
 		res.send(UnauthorizedError({ title: 'Write access is mandatory to access EditLog'}))
 	}
@@ -90,8 +90,8 @@ function getEditLog(req, res){
 			// build the mongo query to editLog collection
 			model = _.capitalize(model)
 			const mongoQuery = {model}
-			if (itemId)
-				mongoQuery.item = ObjectId(itemId)
+			if (itemID)
+				mongoQuery.item = ObjectId(itemID)
 
 			if (query.whoID)
 				mongoQuery['whoID'] = query.whoID
