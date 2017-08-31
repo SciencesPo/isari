@@ -33,7 +33,15 @@
           [label]="'editLogs.who' | translate"
           [requirement]="false"
           [form]="filterForm"></isari-select>
-          <div style="flex-grow:1;width:33%;">{{ 'editLogs.lab' | translate }}</div>
+          <isari-select
+          style="flex-grow:1;width:33%;"
+          [src]="labSettings.src"
+          [stringValue]="labSettings.stringValue"
+          [api]="labSettings.api"
+          [name]="'isariLab'"
+          [label]="'editLogs.lab' | translate"
+          [requirement]="false"
+          [form]="filterForm"></isari-select>
           <div style="flex-grow:1;width:33%;">{{ 'editLogs.role' | translate }}</div>
         </div>
       </th>

@@ -13,13 +13,14 @@ export class LogTableComponent implements OnInit {
   actions = ['create', 'update', 'delete'];
   whoSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   itemSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
+  labSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
 
   filterForm: FormGroup;
 
   @Input() logs: any[];
   @Input() labs: any[];
   @Input() feature: string;
-  @Input() options: { itemID?: string, skip?: number, limit?: number, action?: string, whoID: string };
+  @Input() options: { itemID?: string, skip?: number, limit?: number, action?: string, whoID?: string, isariLab?: string };
   @Output() onOptionsChange = new EventEmitter();
 
   constructor(
@@ -33,6 +34,7 @@ export class LogTableComponent implements OnInit {
       'action',
       'whoID',
       'itemID',
+      'isariLab',
     ].forEach(key => {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
@@ -50,6 +52,12 @@ export class LogTableComponent implements OnInit {
     this.itemSettings.api = this.isariDataService.getSchemaApi(this.feature);
     this.itemSettings.src = this.isariDataService.srcForeignBuilder(this.feature);
     this.itemSettings.stringValue = this.isariDataService.getForeignLabel(this.feature, this.options.itemID);
+
+    // people autocomplete (whoID)
+    this.labSettings.api = this.isariDataService.getSchemaApi('organizations');
+    this.labSettings.src = this.isariDataService.srcForeignBuilder('organizations');
+    this.labSettings.stringValue = this.isariDataService.getForeignLabel('organizations', this.options.isariLab);
+
   }
 
   navigatePrev() {
