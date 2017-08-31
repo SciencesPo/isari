@@ -104,6 +104,12 @@ export class IsariDataService {
   }
 
   getHistory (feature: string, query: any, lang) {
+
+    function getLabel(schema, path, lang) {
+      const item = _get(schema, path);
+      return item ? item.label[lang] : '';
+    }
+
     return Observable.combineLatest([
       this.http.get(`${this.editLogUrl}/${feature}` + (query.id ? `/${query.id}` : ''), this.getHttpOptions(omit(query, 'id')))
         .map((response) => response.json()),
@@ -116,7 +122,7 @@ export class IsariDataService {
       logs = (<any[]>logs).map(log => {
         log.diff = log.diff.map(diff => Object.assign(diff, {
           // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
-          _label: diff.path.reduce((a, v, i, s) => [...a, _get(schema, [...s.slice(0, i), v].join('.')).label[lang]], [])
+          _label: diff.path.reduce((a, v, i, s) => [...a, getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], [])
         }))
         // all diffs labels
         log._labels = log.diff.map(diff => diff._label);
