@@ -315,7 +315,7 @@ export class IsariDataService {
       return Observable.of([]);
     }
 
-    const url = `${this.dataUrl}/${mongoSchema2Api[feature]}/${values.join(',')}/string`;
+    const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/${values.join(',')}/string`;
     return this.http.get(url, this.getHttpOptions())
       .map(response => response.json());
       // .map(item => item.value);

@@ -1,6 +1,7 @@
 table {
   width: 100%;
   display: table;
+  margin-top: 1em;
 }
 
 table {
@@ -12,10 +13,6 @@ td,
 th {
   padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-table tbody tr {
-  cursor: pointer;
 }
 
 table.bordered > thead > tr,
@@ -36,7 +33,7 @@ table.striped > tbody > tr > td {
   vertical-align: top;
 }
 
-table.striped > tbody > tr > td > p {
+table.striped > tbody > tr > td p {
   margin: 0;
 }
 
@@ -54,7 +51,7 @@ thead {
 }
 
 td, th {
-  padding: 15px 5px;
+  padding: 5px;
   display: table-cell;
   text-align: left;
   vertical-align: middle;

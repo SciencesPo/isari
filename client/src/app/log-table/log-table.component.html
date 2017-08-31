@@ -3,7 +3,16 @@
   <thead>
     <tr>
       <th>{{ 'editLogs.date' | translate }}</th>
-      <th>{{ 'editLogs.object.' + feature | translate }}</th>
+      <th>
+          <isari-select
+          [src]="itemSettings.src"
+          [stringValue]="itemSettings.stringValue"
+          [api]="itemSettings.api"
+          [name]="'itemID'"
+          [label]="'editLogs.object.' + feature | translate"
+          [requirement]="false"
+          [form]="filterForm"></isari-select>
+      </th>
       <th>
         <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
             <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
@@ -11,20 +20,24 @@
         </md-select>
       </th>
 
-      <th>
-        <isari-select
-        [src]="field.src"
-        [stringValue]="field.stringValue"
-        [api]="field.api"
-        [name]="'whoID'"
-        [label]="'editLogs.who' | translate"
-        [requirement]="false"
-        [form]="filterForm"></isari-select>
-      </th>
-      <th>{{ 'editLogs.lab' | translate }}</th>
-
-      <th>{{ 'editLogs.role' | translate }}</th>
       <th>{{ 'editLogs.fields' | translate }}</th>
+
+      <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
+        <div style="display:flex">
+          <isari-select
+          style="flex-grow:1;width:33%;"
+          [src]="whoSettings.src"
+          [stringValue]="whoSettings.stringValue"
+          [api]="whoSettings.api"
+          [name]="'whoID'"
+          [label]="'editLogs.who' | translate"
+          [requirement]="false"
+          [form]="filterForm"></isari-select>
+          <div style="flex-grow:1;width:33%;">{{ 'editLogs.lab' | translate }}</div>
+          <div style="flex-grow:1;width:33%;">{{ 'editLogs.role' | translate }}</div>
+        </div>
+      </th>
+
     </tr>
   </thead>
 
@@ -36,19 +49,24 @@
       </td>
       <td>{{ 'editLogs.actions.' + log.action | translate }}</td>
 
-      <td>{{ log.who.name }}</td>
-      <td>
-        <p *ngFor="let role of log.who.roles">
-          <a [routerLink]="['/organizations', { outlets: { editor: role.lab } }]" queryParamsHandling="preserve" *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</a>
-        </p>
-      </td>
-
-      <td>
-          <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
-      </td>
       <td>
         <p *ngFor="let label of log._labels">{{ label.join(' : ') }}</p>
       </td>
+
+      <td style="border-left:1px solid #ddd;">
+        <div style="display:flex">
+          <div style="flex-grow:1;width:33%;">{{ log.who.name }}</div>
+          <div style="flex-grow:1;width:33%;">
+              <p *ngFor="let role of log.who.roles">
+              <a [routerLink]="['/organizations', { outlets: { editor: role.lab } }]" queryParamsHandling="preserve" *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</a>
+            </p>
+          </div>
+          <div style="flex-grow:1;width:33%;">
+              <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
+          </div>
+        </div>
+      </td>
+
     </tr>
   </tbody>
 

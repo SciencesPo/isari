@@ -11,19 +11,15 @@ import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angu
 export class LogTableComponent implements OnInit {
 
   actions = ['create', 'update', 'delete'];
-  //   { value: '', label: 'all' },
-  //   { value: 'create', label: 'create' },
-  //   { value: 'update', label: 'update' },
-  //   { value: 'delete', label: 'delete' }
-  // ];
-  field: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
+  whoSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
+  itemSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
 
   filterForm: FormGroup;
 
   @Input() logs: any[];
   @Input() labs: any[];
   @Input() feature: string;
-  @Input() options: { id?: string, skip?: number, limit?: number, action?: string, whoID: string };
+  @Input() options: { itemID?: string, skip?: number, limit?: number, action?: string, whoID: string };
   @Output() onOptionsChange = new EventEmitter();
 
   constructor(
@@ -36,6 +32,7 @@ export class LogTableComponent implements OnInit {
     [
       'action',
       'whoID',
+      'itemID',
     ].forEach(key => {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
@@ -45,9 +42,14 @@ export class LogTableComponent implements OnInit {
     });
 
     // people autocomplete (whoID)
-    this.field.api = this.isariDataService.getSchemaApi('people');
-    this.field.src = this.isariDataService.srcForeignBuilder('people');
-    this.field.stringValue = this.isariDataService.getForeignLabel('People', this.options.whoID);
+    this.whoSettings.api = this.isariDataService.getSchemaApi('people');
+    this.whoSettings.src = this.isariDataService.srcForeignBuilder('people');
+    this.whoSettings.stringValue = this.isariDataService.getForeignLabel('People', this.options.whoID);
+
+    // item autocomplete (itemID)
+    this.itemSettings.api = this.isariDataService.getSchemaApi(this.feature);
+    this.itemSettings.src = this.isariDataService.srcForeignBuilder(this.feature);
+    this.itemSettings.stringValue = this.isariDataService.getForeignLabel(this.feature, this.options.itemID);
   }
 
   navigatePrev() {
