@@ -111,7 +111,7 @@ export class IsariDataService {
     }
 
     return Observable.combineLatest([
-      this.http.get(`${this.editLogUrl}/${feature}` + (query.id ? `/${query.id}` : ''), this.getHttpOptions(omit(query, 'id')))
+      this.http.get(`${this.editLogUrl}/${feature}`, this.getHttpOptions(query))
         .map((response) => response.json()),
       Observable.fromPromise(this.getSchema(feature)),
       this.getEnum('isariRoles')

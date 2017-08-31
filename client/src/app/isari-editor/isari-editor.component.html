@@ -43,7 +43,7 @@
 
   <md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
 
-    <a [routerLink]="['/logs', feature]" [queryParams]="{id: data.id, organization: organization}" md-raised-button color="primary">{{ 'history' | translate }}</a>
+    <a [routerLink]="['/logs', feature]" [queryParams]="{itemID: data.id, organization: organization}" md-raised-button color="primary">{{ 'history' | translate }}</a>
 
   </md-card>
 
