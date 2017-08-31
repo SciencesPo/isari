@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
 import { TranslateService } from 'ng2-translate';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { EditLogApiOptions } from "../isari-logs/isari-logs.component";
 
 @Component({
   selector: 'isari-log-table',
@@ -22,7 +23,7 @@ export class LogTableComponent implements OnInit {
   @Input() logs: any[];
   @Input() labs: any[];
   @Input() feature: string;
-  @Input() options: { itemID?: string, skip?: number, limit?: number, action?: string, whoID?: string, isariLab?: string };
+  @Input() options: EditLogApiOptions;
   @Output() onOptionsChange = new EventEmitter();
 
   constructor(
@@ -42,9 +43,7 @@ export class LogTableComponent implements OnInit {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
 
-    this.filterForm.valueChanges.subscribe(values => {
-      this.onOptionsChange.emit(Object.assign({}, this.options, values));
-    });
+    this.filterForm.valueChanges.subscribe(this.emitOptions);
 
     // people autocomplete (whoID)
     this.whoSettings.api = this.isariDataService.getSchemaApi('people');
@@ -69,16 +68,21 @@ export class LogTableComponent implements OnInit {
   }
 
   navigatePrev() {
-    this.emitChange('skip', Math.max(0, this.options.skip - this.options.limit));
+    this.emitOptions(Object.assign(this.options, {
+      skip: Math.max(0, this.options.skip - this.options.limit)
+    }));
   }
 
   navigateNext() {
     //@TODO handle end via count query
-    this.emitChange('skip', this.options.skip + this.options.limit);
+    this.emitOptions(Object.assign(this.options, {
+      skip: this.options.skip + this.options.limit
+    }));
   }
 
-  private emitChange(key, value) {
-    this.onOptionsChange.emit(Object.assign(this.options, { [key]: value }));
+  private emitOptions(options) {
+    this.logs = [];
+    this.onOptionsChange.emit(Object.assign({}, this.options, options));
   }
 
 }

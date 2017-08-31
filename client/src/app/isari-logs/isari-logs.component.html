@@ -8,16 +8,12 @@
           &nbsp;
         </md-toolbar>
 
-        <isari-log-table *ngIf="logs$ | async as logs else loading"
+        <isari-log-table
           [feature]="feature"
-          [logs]="logs"
+          [logs]="logs$ | async"
           [labs]="labs$ | async"
           [options]="options"
           (onOptionsChange)="changeOpt($event)"></isari-log-table>
-
-        <ng-template #loading>
-          <isari-spinner></isari-spinner>
-        </ng-template>
 
     </md-card>
 

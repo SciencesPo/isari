@@ -10,6 +10,17 @@ import omit from 'lodash/omit';
 import keyBy from 'lodash/keyBy';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
+import { BehaviorSubject } from "rxjs";
+
+export interface EditLogApiOptions {
+  itemID?: string;
+  skip?: number;
+  limit?: number;
+  action?: string;
+  whoID?: string;
+  isariLab?: string;
+  isariRole?: string;
+}
 
 @Component({
   selector: 'isari-logs',
@@ -19,9 +30,10 @@ import uniq from 'lodash/uniq';
 export class IsariLogsComponent implements OnInit {
 
   feature: string;
-  options: { id?: string, skip?: number, limit?: number } = { skip: 0, limit: 5 };
+  options: EditLogApiOptions = { skip: 0, limit: 5 };
   logs$: Observable<any[]>;
   labs$: Observable<any[]>;
+  options$: BehaviorSubject<EditLogApiOptions>
 
   constructor(
     private route: ActivatedRoute,
@@ -30,26 +42,19 @@ export class IsariLogsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.fetch();
-  }
-
-  changeOpt(options) {
-    this.options = options;
-    this.fetch();
-  }
-
-  private fetch() {
+    this.options$ = new BehaviorSubject(this.options);
     this.logs$ = Observable
     .combineLatest([
       this.route.params,
       this.route.queryParams,
+      this.options$,
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
     ])
-    .switchMap(([params, options, lang]) => {
+    .switchMap(([params, urlOptions, options, lang]) => {
       this.feature = params['feature'];
-      this.options = Object.assign({}, this.options, omit(options, ['organization']));
+      this.options = Object.assign({}, options, omit(urlOptions, ['organization']));
 
       return this.isariDataService
         .getHistory(this.feature, this.options, lang)
@@ -59,6 +64,11 @@ export class IsariLogsComponent implements OnInit {
         .map(labs => keyBy(labs, 'id'));
       return logs;
     });
+  }
+
+  changeOpt(options) {
+    this.options = options;
+    this.options$.next(options);
   }
 
 }
