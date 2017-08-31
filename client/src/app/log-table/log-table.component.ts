@@ -53,7 +53,7 @@ export class LogTableComponent implements OnInit {
     this.itemSettings.src = this.isariDataService.srcForeignBuilder(this.feature);
     this.itemSettings.stringValue = this.isariDataService.getForeignLabel(this.feature, this.options.itemID);
 
-    // people autocomplete (whoID)
+    // people autocomplete (isariLab)
     this.labSettings.api = this.isariDataService.getSchemaApi('organizations');
     this.labSettings.src = this.isariDataService.srcForeignBuilder('organizations');
     this.labSettings.stringValue = this.isariDataService.getForeignLabel('organizations', this.options.isariLab);
