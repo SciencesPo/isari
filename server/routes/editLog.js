@@ -163,9 +163,9 @@ function getEditLog(req, res){
 
 			// skip and limit
 			if (!query.count && query.skip)
-				aggregationPipeline.push({'$skip':query.skip})
+				aggregationPipeline.push({'$skip':+query.skip})
 			if (!query.count && query.limit)
-				aggregationPipeline.push({'$limit':query.limit})
+				aggregationPipeline.push({'$limit':+query.limit})
 
 			EditLog.aggregate(aggregationPipeline)
 			.then(data => {
