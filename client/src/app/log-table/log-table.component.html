@@ -4,7 +4,11 @@
     <tr>
       <th>{{ 'editLogs.date' | translate }}</th>
       <th>{{ 'editLogs.object' | translate }}</th>
-      <th>{{ 'editLogs.action' | translate }}</th>
+      <th>
+        <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filters.action">
+          <md-option *ngFor="let action of actions" [value]="action.value">{{ 'editLogs.actions.' + action.label | translate }}</md-option>
+        </md-select>
+      </th>
 
       <th>{{ 'editLogs.who' | translate }}</th>
       <th>{{ 'editLogs.lab' | translate }}</th>
