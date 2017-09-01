@@ -96,7 +96,3 @@ md-dialog-container {
 md-dialog-container [md-raised-button].md-primary {
   background-color: #E6142D;
 }
-
-.md-select-panel {
-  max-height: none !important;
-}

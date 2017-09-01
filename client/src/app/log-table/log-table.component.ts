@@ -5,6 +5,8 @@ import { TranslateService } from 'ng2-translate';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 
+import zipObject from 'lodash/zipObject';
+
 @Component({
   selector: 'isari-log-table',
   templateUrl: './log-table.component.html',
@@ -17,6 +19,7 @@ export class LogTableComponent implements OnInit {
   itemSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   labSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   roles: any[];
+  fields: any[];
   limits: number[] = [3, 5, 10, 20, 50, 100, 200];
 
   filterForm: FormGroup;
@@ -43,6 +46,7 @@ export class LogTableComponent implements OnInit {
       'startDate',
       'endDate',
       'limit',
+      'path',
     ].forEach(key => {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
@@ -67,11 +71,18 @@ export class LogTableComponent implements OnInit {
     this.labSettings.src = this.isariDataService.srcForeignBuilder('organizations');
     this.labSettings.stringValue = this.isariDataService.getForeignLabel('organizations', this.options.isariLab);
 
+    // roles select
     this.isariDataService.getEnum('isariRoles')
       .subscribe(roles => this.roles = roles.map(role => Object.assign({}, role, {
         label: role.label[this.translate.currentLang]
       })));
 
+    // field select
+    Observable.fromPromise(this.isariDataService.getSchema(this.feature))
+      .subscribe(schema =>
+        this.fields = Object.keys(schema).reduce((acc, value) =>
+          ([...acc, { value, label: schema[value].label[this.translate.currentLang] } ])
+      , []))
   }
 
   navigatePrev() {
