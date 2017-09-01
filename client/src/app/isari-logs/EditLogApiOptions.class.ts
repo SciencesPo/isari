@@ -6,4 +6,5 @@ export class EditLogApiOptions {
   whoID?: string;
   isariLab?: string;
   isariRole?: string;
+  path?: string;
 }

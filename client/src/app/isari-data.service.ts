@@ -190,7 +190,7 @@ export class IsariDataService {
     return this.getColumnsInfo(feature).then(info => info['defaults']);
   }
 
-  private getSchema(feature: string, path?: string) {
+  getSchema(feature: string, path?: string) {
     if (!this.schemasCache[feature]) {
       const url = `${this.schemaUrl}/${singular[feature]}`;
       this.schemasCache[feature] = this.http.get(url, this.getHttpOptions())

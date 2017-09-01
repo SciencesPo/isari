@@ -39,7 +39,14 @@
                 </md-select>
               </th>
 
-              <th>{{ 'editLogs.fields' | translate }}</th>
+              <th>
+                <md-select *ngIf="filterForm.controls['path']"
+                  [placeholder]="'editLogs.fields' | translate"
+                  [formControl]="filterForm.controls['path']">
+                  <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
+                  <md-option *ngFor="let field of fields" [value]="field.value">{{ field.label }}</md-option>
+                </md-select>
+              </th>
 
               <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
                 <div style="display:flex">
@@ -129,7 +136,6 @@
 
         <!-- remove me style WTF ??? -->
         <md-input style="display:none" placeholder="Company (disabled)" disabled value="Google"></md-input>
-
 
 </md-card>
 
