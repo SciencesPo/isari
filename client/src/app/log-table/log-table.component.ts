@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
 import { TranslateService } from 'ng2-translate';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
-import { EditLogApiOptions } from "../isari-logs/isari-logs.component";
+import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 
 @Component({
   selector: 'isari-log-table',

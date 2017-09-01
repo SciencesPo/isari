@@ -3,24 +3,15 @@ import { IsariDataService } from './../isari-data.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import omit from 'lodash/omit';
 import keyBy from 'lodash/keyBy';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
-import { BehaviorSubject } from "rxjs";
-
-export interface EditLogApiOptions {
-  itemID?: string;
-  skip?: number;
-  limit?: number;
-  action?: string;
-  whoID?: string;
-  isariLab?: string;
-  isariRole?: string;
-}
+import { BehaviorSubject } from 'rxjs';
+import { EditLogApiOptions } from './EditLogApiOptions.class';
 
 @Component({
   selector: 'isari-logs',
@@ -45,19 +36,20 @@ export class IsariLogsComponent implements OnInit {
     this.options$ = new BehaviorSubject(this.options);
     this.logs$ = Observable
     .combineLatest([
-      this.route.params,
-      this.route.queryParams,
+      this.route.paramMap,
       this.options$,
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
     ])
-    .switchMap(([params, urlOptions, options, lang]) => {
-      this.feature = params['feature'];
-      this.options = Object.assign({}, options, omit(urlOptions, ['organization']));
+    .switchMap(([paramMap, options, lang]) => {
+      this.feature = (<ParamMap>paramMap).get('feature');
+      this.options = Object.assign({}, {
+        itemID: (<ParamMap>paramMap).get('itemID')
+      }, options);
 
       return this.isariDataService
-        .getHistory(this.feature, this.options, lang)
+      .getHistory(this.feature, this.options, lang)
     })
     .map(logs => {
       this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
