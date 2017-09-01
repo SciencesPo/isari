@@ -118,7 +118,7 @@ function getEditLog(req, res){
 				else
 					mongoQuery['date']= {'$lte': endDate}
 			}
-			const aggregationPipeline = [
+			let aggregationPipeline = [
 				{'$match':mongoQuery},
 				{'$lookup':{
 					from: 'people',
@@ -181,7 +181,15 @@ function getEditLog(req, res){
 				async.whilst(() => query.limit && edits.length < data.length,
 					(nextWhilst) =>{ 
 						// ask for next edits to replace the filtered ones
-						aggregationPipeline.forEach(s => { if (s['$skip']) s['$skip']+= +query.limit})
+						let skip = aggregationPipeline.find(p => p['$skip'])
+						if(skip)
+							skip += query.limit
+						else{
+							let limitIndex = aggregationPipeline.findIndex(p => p['$limit'])
+							aggregationPipeline = aggregationPipeline.slice(0,limitIndex)
+																		.concat([{ '$skip' : +query.limit}]
+																			.concat(aggregationPipeline.slice(limitIndex)))
+						}
 						EditLog.aggregate(aggregationPipeline)
 						.then(newData => {
 							debug(`added ${data.length - edits.length} more edits to reach ${data.length}`)
@@ -189,6 +197,7 @@ function getEditLog(req, res){
 							// fastforward: add the number filtered edits and substract the unfiltered but not included in response
 							fastforward += newData.length - newEdits.length + newEdits.length - data.length + edits.length
 							edits = edits.concat(newEdits.slice(0,data.length - edits.length))
+							debug(edits.length)
 							nextWhilst(null)
 						})
 					},
