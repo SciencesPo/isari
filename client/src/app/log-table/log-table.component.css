@@ -110,3 +110,8 @@ td, th {
 [md-raised-button].md-primary, [md-fab].md-primary, [md-mini-fab].md-primary {
   background-color: #E6142D;
 }
+
+isari-date {
+  margin-left: 20px;
+  font-size: .7em;
+}

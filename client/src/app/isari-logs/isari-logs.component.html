@@ -2,19 +2,11 @@
 
 <div class="app-content">
 
-    <md-card>
-        <md-toolbar>
-          <span>{{ 'history' | translate }} : {{ feature | translate }}</span>
-          &nbsp;
-        </md-toolbar>
-
-        <isari-log-table
-          [feature]="feature"
-          [logs]="logs$ | async"
-          [labs]="labs$ | async"
-          [options]="options"
-          (onOptionsChange)="changeOpt($event)"></isari-log-table>
-
-    </md-card>
+  <isari-log-table
+    [feature]="feature"
+    [logs]="logs$ | async"
+    [labs]="labs$ | async"
+    [options]="options"
+    (onOptionsChange)="changeOpt($event)"></isari-log-table>
 
 </div>

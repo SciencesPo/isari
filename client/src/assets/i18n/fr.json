@@ -63,6 +63,7 @@
   "user_guide": "Guide utilisateur",
   "fields_list": "Liste des champs",
   "editLogs": {
+    "title": "Historique",
     "who": "Modifié par",
     "date": "Date",
     "action": "Action",
@@ -78,6 +79,7 @@
       "update": "Édition",
       "delete": "Suppression",
       "all": "Toutes"
-    }
+    },
+    "limit": "Résultats par page"
   }
 }
