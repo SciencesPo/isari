@@ -39,6 +39,8 @@ export class LogTableComponent implements OnInit {
       'itemID',
       'isariLab',
       'isariRole',
+      'startDate',
+      'endDate',
     ].forEach(key => {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });

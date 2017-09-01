@@ -1,107 +1,130 @@
-<table class="striped bordered">
+<md-card>
+    <md-toolbar>
+      <span>{{ 'history' | translate }} : {{ feature | translate }}</span>
+      &nbsp;
 
-  <thead>
-    <tr>
-      <th>{{ 'editLogs.date' | translate }}</th>
-      <th>
-          <isari-select
-            [src]="itemSettings.src"
-            [stringValue]="itemSettings.stringValue"
-            [api]="itemSettings.api"
-            [name]="'itemID'"
-            [label]="'editLogs.object.' + feature | translate"
-            [requirement]="false"
-            [form]="filterForm"></isari-select>
-      </th>
-      <th>
-        <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
-          <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
-          <md-option *ngFor="let action of actions" [value]="action">{{ 'editLogs.actions.' + action | translate }}</md-option>
-        </md-select>
-      </th>
+    <isari-date
+      [form]="filterForm"
+      name="startDate"
+      [label]="'startDate' | translate"
+      [requirement]="false"></isari-date>
 
-      <th>{{ 'editLogs.fields' | translate }}</th>
+    <isari-date
+      [form]="filterForm"
+      name="endDate"
+      [label]="'endDate' | translate"
+      [requirement]="false"></isari-date>
 
-      <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
-        <div style="display:flex">
-          <isari-select
-            style="flex-grow:1;width:33%;"
-            [src]="whoSettings.src"
-            [stringValue]="whoSettings.stringValue"
-            [api]="whoSettings.api"
-            [name]="'whoID'"
-            [label]="'editLogs.who' | translate"
-            [requirement]="false"
-            [form]="filterForm"></isari-select>
-          <isari-select
-            style="flex-grow:1;width:33%;"
-            [src]="labSettings.src"
-            [stringValue]="labSettings.stringValue"
-            [api]="labSettings.api"
-            [name]="'isariLab'"
-            [label]="'editLogs.lab' | translate"
-            [requirement]="false"
-            [form]="filterForm"></isari-select>
-          <md-select *ngIf="filterForm.controls['isariRole']"
-            style="flex-grow:1;width:33%;align-self:center;"
-            [placeholder]="'editLogs.role' | translate"
-            [formControl]="filterForm.controls['isariRole']">
-            <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
-            <md-option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</md-option>
-          </md-select>
+    </md-toolbar>
+
+    <table class="striped bordered">
+
+          <thead>
+            <tr>
+              <th>{{ 'editLogs.date' | translate }}</th>
+              <th>
+                  <isari-select
+                    [src]="itemSettings.src"
+                    [stringValue]="itemSettings.stringValue"
+                    [api]="itemSettings.api"
+                    [name]="'itemID'"
+                    [label]="'editLogs.object.' + feature | translate"
+                    [requirement]="false"
+                    [form]="filterForm"></isari-select>
+              </th>
+              <th>
+                <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
+                  <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
+                  <md-option *ngFor="let action of actions" [value]="action">{{ 'editLogs.actions.' + action | translate }}</md-option>
+                </md-select>
+              </th>
+
+              <th>{{ 'editLogs.fields' | translate }}</th>
+
+              <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
+                <div style="display:flex">
+                  <isari-select
+                    style="flex-grow:1;width:33%;"
+                    [src]="whoSettings.src"
+                    [stringValue]="whoSettings.stringValue"
+                    [api]="whoSettings.api"
+                    [name]="'whoID'"
+                    [label]="'editLogs.who' | translate"
+                    [requirement]="false"
+                    [form]="filterForm"></isari-select>
+                  <isari-select
+                    style="flex-grow:1;width:33%;"
+                    [src]="labSettings.src"
+                    [stringValue]="labSettings.stringValue"
+                    [api]="labSettings.api"
+                    [name]="'isariLab'"
+                    [label]="'editLogs.lab' | translate"
+                    [requirement]="false"
+                    [form]="filterForm"></isari-select>
+                  <md-select *ngIf="filterForm.controls['isariRole']"
+                    style="flex-grow:1;width:33%;align-self:center;"
+                    [placeholder]="'editLogs.role' | translate"
+                    [formControl]="filterForm.controls['isariRole']">
+                    <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
+                    <md-option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</md-option>
+                  </md-select>
+                </div>
+              </th>
+
+            </tr>
+          </thead>
+
+          <tbody *ngIf="logs?.length; else loading">
+            <tr *ngFor="let log of logs">
+              <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
+              <td>
+                  <a [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
+              </td>
+              <td>{{ 'editLogs.actions.' + log.action | translate }}</td>
+
+              <td>
+                <p *ngFor="let label of log._labels">{{ label.join(' : ') }}</p>
+              </td>
+
+              <td style="border-left:1px solid #ddd;">
+                <div style="display:flex">
+                  <div style="flex-grow:1;width:33%;">{{ log.who.name }}</div>
+                  <div style="flex-grow:1;width:33%;">
+                      <p *ngFor="let role of log.who.roles">
+                      <a [routerLink]="['/organizations', { outlets: { editor: role.lab } }]" queryParamsHandling="preserve" *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</a>
+                    </p>
+                  </div>
+                  <div style="flex-grow:1;width:33%;">
+                      <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
+                  </div>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+
+          <ng-template #loading>
+            <tbody>
+              <tr>
+                <td colspan="5">
+                  <isari-spinner></isari-spinner>
+                </td>
+              </tr>
+            </tbody>
+          </ng-template>
+
+        </table>
+
+        <div class="pagination">
+          <ul>
+            <li><a md-button (click)="navigatePrev()"><md-icon>navigate_before</md-icon></a>
+            <li><a md-button (click)="navigateNext()"><md-icon>navigate_next</md-icon></a>
+          </ul>
         </div>
-      </th>
 
-    </tr>
-  </thead>
+        <!-- remove me style WTF ??? -->
+        <md-input style="display:none" placeholder="Company (disabled)" disabled value="Google"></md-input>
 
-  <tbody *ngIf="logs?.length; else loading">
-    <tr *ngFor="let log of logs">
-      <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
-      <td>
-          <a [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
-      </td>
-      <td>{{ 'editLogs.actions.' + log.action | translate }}</td>
 
-      <td>
-        <p *ngFor="let label of log._labels">{{ label.join(' : ') }}</p>
-      </td>
+</md-card>
 
-      <td style="border-left:1px solid #ddd;">
-        <div style="display:flex">
-          <div style="flex-grow:1;width:33%;">{{ log.who.name }}</div>
-          <div style="flex-grow:1;width:33%;">
-              <p *ngFor="let role of log.who.roles">
-              <a [routerLink]="['/organizations', { outlets: { editor: role.lab } }]" queryParamsHandling="preserve" *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</a>
-            </p>
-          </div>
-          <div style="flex-grow:1;width:33%;">
-              <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
-          </div>
-        </div>
-      </td>
-
-    </tr>
-  </tbody>
-
-  <ng-template #loading>
-    <tbody>
-      <tr>
-        <td colspan="5">
-          <isari-spinner></isari-spinner>
-        </td>
-      </tr>
-    </tbody>
-  </ng-template>
-
-</table>
-
-<div class="pagination">
-  <ul>
-    <li><a md-button (click)="navigatePrev()"><md-icon>navigate_before</md-icon></a>
-    <li><a md-button (click)="navigateNext()"><md-icon>navigate_next</md-icon></a>
-  </ul>
-</div>
-
-<!-- remove me style WTF ??? -->
-<md-input placeholder="Company (disabled)" disabled value="Google"></md-input>
