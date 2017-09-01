@@ -120,6 +120,11 @@
             <li><a md-button (click)="navigatePrev()"><md-icon>navigate_before</md-icon></a>
             <li><a md-button (click)="navigateNext()"><md-icon>navigate_next</md-icon></a>
           </ul>
+
+          <md-select style="align-self:flex-end" [placeholder]="'editLogs.limit' | translate" [formControl]="filterForm.controls['limit']" *ngIf="filterForm.controls['limit']">
+              <md-option *ngFor="let limit of limits" [value]="limit">{{ limit }}</md-option>
+          </md-select>
+
         </div>
 
         <!-- remove me style WTF ??? -->

@@ -17,6 +17,7 @@ export class LogTableComponent implements OnInit {
   itemSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   labSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   roles: any[];
+  limits: number[] = [3, 5, 10, 20, 50];
 
   filterForm: FormGroup;
 
@@ -41,6 +42,7 @@ export class LogTableComponent implements OnInit {
       'isariRole',
       'startDate',
       'endDate',
+      'limit',
     ].forEach(key => {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
