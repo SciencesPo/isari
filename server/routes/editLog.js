@@ -181,9 +181,9 @@ function getEditLog(req, res){
 				async.whilst(() => query.limit && edits.length < data.length,
 					(nextWhilst) =>{ 
 						// ask for next edits to replace the filtered ones
-						let skip = aggregationPipeline.find(p => p['$skip'])
-						if(skip)
-							skip += query.limit
+						let skipIndex = aggregationPipeline.findIndex(p => p['$skip'])
+						if(skipIndex)
+							aggregationPipeline[skipIndex]['$skip'] += query.limit
 						else{
 							let limitIndex = aggregationPipeline.findIndex(p => p['$limit'])
 							aggregationPipeline = aggregationPipeline.slice(0,limitIndex)
