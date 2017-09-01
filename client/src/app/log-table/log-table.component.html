@@ -26,7 +26,7 @@
                   <isari-select
                     [src]="itemSettings.src"
                     [stringValue]="itemSettings.stringValue"
-                    [api]="itemSettings.api"
+                    api="people"
                     [name]="'itemID'"
                     [label]="'editLogs.object.' + feature | translate"
                     [requirement]="false"
@@ -54,7 +54,7 @@
                     style="flex-grow:1;width:33%;"
                     [src]="whoSettings.src"
                     [stringValue]="whoSettings.stringValue"
-                    [api]="whoSettings.api"
+                    api="people"
                     [name]="'whoID'"
                     [label]="'editLogs.who' | translate"
                     [requirement]="false"
@@ -63,7 +63,7 @@
                     style="flex-grow:1;width:33%;"
                     [src]="labSettings.src"
                     [stringValue]="labSettings.stringValue"
-                    [api]="labSettings.api"
+                    api="organizations"
                     [name]="'isariLab'"
                     [label]="'editLogs.lab' | translate"
                     [requirement]="false"
@@ -81,7 +81,10 @@
             </tr>
           </thead>
 
-          <tbody *ngIf="logs?.length; else loading">
+          <tbody *ngIf="logs; else loading">
+            <tr *ngIf="!logs.length">
+              <td colspan="5" style="text-align:center;">{{ 'no result' | translate }}</td>
+            </tr>
             <tr *ngFor="let log of logs">
               <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
               <td>
@@ -98,7 +101,7 @@
                   <div style="flex-grow:1;width:33%;">{{ log.who.name }}</div>
                   <div style="flex-grow:1;width:33%;">
                       <p *ngFor="let role of log.who.roles">
-                      <a [routerLink]="['/organizations', { outlets: { editor: role.lab } }]" queryParamsHandling="preserve" *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</a>
+                      <span *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</span>
                     </p>
                   </div>
                   <div style="flex-grow:1;width:33%;">
