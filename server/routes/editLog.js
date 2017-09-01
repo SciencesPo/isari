@@ -173,7 +173,7 @@ function getEditLog(req, res){
 
 				let edits = formatEdits(data, model)
 
-				const fastforward = data.length - edits.length
+				let fastforward = data.length - edits.length
 				if (query.limit && fastforward>0)
 					res.set('fastforward',fastforward)
 
@@ -185,7 +185,10 @@ function getEditLog(req, res){
 						EditLog.aggregate(aggregationPipeline)
 						.then(newData => {
 							debug(`added ${data.length - edits.length} more edits to reach ${data.length}`)
-							edits = edits.concat(formatEdits(newData).slice(0,data.length - edits.length))
+							const newEdits = formatEdits(newData, model)
+							// fastforward: add the number filtered edits and substract the unfiltered but not included in response
+							fastforward += newData.length - newEdits.length + newEdits.length - data.length + edits.length
+							edits = edits.concat(newEdits.slice(0,data.length - edits.length))
 							nextWhilst(null)
 						})
 					},
