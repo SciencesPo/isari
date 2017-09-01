@@ -95,17 +95,17 @@ function getEditLog(req, res){
 
 			if (query.whoID)
 				mongoQuery['whoID'] = ObjectId(query.whoID)
-			else 
+			else
 				if (whoIds)
-					mongoQuery['whoID'] = {$in:whoIds} 
-			
+					mongoQuery['whoID'] = {$in:whoIds}
+
 			if (query.path)
-				mongoQuery['diff'] = {'$elemMatch': {'0.path':query.path}} 
-			
+				mongoQuery['diff'] = {'$elemMatch': {'0.path':query.path}}
+
 			if (query.action)
 				mongoQuery['action'] = query.action
 
-			//dates 
+			//dates
 			if (query.startDate)
 				mongoQuery['date'] = {'$gte': new Date(fillIncompleteDate(query.startDate, true))}
 
@@ -148,14 +148,14 @@ function getEditLog(req, res){
 					'creator.isariAuthorizedCenters':1
 				}},
 				{'$sort':{date:-1}}
-				
+
 			]
 
 			//count
 			if (query.count)
 				aggregationPipeline.push({
 					'$group': {
-						'_id' : null, 
+						'_id' : null,
 						'count' : {$sum : 1}
 					}
 				})
@@ -174,12 +174,15 @@ function getEditLog(req, res){
 				let edits = formatEdits(data, model)
 
 				let fastforward = data.length - edits.length
-				if (query.limit && fastforward>0)
+				if (query.limit && fastforward>0) {
+					// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
+					res.set('Access-Control-Expose-Headers', 'fastforward')
 					res.set('fastforward',fastforward)
+				}
 
 				// did the formating filtered out some edits ?
 				async.whilst(() => query.limit && edits.length < data.length,
-					(nextWhilst) =>{ 
+					(nextWhilst) =>{
 						// ask for next edits to replace the filtered ones
 						let skipIndex = aggregationPipeline.findIndex(p => p['$skip'])
 						if(skipIndex)
@@ -225,7 +228,7 @@ function formatEdits(data, model){
 		edit.who = {
 			id: d.whoID,
 			name: (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name,
-			roles: d.creator[0].isariAuthorizedCenters ? 
+			roles: d.creator[0].isariAuthorizedCenters ?
 							d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
 							[]
 		}
@@ -278,9 +281,9 @@ function formatEdits(data, model){
 						path: [key]
 					}
 					// store in value After or Before as other diffs
-					diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
+					diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value
 					edit.diff.push(diff)
-				}	
+				}
 			})
 		}
 
