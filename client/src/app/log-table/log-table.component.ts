@@ -43,7 +43,10 @@ export class LogTableComponent implements OnInit {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
 
-    this.filterForm.valueChanges.subscribe(this.emitOptions.bind(this));
+    this.filterForm.valueChanges.subscribe(filters => {
+      // reset skip to 0 for each filter action
+      this.emitOptions(Object.assign({}, filters, { skip: 0 }));
+    });
 
     // people autocomplete (whoID)
     this.whoSettings.api = this.isariDataService.getSchemaApi('people');
