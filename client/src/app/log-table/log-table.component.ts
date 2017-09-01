@@ -24,7 +24,7 @@ export class LogTableComponent implements OnInit {
 
   filterForm: FormGroup;
 
-  @Input() logs: any[];
+  @Input() logs: any[] | null;
   @Input() labs: any[];
   @Input() feature: string;
   @Input() options: EditLogApiOptions;
@@ -57,17 +57,14 @@ export class LogTableComponent implements OnInit {
     });
 
     // people autocomplete (whoID)
-    this.whoSettings.api = this.isariDataService.getSchemaApi('people');
     this.whoSettings.src = this.isariDataService.srcForeignBuilder('people');
     this.whoSettings.stringValue = this.isariDataService.getForeignLabel('People', this.options.whoID);
 
     // item autocomplete (itemID)
-    this.itemSettings.api = this.isariDataService.getSchemaApi(this.feature);
     this.itemSettings.src = this.isariDataService.srcForeignBuilder(this.feature);
     this.itemSettings.stringValue = this.isariDataService.getForeignLabel(this.feature, this.options.itemID);
 
     // people autocomplete (isariLab)
-    this.labSettings.api = this.isariDataService.getSchemaApi('organizations');
     this.labSettings.src = this.isariDataService.srcForeignBuilder('organizations');
     this.labSettings.stringValue = this.isariDataService.getForeignLabel('organizations', this.options.isariLab);
 
@@ -99,7 +96,7 @@ export class LogTableComponent implements OnInit {
   }
 
   private emitOptions(options) {
-    this.logs = [];
+    this.logs = null;
     this.onOptionsChange.emit(Object.assign({}, this.options, options));
   }
 

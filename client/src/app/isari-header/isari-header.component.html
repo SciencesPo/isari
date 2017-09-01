@@ -33,7 +33,10 @@
         <div class="tooltip" id="activities">{{ 'activities' | translate }}</div>
       </button>
 
-      <button md-button [md-menu-trigger-for]="menuHistory">H</button>
+      <button md-menu-item [md-menu-trigger-for]="menuHistory">
+          <md-icon>history</md-icon>
+          <div class="tooltip" id="logs">{{ 'logs' | translate }}</div>
+      </button>
       <md-menu x-position="before" #menuHistory>
         <a md-menu-item [routerLink]="['/logs', 'people']" queryParamsHandling="preserve">{{ 'people' | translate }}</a>
         <a md-menu-item [routerLink]="['/logs', 'organizations']" queryParamsHandling="preserve">{{ 'organizations' | translate }}</a>
