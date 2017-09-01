@@ -150,8 +150,7 @@ function getEditLog(req, res){
 				{'$sort':{date:-1}}
 				
 			]
-			debug('count?')
-			debug(query.count)
+
 			//count
 			if (query.count)
 				aggregationPipeline.push({
@@ -172,85 +171,114 @@ function getEditLog(req, res){
 				if (query.count)
 					return next(null, data[0])
 
-				const edits = []
-				data.forEach(d => {
-					const edit = {}
-					edit.who = {
-						id: d.whoID,
-						name: (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name,
-						roles: d.creator[0].isariAuthorizedCenters ? 
-										d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
-										[]
-					}
+				let edits = formatEdits(data, model)
 
-					edit.date = d.date
-					edit.item = { id:d.item}
-					if (model === 'People' && d.itemObject[0]){
-						edit.item.name = (d.itemObject[0].firstName ? d.itemObject[0].firstName+' ': '')+ d.itemObject[0].name
-					}else
-							if (d.itemObject[0])
-								edit.item.name = d.itemObject[0].acronym || d.itemObject[0].name
+				const fastforward = data.length - edits.length
+				if (query.limit && fastforward>0)
+					res.set('fastforward',fastforward)
 
-					edit.action = d.action
-
-					if (edit.action === 'update'){
-						edit.diff = d.diff.filter(dd => editLogsPathFilter(dd[0].path))
-																			// blaclisting weird diffs
-												.map(dd => {
-													dd = dd[0]
-
-													// remove index of element in array from path
-													const diff = {path: dd.path.filter(e => typeof e !== 'number')}
-
-													if (dd.kind === 'A'){
-														//array case...
-														if (dd.item.lhs)
-															diff.valueBefore = dd.item.lhs
-														if(dd.item.rhs)
-															diff.valueAfter = dd.item.rhs
-														diff.editType = formatKind(dd.item.kind)
-													}
-													else {
-														if (dd.lhs)
-															diff.valueBefore = dd.lhs
-														if( dd.rhs)
-															diff.valueAfter = dd.rhs
-														diff.editType = formatKind(dd.kind)
-													}
-													return diff
-												})
-					}
-					else{
-						edit.diff = []
-						// in case of create or delete diff data is stored in data
-						_.forOwn(d.data, (value,key) => {
-							// we filter tecnical fields
-							if (!editLogsDataKeysBlacklist.includes(key)){
-								const diff = {
-									editType: d.action,
-									path: [key]
-								}
-								// store in value After or Before as other diffs
-								diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
-								edit.diff.push(diff)
-							}	
+				// did the formating filtered out some edits ?
+				async.whilst(() => query.limit && edits.length < data.length,
+					(nextWhilst) =>{ 
+						// ask for next edits to replace the filtered ones
+						aggregationPipeline.forEach(s => { if (s['$skip']) s['$skip']+= +query.limit})
+						EditLog.aggregate(aggregationPipeline)
+						.then(newData => {
+							debug(`added ${data.length - edits.length} more edits to reach ${data.length}`)
+							edits = edits.concat(formatEdits(newData).slice(0,data.length - edits.length))
+							nextWhilst(null)
 						})
-					}
-
-					if (edit.diff.length === 0){
-						debug('empty diff in :')
-						debug(edit)
-					}
-					else
-						edits.push(edit)
-				})      
-				next(null,edits)
+					},
+					(err) => {
+						if (err) next(err)
+						next(null,edits)
+					})
 			})
 		}
 	],
 		(error,edits) =>{
-			if (error) res.status(500).send(error) 
+			if (error) res.status(500).send(error)
+
 			return res.status(200).send(edits)
 		}
 	)
+}
+
+
+
+function formatEdits(data, model){
+	const edits = []
+	data.forEach(d => {
+		const edit = {}
+		edit.who = {
+			id: d.whoID,
+			name: (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name,
+			roles: d.creator[0].isariAuthorizedCenters ? 
+							d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
+							[]
+		}
+
+		edit.date = d.date
+		edit.item = { id:d.item}
+		if (model === 'People' && d.itemObject[0]){
+			edit.item.name = (d.itemObject[0].firstName ? d.itemObject[0].firstName+' ': '')+ d.itemObject[0].name
+		}else
+				if (d.itemObject[0])
+					edit.item.name = d.itemObject[0].acronym || d.itemObject[0].name
+
+		edit.action = d.action
+
+		if (edit.action === 'update'){
+			edit.diff = d.diff.filter(dd => editLogsPathFilter(dd[0].path))
+																// blaclisting weird diffs
+									.map(dd => {
+										dd = dd[0]
+
+										// remove index of element in array from path
+										const diff = {path: dd.path.filter(e => typeof e !== 'number')}
+
+										if (dd.kind === 'A'){
+											//array case...
+											if (dd.item.lhs)
+												diff.valueBefore = dd.item.lhs
+											if(dd.item.rhs)
+												diff.valueAfter = dd.item.rhs
+											diff.editType = formatKind(dd.item.kind)
+										}
+										else {
+											if (dd.lhs)
+												diff.valueBefore = dd.lhs
+											if( dd.rhs)
+												diff.valueAfter = dd.rhs
+											diff.editType = formatKind(dd.kind)
+										}
+										return diff
+									})
+		}
+		else{
+			edit.diff = []
+			// in case of create or delete diff data is stored in data
+			_.forOwn(d.data, (value,key) => {
+				// we filter tecnical fields
+				if (!editLogsDataKeysBlacklist.includes(key)){
+					const diff = {
+						editType: d.action,
+						path: [key]
+					}
+					// store in value After or Before as other diffs
+					diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value					
+					edit.diff.push(diff)
+				}	
+			})
+		}
+
+		if (edit.diff.length === 0){
+			debug('empty diff in :')
+			debug(edit)
+		}
+		else
+			edits.push(edit)
+	})
+	return edits
+
 }
