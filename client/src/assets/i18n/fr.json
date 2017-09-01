@@ -81,5 +81,6 @@
       "all": "Toutes"
     },
     "limit": "Résultats par page"
-  }
+  },
+  "no result": "Aucun résultat"
 }
