@@ -17,6 +17,7 @@ import { get, sortByDistance } from './utils';
 import _get from 'lodash/get';
 import keyBy from 'lodash/keyBy';
 import omit from 'lodash/omit';
+import uniq from 'lodash/uniq';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -125,7 +126,7 @@ export class IsariDataService {
           _label: diff.path.reduce((a, v, i, s) => [...a, getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], [])
         }))
         // all diffs labels
-        log._labels = log.diff.map(diff => diff._label);
+        log._labels = uniq(log.diff.map(diff => (diff._label || []).join(' : ')));
         log.who.roles = log.who.roles.map(role => Object.assign(role, {
           _label: roles[role.role].label[lang],
         }));

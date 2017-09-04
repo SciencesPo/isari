@@ -93,7 +93,7 @@
               <td>{{ 'editLogs.actions.' + log.action | translate }}</td>
 
               <td>
-                <p *ngFor="let label of log._labels">{{ label.join(' : ') }}</p>
+                <p *ngFor="let label of log._labels">{{ label }}</p>
               </td>
 
               <td style="border-left:1px solid #ddd;">
