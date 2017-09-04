@@ -199,7 +199,10 @@ function getEditLog(req, res){
 					(nextWhilst) =>{
 						// ask for next edits to replace the filtered ones
 						let skipIndex = aggregationPipeline.findIndex(p => p['$skip'])
-						if(skipIndex)
+						debug(aggregationPipeline)
+						debug(skipIndex)
+
+						if(skipIndex !== -1)
 							aggregationPipeline[skipIndex]['$skip'] += +query.limit
 						else{
 							let limitIndex = aggregationPipeline.findIndex(p => p['$limit'])
