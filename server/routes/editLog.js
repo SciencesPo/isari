@@ -233,7 +233,15 @@ function getEditLog(req, res){
 	)
 }
 
-
+function formatItemName(data, model){
+	if (model === 'People' && data){
+		return (data.firstName ? data.firstName+' ': '')+ data.name
+	}
+	else
+			if (data)
+				return data.acronym || data.name
+	return undefined	
+}
 
 function formatEdits(data, model){
 	const edits = []
@@ -249,11 +257,7 @@ function formatEdits(data, model){
 
 		edit.date = d.date
 		edit.item = { id:d.item}
-		if (model === 'People' && d.itemObject[0]){
-			edit.item.name = (d.itemObject[0].firstName ? d.itemObject[0].firstName+' ': '')+ d.itemObject[0].name
-		}else
-				if (d.itemObject[0])
-					edit.item.name = d.itemObject[0].acronym || d.itemObject[0].name
+		edit.item.name = formatItemName(d.itemObject[0], model)
 
 		edit.action = d.action
 
@@ -287,6 +291,8 @@ function formatEdits(data, model){
 		else{
 			edit.diff = []
 			// in case of create or delete diff data is stored in data
+			if (!edit.item.name)
+				edit.item.name = formatItemName(d.data, model)
 			_.forOwn(d.data, (value,key) => {
 				// we filter tecnical fields
 				if (!editLogsDataKeysBlacklist.includes(key)){
