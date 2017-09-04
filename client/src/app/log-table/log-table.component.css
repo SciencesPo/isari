@@ -20,7 +20,7 @@ table.bordered > tbody > tr {
   border-bottom: 1px solid #d0d0d0;
 }
 
-table.striped > tbody > tr:nth-child(odd) {
+table.striped > tbody > tr.odd {
   background-color: #f2f2f2;
 }
 
@@ -34,7 +34,7 @@ table.striped > tbody > tr > td {
 }
 
 table.striped > tbody > tr > td p {
-  margin: 0;
+  margin: 0 0 0 24px;
 }
 
 table.striped > tbody > tr.active {
@@ -114,4 +114,45 @@ td, th {
 isari-date {
   margin-left: 20px;
   font-size: .7em;
+}
+
+table.bordered > tbody > tr.open1 {
+  border-bottom: 1px dashed #d0d0d0;
+}
+table.bordered > tbody > tr.open2 {
+  border-bottom: none;
+  border-top: 1px dashed #d0d0d0;
+}
+table.bordered > tbody > tr.open2.last {
+  border-bottom: 1px solid #d0d0d0;
+}
+
+
+
+table.bordered > tbody > tr.open2 {
+  font-size: .9em;
+}
+table.bordered > tbody > tr.open2 td {
+  padding: 5px;
+}
+table.bordered > tbody > tr.open2 pre {
+  flex-grow: 1;
+  width:50%;
+  overflow:hidden;
+  margin: 0;
+}
+
+table.bordered > tbody > tr > td.bleft {
+  border-left: 1px solid #d0d0d0;
+}
+
+td.labels {
+  cursor: pointer;
+}
+
+td.labels .material-icons {
+  float: left;
+  height: 24px;
+  vertical-align: top;
+  line-height: 24px;
 }

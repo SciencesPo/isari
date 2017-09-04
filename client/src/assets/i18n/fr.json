@@ -80,7 +80,9 @@
       "delete": "Suppression",
       "all": "Toutes"
     },
-    "limit": "Résultats par page"
+    "limit": "Résultats par page",
+    "before": "Valeurs avant",
+    "after": "Valeurs après"
   },
   "no result": "Aucun résultat"
 }

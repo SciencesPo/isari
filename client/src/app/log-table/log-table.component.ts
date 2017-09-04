@@ -95,6 +95,10 @@ export class LogTableComponent implements OnInit {
     }));
   }
 
+  toggle(log, evt) {
+    log._open = !log._open;
+  }
+
   private emitOptions(options) {
     this.logs = null;
     this.onOptionsChange.emit(Object.assign({}, this.options, options));

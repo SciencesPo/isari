@@ -123,10 +123,10 @@ export class IsariDataService {
       logs = (<any[]>logs).map(log => {
         log.diff = log.diff.map(diff => Object.assign(diff, {
           // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
-          _label: diff.path.reduce((a, v, i, s) => [...a, getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], [])
+          _label: diff.path.reduce((a, v, i, s) => [...a, getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
         }))
         // all diffs labels
-        log._labels = uniq(log.diff.map(diff => (diff._label || []).join(' : ')));
+        log._labels = uniq(log.diff.map(diff => diff._label));
         log.who.roles = log.who.roles.map(role => Object.assign(role, {
           _label: roles[role.role].label[lang],
         }));

@@ -52,7 +52,6 @@ export class IsariLogsComponent implements OnInit {
       .getHistory(this.feature, this.options, lang)
     })
     .map(logs => {
-      console.log(logs);
       this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
         .map(labs => keyBy(labs, 'id'));
       return logs;
