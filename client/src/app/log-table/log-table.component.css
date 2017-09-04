@@ -136,8 +136,6 @@ table.bordered > tbody > tr.open2 td {
   padding: 5px;
 }
 table.bordered > tbody > tr.open2 pre {
-  flex-grow: 1;
-  width:50%;
   overflow:hidden;
   margin: 0;
 }
