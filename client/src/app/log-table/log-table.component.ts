@@ -32,7 +32,7 @@ export class LogTableComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private isariDataService: IsariDataService
+    public isariDataService: IsariDataService
   ) {}
 
   ngOnInit() {

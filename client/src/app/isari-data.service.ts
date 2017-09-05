@@ -20,6 +20,7 @@ import keyBy from 'lodash/keyBy';
 import omit from 'lodash/omit';
 import uniq from 'lodash/uniq';
 import isPlainObject from 'lodash/isPlainObject';
+import flatten from 'lodash/flatten';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -41,6 +42,7 @@ export class IsariDataService {
   private layoutsCache = {};
   private schemasCache = {};
   private columnsCache = null;
+  private labelsCache = {};
 
   private dataUrl = `${environment.API_BASE_URL}`;
   private layoutUrl = `${environment.API_BASE_URL}/layouts`;
@@ -128,8 +130,8 @@ export class IsariDataService {
             // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
             _label: diff.path.reduce((a, v, i, s) => [...a, this.getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
           });
-          if (diff.valueBefore) res._beforeLabelled = this.key2label(diff.valueBefore, diff.path, schema, lang);
-          if (diff.valueAfter) res._afterLabelled = this.key2label(diff.valueAfter, diff.path, schema, lang);
+          if (diff.valueBefore) res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang));
+          if (diff.valueAfter) res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang));
           return res;
         });
 
@@ -144,14 +146,43 @@ export class IsariDataService {
     });
   }
 
-  key2label(partial, base: string[], schema, lang) {
-    if (!isPlainObject(partial)) return partial;
-    return Object.keys(partial).reduce((acc, key) => {
+  key2label(value, base: string[], schema, lang) {
+    if (!isPlainObject(value)) {
+      const ref = _get(schema, [...base, 'ref'].join('.'));
+      if (ref) return { ref, value };
+      return value;
+    }
+    return Object.keys(value).reduce((acc, key) => {
       const label = this.getLabel(schema, [...base, key].join('.'), lang);
       return Object.assign({}, acc, {
-        [label]: this.key2label(partial[key], [...base, key], schema, lang)
+        [label]: this.key2label(value[key], [...base, key], schema, lang)
       });
     }, {})
+  }
+
+  formatWithRefs(obj) {
+    if (typeof obj === 'string') return Observable.of(obj);
+    const format = (o, refs, level = 0) => Object.keys(o)
+    .reduce((s, k) => {
+      s += `${'  '.repeat(level)}<strong>${k}</strong> : `;
+      if (typeof o[k] === 'string') s += o[k];
+      else if (o[k].ref && o[k].value) s += refs[o[k].value] || '????';
+      else s += "\n" + format(o[k], refs, level + 1);
+      return s + "\n";
+    }, "");
+
+    const getRefs = (o) => Object.keys(o)
+    .reduce((r, k) => {
+        if (typeof o[k] === 'string') return r;
+        if (!o[k].ref || !o[k].value) return [...r, ...getRefs(o[k])];
+        return [...r, o[k]];
+    }, []);
+
+    return Observable.combineLatest(getRefs(obj)
+    .map(({ ref, value }) => this.getForeignLabel(ref, value)))
+    .map(labels => flatten(labels).reduce((l, v) => Object.assign(l, { [v.id]: v.value }), {}))
+    .map(labels => format(obj, labels));
+
   }
 
   getRelations(feature: string, id: string) {
@@ -334,9 +365,13 @@ export class IsariDataService {
     }
 
     const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/${values.join(',')}/string`;
-    return this.http.get(url, this.getHttpOptions())
-      .map(response => response.json());
-      // .map(item => item.value);
+
+    if (!this.labelsCache[url]) {
+      this.labelsCache[url] = this.http.get(url, this.getHttpOptions())
+        .map(response => response.json());
+    }
+
+    return this.labelsCache[url];
   }
 
   getForeignCreate(feature) {
