@@ -45,3 +45,5 @@ activeFlag = 'scpoAllActifSI'
 # Set to true to fully disable LDAP, meaning login/password will be automatically accepted with no check
 skip = false
 
+[debug]
+mongoose = true

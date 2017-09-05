@@ -13,3 +13,6 @@ index = 'isaritest'
 
 [ldap]
 skip = true # Do not use real LDAP authentication
+
+[debug]
+mongoose = false
