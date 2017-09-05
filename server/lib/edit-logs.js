@@ -93,7 +93,7 @@ const middleware = schema => {
 		}
 		else {
 			// If the model was updated, we only store a diff
-			const changes = deepDiff(this._original, data)
+			const changes = deepDiff(cleanupData(this._original), cleanupData(data))
 			editLog.diff = flattenDiff(changes)
 		}
 
@@ -130,6 +130,46 @@ const middleware = schema => {
 }
 
 const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)
+
+const cleanupData = (data, subDoc = false) => {
+	if (!data) {
+		return data
+	}
+
+	// Sub-document: if it has an id, the whole object should be replace with this value
+	if (subDoc && data._id instanceof mongoose.mongo.ObjectID) {
+		return getID(data)
+	}
+
+	// Standard case, just cleanup object
+	return Object.keys(data).reduce((res, k) => {
+		// Handle ObjectID
+		if (data[k] instanceof mongoose.mongo.ObjectID) {
+			res[k] = asID(data[k])
+		}
+		// Remove special fields
+		else if (k !== '_id' && k[0] === '_') {
+			// Nothing to do
+		}
+		// Replace populated data with id
+		else if (typeof data[k] === 'object' && data[k]._id instanceof mongoose.mongo.ObjectID) {
+			res[k] = getID(data[k])
+		}
+		// Collection
+		else if (Array.isArray(data[k])) {
+			res[k] = data[k].map(o => cleanupData(o, true))
+		}
+		// Other cases: just inject field
+		else {
+			res[k] = data[k]
+		}
+		return res
+	}, {})
+}
+
+const getID = o => o && (asID(o._id) || asID(o.id))
+
+const asID = id => id && (id.toHexString ? id.toHexString() : String(id))
 
 
 module.exports = {
