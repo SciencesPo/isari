@@ -93,8 +93,8 @@ const middleware = schema => {
 		}
 		else {
 			// If the model was updated, we only store a diff
-			const diff = deepDiff(this._original, data)
-			editLog.diff = diff
+			const changes = deepDiff(this._original, data)
+			editLog.diff = flattenDiff(changes)
 		}
 
 		this._elLogToBeSaved = new EditLog(editLog)
@@ -128,6 +128,8 @@ const middleware = schema => {
 	})
 
 }
+
+const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)
 
 
 module.exports = {
