@@ -1,3 +1,4 @@
+import { zipObject } from 'lodash/zipObject';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, RequestOptions } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -18,6 +19,7 @@ import _get from 'lodash/get';
 import keyBy from 'lodash/keyBy';
 import omit from 'lodash/omit';
 import uniq from 'lodash/uniq';
+import isPlainObject from 'lodash/isPlainObject';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -104,12 +106,12 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  getHistory (feature: string, query: any, lang) {
+  private getLabel(schema, path, lang) {
+    const item = _get(schema, path);
+    return item && item.label ? item.label[lang] : '';
+  }
 
-    function getLabel(schema, path, lang) {
-      const item = _get(schema, path);
-      return item && item.label ? item.label[lang] : '';
-    }
+  getHistory (feature: string, query: any, lang) {
 
     return Observable.combineLatest([
       this.http.get(`${this.editLogUrl}/${feature}`, this.getHttpOptions(query))
@@ -121,10 +123,16 @@ export class IsariDataService {
 
     .map(([logs, schema, roles]) => {
       logs = (<any[]>logs).map(log => {
-        log.diff = log.diff.map(diff => Object.assign(diff, {
-          // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
-          _label: diff.path.reduce((a, v, i, s) => [...a, getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
-        }))
+        log.diff = log.diff.map(diff => {
+          const res = Object.assign(diff, {
+            // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
+            _label: diff.path.reduce((a, v, i, s) => [...a, this.getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
+          });
+          if (diff.valueBefore) res._beforeLabelled = this.key2label(diff.valueBefore, diff.path, schema, lang);
+          if (diff.valueAfter) res._afterLabelled = this.key2label(diff.valueAfter, diff.path, schema, lang);
+          return res;
+        });
+
         // all diffs labels
         log._labels = uniq(log.diff.map(diff => diff._label));
         log.who.roles = log.who.roles.map(role => Object.assign(role, {
@@ -134,6 +142,16 @@ export class IsariDataService {
       });
       return logs;
     });
+  }
+
+  key2label(partial, base: string[], schema, lang) {
+    if (!isPlainObject(partial)) return partial;
+    return Object.keys(partial).reduce((acc, key) => {
+      const label = this.getLabel(schema, [...base, key].join('.'), lang);
+      return Object.assign({}, acc, {
+        [label]: this.key2label(partial[key], [...base, key], schema, lang)
+      });
+    }, {})
   }
 
   getRelations(feature: string, id: string) {

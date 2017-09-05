@@ -122,8 +122,8 @@
                 <td [class.bleft]="log._open">{{ 'editLogs.actions.' + diff.editType | translate }}</td>
                 <td>{{ diff._label }}</td>
                 <td colspan="2">
-                  <pre style="color:red;">{{ diff?.valueBefore | json }}</pre>
-                  <pre style="color:green;">{{ diff?.valueAfter | json }}</pre>
+                  <pre style="color:red;">{{ diff?._beforeLabelled | json }}</pre>
+                  <pre style="color:green;">{{ diff?._afterLabelled | json }}</pre>
                   <!-- <div style="display: flex">
                   </div> -->
                 </td>
