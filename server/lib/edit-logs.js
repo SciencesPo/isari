@@ -131,9 +131,9 @@ const middleware = schema => {
 
 const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)
 
-const cleanupData = (data, subDoc = false) => {
+const cleanupData = (data, subDoc = false, returnNullIfNotModified = false) => {
 	if (!data) {
-		return data
+		return returnNullIfNotModified ? null : data
 	}
 
 	// Sub-document: if it has an id, the whole object should be replace with this value
@@ -142,22 +142,38 @@ const cleanupData = (data, subDoc = false) => {
 	}
 
 	// Standard case, just cleanup object
-	return Object.keys(data).reduce((res, k) => {
+	let modified = false
+	const newData = Object.keys(data).reduce((res, k) => {
 		// Handle ObjectID
 		if (data[k] instanceof mongoose.mongo.ObjectID) {
 			res[k] = asID(data[k])
+			modified = true
 		}
 		// Remove special fields
 		else if (k !== '_id' && k[0] === '_') {
-			// Nothing to do
+			// SKIP FIELD
+			modified = true
 		}
 		// Replace populated data with id
 		else if (typeof data[k] === 'object' && data[k]._id instanceof mongoose.mongo.ObjectID) {
 			res[k] = getID(data[k])
+			modified = true
 		}
 		// Collection
 		else if (Array.isArray(data[k])) {
-			res[k] = data[k].map(o => cleanupData(o, true))
+			res[k] = data[k].map(o => {
+				if (returnNullIfNotModified) {
+					const o2 = cleanupData(o, true, true)
+					if (o2) {
+						modified = true
+						return o2
+					} else {
+						return o
+					}
+				} else {
+					return cleanupData(o, true, false)
+				}
+			})
 		}
 		// Other cases: just inject field
 		else {
@@ -165,6 +181,12 @@ const cleanupData = (data, subDoc = false) => {
 		}
 		return res
 	}, {})
+
+	if (!modified && returnNullIfNotModified) {
+		return null
+	} else {
+		return newData
+	}
 }
 
 const getID = o => o && (asID(o._id) || asID(o.id))
@@ -175,5 +197,7 @@ const asID = id => id && (id.toHexString ? id.toHexString() : String(id))
 module.exports = {
 	EditLogSchema,
 	EditLog,
-	middleware
+	middleware,
+	cleanupData,
+	flattenDiff,
 }

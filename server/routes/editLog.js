@@ -2,7 +2,7 @@
 
 const { Router } = require('express')
 const { UnauthorizedError } = require('../lib/errors')
-const {EditLog} = require('../lib/edit-logs')
+const { EditLog, flattenDiff } = require('../lib/edit-logs')
 const { requiresAuthentication } = require('../lib/permissions')
 const models = require('../lib/model')
 const {fillIncompleteDate} = require('../export/helpers')
@@ -320,5 +320,3 @@ function formatEdits(data, model){
 	return edits
 
 }
-
-const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)
