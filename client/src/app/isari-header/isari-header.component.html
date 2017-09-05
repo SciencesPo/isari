@@ -33,7 +33,7 @@
         <div class="tooltip" id="activities">{{ 'activities' | translate }}</div>
       </button>
 
-      <button md-menu-item [md-menu-trigger-for]="menuHistory">
+      <button md-menu-item [md-menu-trigger-for]="menuHistory" *ngIf="organization">
           <md-icon>history</md-icon>
           <div class="tooltip" id="logs">{{ 'logs' | translate }}</div>
       </button>
