@@ -243,7 +243,7 @@ function formatItemName(data, model){
 	else
 			if (data)
 				return data.acronym || data.name
-	return undefined	
+	return undefined
 }
 
 function formatEdits(data, model){
@@ -265,11 +265,11 @@ function formatEdits(data, model){
 		edit.action = d.action
 
 		if (edit.action === 'update'){
-			edit.diff = d.diff.filter(dd => editLogsPathFilter(dd[0].path))
-																// blaclisting weird diffs
+			edit.diff = d.diff
+									.map(flattenDiff)
+									// blaclisting weird diffs
+									.filter(dd => editLogsPathFilter(dd.path))
 									.map(dd => {
-										dd = dd[0]
-
 										// remove index of element in array from path
 										const diff = {path: dd.path.filter(e => typeof e !== 'number')}
 
@@ -320,3 +320,5 @@ function formatEdits(data, model){
 	return edits
 
 }
+
+const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)

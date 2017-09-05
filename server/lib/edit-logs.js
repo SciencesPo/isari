@@ -92,7 +92,6 @@ const middleware = schema => {
 			editLog.data = removeEmptyFields(data)
 		}
 		else {
-
 			// If the model was updated, we only store a diff
 			const diff = deepDiff(this._original, data)
 			editLog.diff = diff
