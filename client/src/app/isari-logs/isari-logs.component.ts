@@ -22,9 +22,10 @@ export class IsariLogsComponent implements OnInit {
 
   feature: string;
   options: EditLogApiOptions = { skip: 0, limit: 5 };
+  options$: BehaviorSubject<EditLogApiOptions>;
+  details$: BehaviorSubject<boolean>;
   logs$: Observable<any[]>;
   labs$: Observable<any[]>;
-  options$: BehaviorSubject<EditLogApiOptions>
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class IsariLogsComponent implements OnInit {
 
   ngOnInit() {
     this.options$ = new BehaviorSubject(this.options);
+    this.details$ = new BehaviorSubject(false);
     this.logs$ = Observable
     .combineLatest([
       this.route.paramMap,
@@ -50,17 +52,28 @@ export class IsariLogsComponent implements OnInit {
 
       return this.isariDataService
       .getHistory(this.feature, this.options, lang)
+      .combineLatest(this.details$)
     })
-    .map(logs => {
+    .map(([logs, details]) => {
       this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
         .map(labs => keyBy(labs, 'id'));
-      return logs;
+
+      if (details && this.options['path'] !== '') return logs.map(log => Object.assign({}, log, {
+        _open: true,
+        diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
+      }));
+
+      return logs.map(log => Object.assign({}, log, { _open: details }));
     });
   }
 
   changeOpt(options) {
     this.options = options;
     this.options$.next(options);
+  }
+
+  toggleDetails() {
+    this.details$.next(!this.details$.value);
   }
 
 }

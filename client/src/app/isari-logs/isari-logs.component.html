@@ -7,6 +7,7 @@
     [logs]="logs$ | async"
     [labs]="labs$ | async"
     [options]="options"
-    (onOptionsChange)="changeOpt($event)"></isari-log-table>
+    (onOptionsChange)="changeOpt($event)"
+    (onDetailsToggle)="toggleDetails()"></isari-log-table>
 
 </div>

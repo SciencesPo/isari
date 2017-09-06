@@ -21,7 +21,6 @@ export class LogTableComponent implements OnInit {
   roles: any[];
   fields: any[];
   limits: number[] = [3, 5, 10, 20, 50, 100, 200];
-  details: boolean = false;
 
   filterForm: FormGroup;
 
@@ -30,6 +29,7 @@ export class LogTableComponent implements OnInit {
   @Input() feature: string;
   @Input() options: EditLogApiOptions;
   @Output() onOptionsChange = new EventEmitter();
+  @Output() onDetailsToggle = new EventEmitter();
 
   constructor(
     private translate: TranslateService,
@@ -101,10 +101,7 @@ export class LogTableComponent implements OnInit {
   }
 
   toggleView() {
-    this.details = !this.details;
-    this.logs = this.logs.map(log => Object.assign({}, log, {
-      _open: this.details
-    }));
+    this.onDetailsToggle.emit();
   }
 
   private emitOptions(options) {

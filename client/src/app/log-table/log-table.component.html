@@ -118,7 +118,7 @@
               </tr>
               <ng-template [ngIf]="log._open">
               <ng-template ngFor let-diff [ngForOf]="log.diff" let-j="index" let-islast="last">
-              <tr *ngIf="!details || (options.path && diff.path[0] === options.path)" class="open2" [class.odd]="i % 2 === 0" [class.last]="islast">
+              <tr class="open2" [class.odd]="i % 2 === 0" [class.last]="islast">
                 <td></td>
                 <td></td>
                 <td [class.bleft]="log._open">{{ 'editLogs.actions.' + diff.editType | translate }}</td>
