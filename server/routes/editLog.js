@@ -98,8 +98,8 @@ function getEditLog(req, res){
 		},
 		(whoIds, next) =>{
 			// build the mongo query to editLog collection
-			model = _.capitalize(model)
-			const mongoQuery = {model}
+			const mongoModel = model === 'people' ? 'People' : (model === 'organizations' ? 'Organization' : 'Activity')
+			const mongoQuery = {model: mongoModel }
 			if (itemID)
 				mongoQuery.item = ObjectId(itemID)
 
@@ -137,7 +137,7 @@ function getEditLog(req, res){
 					as: 'creator'
 				}},
 				{'$lookup':{
-					from: model === 'People' ? 'people' : (model === 'Organization' ? 'organizations' : 'activities'),
+					from: model === 'people' ? 'people' : (model === 'organizations' ? 'organizations' : 'activities'),
 					localField: 'item',
 					foreignField: '_id',
 					as: 'itemObject'
@@ -233,7 +233,7 @@ function getEditLog(req, res){
 }
 
 function formatItemName(data, model){
-	if (model === 'People' && data){
+	if (model === 'people' && data){
 		return (data.firstName ? data.firstName+' ': '')+ data.name
 	}
 	else
