@@ -103,8 +103,17 @@ const middleware = schema => {
 		}
 		else {
 			// If the model was updated, we only store a diff
-			const changes = deepDiff(cleanupData(this._original), cleanupData(data))
-			editLog.diff = flattenDiff(changes)
+			const changes = flattenDiff(deepDiff(cleanupData(this._original), cleanupData(data)))
+			if (changes.length === 0) {
+				// No change at all: do not save any edit log
+				return next()
+			}
+			if (changes.length === 1 && changes[0].path.length === 1 && changes[0].path[0] === 'latestChangeBy') {
+				// No actual change, the only modified field is 'latestChangeBy', which is pretty meaningless
+				// Do not save any edit log
+				return next()
+			}
+			editLog.diff = changes
 		}
 
 		this._elLogToBeSaved = new EditLog(editLog)
