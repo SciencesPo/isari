@@ -29,7 +29,7 @@ const EditLogSchema = new mongoose.Schema({
 		required: false
 	},
 	diff: {
-		type: mongoose.Schema.Types.Array,
+		type: mongoose.Schema.Types.Mixed,
 		required: false
 	},
 	who: {
