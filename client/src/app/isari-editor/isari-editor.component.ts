@@ -87,11 +87,17 @@ export class IsariEditorComponent implements OnInit {
       this.feature = feature;
       this.id = id;
       Promise.all([
-        this.isariDataService.getData(this.feature, id ? String(id) : null),
+        this.isariDataService.getData(this.feature, id ? String(id) : null)
+        .catch(err => {
+          this.toasterService.pop('error', this.feature, id + ' : Not Found');
+          return Promise.reject(err);
+        }),
         this.isariDataService.getLayout(this.feature),
         this.isariDataService.getRelations(this.feature, id ? String(id): null)
+        .catch(err => {
+          return Promise.reject(err);
+        })
       ]).then(([data, layout, relations]) => {
-
         this.errors = {};
 
         this.relations = Object.keys(relations).map(key => ({
@@ -132,6 +138,9 @@ export class IsariEditorComponent implements OnInit {
           this.pageScrollService.start(pageScrollInstance);
         });
 
+      })
+      .catch(err => {
+        console.log('err', err)
       });
     });
   }

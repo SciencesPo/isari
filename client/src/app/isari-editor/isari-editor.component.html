@@ -1,4 +1,4 @@
-<div *ngIf="exist">
+<div *ngIf="exist; else notexist">
   <md-card id="form">
       <isari-data-editor
           [feature]="feature"
@@ -48,3 +48,6 @@
   </md-card>
 
 </div>
+<ng-template #notexist>
+  <h2 style="text-align:center">{{ 'ITEM NOT FOUND' | translate }}</h2>
+</ng-template>

@@ -90,8 +90,8 @@
 
                 <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
                 <td>
-                    <a *ngIf="log.action !== 'delete'" [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
-                    <span *ngIf="log.action === 'delete'">{{ log.item.name }}</span>
+                    <a [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
+                    <!-- <span *ngIf="log.action === 'delete'">{{ log.item.name }}</span> -->
                 </td>
                 <td [class.bleft]="log._open">{{ 'editLogs.actions.' + log.action | translate }}</td>
                 <td class="labels" (click)="toggle(log, $event)">
