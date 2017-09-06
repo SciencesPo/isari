@@ -12,7 +12,7 @@ const mongoose = require('mongoose')
 const _ = require('lodash')
 
 const async = require('async')
-const debug = require('debug')('isari:export')
+const debug = require('debug')('isari:EditLog')
 
 const ObjectId = mongoose.Types.ObjectId
 
@@ -223,6 +223,7 @@ function formatEdits(data, model){
 
 		if (edit.action === 'update'){
 			edit.diff = flattenDiff(d.diff)
+									.filter(dd => editLogsPathFilter(dd.path))
 									.map(dd => {
 										// remove index of element in array from path
 										const diff = {path: dd.path.filter(e => typeof e !== 'number')}
@@ -264,12 +265,12 @@ function formatEdits(data, model){
 			})
 		}
 
-		if (edit.diff.length === 0){
-			debug('empty diff in :')
-			debug(edit)
-		}
-		else
-			edits.push(edit)
+		// if (edit.diff.length === 0){
+		// 	debug('empty diff in :')
+		// 	debug(edit)
+		// }
+		// else
+		edits.push(edit)
 	})
 	return edits
 
