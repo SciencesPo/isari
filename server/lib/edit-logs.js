@@ -104,14 +104,8 @@ const middleware = schema => {
 		else {
 			// If the model was updated, we only store a diff
 			const changes = flattenDiff(deepDiff(cleanupData(this._original), cleanupData(data)))
-			if (changes.length === 0) {
-				// No change at all: do not save any edit log
-				return next()
-			}
-			if (changes.length === 1 && changes[0].path.length === 1 && changes[0].path[0] === 'latestChangeBy') {
-				// No actual change, the only modified field is 'latestChangeBy', which is pretty meaningless
-				// Do not save any edit log
-				return next()
+			if (isEmptyDiff(changes)) {
+				return next() // no edit log inserted for empty diff
 			}
 			editLog.diff = changes
 		}
@@ -147,6 +141,12 @@ const middleware = schema => {
 	})
 
 }
+
+const isEmptyDiff = changes =>
+	// No change at all
+	(changes.length === 0) ||
+	// The only modified field is 'latestChangeBy', which is pretty meaningless
+	(changes.length === 1 && changes[0].path.length === 1 && changes[0].path[0] === 'latestChangeBy')
 
 const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)
 
@@ -219,4 +219,5 @@ module.exports = {
 	middleware,
 	cleanupData,
 	flattenDiff,
+	isEmptyDiff,
 }

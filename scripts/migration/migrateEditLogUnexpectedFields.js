@@ -1,5 +1,5 @@
 const { connect } = require('../../server/lib/model')
-const { EditLog, flattenDiff, cleanupData } = require('../../server/lib/edit-logs')
+const { EditLog, flattenDiff, cleanupData, isEmptyDiff } = require('../../server/lib/edit-logs')
 const { set, get } = require('lodash')
 const chalk = require('chalk')
 
@@ -7,10 +7,20 @@ const chalk = require('chalk')
 const cleanupAll = logs => {
 	//console.log('COUNT LOGS', logs.length)
 	let logsToSave = {}
+	let logsToDelete = {}
 	const fixLog = log =>
 		Promise.resolve(cleanupOne(log, logs))
-		.then(modified => modified && (logsToSave[log.id] = log))
-	return Promise.all(logs.map(fixLog)).then(() => Object.values(logsToSave))
+		.then(modified => {
+			if (modified === true) {
+				logsToSave[log.id] = log
+			} else if (modified === 'delete') {
+				logsToDelete[log.id] = log
+			}
+		})
+	return Promise.all(logs.map(fixLog)).then(() => ({
+		save: Object.values(logsToSave),
+		remove: Object.values(logsToDelete),
+	}))
 }
 
 const cleanupOne = (log, logs) => {
@@ -145,8 +155,17 @@ const fixDiff = (log, logs) => {
 
 	log.diff = changes
 
-	return fixObjectIDDiffs(log, logs, modified)
+	modified = fixEmptyDiff(log, modified)
+
+	if (modified !== 'delete') {
+		modified = fixObjectIDDiffs(log, logs, modified)
+	}
+
+	return modified
 }
+
+const fixEmptyDiff = (log, modified) =>
+	log.action === 'update' && isEmptyDiff(log.diff) ? 'delete' : modified
 
 const isInnerChangeInObjectID = d =>
 	d.path[d.path.length - 2] === 'id' && Number(d.path[d.path.length - 1]) >= 0
@@ -274,34 +293,41 @@ const fixData = log => {
 	return !!data
 }
 
+const applyActions = (logs, method, stats) =>
+	logs.map(log => log[method]()
+		.then(() => {
+			process.stdout.write(chalk.green('.'))
+			stats[method]++
+		})
+		.catch(e => {
+			stats.errors.push([log, e])
+			process.stderr.write(chalk.red('.'))
+		})
+	)
+
 connect()
 .then(() => EditLog.find().sort({ date: 1 }))
 .then(cleanupAll)
-.then(logs => {
-	console.log('Modified logs', logs.length) // eslint-disable-line no-console
-	let errors = []
-	let ok = 0
-	const allSaved = Promise.all(logs.map(log => log.save()
-		.then(() => {
-			process.stdout.write(chalk.green('.'))
-			ok++
+.then(({ save, remove }) => {
+	console.log('Modified logs', save.length) // eslint-disable-line no-console
+	console.log('Deleted logs', remove.length) // eslint-disable-line no-console
+	const stats = { errors: [], save: 0, remove: 0 }
+	return Promise.all(
+			applyActions(save, 'save', stats)
+			.concat(applyActions(remove, 'remove', stats))
+		)
+		.then(() => stats)
+})
+.then(({ errors, save, remove }) => {
+	process.stdout.write('\n')
+	process.stderr.write('\n')
+	console.log('[OK] %s changes in EditLog (%s updated, %s deleted)', save + remove, save, remove) // eslint-disable-line no-console
+	if (errors.length > 0) {
+		errors.forEach(([ log, e ]) => {
+			console.error('[ERR] Log #%s: %s', log.id, e.message) // eslint-disable-line no-console
 		})
-		.catch(e => {
-			errors.push([log, e])
-			process.stderr.write(chalk.red('.'))
-		})
-	))
-	return allSaved.then(() => {
-		process.stdout.write('\n')
-		process.stderr.write('\n')
-		console.log('[OK] %s EditLog entries updated', ok) // eslint-disable-line no-console
-		if (errors.length > 0) {
-			errors.forEach(([ log, e ]) => {
-				console.error('[ERR] Log #%s: %s', log.id, e.message) // eslint-disable-line no-console
-			})
-			throw new Error('Error(s) occurred')
-		}
-	})
+		throw new Error(errors.length + ' error(s) occurred')
+	}
 })
 .then(() => {
 	process.exit(0)
