@@ -58,7 +58,7 @@ export class IsariLogsComponent implements OnInit {
       this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
         .map(labs => keyBy(labs, 'id'));
 
-      if (details && this.options['path'] !== '') return logs.map(log => Object.assign({}, log, {
+        if (details && this.options['path']) return logs.map(log => Object.assign({}, log, {
         _open: true,
         diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
       }));
