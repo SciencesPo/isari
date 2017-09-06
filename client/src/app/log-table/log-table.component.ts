@@ -21,6 +21,7 @@ export class LogTableComponent implements OnInit {
   roles: any[];
   fields: any[];
   limits: number[] = [3, 5, 10, 20, 50, 100, 200];
+  details: boolean = false;
 
   filterForm: FormGroup;
 
@@ -97,6 +98,13 @@ export class LogTableComponent implements OnInit {
 
   toggle(log, evt) {
     log._open = !log._open;
+  }
+
+  toggleView() {
+    this.details = !this.details;
+    this.logs = this.logs.map(log => Object.assign({}, log, {
+      _open: this.details
+    }));
   }
 
   private emitOptions(options) {

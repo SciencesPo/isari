@@ -3,17 +3,19 @@
       <span>{{ 'editLogs.title' | translate }} : {{ feature | translate }}</span>
       &nbsp;
 
-    <isari-date
-      [form]="filterForm"
-      name="startDate"
-      [label]="'startDate' | translate"
-      [requirement]="false"></isari-date>
+      <isari-date
+        [form]="filterForm"
+        name="startDate"
+        [label]="'startDate' | translate"
+        [requirement]="false"></isari-date>
 
-    <isari-date
-      [form]="filterForm"
-      name="endDate"
-      [label]="'endDate' | translate"
-      [requirement]="false"></isari-date>
+      <isari-date
+        [form]="filterForm"
+        name="endDate"
+        [label]="'endDate' | translate"
+        [requirement]="false"></isari-date>
+
+      <md-checkbox (change)="toggleView()">{{ 'editLogs.details' | translate }}</md-checkbox>
 
     </md-toolbar>
 
@@ -116,7 +118,7 @@
               </tr>
               <ng-template [ngIf]="log._open">
               <ng-template ngFor let-diff [ngForOf]="log.diff" let-j="index" let-islast="last">
-              <tr class="open2" [class.odd]="i % 2 === 0" [class.last]="islast">
+              <tr *ngIf="!details || (options.path && diff.path[0] === options.path)" class="open2" [class.odd]="i % 2 === 0" [class.last]="islast">
                 <td></td>
                 <td></td>
                 <td [class.bleft]="log._open">{{ 'editLogs.actions.' + diff.editType | translate }}</td>

@@ -82,7 +82,8 @@
     },
     "limit": "Résultats par page",
     "before": "Valeurs avant",
-    "after": "Valeurs après"
+    "after": "Valeurs après",
+    "details": "Détails"
   },
   "no result": "Aucun résultat"
 }

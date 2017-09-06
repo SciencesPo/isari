@@ -115,6 +115,10 @@ isari-date {
   margin-left: 20px;
   font-size: .7em;
 }
+md-checkbox {
+  font-size: .7em;
+  margin-left: 20px;
+}
 
 table.bordered > tbody > tr.open1 {
   border-bottom: 1px dashed #d0d0d0;
