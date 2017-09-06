@@ -1,9 +1,10 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const deepDiff = require('deep-diff').diff
+const { diff: deepDiff, applyChange } = require('deep-diff')
 const chalk = require('chalk')
 const removeEmptyFields = require('./remove-empty-fields')
+const { get, set } = require('lodash')
 
 
 const EditLogSchema = new mongoose.Schema({
@@ -40,6 +41,15 @@ const EditLogSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		required: false
 	}
+})
+
+EditLogSchema.static('applyChange', (source, change) => {
+	const target = Object.assign({}, source)
+	if (change.kind === 'A' && !get(target, change.path)) {
+		set(target, change.path, [])
+	}
+	applyChange(target, source, change)
+	return target
 })
 
 
