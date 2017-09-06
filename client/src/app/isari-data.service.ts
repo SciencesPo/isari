@@ -166,7 +166,7 @@ export class IsariDataService {
     .reduce((s, k) => {
       s += `${'  '.repeat(level)}<strong>${k}</strong> : `;
       if (typeof o[k] === 'string') s += o[k];
-      else if (o[k].ref && o[k].value) s += refs[o[k].value] || '????';
+      else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '????');
       else s += "\n" + format(o[k], refs, level + 1);
       return s + "\n";
     }, "");
