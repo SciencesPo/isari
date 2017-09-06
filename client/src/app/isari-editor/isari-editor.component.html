@@ -1,4 +1,4 @@
-<div *ngIf="exist; else notexist">
+<div *ngIf="exist">
   <md-card id="form">
       <isari-data-editor
           [feature]="feature"
@@ -43,11 +43,20 @@
 
   <md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
 
-    <a [routerLink]="['/logs', feature, { itemID: data.id }]" queryParamsHandling="preserve" md-raised-button color="primary">{{ 'history' | translate }}</a>
+    <button (click)="history()" *ngIf="!displayHistory" md-raised-button color="primary">{{ 'history' | translate }}</button>
+
+    <isari-log-table *ngIf="displayHistory"
+      style="flex-grow: 1"
+      [feature]="feature"
+      [logs]="logs$ | async"
+      [labs]="labs$ | async"
+      [options]="options"
+      [hideItemCol]="true"
+      (onOptionsChange)="changeOpt($event)"
+      (onDetailsToggle)="toggleDetails()"></isari-log-table>
+
+    <!-- <a [routerLink]="['/logs', feature, { itemID: data.id }]" queryParamsHandling="preserve" md-raised-button color="primary">{{ 'history' | translate }}</a> -->
 
   </md-card>
 
 </div>
-<ng-template #notexist>
-  <h2 style="text-align:center">{{ 'ITEM NOT FOUND' | translate }}</h2>
-</ng-template>

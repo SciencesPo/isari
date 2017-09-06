@@ -1,20 +1,29 @@
 import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/startWith';
+
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 import { matchKeyCombo } from '../utils';
+
 import get from 'lodash/get';
+import keyBy from 'lodash/keyBy';
+import flattenDeep from 'lodash/flattenDeep';
+import uniq from 'lodash/uniq';
+
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { ConfirmDialog } from '../fields/confirm.component';
 import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
 import { DOCUMENT } from '@angular/platform-browser';
+
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/startWith';
+import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 
 @Component({
   selector: 'isari-editor',
@@ -37,6 +46,14 @@ export class IsariEditorComponent implements OnInit {
   exist = false;
   private errors: any;
   organization: string;
+
+  // history (logs)
+  displayHistory = false;
+  options: EditLogApiOptions = { skip: 0, limit: 5 };
+  options$: BehaviorSubject<EditLogApiOptions>;
+  details$: BehaviorSubject<boolean>;
+  logs$: Observable<any[]>;
+  labs$: Observable<any[]>;
 
   private pressedSaveShortcut: Function;
 
@@ -250,4 +267,57 @@ export class IsariEditorComponent implements OnInit {
 
     this.diff.push(diff);
   }
+
+  history() {
+    if (!this.id) return;
+
+    this.displayHistory = true;
+
+    this.options$ = new BehaviorSubject(this.options);
+    this.details$ = new BehaviorSubject(false);
+    this.logs$ = Observable
+    .combineLatest([
+      this.route.paramMap,
+      this.options$,
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ])
+    .switchMap(([paramMap, options, lang]) => {
+      //this.feature = (<ParamMap>paramMap).get('feature');
+      // this.options = Object.assign({}, {
+      //   itemID: (<ParamMap>paramMap).get('itemID')
+      // }, options);
+
+      this.options = Object.assign({}, options, {
+        itemID: String(this.id)
+      });
+
+      return this.isariDataService
+      .getHistory(this.feature, this.options, lang)
+      .combineLatest(this.details$)
+    })
+    .map(([logs, details]) => {
+      this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
+        .map(labs => keyBy(labs, 'id'));
+
+        if (details && this.options['path']) return logs.map(log => Object.assign({}, log, {
+        _open: true,
+        diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
+      }));
+
+      return logs.map(log => Object.assign({}, log, { _open: details }));
+    });
+  }
+
+  changeOpt(options) {
+    this.options = options;
+    this.options$.next(options);
+  }
+
+  toggleDetails() {
+    this.details$.next(!this.details$.value);
+  }
+
+
 }

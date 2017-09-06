@@ -6,7 +6,6 @@ import 'rxjs/add/operator/switchMap';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
-import omit from 'lodash/omit';
 import keyBy from 'lodash/keyBy';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';

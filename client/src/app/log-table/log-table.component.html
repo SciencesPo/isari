@@ -24,7 +24,7 @@
           <thead>
             <tr>
               <th>{{ 'editLogs.date' | translate }}</th>
-              <th>
+              <th *ngIf="!hideItemCol">
                   <isari-select
                     [src]="itemSettings.src"
                     [stringValue]="itemSettings.stringValue"
@@ -85,13 +85,13 @@
 
           <tbody *ngIf="logs; else loading">
             <tr *ngIf="!logs.length">
-              <td colspan="5" style="text-align:center;">{{ 'no result' | translate }}</td>
+              <td [colSpan]="hideItemCol ? 4 : 5" style="text-align:center;">{{ 'no result' | translate }}</td>
             </tr>
             <ng-template ngFor let-log [ngForOf]="logs" let-i="index">
               <tr [class.open1]="log._open" [class.odd]="i % 2 === 0">
 
                 <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
-                <td>
+                <td *ngIf="!hideItemCol">
                     <a *ngIf="log.action !== 'delete';else nolink" [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
                     <ng-template #nolink>{{ log.item.name }}</ng-template>
                 </td>
@@ -120,7 +120,7 @@
               <ng-template ngFor let-diff [ngForOf]="log.diff" let-j="index" let-islast="last">
               <tr class="open2" [class.odd]="i % 2 === 0" [class.last]="islast">
                 <td></td>
-                <td></td>
+                <td *ngIf="!hideItemCol"></td>
                 <td [class.bleft]="log._open">{{ 'editLogs.actions.' + diff.editType | translate }}</td>
                 <td>{{ diff._label }}</td>
                 <td colspan="2">
@@ -136,7 +136,7 @@
           <ng-template #loading>
             <tbody>
               <tr>
-                <td colspan="5">
+                <td [colSpan]="hideItemCol ? 4 : 5">
                   <isari-spinner></isari-spinner>
                 </td>
               </tr>

@@ -28,6 +28,7 @@ export class LogTableComponent implements OnInit {
   @Input() labs: any[];
   @Input() feature: string;
   @Input() options: EditLogApiOptions;
+  @Input() hideItemCol: boolean = false;
   @Output() onOptionsChange = new EventEmitter();
   @Output() onDetailsToggle = new EventEmitter();
 
