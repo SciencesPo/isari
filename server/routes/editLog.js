@@ -261,8 +261,7 @@ function formatEdits(data, model){
 		edit.action = d.action
 
 		if (edit.action === 'update'){
-			edit.diff = d.diff
-									.map(flattenDiff)
+			edit.diff = flattenDiff(d.diff)
 									.map(dd => {
 										// remove index of element in array from path
 										const diff = {path: dd.path.filter(e => typeof e !== 'number')}
