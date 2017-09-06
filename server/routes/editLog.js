@@ -181,46 +181,7 @@ function getEditLog(req, res){
 				if (query.count)
 					return next(null, data[0])
 
-				let edits = formatEdits(data, model)
-
-				let fastforward = data.length - edits.length
-				if (query.limit && fastforward>0) {
-					// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
-					res.set('Access-Control-Expose-Headers', 'fastforward')
-					res.set('fastforward',fastforward)
-				}
-
-				// did the formating filtered out some edits ?
-				async.whilst(() => query.limit && edits.length < data.length,
-					(nextWhilst) =>{
-						// ask for next edits to replace the filtered ones
-						let skipIndex = aggregationPipeline.findIndex(p => p['$skip'])
-						debug(aggregationPipeline)
-						debug(skipIndex)
-
-						if(skipIndex !== -1)
-							aggregationPipeline[skipIndex]['$skip'] += +query.limit
-						else{
-							let limitIndex = aggregationPipeline.findIndex(p => p['$limit'])
-							aggregationPipeline = aggregationPipeline.slice(0,limitIndex)
-																		.concat([{ '$skip' : +query.limit}]
-																			.concat(aggregationPipeline.slice(limitIndex)))
-						}
-						EditLog.aggregate(aggregationPipeline)
-						.then(newData => {
-							debug(`added ${data.length - edits.length} more edits to reach ${data.length}`)
-							const newEdits = formatEdits(newData, model)
-							// fastforward: add the number filtered edits and substract the unfiltered but not included in response
-							fastforward += newData.length - newEdits.length + newEdits.length - data.length + edits.length
-							edits = edits.concat(newEdits.slice(0,data.length - edits.length))
-							debug(edits.length)
-							nextWhilst(null)
-						})
-					},
-					(err) => {
-						if (err) next(err)
-						next(null,edits)
-					})
+				next(null, formatEdits(data, model))
 			})
 		}
 	],
