@@ -296,6 +296,7 @@ function formatEdits(data, model){
 										}
 										return diff
 									})
+			edit.accessMonitorings = ['corporate']
 		}
 		else{
 			edit.diff = []
@@ -314,6 +315,7 @@ function formatEdits(data, model){
 					edit.diff.push(diff)
 				}
 			})
+			edit.accessMonitorings = []
 		}
 
 		// if (edit.diff.length === 0){

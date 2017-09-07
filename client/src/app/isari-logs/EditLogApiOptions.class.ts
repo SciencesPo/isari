@@ -7,4 +7,5 @@ export class EditLogApiOptions {
   isariLab?: string;
   isariRole?: string;
   path?: string;
+  accessMonitoring?: string;
 }

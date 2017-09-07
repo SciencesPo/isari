@@ -84,12 +84,21 @@
                 </div>
               </th>
 
+              <th>
+                <md-select *ngIf="filterForm.controls['accessMonitoring']"
+                  [placeholder]="'editLogs.accessMonitoring' | translate"
+                  [formControl]="filterForm.controls['accessMonitoring']">
+                  <md-option>{{ 'editLogs.noAccessMonitoring' | translate }}</md-option>
+                  <md-option *ngFor="let val of accessMonitorings" [value]="val.value">{{ val.label }}</md-option>
+                </md-select>
+              </th>
+
             </tr>
           </thead>
 
           <tbody *ngIf="logs; else loading">
             <tr *ngIf="!logs.length">
-              <td [colSpan]="hideItemCol ? 4 : 5" style="text-align:center;">{{ 'no result' | translate }}</td>
+              <td [colSpan]="hideItemCol ? 5 : 6" style="text-align:center;">{{ 'no result' | translate }}</td>
             </tr>
             <ng-template ngFor let-log [ngForOf]="logs" let-i="index">
               <tr [class.open1]="log._open" [class.odd]="i % 2 === 0">
@@ -118,6 +127,9 @@
                     </div>
                   </div>
                 </td>
+                <td>
+                  <span *ngFor="let accessMonitoring of log.accessMonitorings">{{ accessMonitoring._label }}<br></span>
+                </td>
 
               </tr>
               <ng-template [ngIf]="log._open">
@@ -131,6 +143,7 @@
                   <pre style="color:red;" [innerHTML]="diff._beforeLabelled$ | async"></pre>
                   <pre style="color:green;" [innerHTML]="diff._afterLabelled$ | async"></pre>
                 </td>
+                <td></td>
               </tr>
               </ng-template>
               </ng-template>
@@ -140,7 +153,7 @@
           <ng-template #loading>
             <tbody>
               <tr>
-                <td [colSpan]="hideItemCol ? 4 : 5">
+                <td [colSpan]="hideItemCol ? 5 : 6">
                   <isari-spinner></isari-spinner>
                 </td>
               </tr>

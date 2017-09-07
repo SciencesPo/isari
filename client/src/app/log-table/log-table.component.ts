@@ -28,6 +28,7 @@ export class LogTableComponent implements OnInit, OnChanges {
   labSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
   roles: any[];
   fields: any[];
+  accessMonitorings: any[];
   limits: number[] = [3, 5, 10, 20, 50, 100, 200];
 
   filterForm: FormGroup;
@@ -58,6 +59,7 @@ export class LogTableComponent implements OnInit, OnChanges {
       'endDate',
       'limit',
       'path',
+      'accessMonitoring',
     ].forEach(key => {
       this.filterForm.addControl(key, new FormControl(this.options[key] || ''));
     });
@@ -88,6 +90,12 @@ export class LogTableComponent implements OnInit, OnChanges {
       this.isariDataService.getEnum('isariRoles')
         .subscribe(roles => this.roles = roles.map(role => Object.assign({}, role, {
           label: role.label[this.translate.currentLang]
+        })));
+
+      // roles select
+      this.isariDataService.getEnum('accessMonitoring')
+        .subscribe(vals => this.accessMonitorings = vals.map(val => Object.assign({}, val, {
+          label: val.label[this.translate.currentLang]
         })));
 
       // field select

@@ -122,9 +122,11 @@ export class IsariDataService {
       Observable.fromPromise(this.getSchema(feature)),
       this.getEnum('isariRoles')
         .map(roles => keyBy(roles, 'value')),
+      this.getEnum('accessMonitoring')
+        .map(vals => keyBy(vals, 'value')),
     ])
 
-    .map(([logs, schema, roles]) => {
+    .map(([logs, schema, roles, accessMonitorings]) => {
       logs = (<any[]>logs).map(log => {
         log.diff = log.diff.map(diff => {
           const res = Object.assign(diff, {
@@ -141,6 +143,10 @@ export class IsariDataService {
         log.who.roles = log.who.roles.map(role => Object.assign(role, {
           _label: roles[role.role].label[lang],
         }));
+        log.accessMonitorings = log.accessMonitorings.map(value => ({
+          value,
+          _label: accessMonitorings[value].label[lang],
+        }))
         return log;
       });
       return logs;
