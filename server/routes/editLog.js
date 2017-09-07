@@ -103,7 +103,7 @@ function getEditLog(req, res){
 
 			//focusing on one item, scope has been checked earlier
 			if (query.itemID)
-				return next(null, {whoIds, itemIds:new Array(ObjectId(query.itemID))})
+				return next(null, {whoIds, itemIds: ObjectId(query.itemID)})
 			// scope doesn't apply on organizations
 			if (model === 'organizations')
 				return next(null, {whoIds})
