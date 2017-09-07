@@ -233,7 +233,7 @@ function formatEdits(data, model){
 									.filter(dd => editLogsPathFilter(dd.path))
 									.map(dd => {
 										// remove index of element in array from path
-										const diff = {path: dd.path.filter(e => typeof e !== 'number')}
+										const diff = {path: dd.path.filter(e => isNaN(parseInt(e)))}
 
 										if (dd.kind === 'A'){
 											//array case...
