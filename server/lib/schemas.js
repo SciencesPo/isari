@@ -298,11 +298,25 @@ function computeConfidentialPaths (name) {
 	return filterPaths(name, desc => desc.accessType === 'confidential')
 }
 
-function getAccessMonitoringPaths (name, monitoring) {
-	const paths = filterPaths(name, desc => desc.accessMonitoring === monitoring)
-	// In this case, we're not interested in patterns but in prefixes
-	// Let's replace all X.* by single X
-	return paths.map(p => p.replace(/\.\*/g, ''))
+function getAccessMonitoringPaths (name, monitoring = true) {
+	if (monitoring !== true) {
+		// We want all paths monitored with accessMonitoring = x
+		const paths = filterPaths(name, desc => desc.accessMonitoring === monitoring)
+		// In this case, we're not interested in patterns but in prefixes
+		// Let's replace all X.* by single X
+		return paths.map(p => p.replace(/\.\*/g, ''))
+	} else {
+		// We want all monitored paths, and know which is their AccessMonitoring value
+		let result = {}
+		filterPaths(name, (desc, path) => {
+			if (desc.accessMonitoring) {
+				// In this case, we're not interested in patterns but in prefixes
+				// Let's replace all X.* by single X
+				result[path.replace(/\.\*/g, '')] = desc.accessMonitoring
+			}
+		})
+		return result
+	}
 }
 
 function filterPaths (name, test) {
@@ -311,14 +325,15 @@ function filterPaths (name, test) {
 		throw Error(`${name}: Unknonwn schema`)
 	}
 
-	return map(s => s.substring(1), _filterPaths(test, meta, ''))
+	return _filterPaths(test, meta, '')
 }
 
 function _filterPaths (test, desc, currPath = '') {
 	if (isArray(desc)) {
 		return _filterPaths(test, desc[0], currPath + '.*')
 	}
-	const result = test(desc) ? [ currPath ] : []
+	const unprefixedPath = currPath.substring(1)
+	const result = test(desc, unprefixedPath) ? [ unprefixedPath ] : []
 	return Object.keys(desc).reduce((result, field) => {
 		if (RESERVED_FIELDS.includes(field) || field.substring(0, 2) === '//') {
 			return result

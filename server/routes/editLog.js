@@ -7,6 +7,7 @@ const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/
 const models = require('../lib/model')
 const { fillIncompleteDate } = require('../export/helpers')
 const { getAccessMonitoringPaths } = require('../lib/schemas')
+const { flatten } = require('flat')
 
 
 const mongoose = require('mongoose')
@@ -118,9 +119,9 @@ function getEditLog(req, res){
 
 				req.userListViewablePeople(options).then(ids => {
 					debug(ids.query.getQuery())
-					return next(null, {whoIds, itemIds: ids.query.getQuery()._id})	
+					return next(null, {whoIds, itemIds: ids.query.getQuery()._id})
 				})
-				
+
 			}
 			// scope on activities => start/end on activity + organizations
 			if (model === 'activities'){
@@ -133,7 +134,7 @@ function getEditLog(req, res){
 
 				req.userListViewableActivities(options).then(mongoquery => {
 					if (query.startDate || query.endDate)
-						return next(null, {whoIds, itemIds: mongoquery.query.getQuery()['organizations.organization']})	
+						return next(null, {whoIds, itemIds: mongoquery.query.getQuery()['organizations.organization']})
 					else
 						mongoquery.query.then(activities => {
 							return next(null, {whoIds, itemIds: {$in: activities.map(a => a._id)}})
@@ -296,7 +297,7 @@ function formatEdits(data, model){
 										}
 										return diff
 									})
-			edit.accessMonitorings = ['corporate']
+			edit.accessMonitorings = getAccessMonitoringsFromDiff(model, edit.diff)
 		}
 		else{
 			edit.diff = []
@@ -315,7 +316,7 @@ function formatEdits(data, model){
 					edit.diff.push(diff)
 				}
 			})
-			edit.accessMonitorings = []
+			edit.accessMonitorings = getAccessMonitoringsFromData(model, d.data)
 		}
 
 		// if (edit.diff.length === 0){
@@ -392,4 +393,25 @@ function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlackl
     ], (err, query) => {
       callback(err, query);
     });
+}
+
+const getAccessMonitoringsFromData = (model, data) => {
+	const paths = getAccessMonitoringPaths(model)
+	const modified = Object.keys(flatten(data))
+	let result = new Set()
+	Object.keys(paths)
+		.filter(path => modified.some(subpath => (subpath + '.').startsWith(path + '.')))
+		.forEach(path => result.add(paths[path]))
+	return Array.from(result)
+}
+
+const getAccessMonitoringsFromDiff = (model, formattedDiff) => {
+	const paths = getAccessMonitoringPaths(model)
+	let result = new Set()
+	Object.keys(paths).forEach(path => formattedDiff.forEach(change => {
+		if ((change.path.join('.') + '.').startsWith(path + '.')) {
+			result.add(paths[path])
+		}
+	}))
+	return Array.from(result)
 }
