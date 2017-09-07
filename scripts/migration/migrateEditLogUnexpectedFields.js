@@ -250,6 +250,7 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 			const getValue = () => get(data, parentPath)
 			let lhs = String(getValue())
 			//console.log(require('util').inspect(data,{colors:true,depth:10}))
+			let failed = false
 			for (let i = 1; i < history.length; i++) {
 				(history[i].diff || []).forEach(change => {
 					const currPath = pathString(change)
@@ -260,9 +261,18 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 					//console.log(change)
 					// Note: shit can happen when previous diff had a stringified ObjectID and next change is about changing a bit of it
 					// Detect and handle this edge case now
-					if (currPath.startsWith(path) && typeof getValue() !== 'object') {
+					const value = getValue()
+					if (currPath.startsWith(path) && typeof value === 'string') {
 						//console.log(chalk.red('HANDLE EDGE CASE'))
-						set(data, parentPath, { id: Buffer.from(getValue(), 'hex'), toString: fakeObjectIdToString })
+						try {
+							set(data, parentPath, { id: Buffer.from(value, 'hex'), toString: fakeObjectIdToString })
+						} catch (e) {
+							console.error(chalk.red('Error occurred while reading ObjectID %s: %s'), value, e.message)
+							return (failed = true)
+						}
+					} else if (typeof value !== 'object') {
+						console.error(chalk.red('Error occurred while reading ObjectID %s (unexpected type %s)'), JSON.stringify(value), typeof value)
+						return (failed = true)
 					}
 					data = EditLog.applyChange(data, change)
 					if (path.startsWith(currPath)) {
@@ -274,7 +284,11 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 				})
 			}
 			//console.log({lhs, rhs: String(getValue())})
-			log.diff.push({ kind: 'E', path: parentPath.split(PATH_SEPARATOR), lhs, rhs: String(getValue()) })
+			if (failed) {
+				log.diff.push({ kind: 'E', path: parentPath.split(PATH_SEPARATOR), lhs, rhs: 'N/A (error)' })
+			} else {
+				log.diff.push({ kind: 'E', path: parentPath.split(PATH_SEPARATOR), lhs, rhs: String(getValue()) })
+			}
 		} else {
 			if (history[history.length - 1].action === 'delete') {
 				console.log(chalk.red('FAIL: not enough data to create meaningful changes (item deleted in the end)')) // eslint-disable-line no-console
