@@ -213,9 +213,11 @@ function formatEdits(data, model){
 	data.forEach(d => {
 		const edit = {}
 		edit.who = {
-			id: d.whoID,
-			name: (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name,
-			roles: d.creator[0].isariAuthorizedCenters ?
+			id: d.whoID
+		}
+		if (d.creator.length){
+			edit.who.name = (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name
+			edit.who.roles = d.creator[0].isariAuthorizedCenters ?
 							d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
 							[]
 		}
