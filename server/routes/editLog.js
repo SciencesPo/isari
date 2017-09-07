@@ -3,7 +3,7 @@
 const { Router } = require('express')
 const { UnauthorizedError } = require('../lib/errors')
 const { EditLog, flattenDiff } = require('../lib/edit-logs')
-const { requiresAuthentication } = require('../lib/permissions')
+const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 const models = require('../lib/model')
 const { fillIncompleteDate } = require('../export/helpers')
 const { getAccessMonitoringPaths } = require('../lib/schemas')
@@ -54,7 +54,7 @@ const editLogsDataKeysBlacklist = ['_id', 'latestChangeBy']
 
 
 
-module.exports = Router().get('/:model', requiresAuthentication, getEditLog)
+module.exports = Router().get('/:model', requiresAuthentication, scopeOrganizationMiddleware, getEditLog)
 
 function getEditLog(req, res){
 	let model = req.params.model
@@ -98,17 +98,61 @@ function getEditLog(req, res){
 			}
 		},
 		(whoIds, next) =>{
+			//prepare Item filter organisation scope mongoQuery
+
+
+			//focusing on one item, scope has been checked earlier
+			if (query.itemID)
+				return next(null, {whoIds, itemIds:new Array(ObjectId(query.itemID))})
+			// scope doesn't apply on organizations
+			if (model === 'organizations')
+				return next(null, {whoIds})
+			// scope on people => start/end on academicMemberships
+			if (model === 'people'){
+				let options = {}
+				if (query.startDate || query.endDate){
+					options = {includeRange:true,membershipStart:query.startDate,membershipEnd:query.endDate, includeExternals:false, includeMembers:false}
+				}
+				else
+					options = {includeMembers:true, includeRange:false, includeExternals:false}
+
+				req.userListViewablePeople(options).then(ids => {
+					debug(ids.query.getQuery())
+					return next(null, {whoIds, itemIds: ids.query.getQuery()._id})	
+				})
+				
+			}
+			// scope on activities => start/end on activity + organizations
+			if (model === 'activities'){
+				let options = {}
+				if (query.startDate || query.endDate){
+					options = {range:true,startDate:query.startDate,endDate:query.endDate}
+				}
+				else
+					options = {range:false}
+
+				req.userListViewableActivities(options).then(mongoquery => {
+					if (query.startDate || query.endDate)
+						return next(null, {whoIds, itemIds: mongoquery.query.getQuery()['organizations.organization']})	
+					else
+						mongoquery.query.then(activities => {
+							return next(null, {whoIds, itemIds: {$in: activities.map(a => a._id)}})
+						})
+				})
+			}
+		},
+		(whoIdsItemIds, next) =>{
 			// build the mongo query to editLog collection
 			const mongoModel = model === 'people' ? 'People' : (model === 'organizations' ? 'Organization' : 'Activity')
 			const mongoQuery = {model: mongoModel }
-			if (itemID)
-				mongoQuery.item = ObjectId(itemID)
+			if (whoIdsItemIds.itemIds)
+				mongoQuery.item = whoIdsItemIds.itemIds
 
 			if (query.whoID)
 				mongoQuery['whoID'] = ObjectId(query.whoID)
 			else
-				if (whoIds)
-					mongoQuery['whoID'] = {$in:whoIds}
+				if (whoIdsItemIds.whoIds)
+					mongoQuery['whoID'] = {$in: whoIdsItemIds.whoIds}
 
 			if (query.path || query.accessMonitoring) {
 				const paths = getAccessMonitoringPaths(mongoModel, query.accessMonitoring)
@@ -281,4 +325,69 @@ function formatEdits(data, model){
 	})
 	return edits
 
+}
+
+function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlacklist, membershipTypes, callback) {
+
+  async.waterfall([
+      next => {// org filter
+        let orgFilter = false;
+        if (centerId) {
+          orgFilter = {organization: ObjectId(centerId)};
+          next(null, orgFilter);
+        }
+        else {
+          Organization.aggregate([
+            {$match: {isariMonitored: true}},
+            {$project: {_id: 1}}
+          ]).then(orgs => {
+              orgFilter = {organization: {$in: orgs.map(o => o._id)}};
+              next(null, orgFilter);
+          }
+          );
+        }
+      },
+      (orgFilter, next) => {
+          const mongoEndDateQuery = {$or: [
+                {endDate: {$exists: false}},
+                {$and: [{endDate: {$regex: /^.{4}$/}}, {endDate: {$gte: reportPeriod.startDate.slice(0, 4)}}]},
+                {$and: [{endDate: {$regex: /^.{7}$/}}, {endDate: {$gte: reportPeriod.startDate.slice(0, 7)}}]},
+                {$and: [{endDate: {$regex: /^.{10}$/}}, {endDate: {$gte: reportPeriod.startDate.slice(0, 10)}}]}
+                ]};
+          const mongoStartDateQuery = {$or: [
+                        {startDate: {$exists: false}},
+                        {$and: [{startDate: {$regex: /^.{4}$/}}, {startDate: {$lte: reportPeriod.endDate.slice(0, 4)}}]},
+                        {$and: [{startDate: {$regex: /^.{7}$/}}, {startDate: {$lte: reportPeriod.endDate.slice(0, 7)}}]},
+                        {$and: [{startDate: {$regex: /^.{10}$/}}, {startDate: {$lte: reportPeriod.endDate.slice(0, 10)}}]}
+                        ]};
+          const gradeStatusQuery = {gradeStatus: {$not: {$in: gradeStatusBlacklist.gradeStatus ? gradeStatusBlacklist.gradeStatus : []}}};
+          const gradeQuery = {grade: {$not: {$in: gradeStatusBlacklist.grade ? gradeStatusBlacklist.grade : []}}};
+          return next(null, {
+                    $and: [
+                      {academicMemberships: {
+                        $elemMatch: {
+                          $and: [
+                            orgFilter,
+                            {membershipType: {$in: membershipTypes}},
+                            mongoStartDateQuery,
+                            mongoEndDateQuery
+                          ]
+                        }
+                      }},
+                      {grades: {
+                        $elemMatch: {
+                          $and: [
+                            gradeQuery,
+                            gradeStatusQuery,
+                            mongoStartDateQuery,
+                            mongoEndDateQuery
+                          ]
+                        }
+                      }}
+                    ]
+                  });
+        }
+    ], (err, query) => {
+      callback(err, query);
+    });
 }
