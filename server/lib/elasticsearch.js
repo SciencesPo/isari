@@ -37,7 +37,8 @@ client.q.forSuggestions = ({ type, query, size = config.elasticsearch.defaultSiz
 	// TODO support complex queries with quotes 'n co
 	query.split(/\s+/)
 	.map(s => s.trim())
-	.filter(s => s.length > 0)
+	// Remove terms without actual words (cf. https://stackoverflow.com/questions/5436824/matching-accented-characters-with-javascript-regexes#comment22195688_11550799)
+	.filter(s => s.length > 0 && s.match(/[0-9a-zA-Z\u00C0-\u017F]/))
 	// Duplicate each term to create a query based on prefixes + fuzzy matching
 	.reduce((terms, term) => term.match(/(\*|\~.+?)$/)
 		? terms.concat([term]) // already an advanced term, don't modify

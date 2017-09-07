@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
@@ -15,7 +15,7 @@ const ENTER = 13;
   templateUrl: './isari-select.component.html',
   styleUrls: ['./isari-select.component.css']
 })
-export class IsariSelectComponent implements OnInit {
+export class IsariSelectComponent implements OnInit, OnChanges {
 
   @Input() name: string;
   @Input() path: string;
@@ -50,10 +50,34 @@ export class IsariSelectComponent implements OnInit {
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
-    this.selectControl = new FormControl({
-      value: this.form.controls[this.name].value ? ' ' : '',
-      disabled: this.form.controls[this.name].disabled
+
+    Observable.combineLatest(
+      this.stringValue,
+      this.translate.onLangChange
+        .map((event: LangChangeEvent) => event.lang)
+        .startWith(this.translate.currentLang)
+    ).subscribe(([stringValues, lang]) => {
+      this.lang = lang;
+      let stringValue = '';
+      if (stringValues.length > 0) {
+        stringValue = this.translateItem(stringValues[0]).label;
+        this.id = stringValues[0].id;
+      }
+      stringValue = stringValue || this.form.controls[this.name].value;
+      this.lastValidStringValue = stringValue;
+      this.selectControl.setValue(stringValue);
     });
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['name']) {
+      this.selectControl = new FormControl({
+        value: this.form.controls[this.name].value ? ' ' : '',
+        disabled: this.form.controls[this.name].disabled
+      });
+    }
 
     Observable.combineLatest(
       // skip : avoid search query on load
@@ -73,23 +97,6 @@ export class IsariSelectComponent implements OnInit {
       this.skip = 0;
       this.values = this.allValues.slice(this.skip, this.max).map(this.translateItem.bind(this));
       this.setExtend();
-    });
-
-    Observable.combineLatest(
-      this.stringValue,
-      this.translate.onLangChange
-        .map((event: LangChangeEvent) => event.lang)
-        .startWith(this.translate.currentLang)
-    ).subscribe(([stringValues, lang]) => {
-      this.lang = lang;
-      let stringValue = '';
-      if (stringValues.length > 0) {
-        stringValue = this.translateItem(stringValues[0]).label;
-        this.id = stringValues[0].id;
-      }
-      stringValue = stringValue || this.form.controls[this.name].value;
-      this.lastValidStringValue = stringValue;
-      this.selectControl.setValue(stringValue);
     });
 
   }

@@ -12,6 +12,14 @@ import uniq from 'lodash/uniq';
 import { BehaviorSubject } from 'rxjs';
 import { EditLogApiOptions } from './EditLogApiOptions.class';
 
+import zipObject from 'lodash/zipObject';
+import { DatePipe } from '@angular/common';
+import {saveAs} from 'file-saver';
+import Papa from 'papaparse';
+
+const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      CSV_MIME = 'text/csv;charset=utf-8';
+
 @Component({
   selector: 'isari-logs',
   templateUrl: './isari-logs.component.html',
@@ -73,6 +81,41 @@ export class IsariLogsComponent implements OnInit {
 
   toggleDetails() {
     this.details$.next(!this.details$.value);
+  }
+
+  downloadCSV(logs) {
+
+    let data = [];
+
+    if (this.details$.value) {
+      data = logs.reduce((d, log) => [
+        ...d,
+        ...log.diff.map(diff => ({
+          date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+          item: log.item.name,
+          action: diff.editType,
+          field: diff._label,
+          // manque before / after
+          authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
+          authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
+        }))
+      ], []);
+    } else {
+      data = logs.map(log => ({
+        date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+        item: log.item.name,
+        action: log.action,
+        fields: log._labels.join('\r\n'),
+        author: log.who.name,
+        authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
+        authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
+      }));
+    }
+
+    const csvString = Papa.unparse(data);
+    const blob = new Blob([csvString], {type: CSV_MIME});
+
+    saveAs(blob, `toto.csv`);
   }
 
 }
