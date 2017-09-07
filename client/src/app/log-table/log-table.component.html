@@ -17,6 +17,10 @@
 
       <md-checkbox (change)="toggleView()">{{ 'editLogs.details' | translate }}</md-checkbox>
 
+      <span class="filer"></span>
+
+      <button md-raised-button (click)="downloadCSV()">CSV</button>
+
     </md-toolbar>
 
     <table class="striped bordered">

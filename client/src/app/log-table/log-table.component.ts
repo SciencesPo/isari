@@ -3,9 +3,18 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
 import { TranslateService } from 'ng2-translate';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { DatePipe } from "@angular/common";
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 
 import zipObject from 'lodash/zipObject';
+
+import {saveAs} from 'file-saver';
+import Papa from 'papaparse';
+import { ActivatedRoute } from '@angular/router';
+
+const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      CSV_MIME = 'text/csv;charset=utf-8';
+
 
 @Component({
   selector: 'isari-log-table',
@@ -105,6 +114,23 @@ export class LogTableComponent implements OnInit {
 
   toggleView() {
     this.onDetailsToggle.emit();
+  }
+
+  downloadCSV() {
+    const data = this.logs.map(log => ({
+      date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+      item: log.item.name,
+      action: log.action,
+      fields: log._labels.join('\r\n'),
+      author: log.who.name,
+      authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
+      authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
+    }));
+
+    const csvString = Papa.unparse(data);
+    const blob = new Blob([csvString], {type: CSV_MIME});
+
+    saveAs(blob, `toto.csv`);
   }
 
   private emitOptions(options) {
