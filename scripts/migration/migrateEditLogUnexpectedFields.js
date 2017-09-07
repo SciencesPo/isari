@@ -259,9 +259,12 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 			console.log(chalk.green('OK: we have an initial creation, replay history')) // eslint-disable-line no-console
 			let data = history[0].data
 			// ObjectID or String or undefined
+			const objectIdToString = o =>
+				o ? Buffer.isBuffer(o.id) ? o.id.toString('hex') : String(o) : o
 			const getValue = (asString = false) => {
 				const v = get(data, parentPath)
-				return (v && asString) ? String(v) : v
+				//if (asString) console.log(JSON.stringify(v), objectIdToString(v))
+				return asString ? objectIdToString(v) : v
 			}
 			let lhs = getValue(true)
 			//console.log(require('util').inspect(data,{colors:true,depth:10}))
@@ -317,7 +320,10 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 						// Example: 'grants', 'organizations', this is a direct change to root data
 					}
 					// Change should be safe to apply now
+					//console.log('BEFORE', JSON.stringify(getValue()))
+					//console.log('APPLY', change)
 					data = EditLog.applyChange(data, change)
+					//console.log('AFTER', JSON.stringify(getValue()))
 					// currPath is not field.id.x but directly field.id or field
 					if (path.startsWith(currPath)) {
 						// Full change: take this a the new left-hand reference value
@@ -331,7 +337,7 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 			if (failed) {
 				log.diff.push({ kind: 'E', path: parentPath.split(PATH_SEPARATOR), lhs, rhs: 'N/A (error)' })
 			} else {
-				log.diff.push({ kind: 'E', path: parentPath.split(PATH_SEPARATOR), lhs, rhs: String(getValue()) })
+				log.diff.push({ kind: 'E', path: parentPath.split(PATH_SEPARATOR), lhs, rhs: getValue(true) })
 			}
 		} else {
 			if (history[history.length - 1].action === 'delete') {
