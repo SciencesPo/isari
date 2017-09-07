@@ -19,6 +19,7 @@ import _get from 'lodash/get';
 import keyBy from 'lodash/keyBy';
 import omit from 'lodash/omit';
 import uniq from 'lodash/uniq';
+import startsWith from 'lodash/startsWith';
 import isPlainObject from 'lodash/isPlainObject';
 import flatten from 'lodash/flatten';
 
@@ -149,7 +150,7 @@ export class IsariDataService {
   key2label(value, base: string[], schema, lang) {
     if (!isPlainObject(value)) {
       const ref = _get(schema, [...base, 'ref'].join('.'));
-      if (ref && !value.startWith('N/A')) return { ref, value };
+      if (ref && !startsWith(value, 'N/A')) return { ref, value };
       return value;
     }
     return Object.keys(value).reduce((acc, key) => {
