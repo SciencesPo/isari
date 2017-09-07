@@ -149,7 +149,7 @@ export class IsariDataService {
   key2label(value, base: string[], schema, lang) {
     if (!isPlainObject(value)) {
       const ref = _get(schema, [...base, 'ref'].join('.'));
-      if (ref) return { ref, value };
+      if (ref && !value.startWith('N/A')) return { ref, value };
       return value;
     }
     return Object.keys(value).reduce((acc, key) => {
