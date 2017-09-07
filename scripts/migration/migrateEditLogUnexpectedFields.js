@@ -5,7 +5,7 @@ process.chdir(path.join(__dirname, '..', '..', 'server'))
 
 const { connect } = require('../../server/lib/model')
 const { EditLog, flattenDiff, cleanupData, isEmptyDiff } = require('../../server/lib/edit-logs')
-const { set, get } = require('lodash')
+const { set, get, values } = require('lodash')
 const chalk = require('chalk')
 
 
@@ -23,8 +23,8 @@ const cleanupAll = logs => {
 			}
 		})
 	return Promise.all(logs.map(fixLog)).then(() => ({
-		save: Object.values(logsToSave),
-		remove: Object.values(logsToDelete),
+		save: values(logsToSave),
+		remove: values(logsToDelete),
 	}))
 }
 
