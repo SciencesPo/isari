@@ -2,7 +2,15 @@ import { Observable } from 'rxjs/Observable';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
 import { TranslateService } from 'ng2-translate';
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 
@@ -21,7 +29,7 @@ const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.s
   templateUrl: './log-table.component.html',
   styleUrls: ['./log-table.component.css']
 })
-export class LogTableComponent implements OnInit {
+export class LogTableComponent implements OnInit, OnChanges {
 
   actions = ['create', 'update', 'delete'];
   whoSettings: { api: any, src: any, stringValue: any } = { api: null, src: null, stringValue: null };
@@ -67,30 +75,37 @@ export class LogTableComponent implements OnInit {
       this.emitOptions(Object.assign({}, filters, { skip: 0 }));
     });
 
-    // people autocomplete (whoID)
-    this.whoSettings.src = this.isariDataService.srcForeignBuilder('people');
-    this.whoSettings.stringValue = this.isariDataService.getForeignLabel('People', this.options.whoID);
+  }
 
-    // item autocomplete (itemID)
-    this.itemSettings.src = this.isariDataService.srcForeignBuilder(this.feature);
-    this.itemSettings.stringValue = this.isariDataService.getForeignLabel(this.feature, this.options.itemID);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['feature']) {
 
-    // people autocomplete (isariLab)
-    this.labSettings.src = this.isariDataService.srcForeignBuilder('organizations');
-    this.labSettings.stringValue = this.isariDataService.getForeignLabel('organizations', this.options.isariLab);
+      // people autocomplete (whoID)
+      this.whoSettings.src = this.isariDataService.srcForeignBuilder('people');
+      this.whoSettings.stringValue = this.isariDataService.getForeignLabel('People', this.options.whoID);
 
-    // roles select
-    this.isariDataService.getEnum('isariRoles')
-      .subscribe(roles => this.roles = roles.map(role => Object.assign({}, role, {
-        label: role.label[this.translate.currentLang]
-      })));
+      // item autocomplete (itemID)
+      this.itemSettings.src = this.isariDataService.srcForeignBuilder(this.feature);
+      this.itemSettings.stringValue = this.isariDataService.getForeignLabel(this.feature, this.options.itemID);
 
-    // field select
-    Observable.fromPromise(this.isariDataService.getSchema(this.feature))
-      .subscribe(schema =>
-        this.fields = Object.keys(schema).reduce((acc, value) =>
-          ([...acc, { value, label: schema[value].label[this.translate.currentLang] } ])
-      , []))
+      // people autocomplete (isariLab)
+      this.labSettings.src = this.isariDataService.srcForeignBuilder('organizations');
+      this.labSettings.stringValue = this.isariDataService.getForeignLabel('organizations', this.options.isariLab);
+
+      // roles select
+      this.isariDataService.getEnum('isariRoles')
+        .subscribe(roles => this.roles = roles.map(role => Object.assign({}, role, {
+          label: role.label[this.translate.currentLang]
+        })));
+
+      // field select
+      Observable.fromPromise(this.isariDataService.getSchema(this.feature))
+        .subscribe(schema =>
+          this.fields = Object.keys(schema).reduce((acc, value) =>
+            ([...acc, { value, label: schema[value].label[this.translate.currentLang] } ])
+        , []))
+    }
+
   }
 
   navigatePrev() {
