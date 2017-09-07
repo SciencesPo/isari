@@ -3522,5 +3522,14 @@
         {
             "value": "10","label": {"fr": "10","en": "10"}
         }
+    ],
+    "accessMonitoring": [
+        {
+            "value": "corporate",
+            "label": {
+                "fr": "corporate",
+                "en": ""
+            }
+        }
     ]
 }
