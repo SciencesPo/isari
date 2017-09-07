@@ -11,18 +11,9 @@ import {
   OnChanges,
   SimpleChanges
 } from "@angular/core";
-import { DatePipe } from "@angular/common";
-import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
-
-import zipObject from 'lodash/zipObject';
-
-import {saveAs} from 'file-saver';
-import Papa from 'papaparse';
 import { ActivatedRoute } from '@angular/router';
 
-const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      CSV_MIME = 'text/csv;charset=utf-8';
-
+import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 
 @Component({
   selector: 'isari-log-table',
@@ -48,6 +39,7 @@ export class LogTableComponent implements OnInit, OnChanges {
   @Input() hideItemCol: boolean = false;
   @Output() onOptionsChange = new EventEmitter();
   @Output() onDetailsToggle = new EventEmitter();
+  @Output() onDownloadCSV = new EventEmitter();
 
   constructor(
     private translate: TranslateService,
@@ -132,20 +124,7 @@ export class LogTableComponent implements OnInit, OnChanges {
   }
 
   downloadCSV() {
-    const data = this.logs.map(log => ({
-      date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-      item: log.item.name,
-      action: log.action,
-      fields: log._labels.join('\r\n'),
-      author: log.who.name,
-      authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
-      authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
-    }));
-
-    const csvString = Papa.unparse(data);
-    const blob = new Blob([csvString], {type: CSV_MIME});
-
-    saveAs(blob, `toto.csv`);
+    this.onDownloadCSV.emit(this.logs);
   }
 
   private emitOptions(options) {
