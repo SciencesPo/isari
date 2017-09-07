@@ -6,7 +6,6 @@
     <md-input type="text" placeholder="{{ 'username' | translate }}" formControlName="login"></md-input>
     <md-input type="password" placeholder="{{ 'password' | translate }}" formControlName="password"></md-input>
     <button type="submit" md-button>{{ 'btn_login' | translate }}</button>
-    <p *ngIf="message">{{ message }}</p>
   </form>
 
   <h3 *ngIf="errorMessage" class="error">

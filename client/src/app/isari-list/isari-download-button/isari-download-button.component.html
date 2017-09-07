@@ -3,11 +3,11 @@
 <md-menu #menu="mdMenu">
 
   <a md-menu-item
-	*ngIf="(feature === 'people' && !externals)"
+	*ngIf="(feature === 'people')"
    	href="{{ getExportDowloadLink('staff') }}">{{ 'download_staff_export'  | translate}}
   </a>
   <a md-menu-item
-	*ngIf="(feature === 'activities' && !externals)"
+	*ngIf="(feature === 'activities')"
    	href="{{ getExportDowloadLink('grants') }}">{{ 'download_grants_export'  | translate}}
   </a>
   <button md-menu-item (click)="downloadXLSX()">{{ 'download_excel_table'  | translate}}</button>

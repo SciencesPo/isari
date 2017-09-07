@@ -10,10 +10,10 @@ import 'rxjs/add/observable/combineLatest';
 })
 export class CVComponent implements OnInit {
 
-  private userId: string;
+  userId: string;
 
   // Ensure we don't call data editor too soon: wait for organization to be resolved
-  private ready: boolean = false;
+  ready: boolean = false;
 
   constructor(
     private userService: UserService,

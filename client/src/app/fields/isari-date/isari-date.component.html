@@ -40,7 +40,7 @@
         <md-icon>clear</md-icon>
       </div>
       <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || ('year' | translate) }}</button>
-      <div class="remove-content" tabindex="-1" (mousedown)="deleteDate(y, $event)" md-button>
+      <div class="remove-content" tabindex="-1" (mousedown)="deleteDate(year, $event)" md-button>
         <md-icon>clear</md-icon>
       </div>
     </span>
