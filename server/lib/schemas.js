@@ -70,6 +70,7 @@ module.exports = {
 	getMongooseSchema: memoize(getMongooseSchema),
 	getFrontSchema: memoize(getFrontSchema, { length: 2 }),
 	computeConfidentialPaths: memoize(computeConfidentialPaths),
+	getAccessMonitoringPaths: memoize(getAccessMonitoringPaths, { length: 2 }),
 	RESERVED_FIELDS,
 	FRONT_KEPT_FIELDS,
 	EXTRA_FIELDS
@@ -294,24 +295,35 @@ function formatMeta (meta, includeRestricted = false) {
 }
 
 function computeConfidentialPaths (name) {
+	return filterPaths(name, desc => desc.accessType === 'confidential')
+}
+
+function getAccessMonitoringPaths (name, monitoring) {
+	const paths = filterPaths(name, desc => desc.accessMonitoring === monitoring)
+	// In this case, we're not interested in patterns but in prefixes
+	// Let's replace all X.* by single X
+	return paths.map(p => p.replace(/\.\*/g, ''))
+}
+
+function filterPaths (name, test) {
 	const meta = getMeta(name)
 	if (!meta) {
 		throw Error(`${name}: Unknonwn schema`)
 	}
 
-	return map(s => s.substring(1), _computeConfidentialPaths(meta, ''))
+	return map(s => s.substring(1), _filterPaths(test, meta, ''))
 }
 
-function _computeConfidentialPaths (desc, currPath = '') {
+function _filterPaths (test, desc, currPath = '') {
 	if (isArray(desc)) {
-		return _computeConfidentialPaths(desc[0], currPath + '.*')
+		return _filterPaths(test, desc[0], currPath + '.*')
 	}
-	const result = desc.accessType === 'confidential' ? [ currPath ] : []
+	const result = test(desc) ? [ currPath ] : []
 	return Object.keys(desc).reduce((result, field) => {
 		if (RESERVED_FIELDS.includes(field) || field.substring(0, 2) === '//') {
 			return result
 		}
-		return result.concat(_computeConfidentialPaths(desc[field], currPath + '.' + field))
+		return result.concat(_filterPaths(test, desc[field], currPath + '.' + field))
 	}, result)
 }
 

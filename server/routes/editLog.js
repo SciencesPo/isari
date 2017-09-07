@@ -5,7 +5,8 @@ const { UnauthorizedError } = require('../lib/errors')
 const { EditLog, flattenDiff } = require('../lib/edit-logs')
 const { requiresAuthentication } = require('../lib/permissions')
 const models = require('../lib/model')
-const {fillIncompleteDate} = require('../export/helpers')
+const { fillIncompleteDate } = require('../export/helpers')
+const { getAccessMonitoringPaths } = require('../lib/schemas')
 
 
 const mongoose = require('mongoose')
@@ -109,8 +110,12 @@ function getEditLog(req, res){
 				if (whoIds)
 					mongoQuery['whoID'] = {$in:whoIds}
 
-			if (query.path)
-				mongoQuery['diff'] = {'$elemMatch': {'0.path':query.path}}
+			if (query.path || query.accessMonitoring) {
+				const paths = getAccessMonitoringPaths(mongoModel, query.accessMonitoring)
+					.concat(query.path ? [query.path] : [])
+				debug({paths})
+				mongoQuery['diff'] = {'$elemMatch': {'$or': paths.map(path=>({path})) }}
+			}
 
 			if (query.action)
 				mongoQuery['action'] = query.action
