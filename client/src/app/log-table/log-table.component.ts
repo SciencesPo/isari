@@ -85,12 +85,14 @@ export class LogTableComponent implements OnInit {
   }
 
   navigatePrev() {
+    if (this.options.skip === 0) return;
     this.emitOptions(Object.assign(this.options, {
       skip: Math.max(0, this.options.skip - this.options.limit)
     }));
   }
 
   navigateNext() {
+    if (this.logs.length === 0) return;
     //@TODO handle end via count query
     this.emitOptions(Object.assign(this.options, {
       skip: this.options.skip + this.options.limit
