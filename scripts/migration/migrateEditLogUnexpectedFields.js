@@ -1,3 +1,8 @@
+#!/usr/bin/env node
+
+const path = require('path')
+process.chdir(path.join(__dirname, '..', '..', 'server'))
+
 const { connect } = require('../../server/lib/model')
 const { EditLog, flattenDiff, cleanupData, isEmptyDiff } = require('../../server/lib/edit-logs')
 const { set, get } = require('lodash')

@@ -1,3 +1,8 @@
+#!/usr/bin/env node
+
+const path = require('path')
+process.chdir(path.join(__dirname, '..', '..', 'server'))
+
 const models = require('../../server/lib/model')
 const {EditLog} = require('../../server/lib/edit-logs')
 const async = require('async')
