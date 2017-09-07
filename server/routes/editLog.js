@@ -159,7 +159,11 @@ function getEditLog(req, res){
 				const paths = getAccessMonitoringPaths(mongoModel, query.accessMonitoring)
 					.concat(query.path ? [query.path] : [])
 				debug({paths})
-				mongoQuery['diff'] = {'$elemMatch': {'$or': paths.map(path=>({path})) }}
+				if (query.action === 'create' || query.action === 'delete') {
+					mongoQuery['$or'] = paths.map(path => ({ ['data.' + path]: {$exists: true} }))
+				} else {
+					mongoQuery['diff'] = {'$elemMatch': {'$or': paths.map(path=>({path})) }}
+				}
 			}
 
 			if (query.action)
@@ -178,6 +182,7 @@ function getEditLog(req, res){
 				else
 					mongoQuery['date']= {'$lte': endDate}
 			}
+			debug('Query', mongoQuery)
 			let aggregationPipeline = [
 				{'$match':mongoQuery},
 				{'$lookup':{
