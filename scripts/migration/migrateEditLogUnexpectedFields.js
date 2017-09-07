@@ -207,14 +207,23 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 
 	// Remove all those changes from initial diff, we'll add them back after
 	log.diff = log.diff.filter(d => !isInnerChangeInObjectID(d))
+	const storeLegacyDiff = () => {
+		if (!log.data) {
+			log.data = {}
+		}
+		if (!log.data.replacedDiffs) {
+			log.data.replacedDiffs = []
+		}
+		log.data.replacedDiffs.push(innerChangesInObjectIDs)
+	}
 
 	// There are diffs like 'PATH.0', 'PATH.1', etc… Replay the whole history of changes
 	// to convert them into simple string replacements when possible
 	//console.log('SHOULD FIX OBJECT ID DIFF IN LOG', log.id, innerChangeInObjectIDs.length)
 	//console.log('FIND ALL DIFFS FOR CORRESPONDING ITEM, AND REPLAY (so cool)')
 	const itemId = String(log.item)
-	paths.forEach(path => {
-		const parentPath = path.split(PATH_SEPARATOR).slice(0, -1).join(PATH_SEPARATOR)
+	paths.forEach(path => { // path = 'academicMemberships.0.organization.id'
+		const parentPath = path.split(PATH_SEPARATOR).slice(0, -1).join(PATH_SEPARATOR) // parentPath = 'academicMemberships.0.organization'
 
 		console.log(chalk.blue.bold('ObjectID inner diff: Log#%s %s#%s %s'), log.id, log.model, log.item, path)
 		const logPathChanges = innerChangesInObjectIDs.filter(d => pathDir(d) === path)
@@ -236,6 +245,8 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 				lhs: new Buffer(lBits).toString('hex'),
 				rhs: new Buffer(rBits).toString('hex'),
 			})
+			// Store legacy diff for later analysis
+			storeLegacyDiff()
 			modified = true
 			return // next path
 		}
@@ -247,13 +258,28 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 		if (history[0].action === 'create') {
 			console.log(chalk.green('OK: we have an initial creation, replay history')) // eslint-disable-line no-console
 			let data = history[0].data
-			const getValue = () => get(data, parentPath)
-			let lhs = String(getValue())
+			// ObjectID or String or undefined
+			const getValue = (asString = false) => {
+				const v = get(data, parentPath)
+				return (v && asString) ? String(v) : v
+			}
+			let lhs = getValue(true)
 			//console.log(require('util').inspect(data,{colors:true,depth:10}))
 			let failed = false
+			const setAsFakeObjectID = value => {
+				try {
+					set(data, parentPath, { id: Buffer.from(String(value), 'hex'), toString: fakeObjectIdToString })
+					return true
+				} catch (e) {
+					console.error(chalk.red('Error occurred while reading ObjectID %s (%s): %s'), value, typeof value, e.message)
+					failed = true
+					return false
+				}
+			}
 			for (let i = 1; i < history.length; i++) {
 				(history[i].diff || []).forEach(change => {
 					const currPath = pathString(change)
+					// currPath could be 'academicMemberships.0.organization.id', or 'academicMemberships.0.organization', or even 'academicMemberships.0.organization.id.1'
 					//console.log(currPath)
 					if (!path.startsWith(currPath) && !currPath.startsWith(path)) {
 						return // skip uninteresting change
@@ -262,23 +288,41 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 					// Note: shit can happen when previous diff had a stringified ObjectID and next change is about changing a bit of it
 					// Detect and handle this edge case now
 					const value = getValue()
-					if (currPath.startsWith(path) && typeof value === 'string') {
-						//console.log(chalk.red('HANDLE EDGE CASE'))
-						try {
-							set(data, parentPath, { id: Buffer.from(value, 'hex'), toString: fakeObjectIdToString })
-						} catch (e) {
-							console.error(chalk.red('Error occurred while reading ObjectID %s: %s'), value, e.message)
-							return (failed = true)
-						}
-					} else if (typeof value !== 'object') {
-						console.error(chalk.red('Error occurred while reading ObjectID %s (unexpected type %s)'), JSON.stringify(value), typeof value)
-						return (failed = true)
+					// currPath = 'academicMemberships.0.organization'
+					if (currPath === parentPath) {
+						// it will just replace it, nothing to fear
 					}
+					// currPath = 'academicMemberships.0.organization.id'
+					else if (currPath === path) {
+						// it should not happen, deep-diff won't detect the whole buffer replacement
+						// whenever it is the case, let's replace current value with a buffer if needed
+						if (typeof value === 'string') {
+							if (!setAsFakeObjectID(value)) {
+								return
+							}
+						}
+					}
+					// currPath = 'academicMemberships.0.organization.id.1'
+					else if (currPath.startsWith(path)) {
+						// Current change is a change of a bit from previous ObjectID
+						// Same as before, replace current value with a beffer if needed
+						if (typeof value === 'string') {
+							if (!setAsFakeObjectID(value)) {
+								return
+							}
+						}
+					}
+					// currPath = other value? greater change, that should be applied directly
+					else {
+						// Example: 'grants', 'organizations', this is a direct change to root data
+					}
+					// Change should be safe to apply now
 					data = EditLog.applyChange(data, change)
+					// currPath is not field.id.x but directly field.id or field
 					if (path.startsWith(currPath)) {
-						// Full change
+						// Full change: take this a the new left-hand reference value
 						//console.log('FULL CHANGE')
-						lhs = String(getValue())
+						lhs = getValue(true)
 					}
 					//console.log({lhs})
 				})
@@ -291,12 +335,15 @@ const fixObjectIDDiffs = (log, logs, modified) => {
 			}
 		} else {
 			if (history[history.length - 1].action === 'delete') {
-				console.log(chalk.red('FAIL: not enough data to create meaningful changes (item deleted in the end)')) // eslint-disable-line no-console
+				console.log(chalk.yellow('FAIL: not enough data to create meaningful changes (item deleted in the end)')) // eslint-disable-line no-console
 			} else {
-				console.log(chalk.red.bold('FAIL: not enough data to create meaningful changes')) // eslint-disable-line no-console
+				console.log(chalk.yellow.bold('FAIL: not enough data to create meaningful changes')) // eslint-disable-line no-console
 			}
 			log.diff.push({ kind: 'E', path: parentPath.split(PATH_SEPARATOR), lhs: 'N/A', rhs: 'N/A' })
 		}
+
+		// Store legacy diff for later analysis
+		storeLegacyDiff()
 
 		modified = true
 	})
