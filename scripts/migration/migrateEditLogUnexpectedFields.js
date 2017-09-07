@@ -9,6 +9,8 @@ const { set, get, values } = require('lodash')
 const chalk = require('chalk')
 
 
+let nbReallyModified = 0
+
 const cleanupAll = logs => {
 	//console.log('COUNT LOGS', logs.length)
 	let logsToSave = {}
@@ -43,6 +45,7 @@ const pathString = d => d && d.path && d.path.join(PATH_SEPARATOR)
 const pathDir = d => d && d.path && d.path.slice(0, d.path.length - 1).join(PATH_SEPARATOR)
 
 const fixDiff = (log, logs) => {
+	let flattened = false
 	let modified = false
 	let changes = log.diff
 
@@ -51,7 +54,7 @@ const fixDiff = (log, logs) => {
 	if (shouldFlatten) {
 		changes = flattenDiff(changes)
 		// console.log(chalk.blue.bold('MODIFY: flatten'))
-		modified = true
+		flattened = true
 	}
 
 	// MongoId instance: 2 changes FIELD._bsontype = 'ObjectID' + FIELD.id = buffer → replace with hex string
@@ -166,7 +169,11 @@ const fixDiff = (log, logs) => {
 		modified = fixObjectIDDiffs(log, logs, modified)
 	}
 
-	return modified
+	if (modified === true) {
+		nbReallyModified++
+	}
+
+	return modified || flattened
 }
 
 const fixEmptyDiff = (log, modified) =>
@@ -381,7 +388,8 @@ connect()
 .then(() => EditLog.find().sort({ date: 1 }))
 .then(cleanupAll)
 .then(({ save, remove }) => {
-	console.log('Modified logs', save.length) // eslint-disable-line no-console
+	console.log('Modified logs (including flatten)', save.length) // eslint-disable-line no-console
+	console.log('Modified logs (excluding flatten)', nbReallyModified) // eslint-disable-line no-console
 	console.log('Deleted logs', remove.length) // eslint-disable-line no-console
 	const stats = { errors: [], save: 0, remove: 0 }
 	return Promise.all(
