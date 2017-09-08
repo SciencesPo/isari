@@ -88,18 +88,41 @@ export class IsariLogsComponent implements OnInit {
     let data = [];
 
     if (this.details$.value) {
-      data = logs.reduce((d, log) => [
-        ...d,
-        ...log.diff.map(diff => ({
-          date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-          item: log.item.name,
-          action: diff.editType,
-          field: diff._label,
-          // manque before / after
-          authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
-          authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
-        }))
+
+
+      const logs$ = logs.reduce((acc1, log) => [
+        ...acc1,
+        ...log.diff.reduce((acc2, diff) => [...acc2, (diff._beforeLabelled$ || Observable.of('')), (diff._afterLabelled$ || Observable.of(''))], [])
       ], []);
+
+      (<Observable<any>>Observable.merge(logs$)
+      .mergeAll())
+      .scan((acc, value, i) => [...acc, value], [])
+      .take(logs$.length)
+      .last()
+      .subscribe(values => {
+
+        data = logs.reduce((d, log) => [
+          ...d,
+          ...log.diff.map((diff, j) => ({
+            date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+            item: log.item.name,
+            action: diff.editType,
+            field: diff._label,
+            before: values[(d.length + j) * 2],
+            after: values[(d.length + j) * 2 + 1],
+            authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
+            authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
+          }))
+        ], []);
+
+        const csvString = Papa.unparse(data);
+        const blob = new Blob([csvString], {type: CSV_MIME});
+
+        saveAs(blob, `toto.csv`);
+
+      });
+
     } else {
       data = logs.map(log => ({
         date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
@@ -110,12 +133,15 @@ export class IsariLogsComponent implements OnInit {
         authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
         authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
       }));
+
+      const csvString = Papa.unparse(data);
+      const blob = new Blob([csvString], {type: CSV_MIME});
+
+      saveAs(blob, `toto.csv`);
     }
 
-    const csvString = Papa.unparse(data);
-    const blob = new Blob([csvString], {type: CSV_MIME});
 
-    saveAs(blob, `toto.csv`);
   }
+
 
 }
