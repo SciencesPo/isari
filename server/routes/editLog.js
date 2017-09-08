@@ -69,8 +69,8 @@ function getEditLog(req, res){
 	// User has to have write access on an object to access its editlog
 	if(
 			(model === 'people' && itemID && !req.userCanEditPeople(itemID)) ||
-			(model === 'activity' && itemID && !req.userCanEditActivity(itemID)) ||
-			(model === 'organization' && itemID && !req.userCanEditOrganization(itemID))
+			(model === 'activities' && itemID && !req.userCanEditActivity(itemID)) ||
+			(model === 'organizations' && itemID && !req.userCanEditOrganization(itemID))
 	){
 		res.send(UnauthorizedError({ title: 'Write access is mandatory to access EditLog'}))
 	}
@@ -197,7 +197,6 @@ function getEditLog(req, res){
 					foreignField: '_id',
 					as: 'itemObject'
 				}},
-				// TODO : project to only usefull fields to limit payload
 				{'$project':{
 					whoID:1,
 					date:1,
@@ -275,6 +274,8 @@ function formatEdits(data, model){
 
 		edit.action = d.action
 
+		
+
 		if (edit.action === 'update'){
 			edit.diff = flattenDiff(d.diff)
 									.filter(dd => editLogsPathFilter(dd.path))
@@ -318,9 +319,7 @@ function formatEdits(data, model){
 				}
 			})
 		}
-
-		edit.accessMonitorings = getAccessMonitorings(model, edit.diff)
-
+		edit.diff = getAccessMonitorings(model, edit.diff)
 		// if (edit.diff.length === 0){
 		// 	debug('empty diff in :')
 		// 	debug(edit)
@@ -342,11 +341,7 @@ const getAccessMonitorings = (model, formattedDiff) => {
 		else
 			paths = getAccessMonitoringPaths(model)
 
-	let result = new Set()
-	Object.keys(paths).forEach(path => formattedDiff.forEach(change => {
-		if ((change.path.join('.') + '.').startsWith(path + '.')) {
-			result.add(paths[path])
-		}
+	return formattedDiff.map(change => Object.assign({},change,{
+		accessMonitoring: paths[change.path[0]]
 	}))
-	return Array.from(result)
 }
