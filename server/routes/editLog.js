@@ -171,8 +171,9 @@ function getEditLog(req, res){
 					mongoQuery['whoID'] = {$in: whoIdsItemIds.whoIds}
 
 			if (query.path || query.accessMonitoring) {
-				const paths = getAccessMonitoringPaths(model, query.accessMonitoring)
-					.concat(query.path ? [query.path] : [])
+				const paths1 = query.accessMonitoring ? getAccessMonitoringPaths(model, query.accessMonitoring) : []
+				const paths2 = query.path ? [query.path] : []
+				const paths = paths1.concat(paths2)
 				debug({paths})
 				if (paths.length > 0){
 					if (query.action === 'create' || query.action === 'delete') {
