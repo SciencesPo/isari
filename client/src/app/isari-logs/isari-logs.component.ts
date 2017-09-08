@@ -12,14 +12,6 @@ import uniq from 'lodash/uniq';
 import { BehaviorSubject } from 'rxjs';
 import { EditLogApiOptions } from './EditLogApiOptions.class';
 
-import zipObject from 'lodash/zipObject';
-import { DatePipe } from '@angular/common';
-import {saveAs} from 'file-saver';
-import Papa from 'papaparse';
-
-const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      CSV_MIME = 'text/csv;charset=utf-8';
-
 @Component({
   selector: 'isari-logs',
   templateUrl: './isari-logs.component.html',
@@ -84,77 +76,7 @@ export class IsariLogsComponent implements OnInit {
   }
 
   downloadCSV(logs) {
-
-    function csv(data) {
-      const csvString = Papa.unparse(data);
-      const blob = new Blob([csvString], {type: CSV_MIME});
-      saveAs(blob, `editlogs.csv`);
-    }
-
-    function getRow(log, feature, translations, labs, diff = null, pos = 0, values = []) {
-      const res = {
-        [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-        [translations['editLogs.object.' + feature]]: log.item.name,
-        [translations['editLogs.action']]: log.action,
-        [translations['editLogs.fields']]: log._labels.join('\r\n'),
-        [translations['editLogs.who']]: log.who.name,
-        [translations['editLogs.lab']]: log.who.roles.map(role => role.lab ? labs[role.lab].value : '').join('\r\n'),
-        [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
-      };
-      if (!diff) return res;
-
-      return Object.assign(res, {
-        [translations['editLogs.action']]: diff.editType,
-        [translations['editLogs.fields']]: diff._label,
-        [translations['editLogs.before']]: values[pos * 2],
-        [translations['editLogs.after']]: values[pos * 2 + 1],
-
-      })
-    }
-
-    const translations$ = this.translate.get([
-      'editLogs.date', 'editLogs.who', 'editLogs.action',
-      'editLogs.fields', 'editLogs.role', 'editLogs.lab',
-      'editLogs.object.' + this.feature, 'editLogs.before', 'editLogs.after'
-    ]);
-
-    if (this.details$.value) {
-      // Je suis navré pour ce qui va suivre
-
-      const logs$ = logs.reduce((acc1, log) => [
-        ...acc1,
-        ...log.diff.reduce((acc2, diff) => [...acc2, (diff._beforeLabelled$ || Observable.of('')), (diff._afterLabelled$ || Observable.of(''))], [])
-      ], []);
-
-      // RxJS FTW ?!
-      Observable.combineLatest([
-        (<Observable<any>>Observable.merge(logs$)
-          .mergeAll())
-          .scan((acc, value, i) => [...acc, value], [])
-          .take(logs$.length)
-          .last(),
-        translations$,
-        this.labs$
-      ])
-      .subscribe(([values, translations, labs]) => {
-        csv(logs.reduce((d, log) => [
-          ...d,
-          ...log.diff.map((diff, j) => getRow(log, this.feature, translations, labs, diff, d.length + j, values))
-        ], []));
-      });
-
-    } else {
-      Observable.combineLatest([
-        translations$,
-        this.labs$
-      ])
-      .subscribe(([translations, labs]) => {
-        csv(logs.map(log => getRow(log, this.feature, translations, labs)));
-      })
-    }
-
-
+    this.isariDataService.exportLogs(logs, this.feature, this.labs$, this.translate, this.details$.value);
   }
-
 
 }

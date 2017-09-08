@@ -1,4 +1,3 @@
-import { zipObject } from 'lodash/zipObject';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, RequestOptions } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -22,6 +21,15 @@ import uniq from 'lodash/uniq';
 import startsWith from 'lodash/startsWith';
 import isPlainObject from 'lodash/isPlainObject';
 import flatten from 'lodash/flatten';
+import zipObject from 'lodash/zipObject';
+import isArray from 'lodash/isArray';
+
+import { DatePipe } from '@angular/common';
+import {saveAs} from 'file-saver';
+import Papa from 'papaparse';
+
+const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      CSV_MIME = 'text/csv;charset=utf-8';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -154,6 +162,7 @@ export class IsariDataService {
   }
 
   key2label(value, base: string[], schema, lang) {
+    if (isArray(value)) return value.map(v => this.key2label(v, base, schema, lang));
     if (!isPlainObject(value)) {
       const ref = _get(schema, [...base, 'ref'].join('.'));
       if (ref && !startsWith(value, 'N/A')) return { ref, value };
@@ -171,27 +180,110 @@ export class IsariDataService {
     if (typeof obj === 'string') return Observable.of(obj);
     if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
 
-    const format = (o, refs, level = 0) => Object.keys(o)
-    .reduce((s, k) => {
-      s += `${'  '.repeat(level)}${k} : `;
-      if (typeof o[k] === 'string') s += o[k];
-      else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '????');
-      else s += "\r\n" + format(o[k], refs, level + 1);
-      return s + "\r\n";
-    }, "");
+    const format = (o, refs, level = 0) => {
+      if (isArray(o)) return o.map(oo => format(oo, refs, level)).join("\r\n---\r\n");
 
-    const getRefs = (o) => Object.keys(o)
-    .reduce((r, k) => {
-        if (typeof o[k] === 'string') return r;
-        if (!o[k].ref || !o[k].value) return [...r, ...getRefs(o[k])];
-        return [...r, o[k]];
-    }, []);
+      return Object.keys(o)
+        .reduce((s, k) => {
+          s += `${'  '.repeat(level)}${k} : `;
+          if (typeof o[k] === 'string') s += o[k];
+          else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '????');
+          else s += "\r\n" + format(o[k], refs, level + 1);
+          return s + "\r\n";
+        }, "");
+    }
 
-    return Observable.combineLatest(getRefs(obj)
-    .map(({ ref, value }) => this.getForeignLabel(ref, value)))
+    const getRefs = (o) => {
+      if (isArray(o)) flatten(o.map(getRefs));
+      return Object.keys(o)
+        .reduce((r, k) => {
+            if (typeof o[k] === 'string') return r;
+            if (!o[k].ref || !o[k].value) return [...r, ...getRefs(o[k])];
+            return [...r, o[k]];
+        }, []);
+    };
+
+    const refs = getRefs(obj);
+
+    return Observable.combineLatest(
+      refs.length
+        ? getRefs(obj).map(({ ref, value }) => this.getForeignLabel(ref, value))
+        : Observable.of([])
+    )
     .map(labels => flatten(labels).reduce((l, v) => Object.assign(l, { [v.id]: v.value }), {}))
     .map(labels => format(obj, labels));
 
+  }
+
+  exportLogs(logs, feature, labs$, translate, details) {
+
+    function csv(data) {
+      const csvString = Papa.unparse(data);
+      const blob = new Blob([csvString], {type: CSV_MIME});
+      saveAs(blob, `editlogs.csv`);
+    }
+
+    function getRow(log, feature, translations, labs, diff = null, pos = 0, values = []) {
+      const res = {
+        [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+        [translations['editLogs.object.' + feature]]: log.item.name,
+        [translations['editLogs.action']]: log.action,
+        [translations['editLogs.fields']]: log._labels.join('\r\n'),
+        [translations['editLogs.who']]: log.who.name,
+        [translations['editLogs.lab']]: log.who.roles.map(role => role.lab ? labs[role.lab].value : '').join('\r\n'),
+        [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
+      };
+      if (!diff) return res;
+
+      return Object.assign(res, {
+        [translations['editLogs.action']]: diff.editType,
+        [translations['editLogs.fields']]: diff._label,
+        [translations['editLogs.before']]: values[pos * 2],
+        [translations['editLogs.after']]: values[pos * 2 + 1],
+
+      })
+    }
+
+    const translations$ = translate.get([
+      'editLogs.date', 'editLogs.who', 'editLogs.action',
+      'editLogs.fields', 'editLogs.role', 'editLogs.lab',
+      'editLogs.object.' + feature, 'editLogs.before', 'editLogs.after'
+    ]);
+
+    if (details) {
+      // Je suis navré pour ce qui va suivre
+
+      const logs$ = logs.reduce((acc1, log) => [
+        ...acc1,
+        ...log.diff.reduce((acc2, diff) => [...acc2, (diff._beforeLabelled$ || Observable.of('')), (diff._afterLabelled$ || Observable.of(''))], [])
+      ], []);
+
+      // RxJS FTW ?!
+      Observable.combineLatest([
+        (<Observable<any>>Observable.merge(logs$)
+          .mergeAll())
+          .scan((acc, value, i) => [...acc, value], [])
+          .take(logs$.length)
+          .last(),
+        translations$,
+        labs$
+      ])
+      .subscribe(([values, translations, labs]) => {
+        csv(logs.reduce((d, log) => [
+          ...d,
+          ...log.diff.map((diff, j) => getRow(log, feature, translations, labs, diff, d.length + j, values))
+        ], []));
+      });
+
+    } else {
+      Observable.combineLatest([
+        translations$,
+        labs$
+      ])
+      .subscribe(([translations, labs]) => {
+        csv(logs.map(log => getRow(log, feature, translations, labs)));
+      })
+    }
   }
 
   getRelations(feature: string, id: string) {

@@ -52,6 +52,7 @@
       [labs]="labs$ | async"
       [options]="options"
       [hideItemCol]="true"
+      (onDownloadCSV)="downloadCSV($event)"
       (onOptionsChange)="changeOpt($event)"
       (onDetailsToggle)="toggleDetails()"></isari-log-table>
 

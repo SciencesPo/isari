@@ -319,5 +319,8 @@ export class IsariEditorComponent implements OnInit {
     this.details$.next(!this.details$.value);
   }
 
+  downloadCSV(logs) {
+    this.isariDataService.exportLogs(logs, this.feature, this.labs$, this.translate, this.details$.value);
+  }
 
 }
