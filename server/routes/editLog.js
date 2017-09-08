@@ -7,6 +7,7 @@ const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/
 const models = require('../lib/model')
 const { fillIncompleteDate } = require('../export/helpers')
 const { getAccessMonitoringPaths } = require('../lib/schemas')
+const config = require('config')
 
 
 const mongoose = require('mongoose')
@@ -55,9 +56,14 @@ const editLogsDataKeysBlacklist = ['_id', 'latestChangeBy']
 
 module.exports = Router().get('/:model', requiresAuthentication, scopeOrganizationMiddleware, getEditLog)
 
+const routeParamToModel = param => ({
+	activities: 'Activity',
+	organizations: 'Organization',
+	people: 'People',
+}[param])
+
 function getEditLog(req, res){
-	let model = req.params.model
-	// params
+	const model = routeParamToModel(req.params.model)
 	const itemID = req.query.itemID
 	const query = req.query
 
@@ -99,10 +105,10 @@ function getEditLog(req, res){
 			if (query.itemID)
 				return {whoIds, itemIds: ObjectId(query.itemID)}
 			// scope doesn't apply on organizations
-			if (model === 'organizations')
+			if (model === 'Organization')
 				return {whoIds}
 			// scope on people => start/end on academicMemberships
-			if (model === 'people'){
+			if (model === 'People'){
 				let options = {}
 				if (query.startDate || query.endDate){
 					options = {includeRange:true,membershipStart:query.startDate,membershipEnd:query.endDate, includeExternals:false, includeMembers:false}
@@ -117,7 +123,7 @@ function getEditLog(req, res){
 
 			}
 			// scope on activities => start/end on activity + organizations
-			if (model === 'activities'){
+			if (model === 'Activity'){
 				let options = {}
 				if (query.startDate || query.endDate){
 					options = {range:true,startDate:query.startDate,endDate:query.endDate}
@@ -139,8 +145,7 @@ function getEditLog(req, res){
 	const editsP = whoIdsItemIdsP
 		.then(whoIdsItemIds => {
 			// build the mongo query to editLog collection
-			const mongoModel = model === 'people' ? 'People' : (model === 'organizations' ? 'Organization' : 'Activity')
-			const mongoQuery = {model: mongoModel }
+			const mongoQuery = {model}
 			if (whoIdsItemIds.itemIds)
 				mongoQuery.item = whoIdsItemIds.itemIds
 
@@ -151,7 +156,7 @@ function getEditLog(req, res){
 					mongoQuery['whoID'] = {$in: whoIdsItemIds.whoIds}
 
 			if (query.path || query.accessMonitoring) {
-				const paths = getAccessMonitoringPaths(mongoModel, query.accessMonitoring)
+				const paths = getAccessMonitoringPaths(model, query.accessMonitoring)
 					.concat(query.path ? [query.path] : [])
 				debug({paths})
 				if (paths.length > 0){
@@ -192,7 +197,7 @@ function getEditLog(req, res){
 					as: 'creator'
 				}},
 				{'$lookup':{
-					from: model === 'people' ? 'people' : (model === 'organizations' ? 'organizations' : 'activities'),
+					from: config.collections[model],
 					localField: 'item',
 					foreignField: '_id',
 					as: 'itemObject'
@@ -213,7 +218,6 @@ function getEditLog(req, res){
 					'creator.isariAuthorizedCenters':1
 				}},
 				{'$sort':{date:-1}}
-
 			]
 
 			//count
@@ -232,27 +236,22 @@ function getEditLog(req, res){
 				aggregationPipeline.push({'$limit':+query.limit})
 
 			return EditLog.aggregate(aggregationPipeline)
-			.then(data => {
-				if (query.count)
-					return data[0]
-
-				return formatEdits(data, model)
-			})
+				.then(data => query.count ? data[0] : formatEdits(data, model))
 		})
 
 	return editsP
 		.then(edits => res.status(200).send(edits))
-		.catch(err => res.status(500).send(err))
+		.catch(err => res.status(err.status || 500).send(err))
 }
 
 function formatItemName(data, model){
-	if (model === 'people' && data){
+	if (model === 'People' && data) {
 		return (data.firstName ? data.firstName+' ': '')+ data.name
+	} else if (data) {
+		return data.acronym || data.name
+	} else {
+		return undefined
 	}
-	else
-			if (data)
-				return data.acronym || data.name
-	return undefined
 }
 
 function formatEdits(data, model){
@@ -333,15 +332,7 @@ function formatEdits(data, model){
 }
 
 const getAccessMonitorings = (model, formattedDiff) => {
-	let paths = []
-	if (model === 'organizations')
-		paths = getAccessMonitoringPaths('organization')
-	else
-		if (model === 'activities')
-			paths = getAccessMonitoringPaths('activity')
-		else
-			paths = getAccessMonitoringPaths(model)
-
+	const paths = getAccessMonitoringPaths(model)
 	let result = new Set()
 	Object.keys(paths).forEach(path => formattedDiff.forEach(change => {
 		if ((change.path.join('.') + '.').startsWith(path + '.')) {
