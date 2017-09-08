@@ -270,8 +270,8 @@ export class IsariEditorComponent implements OnInit {
 
   history() {
     if (!this.id) return;
-
-    this.displayHistory = true;
+    this.displayHistory = !this.displayHistory;
+    if (!this.displayHistory) return
 
     this.options$ = new BehaviorSubject(this.options);
     this.details$ = new BehaviorSubject(false);

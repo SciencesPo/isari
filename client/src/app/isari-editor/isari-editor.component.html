@@ -41,12 +41,15 @@
 
   </md-card>
 
-  <md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
+  <md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;flex-direction:column;align-items:flex-end;">
 
-    <button (click)="history()" *ngIf="!displayHistory" md-raised-button color="primary">{{ 'history' | translate }}</button>
+    <button (click)="history()" md-raised-button>
+      <md-icon>history</md-icon>
+      {{ 'editLogs.title' | translate }}
+    </button>
 
     <isari-log-table *ngIf="displayHistory"
-      style="flex-grow: 1"
+      style="width:100%"
       [feature]="feature"
       [logs]="logs$ | async"
       [labs]="labs$ | async"
@@ -55,8 +58,6 @@
       (onDownloadCSV)="downloadCSV($event)"
       (onOptionsChange)="changeOpt($event)"
       (onDetailsToggle)="toggleDetails()"></isari-log-table>
-
-    <!-- <a [routerLink]="['/logs', feature, { itemID: data.id }]" queryParamsHandling="preserve" md-raised-button color="primary">{{ 'history' | translate }}</a> -->
 
   </md-card>
 
