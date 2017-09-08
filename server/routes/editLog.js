@@ -67,21 +67,6 @@ function getEditLog(req, res){
 	const itemID = req.query.itemID
 	const query = req.query
 
-<<<<<<< HEAD
-	// User has to be central admin to access editLog list feature
-	if (!itemID && req.userCentralRole !== 'admin'){
-		res.send(UnauthorizedError({ title: 'EditLog is restricted to central admin users'}))
-	}
-
-	// User has to have write access on an object to access its editlog
-	if(
-			(model === 'people' && itemID && !req.userCanEditPeople(itemID)) ||
-			(model === 'activities' && itemID && !req.userCanEditActivity(itemID)) ||
-			(model === 'organizations' && itemID && !req.userCanEditOrganization(itemID))
-	){
-		res.send(UnauthorizedError({ title: 'Write access is mandatory to access EditLog'}))
-	}
-=======
 	const validParamsP = Promise.resolve()
 		// Check validity of model param
 		.then(() => {
@@ -105,7 +90,6 @@ function getEditLog(req, res){
 				})
 			}
 		})
->>>>>>> fa9ad29f6e0ea0e169d83ce9c8f9d1d8caf654bc
 
 	const whoIdsItemIdsP = validParamsP
 		.then(() => {
@@ -314,7 +298,7 @@ function formatEdits(data, model, removeConfidential){
 
 		edit.action = d.action
 
-		
+
 
 		if (edit.action === 'update'){
 			edit.diff = flattenDiff(d.diff)
