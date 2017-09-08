@@ -351,6 +351,9 @@ function formatEdits(data, model, removeConfidential){
 
 		edit.diff = getAccessMonitorings(model, edit.diff)
 
+		// TEMPFIX FOR CLIENT
+		edit.accessMonitorings = Array.from(edit.diff.reduce((vs, d) => d.accessMonitoring ? vs.add(d.accessMonitoring) : vs, new Set()))
+
 		// if (edit.diff.length === 0){
 		// 	debug('empty diff in :')
 		// 	debug(edit)
