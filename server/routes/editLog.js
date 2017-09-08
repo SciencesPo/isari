@@ -239,8 +239,16 @@ function getEditLog(req, res){
 				mongoQuery['action'] = query.action
 
 			//dates
-			if (query.startDate)
-				mongoQuery['date'] = {'$gte': new Date(fillIncompleteDate(query.startDate, true))}
+			if (query.startDate){
+				const sd = new Date(fillIncompleteDate(query.startDate, true))
+				mongoQuery['date'] = {'$gte': sd}
+				if (!query.endDate) {
+					const ed = new Date(sd.getTime())
+					ed.setHours(23)
+					ed.setMinutes(59)
+					mongoQuery['date']['$lte'] = sd
+				}
+			}
 
 			if (query.endDate){
 				const endDate = new Date(fillIncompleteDate(query.endDate, false))
@@ -251,6 +259,9 @@ function getEditLog(req, res){
 				else
 					mongoQuery['date']= {'$lte': endDate}
 			}
+
+
+
 			debug('Query', mongoQuery)
 			let aggregationPipeline = [
 				{'$match':mongoQuery},
