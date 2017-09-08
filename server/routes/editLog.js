@@ -181,7 +181,8 @@ function getEditLog(req, res){
 				debug({paths})
 				if (paths.length > 0){
 					if (query.action === 'create' || query.action === 'delete') {
-						mongoQuery['$or'] = paths.map(path => ({ ['data.' + path]: {$exists: true} }))
+						// Append to existing root $or conditions (or create new one)
+						mongoQuery['$or'] = (mongoQuery['$or'] || []).concat(paths.map(path => ({ ['data.' + path]: {$exists: true} })))
 					} else {
 						mongoQuery['diff'] = {'$elemMatch': {'$or': paths.map(path=>({path})) }}
 					}
