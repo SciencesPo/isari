@@ -159,11 +159,16 @@ function getEditLog(req, res){
 				const paths = getAccessMonitoringPaths(mongoModel, query.accessMonitoring)
 					.concat(query.path ? [query.path] : [])
 				debug({paths})
-				if (query.action === 'create' || query.action === 'delete') {
-					mongoQuery['$or'] = paths.map(path => ({ ['data.' + path]: {$exists: true} }))
-				} else {
-					mongoQuery['diff'] = {'$elemMatch': {'$or': paths.map(path=>({path})) }}
+				if (paths.length > 0){
+					if (query.action === 'create' || query.action === 'delete') {
+						mongoQuery['$or'] = paths.map(path => ({ ['data.' + path]: {$exists: true} }))
+					} else {
+						mongoQuery['diff'] = {'$elemMatch': {'$or': paths.map(path=>({path})) }}
+					}
 				}
+				else
+					// accessMonitoring filter on but no fields in schema => return  nothing
+					return res.status(200).send([])
 			}
 
 			if (query.action)
@@ -331,6 +336,7 @@ function formatEdits(data, model){
 		// else
 		edits.push(edit)
 	})
+	debug(edits)
 	return edits
 
 }
@@ -350,16 +356,26 @@ const getAccessMonitoringsFromData = (model, data) => {
 	Object.keys(paths)
 		.filter(path => modified.some(subpath => (subpath + '.').startsWith(path + '.')))
 		.forEach(path => result.add(paths[path]))
+	debug(result)
 	return Array.from(result)
 }
 
 const getAccessMonitoringsFromDiff = (model, formattedDiff) => {
-	const paths = getAccessMonitoringPaths(model)
+	let paths = []
+	if (model === 'organizations')
+		paths = getAccessMonitoringPaths('organization')
+	else
+		if (model === 'activities')
+			paths = getAccessMonitoringPaths('activity')
+		else 
+			paths = getAccessMonitoringPaths(model)
+
 	let result = new Set()
 	Object.keys(paths).forEach(path => formattedDiff.forEach(change => {
 		if ((change.path.join('.') + '.').startsWith(path + '.')) {
 			result.add(paths[path])
 		}
 	}))
+	debug(result)
 	return Array.from(result)
 }
