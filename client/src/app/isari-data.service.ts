@@ -169,13 +169,15 @@ export class IsariDataService {
 
   formatWithRefs(obj) {
     if (typeof obj === 'string') return Observable.of(obj);
+    if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
+
     const format = (o, refs, level = 0) => Object.keys(o)
     .reduce((s, k) => {
-      s += `${'  '.repeat(level)}<strong>${k}</strong> : `;
+      s += `${'  '.repeat(level)}${k} : `;
       if (typeof o[k] === 'string') s += o[k];
       else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '????');
-      else s += "\n" + format(o[k], refs, level + 1);
-      return s + "\n";
+      else s += "\r\n" + format(o[k], refs, level + 1);
+      return s + "\r\n";
     }, "");
 
     const getRefs = (o) => Object.keys(o)
