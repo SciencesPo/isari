@@ -246,7 +246,7 @@ function getEditLog(req, res){
 					const ed = new Date(sd.getTime())
 					ed.setHours(23)
 					ed.setMinutes(59)
-					mongoQuery['date']['$lte'] = sd
+					mongoQuery['date']['$lte'] = ed
 				}
 			}
 
