@@ -336,7 +336,15 @@ function formatEdits(data, model){
 }
 
 const getAccessMonitoringsFromData = (model, data) => {
-	const paths = getAccessMonitoringPaths(model)
+	let paths = []
+	if (model === 'organizations')
+		paths = getAccessMonitoringPaths('organization')
+	else
+		if (model === 'activities')
+			paths = getAccessMonitoringPaths('activity')
+		else 
+			paths = getAccessMonitoringPaths(model)
+		
 	const modified = Object.keys(flatten(data))
 	let result = new Set()
 	Object.keys(paths)

@@ -15,6 +15,7 @@
     "template": "objectName",
     "researchUnitCodes": [
         {
+            "accessMonitoring":"DS",
             "label": {
                 "fr": "label numéro(s)",
                 "en": "label(s) "
@@ -45,6 +46,7 @@
     ],
     "idsBanner": [
         {
+            "accessMonitoring":"DSI",
             "label": {
                 "fr": "Identifiant Banner",
                 "en": "banner ID"
@@ -53,6 +55,7 @@
     ],
     "idsSpire": [
         {
+            "accessMonitoring":"DSI",
             "label": {
                 "fr": "Identifiant Spire",
                 "en": "Spire ID"
@@ -153,6 +156,7 @@
         }
     ],
     "isariMonitored": {
+        "accessMonitoring":"DS",
         "label": {
             "fr": "communauté académique de Sciences Po",
             "en": "Sciences Po's academic community"

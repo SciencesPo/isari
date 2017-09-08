@@ -5,14 +5,14 @@
             "fr": "Nom",
             "en": "Name"
         },
-        "accessMonitoring": "corporate"
+        "accessMonitoring": "DRH"
     },
     "firstName": {
         "label": {
             "fr": "Prénom",
             "en": "Firstname"
         },
-        "accessMonitoring": "corporate"
+        "accessMonitoring": "DRH"
     },
     "template": "peopleName",
     "birthName": {
@@ -20,7 +20,7 @@
             "fr": "Nom de naissance",
             "en": "Birth name"
         },
-        "accessMonitoring": "corporate"
+        "accessMonitoring": "DRH"
     },
     "gender": {
         "requirement": "recommended",
@@ -28,7 +28,7 @@
             "fr": "Genre",
             "en": "Gender"
         },
-        "accessMonitoring": "corporate",
+        "accessMonitoring": "DRH",
         "enum": "genders"
     },
     "birthDate": {
@@ -37,7 +37,7 @@
             "fr": "Date de naissance",
             "en": "Birthdate"
         },
-        "accessMonitoring": "corporate",
+        "accessMonitoring": "DRH",
         "type": "date"
     },
     "nationalities": [
@@ -46,7 +46,7 @@
                 "fr": "Nationalité(s)",
                 "en": "Nationality(ies)"
             },
-            "accessMonitoring": "corporate",
+            "accessMonitoring": "DRH",
             "enum": "nationalities"
         }
     ],
@@ -60,7 +60,7 @@
                 "fr": "Contrats de travail, postes publiques, ...",
                 "en": "Academic positions, working positions, ..."
             },
-            "accessMonitoring": "corporate",
+            "accessMonitoring": "DRH",
             "organization": {
                 "label": {
                     "fr": "Tutelle",
@@ -154,7 +154,7 @@
                 "en": "Unit affiliation"
             },
             "requirement": "recommended",
-            "accessMonitoring": "corporate",
+            "accessMonitoring": "DS",
             "organization": {
                 "label": {
                     "fr": "Laboratoire de recherche",
@@ -195,7 +195,7 @@
                 "en": "Departement affiliation"
             },
             "requirement": "recommended",
-            "accessMonitoring": "corporate",
+            "accessMonitoring": "DS",
             "departement": {
                 "label": {
                     "fr": "Département d'enseignement",
@@ -306,6 +306,7 @@
                 "fr": "Statut et grades",
                 "en": "Statuses and grades"
             },
+            "accessMonitoring":"DS",
             "description": {
                 "fr": "Professeur, DR1, CR1...",
                 "en": "Associate Prof, Full Prof..."
@@ -613,6 +614,7 @@
             }
     }],
      "ldapUid": {
+        "accessMonitoring":"DSI",
         "label": {
             "fr": "Identifiant annuaire Sciences Po",
             "en": "Sciences Po's directory identifier"
@@ -630,6 +632,7 @@
         "sparse": true
     },
     "bannerUid": {
+        "accessMonitoring":"DSI",
         "label": {
             "fr": "Identifiant scolarité Sciences Po",
             "en": "Sciences Po's teaching identifier"
@@ -639,6 +642,7 @@
         "sparse": true
     },
     "sirhMatricule": {
+        "accessMonitoring":"DRH",
         "label": {
             "fr": "Identifiant RH Sciences Po",
             "en": "Sciences Po's HR identifier"
@@ -648,6 +652,7 @@
         "sparse": true
     },
     "CNRSMatricule": {
+        "accessMonitoring":"DS",
         "label": {
             "fr": "Identifiant CNRS",
             "en": "CNRS identifier"
@@ -656,6 +661,7 @@
         "sparse": true
     },
     "idSpire": {
+        "accessMonitoring":"DSI",
         "label": {
             "fr": "ID SPIRE",
             "en": "SPIRE identifier"

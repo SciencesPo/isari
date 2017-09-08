@@ -3525,10 +3525,24 @@
     ],
     "accessMonitoring": [
         {
-            "value": "corporate",
+            "value": "DRH",
             "label": {
-                "fr": "Corporate",
-                "en": ""
+                "fr": "DRH",
+                "en": "HR"
+            }
+        },
+        {
+            "value": "DS",
+            "label": {
+                "fr": "DS",
+                "en": "scientific direction"
+            }
+        },
+        {
+            "value": "DSI",
+            "label": {
+                "fr": "DSI",
+                "en": "IT services"
             }
         }
     ]
