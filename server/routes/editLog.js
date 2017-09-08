@@ -6,7 +6,7 @@ const { EditLog, flattenDiff } = require('../lib/edit-logs')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 const models = require('../lib/model')
 const { fillIncompleteDate } = require('../export/helpers')
-const { getAccessMonitoringPaths } = require('../lib/schemas')
+const { getAccessMonitoringPaths, computeConfidentialPaths } = require('../lib/schemas')
 const config = require('config')
 
 
@@ -152,8 +152,13 @@ function getEditLog(req, res){
 			}
 		})
 
-	const editsP = whoIdsItemIdsP
-		.then(whoIdsItemIds => {
+	const canViewConfidentialP = req.userCanViewConfidentialFields()
+
+	const editsP = Promise.all([
+		whoIdsItemIdsP,
+		canViewConfidentialP,
+	])
+		.then(([whoIdsItemIds, canViewConfidential]) => {
 			// build the mongo query to editLog collection
 			const mongoQuery = {model}
 			if (whoIdsItemIds.itemIds)
@@ -246,7 +251,7 @@ function getEditLog(req, res){
 				aggregationPipeline.push({'$limit':+query.limit})
 
 			return EditLog.aggregate(aggregationPipeline)
-				.then(data => query.count ? data[0] : formatEdits(data, model))
+				.then(data => query.count ? data[0] : formatEdits(data, model, !canViewConfidential))
 		})
 
 	return editsP
@@ -269,7 +274,7 @@ function formatItemName(data, model){
 	}
 }
 
-function formatEdits(data, model){
+function formatEdits(data, model, removeConfidential){
 	const edits = []
 	data.forEach(d => {
 		const edit = {}
@@ -333,6 +338,10 @@ function formatEdits(data, model){
 			})
 		}
 
+		if (removeConfidential) {
+			edit.diff = edit.diff.filter(isNotConfidentialChange(model))
+		}
+
 		edit.accessMonitorings = getAccessMonitorings(model, edit.diff)
 
 		// if (edit.diff.length === 0){
@@ -355,4 +364,22 @@ const getAccessMonitorings = (model, formattedDiff) => {
 		}
 	}))
 	return Array.from(result)
+}
+
+const isNotConfidentialChange = model => {
+	const paths = computeConfidentialPaths(model)
+		// Remove all '.*' from schema path, as collection indices won't appear in formatted change
+		// Also add a final dot to compare proper paths and avoid confusion with field with same prefix
+		.map(path => path.replace(/\.\*/g, '') + '.')
+	return change => {
+		const currPath = change.path.join('.') + '.'
+		const isConfidential = paths.some(confidentialPath => {
+			//console.log({confidentialPath, currPath, matches: currPath.startsWith(confidentialPath)})
+			return currPath.startsWith(confidentialPath)
+		})
+		if (isConfidential) {
+			debug('Filtered confidential change', change)
+		}
+		return !isConfidential
+	}
 }
