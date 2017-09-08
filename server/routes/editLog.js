@@ -76,10 +76,8 @@ function getEditLog(req, res){
 		res.send(UnauthorizedError({ title: 'Write access is mandatory to access EditLog'}))
 	}
 
-
-
-	async.waterfall([
-		next => {
+	const whoIdsItemIdsP = Promise.resolve()
+		.then(() => {
 			if (!query.whoID && (query.isariLab || query.isariRole)){
 				//need to retrieve list of targeted creators first
 				const mongoQueryPeople = {}
@@ -88,25 +86,22 @@ function getEditLog(req, res){
 				if (query.isariRole)
 					mongoQueryPeople['isariAuthorizedCenters.isariRole'] = query.isariRole
 
-				models.People.aggregate([
+				return models.People.aggregate([
 					{$match:mongoQueryPeople},
 					{$project:{_id:1}}
-				]).then(whoIds => next(null, whoIds.map(r => r._id)))
+				]).then(whos => whos.map(r => r._id))
+			} else {
+				return undefined
 			}
-			else{
-				next(null, undefined)
-			}
-		},
-		(whoIds, next) =>{
+		})
+		.then(whoIds => {
 			//prepare Item filter organisation scope mongoQuery
-
-
 			//focusing on one item, scope has been checked earlier
 			if (query.itemID)
-				return next(null, {whoIds, itemIds: ObjectId(query.itemID)})
+				return {whoIds, itemIds: ObjectId(query.itemID)}
 			// scope doesn't apply on organizations
 			if (model === 'organizations')
-				return next(null, {whoIds})
+				return {whoIds}
 			// scope on people => start/end on academicMemberships
 			if (model === 'people'){
 				let options = {}
@@ -116,9 +111,9 @@ function getEditLog(req, res){
 				else
 					options = {includeMembers:true, includeRange:false, includeExternals:false}
 
-				req.userListViewablePeople(options).then(ids => {
+				return req.userListViewablePeople(options).then(ids => {
 					debug(ids.query.getQuery())
-					return next(null, {whoIds, itemIds: ids.query.getQuery()._id})
+					return {whoIds, itemIds: ids.query.getQuery()._id}
 				})
 
 			}
@@ -131,17 +126,19 @@ function getEditLog(req, res){
 				else
 					options = {range:false}
 
-				req.userListViewableActivities(options).then(mongoquery => {
+				return req.userListViewableActivities(options).then(mongoquery => {
 					if (query.startDate || query.endDate)
-						return next(null, {whoIds, itemIds: mongoquery.query.getQuery()['organizations.organization']})
+						return {whoIds, itemIds: mongoquery.query.getQuery()['organizations.organization']}
 					else
 						mongoquery.query.then(activities => {
-							return next(null, {whoIds, itemIds: {$in: activities.map(a => a._id)}})
+							return {whoIds, itemIds: {$in: activities.map(a => a._id)}}
 						})
 				})
 			}
-		},
-		(whoIdsItemIds, next) =>{
+		})
+
+	const editsP = whoIdsItemIdsP
+		.then(whoIdsItemIds => {
 			// build the mongo query to editLog collection
 			const mongoModel = model === 'people' ? 'People' : (model === 'organizations' ? 'Organization' : 'Activity')
 			const mongoQuery = {model: mongoModel }
@@ -230,21 +227,18 @@ function getEditLog(req, res){
 			if (!query.count && query.limit)
 				aggregationPipeline.push({'$limit':+query.limit})
 
-			EditLog.aggregate(aggregationPipeline)
+			return EditLog.aggregate(aggregationPipeline)
 			.then(data => {
 				if (query.count)
-					return next(null, data[0])
+					return data[0]
 
-				next(null, formatEdits(data, model))
+				return formatEdits(data, model)
 			})
-		}
-	],
-		(error,edits) =>{
-			if (error) res.status(500).send(error)
+		})
 
-			return res.status(200).send(edits)
-		}
-	)
+	return editsP
+		.then(edits => res.status(200).send(edits))
+		.catch(err => res.status(500).send(err))
 }
 
 function formatItemName(data, model){
