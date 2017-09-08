@@ -83,7 +83,7 @@ function getEditLog(req, res){
 		// User has to have write access on an object to access its editlog
 		.then(() => {
 			if (itemID) {
-				return req['userCanEdit' + model](itemID).then(ok => {
+				return models[model].findById(itemID).then(req['userCanEdit' + model]).then(ok => {
 					if (!ok) {
 						throw new UnauthorizedError({ title: 'Write access is mandatory to access EditLog'})
 					}
@@ -399,11 +399,16 @@ function formatEdits(data, model, removeConfidential){
 			})
 		}
 
-
+		// Handle confidential changes
+		const test = isNotConfidentialChange(model)
 		if (removeConfidential) {
-			edit.diff = edit.diff.filter(isNotConfidentialChange(model))
+			edit.diff = edit.diff.filter(test)
 		}
+		edit.diff = edit.diff.map(change => test(change)
+			? change
+			: Object.assign({}, change, { confidential: true }))
 
+		// Handle accessMonitoring on changes
 		edit.diff = getAccessMonitorings(model, edit.diff)
 
 		// TEMPFIX FOR CLIENT
