@@ -12,7 +12,6 @@ const { getAccessMonitoringPaths } = require('../lib/schemas')
 const mongoose = require('mongoose')
 const _ = require('lodash')
 
-const async = require('async')
 const debug = require('debug')('isari:EditLog')
 
 const ObjectId = mongoose.Types.ObjectId
@@ -342,25 +341,6 @@ const getAccessMonitorings = (model, formattedDiff) => {
 			paths = getAccessMonitoringPaths('activity')
 		else
 			paths = getAccessMonitoringPaths(model)
-	
-	const modified = Object.keys(flatten(data))
-	let result = new Set()
-	Object.keys(paths)
-		.filter(path => modified.some(subpath => (subpath + '.').startsWith(path + '.')))
-		.forEach(path => result.add(paths[path]))
-	debug(result)
-	return Array.from(result)
-}
-
-const getAccessMonitoringsFromDiff = (model, formattedDiff) => {
-	let paths = []
-	if (model === 'organizations')
-		paths = getAccessMonitoringPaths('organization')
-	else
-		if (model === 'activities')
-			paths = getAccessMonitoringPaths('activity')
-		else 
-			paths = getAccessMonitoringPaths(model)
 
 	let result = new Set()
 	Object.keys(paths).forEach(path => formattedDiff.forEach(change => {
@@ -368,6 +348,5 @@ const getAccessMonitoringsFromDiff = (model, formattedDiff) => {
 			result.add(paths[path])
 		}
 	}))
-	debug(result)
 	return Array.from(result)
 }
