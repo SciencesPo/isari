@@ -91,6 +91,27 @@ export class IsariLogsComponent implements OnInit {
       saveAs(blob, `toto.csv`);
     }
 
+    function getRow(log, feature, translations, labs, diff = null, pos = 0, values = []) {
+      const res = {
+        [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+        [translations['editLogs.object.' + feature]]: log.item.name,
+        [translations['editLogs.action']]: log.action,
+        [translations['editLogs.fields']]: log._labels.join('\r\n'),
+        [translations['editLogs.who']]: log.who.name,
+        [translations['editLogs.lab']]: log.who.roles.map(role => role.lab ? labs[role.lab].value : '').join('\r\n'),
+        [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
+      };
+      if (!diff) return res;
+
+      return Object.assign(res, {
+        [translations['editLogs.action']]: diff.editType,
+        [translations['editLogs.fields']]: diff._label,
+        [translations['editLogs.before']]: values[pos * 2],
+        [translations['editLogs.after']]: values[pos * 2 + 1],
+
+      })
+    }
+
     const translations$ = this.translate.get([
       'editLogs.date', 'editLogs.who', 'editLogs.action',
       'editLogs.fields', 'editLogs.role', 'editLogs.lab',
@@ -106,40 +127,29 @@ export class IsariLogsComponent implements OnInit {
       ], []);
 
       // RxJS FTW ?!
-      (<Observable<any>>Observable.merge(logs$)
-      .mergeAll())
-      .scan((acc, value, i) => [...acc, value], [])
-      .take(logs$.length)
-      .last()
-      .combineLatest(translations$)
-      .subscribe(([values, translations]) => {
+      Observable.combineLatest([
+        (<Observable<any>>Observable.merge(logs$)
+          .mergeAll())
+          .scan((acc, value, i) => [...acc, value], [])
+          .take(logs$.length)
+          .last(),
+        translations$,
+        this.labs$
+      ])
+      .subscribe(([values, translations, labs]) => {
         csv(logs.reduce((d, log) => [
           ...d,
-          ...log.diff.map((diff, j) => ({
-            [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-            [translations['editLogs.object.' + this.feature]]: log.item.name,
-            [translations['editLogs.action']]: diff.editType,
-            [translations['editLogs.fields']]: diff._label,
-            [translations['editLogs.before']]: values[(d.length + j) * 2],
-            [translations['editLogs.after']]: values[(d.length + j) * 2 + 1],
-            [translations['editLogs.who']]: log.who.name,
-            [translations['editLogs.lab']]: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
-            [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
-          }))
+          ...log.diff.map((diff, j) => getRow(log, this.feature, translations, labs, diff, d.length + j, values))
         ], []));
       });
 
     } else {
-      translations$.subscribe(translations => {
-        csv(logs.map(log => ({
-          [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-          [translations['editLogs.object.' + this.feature]]: log.item.name,
-          [translations['editLogs.action']]: log.action,
-          [translations['editLogs.fields']]: log._labels.join('\r\n'),
-          [translations['editLogs.who']]: log.who.name,
-          [translations['editLogs.lab']]: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
-          [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
-        })));
+      Observable.combineLatest([
+        translations$,
+        this.labs$
+      ])
+      .subscribe(([translations, labs]) => {
+        csv(logs.map(log => getRow(log, this.feature, translations, labs)));
       })
     }
 
