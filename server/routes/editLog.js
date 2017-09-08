@@ -83,7 +83,7 @@ function getEditLog(req, res){
 		// User has to have write access on an object to access its editlog
 		.then(() => {
 			if (itemID) {
-				return req['userCanEdit' + model](itemID).then(ok => {
+				return models[model].findById(itemID).then(req['userCanEdit' + model]).then(ok => {
 					if (!ok) {
 						throw new UnauthorizedError({ title: 'Write access is mandatory to access EditLog'})
 					}
