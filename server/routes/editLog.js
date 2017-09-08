@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { UnauthorizedError } = require('../lib/errors')
+const { UnauthorizedError, NotFoundError } = require('../lib/errors')
 const { EditLog, flattenDiff } = require('../lib/edit-logs')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 const models = require('../lib/model')
@@ -67,21 +67,31 @@ function getEditLog(req, res){
 	const itemID = req.query.itemID
 	const query = req.query
 
-	// User has to be central admin to access editLog list feature
-	if (!itemID && req.userCentralRole !== 'admin'){
-		res.send(UnauthorizedError({ title: 'EditLog is restricted to central admin users'}))
-	}
+	const validParamsP = Promise.resolve()
+		// Check validity of model param
+		.then(() => {
+			if (!model) {
+				throw new NotFoundError({ title: 'Invalid model' })
+			}
+		})
+		// User has to be central admin to access editLog list feature
+		.then(() => {
+			if (!itemID && req.userCentralRole !== 'admin'){
+				throw new UnauthorizedError({ title: 'EditLog is restricted to central admin users'})
+			}
+		})
+		// User has to have write access on an object to access its editlog
+		.then(() => {
+			if (itemID) {
+				return req['userCanEdit' + model](itemID).then(ok => {
+					if (!ok) {
+						throw new UnauthorizedError({ title: 'Write access is mandatory to access EditLog'})
+					}
+				})
+			}
+		})
 
-	// User has to have write access on an object to access its editlog
-	if(
-			(model === 'people' && itemID && !req.userCanEditPeople(itemID)) ||
-			(model === 'activity' && itemID && !req.userCanEditActivity(itemID)) ||
-			(model === 'organization' && itemID && !req.userCanEditOrganization(itemID))
-	){
-		res.send(UnauthorizedError({ title: 'Write access is mandatory to access EditLog'}))
-	}
-
-	const whoIdsItemIdsP = Promise.resolve()
+	const whoIdsItemIdsP = validParamsP
 		.then(() => {
 			if (!query.whoID && (query.isariLab || query.isariRole)){
 				//need to retrieve list of targeted creators first
