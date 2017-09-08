@@ -200,45 +200,38 @@ function getEditLog(req, res){
 				We want to EXLUDE all edits whose diff contains ONLY changes on confidential paths
 				(thank you mongodb for the headache)
 
-				I want docs whose ALL subdocs satisfy CONDITION
-				.find({ subdocs: { $elemMatch: CONDITION } }) → all docs whose SOME subdocs satisfy CONDITION
-				.find({ subdocs: { $elemMatch: !CONDITION } }) → all docs whose SOME subdocs DO NOT satisfy CONDITION
-				.find({ subdocs: { $not: {$elemMatch:!CONDITION}}}) → all docs whose NO subdocs DO NOT satisfy CONDITION
-
-				Initial condition to find a confidential change is:
-				(diff.path.0 = x && diff.path.2 = y) || (diff.path.0 = m && diff.path.1 = n)
-
-				We must negate it:
-				(diff.path.0 != x || diff.path.2 != y) && (diff.path.0 != m || diff.path.1 != n)
+				I want edits whose NOT ALL changes are confidential
+				.find({ subdocs: { $elemMatch: matchPath } }) → all edits with SOME confidential changes
+				.find({ subdocs: { $not: { $elemMatch: matchPath } }) → all edits with NOT confidential change
 
 				Final query:
-				{ diff: { $not: { $elemMatch: { $and: [
-					{ $or: [ {'path.0': {$ne: 'x'}}, {'path.2': {$ne: 'y'}} ] },
-					{ $or: [ {'path.0': {$ne: 'm'}}, {'path.1': {$ne: 'n'}} ] }
+				{ diff: { $not: { $elemMatch: { $or: [
+					{ 'path.0': 'x', 'path.2': 'y' },
+					{ 'path.0': 'm', 'path.1': 'n' },
 				]}}}}
 
 				Note that there can already be a query on 'diff', just merge it.
-				{ diff: { oldquery, $not: newquery }}
+				{ diff: { old, $not: … }}
 				If there is already a query on diff.$not, we'll have to merge it smartly:
 				!x && !y → !(x || y), so it becomes:
 				{ diff: { $not: { $or: [oldquery, newquery] }}}
 				*/
 				// [ 'p1.*.p2', 'p3.p4' ] → [ {$or:[path.0≠p1, path.2≠p2]}, {$or:[path.0≠p3, path.1≠p4]} ]
-				const conditions = computeConfidentialPaths(model)
-					.map(path =>
-						path.split('.')
-						.map((p, i) => p === '*' ? null : { ['path.' + i]: { '$ne': p } })
-						.filter(cond => cond !== null))
-					.map(q => ({ '$or': q }))
-				const negated = { '$elemMatch': { '$and': conditions } }
+				const matchPathString = path =>
+					path.split('.')
+					.reduce((q, p, i) => p === '*' ? q : Object.assign(q, { ['path.' + i]: p }), {})
+
+				const isConfidential = {
+					'$or': computeConfidentialPaths(model).map(matchPathString)
+				}
+
 				if (!mongoQuery['diff']) {
-					mongoQuery['diff'] = { '$not': negated }
+					mongoQuery['diff'] = { '$not': { '$elemMatch': isConfidential } }
 				} else if (!mongoQuery['diff']['$not']) {
-					mongoQuery['diff']['$not'] = negated
+					mongoQuery['diff']['$not'] = { '$elemMatch': isConfidential }
 				} else {
-					// Note this case does not exist today, but I wouldn't bet it's forever so be future-proof
-					const oldQuery = mongoQuery['diff']['$not']
-					mongoQuery['diff']['$not'] = { '$or': [ negated, oldQuery ] }
+					const oldCond = mongoQuery['diff']['$not']
+					mongoQuery['diff']['$not'] = { '$or': [ isConfidential, oldCond ] }
 				}
 			}
 
