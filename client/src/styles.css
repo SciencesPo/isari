@@ -85,9 +85,16 @@ md-dialog-container .md-input-underline .md-input-ripple {
 isari-editor .input .md-input-wrapper { width: 400px; }
 isari-editor .input-date .md-input-wrapper { width: 250px; }
 isari-editor .input-select .md-input-wrapper { width: 400px; }
+isari-log-table .input-select .md-input-wrapper { width: auto; }
 md-dialog-container .input-select .md-input-wrapper { width: 400px; }
 isari-editor .input-textarea .md-input-wrapper { width: 600px; }
 isari-editor .input-textarea .md-input-wrapper textarea { min-height: 100px; }
+
+isari-editor isari-log-table md-card {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
 
 md-dialog-container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
