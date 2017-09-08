@@ -85,59 +85,62 @@ export class IsariLogsComponent implements OnInit {
 
   downloadCSV(logs) {
 
-    let data = [];
+    function csv(data) {
+      const csvString = Papa.unparse(data);
+      const blob = new Blob([csvString], {type: CSV_MIME});
+      saveAs(blob, `toto.csv`);
+    }
+
+    const translations$ = this.translate.get([
+      'editLogs.date', 'editLogs.who', 'editLogs.action',
+      'editLogs.fields', 'editLogs.role', 'editLogs.lab',
+      'editLogs.object.' + this.feature, 'editLogs.before', 'editLogs.after'
+    ]);
 
     if (this.details$.value) {
-
+      // Je suis navré pour ce qui va suivre
 
       const logs$ = logs.reduce((acc1, log) => [
         ...acc1,
         ...log.diff.reduce((acc2, diff) => [...acc2, (diff._beforeLabelled$ || Observable.of('')), (diff._afterLabelled$ || Observable.of(''))], [])
       ], []);
 
+      // RxJS FTW ?!
       (<Observable<any>>Observable.merge(logs$)
       .mergeAll())
       .scan((acc, value, i) => [...acc, value], [])
       .take(logs$.length)
       .last()
-      .subscribe(values => {
-
-        data = logs.reduce((d, log) => [
+      .combineLatest(translations$)
+      .subscribe(([values, translations]) => {
+        csv(logs.reduce((d, log) => [
           ...d,
           ...log.diff.map((diff, j) => ({
-            date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-            item: log.item.name,
-            action: diff.editType,
-            field: diff._label,
-            before: values[(d.length + j) * 2],
-            after: values[(d.length + j) * 2 + 1],
-            authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
-            authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
+            [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+            [translations['editLogs.object.' + this.feature]]: log.item.name,
+            [translations['editLogs.action']]: diff.editType,
+            [translations['editLogs.fields']]: diff._label,
+            [translations['editLogs.before']]: values[(d.length + j) * 2],
+            [translations['editLogs.after']]: values[(d.length + j) * 2 + 1],
+            [translations['editLogs.who']]: log.who.name,
+            [translations['editLogs.lab']]: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
+            [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
           }))
-        ], []);
-
-        const csvString = Papa.unparse(data);
-        const blob = new Blob([csvString], {type: CSV_MIME});
-
-        saveAs(blob, `toto.csv`);
-
+        ], []));
       });
 
     } else {
-      data = logs.map(log => ({
-        date: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-        item: log.item.name,
-        action: log.action,
-        fields: log._labels.join('\r\n'),
-        author: log.who.name,
-        authorLabs: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
-        authorRoles: log.who.roles.map(role => role._label).join('\r\n'),
-      }));
-
-      const csvString = Papa.unparse(data);
-      const blob = new Blob([csvString], {type: CSV_MIME});
-
-      saveAs(blob, `toto.csv`);
+      translations$.subscribe(translations => {
+        csv(logs.map(log => ({
+          [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
+          [translations['editLogs.object.' + this.feature]]: log.item.name,
+          [translations['editLogs.action']]: log.action,
+          [translations['editLogs.fields']]: log._labels.join('\r\n'),
+          [translations['editLogs.who']]: log.who.name,
+          [translations['editLogs.lab']]: log.who.roles.map(role => (role.lab || '')).join('\r\n'),
+          [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
+        })));
+      })
     }
 
 
