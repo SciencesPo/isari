@@ -58,54 +58,54 @@ const buildDateQuery = (dateField, op, d) => {
 	const dd = d.d ? String(d.d) : null
 
 
-	if (mm === null && dd === null) 
-		return [ { 
+	if (mm === null && dd === null)
+		return [ {
 			[yearField]: { [op]: yyyy }}]
 
-	if (dd === null) 
+	if (dd === null)
 		return [
 			// case of incomplete dates, don't test month and day
-			{ 
-				[yearField]: { [op]: yyyy }, 
+			{
+				[yearField]: { [op]: yyyy },
 				[monthField]: '',
 				[dayField]:''
 			},
 			// don't test month if year is not exactly the one searched
-			{ 
+			{
 				[yearField]: { [op.replace('e','')]: yyyy }
 			},
 			// test the month
 			{
-				[yearField]:  yyyy , 
+				[yearField]:  yyyy ,
 				[monthField]: { [op]: mm }
 			}
 		]
 
 	return [
 		// case of incomplete dates, don't test month and day
-		{ 
-			[yearField]: { [op]: yyyy }, 
+		{
+			[yearField]: { [op]: yyyy },
 			[monthField]: '',
-			[dayField]: ''  
+			[dayField]: ''
 		},
 		// don't test month if year and month are not exactly the one searched
-		{ 
+		{
 			[yearField]: { [op.replace('e','')]: yyyy }
 		},
-		{ 
+		{
 			[yearField]: yyyy,
 			[monthField]: { [op.replace('e','')]: mm }
 		},
 		// case of incomplete dates, don't test day
 		{
-			[yearField]:  yyyy , 
+			[yearField]:  yyyy ,
 			[monthField]: { [op]: mm },
 			[dayField]: ''
 		},
 		// test the day
-		{ 
-			[yearField]:  yyyy, 
-			[monthField]: mm, 
+		{
+			[yearField]:  yyyy,
+			[monthField]: mm,
 			[dayField]: { [op]: dd }
 		}
 	]
@@ -274,10 +274,10 @@ const listViewablePeople = (req, options = {}) => {
 	// Note: A && B && (C || D) is not supported by Mongo
 	// i.e. this must be transformed into (A && B && C) || (A && B && D)
 
-	// member = specific orgid OR central & orgMonitored: true 
+	// member = specific orgid OR central & orgMonitored: true
 	const orgId = req.userScopeOrganizationId && ObjectId.createFromHexString(req.userScopeOrganizationId)
 
-	// members test on one orga or on orgMonitored for central roles 
+	// members test on one orga or on orgMonitored for central roles
 	const isMember = orgId
 		? // Scoped: limit to people from this organization
 			[{ orgId }]
@@ -293,24 +293,24 @@ const listViewablePeople = (req, options = {}) => {
 
 	// External people = ALL memberships are either expired (as of today) or linked to an unmonitored organization
 	// This query does not work as it tests true element where we want it to test the absence of elements..
-	// To be fixed if we put the feature back in the front. 
-	const isExternal = { memberships: 
-	{ $elemMatch: {
-		$or: [
-			{orgMonitored: false},
-			{$and: [
-				{orgMonitored: true},
-				{ endDate: { $exists: true } } ,
-				{$or:[].concat(buildDateQuery('end', '$lte', now))}
-			]}
-		]}
+	// To be fixed if we put the feature back in the front.
+	const isExternal = {
+		memberships: {
+			$elemMatch: {
+				$or: [
+					{orgMonitored: false},
+					{$and: [
+						{orgMonitored: true},
+						{ endDate: { $exists: true } } ,
+						{$or:[].concat(buildDateQuery('end', '$lte', now))}
+					]}
+				]
+			}
+		}
 	}
-	}
-
-	
 
 	// if one memberhsip is empty copy the other one
-	if ((!membershipStart || !membershipEnd) && (membershipStart || membershipEnd))		
+	if ((!membershipStart || !membershipEnd) && (membershipStart || membershipEnd))
 		membershipStart = membershipEnd = membershipStart || membershipEnd
 
 	// check start < end if not swap
@@ -319,7 +319,6 @@ const listViewablePeople = (req, options = {}) => {
 		membershipEnd = membershipStart
 		membershipStart = swap
 	}
-	
 
 	// case only membershipStart = start <= membershipStart && end >= membershipStart
 	// case both membershipStart and membershipEnd = start <= membershipEnd && end >= membershipStart
@@ -333,8 +332,8 @@ const listViewablePeople = (req, options = {}) => {
 		})
 	}
 	// when no dates are there, we don't modify isMember. No time constraints set.
-	
-	// we look for members with sometimes a range or for externals 
+
+	// we look for members with sometimes a range or for externals
 	const filters = includeRange || includeMembers ?{ 'memberships': { $elemMatch: { $and: isMember } } } : isExternal
 
 	// here the mongo query of the death
@@ -473,7 +472,7 @@ const listViewableActivities = (req, options = {}) => {
 	}
 
 	// if one date is empty copy the other one
-	if ((!startDate || !endDate) && (startDate || endDate))		
+	if ((!startDate || !endDate) && (startDate || endDate))
 		startDate = endDate = startDate || endDate
 
 	// check start < end if not swap
@@ -482,7 +481,7 @@ const listViewableActivities = (req, options = {}) => {
 		endDate = startDate
 		startDate = swap
 	}
-	
+
 	if (startDate)
 		dateFilter.periods.$elemMatch.$and.push({
 			$or: buildDateQuery('end', '$gte', startDate).concat([{ endDate: { $exists: false } }])
