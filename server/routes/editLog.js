@@ -1,12 +1,13 @@
 'use strict'
 
 const { Router } = require('express')
-const { UnauthorizedError } = require('../lib/errors')
+const { UnauthorizedError, NotFoundError, ServerError } = require('../lib/errors')
 const { EditLog, flattenDiff } = require('../lib/edit-logs')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 const models = require('../lib/model')
 const { fillIncompleteDate } = require('../export/helpers')
-const { getAccessMonitoringPaths } = require('../lib/schemas')
+const { getAccessMonitoringPaths, computeConfidentialPaths } = require('../lib/schemas')
+const config = require('config')
 
 
 const mongoose = require('mongoose')
@@ -55,12 +56,18 @@ const editLogsDataKeysBlacklist = ['_id', 'latestChangeBy']
 
 module.exports = Router().get('/:model', requiresAuthentication, scopeOrganizationMiddleware, getEditLog)
 
+const routeParamToModel = param => ({
+	activities: 'Activity',
+	organizations: 'Organization',
+	people: 'People',
+}[param])
+
 function getEditLog(req, res){
-	let model = req.params.model
-	// params
+	const model = routeParamToModel(req.params.model)
 	const itemID = req.query.itemID
 	const query = req.query
 
+<<<<<<< HEAD
 	// User has to be central admin to access editLog list feature
 	if (!itemID && req.userCentralRole !== 'admin'){
 		res.send(UnauthorizedError({ title: 'EditLog is restricted to central admin users'}))
@@ -74,8 +81,33 @@ function getEditLog(req, res){
 	){
 		res.send(UnauthorizedError({ title: 'Write access is mandatory to access EditLog'}))
 	}
+=======
+	const validParamsP = Promise.resolve()
+		// Check validity of model param
+		.then(() => {
+			if (!model) {
+				throw new NotFoundError({ title: 'Invalid model' })
+			}
+		})
+		// User has to be central admin to access editLog list feature
+		.then(() => {
+			if (!itemID && req.userCentralRole !== 'admin'){
+				throw new UnauthorizedError({ title: 'EditLog is restricted to central admin users'})
+			}
+		})
+		// User has to have write access on an object to access its editlog
+		.then(() => {
+			if (itemID) {
+				return req['userCanEdit' + model](itemID).then(ok => {
+					if (!ok) {
+						throw new UnauthorizedError({ title: 'Write access is mandatory to access EditLog'})
+					}
+				})
+			}
+		})
+>>>>>>> fa9ad29f6e0ea0e169d83ce9c8f9d1d8caf654bc
 
-	const whoIdsItemIdsP = Promise.resolve()
+	const whoIdsItemIdsP = validParamsP
 		.then(() => {
 			if (!query.whoID && (query.isariLab || query.isariRole)){
 				//need to retrieve list of targeted creators first
@@ -99,10 +131,10 @@ function getEditLog(req, res){
 			if (query.itemID)
 				return {whoIds, itemIds: ObjectId(query.itemID)}
 			// scope doesn't apply on organizations
-			if (model === 'organizations')
+			if (model === 'Organization')
 				return {whoIds}
 			// scope on people => start/end on academicMemberships
-			if (model === 'people'){
+			if (model === 'People'){
 				let options = {}
 				if (query.startDate || query.endDate){
 					options = {includeRange:true,membershipStart:query.startDate,membershipEnd:query.endDate, includeExternals:false, includeMembers:false}
@@ -117,7 +149,7 @@ function getEditLog(req, res){
 
 			}
 			// scope on activities => start/end on activity + organizations
-			if (model === 'activities'){
+			if (model === 'Activity'){
 				let options = {}
 				if (query.startDate || query.endDate){
 					options = {range:true,startDate:query.startDate,endDate:query.endDate}
@@ -136,11 +168,15 @@ function getEditLog(req, res){
 			}
 		})
 
-	const editsP = whoIdsItemIdsP
-		.then(whoIdsItemIds => {
+	const canViewConfidentialP = req.userCanViewConfidentialFields()
+
+	const editsP = Promise.all([
+		whoIdsItemIdsP,
+		canViewConfidentialP,
+	])
+		.then(([whoIdsItemIds, canViewConfidential]) => {
 			// build the mongo query to editLog collection
-			const mongoModel = model === 'people' ? 'People' : (model === 'organizations' ? 'Organization' : 'Activity')
-			const mongoQuery = {model: mongoModel }
+			const mongoQuery = {model}
 			if (whoIdsItemIds.itemIds)
 				mongoQuery.item = whoIdsItemIds.itemIds
 
@@ -151,8 +187,9 @@ function getEditLog(req, res){
 					mongoQuery['whoID'] = {$in: whoIdsItemIds.whoIds}
 
 			if (query.path || query.accessMonitoring) {
-				const paths = getAccessMonitoringPaths(mongoModel, query.accessMonitoring)
-					.concat(query.path ? [query.path] : [])
+				const paths1 = query.accessMonitoring ? getAccessMonitoringPaths(model, query.accessMonitoring) : []
+				const paths2 = query.path ? [query.path] : []
+				const paths = paths1.concat(paths2)
 				debug({paths})
 				if (paths.length > 0){
 					if (query.action === 'create' || query.action === 'delete') {
@@ -192,7 +229,7 @@ function getEditLog(req, res){
 					as: 'creator'
 				}},
 				{'$lookup':{
-					from: model === 'people' ? 'people' : (model === 'organizations' ? 'organizations' : 'activities'),
+					from: config.collections[model],
 					localField: 'item',
 					foreignField: '_id',
 					as: 'itemObject'
@@ -212,7 +249,6 @@ function getEditLog(req, res){
 					'creator.isariAuthorizedCenters':1
 				}},
 				{'$sort':{date:-1}}
-
 			]
 
 			//count
@@ -231,30 +267,30 @@ function getEditLog(req, res){
 				aggregationPipeline.push({'$limit':+query.limit})
 
 			return EditLog.aggregate(aggregationPipeline)
-			.then(data => {
-				if (query.count)
-					return data[0]
-
-				return formatEdits(data, model)
-			})
+				.then(data => query.count ? data[0] : formatEdits(data, model, !canViewConfidential))
 		})
 
 	return editsP
 		.then(edits => res.status(200).send(edits))
-		.catch(err => res.status(500).send(err))
+		.catch(err => {
+			if (!err.status) {
+				err = new ServerError({ title: err.message })
+			}
+			res.status(err.status).send(err)
+		})
 }
 
 function formatItemName(data, model){
-	if (model === 'people' && data){
+	if (model === 'People' && data) {
 		return (data.firstName ? data.firstName+' ': '')+ data.name
+	} else if (data) {
+		return data.acronym || data.name
+	} else {
+		return undefined
 	}
-	else
-			if (data)
-				return data.acronym || data.name
-	return undefined
 }
 
-function formatEdits(data, model){
+function formatEdits(data, model, removeConfidential){
 	const edits = []
 	data.forEach(d => {
 		const edit = {}
@@ -319,7 +355,14 @@ function formatEdits(data, model){
 				}
 			})
 		}
+
+
+		if (removeConfidential) {
+			edit.diff = edit.diff.filter(isNotConfidentialChange(model))
+		}
+
 		edit.diff = getAccessMonitorings(model, edit.diff)
+
 		// if (edit.diff.length === 0){
 		// 	debug('empty diff in :')
 		// 	debug(edit)
@@ -332,6 +375,7 @@ function formatEdits(data, model){
 }
 
 const getAccessMonitorings = (model, formattedDiff) => {
+
 	let paths = []
 	if (model === 'organizations')
 		paths = getAccessMonitoringPaths('organization')
@@ -343,5 +387,24 @@ const getAccessMonitorings = (model, formattedDiff) => {
 
 	return formattedDiff.map(change => Object.assign({},change,{
 		accessMonitoring: paths[change.path[0]]
+
 	}))
+}
+
+const isNotConfidentialChange = model => {
+	const paths = computeConfidentialPaths(model)
+		// Remove all '.*' from schema path, as collection indices won't appear in formatted change
+		// Also add a final dot to compare proper paths and avoid confusion with field with same prefix
+		.map(path => path.replace(/\.\*/g, '') + '.')
+	return change => {
+		const currPath = change.path.join('.') + '.'
+		const isConfidential = paths.some(confidentialPath => {
+			//console.log({confidentialPath, currPath, matches: currPath.startsWith(confidentialPath)})
+			return currPath.startsWith(confidentialPath)
+		})
+		if (isConfidential) {
+			debug('Filtered confidential change', change)
+		}
+		return !isConfidential
+	}
 }
