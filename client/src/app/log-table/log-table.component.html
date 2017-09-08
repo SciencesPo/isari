@@ -55,6 +55,15 @@
                 </md-select>
               </th>
 
+              <th>
+                <md-select *ngIf="filterForm.controls['accessMonitoring']"
+                  [placeholder]="'editLogs.accessMonitoring' | translate"
+                  [formControl]="filterForm.controls['accessMonitoring']">
+                  <md-option>{{ 'editLogs.allFields' | translate }}</md-option>
+                  <md-option *ngFor="let val of accessMonitorings" [value]="val.value">{{ val.label }}</md-option>
+                </md-select>
+              </th>
+
               <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
                 <div style="display:flex">
                   <isari-select
@@ -87,15 +96,6 @@
                 </div>
               </th>
 
-              <th>
-                <md-select *ngIf="filterForm.controls['accessMonitoring']"
-                  [placeholder]="'editLogs.accessMonitoring' | translate"
-                  [formControl]="filterForm.controls['accessMonitoring']">
-                  <md-option>{{ 'editLogs.noAccessMonitoring' | translate }}</md-option>
-                  <md-option *ngFor="let val of accessMonitorings" [value]="val.value">{{ val.label }}</md-option>
-                </md-select>
-              </th>
-
             </tr>
           </thead>
 
@@ -118,6 +118,9 @@
                   <p *ngFor="let label of log._labels">{{ label }}</p>
                 </td>
                 <td>
+                  <span *ngFor="let accessMonitoring of log.accessMonitorings">{{ accessMonitoring._label }}<br></span>
+                </td>
+                <td>
                   <div style="display:flex">
                     <div style="flex-grow:1;width:33%;">{{ log.who.name }}</div>
                     <div style="flex-grow:1;width:33%;">
@@ -129,9 +132,6 @@
                         <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
                     </div>
                   </div>
-                </td>
-                <td>
-                  <span *ngFor="let accessMonitoring of log.accessMonitorings">{{ accessMonitoring._label }}<br></span>
                 </td>
 
               </tr>
