@@ -388,11 +388,16 @@ function formatEdits(data, model, removeConfidential){
 			})
 		}
 
-
+		// Handle confidential changes
+		const test = isNotConfidentialChange(model)
 		if (removeConfidential) {
-			edit.diff = edit.diff.filter(isNotConfidentialChange(model))
+			edit.diff = edit.diff.filter(test)
 		}
+		edit.diff = edit.diff.map(change => test(change)
+			? change
+			: Object.assign({}, change, { confidential: true }))
 
+		// Handle accessMonitoring on changes
 		edit.diff = getAccessMonitorings(model, edit.diff)
 
 		// TEMPFIX FOR CLIENT
