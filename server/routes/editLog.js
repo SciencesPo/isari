@@ -7,7 +7,6 @@ const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/
 const models = require('../lib/model')
 const { fillIncompleteDate } = require('../export/helpers')
 const { getAccessMonitoringPaths } = require('../lib/schemas')
-const { flatten } = require('flat')
 
 
 const mongoose = require('mongoose')
@@ -302,7 +301,6 @@ function formatEdits(data, model){
 										}
 										return diff
 									})
-			edit.accessMonitorings = getAccessMonitoringsFromDiff(model, edit.diff)
 		}
 		else{
 			edit.diff = []
@@ -321,8 +319,9 @@ function formatEdits(data, model){
 					edit.diff.push(diff)
 				}
 			})
-			edit.accessMonitorings = getAccessMonitoringsFromData(model, d.data)
 		}
+
+		edit.accessMonitorings = getAccessMonitorings(model, edit.diff)
 
 		// if (edit.diff.length === 0){
 		// 	debug('empty diff in :')
@@ -332,29 +331,18 @@ function formatEdits(data, model){
 		edits.push(edit)
 	})
 	return edits
-
 }
 
-const getAccessMonitoringsFromData = (model, data) => {
+const getAccessMonitorings = (model, formattedDiff) => {
 	let paths = []
 	if (model === 'organizations')
 		paths = getAccessMonitoringPaths('organization')
 	else
 		if (model === 'activities')
 			paths = getAccessMonitoringPaths('activity')
-		else 
+		else
 			paths = getAccessMonitoringPaths(model)
-		
-	const modified = Object.keys(flatten(data))
-	let result = new Set()
-	Object.keys(paths)
-		.filter(path => modified.some(subpath => (subpath + '.').startsWith(path + '.')))
-		.forEach(path => result.add(paths[path]))
-	return Array.from(result)
-}
 
-const getAccessMonitoringsFromDiff = (model, formattedDiff) => {
-	const paths = getAccessMonitoringPaths(model)
 	let result = new Set()
 	Object.keys(paths).forEach(path => formattedDiff.forEach(change => {
 		if ((change.path.join('.') + '.').startsWith(path + '.')) {
