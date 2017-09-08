@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { UnauthorizedError, NotFoundError } = require('../lib/errors')
+const { UnauthorizedError, NotFoundError, ServerError } = require('../lib/errors')
 const { EditLog, flattenDiff } = require('../lib/edit-logs')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 const models = require('../lib/model')
@@ -251,7 +251,12 @@ function getEditLog(req, res){
 
 	return editsP
 		.then(edits => res.status(200).send(edits))
-		.catch(err => res.status(err.status || 500).send(err))
+		.catch(err => {
+			if (!err.status) {
+				err = new ServerError({ title: err.message })
+			}
+			res.status(err.status).send(err)
+		})
 }
 
 function formatItemName(data, model){
