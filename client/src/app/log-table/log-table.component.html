@@ -30,6 +30,7 @@
               <th>{{ 'editLogs.date' | translate }}</th>
               <th *ngIf="!hideItemCol">
                   <isari-select
+                    [showLink]="false"
                     [src]="itemSettings.src"
                     [stringValue]="itemSettings.stringValue"
                     api="people"
@@ -58,6 +59,7 @@
                 <div style="display:flex">
                   <isari-select
                     style="flex-grow:1;width:33%;"
+                    [showLink]="false"
                     [src]="whoSettings.src"
                     [stringValue]="whoSettings.stringValue"
                     api="people"
@@ -67,6 +69,7 @@
                     [form]="filterForm"></isari-select>
                   <isari-select
                     style="flex-grow:1;width:33%;"
+                    [showLink]="false"
                     [src]="labSettings.src"
                     [stringValue]="labSettings.stringValue"
                     api="organizations"

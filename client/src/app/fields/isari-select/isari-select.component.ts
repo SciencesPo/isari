@@ -29,6 +29,7 @@ export class IsariSelectComponent implements OnInit, OnChanges {
   @Input() stringValue: Observable<any>;
   @Input() create: Function;
   @Output() onUpdate = new EventEmitter<any>();
+  @Input() showLink: boolean = true;
 
   max = 20;
   skip = 0;
