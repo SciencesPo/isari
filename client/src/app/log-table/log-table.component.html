@@ -115,7 +115,9 @@
                 <td class="labels" (click)="toggle(log, $event)">
                   <md-icon *ngIf="!log._open">expand_more</md-icon>
                   <md-icon *ngIf="log._open">expand_less</md-icon>
-                  <p *ngFor="let label of log._labels">{{ label }}</p>
+                  <ng-template [ngIf]="!log._open">
+                    <p *ngFor="let label of log._labels">{{ label }}</p>
+                  </ng-template>
                 </td>
                 <td>
                   <span *ngFor="let accessMonitoring of log.accessMonitorings">{{ accessMonitoring._label }}<br></span>
