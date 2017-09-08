@@ -168,7 +168,11 @@ function getEditLog(req, res){
 			}
 		})
 
-	const canViewConfidentialP = req.userCanViewConfidentialFields()
+	// Mainly for debugging purpose, you can force confidential fields filtering
+	// by adding ?noConfidential=1
+	const canViewConfidentialP = query.noConfidential
+		? Promise.resolve(false)
+		: req.userCanViewConfidentialFields()
 
 	const editsP = Promise.all([
 		whoIdsItemIdsP,
