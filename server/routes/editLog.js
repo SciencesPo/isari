@@ -366,19 +366,9 @@ function formatEdits(data, model, removeConfidential){
 }
 
 const getAccessMonitorings = (model, formattedDiff) => {
-
-	let paths = []
-	if (model === 'organizations')
-		paths = getAccessMonitoringPaths('organization')
-	else
-		if (model === 'activities')
-			paths = getAccessMonitoringPaths('activity')
-		else
-			paths = getAccessMonitoringPaths(model)
-
-	return formattedDiff.map(change => Object.assign({},change,{
+	const paths = getAccessMonitoringPaths(model)
+	return formattedDiff.map(change => Object.assign({}, change, {
 		accessMonitoring: paths[change.path[0]]
-
 	}))
 }
 
