@@ -142,6 +142,7 @@
                 <td *ngIf="!hideItemCol"></td>
                 <td [class.bleft]="log._open">{{ 'editLogs.actions.' + diff.editType | translate }}</td>
                 <td>{{ diff._label }}</td>
+                <td>{{ diff.accessMonitoring }}</td>
                 <td colspan="2">
                   <pre style="color:red;" [innerHTML]="diff._beforeLabelled$ | async"></pre>
                   <pre style="color:green;" [innerHTML]="diff._afterLabelled$ | async"></pre>
