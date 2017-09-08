@@ -88,7 +88,7 @@ export class IsariLogsComponent implements OnInit {
     function csv(data) {
       const csvString = Papa.unparse(data);
       const blob = new Blob([csvString], {type: CSV_MIME});
-      saveAs(blob, `toto.csv`);
+      saveAs(blob, `editlogs.csv`);
     }
 
     function getRow(log, feature, translations, labs, diff = null, pos = 0, values = []) {
