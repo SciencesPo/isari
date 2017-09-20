@@ -48,18 +48,19 @@
   "linkedOrganization": "Linked organizations",
   "delete": "Delete",
   "warningDelete": {
-    "people": "Impossible de supprimer car cette personne est liée",
-    "activities": "Impossible de supprimer car cette activité est liée",
-    "organizations": "Impossible de supprimer car cette organisation est liée"
+    "people": "Deletion forbidden, this people is linked",
+    "activities": "Deletion forbidden, this activity is linked",
+    "organizations": "Deletion forbidden, this organization is linked"
   },
   "checkExistence": {
-    "people": "Pour ajouter des Personnes, merci de vérifier d'abord si elles n'existent pas déjà.",
-    "organizations": "Pour ajouter des Organisations, merci de vérifier d'abord si elles n'existent pas déjà.",
-    "activities": "Pour ajouter des Activités, merci de vérifier d'abord si elles n'existent pas déjà."
+    "people": "To avoid duplicates, please check people existence before adding new entries.",
+    "organizations": "To avoid duplicates, please check organizations existence before adding new entries.",
+    "activities": "To avoid duplicates, please check activities existence before adding new entries."
   },
   "no matching": "Aucune correspondance ?",
   "add": "Add",
   "help": "Help",
   "user_guide": "User's guide",
+  "user_guide_data": "Who does what?",
   "fields_list": "Fields list"
 }
