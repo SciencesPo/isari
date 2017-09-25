@@ -145,7 +145,7 @@ function getEditLog(req, res){
 					if (query.startDate || query.endDate)
 						return {whoIds, itemIds: mongoquery.query.getQuery()['organizations.organization']}
 					else
-						mongoquery.query.then(activities => {
+						return mongoquery.query.then(activities => {
 							return {whoIds, itemIds: {$in: activities.map(a => a._id)}}
 						})
 				})
