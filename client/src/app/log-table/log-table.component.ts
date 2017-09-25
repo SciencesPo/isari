@@ -12,8 +12,9 @@ import {
   SimpleChanges
 } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
-
+import sortBy from 'lodash/sortBy';
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
+
 
 @Component({
   selector: 'isari-log-table',
@@ -101,9 +102,9 @@ export class LogTableComponent implements OnInit, OnChanges {
       // field select
       Observable.fromPromise(this.isariDataService.getSchema(this.feature))
         .subscribe(schema =>
-          this.fields = Object.keys(schema).reduce((acc, value) =>
+          this.fields = sortBy(Object.keys(schema).reduce((acc, value) =>
             ([...acc, { value, label: schema[value].label[this.translate.currentLang] } ])
-        , []))
+        , []), 'label'));
     }
 
   }
