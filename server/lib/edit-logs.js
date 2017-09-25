@@ -150,73 +150,75 @@ const isEmptyDiff = changes =>
 
 const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)
 
-const cleanupData = (data, inArray = false, returnNullIfNotModified = false) => {
-	if (!data) {
+const isBinaryObjectId = v =>
+	(v instanceof mongoose.mongo.ObjectID) ||
+	// Duck-typing
+	(typeof v === 'object' && v !== null && Buffer.isBuffer(v.id))
+
+/**
+ * (T, bool?, bool?) => T | null
+ *
+ * Recursively clean up an object:
+ * - Remove special fields (_id, __v, etc.)
+ * - FKs: Replace populated sub-documents or binary ObjectIDs into simple string
+ *
+ * Return new clean object, if it's not been modified and returnNullIfNotModified
+ * is set to true, then only return null
+ */
+const cleanupData = (data, isDeep = false, returnNullIfNotModified = false) => {
+	// Handle scalar values (string, bool, etc… undefined, and null too)
+	if (typeof data !== 'object' || data === null) {
 		return returnNullIfNotModified ? null : data
 	}
 
-	if (typeof data !== 'object') {
-		return data
+	// Be careful if we receive a Mongoose instance, convert it first
+	if (!isDeep && typeof data.$__ === 'object' && typeof data.toObject === 'function') {
+		data = data.toObject()
 	}
 
-	// Handle Array<FK>
-	if (inArray) {
-		// Case 1: the FK is a mongo.ObjectID
-		if (data instanceof mongoose.mongo.ObjectID) {
-			return asID(data)
-		}
-		// Case 2: the FK has been populated
-		else if (typeof data === 'object' && data._id instanceof mongoose.mongo.ObjectID) {
-			return getID(data)
-		}
-		// Case 3: the FK is a string: use it as-is (should not happen, but if it does it's like it's been already cleaned up)
-		// Other cases: there are not other forms for a FK
-		// And if it's not a FK? It's a raw value, just handle it normally
+	// Handle FKs:
+	// Case 1: binary ObjectID
+	if (isBinaryObjectId(data)) {
+		return asID(data)
 	}
+	// Case 2: populated sub-documents
+	if (isDeep && typeof data === 'object' && isBinaryObjectId(data._id)) {
+		return getID(data)
+	}
+	// Other cases of FKs: raw values (string) have been handled previously
+	// There are not other 'object' forms of FK
 
-	// Standard case, just cleanup object
-	let modified = false
+	// Standard case, clean up every property recursively
+	let modified = false // remember if object has been modified during the process
 	const newData = Object.keys(data).reduce((res, k) => {
-		// Handle ObjectID
-		if (data[k] instanceof mongoose.mongo.ObjectID) {
-			res[k] = asID(data[k])
+		// Remove special fields: do NOT append to 'res', but mark as modified
+		if (k !== '_id' && k[0] === '_') {
 			modified = true
 		}
-		// Remove special fields
-		else if (k !== '_id' && k[0] === '_') {
-			// SKIP FIELD
-			modified = true
-		}
-		// Replace populated data with id
-		else if (typeof data[k] === 'object' && data[k]._id instanceof mongoose.mongo.ObjectID) {
-			res[k] = getID(data[k])
-			modified = true
-		}
-		// Collection
+		// Collection: recursive cleanup
 		else if (Array.isArray(data[k])) {
-			res[k] = data[k].map(o => {
-				if (returnNullIfNotModified) {
-					const o2 = cleanupData(o, true, true)
-					if (o2) {
-						modified = true
-						return o2
-					} else {
-						return o
-					}
-				} else {
-					return cleanupData(o, true, false)
-				}
+			let arrayModified = false
+			const newArray = data[k].map(o => {
+				const o2 = cleanupData(o, true)
+				arrayModified = arrayModified || o !== o2
+				return o2
 			})
+			res[k] = arrayModified ? newArray : data[k]
+			modified = modified || arrayModified
 		}
-		// Other cases: just inject field
+		// Other cases: recursive cleanup
 		else {
-			res[k] = data[k]
+			res[k] = cleanupData(data[k], true)
+			modified = modified || res[k] !== data[k]
 		}
+
 		return res
 	}, {})
 
-	if (!modified && returnNullIfNotModified) {
-		return null
+	// not modified ? return null or original instance
+	// otherwise, return new data
+	if (!modified) {
+		return returnNullIfNotModified ? null : data
 	} else {
 		return newData
 	}
