@@ -155,6 +155,10 @@ const cleanupData = (data, subDoc = false, returnNullIfNotModified = false) => {
 		return returnNullIfNotModified ? null : data
 	}
 
+	if (typeof data !== 'object') {
+		return data
+	}
+
 	// Sub-document: if it has an id, the whole object should be replace with this value
 	if (subDoc && data._id instanceof mongoose.mongo.ObjectID) {
 		return getID(data)
