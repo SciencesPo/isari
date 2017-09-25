@@ -74,7 +74,8 @@
     "allFields": "Tous",
     "object": {
       "people": "Membre",
-      "organization": "Organisation"
+      "organization": "Organisation",
+      "organizations": "Organisation"
     },
     "actions": {
       "create": "Création",

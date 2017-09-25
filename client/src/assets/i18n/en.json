@@ -61,5 +61,31 @@
   "add": "Add",
   "help": "Help",
   "user_guide": "User's guide",
-  "fields_list": "Fields list"
+  "fields_list": "Fields list",
+  "editLogs": {
+    "title": "History",
+    "who": "Updated by",
+    "date": "Date",
+    "action": "Action",
+    "accessMonitoring": "Tag",
+    "role": "Role",
+    "lab": "Organization",
+    "fields": "Edited fields",
+    "allFields": "Tous",
+    "object": {
+      "people": "people",
+      "organization": "Organisation",
+      "organizations": "Organisation"
+    },
+    "actions": {
+      "create": "Creation",
+      "update": "Edition",
+      "delete": "Deletion",
+      "all": "All"
+    },
+    "limit": "Results per page",
+    "before": "Value before",
+    "after": "Value after",
+    "details": "Details"
+  },
 }
