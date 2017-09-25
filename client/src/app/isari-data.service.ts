@@ -261,7 +261,7 @@ export class IsariDataService {
       // RxJS FTW ?!
       Observable.combineLatest([
         (<Observable<any>>Observable.merge(logs$)
-          .mergeAll())
+          .concatAll())
           .scan((acc, value, i) => [...acc, value], [])
           .take(logs$.length)
           .last(),
