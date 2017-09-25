@@ -150,7 +150,7 @@ const isEmptyDiff = changes =>
 
 const flattenDiff = diffs => diffs.map(diff => Array.isArray(diff) && diff.length === 1 ? diff[0] : diff)
 
-const cleanupData = (data, subDoc = false, returnNullIfNotModified = false) => {
+const cleanupData = (data, inArray = false, returnNullIfNotModified = false) => {
 	if (!data) {
 		return returnNullIfNotModified ? null : data
 	}
@@ -159,9 +159,19 @@ const cleanupData = (data, subDoc = false, returnNullIfNotModified = false) => {
 		return data
 	}
 
-	// Sub-document: if it has an id, the whole object should be replace with this value
-	if (subDoc && data._id instanceof mongoose.mongo.ObjectID) {
-		return getID(data)
+	// Handle Array<FK>
+	if (inArray) {
+		// Case 1: the FK is a mongo.ObjectID
+		if (data instanceof mongoose.mongo.ObjectID) {
+			return asID(data)
+		}
+		// Case 2: the FK has been populated
+		else if (typeof data === 'object' && data._id instanceof mongoose.mongo.ObjectID) {
+			return getID(data)
+		}
+		// Case 3: the FK is a string: use it as-is (should not happen, but if it does it's like it's been already cleaned up)
+		// Other cases: there are not other forms for a FK
+		// And if it's not a FK? It's a raw value, just handle it normally
 	}
 
 	// Standard case, just cleanup object
