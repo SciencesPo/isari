@@ -136,6 +136,13 @@ export class IsariDataService {
 
     .map(([logs, schema, roles, accessMonitorings]) => {
       logs = (<any[]>logs).map(log => {
+
+        // if query accessMonitoring, keep only diff for this accessMonitoring #433
+        if (query.accessMonitoring) {
+          log.accessMonitorings = log.accessMonitorings.filter(am => am === query.accessMonitoring);
+          log.diff = log.diff.filter(diff => diff.accessMonitoring === query.accessMonitoring);
+        }
+
         log.diff = log.diff.map(diff => {
           const res = Object.assign(diff, {
             // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
