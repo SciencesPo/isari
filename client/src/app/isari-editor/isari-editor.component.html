@@ -41,7 +41,7 @@
 
   </md-card>
 
-  <md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;flex-direction:column;align-items:flex-end;">
+  <md-card *ngIf="data?.opts.deletable && data.id" class="history">
 
     <button (click)="history()" md-raised-button>
       <md-icon>history</md-icon>

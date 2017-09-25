@@ -11,3 +11,9 @@
 .delete:hover {
 	background-color: #ccc;
 }
+
+md-card.history {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
