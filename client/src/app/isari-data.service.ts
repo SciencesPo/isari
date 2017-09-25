@@ -779,8 +779,7 @@ export class IsariDataService {
 
         return json;
       })
-      .publishReplay(1)
-      .refCount();
+
     this.enumsCache[src] = $enum;
     return $enum;
   }
