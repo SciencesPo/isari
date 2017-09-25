@@ -93,7 +93,7 @@ function getEditLog(req, res){
 
 	const whoIdsItemIdsP = validParamsP
 		.then(() => {
-			if (!query.whoID && (query.isariLab || query.isariRole)){
+			if (query.isariLab || query.isariRole) {
 				//need to retrieve list of targeted creators first
 				const mongoQueryPeople = {}
 				if (query.isariLab)
@@ -168,11 +168,15 @@ function getEditLog(req, res){
 			if (whoIdsItemIds.itemIds)
 				mongoQuery.item = whoIdsItemIds.itemIds
 
-			if (query.whoID)
+			if (whoIdsItemIds.whoIds) {
+				if (query.whoID && !whoIdsItemIds.some(id => String(id) === query.whoID)) {
+					// Conflicting filters: return empty result
+					return {count: 0, logs: []}
+				}
+				mongoQuery['whoID'] = {$in: whoIdsItemIds.whoIds}
+			} else if (query.whoID) {
 				mongoQuery['whoID'] = ObjectId(query.whoID)
-			else
-				if (whoIdsItemIds.whoIds)
-					mongoQuery['whoID'] = {$in: whoIdsItemIds.whoIds}
+			}
 
 			if (query.path || query.accessMonitoring) {
 				const paths1 = query.accessMonitoring ? getAccessMonitoringPaths(model, query.accessMonitoring) : []
