@@ -99,11 +99,11 @@
             </tr>
           </thead>
 
-          <tbody *ngIf="logs; else loading">
-            <tr *ngIf="!logs.length">
+          <tbody *ngIf="data; else loading">
+            <tr *ngIf="!data.logs.length">
               <td [colSpan]="hideItemCol ? 5 : 6" style="text-align:center;">{{ 'no result' | translate }}</td>
             </tr>
-            <ng-template ngFor let-log [ngForOf]="logs" let-i="index">
+            <ng-template ngFor let-log [ngForOf]="data.logs" let-i="index">
               <tr [class.open1]="log._open" [class.odd]="i % 2 === 0">
 
                 <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
@@ -171,6 +171,7 @@
         <div class="pagination">
           <ul>
             <li><a md-button (click)="navigatePrev()"><md-icon>navigate_before</md-icon></a>
+            <li *ngIf="data"><span>{{ firstIndex }}-{{ lastIndex }} / {{ data.count }}</span></li>
             <li><a md-button (click)="navigateNext()"><md-icon>navigate_next</md-icon></a>
           </ul>
 

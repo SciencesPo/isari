@@ -4,7 +4,7 @@
 
   <isari-log-table
     [feature]="feature"
-    [logs]="logs$ | async"
+    [data]="logs$ | async"
     [labs]="labs$ | async"
     [options]="options"
     (onDownloadCSV)="downloadCSV($event)"

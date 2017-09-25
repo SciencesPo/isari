@@ -31,10 +31,12 @@ export class LogTableComponent implements OnInit, OnChanges {
   fields: any[];
   accessMonitorings: any[];
   limits: number[] = [3, 5, 10, 20, 50, 100, 200];
+  firstIndex: number;
+  lastIndex: number;
 
   filterForm: FormGroup;
 
-  @Input() logs: any[] | null;
+  @Input() data: {count: number, logs: any[]} | null;
   @Input() labs: any[];
   @Input() feature: string;
   @Input() options: EditLogApiOptions;
@@ -70,9 +72,14 @@ export class LogTableComponent implements OnInit, OnChanges {
       this.emitOptions(Object.assign({}, filters, { skip: 0 }));
     });
 
+    this.computeIndices();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.computeIndices();
+    }
+
     if (changes['feature']) {
 
       // people autocomplete (whoID)
@@ -109,6 +116,15 @@ export class LogTableComponent implements OnInit, OnChanges {
 
   }
 
+  computeIndices() {
+    if (!this.data) {
+      this.firstIndex = this.lastIndex = null;
+    } else {
+      this.firstIndex = this.options.skip + 1;
+      this.lastIndex = this.firstIndex + this.data.logs.length - 1;
+    }
+  }
+
   navigatePrev() {
     if (this.options.skip === 0) return;
     this.emitOptions(Object.assign(this.options, {
@@ -117,7 +133,7 @@ export class LogTableComponent implements OnInit, OnChanges {
   }
 
   navigateNext() {
-    if (this.logs.length === 0) return;
+    if (this.data.logs.length === 0) return;
     //@TODO handle end via count query
     this.emitOptions(Object.assign(this.options, {
       skip: this.options.skip + this.options.limit
@@ -133,11 +149,11 @@ export class LogTableComponent implements OnInit, OnChanges {
   }
 
   downloadCSV() {
-    this.onDownloadCSV.emit(this.logs);
+    this.onDownloadCSV.emit(this.data.logs);
   }
 
   private emitOptions(options) {
-    this.logs = null;
+    this.data = null;
     this.onOptionsChange.emit(Object.assign({}, this.options, options));
   }
 

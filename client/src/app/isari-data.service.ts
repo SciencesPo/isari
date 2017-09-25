@@ -134,7 +134,7 @@ export class IsariDataService {
         .map(vals => keyBy(vals, 'value')),
     ])
 
-    .map(([logs, schema, roles, accessMonitorings]) => {
+    .map(([{ count, results: logs }, schema, roles, accessMonitorings]) => {
       logs = (<any[]>logs).map(log => {
 
         // if query accessMonitoring, keep only diff for this accessMonitoring #433
@@ -164,7 +164,7 @@ export class IsariDataService {
         }))
         return log;
       });
-      return logs;
+      return { count, logs };
     });
   }
 

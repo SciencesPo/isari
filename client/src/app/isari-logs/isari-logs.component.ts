@@ -53,7 +53,7 @@ export class IsariLogsComponent implements OnInit {
       .getHistory(this.feature, this.options, lang)
       .combineLatest(this.details$)
     })
-    .map(([logs, details]) => {
+    .map(([{count, logs}, details]) => {
       this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
         .map(labs => keyBy(labs, 'id'));
 
@@ -62,7 +62,10 @@ export class IsariLogsComponent implements OnInit {
         diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
       }));
 
-      return logs.map(log => Object.assign({}, log, { _open: details }));
+      return {
+        count,
+        logs: logs.map(log => Object.assign({}, log, { _open: details }))
+      };
     });
   }
 

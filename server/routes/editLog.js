@@ -295,23 +295,22 @@ function getEditLog(req, res){
 				{'$sort':{date:-1}}
 			]
 
-			//count
-			if (query.count)
-				aggregationPipeline.push({
-					'$group': {
-						'_id' : null,
-						'count' : {$sum : 1}
-					}
-				})
-
 			// skip and limit
-			if (!query.count && query.skip)
-				aggregationPipeline.push({'$skip':+query.skip})
-			if (!query.count && query.limit)
-				aggregationPipeline.push({'$limit':+query.limit})
+			const resultsPipeline = aggregationPipeline
+				.concat(query.skip ? [{'$skip':+query.skip}] : [])
+				.concat(query.limit ? [{'$limit':+query.limit}] : [])
 
-			return EditLog.aggregate(aggregationPipeline)
-				.then(data => query.count ? data[0] : formatEdits(data, model, !canViewConfidential))
+			// count
+			const countPipeline = aggregationPipeline
+				.concat([{'$group': { '_id' : null, 'count' : {$sum : 1} }}])
+
+			const countP = EditLog.aggregate(countPipeline)
+				.then(([ { count } ]) => count)
+			const resultsP = EditLog.aggregate(resultsPipeline)
+				.then(data => formatEdits(data, model, !canViewConfidential))
+
+			return Promise.all([ countP, resultsP ])
+				.then(([ count, results ]) => ({ count, results }))
 		})
 
 	return editsP
