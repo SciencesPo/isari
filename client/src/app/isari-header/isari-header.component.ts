@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService}  from 'ng2-translate';
@@ -14,6 +15,7 @@ export class IsariHeaderComponent implements OnInit {
   organizationName: string;
   lang: string;
   logged: boolean = false;
+  historyAccess: boolean = false;
   user: any = null;
 
   @Input() overrideOrganizationName: string;
@@ -28,21 +30,32 @@ export class IsariHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.organizationName = this.overrideOrganizationName;
-    this.route.data.subscribe(({ organization }) => {
+    this.lang = this.translate.currentLang;
+
+    // shouldn't be a test on user ?
+    // this.route.url.subscribe(url => {
+    //   const firstSegment = url[0];
+    //   this.logged = !firstSegment || firstSegment.path !== 'login';
+    // });
+
+    Observable.combineLatest([
+      this.route.data,
+      this.userService.isLoggedIn()
+    ]).subscribe(([{ organization }, { people }]) => {
+      this.user = people;
+
       this.organization = organization;
       if (!this.overrideOrganizationName) {
         this.organizationName = organization && (organization.acronym || organization.name);
       }
-    });
-    this.route.url.subscribe(url => {
-      const firstSegment = url[0];
 
-      this.logged = !firstSegment || firstSegment.path !== 'login';
+      // https://github.com/SciencesPo/isari/issues/445
+      this.historyAccess = this.user.isariAuthorizedCenters.find(({ isariRole, organization }) =>
+        isariRole === 'central_admin'
+        || isariRole === 'central_reader'
+        || (isariRole === 'center_admin' && organization === this.organization.id)
+      );
     });
-    this.userService.isLoggedIn().subscribe(user => {
-      this.user = user.people;
-    });
-    this.lang = this.translate.currentLang;
   }
 
   logout($event) {

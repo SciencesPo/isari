@@ -11,7 +11,7 @@
 
     <span class="app-toolbar-filler"></span>
 
-    <div *ngIf="logged">
+    <div *ngIf="user">
       <button [routerLinkActive]="['active']" *ngIf="organization && organization.id" [md-menu-trigger-for]="exportMenu" md-menu-item>
         <md-icon>file_download</md-icon>
         <div class="tooltip" id="hceres-export">Export HCERES</div>
@@ -33,7 +33,7 @@
         <div class="tooltip" id="activities">{{ 'activities' | translate }}</div>
       </button>
 
-      <button md-menu-item [md-menu-trigger-for]="menuHistory" *ngIf="organization">
+      <button md-menu-item [md-menu-trigger-for]="menuHistory" *ngIf="historyAccess">
           <md-icon>history</md-icon>
           <div class="tooltip" id="logs">{{ 'logs' | translate }}</div>
       </button>
@@ -42,7 +42,6 @@
         <a md-menu-item [routerLink]="['/logs', 'organizations']" queryParamsHandling="preserve">{{ 'organizations' | translate }}</a>
         <a md-menu-item [routerLink]="['/logs', 'activities']" queryParamsHandling="preserve">{{ 'activities' | translate }}</a>
       </md-menu>
-
     </div>
 
     <md-menu x-position="before" #exportMenu="mdMenu">
@@ -51,7 +50,7 @@
       <a md-menu-item href="{{ getHCERESNextDownloadLink() }}">Prochain contrat HCERES</a>
     </md-menu>
 
-    <div *ngIf="logged">
+    <div *ngIf="user">
       <button *ngIf="user" md-button [md-menu-trigger-for]="menu">{{ user.firstName }} {{ user.name }}</button>
 
       <md-menu x-position="before" #menu="mdMenu">

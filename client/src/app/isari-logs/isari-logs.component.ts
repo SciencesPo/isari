@@ -3,7 +3,7 @@ import { IsariDataService } from './../isari-data.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import keyBy from 'lodash/keyBy';
@@ -11,6 +11,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import { BehaviorSubject } from 'rxjs';
 import { EditLogApiOptions } from './EditLogApiOptions.class';
+import { ToasterService } from "angular2-toaster";
 
 @Component({
   selector: 'isari-logs',
@@ -29,7 +30,9 @@ export class IsariLogsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit() {
@@ -51,6 +54,13 @@ export class IsariLogsComponent implements OnInit {
 
       return this.isariDataService
       .getHistory(this.feature, this.options, lang)
+      .catch(err => {
+        if (err.status === 401) {
+          this.toasterService.pop('error', '', 'Unauthoried feature');
+          this.router.navigate(['/', this.feature], { preserveQueryParams: true });
+        }
+        return Observable.throw(err);
+      })
       .combineLatest(this.details$)
     })
     .map(([{count, logs}, details]) => {
