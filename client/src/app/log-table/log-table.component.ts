@@ -125,6 +125,16 @@ export class LogTableComponent implements OnInit, OnChanges {
     }
   }
 
+  hasPagination () {
+    return this.data && this.data.count > this.options.limit
+  }
+  hasNext () {
+    return this.hasPagination() && this.lastIndex <= this.data.count
+  }
+  hasPrev () {
+    return this.hasPagination() && this.firstIndex > 1
+  }
+
   navigatePrev() {
     if (this.options.skip === 0) return;
     this.emitOptions(Object.assign(this.options, {

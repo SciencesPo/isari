@@ -169,10 +169,10 @@
         </table>
 
         <div class="pagination">
-          <ul>
-            <li><a md-button (click)="navigatePrev()"><md-icon>navigate_before</md-icon></a>
-            <li *ngIf="data"><span>{{ firstIndex }}-{{ lastIndex }} / {{ data.count }}</span></li>
-            <li><a md-button (click)="navigateNext()"><md-icon>navigate_next</md-icon></a>
+          <ul *ngIf="hasPagination()">
+            <li><a md-button (click)="navigatePrev()" *ngIf="hasPrev()"><md-icon>navigate_before</md-icon></a>
+            <li><span>{{ firstIndex }}-{{ lastIndex }} / {{ data.count }}</span></li>
+            <li><a md-button (click)="navigateNext()" *ngIf="hasNext()"><md-icon>navigate_next</md-icon></a>
           </ul>
 
           <md-select style="align-self:flex-end" [placeholder]="'editLogs.limit' | translate" [formControl]="filterForm.controls['limit']" *ngIf="filterForm.controls['limit']">

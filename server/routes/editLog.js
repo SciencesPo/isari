@@ -309,7 +309,7 @@ function getEditLog(req, res){
 				.concat([{'$group': { '_id' : null, 'count' : {$sum : 1} }}])
 
 			const countP = EditLog.aggregate(countPipeline)
-				.then(([ { count } ]) => count)
+				.then(data => (data && data[0] && data[0].count) || 0)
 			const resultsP = EditLog.aggregate(resultsPipeline)
 				.then(data => formatEdits(data, model, !canViewConfidential))
 
@@ -320,6 +320,7 @@ function getEditLog(req, res){
 	return editsP
 		.then(edits => res.status(200).send(edits))
 		.catch(err => {
+			console.error(err) // eslint-disable-line no-console
 			if (!err.status) {
 				err = new ServerError({ title: err.message })
 			}
