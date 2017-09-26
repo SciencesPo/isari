@@ -334,7 +334,9 @@ const listViewablePeople = (req, options = {}) => {
 	// when no dates are there, we don't modify isMember. No time constraints set.
 
 	// we look for members with sometimes a range or for externals
-	const filters = includeRange || includeMembers ?{ 'memberships': { $elemMatch: { $and: isMember } } } : isExternal
+	const filters = includeRange || includeMembers
+		? { 'memberships': { $elemMatch: { $and: isMember } } }
+		: isExternal
 
 	// here the mongo query of the death
 	return People.aggregate()
@@ -369,12 +371,10 @@ const listViewablePeople = (req, options = {}) => {
 		.project({ _id: 1 }) // Keep only id
 		.then(map('_id'))
 		.then(ids => {
-			let query
-			if (includeExternals)
+			const query = includeExternals
 				//add external people which doesn't have any academicMembership
-				query = { $or: [ { academicMemberships: { $exists:false } }, { academicMemberships:[] }, { _id: { $in: ids } } ] }
-			else
-				query = { _id: { $in: ids } }
+				? { $or: [ { academicMemberships: { $exists:false } }, { academicMemberships:[] }, { _id: { $in: ids } } ] }
+				: { _id: { $in: ids } }
 
 			return {
 				//Populate to allow getPeoplePermissions to work
