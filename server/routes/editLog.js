@@ -103,6 +103,80 @@ const findWhoIds = query => () => {
 }
 
 
+const getOrgIdsCentral = () =>
+	models.Organization
+	.find({isariMonitored: true}, {_id: 1})
+	.then(orgs => orgs.map(o => o._id))
+
+const getOrgIdsRoles = userRoles =>
+	models.Organization
+	.find({ _id: { $in: Object.keys(userRoles).map(ObjectId.createFromHexString) }}, {_id: 1})
+	.then(orgs => orgs.map(o => o._id))
+
+
+const findPeopleItemIds = (query, req) => {
+	const orgId = req.userScopeOrganizationId && ObjectId.createFromHexString(req.userScopeOrganizationId)
+	const orgIdsP = Promise.resolve(orgId).then(orgId => orgId
+		? [orgId] // Scoped: limit to people from this organization
+		: req.userCentralRole
+			? getOrgIdsCentral() // Central user: access to EVERYTHING
+			: getOrgIdsRoles(req.userRoles) // Limit to people from organizations he has access to
+	)
+
+	const endQuery = query.startDate && {$or: [
+		{endDate: {$exists: false}},
+		{$and: [{endDate: {$regex: /^.{4}$/}}, {endDate: {$gte: query.startDate.slice(0, 4)}}]},
+		{$and: [{endDate: {$regex: /^.{7}$/}}, {endDate: {$gte: query.startDate.slice(0, 7)}}]},
+		{$and: [{endDate: {$regex: /^.{10}$/}}, {endDate: {$gte: query.startDate.slice(0, 10)}}]}
+	]}
+	const startQuery = query.endDate && {$or: [
+		{startDate: {$exists: false}},
+		{$and: [{startDate: {$regex: /^.{4}$/}}, {startDate: {$lte: query.endDate.slice(0, 4)}}]},
+		{$and: [{startDate: {$regex: /^.{7}$/}}, {startDate: {$lte: query.endDate.slice(0, 7)}}]},
+		{$and: [{startDate: {$regex: /^.{10}$/}}, {startDate: {$lte: query.endDate.slice(0, 10)}}]}
+	]}
+
+	const deletedEditsP = orgIdsP.then(orgIds => models.EditLog.find({
+		action: 'delete',
+		'data.academicMemberships': { $elemMatch: {
+			$and: [{organization: {$in: orgIds}}]
+				//.concat([{membershipType: {$in: membershipTypes}}]),
+				.concat(startQuery ? [startQuery] : [])
+				.concat(endQuery ? [endQuery] : [])
+		}}
+	}, {item:1}))
+
+	const peopleP = orgIdsP.then(orgIds => models.People.find({
+		academicMemberships: { $elemMatch: {
+			$and: [{organization: {$in: orgIds}}]
+				//.concat([{membershipType: {$in: membershipTypes}}]),
+				.concat(startQuery ? [startQuery] : [])
+				.concat(endQuery ? [endQuery] : [])
+		}}
+	}, {_id:1}))
+
+	return Promise.all([peopleP, deletedEditsP]).then(([people, deletedEdits]) => {
+		return people.map(p => p._id)
+			.concat(deletedEdits.map(e => e.item))
+	})
+}
+
+
+const findActivityItemIds = (query, req) => {
+	const options = (query.startDate || query.endDate)
+		? {range:true,startDate:query.startDate,endDate:query.endDate}
+		: {range:false}
+	return req.userListViewableActivities(options).then(mongoquery => {
+		if (query.startDate || query.endDate)
+			return mongoquery.query.getQuery()['organizations.organization']
+		else
+			return mongoquery.query.then(activities => {
+				return {$in: activities.map(a => a._id)}
+			})
+	})
+}
+
+
 const findItemIds = (query, model, req) => () => {
 	//prepare Item filter organisation scope mongoQuery
 	//focusing on one item, scope has been checked earlier
@@ -111,32 +185,15 @@ const findItemIds = (query, model, req) => () => {
 	// scope doesn't apply on organizations
 	if (model === 'Organization')
 		return undefined
-
 	// scope on people => start/end on academicMemberships
-	if (model === 'People'){
-		const options = (query.startDate || query.endDate)
-			? {includeRange:true,membershipStart:query.startDate,membershipEnd:query.endDate, includeExternals:false, includeMembers:false}
-			: {includeMembers:true, includeRange:false, includeExternals:false}
-		return req.userListViewablePeople(options).then(ids => {
-			debug(ids.query.getQuery())
-			return ids.query.getQuery()._id
-		})
-	}
-
+	else if (model === 'People')
+		return findPeopleItemIds(query, req)
 	// scope on activities => start/end on activity + organizations
-	if (model === 'Activity'){
-		const options = (query.startDate || query.endDate)
-			? {range:true,startDate:query.startDate,endDate:query.endDate}
-			: {range:false}
-		return req.userListViewableActivities(options).then(mongoquery => {
-			if (query.startDate || query.endDate)
-				return mongoquery.query.getQuery()['organizations.organization']
-			else
-				return mongoquery.query.then(activities => {
-					return {$in: activities.map(a => a._id)}
-				})
-		})
-	}
+	else if (model === 'Activity')
+		return findActivityItemIds(query, req)
+	// should not happen, invalid name of model
+	else
+		return Promise.reject(Error('Invalid model "' + model + '" in findItemIds'))
 }
 
 

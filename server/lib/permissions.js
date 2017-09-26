@@ -6,7 +6,7 @@ const { Organization, People, Activity } = require('./model')
 const debug = require('debug')('isari:permissions')
 const { mongoID } = require('./model-utils')
 const { computeConfidentialPaths } = require('./schemas')
-const { ObjectId } = require('mongoose').Types.ObjectId
+const { ObjectId } = require('mongoose').Types
 
 // Constants for optimization
 const pTrue = Promise.resolve(true)
