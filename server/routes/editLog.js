@@ -168,10 +168,10 @@ const findActivityItemIds = (query, req) => {
 		: {range:false}
 	return req.userListViewableActivities(options).then(mongoquery => {
 		if (query.startDate || query.endDate)
-			return mongoquery.query.getQuery()['organizations.organization']
+			return mongoquery.query.getQuery()['organizations.organization'].$in
 		else
 			return mongoquery.query.then(activities => {
-				return {$in: activities.map(a => a._id)}
+				return activities.map(a => a._id)
 			})
 	})
 }
