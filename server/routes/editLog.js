@@ -203,8 +203,9 @@ const EMPTY_RESULT = { count: 0, logs: [] }
 const findEdits = (model, query, whoIds, itemIds, canViewConfidential) => {
 	// build the mongo query to editLog collection
 	const mongoQuery = {model}
+
 	if (itemIds)
-		mongoQuery.item = itemIds
+		mongoQuery.item = {$in: itemIds}
 
 	if (whoIds) {
 		if (query.whoID && !whoIds.some(id => String(id) === query.whoID)) {
