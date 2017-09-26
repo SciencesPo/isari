@@ -110,49 +110,51 @@ const getOrgIdsCentral = () =>
 
 const getOrgIdsRoles = userRoles =>
 	models.Organization
-	.find({ _id: { $in: Object.keys(userRoles).map(ObjectId.createFromHexString) }}, {_id: 1})
+	.find({ _id: { $in: Object.keys(userRoles).map(ObjectId) }}, {_id: 1})
 	.then(orgs => orgs.map(o => o._id))
 
-
-const findPeopleItemIds = (query, req) => {
-	const orgId = req.userScopeOrganizationId && ObjectId.createFromHexString(req.userScopeOrganizationId)
-	const orgIdsP = Promise.resolve(orgId).then(orgId => orgId
+const getOrgIds = req =>
+	Promise.resolve(req.userScopeOrganizationId && ObjectId(req.userScopeOrganizationId))
+	.then(orgId => orgId
 		? [orgId] // Scoped: limit to people from this organization
 		: req.userCentralRole
 			? getOrgIdsCentral() // Central user: access to EVERYTHING
 			: getOrgIdsRoles(req.userRoles) // Limit to people from organizations he has access to
 	)
 
-	const endQuery = query.startDate && {$or: [
-		{endDate: {$exists: false}},
-		{$and: [{endDate: {$regex: /^.{4}$/}}, {endDate: {$gte: query.startDate.slice(0, 4)}}]},
-		{$and: [{endDate: {$regex: /^.{7}$/}}, {endDate: {$gte: query.startDate.slice(0, 7)}}]},
-		{$and: [{endDate: {$regex: /^.{10}$/}}, {endDate: {$gte: query.startDate.slice(0, 10)}}]}
-	]}
-	const startQuery = query.endDate && {$or: [
-		{startDate: {$exists: false}},
-		{$and: [{startDate: {$regex: /^.{4}$/}}, {startDate: {$lte: query.endDate.slice(0, 4)}}]},
-		{$and: [{startDate: {$regex: /^.{7}$/}}, {startDate: {$lte: query.endDate.slice(0, 7)}}]},
-		{$and: [{startDate: {$regex: /^.{10}$/}}, {startDate: {$lte: query.endDate.slice(0, 10)}}]}
-	]}
 
-	const deletedEditsP = orgIdsP.then(orgIds => models.EditLog.find({
+const getDateQuery = (date, fieldPrefix) => {
+	if (!date) return null
+	const field = fieldPrefix + 'Date'
+	return { $or: [
+		{[field]: {$exists: false}},
+		{$and: [{[field]: {$regex: /^.{4}$/}}, {[field]: {$gte: date.slice(0, 4)}}]},
+		{$and: [{[field]: {$regex: /^.{7}$/}}, {[field]: {$gte: date.slice(0, 7)}}]},
+		{$and: [{[field]: {$regex: /^.{10}$/}}, {[field]: {$gte: date.slice(0, 10)}}]}
+	]}
+}
+
+
+const findPeopleItemIds = (query, req) => {
+	const orgIdsP = getOrgIds(req)
+	const endQuery = getDateQuery(query.startDate, 'end')
+	const startQuery = getDateQuery(query.endDate, 'start')
+
+	const academicMembershipsQueryP = orgIdsP.then(orgIds => ({ $elemMatch: {
+		$and: [{organization: {$in: orgIds}}]
+			//.concat([{membershipType: {$in: membershipTypes}}]),
+			.concat(startQuery ? [startQuery] : [])
+			.concat(endQuery ? [endQuery] : [])
+	}}))
+
+	const deletedEditsP = academicMembershipsQueryP.then(q => models.EditLog.find({
+		model: 'People',
 		action: 'delete',
-		'data.academicMemberships': { $elemMatch: {
-			$and: [{organization: {$in: orgIds}}]
-				//.concat([{membershipType: {$in: membershipTypes}}]),
-				.concat(startQuery ? [startQuery] : [])
-				.concat(endQuery ? [endQuery] : [])
-		}}
+		'data.academicMemberships': q,
 	}, {item:1}))
 
-	const peopleP = orgIdsP.then(orgIds => models.People.find({
-		academicMemberships: { $elemMatch: {
-			$and: [{organization: {$in: orgIds}}]
-				//.concat([{membershipType: {$in: membershipTypes}}]),
-				.concat(startQuery ? [startQuery] : [])
-				.concat(endQuery ? [endQuery] : [])
-		}}
+	const peopleP = academicMembershipsQueryP.then(q => models.People.find({
+		academicMemberships: q,
 	}, {_id:1}))
 
 	return Promise.all([peopleP, deletedEditsP]).then(([people, deletedEdits]) => {
@@ -163,16 +165,30 @@ const findPeopleItemIds = (query, req) => {
 
 
 const findActivityItemIds = (query, req) => {
-	const options = (query.startDate || query.endDate)
-		? {range:true,startDate:query.startDate,endDate:query.endDate}
-		: {range:false}
-	return req.userListViewableActivities(options).then(mongoquery => {
-		if (query.startDate || query.endDate)
-			return mongoquery.query.getQuery()['organizations.organization'].$in
-		else
-			return mongoquery.query.then(activities => {
-				return activities.map(a => a._id)
-			})
+	const orgIdsP = getOrgIds(req)
+
+	const getQuery = isEditLog => {
+		const prefix = isEditLog ? 'data.' : ''
+		const endQuery = getDateQuery(query.startDate, prefix + 'end')
+		const startQuery = getDateQuery(query.endDate, prefix + 'start')
+		const orgField = prefix + 'organizations.organization'
+		return orgIdsP.then(orgIds => ({ $and:
+			[{[orgField]: {$in: orgIds}}]
+			.concat(startQuery ? [startQuery] : [])
+			.concat(endQuery ? [endQuery] : [])
+		}))
+	}
+
+	const deletedEditsP = getQuery(true).then(q => models.EditLog.find(Object.assign({
+		model: 'Activity',
+		action: 'delete',
+	}, q), {item:1}))
+
+	const activitiesP = getQuery(false).then(q => models.Activity.find(q, {_id:1}))
+
+	return Promise.all([activitiesP, deletedEditsP]).then(([activities, deletedEdits]) => {
+		return activities.map(p => p._id)
+			.concat(deletedEdits.map(e => e.item))
 	})
 }
 
