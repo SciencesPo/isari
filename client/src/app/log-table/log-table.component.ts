@@ -43,7 +43,7 @@ export class LogTableComponent implements OnInit, OnChanges {
   @Input() hideItemCol: boolean = false;
   @Output() onOptionsChange = new EventEmitter();
   @Output() onDetailsToggle = new EventEmitter();
-  @Output() onDownloadCSV = new EventEmitter();
+  @Output() onExport = new EventEmitter();
 
   constructor(
     private translate: TranslateService,
@@ -158,8 +158,11 @@ export class LogTableComponent implements OnInit, OnChanges {
     this.onDetailsToggle.emit();
   }
 
-  downloadCSV() {
-    this.onDownloadCSV.emit(this.data.logs);
+  export(filetype) {
+    this.onExport.emit({
+      logs: this.data.logs,
+      filetype
+    });
   }
 
   private emitOptions(options) {

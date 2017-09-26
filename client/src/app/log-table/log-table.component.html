@@ -19,7 +19,11 @@
 
       <span class="filer"></span>
 
-      <button md-raised-button (click)="downloadCSV()">CSV</button>
+      <button md-raised-button [md-menu-trigger-for]="menu">{{ 'download_select' | translate }}</button>
+      <md-menu #menu="mdMenu">
+        <button md-menu-item (click)="export('xlsx')">{{ 'download_excel_table'  | translate}}</button>
+        <button md-menu-item (click)="export('csv')">{{ 'download_csv_table'  | translate}}</button>
+      </md-menu>
 
     </md-toolbar>
 

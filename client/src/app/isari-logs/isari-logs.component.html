@@ -7,7 +7,7 @@
     [data]="logs$ | async"
     [labs]="labs$ | async"
     [options]="options"
-    (onDownloadCSV)="downloadCSV($event)"
+    (onExport)="exportLogs($event)"
     (onOptionsChange)="changeOpt($event)"
     (onDetailsToggle)="toggleDetails()"></isari-log-table>
 

@@ -148,8 +148,14 @@ export class IsariDataService {
             // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
             _label: diff.path.reduce((a, v, i, s) => [...a, this.getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
           });
-          if (diff.valueBefore) res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang));
-          if (diff.valueAfter) res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang));
+          if (diff.valueBefore) {
+            res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang))
+              .catch(() => Observable.of('ref. not found'));
+          }
+          if (diff.valueAfter) {
+            res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang))
+              .catch(() => Observable.of('ref. not found'));
+          }
           return res;
         });
 
@@ -188,15 +194,15 @@ export class IsariDataService {
     if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
 
     const format = (o, refs, level = 0) => {
-      if (isArray(o)) return o.map(oo => format(oo, refs, level)).join("\r\n---\r\n");
+      if (isArray(o)) return o.map(oo => format(oo, refs, level)).join("\n---\n");
 
       return Object.keys(o)
         .reduce((s, k) => {
           s += `${'  '.repeat(level)}${k} : `;
           if (typeof o[k] === 'string') s += o[k];
           else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '????');
-          else s += "\r\n" + format(o[k], refs, level + 1);
-          return s + "\r\n";
+          else s += "\n" + format(o[k], refs, level + 1);
+          return s + "\n";
         }, "");
     }
 
@@ -222,12 +228,52 @@ export class IsariDataService {
 
   }
 
-  exportLogs(logs, feature, labs$, translate, details) {
+  exportLogs(logs, feature, labs$, translate, details, filetype) {
 
-    function csv(data) {
-      const csvString = Papa.unparse(data);
-      const blob = new Blob([csvString], {type: CSV_MIME});
-      saveAs(blob, `editlogs.csv`);
+    const linebreak = filetype === "xls" ? "\n" : "\r\n";
+
+    const exportFile = {
+      csv(data) {
+        const csvString = Papa.unparse(data);
+        const blob = new Blob([csvString], {type: CSV_MIME});
+        saveAs(blob, `editlogs.csv`);
+      },
+      xlsx(data) {
+        const opts = { bookType: 'xlsx', bookSST: true, type: 'binary' };
+        const workbook = { Sheets: {Sheet1: null}, SheetNames: ['Sheet1'] };
+        const sheet = {};
+        const range = {s: {c: Infinity, r: Infinity}, e: {c: -Infinity, r: -Infinity}};
+
+        for (let R = 0, l = data.length; R < l; R++) {
+          const line = data[R];
+          let C = 0;
+          for (const k in line) {
+            if (range.s.r > R) range.s.r = R;
+            if (range.s.c > C) range.s.c = C;
+            if (range.e.r < R) range.e.r = R;
+            if (range.e.c < C) range.e.c = C;
+            const value = line[k];
+            const address = XLSX.utils.encode_cell({c: C, r: R});
+            const cell = {v: value};
+            sheet[address] = cell;
+            C++;
+          }
+        }
+
+        sheet['!ref'] = XLSX.utils.encode_range(range);
+        workbook.Sheets.Sheet1 = sheet;
+        const xlsx = XLSX.write(workbook, opts);
+        const buffer = new ArrayBuffer(xlsx.length);
+        const view = new Uint8Array(buffer);
+
+        for (let i = 0, l = xlsx.length; i !== l; i++) {
+          view[i] = xlsx.charCodeAt(i) & 0xFF;
+        }
+
+        const blob = new Blob([buffer], {type: XLSX_MIME});
+        saveAs(blob, 'editlogs.xlsx');
+
+      }
     }
 
     function getRow(log, feature, translations, labs, diff = null, pos = 0, values = []) {
@@ -235,10 +281,10 @@ export class IsariDataService {
         [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
         [translations['editLogs.object.' + feature]]: log.item.name,
         [translations['editLogs.action']]: log.action,
-        [translations['editLogs.fields']]: log._labels.join('\r\n'),
+        [translations['editLogs.fields']]: log._labels.join(linebreak),
         [translations['editLogs.who']]: log.who.name,
-        [translations['editLogs.lab']]: log.who.roles.map(role => role.lab ? labs[role.lab].value : '').join('\r\n'),
-        [translations['editLogs.role']]: log.who.roles.map(role => role._label).join('\r\n'),
+        [translations['editLogs.lab']]: log.who.roles.map(role => role.lab ? labs[role.lab].value : '').join(linebreak),
+        [translations['editLogs.role']]: log.who.roles.map(role => role._label).join(linebreak),
       };
       if (!diff) return res;
 
@@ -260,10 +306,16 @@ export class IsariDataService {
     if (details) {
       // Je suis navré pour ce qui va suivre
 
-      const logs$ = logs.reduce((acc1, log) => [
+      const logs$ = logs.reduce((acc1, log) => {
+        return [
         ...acc1,
-        ...log.diff.reduce((acc2, diff) => [...acc2, (diff._beforeLabelled$ || Observable.of('')), (diff._afterLabelled$ || Observable.of(''))], [])
-      ], []);
+        ...log.diff.reduce((acc2, diff) => {
+          const before$ = diff._beforeLabelled$ || Observable.of('');
+          const after$ =  diff._afterLabelled$ || Observable.of('');
+          return [...acc2, before$, after$]
+        }, [])
+        ]
+      }, []);
 
       // RxJS FTW ?!
       Observable.combineLatest([
@@ -276,7 +328,7 @@ export class IsariDataService {
         labs$
       ])
       .subscribe(([values, translations, labs]) => {
-        csv(logs.reduce((d, log) => [
+        exportFile[filetype](logs.reduce((d, log) => [
           ...d,
           ...log.diff.map((diff, j) => getRow(log, feature, translations, labs, diff, d.length + j, values))
         ], []));
@@ -288,7 +340,7 @@ export class IsariDataService {
         labs$
       ])
       .subscribe(([translations, labs]) => {
-        csv(logs.map(log => getRow(log, feature, translations, labs)));
+        exportFile[filetype](logs.map(log => getRow(log, feature, translations, labs)));
       })
     }
   }
@@ -476,7 +528,7 @@ export class IsariDataService {
 
     if (!this.labelsCache[url]) {
       this.labelsCache[url] = this.http.get(url, this.getHttpOptions())
-        .map(response => response.json());
+        .map(response => response.json())
     }
 
     return this.labelsCache[url];
