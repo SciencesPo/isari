@@ -2,7 +2,7 @@
 
 const { Router } = require('express')
 const { UnauthorizedError, NotFoundError, ServerError } = require('../lib/errors')
-const { EditLog, flattenDiff } = require('../lib/edit-logs')
+const { EditLog, flattenDiff, cleanupData } = require('../lib/edit-logs')
 const { requiresAuthentication, scopeOrganizationMiddleware } = require('../lib/permissions')
 const models = require('../lib/model')
 const { fillIncompleteDate } = require('../export/helpers')
@@ -427,22 +427,11 @@ const formatEdits = (data, model, removeConfidential) => {
 										return diff
 									})
 		} else {
-			edit.diff = []
 			// in case of create or delete diff data is stored in data
-			if (!edit.item.name)
+			if (!edit.item.name) {
 				edit.item.name = formatItemName(d.data, model)
-			_.forOwn(d.data, (value,key) => {
-				// we filter tecnical fields
-				if (!editLogsDataKeysBlacklist.includes(key)){
-					const diff = {
-						editType: d.action,
-						path: [key]
-					}
-					// store in value After or Before as other diffs
-					diff[d.action === 'create' ? 'valueAfter' : 'valueBefore'] = value
-					edit.diff.push(diff)
-				}
-			})
+			}
+			edit.diff = dataToDiff(d.data, d.action)
 		}
 
 		// Handle confidential changes
@@ -470,6 +459,22 @@ const formatEdits = (data, model, removeConfidential) => {
 	debug(edits)
 	return edits
 }
+
+
+const dataToDiff = (data, action) =>
+	_dataToDiff(cleanupData(data), action, action === 'create' ? 'valueAfter' : 'valueBefore', [])
+
+const _dataToDiffArrayReducer = (editType, field, path) => (changes, v) =>
+	// Do NOT append index to path, in case of array we have multiple changes on SAME path
+	changes.concat(_dataToDiff(v, editType, field, path))
+
+const _dataToDiffObjectReducer = (data, editType, field, path) => (changes, k) =>
+	changes.concat(_dataToDiff(data[k], editType, field, path.concat([k])))
+
+const _dataToDiff = (data, editType, field, path) =>
+	(typeof data !== 'object') ? [{ editType, path, [field]: data }]
+	: (Array.isArray(data))    ? data.reduce(_dataToDiffArrayReducer(editType, field, path), [])
+	: /* Object */               Object.keys(data).reduce(_dataToDiffObjectReducer(data, editType, field, path), [])
 
 
 const getAccessMonitorings = (model, formattedDiff) => {

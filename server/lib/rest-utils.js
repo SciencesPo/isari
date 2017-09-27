@@ -13,7 +13,6 @@ const removeEmptyFields = require('./remove-empty-fields')
 const { getMeta, getVirtualColumn } = require('./specs')
 const getIn = require('lodash/get')
 const setIn = require('lodash/set')
-const unsetIn = require('lodash/unset')
 const config = require('config')
 const chalk = require('chalk')
 
