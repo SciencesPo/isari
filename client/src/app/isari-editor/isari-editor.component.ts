@@ -1,3 +1,4 @@
+import { LoaderService } from './../loader/loader.service';
 import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
@@ -68,7 +69,8 @@ export class IsariEditorComponent implements OnInit {
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private dialog: MdDialog) {
+    private dialog: MdDialog,
+    private loaderService: LoaderService) {
       PageScrollConfig.defaultScrollOffset = 50;
       PageScrollConfig.defaultDuration = 500;
     }
@@ -101,6 +103,7 @@ export class IsariEditorComponent implements OnInit {
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
     ).subscribe(([{ feature, id }, restrictedFields, lang]) => {
+      this.loaderService.show();
       this.feature = feature;
       this.id = id;
       Promise.all([
@@ -151,6 +154,7 @@ export class IsariEditorComponent implements OnInit {
 
         // scroll to form
         setTimeout(() => {
+          this.loaderService.hide();
           let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#form');
           this.pageScrollService.start(pageScrollInstance);
         });

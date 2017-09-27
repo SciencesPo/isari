@@ -1,3 +1,5 @@
+import { LoaderService } from './loader/loader.service';
+import { LoaderModule } from './loader/loader.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -105,6 +107,7 @@ export function createTranslateLoader(http: Http) {
     ToasterModule,
     TextMaskModule,
     BrowserAnimationsModule,
+    LoaderModule,
   ],
   providers: [
     IsariDataService,
@@ -112,6 +115,7 @@ export function createTranslateLoader(http: Http) {
     LoggedInGuard,
     OrganizationResolver,
     StorageService,
+    LoaderService,
   ],
   entryComponents: [
     AppComponent,
