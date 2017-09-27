@@ -481,7 +481,7 @@ export class IsariDataService {
       // observe source of nested
       if (nestedField) {
         x$ = x$.merge(nestedField.valueChanges.map(x => ({
-          reset: true,
+          reset: materializedPath, // if reset needed, give path to be sure it's the righht item to reset #453
           values: []
         })));
       }
