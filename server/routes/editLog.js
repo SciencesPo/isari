@@ -461,20 +461,20 @@ const formatEdits = (data, model, removeConfidential) => {
 }
 
 
-const dataToDiff = (data, action) =>
-	_dataToDiff(cleanupData(data), action, action === 'create' ? 'valueAfter' : 'valueBefore', [])
+const dataToDiff = (data, editType) => {
+	data = cleanupData(data)
+	const field = editType === 'create' ? 'valueAfter' : 'valueBefore'
+	return Object.keys(data).reduce(appendChange(data, editType, field), [])
+}
 
-const _dataToDiffArrayReducer = (editType, field, path) => (changes, v) =>
-	// Do NOT append index to path, in case of array we have multiple changes on SAME path
-	changes.concat(_dataToDiff(v, editType, field, path))
-
-const _dataToDiffObjectReducer = (data, editType, field, path) => (changes, k) =>
-	changes.concat(_dataToDiff(data[k], editType, field, path.concat([k])))
-
-const _dataToDiff = (data, editType, field, path) =>
-	(typeof data !== 'object') ? [{ editType, path, [field]: data }]
-	: (Array.isArray(data))    ? data.reduce(_dataToDiffArrayReducer(editType, field, path), [])
-	: /* Object */               Object.keys(data).reduce(_dataToDiffObjectReducer(data, editType, field, path), [])
+const appendChange = (data, editType, field) => (changes, key) => {
+	const path = [key]
+	if (Array.isArray(data[key])) {
+		return changes.concat(data[key].map(v => ({editType, path, [field]: v})))
+	} else {
+		return changes.concat([{editType, path, [field]: data[key]}])
+	}
+}
 
 
 const getAccessMonitorings = (model, formattedDiff) => {
