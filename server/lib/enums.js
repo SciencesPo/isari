@@ -63,6 +63,22 @@ const getNestedEnumValues = exports.getNestedEnumValues = name => {
 	return nestedEnums[name] || null
 }
 
+const getSimpleEnumNames = exports.getSimpleEnumNames = memoize(() =>
+	// enums.json
+	Object.keys(enums)
+	// Aliases
+	.concat([
+		'currencies', // iso4217
+		'languages', // iso6391
+	])
+	.sort()
+)
+
+exports.getAllSimpleEnumValues = memoize(() =>
+	getSimpleEnumNames()
+	.reduce((o, name) => Object.assign(o, {[name]: getSimpleEnumValues(name)}), {})
+)
+
 const getSimpleEnumValues = exports.getSimpleEnumValues = memoize(name => {
 	// Special cases: some enums are just keys in enums.json and must be matched with another file
 
@@ -103,15 +119,13 @@ const getSimpleEnumValues = exports.getSimpleEnumValues = memoize(name => {
 })
 
 exports.formatEnum = (name, value, customize) => {
-	
-
 	let found
 	if (Array.isArray(value))
-		//nested enums		
+		//nested enums
 		found = simpleFind(getNestedEnumValues(name)[value[0]])(value[1])
 	else
 		found = simpleFind(getSimpleEnumValues(name))(value)
-	
+
 
 	if (found && customize && typeof found.label === 'object') {
 		let labels = Object.assign({}, found.label)

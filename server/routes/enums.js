@@ -2,16 +2,19 @@
 
 const { Router } = require('express')
 const { ClientError } = require('../lib/errors')
-const { getSimpleEnumValues, getNestedEnumValues } = require('../lib/enums')
+const { getSimpleEnumValues, getNestedEnumValues, getSimpleEnumNames, getAllSimpleEnumValues } = require('../lib/enums')
 const { restHandler } = require('../lib/rest-utils')
 
 
-module.exports = Router()
-.get('/:name', restHandler(simple))
-.get('/nested/:name', restHandler(nested))
+const allSimple = req => {
+	if (req.query.noContent === '1') {
+		return getSimpleEnumNames()
+	} else {
+		return getAllSimpleEnumValues()
+	}
+}
 
-
-function simple (req) {
+const simple = req => {
 	const values = getSimpleEnumValues(req.params.name)
 	if (values) {
 		return values
@@ -20,7 +23,7 @@ function simple (req) {
 	throw new ClientError({ title: `Unknown enum "${req.params.name}"`, status: 404 })
 }
 
-function nested (req) {
+const nested = req => {
 	const values = getNestedEnumValues(req.params.name)
 	if (values) {
 		return values
@@ -28,3 +31,9 @@ function nested (req) {
 
 	throw new ClientError({ title: `Unknown nested enum "${req.params.name}"`, status: 404 })
 }
+
+
+module.exports = Router()
+.get('/', restHandler(allSimple))
+.get('/:name', restHandler(simple))
+.get('/nested/:name', restHandler(nested))
