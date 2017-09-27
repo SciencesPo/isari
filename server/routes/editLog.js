@@ -197,7 +197,7 @@ const findItemIds = (query, model, req) => () => {
 	//prepare Item filter organisation scope mongoQuery
 	//focusing on one item, scope has been checked earlier
 	if (query.itemID)
-		return ObjectId(query.itemID)
+		return [ObjectId(query.itemID)]
 	// scope doesn't apply on organizations
 	if (model === 'Organization')
 		return undefined
