@@ -530,6 +530,7 @@ export class IsariDataService {
     if (!this.labelsCache[url]) {
       this.labelsCache[url] = this.http.get(url, this.getHttpOptions())
         .map(response => response.json())
+        .share();
     }
 
     return this.labelsCache[url];
