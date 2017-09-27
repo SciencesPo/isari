@@ -198,7 +198,16 @@ export class IsariDataService {
       if (isArray(o) && o.length === 0) return "?";
       if (isArray(o)) {
         return o.some(isPlainObject)
-          ? o.map(oo => format(oo, refs, level)).join("\n")
+          ? o.map(oo => {
+            // if (oo.ref && oo.value) oo = this.getForeignLabel(oo.ref, oo.value).do(x => console.log(x)).map(x => x[0].value);
+            return format(
+              oo,
+              // oo.ref && oo.value
+              // ? this.getForeignLabel(oo.ref, oo.value).do(x => { console.log('?', x) }).map(x => x[0].value)
+              // : oo,
+              refs,
+              level)
+          }).join("\n")
           : o.join(', ');
       }
 
