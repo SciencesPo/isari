@@ -198,29 +198,25 @@ export class IsariDataService {
       if (isArray(o) && o.length === 0) return "?";
       if (isArray(o)) {
         return o.some(isPlainObject)
-          ? o.map(oo => {
-            // if (oo.ref && oo.value) oo = this.getForeignLabel(oo.ref, oo.value).do(x => console.log(x)).map(x => x[0].value);
-            return format(
-              oo,
-              // oo.ref && oo.value
-              // ? this.getForeignLabel(oo.ref, oo.value).do(x => { console.log('?', x) }).map(x => x[0].value)
-              // : oo,
-              refs,
-              level)
-          }).join("\n")
+          ? o.map(oo => format(oo, refs, level)).join("\n")
           : o.join(', ');
       }
+
+      // replace ref with label from async call (refs)
+      if (o.ref && o.value) return refs[o.value] || '?';
 
       return Object.keys(o)
         .reduce((s, k) => {
           s += `${'  '.repeat(level)}${k} : `;
           if (typeof o[k] === 'string') s += o[k];
-          else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '????');
+          // replace ref with label from async call (refs)
+          else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '?');
           else s += format(o[k], refs, level + 1);
           return s + "\n";
         }, "");
     }
 
+    // looking for all refs ({ ref: xxxx, value: xxx }) objects
     const getRefs = (o) => {
       if (isArray(o)) flatten(o.map(getRefs));
       return Object.keys(o)
@@ -238,7 +234,7 @@ export class IsariDataService {
         ? getRefs(obj).map(({ ref, value }) => this.getForeignLabel(ref, value))
         : Observable.of([])
     )
-    .map(labels => flatten(labels).reduce((l, v) => Object.assign(l, { [v.id]: v.value }), {}))
+    .map(labels => flatten(labels).reduce((l, v) => Object.assign(l, { [v.id]: v.value }), {})) // { id: value } for all refs founds
     .map(labels => format(obj, labels));
 
   }
