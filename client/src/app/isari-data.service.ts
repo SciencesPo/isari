@@ -195,14 +195,19 @@ export class IsariDataService {
     if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
 
     const format = (o, refs, level = 0) => {
-      if (isArray(o)) return o.map(oo => format(oo, refs, level)).join("\n---\n");
+      if (isArray(o) && o.length === 0) return "?";
+      if (isArray(o)) {
+        return o.some(isPlainObject)
+          ? o.map(oo => format(oo, refs, level)).join("\n")
+          : o.join(', ');
+      }
 
       return Object.keys(o)
         .reduce((s, k) => {
           s += `${'  '.repeat(level)}${k} : `;
           if (typeof o[k] === 'string') s += o[k];
           else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '????');
-          else s += "\n" + format(o[k], refs, level + 1);
+          else s += format(o[k], refs, level + 1);
           return s + "\n";
         }, "");
     }
