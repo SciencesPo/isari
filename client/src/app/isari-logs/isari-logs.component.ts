@@ -24,7 +24,7 @@ export class IsariLogsComponent implements OnInit {
   options: EditLogApiOptions = { skip: 0, limit: 5 };
   options$: BehaviorSubject<EditLogApiOptions>;
   details$: BehaviorSubject<boolean>;
-  logs$: Observable<any[]>;
+  logs$: Observable<{ count: number, logs: Array<any> }>;
   labs$: Observable<any[]>;
 
   constructor(
@@ -67,10 +67,13 @@ export class IsariLogsComponent implements OnInit {
       this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
         .map(labs => keyBy(labs, 'id'));
 
-        if (details && this.options['path']) return logs.map(log => Object.assign({}, log, {
-        _open: true,
-        diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
-      }));
+      if (details && this.options['path']) return ({
+        count,
+        logs: logs.map(log => Object.assign({}, log, {
+          _open: true,
+          diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
+        }))
+      });
 
       return {
         count,
