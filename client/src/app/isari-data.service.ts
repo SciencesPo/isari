@@ -1,3 +1,4 @@
+import { StorageService } from './storage.service';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, RequestOptions } from '@angular/http';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -61,7 +62,7 @@ export class IsariDataService {
   private exportUrl = `${environment.API_BASE_URL}/export`;
   private editLogUrl = `${environment.API_BASE_URL}/editLog`;
 
-  constructor(private http: Http, private fb: FormBuilder, private userService: UserService) {}
+  constructor(private http: Http, private fb: FormBuilder, private userService: UserService, private storageService: StorageService) {}
 
   getHttpOptions (search: {} = null) {
     const options = new RequestOptions({ withCredentials: true });
@@ -543,6 +544,7 @@ export class IsariDataService {
   }
 
   rawSearch(feature: string, query: string, path?: string, rootFeature?: string) {
+    if (!query) return Observable.of({ reset: false, values: [] });
     const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/search`;
     // return this.http.get(url, this.getHttpOptions({ q: deburr(query) || '*', path, rootFeature }))
     return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature }))
@@ -803,12 +805,27 @@ export class IsariDataService {
     return (scheme ? scheme + SCHEME : '') + (prependSlash ? SLASH : BLANK) + result;
   }
 
+  buildEnumCache() {
+    return this.http.get(this.enumUrl)
+      .map(response => response.json())
+      .do(enums => {
+        Object.keys(enums).forEach(key => {
+          this.storageService.save(enums[key], key, 'enums');
+        });
+      });
+  }
+
   getEnum(src: string) {
 
     // nested
     const nestedPos = src.indexOf(':');
     if (nestedPos !== -1) {
       src = `nested/${src.substr(0, nestedPos)}`;
+    }
+
+    const storedEnum = this.storageService.get(src, 'enums');
+    if (storedEnum) {
+      return Observable.of(storedEnum);
     }
 
     // check for cached results
@@ -831,6 +848,7 @@ export class IsariDataService {
 
         return json;
       })
+      .share();
 
     this.enumsCache[src] = $enum;
     return $enum;

@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form) {
     this.userService.login(form.value.login, form.value.password)
+      .concat(this.isariDataService.buildEnumCache())
       .catch(this.handleError)
       .subscribe(res => {
         this.isariDataService.clearCache(),
