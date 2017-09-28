@@ -215,7 +215,7 @@ const findItemIds = (query, model, req) => () => {
 }
 
 
-const EMPTY_RESULT = { count: 0, logs: [] }
+const EMPTY_RESULT = { count: 0, results: [] }
 
 
 const findEdits = (model, query, whoIds, itemIds, canViewConfidential) => {
