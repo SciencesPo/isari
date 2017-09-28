@@ -150,11 +150,11 @@ export class IsariDataService {
             _label: diff.path.reduce((a, v, i, s) => [...a, this.getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
           });
           if (diff.valueBefore) {
-            res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang))
-              .catch(() => Observable.of('ref. not found'));
+            res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang), lang)
+            .catch(() => Observable.of('ref. not found'));
           }
           if (diff.valueAfter) {
-            res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang))
+            res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang), lang)
               .catch(() => Observable.of('ref. not found'));
           }
           return res;
@@ -180,6 +180,8 @@ export class IsariDataService {
     if (!isPlainObject(value)) {
       const ref = _get(schema, [...base, 'ref'].join('.'));
       if (ref && !startsWith(value, 'N/A')) return { ref, value };
+      const en = _get(schema, [...base, 'enum'].join('.'));
+      if (en) return { en, value };
       return value;
     }
     return Object.keys(value).reduce((acc, key) => {
@@ -190,9 +192,10 @@ export class IsariDataService {
     }, {})
   }
 
-  formatWithRefs(obj) {
+  formatWithRefs(obj, lang) {
     if (typeof obj === 'string' || typeof obj === 'number') return Observable.of(obj);
     if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
+    if (obj.value && obj.en) return this.getDirectEnumLabel(obj.en, obj.value).map(x => x.label[lang || 'fr']);
 
     const format = (o, refs, level = 0) => {
       if (isArray(o) && o.length === 0) return "[]";
@@ -212,6 +215,7 @@ export class IsariDataService {
           if (typeof o[k] === 'string' || typeof o[k] === 'number') s += o[k];
           // replace ref with label from async call (refs)
           else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '?');
+          else if (o[k].en && o[k].value) s += (refs[o[k].en + ':' + o[k].value]) || o[k].value;
           else s += format(o[k], refs, level + 1);
           return s + "\n";
         }, "");
@@ -219,11 +223,11 @@ export class IsariDataService {
 
     // looking for all refs ({ ref: xxxx, value: xxx }) objects
     const getRefs = (o) => {
-      if (isArray(o)) flatten(o.map(getRefs));
+      if (isArray(o)) return flatten(o.map(getRefs));
       return Object.keys(o)
         .reduce((r, k) => {
-            if (typeof o[k] === 'string') return r;
-            if (!o[k].ref || !o[k].value) return [...r, ...getRefs(o[k])];
+            if (typeof o[k] === 'string' || typeof o[k] === 'number') return r;
+            if (!o[k].ref && !o[k].en) return [...r, ...getRefs(o[k])];
             return [...r, o[k]];
         }, []);
     };
@@ -232,10 +236,16 @@ export class IsariDataService {
 
     return Observable.combineLatest(
       refs.length
-        ? getRefs(obj).map(({ ref, value }) => this.getForeignLabel(ref, value))
+        ? getRefs(obj).map(({ ref, value, en }) => {
+          return ref ? this.getForeignLabel(ref, value) : this.getDirectEnumLabel(en, value).map(item => ({ en, item }));
+        })
         : Observable.of([])
     )
-    .map(labels => flatten(labels).reduce((l, v) => Object.assign(l, { [v.id]: v.value }), {})) // { id: value } for all refs founds
+    .map(labels => flatten(labels).reduce((l, v) => {
+      if (v.en && !v.item) return l; // nested enums not keep
+      if (v.en) return Object.assign(l, { [v.en + ':' + v.item.value]: v.item.label[lang || 'fr'] });
+      return Object.assign(l, { [v.id]: v.value });
+    }, {})) // { id: value } for all refs founds
     .map(labels => format(obj, labels));
 
   }
@@ -514,6 +524,14 @@ export class IsariDataService {
         return (<string[]>values).map(v => {
           return enumValues.find(entry => entry.value === v);
         }).filter(v => !!v);
+      });
+  }
+
+  getDirectEnumLabel(src: string, value: string) {
+    return this.getEnum(src)
+      .map(enumValues => {
+        if (!isArray(enumValues)) return null;
+        return enumValues.find(entry => entry.value === value) || null;
       });
   }
 
