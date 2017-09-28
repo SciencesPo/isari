@@ -133,7 +133,7 @@ const middleware = schema => {
 			date: new Date(),
 			data: removeEmptyFields(cleanupData(doc.toObject())),
 			action: 'delete',
-			who
+			whoID: who
 		})
 
 		// Save it asynchronously
