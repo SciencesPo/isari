@@ -46,10 +46,12 @@ const editLogsPathFilter = path =>
 	//        {'$$d.path.2':'organization'}
 	//        ]}}
 	// }
-	path[0] !== 'latestChangeBy'
+	!editLogsDataKeysBlacklist.includes(path[0])
 
 
+// Paths to ignore/remove
 const editLogsDataKeysBlacklist = ['_id', 'latestChangeBy']
+const editLogsDataKeysFilter = ['updatedAt', 'createdAt'].concat(editLogsDataKeysBlacklist)
 
 
 const routeParamToModel = param => ({
@@ -389,7 +391,7 @@ const formatEdits = (data, model, removeConfidential) => {
 		edit.who = {
 			id: d.whoID
 		}
-		if (d.creator.length){
+		if (d.creator.length) {
 			edit.who.name = (d.creator[0].firstName ? d.creator[0].firstName+' ': '')+ d.creator[0].name
 			edit.who.roles = d.creator[0].isariAuthorizedCenters ?
 							d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
@@ -397,19 +399,19 @@ const formatEdits = (data, model, removeConfidential) => {
 		}
 
 		edit.date = d.date
-		edit.item = { id:d.item}
+		edit.item = { id: d.item }
 		edit.item.name = formatItemName(d.itemObject[0], model)
 
 		edit.action = d.action
 
-		if (edit.action === 'update'){
+		if (edit.action === 'update') {
 			edit.diff = flattenDiff(d.diff)
 									.filter(dd => editLogsPathFilter(dd.path))
 									.map(dd => {
 										// remove index of element in array from path
 										const diff = {path: dd.path.filter(e => isNaN(parseInt(e)))}
 
-										if (dd.kind === 'A'){
+										if (dd.kind === 'A') {
 											//array case...
 											if (dd.item.lhs)
 												diff.valueBefore = dd.item.lhs
@@ -462,7 +464,9 @@ const formatEdits = (data, model, removeConfidential) => {
 
 
 const dataToDiff = (data, editType) => {
-	data = cleanupData(data)
+	data = cleanupData(data) // Handle binary ObjectIds & technic fields (keeps _id, which will be filtered just below)
+	// Remove fields we don't want in UI
+	editLogsDataKeysFilter.forEach(f => { delete data[f] })
 	const field = editType === 'create' ? 'valueAfter' : 'valueBefore'
 	return Object.keys(data).reduce(appendChange(data, editType, field), [])
 }
