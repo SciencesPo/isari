@@ -531,7 +531,7 @@ export class IsariDataService {
   getDirectEnumLabel(src: string, value: string) {
     return this.getEnum(src)
       .map(enumValues => {
-        if (!isArray(enumValues)) enumValues = flatten(values(enumValues));
+        if (!isArray(enumValues)) enumValues = flatten(values(enumValues)); // for nested : brut forced
         return enumValues.find(entry => entry.value === value) || null;
       });
   }
