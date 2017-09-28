@@ -99,7 +99,7 @@ const middleware = schema => {
 		}
 
 		if (this.isNew) {
-			editLog.data = removeEmptyFields(cleanupData(data))
+			editLog.data = data
 		}
 		else {
 			// If the model was updated, we only store a diff
@@ -131,7 +131,7 @@ const middleware = schema => {
 			model: modelName,
 			item: doc.id,
 			date: new Date(),
-			data: removeEmptyFields(cleanupData(doc.toObject())),
+			data: doc.toObject(),
 			action: 'delete',
 			whoID: who
 		})
