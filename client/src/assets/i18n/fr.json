@@ -88,5 +88,6 @@
     "after": "Valeurs après",
     "details": "Détails"
   },
-  "no result": "Aucun résultat"
+  "no result": "Aucun résultat",
+  "unauthoried feature": "Vous n'êtes pas autorisée à accèder à cette fonctionalité"
 }

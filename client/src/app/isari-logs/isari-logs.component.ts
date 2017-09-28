@@ -56,8 +56,10 @@ export class IsariLogsComponent implements OnInit {
       .getHistory(this.feature, this.options, lang)
       .catch(err => {
         if (err.status === 401) {
-          this.toasterService.pop('error', '', 'Unauthoried feature');
-          this.router.navigate(['/', this.feature], { preserveQueryParams: true });
+          this.translate.get('unauthoried feature').subscribe(translated => {
+            this.toasterService.pop('error', '', translated);
+            this.router.navigate(['/', this.feature], { preserveQueryParams: true });
+          });
         }
         return Observable.throw(err);
       })
