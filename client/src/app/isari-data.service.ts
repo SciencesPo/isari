@@ -191,11 +191,11 @@ export class IsariDataService {
   }
 
   formatWithRefs(obj) {
-    if (typeof obj === 'string') return Observable.of(obj);
+    if (typeof obj === 'string' || typeof obj === 'number') return Observable.of(obj);
     if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
 
     const format = (o, refs, level = 0) => {
-      if (isArray(o) && o.length === 0) return "?";
+      if (isArray(o) && o.length === 0) return "[]";
       if (isArray(o)) {
         return o.some(isPlainObject)
           ? o.map(oo => format(oo, refs, level)).join("\n")
@@ -207,8 +207,9 @@ export class IsariDataService {
 
       return Object.keys(o)
         .reduce((s, k) => {
+          if (isArray(o[k]) && !o[k].length) return s; // bypass empty array #463
           s += `${'  '.repeat(level)}${k} : `;
-          if (typeof o[k] === 'string') s += o[k];
+          if (typeof o[k] === 'string' || typeof o[k] === 'number') s += o[k];
           // replace ref with label from async call (refs)
           else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '?');
           else s += format(o[k], refs, level + 1);
