@@ -24,6 +24,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import flatten from 'lodash/flatten';
 import zipObject from 'lodash/zipObject';
 import isArray from 'lodash/isArray';
+import values from 'lodash/values';
 
 import { DatePipe } from '@angular/common';
 import {saveAs} from 'file-saver';
@@ -530,7 +531,7 @@ export class IsariDataService {
   getDirectEnumLabel(src: string, value: string) {
     return this.getEnum(src)
       .map(enumValues => {
-        if (!isArray(enumValues)) return null;
+        if (!isArray(enumValues)) enumValues = flatten(values(enumValues));
         return enumValues.find(entry => entry.value === value) || null;
       });
   }
