@@ -78,9 +78,11 @@ export class LogTableComponent implements OnInit, OnChanges {
     this.filterForm.controls['limit'].setValue(this.storageService.get('itemsPerPage', 'history') || 10);
 
     // store item per page
-    this.filterForm.controls['limit'].valueChanges.subscribe(value => {
-      this.storageService.save(value, 'itemsPerPage', 'history');
-    });
+    this.filterForm.controls['limit'].valueChanges
+      .filter(x => !!x) // ignore reset
+      .subscribe(value => {
+        this.storageService.save(value, 'itemsPerPage', 'history');
+      });
 
     this.computeIndices();
   }
@@ -91,6 +93,11 @@ export class LogTableComponent implements OnInit, OnChanges {
     }
 
     if (changes['feature']) {
+
+      if (this.filterForm) {
+        this.filterForm.reset();
+        this.filterForm.controls['limit'].setValue(this.storageService.get('itemsPerPage', 'history') || 10);
+      }
 
       // people autocomplete (whoID)
       this.whoSettings.src = this.isariDataService.srcForeignBuilder('people');
