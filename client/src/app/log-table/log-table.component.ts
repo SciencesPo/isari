@@ -1,3 +1,4 @@
+import { StorageService } from './../storage.service';
 import { Observable } from 'rxjs/Observable';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
@@ -47,7 +48,8 @@ export class LogTableComponent implements OnInit, OnChanges {
 
   constructor(
     private translate: TranslateService,
-    public isariDataService: IsariDataService
+    public isariDataService: IsariDataService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -70,6 +72,14 @@ export class LogTableComponent implements OnInit, OnChanges {
     this.filterForm.valueChanges.subscribe(filters => {
       // reset skip to 0 for each filter action
       this.emitOptions(Object.assign({}, filters, { skip: 0 }));
+    });
+
+    // set itemsPerPage
+    this.filterForm.controls['limit'].setValue(this.storageService.get('itemsPerPage', 'history') || 10);
+
+    // store item per page
+    this.filterForm.controls['limit'].valueChanges.subscribe(value => {
+      this.storageService.save(value, 'itemsPerPage', 'history');
     });
 
     this.computeIndices();
