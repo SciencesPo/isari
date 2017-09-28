@@ -73,8 +73,8 @@
     "fields": "Edited fields",
     "allFields": "Tous",
     "object": {
-      "people": "people",
-      "organization": "Organisation",
+      "people": "Member",
+      "activities": "Activity",
       "organizations": "Organisation"
     },
     "actions": {
