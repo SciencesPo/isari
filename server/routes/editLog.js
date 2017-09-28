@@ -66,9 +66,9 @@ const validateParams = ({ model, itemID, req }) => Promise.resolve()
 			throw new NotFoundError({ title: 'Invalid model' })
 		}
 	})
-	// User has to be central admin to access editLog list feature
+	// User has to be central admin or center_admin to access editLog list feature
 	.then(() => {
-		if (!itemID && req.userCentralRole !== 'admin'){
+		if (!itemID && (req.userCentralRole !== 'admin' && req.userRoles[req.userScopeOrganizationId] !== 'center_admin' )) {
 			throw new UnauthorizedError({ title: 'EditLog is restricted to central admin users'})
 		}
 	})
