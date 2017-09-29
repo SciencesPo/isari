@@ -194,8 +194,12 @@ export class IsariDataService {
   }
 
   formatWithRefs(obj, lang) {
+
+    // scalar, leave it like it is
     if (typeof obj === 'string' || typeof obj === 'number') return Observable.of(obj);
+    // foreign key => trigger label request
     if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
+    // enum => get label
     if (obj.value && obj.en) return this.getDirectEnumLabel(obj.en, obj.value).map(x => x.label[lang || 'fr']);
 
     const format = (o, refs, level = 0) => {
@@ -206,8 +210,10 @@ export class IsariDataService {
           : o.join(', ');
       }
 
+      // cases of ref enum objects in arrays => direct object by recursion
       // replace ref with label from async call (refs)
       if (o.ref && o.value) return refs[o.value] || '?';
+      if (o.en && o.value) return refs[o.en + ':' + o.value] || '?';
 
       return Object.keys(o)
         .reduce((s, k) => {
@@ -222,31 +228,40 @@ export class IsariDataService {
         }, "");
     }
 
-    // looking for all refs ({ ref: xxxx, value: xxx }) objects
+    // looking for all refs or enums ({ [ref|en]: xxxx, value: xxx }) objects
     const getRefs = (o) => {
+      // array, reccur on content
       if (isArray(o)) return flatten(o.map(getRefs));
+      // before diving into objects check if o is not a ref/enum itself
+      if (o.ref || o.en) return o;
       return Object.keys(o)
         .reduce((r, k) => {
+            // scalar value, skip
             if (typeof o[k] === 'string' || typeof o[k] === 'number') return r;
+            // subobject which are not ref or enum, recur on
             if (!o[k].ref && !o[k].en) return [...r, ...getRefs(o[k])];
+            // if not scalar neither subObjects is ref or enum add to accumulator
             return [...r, o[k]];
         }, []);
     };
 
+    // identify nested ref or enums
     const refs = getRefs(obj);
 
     return Observable.combineLatest(
       refs.length
-        ? getRefs(obj).map(({ ref, value, en }) => {
+        ? refs.map(({ ref, value, en }) => {
           return ref ? this.getForeignLabel(ref, value) : this.getDirectEnumLabel(en, value).map(item => ({ en, item }));
         })
         : Observable.of([])
     )
-    .map(labels => flatten(labels).reduce((l, v) => {
-      if (v.en && !v.item) return l; // nested enums not keep
-      if (v.en) return Object.assign(l, { [v.en + ':' + v.item.value]: v.item.label[lang || 'fr'] });
-      return Object.assign(l, { [v.id]: v.value });
-    }, {})) // { id: value } for all refs founds
+    .map(labels => {
+      return flatten(labels).reduce((l, v) => {
+        if (v.en && !v.item) return l; // nested enums not keep
+        if (v.en) return Object.assign(l, { [v.en + ':' + v.item.value]: v.item.label[lang || 'fr'] });
+        return Object.assign(l, { [v.id]: v.value });
+        }, {})
+    }) // { id: value } for all refs founds
     .map(labels => format(obj, labels));
 
   }
@@ -515,6 +530,7 @@ export class IsariDataService {
   }
 
   getEnumLabel(src: string, materializedPath: string, form: FormGroup, values: string | string[]) {
+
     if (!(values instanceof Array)) {
       values = [values];
     }
@@ -529,6 +545,7 @@ export class IsariDataService {
   }
 
   getDirectEnumLabel(src: string, value: string) {
+
     return this.getEnum(src)
       .map(enumValues => {
         if (!isArray(enumValues)) enumValues = flatten(values(enumValues)); // for nested : brut forced
