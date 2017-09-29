@@ -281,7 +281,8 @@ export class IsariDataService {
         const workbook = { Sheets: {Sheet1: null}, SheetNames: ['Sheet1'] };
         const sheet = {};
         const range = {s: {c: Infinity, r: Infinity}, e: {c: -Infinity, r: -Infinity}};
-
+        // please can someone do better than that line ?
+        data = [Object.keys(data[0]), ...data]
         for (let R = 0, l = data.length; R < l; R++) {
           const line = data[R];
           let C = 0;
