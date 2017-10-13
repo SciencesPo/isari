@@ -27,6 +27,7 @@ import flatten from 'lodash/flatten';
 import zipObject from 'lodash/zipObject';
 import isArray from 'lodash/isArray';
 import values from 'lodash/values';
+import intersection from 'lodash/intersection';
 
 import { DatePipe } from '@angular/common';
 import {saveAs} from 'file-saver';
@@ -56,6 +57,7 @@ export class IsariDataService {
   private schemasCache = {};
   private columnsCache = null;
   private labelsCache = {};
+  private tempForeignKeys = {};
 
   private dataUrl = `${environment.API_BASE_URL}`;
   private layoutUrl = `${environment.API_BASE_URL}/layouts`;
@@ -578,11 +580,17 @@ export class IsariDataService {
       values = [values];
     }
     values = values.filter(v => !!v);
+
     if (values.length === 0) {
       return Observable.of([]);
     }
 
-    const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/${values.join(',')}/string`;
+    const api = mongoSchema2Api[feature] || feature;
+    const url = `${this.dataUrl}/${api}/`
+    + (<string[]>((this.tempForeignKeys[api] && intersection(this.tempForeignKeys[api], values))
+      ? this.tempForeignKeys[api]
+      : (<string[]>values))).join(',')
+    + '/string';
 
     if (!this.labelsCache[url]) {
       this.labelsCache[url] = this.http.get(url, this.getHttpOptions())
@@ -590,7 +598,9 @@ export class IsariDataService {
         .share();
     }
 
-    return this.labelsCache[url];
+    return this.labelsCache[url].map(allvalues => {
+      return allvalues.filter(v => (<string[]>values).indexOf(v.id) !== -1);
+    });
   }
 
   getForeignCreate(feature) {
@@ -613,9 +623,14 @@ export class IsariDataService {
       }));
   }
 
-  buildForm(layout, data): FormGroup {
+  buildForm(layout, data, base = false): FormGroup {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
+
+    // reset tempForeignKeys
+    if (base) {
+     this.tempForeignKeys = {};
+    }
 
     // build form from object after layout manipluation
     if (fields[0] instanceof Array) {
@@ -624,7 +639,6 @@ export class IsariDataService {
 
     // normalize [[a, b ], c] -> [a, b, c]
     fields = fields.reduce((acc, c) => [...acc, ...(c.fields ? c.fields : [c]) ], []);
-
     fields.forEach(field => {
       const hasData = data[field.name] !== null && data[field.name] !== undefined;
       const fieldData = hasData ? data[field.name] : field.multiple ? [] : field.type === 'object' ? {} : '';
@@ -635,6 +649,7 @@ export class IsariDataService {
           fa.disable();
         }
         fieldData.forEach((d, i) => {
+          this.storeForeignKeys(field.ref, d);
           let subdata = Object.assign({}, d || {}, {
             opts: Object.assign({}, data.opts, {
               path:  [...data.opts.path, field.name, i]
@@ -644,6 +659,7 @@ export class IsariDataService {
         });
         form.addControl(field.name, fa);
       } else if (field.type === 'object') {
+        this.storeForeignKeys(field.ref, fieldData);
         let subdata = Object.assign({}, fieldData, {
           opts: Object.assign({}, data.opts, {
             path: [...data.opts.path, field.name]
@@ -651,6 +667,7 @@ export class IsariDataService {
         });
         form.addControl(field.name, this.buildForm(field.layout, subdata));
       } else {
+        this.storeForeignKeys(field.ref, fieldData);
         form.addControl(field.name, new FormControl({
           value: fieldData,
            // add '.x' for multiple fields (for matching fieldName.*)
@@ -659,6 +676,13 @@ export class IsariDataService {
       }
     });
     return form;
+  }
+
+  private storeForeignKeys(feature, value) {
+    if (!feature) return;
+    const api = mongoSchema2Api[feature];
+    value = isArray(value) ? value : [value];
+    this.tempForeignKeys['organizations'] = uniq([...(this.tempForeignKeys['organizations'] || []), ...value]);
   }
 
   private disabled(opts, fieldName) {

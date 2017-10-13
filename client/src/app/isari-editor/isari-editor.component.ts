@@ -150,7 +150,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
 
         layout = this.isariDataService.translate(layout, lang);
         layout = this.isariDataService.closeAll(layout);
-        this.form = this.isariDataService.buildForm(layout, this.data);
+        this.form = this.isariDataService.buildForm(layout, this.data, true);
         this.layout = this.isariDataService.rows(layout);
 
         // disabled all form
