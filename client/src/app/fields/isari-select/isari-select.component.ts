@@ -105,8 +105,8 @@ export class IsariSelectComponent implements OnInit, OnChanges {
   onFocus($event) {
     // force reload of values https://github.com/SciencesPo/isari/issues/132
     if (this.selectControl.value === '' && !this.noblur) {
-      // (<EventEmitter<any>>this.selectControl.valueChanges).emit(' ');
-      // (<EventEmitter<any>>this.selectControl.valueChanges).emit(''); // maybe useless
+      (<EventEmitter<any>>this.selectControl.valueChanges).emit(' ');
+      (<EventEmitter<any>>this.selectControl.valueChanges).emit(''); // maybe useless
     }
     this.noblur = false;
     this.focused = true;
