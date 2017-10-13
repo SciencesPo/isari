@@ -1,3 +1,5 @@
+// tslint:disable:curly
+
 import { StorageService } from './storage.service';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, RequestOptions } from '@angular/http';
@@ -98,7 +100,8 @@ export class IsariDataService {
   }
 
   getDatas(feature: string,
-    { fields, applyTemplates, externals, start, end, type }: { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }) {
+    { fields, applyTemplates, externals, start, end, type }:
+    { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }) {
     const url = `${this.dataUrl}/${feature}`;
     fields.push('id'); // force id
 
@@ -177,12 +180,18 @@ export class IsariDataService {
   }
 
   key2label(value, base: string[], schema, lang) {
-    if (isArray(value)) return value.map(v => this.key2label(v, base, schema, lang));
+    if (isArray(value)) {
+      return value.map(v => this.key2label(v, base, schema, lang));
+    }
     if (!isPlainObject(value)) {
       const ref = _get(schema, [...base, 'ref'].join('.'));
-      if (ref && !startsWith(value, 'N/A')) return { ref, value };
+      if (ref && !startsWith(value, 'N/A')) {
+        return { ref, value };
+      }
       const en = _get(schema, [...base, 'enum'].join('.'));
-      if (en) return { en, value };
+      if (en) {
+        return { en, value };
+      }
       return value;
     }
     return Object.keys(value).reduce((acc, key) => {
@@ -203,10 +212,10 @@ export class IsariDataService {
     if (obj.value && obj.en) return this.getDirectEnumLabel(obj.en, obj.value).map(x => x.label[lang || 'fr']);
 
     const format = (o, refs, level = 0) => {
-      if (isArray(o) && o.length === 0) return "[]";
+      if (isArray(o) && o.length === 0) return '[]';
       if (isArray(o)) {
         return o.some(isPlainObject)
-          ? o.map(oo => format(oo, refs, level)).join("\n")
+          ? o.map(oo => format(oo, refs, level)).join('\n')
           : o.join(', ');
       }
 
@@ -224,8 +233,8 @@ export class IsariDataService {
           else if (o[k].ref && o[k].value) s += o[k].value.length === 0 ? '[]' : (refs[o[k].value] || '?');
           else if (o[k].en && o[k].value) s += (refs[o[k].en + ':' + o[k].value]) || o[k].value;
           else s += format(o[k], refs, level + 1);
-          return s + "\n";
-        }, "");
+          return s + '\n';
+        }, '');
     }
 
     // looking for all refs or enums ({ [ref|en]: xxxx, value: xxx }) objects
@@ -268,7 +277,7 @@ export class IsariDataService {
 
   exportLogs(logs, feature, labs$, translate, details, filetype) {
 
-    const linebreak = filetype === "xls" ? "\n" : "\r\n";
+    const linebreak = filetype === 'xlsx' ? '\n' : '\r\n';
 
     const exportFile = {
       csv(data) {
@@ -315,10 +324,10 @@ export class IsariDataService {
       }
     }
 
-    function getRow(log, feature, translations, labs, diff = null, pos = 0, values = []) {
+    function getRow(log, fea, translations, labs, diff = null, pos = 0, values = []) {
       const res = {
         [translations['editLogs.date']]: (new DatePipe('fr-FR')).transform(log.date, 'yyyy-MM-dd HH:mm'),
-        [translations['editLogs.object.' + feature]]: log.item.name,
+        [translations['editLogs.object.' + fea]]: log.item.name,
         [translations['editLogs.action']]: log.action,
         [translations['editLogs.fields']]: log._labels.join(linebreak),
         [translations['editLogs.who']]: log.who.name,
@@ -512,7 +521,7 @@ export class IsariDataService {
          // term = this.normalize(term.toLowerCase());
          return ({
             reset: false,
-            values: this.filterEnumValues(enumValues, term, lang), //.slice(0, max),
+            values: this.filterEnumValues(enumValues, term, lang), // .slice(0, max),
             // size: values.length
           });
         });
@@ -623,7 +632,7 @@ export class IsariDataService {
         let fa = new FormArray([]);
         // add '.x' for multiple fields (for matching fieldName.*)
         if (this.disabled(data.opts, field.name + '.x')) {
-          fa.disable(true);
+          fa.disable();
         }
         fieldData.forEach((d, i) => {
           let subdata = Object.assign({}, d || {}, {
