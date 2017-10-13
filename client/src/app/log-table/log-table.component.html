@@ -112,7 +112,7 @@
 
                 <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
                 <td *ngIf="!hideItemCol">
-                    <a *ngIf="log.action !== 'delete';else nolink" [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
+                    <a target="_blank" *ngIf="log.action !== 'delete';else nolink" [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
                     <ng-template #nolink>{{ log.item.name }}</ng-template>
                 </td>
                 <td [class.bleft]="log._open">{{ 'editLogs.actions.' + log.action | translate }}</td>
