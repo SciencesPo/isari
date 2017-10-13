@@ -18,12 +18,12 @@ const pad0 = s => (s === null || s === undefined) ? null : (String(s).length ===
 const isFuture = s => {
 	const ref = today()
 	const [ y, m, d ] = s.split('-')
-	return y > ref.y || (y === ref.y && m > ref.m) || (y === ref.y && m === ref.m && d >= ref.d)
+	return y > ref.y || (y === ref.y && (!m || m > ref.m)) || (y === ref.y && m === ref.m && (!d || d >= ref.d))
 }
 const today = () => {
 	const d = new Date()
 	return {
-		y: d.getFullYear(),
+		y: ''+d.getFullYear(),
 		m: pad0(d.getMonth() + 1),
 		d: pad0(d.getDate())
 	}
