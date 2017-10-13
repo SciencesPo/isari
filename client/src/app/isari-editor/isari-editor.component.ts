@@ -115,7 +115,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
           this.loaderService.hide();
           const json = err.json();
           this.messageQueryError = err.status;
-          this.toasterService.pop('error', this.feature, id + ' : ' + json.message || 'Network error');
+ 
           return Promise.reject(err);
         }),
         this.isariDataService.getLayout(this.feature),
