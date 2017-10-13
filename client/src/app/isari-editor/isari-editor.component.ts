@@ -1,5 +1,5 @@
 import { LoaderService } from './../loader/loader.service';
-import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { FormGroup } from '@angular/forms';
@@ -21,6 +21,7 @@ import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-pag
 import { DOCUMENT } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { BehaviorSubject } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
@@ -31,7 +32,7 @@ import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
   templateUrl: './isari-editor.component.html',
   styleUrls: ['./isari-editor.component.css']
 })
-export class IsariEditorComponent implements OnInit {
+export class IsariEditorComponent implements OnInit, OnDestroy {
   dialogRef: MdDialogRef<ConfirmDialog>;
 
   @Input() id: number;
@@ -47,6 +48,7 @@ export class IsariEditorComponent implements OnInit {
   exist = false;
   private errors: any;
   organization: string;
+  sub: Subscription;
 
   // history (logs)
   displayHistory = false;
@@ -96,7 +98,7 @@ export class IsariEditorComponent implements OnInit {
 
     this.route.queryParams.subscribe(({organization}) => this.organization = organization);
 
-    Observable.combineLatest(
+    this.sub = Observable.combineLatest(
       $routeParams,
       this.userService.getRestrictedFields(),
       this.translate.onLangChange
@@ -164,6 +166,12 @@ export class IsariEditorComponent implements OnInit {
         console.log('err', err)
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
