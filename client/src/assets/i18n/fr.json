@@ -89,6 +89,9 @@
     "details": "Détails"
   },
   "no result": "Aucun résultat",
-  "unauthoried feature": "Vous n'êtes pas autorisée à accèder à cette fonctionalité",
-  "user_guide_data": "Qui fait quoi ?"
+  "user_guide_data": "Qui fait quoi ?",
+  "error": {
+    "403": "Vous n'avez pas le droit d'accèder à cette information.",
+    "401": "Information non trouvée."
+  }
 }

@@ -49,6 +49,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
   private errors: any;
   organization: string;
   sub: Subscription;
+  messageQueryError: string;
 
   // history (logs)
   displayHistory = false;
@@ -111,7 +112,10 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
       Promise.all([
         this.isariDataService.getData(this.feature, id ? String(id) : null)
         .catch(err => {
-          this.toasterService.pop('error', this.feature, id + ' : Not Found');
+          this.loaderService.hide();
+          const json = err.json();
+          this.messageQueryError = err.status;
+          this.toasterService.pop('error', this.feature, id + ' : ' + json.message || 'Network error');
           return Promise.reject(err);
         }),
         this.isariDataService.getLayout(this.feature),
@@ -163,7 +167,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
 
       })
       .catch(err => {
-        console.log('err', err)
+        // console.log('err', err)
       });
     });
   }

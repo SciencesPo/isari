@@ -88,6 +88,10 @@
     "after": "Value after",
     "details": "Details"
   },
-  "unauthoried feature": "Unauthorized feature",
   "user_guide_data": "Who does what?",
+  "no result": "No result",
+  "error": {
+    "403": "Unauthorized feature or data",
+    "401": "Data not found"
+  }
 }

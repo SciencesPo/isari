@@ -1,3 +1,6 @@
+<div *ngIf="messageQueryError" class="queryError" translate>
+  {{ 'error.' + messageQueryError }}
+</div>
 <div *ngIf="exist">
   <md-card id="form">
       <isari-data-editor
