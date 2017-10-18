@@ -92,6 +92,7 @@
   "no result": "No result",
   "error": {
     "403": "Access to this information restricted.",
-    "401": "Data not found"
+    "401": "Data not found",
+    "400": "Form data incorrect. Check mandatory fields."
   }
 }

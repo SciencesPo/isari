@@ -92,6 +92,7 @@
   "user_guide_data": "Qui fait quoi ?",
   "error": {
     "403": "Vous n'avez pas accès à cette information.",
-    "401": "Information non trouvée."
+    "401": "Information non trouvée.",
+    "400": "données du formulaire incorrectes. Vérifier les champs obligatoires"
   }
 }
