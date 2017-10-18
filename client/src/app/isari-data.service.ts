@@ -586,11 +586,10 @@ export class IsariDataService {
     }
 
     const api = mongoSchema2Api[feature] || feature;
-    const url = `${this.dataUrl}/${api}/`
-    + (<string[]>((this.tempForeignKeys[api] && intersection(this.tempForeignKeys[api], values))
+    const ids = (<string[]>((this.tempForeignKeys[api] && intersection(this.tempForeignKeys[api], values).length)
       ? this.tempForeignKeys[api]
-      : (<string[]>values))).join(',')
-    + '/string';
+      : (<string[]>values))).join(',');
+    const url = `${this.dataUrl}/${api}/${ids}/string`;
 
     if (!this.labelsCache[url]) {
       this.labelsCache[url] = this.http.get(url, this.getHttpOptions())
@@ -623,13 +622,17 @@ export class IsariDataService {
       }));
   }
 
+  resetTemForeignKeys() {
+    this.tempForeignKeys = {};
+  }
+
   buildForm(layout, data, base = false): FormGroup {
     let form = this.fb.group({});
     let fields = layout.reduce((acc, cv) => [...acc, ...cv.fields], []);
 
     // reset tempForeignKeys
     if (base) {
-     this.tempForeignKeys = {};
+      this.resetTemForeignKeys();
     }
 
     // build form from object after layout manipluation
