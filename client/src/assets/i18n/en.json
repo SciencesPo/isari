@@ -91,7 +91,7 @@
   "user_guide_data": "Who does what?",
   "no result": "No result",
   "error": {
-    "403": "Unauthorized feature or data",
+    "403": "Access to this information restricted.",
     "401": "Data not found"
   }
 }
