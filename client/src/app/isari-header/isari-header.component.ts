@@ -50,9 +50,9 @@ export class IsariHeaderComponent implements OnInit {
       }
 
       // https://github.com/SciencesPo/isari/issues/445
-      this.historyAccess = this.user.isariAuthorizedCenters.find(({ isariRole, org }) =>
+      this.historyAccess = this.user.isariAuthorizedCenters.find(({ isariRole, organization }) =>
         isariRole === 'central_admin'
-        || (isariRole === 'center_admin' && org === this.organization.id)
+        || (isariRole === 'center_admin' && organization === this.organization.id)
       );
     });
   }
