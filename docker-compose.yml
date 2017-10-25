@@ -23,7 +23,7 @@ services:
       - db
 # Mongo-connector
   connector:
-    image: totem/docker-mongo-es
+    image: jrisp/docker-mongo-es
     restart: unless-stopped
     links:
       - index
