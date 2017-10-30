@@ -1,11 +1,5 @@
 // tslint:disable:curly
 
-import { StorageService } from './storage.service';
-import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, RequestOptions } from '@angular/http';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { environment } from '../environments/environment';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/combineLatest';
@@ -14,24 +8,31 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/observable/fromPromise';
-import deburr from 'lodash/deburr';
-import { UserService } from './user.service';
+
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { get, sortByDistance } from './utils';
-import _get from 'lodash/get';
-import keyBy from 'lodash/keyBy';
-import omit from 'lodash/omit';
-import uniq from 'lodash/uniq';
-import startsWith from 'lodash/startsWith';
-import isPlainObject from 'lodash/isPlainObject';
-import flatten from 'lodash/flatten';
-import zipObject from 'lodash/zipObject';
-import isArray from 'lodash/isArray';
-import values from 'lodash/values';
-import intersection from 'lodash/intersection';
 
 import { DatePipe } from '@angular/common';
-import {saveAs} from 'file-saver';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import Papa from 'papaparse';
+import { StorageService } from './storage.service';
+import { UserService } from './user.service';
+import _get from 'lodash/get';
+import deburr from 'lodash/deburr';
+import { environment } from '../environments/environment';
+import flatten from 'lodash/flatten';
+import intersection from 'lodash/intersection';
+import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
+import keyBy from 'lodash/keyBy';
+import omit from 'lodash/omit';
+import {saveAs} from 'file-saver';
+import startsWith from 'lodash/startsWith';
+import uniq from 'lodash/uniq';
+import values from 'lodash/values';
+import zipObject from 'lodash/zipObject';
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       CSV_MIME = 'text/csv;charset=utf-8';
@@ -685,7 +686,7 @@ export class IsariDataService {
     if (!feature) return;
     const api = mongoSchema2Api[feature];
     value = isArray(value) ? value : [value];
-    this.tempForeignKeys['organizations'] = uniq([...(this.tempForeignKeys['organizations'] || []), ...value]);
+    this.tempForeignKeys[api] = uniq([...(this.tempForeignKeys[api] || []), ...value]);
   }
 
   private disabled(opts, fieldName) {
