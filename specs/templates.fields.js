@@ -144,7 +144,7 @@ function personalActivity(p) {
 }
 
 // distinctions
-const distinction = d => d.map(e => e.title).join(';')
+const distinction = d => d.filter(e => e).map(e => e.title).join(';')
 
 // oraganizationDates
 function researchUnitCode(p){
