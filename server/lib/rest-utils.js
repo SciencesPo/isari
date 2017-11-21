@@ -190,6 +190,7 @@ const replaceModel = (Model, save, getPermissions) => {
 		// Apply diff to the original object
 		let updated = doc.toObject()
 		const diff = req.body.diff
+		let toBeRemoved = []
 
 		diff.forEach(operation => {
 			debug('Applying diff operation', Model.modelName, operation)
@@ -197,6 +198,7 @@ const replaceModel = (Model, save, getPermissions) => {
 			if (operation.type === 'update') {
 				if (!('value' in operation) || operation.value === null || operation.value === '') {
 					setIn(updated, operation.path, 'TO.BE.REMOVED')
+					toBeRemoved.push(operation.path)
 				}
 				else {
 					setIn(updated, operation.path, operation.value)
@@ -218,10 +220,16 @@ const replaceModel = (Model, save, getPermissions) => {
 				getIn(updated, operation.path).unshift(removeEmptyFields(operation.value))
 			}
 		})
-
+		debug('updated', updated)
+		toBeRemoved.forEach(pathToBeRemoved => {
+			debug(pathToBeRemoved, updated[pathToBeRemoved])
+			if (getIn(updated,  pathToBeRemoved)=== 'TO.BE.REMOVED')
+				setIn(updated, pathToBeRemoved, undefined)
+		})
 		for (const f in updated) {
-			if (updated[f] === 'TO.BE.REMOVED') doc.set(f, undefined, {strict: false} )
-			else doc[f] = updated[f]
+			//if (updated[f] === 'TO.BE.REMOVED') doc.set(f, undefined, {strict: false} )
+			//else 
+			doc[f] = updated[f]
 		}
 
 		// Delete
