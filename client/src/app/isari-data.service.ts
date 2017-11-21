@@ -684,6 +684,7 @@ export class IsariDataService {
 
   private storeForeignKeys(feature, value) {
     if (!feature) return;
+    if (!value) return;
     const api = mongoSchema2Api[feature];
     value = isArray(value) ? value : [value];
     this.tempForeignKeys[api] = uniq([...(this.tempForeignKeys[api] || []), ...value]);
