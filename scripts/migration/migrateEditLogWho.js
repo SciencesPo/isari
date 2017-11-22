@@ -15,6 +15,35 @@ console.log('starting migration')
 models.connect()
 
 async.waterfall([
+	// custom updates
+	next => {
+		EditLog.updateMany(
+			{who: 'silvia.dupre'},
+			{who: 'silvia.duerichmorandi'},
+			).then(data => {
+				console.log("changed silvia.dupre to silvia.duerichmorandi in who:"+data.modifiedCount)
+				return next(null)
+		})
+	},
+	// check if all who fields points to a people
+	next => {
+		EditLog.aggregate([
+		    {$lookup:{
+		        from:'people',
+		        localField:'who',
+		        foreignField:'ldapUid',
+		        as:'author'
+		        }},
+		    {$match:{author: {$size:0}}},
+		        {$group:{_id:"$who", nb_edits:{$sum:1}}}
+		]).then(data => {
+			if(data.length > 0){
+				console.log(data)
+				return next(data.length+" who fields missing in people")
+			}else
+				return next(null)
+		})
+	},
 	next => {
 		// get mongoid ldapuid index
 		models.People.aggregate([{$match:{ldapUid:{$ne:null}}},{$project:{_id:1, ldapUid:1}}]).then(data => {
