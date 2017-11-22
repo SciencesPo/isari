@@ -19,7 +19,7 @@ async.waterfall([
 	next => {
 		EditLog.updateMany(
 			{who: 'silvia.dupre'},
-			{who: 'silvia.duerichmorandi'},
+			{who: 'silvia.duerichmorandi'}
 			).then(data => {
 				console.log("changed silvia.dupre to silvia.duerichmorandi in who:"+data.modifiedCount)
 				return next(null)
