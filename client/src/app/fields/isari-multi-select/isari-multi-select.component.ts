@@ -76,7 +76,7 @@ export class IsariMultiSelectComponent implements OnInit {
       this.lang = lang;
       this.allOptions = values;
       this.skip = 0;
-      this.options = this.allOptions.splice(this.skip, this.skip + this.max).map(this.translateItem.bind(this));
+      this.options = this.allOptions.slice(this.skip, this.skip + this.max).map(this.translateItem.bind(this));
       this.setExtend();
     });
 
