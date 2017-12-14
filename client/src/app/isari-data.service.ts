@@ -897,7 +897,13 @@ export class IsariDataService {
       .map(response => response.json())
       .do(enums => {
         Object.keys(enums).forEach(key => {
-          this.storageService.save(enums[key], key, 'enums');
+          let data = enums[key];
+          if (key === 'nationalities') {
+            data = enums[key].filter(item => {
+              return !!item.label.fr || item.label.fr!=='';
+            });
+          }
+          this.storageService.save(data, key, 'enums');
         });
       });
   }
@@ -928,11 +934,12 @@ export class IsariDataService {
         // NOTE: this is a dirty special case for nationalities.
         // Might be generic one day...
         if (src === 'nationalities') {
-          json = json.filter(item => {
-            return !!item.label.fr;
-          });
-        }
 
+          json = json.filter(item => {
+            return !!item.label.fr || item.label.fr!=='';
+          });
+     
+        }
         return json;
       })
       .share();
