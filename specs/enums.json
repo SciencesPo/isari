@@ -991,6 +991,13 @@
                 "fr": "séjour à l'étranger",
                 "en": ""
             }
+        },
+        {
+            "value": "event",
+            "label": {
+                "fr": "manifestation scientifique",
+                "en": "scientific event"
+            }
         }
     ],
     "amountTypes": [
@@ -2592,6 +2599,13 @@
             "label": {
                 "fr": "Programme d'investissements d'avenir",
                 "en": "Programme d'investissements d'avenir"
+            }
+        },
+         {
+            "value": "ANR",
+            "label": {
+                "fr": "Plan d'action ANR",
+                "en": "ANR action plan"
             }
         }
     ],

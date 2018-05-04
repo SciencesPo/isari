@@ -1139,6 +1139,13 @@
                     "fr": "Doctorant.e",
                     "en": ""
                 }
+            },
+            {
+                "value": "HDRcandidate",
+                "label": {
+                    "fr": "inscrit.e en HDR",
+                    "en": "professoral thesis candidate"
+                }
             }
         ],
         "chercheurenseignant": [
@@ -1224,14 +1231,14 @@
             {
                 "value": "professeur1",
                 "label": {
-                    "fr": "Professeur.e des universités niv1",
+                    "fr": "Professeur.e des universités de première classe",
                     "en": ""
                 }
             },
             {
                 "value": "professeur2",
                 "label": {
-                    "fr": "Professeur.e des universités niv2",
+                    "fr": "Professeur.e des universités de deuxième classe",
                     "en": ""
                 }
             },

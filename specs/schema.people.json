@@ -576,6 +576,12 @@
                     "fr": "Téléphone",
                     "en": "Phone number"
                 }
+            },
+            "website": {
+                "label": {
+                    "fr": "Site web",
+                    "en": "Website"
+                }
             }
         }
     ],
