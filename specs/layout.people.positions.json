@@ -6,7 +6,7 @@
 	], 
         {
         "fields": ["gradesSirh"],
-        "label": {"fr":"grade DRH","en":"HR level"},
+        "label": {"fr":"grade DRH Sciences Po","en":"Sciences PoHR ranks"},
         "description":  {
             "fr":"Informations DRH Sciences Po",
             "en":"Information from the HR departement of Sciences Po"
