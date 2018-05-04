@@ -443,7 +443,7 @@ const FACULTY_SHEET_TEMPLATE = {
     }
 };
 
-const TEMP_FACULTY_GRADES = ['directeurderechercheremerite', 'cherchcontractuel', 'postdoc', 'invité', 'CASSIST', 'doctorant(grade)', 'profémérite', 'profunivémérite', 'enseicherchcontractuel', 'ater'];
+const TEMP_FACULTY_GRADES = ['directeurderechercheremerite', 'cherchcontractuel', 'postdoc', 'invité', 'CASSIST', 'doctorant(grade)', 'profémérite', 'profunivémérite', 'enseicherchcontractuel', 'ater', 'HDRcandidate'];
 
 
 const SHEETS = [
