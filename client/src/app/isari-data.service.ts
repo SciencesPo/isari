@@ -169,9 +169,10 @@ export class IsariDataService {
 
         // all diffs labels
         log._labels = uniq(log.diff.map(diff => diff._label));
-        log.who.roles = log.who.roles.map(role => Object.assign(role, {
-          _label: roles[role.role].label[lang],
-        }));
+        if (log.who.roles)
+          log.who.roles = log.who.roles.map(role => Object.assign(role, {
+            _label: roles[role.role].label[lang],
+          }));
         log.accessMonitorings = log.accessMonitorings.map(value => ({
           value,
           _label: accessMonitorings[value].label[lang],
