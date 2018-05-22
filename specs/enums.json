@@ -587,6 +587,13 @@
                 "fr": "emploi public",
                 "en": ""
             }
+        },
+        {
+            "value": "vacation",
+            "label": {
+                "fr": "vacation",
+                "en": "student contract"
+            }
         }
     ],
     "facultyMonitoringTypes": [
@@ -2602,10 +2609,17 @@
             }
         },
          {
-            "value": "ANR",
+            "value": "ANRSpecific",
             "label": {
-                "fr": "Plan d'action ANR",
-                "en": "ANR action plan"
+                "fr": "Programme ANR spécifique",
+                "en": "ANR specific program"
+            }
+        },
+         {
+            "value": "ANRGeneric",
+            "label": {
+                "fr": "Programme ANR générique",
+                "en": "ANR generic program"
             }
         }
     ],

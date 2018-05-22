@@ -314,7 +314,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
           .combineLatest(this.details$)
       })
       .map(([{ count, logs }, details]) => {
-        this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))))
+        this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab) : ''))))
           .map(labs => keyBy(labs, 'id'));
 
         if (details && this.options['path']) return logs.map(log => Object.assign({}, log, {

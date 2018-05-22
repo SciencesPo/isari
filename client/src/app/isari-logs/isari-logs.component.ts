@@ -92,7 +92,7 @@ export class IsariLogsComponent implements OnInit {
           .getForeignLabel(
             'Organization',
             uniq(
-              flattenDeep(logs.map(log => log.who.roles.map(role => role.lab)))
+              flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab):[]))
             )
           )
           .map(labs => keyBy(labs, 'id'));

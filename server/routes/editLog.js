@@ -70,8 +70,10 @@ const validateParams = ({ model, itemID, req }) => Promise.resolve()
 	})
 	// User has to be central admin or center_admin to access editLog list feature
 	.then(() => {
-		if (!itemID && (req.userCentralRole !== 'admin' && req.userRoles[req.userScopeOrganizationId] !== 'center_admin' )) {
-			throw new UnauthorizedError({ title: 'EditLog is restricted to central admin users'})
+		if (!itemID && (req.userCentralRole !== 'admin' && 
+			  req.userRoles[req.userScopeOrganizationId] !== 'center_admin' && 
+			  req.userRoles[req.userScopeOrganizationId] !== 'center_editor')) {
+			throw new UnauthorizedError({ title: 'EditLog is restricted to central admin, center admin and center editor users'})
 		}
 	})
 	// User has to have write access on an object to access its editlog
@@ -338,6 +340,7 @@ const findEdits = (model, query, whoIds, itemIds, canViewConfidential) => {
 			as: 'itemObject'
 		}},
 		{'$project':{
+			who:1,
 			whoID:1,
 			date:1,
 			item:1,
@@ -396,6 +399,13 @@ const formatEdits = (data, model, removeConfidential) => {
 			edit.who.roles = d.creator[0].isariAuthorizedCenters ?
 							d.creator[0].isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
 							[]
+		}
+		else {
+			if (d.who) {
+				// if creator user couldn't have been retrieve through lookup query (user deleted), use cache who info stored in edit
+				edit.who.name = d.who.name
+				edit.who.roles = d.who.roles
+			}
 		}
 
 		edit.date = d.date
