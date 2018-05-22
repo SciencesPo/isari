@@ -6,6 +6,7 @@ const chalk = require('chalk')
 const removeEmptyFields = require('./remove-empty-fields')
 const { get, set } = require('lodash')
 
+const { ObjectId } = require('mongoose').Types
 
 const EditLogSchema = new mongoose.Schema({
 	model: {
@@ -34,7 +35,7 @@ const EditLogSchema = new mongoose.Schema({
 		required: false
 	},
 	who: {
-		type: String,
+		type: mongoose.Schema.Types.Mixed,
 		required: false
 	},
 	whoID: {
@@ -57,7 +58,6 @@ const EditLog = mongoose.model('EditLog', EditLogSchema)
 
 
 const getWho = doc => {
-	const modelName = doc.constructor.modelName
 	const who = doc.latestChangeBy
 
 	if (!who) {
@@ -65,9 +65,26 @@ const getWho = doc => {
 		const stack = Error().stack.split('\n').slice(2).join('\n')
 		process.stderr.write(chalk.yellow(`[EditLog][${modelName}] Field 'latestChangeBy' not set, operation will be logged anonymously\n`))
 		process.stderr.write(chalk.yellow(stack) + '\n\n')
+		return Promise.resolve({})
+	}
+	else {
+		// fetch info about who in people collection and cache those info
+		// This system is a fallback to hydrate who info if an editor user is deleted from DB
+
+		return mongoose.models['People'].findOne({ _id: ObjectId(who) }).then(user => {
+
+			if (user)
+				return { id: user._id,
+				     name: `${user.firstName ? user.firstName+' ':''}${user.name}`,
+				     roles: user.isariAuthorizedCenters ?
+							user.isariAuthorizedCenters.map(iac =>({lab:iac.organization,role:iac.isariRole})):
+							[]
+				 }
+			else Promise.reject(Error('People Not Found'))
+		})
 	}
 
-	return [ modelName, who ]
+	
 }
 
 const middleware = schema => {
@@ -84,35 +101,38 @@ const middleware = schema => {
 	})
 
 	schema.pre('save', function (next) {
-		const [modelName, who] = getWho(this)
-		const data = this.toObject()
+		const modelName = this.constructor.modelName
+		getWho(this).then((who)=>{
+			const data = this.toObject()
 
-		// Create a EditLog instance
-		// Store for post-save
-		// We need to create it in pre-save to have a working 'isNew' attr
-		const editLog = {
-			model: modelName,
-			item: data._id,
-			date: new Date(),
-			action: this.isNew ? 'create' : 'update',
-			whoID: who
-		}
-
-		if (this.isNew) {
-			editLog.data = data
-		}
-		else {
-			// If the model was updated, we only store a diff
-			const changes = flattenDiff(deepDiff(cleanupData(this._original), cleanupData(data)))
-			if (isEmptyDiff(changes)) {
-				return next() // no edit log inserted for empty diff
+			// Create a EditLog instance
+			// Store for post-save
+			// We need to create it in pre-save to have a working 'isNew' attr
+			const editLog = {
+				model: modelName,
+				item: data._id,
+				date: new Date(),
+				action: this.isNew ? 'create' : 'update',
+				who : who,
+				whoID: who.id || ''
 			}
-			editLog.diff = changes
-		}
 
-		this._elLogToBeSaved = new EditLog(editLog)
+			if (this.isNew) {
+				editLog.data = data
+			}
+			else {
+				// If the model was updated, we only store a diff
+				const changes = flattenDiff(deepDiff(cleanupData(this._original), cleanupData(data)))
+				if (isEmptyDiff(changes)) {
+					return next() // no edit log inserted for empty diff
+				}
+				editLog.diff = changes
+			}
 
-		next()
+			this._elLogToBeSaved = new EditLog(editLog)
+
+			next()
+		})
 	})
 
 	schema.post('save', doc => {
@@ -124,20 +144,22 @@ const middleware = schema => {
 
 	// TODO: this will be handled differently when we solve the delete conundrum
 	schema.post('remove', doc => {
-		const [modelName, who] = getWho(doc)
+		const modelName = doc.constructor.modelName
+		getWho(doc).then((who)=>{
+			// Create a EditLog instance
+			const log = new EditLog({
+				model: modelName,
+				item: doc.id,
+				date: new Date(),
+				data: doc.toObject(),
+				action: 'delete',
+				who: who,
+				whoID: who.id
+			})
 
-		// Create a EditLog instance
-		const log = new EditLog({
-			model: modelName,
-			item: doc.id,
-			date: new Date(),
-			data: doc.toObject(),
-			action: 'delete',
-			whoID: who
+			// Save it asynchronously
+			log.save()	
 		})
-
-		// Save it asynchronously
-		log.save()
 	})
 
 }
