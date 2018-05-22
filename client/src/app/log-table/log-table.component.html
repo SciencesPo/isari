@@ -1,192 +1,174 @@
-<md-card>
-    <md-toolbar>
-      <span>{{ 'editLogs.title' | translate }} : {{ feature | translate }}</span>
-      &nbsp;
+<mat-card>
+  <mat-toolbar>
+    <span>{{ 'editLogs.title' | translate }} : {{ feature | translate }}</span>
+    &nbsp;
 
-      <isari-date
-        [form]="filterForm"
-        name="startDate"
-        [label]="'startDate' | translate"
-        [requirement]="false"></isari-date>
+    <isari-date [form]="filterForm" name="startDate" [label]="'startDate' | translate" [requirement]="false"></isari-date>
 
-      <isari-date
-        [form]="filterForm"
-        name="endDate"
-        [label]="'endDate' | translate"
-        [requirement]="false"></isari-date>
+    <isari-date [form]="filterForm" name="endDate" [label]="'endDate' | translate" [requirement]="false"></isari-date>
 
-      <md-checkbox (change)="toggleView()">{{ 'editLogs.details' | translate }}</md-checkbox>
+    <mat-checkbox (change)="toggleView()">{{ 'editLogs.details' | translate }}</mat-checkbox>
 
-      <span class="filer"></span>
+    <span class="filer"></span>
 
-      <button md-raised-button [md-menu-trigger-for]="menu">{{ 'download_select' | translate }}</button>
-      <md-menu #menu="mdMenu">
-        <button md-menu-item (click)="export('xlsx')">{{ 'download_excel_table'  | translate}}</button>
-        <button md-menu-item (click)="export('csv')">{{ 'download_csv_table'  | translate}}</button>
-      </md-menu>
+    <button mat-raised-button [matMenuTriggerFor]="menu">{{ 'download_select' | translate }}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="export('xlsx')">{{ 'download_excel_table' | translate}}</button>
+      <button mat-menu-item (click)="export('csv')">{{ 'download_csv_table' | translate}}</button>
+    </mat-menu>
 
-    </md-toolbar>
+  </mat-toolbar>
 
-    <table class="striped bordered">
+  <table class="striped bordered">
 
-          <thead>
-            <tr>
-              <th>{{ 'editLogs.date' | translate }}</th>
-              <th *ngIf="!hideItemCol">
-                  <isari-select
-                    [showLink]="false"
-                    [src]="itemSettings.src"
-                    [stringValue]="itemSettings.stringValue"
-                    api="people"
-                    [name]="'itemID'"
-                    [label]="'editLogs.object.' + feature | translate"
-                    [requirement]="false"
-                    [form]="filterForm"></isari-select>
-              </th>
-              <th>
-                <md-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
-                  <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
-                  <md-option *ngFor="let action of actions" [value]="action">{{ 'editLogs.actions.' + action | translate }}</md-option>
-                </md-select>
-              </th>
+    <thead>
+      <tr>
+        <th>{{ 'editLogs.date' | translate }}</th>
+        <th *ngIf="!hideItemCol">
+          <isari-select [showLink]="false" [src]="itemSettings.src" [stringValue]="itemSettings.stringValue" api="people" [name]="'itemID'"
+            [label]="'editLogs.object.' + feature | translate" [requirement]="false" [form]="filterForm"></isari-select>
+        </th>
+        <th>
+          <mat-form-field>
+            <mat-select [placeholder]="'editLogs.action' | translate" [formControl]="filterForm.controls['action']" *ngIf="filterForm.controls['action']">
+              <mat-option>{{ 'editLogs.actions.all' | translate }}</mat-option>
+              <mat-option *ngFor="let action of actions" [value]="action">{{ 'editLogs.actions.' + action | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
 
-              <th>
-                <md-select *ngIf="filterForm.controls['path']"
-                  [placeholder]="'editLogs.fields' | translate"
-                  [formControl]="filterForm.controls['path']">
-                  <md-option>{{ 'editLogs.allFields' | translate }}</md-option>
-                  <md-option *ngFor="let field of fields" [value]="field.value">{{ field.label }}</md-option>
-                </md-select>
-              </th>
+        <th>
+          <mat-form-field>
+            <mat-select *ngIf="filterForm.controls['path']" [placeholder]="'editLogs.fields' | translate" [formControl]="filterForm.controls['path']">
+              <mat-option>{{ 'editLogs.allFields' | translate }}</mat-option>
+              <mat-option *ngFor="let field of fields" [value]="field.value">{{ field.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
 
-              <th>
-                <md-select *ngIf="filterForm.controls['accessMonitoring']"
-                  [placeholder]="'editLogs.accessMonitoring' | translate"
-                  [formControl]="filterForm.controls['accessMonitoring']">
-                  <md-option>{{ 'editLogs.allFields' | translate }}</md-option>
-                  <md-option *ngFor="let val of accessMonitorings" [value]="val.value">{{ val.label }}</md-option>
-                </md-select>
-              </th>
+        <th>
+          <mat-form-field>
+            <mat-select *ngIf="filterForm.controls['accessMonitoring']" [placeholder]="'editLogs.accessMonitoring' | translate" [formControl]="filterForm.controls['accessMonitoring']">
+              <mat-option>{{ 'editLogs.allFields' | translate }}</mat-option>
+              <mat-option *ngFor="let val of accessMonitorings" [value]="val.value">{{ val.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
 
-              <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
-                <div style="display:flex">
-                  <isari-select
-                    style="flex-grow:1;width:33%;"
-                    [showLink]="false"
-                    [src]="whoSettings.src"
-                    [stringValue]="whoSettings.stringValue"
-                    api="people"
-                    [name]="'whoID'"
-                    [label]="'editLogs.who' | translate"
-                    [requirement]="false"
-                    [form]="filterForm"></isari-select>
-                  <isari-select
-                    style="flex-grow:1;width:33%;"
-                    [showLink]="false"
-                    [src]="labSettings.src"
-                    [stringValue]="labSettings.stringValue"
-                    api="organizations"
-                    [name]="'isariLab'"
-                    [label]="'editLogs.lab' | translate"
-                    [requirement]="false"
-                    [form]="filterForm"></isari-select>
-                  <md-select *ngIf="filterForm.controls['isariRole']"
-                    style="flex-grow:1;width:33%;align-self:center;"
-                    [placeholder]="'editLogs.role' | translate"
-                    [formControl]="filterForm.controls['isariRole']">
-                    <md-option>{{ 'editLogs.actions.all' | translate }}</md-option>
-                    <md-option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</md-option>
-                  </md-select>
-                </div>
-              </th>
+        <th style="max-width:25%;border:1px solid #ddd;background:#f2f2f2;">
+          <div style="display:flex">
+            <isari-select style="flex-grow:1;width:33%;" [showLink]="false" [src]="whoSettings.src" [stringValue]="whoSettings.stringValue"
+              api="people" [name]="'whoID'" [label]="'editLogs.who' | translate" [requirement]="false" [form]="filterForm"></isari-select>
+            <isari-select style="flex-grow:1;width:33%;" [showLink]="false" [src]="labSettings.src" [stringValue]="labSettings.stringValue"
+              api="organizations" [name]="'isariLab'" [label]="'editLogs.lab' | translate" [requirement]="false" [form]="filterForm"></isari-select>
+            <mat-form-field>
+              <mat-select *ngIf="filterForm.controls['isariRole']" style="flex-grow:1;width:33%;align-self:center;" [placeholder]="'editLogs.role' | translate"
+                [formControl]="filterForm.controls['isariRole']">
+                <mat-option>{{ 'editLogs.actions.all' | translate }}</mat-option>
+                <mat-option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </th>
 
-            </tr>
-          </thead>
+      </tr>
+    </thead>
 
-          <tbody *ngIf="data; else loading">
-            <tr *ngIf="!data.logs.length">
-              <td [colSpan]="hideItemCol ? 5 : 6" style="text-align:center;">{{ 'no result' | translate }}</td>
-            </tr>
-            <ng-template ngFor let-log [ngForOf]="data.logs" let-i="index">
-              <tr [class.open1]="log._open" [class.odd]="i % 2 === 0">
+    <tbody *ngIf="data; else loading">
+      <tr *ngIf="!data.logs.length">
+        <td [colSpan]="hideItemCol ? 5 : 6" style="text-align:center;">{{ 'no result' | translate }}</td>
+      </tr>
+      <ng-template ngFor let-log [ngForOf]="data.logs" let-i="index">
+        <tr [class.open1]="log._open" [class.odd]="i % 2 === 0">
 
-                <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
-                <td *ngIf="!hideItemCol">
-                    <a target="_blank" *ngIf="log.action !== 'delete';else nolink" [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]" queryParamsHandling="preserve">{{ log.item.name }}</a>
-                    <ng-template #nolink>{{ log.item.name }}</ng-template>
-                </td>
-                <td [class.bleft]="log._open">{{ 'editLogs.actions.' + log.action | translate }}</td>
-                <td class="labels" (click)="toggle(log, $event)">
-                  <md-icon *ngIf="!log._open">expand_more</md-icon>
-                  <md-icon *ngIf="log._open">expand_less</md-icon>
-                  <ng-template [ngIf]="!log._open">
-                    <p *ngFor="let label of log._labels">{{ label }}</p>
-                  </ng-template>
-                </td>
-                <td>
-                  <span *ngFor="let accessMonitoring of log.accessMonitorings">{{ accessMonitoring._label }}<br></span>
-                </td>
-                <td>
-                  <div style="display:flex">
-                    <div style="flex-grow:1;width:33%;">{{ log.who.name }}</div>
-                    <div style="flex-grow:1;width:33%;">
-                        <p *ngFor="let role of log.who.roles">
-                        <span *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</span>
-                      </p>
-                    </div>
-                    <div style="flex-grow:1;width:33%;">
-                        <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
-                    </div>
-                  </div>
-                </td>
-
-              </tr>
-              <ng-template [ngIf]="log._open">
-              <ng-template ngFor let-diff [ngForOf]="log.diff" let-j="index" let-islast="last">
-              <tr class="open2" [class.odd]="i % 2 === 0" [class.last]="islast">
-                <td></td>
-                <td *ngIf="!hideItemCol"></td>
-                <td [class.bleft]="log._open">{{ 'editLogs.actions.' + diff.editType | translate }}</td>
-                <td>{{ diff._label }}</td>
-                <td>{{ diff.accessMonitoring }}</td>
-                <td colspan="2">
-                  <pre style="color:red;" [innerHTML]="diff._beforeLabelled$ | async"></pre>
-                  <pre style="color:green;" [innerHTML]="diff._afterLabelled$ | async"></pre>
-                </td>
-                <td></td>
-              </tr>
-              </ng-template>
-              </ng-template>
+          <td>{{ log.date | date:'yyyy-MM-dd HH:mm' }}</td>
+          <td *ngIf="!hideItemCol">
+            <a target="_blank" *ngIf="log.action !== 'delete';else nolink" [routerLink]="['/', feature, { outlets: { editor: log.item.id } }]"
+              queryParamsHandling="preserve">{{ log.item.name }}</a>
+            <ng-template #nolink>{{ log.item.name }}</ng-template>
+          </td>
+          <td [class.bleft]="log._open">{{ 'editLogs.actions.' + log.action | translate }}</td>
+          <td class="labels" (click)="toggle(log, $event)">
+            <mat-icon *ngIf="!log._open">expand_more</mat-icon>
+            <mat-icon *ngIf="log._open">expand_less</mat-icon>
+            <ng-template [ngIf]="!log._open">
+              <p *ngFor="let label of log._labels">{{ label }}</p>
             </ng-template>
-          </tbody>
+          </td>
+          <td>
+            <span *ngFor="let accessMonitoring of log.accessMonitorings">{{ accessMonitoring._label }}
+              <br>
+            </span>
+          </td>
+          <td>
+            <div style="display:flex">
+              <div style="flex-grow:1;width:33%;">{{ log.who.name }}</div>
+              <div style="flex-grow:1;width:33%;">
+                <p *ngFor="let role of log.who.roles">
+                  <span *ngIf="labs && role.lab">{{ labs[role.lab]?.value }}</span>
+                </p>
+              </div>
+              <div style="flex-grow:1;width:33%;">
+                <p *ngFor="let role of log.who.roles">{{ role._label }}</p>
+              </div>
+            </div>
+          </td>
 
-          <ng-template #loading>
-            <tbody>
-              <tr>
-                <td [colSpan]="hideItemCol ? 5 : 6">
-                  <isari-spinner></isari-spinner>
-                </td>
-              </tr>
-            </tbody>
+        </tr>
+        <ng-template [ngIf]="log._open">
+          <ng-template ngFor let-diff [ngForOf]="log.diff" let-j="index" let-islast="last">
+            <tr class="open2" [class.odd]="i % 2 === 0" [class.last]="islast">
+              <td></td>
+              <td *ngIf="!hideItemCol"></td>
+              <td [class.bleft]="log._open">{{ 'editLogs.actions.' + diff.editType | translate }}</td>
+              <td>{{ diff._label }}</td>
+              <td>{{ diff.accessMonitoring }}</td>
+              <td colspan="2">
+                <pre style="color:red;" [innerHTML]="diff._beforeLabelled$ | async"></pre>
+                <pre style="color:green;" [innerHTML]="diff._afterLabelled$ | async"></pre>
+              </td>
+              <td></td>
+            </tr>
           </ng-template>
+        </ng-template>
+      </ng-template>
+    </tbody>
 
-        </table>
+    <ng-template #loading>
+      <tbody>
+        <tr>
+          <td [colSpan]="hideItemCol ? 5 : 6">
+            <isari-spinner></isari-spinner>
+          </td>
+        </tr>
+      </tbody>
+    </ng-template>
 
-        <div class="pagination">
-          <ul *ngIf="hasPagination()">
-            <li><a md-button (click)="navigatePrev()" *ngIf="hasPrev()"><md-icon>navigate_before</md-icon></a>
-            <li><span>{{ firstIndex }}-{{ lastIndex }} / {{ data.count }}</span></li>
-            <li><a md-button (click)="navigateNext()" *ngIf="hasNext()"><md-icon>navigate_next</md-icon></a>
-          </ul>
+  </table>
 
-          <md-select style="align-self:flex-end" [placeholder]="'editLogs.limit' | translate" [formControl]="filterForm.controls['limit']" *ngIf="filterForm.controls['limit']">
-              <md-option *ngFor="let limit of limits" [value]="limit">{{ limit }}</md-option>
-          </md-select>
+  <div class="pagination">
+    <ul *ngIf="hasPagination()">
+      <li>
+        <a mat-button (click)="navigatePrev()" *ngIf="hasPrev()">
+          <mat-icon>navigate_before</mat-icon>
+        </a>
+        <li>
+          <span>{{ firstIndex }}-{{ lastIndex }} / {{ data.count }}</span>
+        </li>
+        <li>
+          <a mat-button (click)="navigateNext()" *ngIf="hasNext()">
+            <mat-icon>navigate_next</mat-icon>
+          </a>
+    </ul>
 
-        </div>
+    <mat-form-field>
+      <mat-select style="align-self:flex-end" [placeholder]="'editLogs.limit' | translate" [formControl]="filterForm.controls['limit']"
+        *ngIf="filterForm.controls['limit']">
+        <mat-option *ngFor="let limit of limits" [value]="limit">{{ limit }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <!-- remove me style WTF ??? -->
-        <md-input style="display:none" placeholder="Company (disabled)" disabled value="Google"></md-input>
+  </div>
 
-</md-card>
 
+</mat-card>

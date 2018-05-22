@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -34,24 +35,37 @@ export class IsariLogsComponent implements OnInit {
     private translate: TranslateService,
     private router: Router,
     private toasterService: ToasterService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.options$ = new BehaviorSubject(this.options);
     this.details$ = new BehaviorSubject(false);
-    this.logs$ = Observable.combineLatest([
-      this.route.paramMap,
+
+
+    this.route.paramMap.combineLatest(
       this.options$,
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
         .startWith(this.translate.currentLang)
-    ])
+    )
+
+
+      // this.logs$ = Observable.combineLatest([
+      //   this.route.paramMap,
+      //   this.options$,
+      //   this.translate.onLangChange
+      //     .map((event: LangChangeEvent) => event.lang)
+      //     .startWith(this.translate.currentLang)
+      // ])
+
+
+
       .switchMap(([paramMap, options, lang]) => {
-        this.feature = (<ParamMap>paramMap).get('feature');
+        this.feature = paramMap.get('feature');
         this.options = Object.assign(
           {},
           {
-            itemID: (<ParamMap>paramMap).get('itemID')
+            itemID: paramMap.get('itemID')
           },
           options
         );

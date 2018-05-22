@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { environment } from '../environments/environment';
 import 'rxjs/add/operator/publishReplay';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class UserService {
@@ -57,20 +58,20 @@ export class UserService {
     return this.organizations;
   }
 
-  getOrganization (id: string | undefined) {
+  getOrganization(id: string | undefined) {
     return this.getOrganizations()
       .map(({ organizations }) => organizations.find(organization => organization.id === id));
   }
 
-  setCurrentOrganizationId (id: string) {
+  setCurrentOrganizationId(id: string) {
     this.currentOrganizationId = id;
   }
 
-  getCurrentOrganizationId () {
+  getCurrentOrganizationId() {
     return this.currentOrganizationId;
   }
 
-  getRestrictedFields () {
+  getRestrictedFields() {
     return this.getOrganization(this.currentOrganizationId)
       .map(organization => organization.restrictedFields);
   }

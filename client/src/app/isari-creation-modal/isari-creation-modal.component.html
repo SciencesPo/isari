@@ -1,6 +1,8 @@
 <p>{{ 'checkExistence.' + feature | translate }}</p>
 
-<md-input [formControl]="queryControl" placeholder="Rechercher ..."></md-input>
+<mat-form-field>
+    <input matInput [formControl]="queryControl" placeholder="Rechercher ...">
+</mat-form-field>
 
 <table class="striped bordered">
     <tbody>
@@ -8,7 +10,7 @@
             <td>{{ item.value }}</td>
             <td>
                 <a [routerLink]="['/', feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" queryParamsHandling="preserve">
-                    <md-icon>open_in_new</md-icon>
+                    <mat-icon>open_in_new</mat-icon>
                 </a>
             </td>
         </tr>
@@ -17,5 +19,6 @@
 
 <p>
     {{ 'no matching' | translate }}
-    <a (click)="closeMe()" [disabled]="!minimalSearchDone" md-raised-button color="primary" [routerLink]="['/', feature , { outlets: { primary: 'new', editor: null } }]" queryParamsHandling="preserve" target="_blank">{{ 'Continuer' | translate }}</a>
+    <a (click)="closeMe()" [disabled]="!minimalSearchDone" mat-raised-button color="primary" [routerLink]="['/', feature , { outlets: { primary: 'new', editor: null } }]"
+        queryParamsHandling="preserve" target="_blank">{{ 'Continuer' | translate }}</a>
 </p>

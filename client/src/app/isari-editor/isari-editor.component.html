@@ -1,67 +1,52 @@
 <div *ngIf="messageQueryError" class="queryError" translate>
-  {{ 'error.' + messageQueryError }}
+    {{ 'error.' + messageQueryError }}
 </div>
 <div *ngIf="exist">
-  <md-card id="form">
-      <isari-data-editor
-          [feature]="feature"
-          [form]="form"
-          [layout]="layout"
-          (onSave)="save($event)"
-          (onUpdate)="onUpdate($event)"
-          (onError)="cumulError($event)"
-          [path]=""
-          [lang]="lang"></isari-data-editor>
-  </md-card>
+    <mat-card id="form">
+        <isari-data-editor [feature]="feature" [form]="form" [layout]="layout" (onSave)="save($event)" (onUpdate)="onUpdate($event)"
+            (onError)="cumulError($event)" [path]="" [lang]="lang"></isari-data-editor>
+    </mat-card>
 
-  <md-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
+    <mat-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
 
-      <ng-template ngFor let-relation [ngForOf]="relations" let-i="index" [ngForTrackBy]="trackByFn">
-          <div *ngIf="relation.value.length" style="margin-right:1em;">
-              <button type="button" md-raised-button (click)="relation.show = !relation.show">
-                  ({{ relation.value.length }}) {{ relation.label | translate }}
-                  <md-icon>arrow_drop_down_circle</md-icon>
-              </button>
-              <table class="striped" *ngIf="relation.show">
-                  <tbody>
-                      <tr *ngFor="let item of relation.value">
-                          <td>{{ item.label }} </td>
-                          <td>
-                              <a [routerLink]="['/', relation.feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" queryParamsHandling="preserve">
-                                  <md-icon>open_in_new</md-icon>
-                              </a>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-      </ng-template>
+        <ng-template ngFor let-relation [ngForOf]="relations" let-i="index" [ngForTrackBy]="trackByFn">
+            <div *ngIf="relation.value.length" style="margin-right:1em;">
+                <button type="button" mat-raised-button (click)="relation.show = !relation.show">
+                    ({{ relation.value.length }}) {{ relation.label | translate }}
+                    <mat-icon>arrow_drop_down_circle</mat-icon>
+                </button>
+                <table class="striped" *ngIf="relation.show">
+                    <tbody>
+                        <tr *ngFor="let item of relation.value">
+                            <td>{{ item.label }} </td>
+                            <td>
+                                <a [routerLink]="['/', relation.feature, { outlets: { primary: item.id, editor: null }}]" target="_blank" queryParamsHandling="preserve">
+                                    <mat-icon>open_in_new</mat-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-template>
 
-      <div style="text-align: right;flex-grow:1;">
-          <button [disabled]="!deletable" type="button" md-raised-button color="primary" class="delete" (click)="delete($event)">{{ 'delete' | translate }}</button>
-          <p *ngIf="!deletable"  style="color:#666;">{{ 'warningDelete.' + feature | translate }}</p>
-      </div>
+        <div style="text-align: right;flex-grow:1;">
+            <button [disabled]="!deletable" type="button" mat-raised-button color="primary" class="delete" (click)="delete($event)">{{ 'delete' | translate }}</button>
+            <p *ngIf="!deletable" style="color:#666;">{{ 'warningDelete.' + feature | translate }}</p>
+        </div>
 
-  </md-card>
+    </mat-card>
 
-  <md-card *ngIf="data?.opts.deletable && data.id" class="history">
+    <mat-card *ngIf="data?.opts.deletable && data.id" class="history">
 
-    <button (click)="history()" md-raised-button>
-      <md-icon>history</md-icon>
-      {{ 'editLogs.title' | translate }}
-    </button>
+        <button (click)="history()" mat-raised-button>
+            <mat-icon>history</mat-icon>
+            {{ 'editLogs.title' | translate }}
+        </button>
 
-    <isari-log-table *ngIf="displayHistory"
-      style="width:100%"
-      [feature]="feature"
-      [data]="logs$ | async"
-      [labs]="labs$ | async"
-      [options]="options"
-      [hideItemCol]="true"
-      (onExport)="exportLogs($event)"
-      (onOptionsChange)="changeOpt($event)"
-      (onDetailsToggle)="toggleDetails()"></isari-log-table>
+        <isari-log-table *ngIf="displayHistory" style="width:100%" [feature]="feature" [data]="logs$ | async" [labs]="labs$ | async"
+            [options]="options" [hideItemCol]="true" (onExport)="exportLogs($event)" (onOptionsChange)="changeOpt($event)" (onDetailsToggle)="toggleDetails()"></isari-log-table>
 
-  </md-card>
+    </mat-card>
 
 </div>

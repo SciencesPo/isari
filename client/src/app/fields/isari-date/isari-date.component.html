@@ -1,72 +1,74 @@
-<span [formGroup]="form" class="input-date isari-input-wrapper" (blur)="onBlur($event)" [md-tooltip]="description">
+<span [formGroup]="form" class="input-date isari-input-wrapper mat-form-field-can-float mat-form-field-appearance-legacy mat-form-field-should-float"
+  (blur)="onBlur($event)" [matTooltip]="description">
   <input type="hidden" [formControlName]="name">
 
-  <div class="md-input-wrapper">
-    <div class="md-input-table">
-      <div class="md-input-prefix"></div>
-      <div class="md-input-infix">
-        <input class="md-input-element"
-          (focus)="onFocus($event)"
-          [formControl]="selectControl" *ngIf="!focused">
-        <input class="md-input-element"
-          (keydown.enter)="update($event)"
-          focusMe
-          (blur)="onBlur($event)"
-          [formControl]="selectIsoControl"
+  <div class="mat-form-field-wrapper">
+    <div class="mat-form-field-flex">
+      <div class="mat-form-field-prefix"></div>
+      <div class="mat-form-field-infix">
+        <input class="mat-input-element" (focus)="onFocus($event)" [formControl]="selectControl" *ngIf="!focused">
+        <input class="mat-input-element" (keydown.enter)="update($event)" focusMe (blur)="onBlur($event)" [formControl]="selectIsoControl"
           [textMask]="{mask: mask, pipe: pipe}" *ngIf="focused">
-        <label class="md-input-placeholder md-float" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
-          {{ label }}
-        </label>
+        <span class="mat-form-field-label-wrapper">
+          <label class="mat-form-field-label" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
+            {{ label }}
+          </label>
+        </span>
       </div>
-      <div class="md-input-suffix">
+      <div class="mat-form-field-suffix">
         <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
-        <md-icon *ngIf="description" class="tooltip-fields" [md-tooltip]="description">info_outline</md-icon>
+        <mat-icon *ngIf="description" class="tooltip-fields" [matTooltip]="description">info_outline</mat-icon>
       </div>
     </div>
-    <div class="md-input-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
-      <span class="md-input-ripple" [ngClass]="{ 'md-focused': focused }"></span>
+    <div class="mat-form-field-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
+      <span class="mat-form-field-ripple" [ngClass]="{ 'md-focused': focused }"></span>
     </div>
-    <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">{{ 'mandatory' | translate }}</md-hint>
+    <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
+      class="error">{{ 'mandatory' | translate }}</mat-hint>
   </div>
 
-  <div class="md-menu" [hidden]="!focused">
-    <span md-menu-item disabled>
-      <button tabindex="-1" md-button (mousedown)="display('days')">{{ day || ('day' | translate) }}</button>
-      <div class="remove-content" tabindex="-1" (mousedown)="setDay(null, $event)" md-button>
-        <md-icon>clear</md-icon>
+  <div class="mat-menu" [hidden]="!focused">
+    <span mat-menu-item disabled>
+      <button tabindex="-1" mat-button (mousedown)="display('days')">{{ day || ('day' | translate) }}</button>
+      <div class="remove-content" tabindex="-1" (mousedown)="setDay(null, $event)" mat-button>
+        <mat-icon>clear</mat-icon>
       </div>
-      <button tabindex="-1" md-button (mousedown)="display('months')">{{ months[lang][month - 1] || ('month' | translate) }}</button>
-      <div class="remove-content" tabindex="-1" (mousedown)="setMonth(null, $event)" md-button>
-        <md-icon>clear</md-icon>
+      <button tabindex="-1" mat-button (mousedown)="display('months')">{{ months[lang][month - 1] || ('month' | translate) }}</button>
+      <div class="remove-content" tabindex="-1" (mousedown)="setMonth(null, $event)" mat-button>
+        <mat-icon>clear</mat-icon>
       </div>
-      <button tabindex="-1" md-button (mousedown)="display('years')">{{ year || ('year' | translate) }}</button>
-      <div class="remove-content" tabindex="-1" (mousedown)="deleteDate(year, $event)" md-button>
-        <md-icon>clear</md-icon>
+      <button tabindex="-1" mat-button (mousedown)="display('years')">{{ year || ('year' | translate) }}</button>
+      <div class="remove-content" tabindex="-1" (mousedown)="deleteDate(year, $event)" mat-button>
+        <mat-icon>clear</mat-icon>
       </div>
     </span>
 
     <div *ngIf="displayed === 'days'" class="calendar">
-      <button tabindex="-1"  *ngFor="let d of days" (mousedown)="setDay(d, $event)" md-icon-button>{{ d }}</button>
+      <button tabindex="-1" *ngFor="let d of days" (mousedown)="setDay(d, $event)" mat-icon-button>{{ d }}</button>
     </div>
 
     <div *ngIf="displayed === 'months'" class="calendar-months">
-      <button tabindex="-1" *ngFor="let m of months[lang]; let i = index" (mousedown)="setMonth(i+1, $event)" md-button>{{ m }}</button>
+      <button tabindex="-1" *ngFor="let m of months[lang]; let i = index" (mousedown)="setMonth(i+1, $event)" mat-button>{{ m }}</button>
     </div>
 
     <div *ngIf="displayed === 'years'" class="calendar-years">
-      <button tabindex="-1" (mousedown)="navigateYears(years[0]-8, $event)" md-button><md-icon>keyboard_arrow_left</md-icon></button>
-        <button tabindex="-1" *ngFor="let y of years" (mousedown)="setYear(y, $event)" md-button color="">{{ y }}</button>
-      <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" md-button><md-icon>keyboard_arrow_right</md-icon></button>
+      <button tabindex="-1" (mousedown)="navigateYears(years[0]-8, $event)" mat-button>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button tabindex="-1" *ngFor="let y of years" (mousedown)="setYear(y, $event)" mat-button color="">{{ y }}</button>
+      <button tabindex="-1" (mousedown)="navigateYears(years[years.length - 1]+6, $event)" mat-button>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
     </div>
 
     <div class="validate">
 
-      <button tabindex="-1" (mousedown)="undoDate($event)" md-menu-item>
-        <md-icon color="primary">undo</md-icon>
+      <button tabindex="-1" (mousedown)="undoDate($event)" mat-menu-item>
+        <mat-icon color="primary">undo</mat-icon>
       </button>
 
-      <button tabindex="-1" (mousedown)="update($event)" md-menu-item>
-        <md-icon color="primary">done</md-icon>
+      <button tabindex="-1" (mousedown)="update($event)" mat-menu-item>
+        <mat-icon color="primary">done</mat-icon>
       </button>
     </div>
 

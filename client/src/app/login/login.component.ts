@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/catch';
 import { UserService } from '../user.service';
 import { IsariDataService } from '../isari-data.service';
 
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private isariDataService: IsariDataService,
     private router: Router,
-    private fb: FormBuilder) {}
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
       .catch(this.handleError)
       .subscribe(res => {
         this.isariDataService.clearCache(),
-        this.router.navigate(['']);
+          this.router.navigate(['']);
       }, error => {
         if (error.error && error.error.status === 403) {
           this.errorMessage = 'no_org error';

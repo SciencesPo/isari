@@ -6,7 +6,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import { IsariDataService } from '../isari-data.service';
 import { TranslateService } from 'ng2-translate';
-import { MdDialogRef, MdDialog } from '@angular/material';
+import { MatDialogRef, MatDialog } from '@angular/material';
 import { IsariCreationModal } from '../isari-creation-modal/isari-creation-modal.component';
 import { StorageService } from '../storage.service';
 import { UserService } from '../user.service';
@@ -19,7 +19,7 @@ import { pad } from '../utils';
 })
 export class IsariListComponent implements OnInit {
 
-  dialogRef: MdDialogRef<IsariCreationModal>;
+  dialogRef: MatDialogRef<IsariCreationModal>;
   feature: string;
   externals: boolean;
   loading: boolean = false;
@@ -35,14 +35,14 @@ export class IsariListComponent implements OnInit {
   canCreate = false;
   itemsPerPage: number;
 
-  constructor (
+  constructor(
     private userService: UserService,
     private storageService: StorageService,
     private route: ActivatedRoute,
     private isariDataService: IsariDataService,
     public translate: TranslateService,
     private titleService: Title,
-    private dialog: MdDialog) {}
+    private dialog: MatDialog) { }
 
   private today() {
     const d = new Date();
@@ -133,7 +133,7 @@ export class IsariListComponent implements OnInit {
     this.loadDatas();
   }
 
-  endDateUpdated($event) {
+  endDateUpdated($event) {
     this.storageService.upsert(this.dateForm.value.endDate, 'dateFilters', this.feature, 'endDate');
     this.loadDatas();
   }
@@ -147,18 +147,18 @@ export class IsariListComponent implements OnInit {
   }
 
   createObject() {
-      this.dialogRef = this.dialog.open(IsariCreationModal, {
-        disableClose: false
-      });
+    this.dialogRef = this.dialog.open(IsariCreationModal, {
+      disableClose: false
+    });
 
-      this.dialogRef.componentInstance.feature = this.feature;
+    this.dialogRef.componentInstance.feature = this.feature;
 
-      this.dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          //this.onDelete.emit($event);
-        }
-        this.dialogRef = null;
-      });
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        //this.onDelete.emit($event);
+      }
+      this.dialogRef = null;
+    });
   }
 
   refresh() {

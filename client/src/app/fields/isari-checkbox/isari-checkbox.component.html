@@ -1,9 +1,5 @@
-<span
-  [formGroup]="form"
-  [md-tooltip]="description">
-    <md-checkbox [isariDisabled]="form.controls[name].disabled"
-                 (change)="update($event)"
-                 [formControlName]="name">
-      {{ label }}
-    </md-checkbox>
+<span [formGroup]="form" [matTooltip]="description">
+  <mat-checkbox [disabled]="form.controls[name].disabled" (change)="update($event)" [formControlName]="name">
+    {{ label }}
+  </mat-checkbox>
 </span>
