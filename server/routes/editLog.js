@@ -70,8 +70,10 @@ const validateParams = ({ model, itemID, req }) => Promise.resolve()
 	})
 	// User has to be central admin or center_admin to access editLog list feature
 	.then(() => {
-		if (!itemID && (req.userCentralRole !== 'admin' && req.userRoles[req.userScopeOrganizationId] !== 'center_admin' )) {
-			throw new UnauthorizedError({ title: 'EditLog is restricted to central admin users'})
+		if (!itemID && (req.userCentralRole !== 'admin' && 
+			  req.userRoles[req.userScopeOrganizationId] !== 'center_admin' && 
+			  req.userRoles[req.userScopeOrganizationId] !== 'center_editor')) {
+			throw new UnauthorizedError({ title: 'EditLog is restricted to central admin, center admin and center editor users'})
 		}
 	})
 	// User has to have write access on an object to access its editlog
