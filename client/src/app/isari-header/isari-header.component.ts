@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TranslateService}  from 'ng2-translate';
+import { TranslateService } from 'ng2-translate';
 import { IsariDataService } from '../isari-data.service';
-import { UserService }  from '../user.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'isari-header',
@@ -26,7 +26,7 @@ export class IsariHeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private translate: TranslateService,
     private userService: UserService,
-    private isariDataService: IsariDataService) {}
+    private isariDataService: IsariDataService) { }
 
   ngOnInit() {
     this.organizationName = this.overrideOrganizationName;
@@ -53,6 +53,7 @@ export class IsariHeaderComponent implements OnInit {
       this.historyAccess = this.user.isariAuthorizedCenters.find(({ isariRole, organization }) =>
         isariRole === 'central_admin'
         || (isariRole === 'center_admin' && organization === this.organization.id)
+        || (isariRole === 'center_editor' && organization === this.organization.id)
       );
     });
   }
@@ -83,7 +84,7 @@ export class IsariHeaderComponent implements OnInit {
     return this.isariDataService.createExportDownloadLink(
       'xlsx',
       'hceres',
-      {id: this.organization.id}
+      { id: this.organization.id }
     );
   }
 
@@ -95,7 +96,7 @@ export class IsariHeaderComponent implements OnInit {
     return this.isariDataService.createExportDownloadLink(
       'html',
       'annex4',
-      {id: this.organization.id}
+      { id: this.organization.id }
     );
   }
 
@@ -107,7 +108,7 @@ export class IsariHeaderComponent implements OnInit {
     return this.isariDataService.createExportDownloadLink(
       'xlsx',
       'next',
-      {id: this.organization.id}
+      { id: this.organization.id }
     );
   }
 }
