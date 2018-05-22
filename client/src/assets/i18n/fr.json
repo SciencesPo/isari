@@ -11,10 +11,10 @@
   "btn_add_activities": "Ajouter une activité",
   "columns_select": "Choix des colonnes",
   "download_select": "Télécharger",
-  "download_staff_export" : "Export des effectifs en Excel",
-  "download_grants_export" : "Financements en Excel",
-  "download_excel_table" : "Tableau affiché en Excel",
-  "download_csv_table" : "Tableau affiché en CSV",
+  "download_staff_export": "Export des effectifs en Excel",
+  "download_grants_export": "Financements en Excel",
+  "download_excel_table": "Tableau affiché en Excel",
+  "download_csv_table": "Tableau affiché en CSV",
   "btn_apply": "Appliquer",
   "items_per_page": "{{ value }} objet par page",
   "lines": "lignes",
@@ -24,11 +24,12 @@
   "password": "Mot de passe",
   "externals": "Externes",
   "members": "Membres",
-  "others" : "Autres",
+  "others": "Autres",
   "resume": "Mon CV",
   "save": "Sauvegarder",
   "unknown error": "Erreur inconnue",
-  "login error": "Authentification impossible : identifiant ou mot de passe incorrect",
+  "login error":
+    "Authentification impossible : identifiant ou mot de passe incorrect",
   "no_org error": "Accès interdit : aucun centre accessible",
   "mandatory": "Obligatoire",
   "recommended": "Recommandé",
@@ -39,23 +40,27 @@
   "endDate": "Date de fin",
   "personal-space": "Espace Personnel",
   "multiplechoices": "Vous pouvez renseigner plusieurs valeurs",
-  "footermentions" : "Mentions Légales et CGU",
-  "footeraccess" : "Gérer vos accès",
-  "footerinfo" : "Pour toute question",
+  "footermentions": "Mentions Légales et CGU",
+  "footeraccess": "Gérer vos accès",
+  "footerinfo": "Pour toute question",
   "all_activities": "Toutes les activités",
   "linkedActivity": "Activités liées",
   "linkedPeople": "Personnes liées",
   "linkedOrganization": "Organisations liées",
   "delete": "Supprimer",
+  "glosssary": "Glossaire",
   "warningDelete": {
     "people": "Impossible de supprimer car cette personne est liée",
     "activities": "Impossible de supprimer car cette activité est liée",
     "organizations": "Impossible de supprimer car cette organisation est liée"
   },
   "checkExistence": {
-    "people": "Pour ajouter des Personnes, merci de vérifier d'abord si elles n'existent pas déjà.",
-    "organizations": "Pour ajouter des Organisations, merci de vérifier d'abord si elles n'existent pas déjà.",
-    "activities": "Pour ajouter des Activités, merci de vérifier d'abord si elles n'existent pas déjà."
+    "people":
+      "Pour ajouter des Personnes, merci de vérifier d'abord si elles n'existent pas déjà.",
+    "organizations":
+      "Pour ajouter des Organisations, merci de vérifier d'abord si elles n'existent pas déjà.",
+    "activities":
+      "Pour ajouter des Activités, merci de vérifier d'abord si elles n'existent pas déjà."
   },
   "no matching": "Aucune correspondance ?",
   "add": "Ajouter",
