@@ -70,10 +70,6 @@ export class IsariMultiSelectComponent implements OnInit {
     this.onUpdate.emit({ log: true, path: this.path, index: removedIndex, type: 'delete' });
   }
 
-  blurChanges() {
-    console.log('blur');
-  }
-
   ngOnInit() {
     // this.lang = this.translate.currentLang;
     this.disabled = this.form.controls[this.name].disabled;

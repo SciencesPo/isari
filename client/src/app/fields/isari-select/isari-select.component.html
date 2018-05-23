@@ -1,51 +1,20 @@
-<span [formGroup]="form" (keyup)="onKey($event)" class="isari-input-wrapper input-select">
+<mat-form-field [formGroup]="form" class="autocomplete">
   <input type="hidden" [formControlName]="name">
 
-  <div style="display: inline-block;text-align: left;width:100%;" class="mat-form-field-can-float mat-form-field-appearance-legacy mat-form-field-should-float">
-    <div class="mat-form-field-wrapper">
-      <div class="mat-form-field-flex">
-        <div class="mat-form-field-prefix">
+  <input type="text" matInput [placeholder]="label" #selectInput [formControl]="selectControl" [matAutocomplete]="auto">
 
-        </div>
-        <div class="mat-form-field-infix">
-          <input #search class="mat-input-element" (focus)="onFocus($event)" (blur)="onBlur($event)" [formControl]="selectControl">
-          <span class="mat-form-field-label-wrapper">
-            <label class="mat-form-field-label" [ngClass]="{ 'md-empty': !selectControl?.value, 'md-focused': focused }">
-              {{ label }}
-            </label>
-          </span>
-        </div>
-        <div class="mat-form-field-suffix">
-          <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
-          <mat-icon *ngIf="description" [matTooltip]="description">info_outline
-          </mat-icon>
-          <a *ngIf="id && showLink" routerLink="/{{ api }}/{{ id }}" target="_blank" queryParamsHandling="preserve">
-            <mat-icon>open_in_new</mat-icon>
-          </a>
-        </div>
-      </div>
-      <div class="mat-form-field-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
-        <span class="mat-form-field-ripple" [ngClass]="{ 'md-focused': focused }"></span>
-      </div>
-      <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
-        class="error">{{ 'mandatory' | translate }}</mat-hint>
-    </div>
-  </div>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [displayWith]="displayFn" autoActiveFirstOption>
+    <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+      {{ item.label }}
+    </mat-option>
+  </mat-autocomplete>
 
-  <div class="mat-menu" [hidden]="!focused">
-    <button [ngClass]="{active: currentIndex === i}" *ngFor="let entry of values;let i = index" mat-button style="width:100%;display:flex;"
-      (mousedown)="onSelect(i)">{{ entry.label }}</button>
+  <span matSuffix *ngIf="requirement==='recommended'" class="recommended-field ">{{ 'recommended' | translate }}</span>
+  <span matSuffix>
+    <mat-icon class="tooltip-fields " *ngIf="description" matTooltipPosition="before" [matTooltip]="description ">info_outline</mat-icon>
+  </span>
+  <span matSuffix>
+    <mat-icon class="tooltip-fields " matTooltipPosition="before" [matTooltip]=" 'multiplechoices' | translate ">info_outline</mat-icon>
+  </span>
 
-    <div *ngIf="allValues.length > max" style="display:flex;justify-content:space-between;">
-      <button mat-button color="primary" (mousedown)="paginate(-1)" [disabled]="skip === 0">
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-      <button mat-button color="primary" (mousedown)="paginate(+1)" [disabled]="skip + values.length >= allValues.length">
-        <mat-icon>navigate_next</mat-icon>
-      </button>
-    </div>
-
-    <button mat-button color="primary" *ngIf="extend" (mousedown)="createValue()">{{ 'btn_create_value' | translate }}</button>
-  </div>
-
-</span>
+</mat-form-field>

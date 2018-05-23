@@ -1,5 +1,5 @@
 <mat-form-field class="chip-list">
-  <mat-chip-list #chipList (chipBlurChanges)="blurChanges($event)">
+  <mat-chip-list #chipList>
     <mat-chip *ngFor="let item of _values" [selectable]="false" [removable]="!disabled" (removed)="removeValue(item)">
       {{ item.label }}
       <mat-icon matChipRemove *ngIf="!disabled">cancel</mat-icon>
