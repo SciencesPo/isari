@@ -22,6 +22,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
@@ -123,6 +125,8 @@ export function createTranslateLoader(http: Http) {
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule,
 
     routing,
     HttpModule,

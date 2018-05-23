@@ -201,7 +201,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
       else {
         payload = this.form.value;
       }
-
+      console.log("payload", payload);
       this.isariDataService.save(
         this.feature,
         payload
