@@ -301,6 +301,7 @@ module.exports = function(models, centerId, range, role, callback) {
                   line.delegationCNRS = g.delegationCNRS ? 'oui' : 'non'
                   line.overheadsCalculation = g.overheadsCalculation
                   line.currency = g.currencyAmount
+                  line.UG = g.UG
                   g.amounts.forEach(a => {
                     if (a.amountType === 'sciencespoobtenu' && a.budgetType === 'total' )
                         line.totalSciencesPo = a.amount
@@ -393,6 +394,7 @@ module.exports = function(models, centerId, range, role, callback) {
                     {key: 'delegationCNRS', label: 'gestion déléguée au CNRS ?'},
                     {key: 'overheadsCalculation', label: 'calcul des frais de gestion'},
                     {key: 'currency', label: 'Devise'},
+                    {key: 'UG', label: 'Unité de gestion'},
                     {key: 'totalSciencesPo', label: 'Total obtenu Sciences Po'},
                     {key: 'overheadsSciencesPo', label: 'frais de gestion Sciences Po'}, 
                     {key: 'totalConsortium', label: 'Total obtenu Consortium'}, 
