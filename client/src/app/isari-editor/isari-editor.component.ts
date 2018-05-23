@@ -212,7 +212,11 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
         this.toasterService.pop('success', 'Save', 'Success');
       })
         .catch(err => {
-          this.toasterService.pop('error', 'Save', 'Error');
+          const errInfo = JSON.parse(err._body)
+          if (errInfo.error.title === 'Validation error')
+            this.toasterService.pop('error', 'Non valide', errInfo.error.message);
+          else
+            this.toasterService.pop('error', 'Save', 'erreur');
         });
 
       // Clearing the diff
