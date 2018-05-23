@@ -3,124 +3,51 @@
   <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
 
     <div *ngSwitchCase="'object'">
-      <isari-data-editor [class.multiple]="multiple"
-        (onDelete)="remove($event)"
-        (onUpdate)="update($event)"
-        (onError)="cumulError($event)"
-        [path]="path"
-        [deletable]="index !== null"
-        [label]="field.label"
-        [form]="getForm()"
-        [feature]="feature"
-        [multiple]="multiple"
-        [lang]="lang"
-        [layout]="field.layout"></isari-data-editor>
+      <isari-data-editor [class.multiple]="multiple" (onDelete)="remove($event)" (onUpdate)="update($event)" (onError)="cumulError($event)"
+        [path]="path" [deletable]="index !== null" [label]="field.label" [form]="getForm()" [feature]="feature" [multiple]="multiple"
+        [lang]="lang" [layout]="field.layout"></isari-data-editor>
     </div>
 
-    <isari-date *ngSwitchCase="'date'"
-      (onUpdate)="update($event)"
-      [path]="path"
-      [name]="field.name"
-      [label]="field.label"
-      [requirement]="field.requirement"
-      [description]="field.description"
-      [form]="form"></isari-date>
+    <isari-date *ngSwitchCase="'date'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label" [requirement]="field.requirement"
+      [description]="field.description" [form]="form"></isari-date>
 
-    <isari-select *ngSwitchCase="'select'"
-      (onUpdate)="update($event)"
-      [path]="path"
-      [src]="field.src"
-      [stringValue]="field.stringValue"
-      [extensible]="!!field.softenum"
-      [create]="field.create"
-      [api]="field.api"
-      [name]="field.name"
-      [label]="field.label"
-      [requirement]="field.requirement"
-      [description]="field.description"
-      [form]="form"></isari-select>
+    <isari-select *ngSwitchCase="'select'" (onUpdate)="update($event)" [path]="path" [src]="field.src" [stringValue]="field.stringValue"
+      [extensible]="!!field.softenum" [create]="field.create" [api]="field.api" [name]="field.name" [label]="field.label" [requirement]="field.requirement"
+      [description]="field.description" [form]="form"></isari-select>
 
-    <isari-checkbox *ngSwitchCase="'boolean'"
-      (onUpdate)="update($event)"
-      [path]="path"
-      [name]="field.name"
-      [label]="field.label"
-      [description]="field.description"
-      [form]="form"></isari-checkbox>
+    <isari-checkbox *ngSwitchCase="'boolean'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
+      [description]="field.description" [form]="form"></isari-checkbox>
 
-    <isari-textarea *ngSwitchCase="'text'"
-      (onUpdate)="update($event)"
-      [path]="path"
-      [name]="field.name"
-      [label]="field.label"
-      [description]="field.description"
-      [form]="form"></isari-textarea>
+    <isari-textarea *ngSwitchCase="'text'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
+      [description]="field.description" [form]="form"></isari-textarea>
 
-    <isari-input *ngSwitchCase="'number'"
-      (onUpdate)="update($event)"
-      [path]="path"
-      [name]="field.name"
-      [label]="field.label"
-      [description]="field.description"
-      [min]="field.min"
-      [max]="field.max"
-      [step]="field.step"
-      type="number"
-      [form]="form"></isari-input>
+    <isari-input *ngSwitchCase="'number'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
+      [description]="field.description" [min]="field.min" [max]="field.max" [step]="field.step" type="number" [form]="form"></isari-input>
 
-    <isari-input *ngSwitchDefault
-      (onUpdate)="update($event)"
-      [path]="path"
-      [name]="field.name"
-      [label]="field.label"
-      [description]="field.description"
-      type="text"
-      [form]="form"></isari-input>
+    <isari-input *ngSwitchDefault (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label" [description]="field.description"
+      type="text" [form]="form"></isari-input>
 
   </span>
 
   <span *ngIf="field.multiple && field.type !== 'object'" [ngSwitch]="field.controlType">
 
-    <isari-multi-select *ngSwitchCase="'select'"
-      (onUpdate)="update($event)"
-      [path]="path"
-      [src]="field.src"
-      [stringValue]="field.stringValue"
-      [extensible]="!!field.softenum"
-      [create]="field.create"
-      [api]="field.api"
-      [name]="field.name"
-      [requirement]="field.requirement"
-      [label]="field.label"
-      [description]="field.description"
-      [form]="form"></isari-multi-select>
+    <isari-multi-select *ngSwitchCase="'select'" (onUpdate)="update($event)" [path]="path" [src]="field.src" [stringValue]="field.stringValue"
+      [extensible]="!!field.softenum" [create]="field.create" [api]="field.api" [name]="field.name" [requirement]="field.requirement"
+      [label]="field.label" [description]="field.description" [form]="form"></isari-multi-select>
 
-    <isari-multi-input *ngSwitchCase="'string'"
-      (onUpdate)="update($event)"
-      [path]="path"
-      [name]="field.name"
-      [label]="field.label"
-      [requirement]="field.requirement"
-      [description]="field.description"
-      [form]="form"></isari-multi-input>
+    <isari-multi-input *ngSwitchCase="'string'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
+      [requirement]="field.requirement" [description]="field.description" [form]="form"></isari-multi-input>
 
   </span>
 
   <span *ngIf="field.multiple && field.type === 'object'" [formArrayName]="field.name">
 
-    <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index"
-      (onError)="cumulError($event)"
-      (onUpdate)="update($event)"
-      [feature]="feature"
-      [rootFeature]="rootFeature"
-      [index]="i"
-      [form]="form"
-      [path]="path + '.' + i"
-      [multiple]="true"
-      [lang]="lang"
+    <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index" (onError)="cumulError($event)" (onUpdate)="update($event)"
+      [feature]="feature" [rootFeature]="rootFeature" [index]="i" [form]="form" [path]="path + '.' + i" [multiple]="true" [lang]="lang"
       [field]="getField(field)"></isari-field>
 
-    <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled"><md-icon>add</md-icon> {{ 'add' | translate }} {{field.label}}</a>
+    <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled">
+      <mat-icon>add</mat-icon> {{ 'add' | translate }} {{field.label}}</a>
 
   </span>
 

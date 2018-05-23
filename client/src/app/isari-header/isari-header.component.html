@@ -1,66 +1,71 @@
-  <md-toolbar color="primary">
+<mat-toolbar color="primary">
 
-    <a routerLink="/">
-      <img src="https://www.sciencespo.fr/sites/all/themes/SPresponsive/images/ScPo-logo-rouge-400.png" style="height:32px;">
-    </a>
-    <h2>ISARI</h2>
+  <a routerLink="/">
+    <img src="https://www.sciencespo.fr/sites/all/themes/SPresponsive/images/ScPo-logo-rouge-400.png" style="height:32px;">
+  </a>
+  <h2>ISARI</h2>
 
-    <div class="organization-name">
-      <h5 *ngIf="organizationName">{{ organizationName }}</h5>
-    </div>
+  <div class="organization-name">
+    <h5 *ngIf="organizationName">{{ organizationName }}</h5>
+  </div>
 
-    <span class="app-toolbar-filler"></span>
+  <span class="app-toolbar-filler"></span>
 
-    <div *ngIf="user">
-      <button [routerLinkActive]="['active']" *ngIf="organization && organization.id" [md-menu-trigger-for]="exportMenu" md-menu-item>
-        <md-icon>file_download</md-icon>
-        <div class="tooltip" id="hceres-export">Export HCERES</div>
-      </button>
-      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/people" queryParamsHandling="preserve">
-        <md-icon>people</md-icon>
-        <div class="tooltip" id="people">{{ 'people' | translate }}</div>
-      </button>
-      <button [routerLinkActive]="['active']" *ngIf="globalOrganization && !organization" md-menu-item routerLink="/organizations" [queryParams]="{ organization: globalOrganization.id }">
-        <md-icon>account_balance</md-icon>
-        <div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div>
-      </button>
-      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/organizations" queryParamsHandling="preserve">
-        <md-icon>account_balance</md-icon>
-        <div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div>
-      </button>
-      <button [routerLinkActive]="['active']" *ngIf="organization" md-menu-item routerLink="/activities" queryParamsHandling="preserve">
-        <md-icon>apps</md-icon>
-        <div class="tooltip" id="activities">{{ 'activities' | translate }}</div>
-      </button>
+  <div *ngIf="user">
+    <button [routerLinkActive]="['active']" *ngIf="organization && organization.id" [matMenuTriggerFor]="exportMenu" mat-menu-item>
+      <mat-icon>file_download</mat-icon>
+      <div class="tooltip" id="hceres-export">Export HCERES</div>
+    </button>
+    <button [routerLinkActive]="['active']" *ngIf="organization" mat-menu-item routerLink="/people" queryParamsHandling="preserve">
+      <mat-icon>people</mat-icon>
+      <div class="tooltip" id="people">{{ 'people' | translate }}</div>
+    </button>
+    <button [routerLinkActive]="['active']" *ngIf="globalOrganization && !organization" mat-menu-item routerLink="/organizations"
+      [queryParams]="{ organization: globalOrganization.id }">
+      <mat-icon>account_balance</mat-icon>
+      <div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div>
+    </button>
+    <button [routerLinkActive]="['active']" *ngIf="organization" mat-menu-item routerLink="/organizations" queryParamsHandling="preserve">
+      <mat-icon>account_balance</mat-icon>
+      <div class="tooltip" id="organizations">{{ 'organizations' | translate }}</div>
+    </button>
+    <button [routerLinkActive]="['active']" *ngIf="organization" mat-menu-item routerLink="/activities" queryParamsHandling="preserve">
+      <mat-icon>apps</mat-icon>
+      <div class="tooltip" id="activities">{{ 'activities' | translate }}</div>
+    </button>
 
-      <button md-menu-item [md-menu-trigger-for]="menuHistory" *ngIf="historyAccess && organization">
-          <md-icon>history</md-icon>
-          <div class="tooltip" id="logs">{{ 'logs' | translate }}</div>
-      </button>
-      <md-menu x-position="before" #menuHistory>
-        <a md-menu-item [routerLink]="['/logs', 'people']" queryParamsHandling="preserve">{{ 'people' | translate }}</a>
-        <a md-menu-item [routerLink]="['/logs', 'organizations']" queryParamsHandling="preserve">{{ 'organizations' | translate }}</a>
-        <a md-menu-item [routerLink]="['/logs', 'activities']" queryParamsHandling="preserve">{{ 'activities' | translate }}</a>
-      </md-menu>
-    </div>
+    <button mat-menu-item [matMenuTriggerFor]="menuHistory" *ngIf="historyAccess && organization">
+      <mat-icon>history</mat-icon>
+      <div class="tooltip" id="logs">{{ 'logs' | translate }}</div>
+    </button>
+    <mat-menu xPosition="before" #menuHistory="matMenu">
+      <a mat-menu-item [routerLink]="['/logs', 'people']" queryParamsHandling="preserve">{{ 'people' | translate }}</a>
+      <a mat-menu-item [routerLink]="['/logs', 'organizations']" queryParamsHandling="preserve">{{ 'organizations' | translate }}</a>
+      <a mat-menu-item [routerLink]="['/logs', 'activities']" queryParamsHandling="preserve">{{ 'activities' | translate }}</a>
+    </mat-menu>
+  </div>
 
-    <md-menu x-position="before" #exportMenu="mdMenu">
-      <a md-menu-item href="{{ getHCERESDowloadLink() }}">Contrat en cours HCERES</a>
-      <a md-menu-item href="{{ getAnnex4DownloadLink() }}" target="_blank">HCERES - Annexe 4</a>
-      <a md-menu-item href="{{ getHCERESNextDownloadLink() }}">Prochain contrat HCERES</a>
-    </md-menu>
+  <mat-menu xPosition="before" #exportMenu="matMenu">
+    <a mat-menu-item href="{{ getHCERESDowloadLink() }}">Contrat en cours HCERES</a>
+    <a mat-menu-item href="{{ getAnnex4DownloadLink() }}" target="_blank">HCERES - Annexe 4</a>
+    <a mat-menu-item href="{{ getHCERESNextDownloadLink() }}">Prochain contrat HCERES</a>
+  </mat-menu>
 
-    <div *ngIf="user">
-      <button *ngIf="user" md-button [md-menu-trigger-for]="menu">{{ user.firstName }} {{ user.name }}</button>
+  <div *ngIf="user">
+    <button *ngIf="user" mat-button [matMenuTriggerFor]="menu">{{ user.firstName }} {{ user.name }}</button>
 
-      <md-menu x-position="before" #menu="mdMenu">
-        <a *ngIf="user" md-menu-item [routerLink]="['/cv']" target="_blank">Mon Profil</a>
-        <a md-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
-      </md-menu>
-    </div>
-    <div>
-      <button *ngIf="lang=='fr'" md-menu-item href (click)="setLang('en', $event)"><img class="app-toolbar-flag" src="./assets/svg/fr-flag.svg" /></button>
-      <button *ngIf="lang=='en'" md-menu-item href (click)="setLang('fr', $event)"><img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" /></button>
-    </div>
+    <mat-menu xPosition="before" #menu="matMenu">
+      <a *ngIf="user" mat-menu-item [routerLink]="['/cv']" target="_blank">Mon Profil</a>
+      <a mat-menu-item (click)="logout($event)">{{ 'logout' | translate }}</a>
+    </mat-menu>
+  </div>
+  <div>
+    <button *ngIf="lang=='fr'" mat-menu-item href (click)="setLang('en', $event)">
+      <img class="app-toolbar-flag" src="./assets/svg/fr-flag.svg" />
+    </button>
+    <button *ngIf="lang=='en'" mat-menu-item href (click)="setLang('fr', $event)">
+      <img class="app-toolbar-flag" src="./assets/svg/en-flag.svg" />
+    </button>
+  </div>
 
-  </md-toolbar>
+</mat-toolbar>

@@ -1,12 +1,7 @@
-<span
-  class="input-textarea"
-  [formGroup]="form"
-  [md-tooltip]="description">
-  <md-textarea
-    [placeholder]="label"
-    (blur)="update($event)"
-    [isariDisabled]="form.controls[name].disabled"
-    [formControlName]="name">
-     <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">{{ 'mandatory' | translate }}</md-hint>
-  </md-textarea>
+<span class="input-textarea" [formGroup]="form" [matTooltip]="description">
+  <mat-form-field>
+    <textarea matInput [placeholder]="label" (blur)="update($event)" [disabled]="form.controls[name].disabled" [formControlName]="name"></textarea>
+    <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
+      class="error">{{ 'mandatory' | translate }}</mat-hint>
+  </mat-form-field>
 </span>

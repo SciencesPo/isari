@@ -1,5 +1,6 @@
 import { StorageService } from './../storage.service';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
 import { TranslateService } from 'ng2-translate';
@@ -37,7 +38,7 @@ export class LogTableComponent implements OnInit, OnChanges {
 
   filterForm: FormGroup;
 
-  @Input() data: {count: number, logs: any[]} | null;
+  @Input() data: { count: number, logs: any[] } | null;
   @Input() labs: any[];
   @Input() feature: string;
   @Input() options: EditLogApiOptions;
@@ -50,7 +51,7 @@ export class LogTableComponent implements OnInit, OnChanges {
     private translate: TranslateService,
     public isariDataService: IsariDataService,
     private storageService: StorageService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.filterForm = new FormGroup({});
@@ -127,8 +128,8 @@ export class LogTableComponent implements OnInit, OnChanges {
       Observable.fromPromise(this.isariDataService.getSchema(this.feature))
         .subscribe(schema =>
           this.fields = sortBy(Object.keys(schema).reduce((acc, value) =>
-            ([...acc, { value, label: schema[value].label[this.translate.currentLang] } ])
-        , []), 'label'));
+            ([...acc, { value, label: schema[value].label[this.translate.currentLang] }])
+            , []), 'label'));
     }
 
   }
@@ -142,13 +143,13 @@ export class LogTableComponent implements OnInit, OnChanges {
     }
   }
 
-  hasPagination () {
+  hasPagination() {
     return this.data && this.data.count > this.options.limit
   }
-  hasNext () {
+  hasNext() {
     return this.hasPagination() && this.lastIndex <= this.data.count
   }
-  hasPrev () {
+  hasPrev() {
     return this.hasPagination() && this.firstIndex > 1
   }
 

@@ -26,9 +26,10 @@ button {
 div {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 }
 
-md-icon {
+mat-icon {
 	text-align: center;
 	width: 48px;
 	height: 48px;
@@ -36,11 +37,11 @@ md-icon {
 	margin-left: 0;
 }
 
-[md-menu-item] md-icon {
+[mat-menu-item] mat-icon {
 	margin-right: 0;
 }
 
-button.active md-icon {
+button.active mat-icon {
 	color: #E6142D;
 }
 

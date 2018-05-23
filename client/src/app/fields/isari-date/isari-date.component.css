@@ -7,7 +7,7 @@ isari-date {
   position: relative;
 }
 
-.md-menu {
+.mat-menu {
     position: absolute;
     top: 40px;
     left: 0;
@@ -22,7 +22,7 @@ isari-date {
   min-width: inherit;
 }
 
-.md-menu > span {
+.mat-menu > span {
   justify-content: space-around;
 }
 
@@ -79,23 +79,23 @@ isari-date {
   border-radius: 100%;
 }
 
-.validate > button > md-icon{
+.validate > button > mat-icon{
 
   color: #E6142D;
 }
 
-md-icon {
+mat-icon {
   color: #777;
   font-size: 20px;
   cursor: pointer;
   text-align: center;
   vertical-align: middle;
 }
-.md-input-table {
+.mat-input-table {
   width: 100%;
 }
 
-.md-input-suffix {
+.mat-form-field-suffix {
   text-align: right;
 }
 
@@ -103,10 +103,10 @@ md-icon {
   color: #777;
 }
 
-.md-menu > span {
+.mat-menu > span {
   color: #E6142D;
 }
 
-md-icon {
+mat-icon {
   color: #E6142D;
 }

@@ -15,7 +15,7 @@ import keyBy from 'lodash/keyBy';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 
-import { MdDialogRef, MdDialog } from '@angular/material';
+import { MatDialogRef, MatDialog } from '@angular/material';
 import { ConfirmDialog } from '../fields/confirm.component';
 import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
 import { DOCUMENT } from '@angular/platform-browser';
@@ -33,7 +33,7 @@ import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
   styleUrls: ['./isari-editor.component.css']
 })
 export class IsariEditorComponent implements OnInit, OnDestroy {
-  dialogRef: MdDialogRef<ConfirmDialog>;
+  dialogRef: MatDialogRef<ConfirmDialog>;
 
   @Input() id: number;
   @Input() feature: string;
@@ -72,11 +72,11 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
     private toasterService: ToasterService,
     private viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private loaderService: LoaderService) {
-      PageScrollConfig.defaultScrollOffset = 50;
-      PageScrollConfig.defaultDuration = 500;
-    }
+    PageScrollConfig.defaultScrollOffset = 50;
+    PageScrollConfig.defaultDuration = 500;
+  }
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
@@ -89,15 +89,15 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
     let $routeParams =
       // Feature and id provided as Input: just use this
       (this.id && this.feature)
-      ? Observable.of({ feature: this.feature, id: this.id })
-      // Otherwise, feature & id can come from parent or current route
-      : this.route.parent
-      ? Observable
-        .combineLatest(this.route.parent.params, this.route.params)
-        .map(([x, y]) => Object.assign({}, x, y))
-      : this.route.params;
+        ? Observable.of({ feature: this.feature, id: this.id })
+        // Otherwise, feature & id can come from parent or current route
+        : this.route.parent
+          ? Observable
+            .combineLatest(this.route.parent.params, this.route.params)
+            .map(([x, y]) => Object.assign({}, x, y))
+          : this.route.params;
 
-    this.route.queryParams.subscribe(({organization}) => this.organization = organization);
+    this.route.queryParams.subscribe(({ organization }) => this.organization = organization);
 
     this.sub = Observable.combineLatest(
       $routeParams,
@@ -111,18 +111,18 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
       this.id = id;
       Promise.all([
         this.isariDataService.getData(this.feature, id ? String(id) : null)
-        .catch(err => {
-          this.loaderService.hide();
-          const json = err.json();
-          this.messageQueryError = err.status;
- 
-          return Promise.reject(err);
-        }),
+          .catch(err => {
+            this.loaderService.hide();
+            const json = err.json();
+            this.messageQueryError = err.status;
+
+            return Promise.reject(err);
+          }),
         this.isariDataService.getLayout(this.feature),
-        this.isariDataService.getRelations(this.feature, id ? String(id): null)
-        .catch(err => {
-          return Promise.reject(err);
-        })
+        this.isariDataService.getRelations(this.feature, id ? String(id) : null)
+          .catch(err => {
+            return Promise.reject(err);
+          })
       ]).then(([data, layout, relations]) => {
         this.errors = {};
 
@@ -166,9 +166,9 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
         });
 
       })
-      .catch(err => {
-        // console.log('err', err)
-      });
+        .catch(err => {
+          // console.log('err', err)
+        });
     });
   }
 
@@ -196,7 +196,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
 
       // Different payload for creation & update
       if (this.id) {
-        payload = {id: this.id, diff: this.diff};
+        payload = { id: this.id, diff: this.diff };
       }
       else {
         payload = this.form.value;
@@ -206,11 +206,11 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
         this.feature,
         payload
       ).then(data => {
-          if (this.id !== data.id) {
-            this.router.navigate([this.feature, data.id]);
-          }
-          this.toasterService.pop('success', 'Save', 'Success');
-        })
+        if (this.id !== data.id) {
+          this.router.navigate([this.feature, data.id]);
+        }
+        this.toasterService.pop('success', 'Save', 'Success');
+      })
         .catch(err => {
           this.toasterService.pop('error', 'Save', 'Error');
         });
@@ -219,7 +219,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
       this.diff = [];
     }
     if (!this.form.valid) {
-      this.toasterService.pop('error', 'Save', `Merci de corriger les erreurs sur ces champs : ${ Object.keys(this.errors).map(err => this.errors[err].label).join(', ') }`);
+      this.toasterService.pop('error', 'Save', `Merci de corriger les erreurs sur ces champs : ${Object.keys(this.errors).map(err => this.errors[err].label).join(', ')}`);
     }
   }
 
@@ -292,41 +292,41 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
     this.options$ = new BehaviorSubject(this.options);
     this.details$ = new BehaviorSubject(false);
     this.logs$ = Observable
-    .combineLatest([
-      this.route.paramMap,
-      this.options$,
-      this.translate.onLangChange
-        .map((event: LangChangeEvent) => event.lang)
-        .startWith(this.translate.currentLang)
-    ])
-    .switchMap(([paramMap, options, lang]) => {
-      //this.feature = (<ParamMap>paramMap).get('feature');
-      // this.options = Object.assign({}, {
-      //   itemID: (<ParamMap>paramMap).get('itemID')
-      // }, options);
+      .combineLatest([
+        this.route.paramMap,
+        this.options$,
+        this.translate.onLangChange
+          .map((event: LangChangeEvent) => event.lang)
+          .startWith(this.translate.currentLang)
+      ])
+      .switchMap(([paramMap, options, lang]) => {
+        //this.feature = (<ParamMap>paramMap).get('feature');
+        // this.options = Object.assign({}, {
+        //   itemID: (<ParamMap>paramMap).get('itemID')
+        // }, options);
 
-      this.options = Object.assign({}, options, {
-        itemID: String(this.id)
-      });
+        this.options = Object.assign({}, options, {
+          itemID: String(this.id)
+        });
 
-      return this.isariDataService
-      .getHistory(this.feature, this.options, lang)
-      .combineLatest(this.details$)
-    })
-    .map(([{count, logs}, details]) => {
-      this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab) : ''))))
-        .map(labs => keyBy(labs, 'id'));
+        return this.isariDataService
+          .getHistory(this.feature, this.options, lang)
+          .combineLatest(this.details$)
+      })
+      .map(([{ count, logs }, details]) => {
+        this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab) : ''))))
+          .map(labs => keyBy(labs, 'id'));
 
         if (details && this.options['path']) return logs.map(log => Object.assign({}, log, {
-        _open: true,
-        diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
-      }));
+          _open: true,
+          diff: log.diff.filter(diff => diff.path[0] === this.options['path'])
+        }));
 
-      return {
-        count,
-        logs: logs.map(log => Object.assign({}, log, { _open: details }))
-      };
-    });
+        return {
+          count,
+          logs: logs.map(log => Object.assign({}, log, { _open: details }))
+        };
+      });
   }
 
   changeOpt(options) {
@@ -338,7 +338,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
     this.details$.next(!this.details$.value);
   }
 
-  exportLogs({logs, filetype}) {
+  exportLogs({ logs, filetype }) {
     this.isariDataService.exportLogs(logs, this.feature, this.labs$, this.translate, this.details$.value, filetype);
   }
 

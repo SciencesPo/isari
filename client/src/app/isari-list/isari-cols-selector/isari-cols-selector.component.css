@@ -2,7 +2,7 @@
   margin-right: 1em;
 }
 
-.md-menu {
+.mat-menu {
     max-width: 50%;
     font-size: 14px;
     background: #fff;
@@ -13,19 +13,19 @@
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
-.md-menu button {
+.mat-menu button {
   width: 100%;
 }
 
-.md-menu button span {
+.mat-menu button span {
   width: 100%;
 }
 
-.md-menu button md-icon {
+.mat-menu button mat-icon {
   vertical-align: middle;
 }
 
-md-checkbox {
+mat-checkbox {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0 1em .2em 0;
   display: inline-block;

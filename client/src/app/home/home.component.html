@@ -2,19 +2,19 @@
 
 <div class="app-content">
 
-  <md-card *ngFor="let organization of organizations">
-  	<div class="md-card-all">
-  		<div class="orga-name">
-    		<h4>{{ organization.name }}</h4>
-    		<h5 *ngIf="organization.acronym">({{ organization.acronym }})</h5>
-    	</div>
-    	<div class="buttons">
-    	    <button md-raised-button [routerLink]="[ 'people' ]" [queryParams]="{ organization: organization.id }">{{ 'people' | translate }}</button>
-    		<button md-raised-button [routerLink]="[ 'activities' ]" [queryParams]="{ organization: organization.id }">{{ 'activities' | translate }}</button> 	
-   		 </div>
-  	</div>
-    
+	<mat-card *ngFor="let organization of organizations">
+		<div class="mat-card-all">
+			<div class="orga-name">
+				<h4>{{ organization.name }}</h4>
+				<h5 *ngIf="organization.acronym">({{ organization.acronym }})</h5>
+			</div>
+			<div class="buttons">
+				<button mat-raised-button [routerLink]="[ 'people' ]" [queryParams]="{ organization: organization.id }">{{ 'people' | translate }}</button>
+				<button mat-raised-button [routerLink]="[ 'activities' ]" [queryParams]="{ organization: organization.id }">{{ 'activities' | translate }}</button>
+			</div>
+		</div>
 
-  </md-card>
+
+	</mat-card>
 
 </div>

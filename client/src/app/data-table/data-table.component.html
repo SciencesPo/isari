@@ -1,25 +1,22 @@
 <div>
-<table class="striped bordered">
-  <thead>
-    <tr>
-      <isari-col *ngFor="let col of cols"
-        (onSort)="sortBy(col)"
-        [sorted]="sortedState.key === col.key ? sortedState.reverse : null">
-        <md-input type="text" [formControl]="col.filterControl" [placeholder]="col.label[lang]"></md-input>
-      </isari-col>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of page" [routerLink]="[{outlets: {editor: row['id']} }]" queryParamsHandling="preserve" (click)="edit(row.id)" [class.active]="row['id'] === editedId">
-      <td *ngFor="let col of cols">{{ cellContent(row[col.key]) }}</td>
-    </tr>
-  </tbody>
-</table>
+  <table class="striped bordered">
+    <thead>
+      <tr>
+        <isari-col *ngFor="let col of cols" (onSort)="sortBy(col)" [sorted]="sortedState.key === col.key ? sortedState.reverse : null">
+          <mat-form-field>
+            <input matInput type="text" [formControl]="col.filterControl" [placeholder]="col.label[lang]">
+          </mat-form-field>
+        </isari-col>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of page" [routerLink]="[{outlets: {editor: row['id']} }]" queryParamsHandling="preserve" (click)="edit(row.id)"
+        [class.active]="row['id'] === editedId">
+        <td *ngFor="let col of cols">{{ cellContent(row[col.key]) }}</td>
+      </tr>
+    </tbody>
+  </table>
 
-<isari-pagination
-  [totalItems]="data.length"
-  [itemsPerPage]="itemsPerPage"
-  [currentPage]="1"
-  (onPageChange)="pageChanged($event)"></isari-pagination>
+  <isari-pagination [totalItems]="data.length" [itemsPerPage]="itemsPerPage" [currentPage]="1" (onPageChange)="pageChanged($event)"></isari-pagination>
 
 </div>

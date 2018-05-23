@@ -86,14 +86,14 @@ td, th {
   vertical-align: top;
 }
 
-.pagination ul li a, md-icon, button {
+.pagination ul li a, mat-icon, button {
   font-size: 16px;
   line-height: 36px;
   vertical-align:top;
   height: 36px;
 }
 
-.pagination md-icon {
+.pagination mat-icon {
   font-size: 160%;
   cursor: pointer;
 }
@@ -107,7 +107,7 @@ td, th {
   cursor: pointer;
 }
 
-[md-raised-button].md-primary, [md-fab].md-primary, [md-mini-fab].md-primary {
+[mat-raised-button].mat-primary, [md-fab].mat-primary, [md-mini-fab].mat-primary {
   background-color: #E6142D;
 }
 
@@ -115,7 +115,7 @@ isari-date {
   margin-left: 20px;
   font-size: .7em;
 }
-md-checkbox {
+mat-checkbox {
   font-size: .7em;
   margin-left: 20px;
 }

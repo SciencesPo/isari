@@ -1,10 +1,10 @@
 :host {
   width: 100%;
 }
-.md-input-infix { position: initial; }
+.mat-form-field-infix { position: initial; }
 
-.md-input-infix.md-empty { position: relative; }
-.md-input-placeholder.md-empty { top: 0px; left: 32px; }
+.mat-form-field-infix.mat-form-field-empty { position: relative; }
+.mat-form-field-label.mat-form-field-empty { top: 0px; left: 32px; }
 
 .multiselect-container {
   display: flex; 
@@ -24,7 +24,7 @@
   padding-right: 45px;
 }
 
-.multiselect-tag md-icon, .multiselect-tag a {
+.multiselect-tag mat-icon, .multiselect-tag a {
   font-size: 15px;
   vertical-align: middle;
   position: absolute;
@@ -42,7 +42,7 @@
   right: 20px;
 }
 
-.md-menu {
+.mat-menu {
     position: absolute;
     top: 40px;
     left: 0;
@@ -52,7 +52,7 @@
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
-.md-menu button.active:after {
+.mat-menu button.active:after {
   position: absolute;
   top: 0;
   left: 0;
@@ -64,15 +64,15 @@
   pointer-events: none;
 }
 
-md-icon {
+mat-icon {
   color: #777;
   font-size: 20px;
   cursor: pointer;
 }
-.md-input-table {
+.mat-form-field-flex {
   width: 100%;
 }
 
-.md-input-suffix {
+.mat-form-field-suffix {
   text-align: right;
 }
