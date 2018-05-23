@@ -1,10 +1,12 @@
 'use strict'
 
 const virtuals = require('../../specs/columns.virtual')
+const frontendConfig = require('../../specs/frontendConfig.json')
 
 module.exports = {
 	getMeta,
-	getVirtualColumn
+	getVirtualColumn,
+	frontendConfig
 }
 
 
