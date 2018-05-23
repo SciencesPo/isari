@@ -63,7 +63,8 @@ const FRONT_KEPT_FIELDS = [
 	'max',
 	'regex',
 	'multiple',
-	'step'
+	'step',
+	'accessMonitoring'
 ]
 
 module.exports = {
