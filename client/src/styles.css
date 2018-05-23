@@ -103,3 +103,7 @@ mat-dialog-container {
 mat-dialog-container [mat-raised-button].mat-primary {
   background-color: #E6142D;
 }
+
+isari-cols-selector .mat-select-value-text span {
+  font-size: 14px;
+}

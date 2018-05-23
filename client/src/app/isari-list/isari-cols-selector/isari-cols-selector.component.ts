@@ -2,7 +2,7 @@ import { Component, Input, Output, OnInit, OnChanges, EventEmitter } from '@angu
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import 'rxjs/add/operator/skip';
 import { FormControl } from '@angular/forms';
-
+import difference from 'lodash/difference';
 
 @Component({
   selector: 'isari-cols-selector',
@@ -18,7 +18,7 @@ export class IsariColsSelectorComponent implements OnInit, OnChanges {
   @Output() onColSelected = new EventEmitter<any>();
 
   constructor(private translate: TranslateService) {
-    this.colSelector = new FormControl();
+    this.colSelector = new FormControl([]);
   }
 
   ngOnInit() {
@@ -27,14 +27,21 @@ export class IsariColsSelectorComponent implements OnInit, OnChanges {
       this.lang = event.lang;
     });
 
-    this.colSelector.valueChanges.skip(1).subscribe(cols => {
+    this.colSelector.valueChanges.subscribe(cols => {
       this.onColSelected.emit({ cols })
     });
+
   }
 
   ngOnChanges() {
     if (this.cols && this.cols.length && this.selectedColumns && this.selectedColumns.length) {
-      this.colSelector.setValue(this.cols.filter(col => !!this.selectedColumns.find(selectedCol => selectedCol.key === col.key)));
+      const shouldUpdate = !!difference(
+        this.selectedColumns.map(col => col.key),
+        this.colSelector.value.map(col => col.key)
+      ).length;
+      if (shouldUpdate) {
+        this.colSelector.setValue(this.cols.filter(col => !!this.selectedColumns.find(selectedCol => selectedCol.key === col.key)));
+      }
     }
   }
 
