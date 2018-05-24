@@ -1,3 +1,5 @@
 *.md
 specs/docs
 server/dev_docker
+server/node_modules
+client/node_modules
