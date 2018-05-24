@@ -8,6 +8,12 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/concatAll';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/last';
+import 'rxjs/add/operator/do';
 
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
@@ -28,14 +34,14 @@ import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import keyBy from 'lodash/keyBy';
 import omit from 'lodash/omit';
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 import startsWith from 'lodash/startsWith';
 import uniq from 'lodash/uniq';
 import values from 'lodash/values';
 import zipObject from 'lodash/zipObject';
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      CSV_MIME = 'text/csv;charset=utf-8';
+  CSV_MIME = 'text/csv;charset=utf-8';
 
 const mongoSchema2Api = {
   'Organization': 'organizations',
@@ -68,9 +74,9 @@ export class IsariDataService {
   private exportUrl = `${environment.API_BASE_URL}/export`;
   private editLogUrl = `${environment.API_BASE_URL}/editLog`;
 
-  constructor(private http: Http, private fb: FormBuilder, private userService: UserService, private storageService: StorageService) {}
+  constructor(private http: Http, private fb: FormBuilder, private userService: UserService, private storageService: StorageService) { }
 
-  getHttpOptions (search: {} = null) {
+  getHttpOptions(search: {} = null) {
     const options = new RequestOptions({ withCredentials: true });
     options.search = new URLSearchParams();
     options.search.set('organization', this.userService.getCurrentOrganizationId());
@@ -104,7 +110,7 @@ export class IsariDataService {
 
   getDatas(feature: string,
     { fields, applyTemplates, externals, start, end, type }:
-    { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }) {
+      { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }) {
     const url = `${this.dataUrl}/${feature}`;
     fields.push('id'); // force id
 
@@ -130,7 +136,7 @@ export class IsariDataService {
     return item && item.label ? item.label[lang] : '';
   }
 
-  getHistory (feature: string, query: any, lang) {
+  getHistory(feature: string, query: any, lang) {
 
     return Observable.combineLatest([
       this.http.get(`${this.editLogUrl}/${feature}`, this.getHttpOptions(query))
@@ -142,44 +148,45 @@ export class IsariDataService {
         .map(vals => keyBy(vals, 'value')),
     ])
 
-    .map(([{ count, results: logs }, schema, roles, accessMonitorings]) => {
-      logs = (<any[]>logs).map(log => {
+      .map(([{ count, results: logs }, schema, roles, accessMonitorings]) => {
+        logs = (<any[]>logs).map(log => {
 
-        // if query accessMonitoring, keep only diff for this accessMonitoring #433
-        if (query.accessMonitoring) {
-          log.accessMonitorings = log.accessMonitorings.filter(am => am === query.accessMonitoring);
-          log.diff = log.diff.filter(diff => diff.accessMonitoring === query.accessMonitoring);
-        }
+          // if query accessMonitoring, keep only diff for this accessMonitoring #433
+          if (query.accessMonitoring) {
+            log.accessMonitorings = log.accessMonitorings.filter(am => am === query.accessMonitoring);
+            log.diff = log.diff.filter(diff => diff.accessMonitoring === query.accessMonitoring);
+          }
 
-        log.diff = log.diff.map(diff => {
-          const res = Object.assign(diff, {
-            // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
-            _label: diff.path.reduce((a, v, i, s) => [...a, this.getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
+          log.diff = log.diff.map(diff => {
+            const res = Object.assign(diff, {
+              // if path = [grades, grade] we get _get(schema, 'grades') then _get(schema, 'grades.grade') and we store the labels
+              _label: diff.path.reduce((a, v, i, s) => [...a, this.getLabel(schema, [...s.slice(0, i), v].join('.'), lang)], []).join(' : ')
+            });
+            if (diff.valueBefore) {
+              res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang), lang)
+                .catch(() => Observable.of('ref. not found'));
+            }
+            if (diff.valueAfter) {
+              res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang), lang)
+                .catch(() => Observable.of('ref. not found'));
+            }
+            return res;
           });
-          if (diff.valueBefore) {
-            res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang), lang)
-            .catch(() => Observable.of('ref. not found'));
-          }
-          if (diff.valueAfter) {
-            res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang), lang)
-              .catch(() => Observable.of('ref. not found'));
-          }
-          return res;
-        });
 
-        // all diffs labels
-        log._labels = uniq(log.diff.map(diff => diff._label));
-        log.who.roles = log.who.roles.map(role => Object.assign(role, {
-          _label: roles[role.role].label[lang],
-        }));
-        log.accessMonitorings = log.accessMonitorings.map(value => ({
-          value,
-          _label: accessMonitorings[value].label[lang],
-        }))
-        return log;
+          // all diffs labels
+          log._labels = uniq(log.diff.map(diff => diff._label));
+          if (log.who.roles)
+            log.who.roles = log.who.roles.map(role => Object.assign(role, {
+              _label: roles[role.role].label[lang],
+            }));
+          log.accessMonitorings = log.accessMonitorings.map(value => ({
+            value,
+            _label: accessMonitorings[value].label[lang],
+          }))
+          return log;
+        });
+        return { count, logs };
       });
-      return { count, logs };
-    });
   }
 
   key2label(value, base: string[], schema, lang) {
@@ -248,12 +255,12 @@ export class IsariDataService {
       if (o.ref || o.en) return o;
       return Object.keys(o)
         .reduce((r, k) => {
-            // scalar value, skip
-            if (typeof o[k] === 'string' || typeof o[k] === 'number') return r;
-            // subobject which are not ref or enum, recur on
-            if (!o[k].ref && !o[k].en) return [...r, ...getRefs(o[k])];
-            // if not scalar neither subObjects is ref or enum add to accumulator
-            return [...r, o[k]];
+          // scalar value, skip
+          if (typeof o[k] === 'string' || typeof o[k] === 'number') return r;
+          // subobject which are not ref or enum, recur on
+          if (!o[k].ref && !o[k].en) return [...r, ...getRefs(o[k])];
+          // if not scalar neither subObjects is ref or enum add to accumulator
+          return [...r, o[k]];
         }, []);
     };
 
@@ -267,14 +274,14 @@ export class IsariDataService {
         })
         : Observable.of([])
     )
-    .map(labels => {
-      return flatten(labels).reduce((l, v) => {
-        if (v.en && !v.item) return l; // nested enums not keep
-        if (v.en) return Object.assign(l, { [v.en + ':' + v.item.value]: v.item.label[lang || 'fr'] });
-        return Object.assign(l, { [v.id]: v.value });
+      .map(labels => {
+        return flatten(labels).reduce((l, v) => {
+          if (v.en && !v.item) return l; // nested enums not keep
+          if (v.en) return Object.assign(l, { [v.en + ':' + v.item.value]: v.item.label[lang || 'fr'] });
+          return Object.assign(l, { [v.id]: v.value });
         }, {})
-    }) // { id: value } for all refs founds
-    .map(labels => format(obj, labels));
+      }) // { id: value } for all refs founds
+      .map(labels => format(obj, labels));
 
   }
 
@@ -285,14 +292,14 @@ export class IsariDataService {
     const exportFile = {
       csv(data) {
         const csvString = Papa.unparse(data);
-        const blob = new Blob([csvString], {type: CSV_MIME});
+        const blob = new Blob([csvString], { type: CSV_MIME });
         saveAs(blob, `editlogs.csv`);
       },
       xlsx(data) {
         const opts = { bookType: 'xlsx', bookSST: true, type: 'binary' };
-        const workbook = { Sheets: {Sheet1: null}, SheetNames: ['Sheet1'] };
+        const workbook = { Sheets: { Sheet1: null }, SheetNames: ['Sheet1'] };
         const sheet = {};
-        const range = {s: {c: Infinity, r: Infinity}, e: {c: -Infinity, r: -Infinity}};
+        const range = { s: { c: Infinity, r: Infinity }, e: { c: -Infinity, r: -Infinity } };
         // please can someone do better than that line ?
         data = [Object.keys(data[0]), ...data]
         for (let R = 0, l = data.length; R < l; R++) {
@@ -304,8 +311,8 @@ export class IsariDataService {
             if (range.e.r < R) range.e.r = R;
             if (range.e.c < C) range.e.c = C;
             const value = line[k];
-            const address = XLSX.utils.encode_cell({c: C, r: R});
-            const cell = {v: value};
+            const address = XLSX.utils.encode_cell({ c: C, r: R });
+            const cell = { v: value };
             sheet[address] = cell;
             C++;
           }
@@ -321,7 +328,7 @@ export class IsariDataService {
           view[i] = xlsx.charCodeAt(i) & 0xFF;
         }
 
-        const blob = new Blob([buffer], {type: XLSX_MIME});
+        const blob = new Blob([buffer], { type: XLSX_MIME });
         saveAs(blob, 'editlogs.xlsx');
 
       }
@@ -359,12 +366,12 @@ export class IsariDataService {
 
       const logs$ = logs.reduce((acc1, log) => {
         return [
-        ...acc1,
-        ...log.diff.reduce((acc2, diff) => {
-          const before$ = diff._beforeLabelled$ || Observable.of('');
-          const after$ =  diff._afterLabelled$ || Observable.of('');
-          return [...acc2, before$, after$]
-        }, [])
+          ...acc1,
+          ...log.diff.reduce((acc2, diff) => {
+            const before$ = diff._beforeLabelled$ || Observable.of('');
+            const after$ = diff._afterLabelled$ || Observable.of('');
+            return [...acc2, before$, after$]
+          }, [])
         ]
       }, []);
 
@@ -378,21 +385,21 @@ export class IsariDataService {
         translations$,
         labs$
       ])
-      .subscribe(([values, translations, labs]) => {
-        exportFile[filetype](logs.reduce((d, log) => [
-          ...d,
-          ...log.diff.map((diff, j) => getRow(log, feature, translations, labs, diff, d.length + j, values))
-        ], []));
-      });
+        .subscribe(([values, translations, labs]) => {
+          exportFile[filetype](logs.reduce((d, log) => [
+            ...d,
+            ...log.diff.map((diff, j) => getRow(log, feature, translations, labs, diff, d.length + j, values))
+          ], []));
+        });
 
     } else {
       Observable.combineLatest([
         translations$,
         labs$
       ])
-      .subscribe(([translations, labs]) => {
-        exportFile[filetype](logs.map(log => getRow(log, feature, translations, labs)));
-      })
+        .subscribe(([translations, labs]) => {
+          exportFile[filetype](logs.map(log => getRow(log, feature, translations, labs)));
+        })
     }
   }
 
@@ -502,7 +509,7 @@ export class IsariDataService {
     return url;
   }
 
-  filterEnumValues (enumValues, term, lang) {
+  filterEnumValues(enumValues, term, lang) {
     return term
       ? sortByDistance(term, enumValues, e => e.label[lang] || e.label['fr']) // TODO make default lang configurable?
       : enumValues;
@@ -510,7 +517,7 @@ export class IsariDataService {
 
   srcEnumBuilder(src: string, materializedPath: string, lang: string) {
     const enum$ = this.getEnum(src);
-    return function(terms$: Observable<string>, max, form: FormGroup) {
+    return function (terms$: Observable<string>, max, form: FormGroup) {
 
       const nestedField = this.getFieldForPath(src, form, materializedPath);
 
@@ -521,8 +528,8 @@ export class IsariDataService {
         .map(([term, enumValues]) => {
           enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
 
-         // term = this.normalize(term.toLowerCase());
-         return ({
+          // term = this.normalize(term.toLowerCase());
+          return ({
             reset: false,
             values: this.filterEnumValues(enumValues, term, lang), // .slice(0, max),
             // size: values.length
@@ -569,10 +576,10 @@ export class IsariDataService {
   srcForeignBuilder(src: string, path?: string, feature?: string) {
     return (terms$: Observable<string>, max) =>
       terms$
-      .startWith('')
-      .debounceTime(400) // pass as parameter ?
-      .distinctUntilChanged()
-      .switchMap(term => this.rawSearch(src, term, path, feature));
+        .startWith('')
+        .debounceTime(400) // pass as parameter ?
+        .distinctUntilChanged()
+        .switchMap(term => this.rawSearch(src, term, path, feature));
   }
 
   // @TODO handle multiple values (array of ids)
@@ -638,11 +645,11 @@ export class IsariDataService {
 
     // build form from object after layout manipluation
     if (fields[0] instanceof Array) {
-      fields = fields.map(f => ({ fields: f}));
+      fields = fields.map(f => ({ fields: f }));
     }
 
     // normalize [[a, b ], c] -> [a, b, c]
-    fields = fields.reduce((acc, c) => [...acc, ...(c.fields ? c.fields : [c]) ], []);
+    fields = fields.reduce((acc, c) => [...acc, ...(c.fields ? c.fields : [c])], []);
     fields.forEach(field => {
       const hasData = data[field.name] !== null && data[field.name] !== undefined;
       const fieldData = hasData ? data[field.name] : field.multiple ? [] : field.type === 'object' ? {} : '';
@@ -656,7 +663,7 @@ export class IsariDataService {
           this.storeForeignKeys(field.ref, d);
           let subdata = Object.assign({}, d || {}, {
             opts: Object.assign({}, data.opts, {
-              path:  [...data.opts.path, field.name, i]
+              path: [...data.opts.path, field.name, i]
             })
           });
           this.addFormControlToArray(fa, field, subdata);
@@ -674,7 +681,7 @@ export class IsariDataService {
         this.storeForeignKeys(field.ref, fieldData);
         form.addControl(field.name, new FormControl({
           value: fieldData,
-           // add '.x' for multiple fields (for matching fieldName.*)
+          // add '.x' for multiple fields (for matching fieldName.*)
           disabled: this.disabled(data.opts, field.name + (field.multiple ? '.x' : ''))
         }, this.getValidators(field)));
       }
@@ -723,7 +730,7 @@ export class IsariDataService {
           return data;
         })
         .toPromise();
-      });
+    });
   }
 
   // recursively construct empty data following types
@@ -740,12 +747,12 @@ export class IsariDataService {
         return data;
       }
     } else {
-     if (field.multiple) {
-       return [];
-     } else {
-       const def = schema && schema['default'];
-       return def === undefined ? null : def;
-     }
+      if (field.multiple) {
+        return [];
+      } else {
+        const def = schema && schema['default'];
+        return def === undefined ? null : def;
+      }
     }
   }
 
@@ -781,7 +788,7 @@ export class IsariDataService {
     if (field.type) {
       return field.type;
     }
-    return  'input';
+    return 'input';
   }
 
 
@@ -828,7 +835,7 @@ export class IsariDataService {
       });
   }
 
-  clearCache () {
+  clearCache() {
     this.enumsCache = {};
     this.layoutsCache = {};
     this.schemasCache = {};
@@ -839,12 +846,12 @@ export class IsariDataService {
     return singular[feature];
   }
 
-  private handleError (error: any): Promise<any> {
+  private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
 
-  private getValidators (field): ValidatorFn|ValidatorFn[]|null {
+  private getValidators(field): ValidatorFn | ValidatorFn[] | null {
     if (field && field.requirement && field.requirement === 'mandatory') {
       return [Validators.required];
     }
@@ -900,7 +907,7 @@ export class IsariDataService {
           let data = enums[key];
           if (key === 'nationalities') {
             data = enums[key].filter(item => {
-              return !!item.label.fr || item.label.fr!=='';
+              return !!item.label.fr || item.label.fr !== '';
             });
           }
           this.storageService.save(data, key, 'enums');
@@ -936,9 +943,8 @@ export class IsariDataService {
         if (src === 'nationalities') {
 
           json = json.filter(item => {
-            return !!item.label.fr || item.label.fr!=='';
+            return !!item.label.fr || item.label.fr !== '';
           });
-     
         }
         return json;
       })

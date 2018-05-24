@@ -1,10 +1,16 @@
-<button md-raised-button (click)="toggleMenu($event)">{{ 'columns_select' | translate }}</button>
+<mat-form-field>
+  <mat-select placeholder="{{ 'columns_select' | translate }}" [formControl]="colSelector" multiple>
+    <mat-option *ngFor="let col of cols" [value]="col">{{ col.label[lang] }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<!-- 
+<button mat-raised-button (click)="toggleMenu($event)">{{ 'columns_select' | translate }}</button>
 
-<div class="md-menu" [hidden]="!open" x-position="before">
-  <md-checkbox *ngFor="let col of cols;let i = index" [checked]="col.selected" (change)="col.selected = !col.selected">
-  {{ col.label[lang] }}
-  </md-checkbox>
-  <button md-button color="primary" (click)="useColumns($event)">
-    <md-icon>done</md-icon> {{ 'btn_apply' | translate }}
+<div class="mat-menu" [hidden]="!open" x-position="before">
+  <mat-checkbox *ngFor="let col of cols;let i = index" [checked]="col.selected" (change)="col.selected = !col.selected">
+    {{ col.label[lang] }}
+  </mat-checkbox>
+  <button mat-button color="primary" (click)="useColumns($event)">
+    <mat-icon>done</mat-icon> {{ 'btn_apply' | translate }}
   </button>
-</div>
+</div> -->

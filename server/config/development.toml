@@ -13,6 +13,7 @@ index = 'isaridev'
 
 [ldap]
 url = 'ldap://ldapdevl.sciences-po.fr'
+skip = true
 
 [debug]
 mongoose = true

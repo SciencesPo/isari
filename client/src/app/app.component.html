@@ -1,25 +1,26 @@
 <loader></loader>
 <toaster-container></toaster-container>
-<md-sidenav-layout>
-
+<mat-sidenav-container>
   <router-outlet></router-outlet>
-</md-sidenav-layout>
+</mat-sidenav-container>
 
 <footer>
   <div class="cgu_access">
     <a class="link_footer" target="blank" href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_MentionsLegales.pdf">{{ 'footermentions' | translate }}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
     <a class="link_footer" target="blank" href="http://www.sciencespo.fr/ressources-numeriques/content/gerez-vos-acces">{{ 'footeraccess' | translate }}</a>&nbsp;&nbsp;
-    <button class="document_button" [md-menu-trigger-for]="menu" md-menu-item>
+    <button class="document_button" [matMenuTriggerFor]="menu">
       {{ 'help' | translate }}
     </button>
   </div>
   <div class="any_question">
-  {{ 'footerinfo' | translate }}, <a class="link_footer" href="mailto:isari@sciencespo.fr">isari@sciencespo.fr</a>
+    {{ 'footerinfo' | translate }},
+    <a class="link_footer" href="mailto:isari@sciencespo.fr">isari@sciencespo.fr</a>
   </div>
 </footer>
 
-<md-menu y-position="above" x-position="after" #menu="mdMenu">
-  <a md-menu-item href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_Guide_Utilisateur.pdf" target="_blank">{{ 'user_guide' | translate }}</a>
-<!--  <a md-menu-item href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_procedure_alimentation.pdf" target="_blank">{{ 'user_guide_data' | translate }}</a>-->
-  <a md-menu-item href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_Liste_Champs.pdf" target="_blank">{{ 'fields_list' | translate }}</a>
-</md-menu>
+<mat-menu yPosition="above" xPosition="after" #menu="matMenu">
+  <a mat-menu-item href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_Guide_Utilisateur.pdf" target="_blank">{{ 'user_guide' | translate }}</a>
+  <!--  <a mat-menu-item href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_procedure_alimentation.pdf" target="_blank">{{ 'user_guide_data' | translate }}</a>-->
+  <a mat-menu-item href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_Liste_Champs.pdf" target="_blank">{{ 'fields_list' | translate }}</a>
+  <a mat-menu-item href="http://www.sciencespo.fr/scpolib/ISARI/ISARI_Glossaire.pdf" target="_blank">{{ 'glossary' | translate }}</a>
+</mat-menu>

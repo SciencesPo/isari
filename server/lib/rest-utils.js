@@ -49,9 +49,14 @@ const saveDocument = format => (doc, perms) => {
 		.then(removeEmptyFields)
 		.catch(e => {
 			let err
-			if (e.name === 'ValidationError') {
+			if (e.name === 'ValidationError' ) {
 				err = new ClientError({ title: 'Validation error' })
-				err.errors = extractMongooseValidationError(e)
+				const info = extractMongooseValidationError(e)
+				err.message = 'Erreurs de validation :\n' + Object.keys(info).map(k => `${k} : ${info[k]}`).join("\n")
+			} else if (e.message.indexOf('duplicate key error') !==-1) {
+				err = new ClientError({ title: 'Validation error' })
+				const field = e.message.match(/index: (\w*?)_.+ /)[1]
+				err.message = `La valeur du champs ${field} est déjà utilisée.`
 			} else {
 				err = e
 			}

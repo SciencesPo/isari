@@ -4,8 +4,7 @@
   <div *ngIf="ready">
     <isari-editor [id]="userId" feature="people"></isari-editor>
   </div>
-  <md-card *ngIf="!ready">
-    <md-card-content>{{ 'loading' | translate }}</md-card-content>
-  </md-card>
+  <mat-card *ngIf="!ready">
+    <mat-card-content>{{ 'loading' | translate }}</mat-card-content>
+  </mat-card>
 </div>
-

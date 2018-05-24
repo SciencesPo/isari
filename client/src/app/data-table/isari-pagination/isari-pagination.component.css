@@ -25,14 +25,14 @@ ul li a {
   vertical-align: top;
 }
 
-ul, li, a, md-icon, button {
+ul, li, a, mat-icon, button {
   font-size: 16px;
   line-height: 36px;
   vertical-align:top;
   height: 36px;
 }
 
-md-icon {
+mat-icon {
   font-size: 160%;
   cursor: pointer;
 }
@@ -46,6 +46,6 @@ li > a {
   cursor: pointer;
 }
 
-[md-raised-button].md-primary, [md-fab].md-primary, [md-mini-fab].md-primary {
+[mat-raised-button].mat-primary, [md-fab].mat-primary, [md-mini-fab].mat-primary {
   background-color: #E6142D;
 }

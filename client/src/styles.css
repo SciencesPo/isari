@@ -27,11 +27,11 @@ body {
   }
 }
 
-.app-content md-card {
+.app-content mat-card {
   margin: 20px;
 }
 
-md-hint.error {
+mat-hint.error {
   color: #E6142D;
 }
 
@@ -44,18 +44,18 @@ isari-multi-input, isari-multi-select {
   text-align: left;
 }
 
-.md-tooltip {
+.mat-tooltip {
   max-width: 400px;
   height: auto !important;
 }
 
-md-toolbar.md-primary {
+mat-toolbar.mat-primary {
   background: #fff !important;
   color: #333 !important;
   border-bottom: 1px solid #E6142D;
 }
 
-md-toolbar.md-primary h2 {
+mat-toolbar.mat-primary h2 {
   font-size: 1.7em;
   margin-left: 1em;
   /* color: #E6142D; */
@@ -66,40 +66,44 @@ md-toolbar.md-primary h2 {
   color: #E6142D
 }
 
-.md-card-subtitle {
+.mat-card-subtitle {
   min-width: 150px;
   height: 24px
 }
 
-isari-login .md-input-placeholder.md-focused,
-isari-editor .md-input-placeholder.md-focused,
-md-dialog-container .md-input-placeholder.md-focused {
+isari-login .mat-form-field-label.md-focused,
+isari-editor .mat-form-field-label.md-focused,
+mat-dialog-container .mat-form-field-label.md-focused {
   color: #E6142D;
 }
-isari-login .md-input-underline .md-input-ripple,
-isari-editor .md-input-underline .md-input-ripple,
-md-dialog-container .md-input-underline .md-input-ripple {
+isari-login .mat-form-field-underline .mat-form-field-ripple,
+isari-editor .mat-form-field-underline .mat-form-field-ripple,
+mat-dialog-container .mat-form-field-underline .mat-form-field-ripple {
   background-color: #E6142D;
 }
 
-isari-editor .input .md-input-wrapper { width: 400px; }
-isari-editor .input-date .md-input-wrapper { width: 250px; }
-isari-editor .input-select .md-input-wrapper { width: 400px; }
-isari-log-table .input-select .md-input-wrapper { width: auto; }
-md-dialog-container .input-select .md-input-wrapper { width: 400px; }
-isari-editor .input-textarea .md-input-wrapper { width: 600px; }
-isari-editor .input-textarea .md-input-wrapper textarea { min-height: 100px; }
+isari-editor .input .mat-form-field-wrapper { width: 400px; }
+isari-editor .input-date .mat-form-field-wrapper { width: 250px; }
+isari-editor .input-select .mat-form-field-wrapper { width: 400px; }
+isari-log-table .input-select .mat-form-field-wrapper { width: auto; }
+mat-dialog-container .input-select .mat-form-field-wrapper { width: 400px; }
+isari-editor .input-textarea .mat-form-field-wrapper { width: 600px; }
+isari-editor .input-textarea .mat-form-field-wrapper textarea { min-height: 100px; }
 
-isari-editor isari-log-table md-card {
+isari-editor isari-log-table mat-card {
   border: none;
   box-shadow: none;
   padding: 0;
 }
 
-md-dialog-container {
+mat-dialog-container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-md-dialog-container [md-raised-button].md-primary {
+mat-dialog-container [mat-raised-button].mat-primary {
   background-color: #E6142D;
+}
+
+isari-cols-selector .mat-select-value-text span {
+  font-size: 14px;
 }

@@ -3,9 +3,13 @@
 <div class="app-content">
 
   <form novalidate (submit)="onSubmit(loginForm)" [formGroup]="loginForm">
-    <md-input type="text" placeholder="{{ 'username' | translate }}" formControlName="login"></md-input>
-    <md-input type="password" placeholder="{{ 'password' | translate }}" formControlName="password"></md-input>
-    <button type="submit" md-button>{{ 'btn_login' | translate }}</button>
+    <mat-form-field>
+      <input matInput type="text" placeholder="{{ 'username' | translate }}" formControlName="login">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder="{{ 'password' | translate }}" formControlName="password">
+    </mat-form-field>
+    <button type="submit" mat-raised-button>{{ 'btn_login' | translate }}</button>
   </form>
 
   <h3 *ngIf="errorMessage" class="error">

@@ -2,7 +2,7 @@
 
 const { Schema } = require('mongoose')
 const { map, isArray } = require('lodash/fp')
-const { getMeta } = require('./specs')
+const { getMeta, frontendConfig } = require('./specs')
 const memoize = require('memoizee')
 const { enumValueGetter } = require('./enums')
 
@@ -244,6 +244,7 @@ function formatMeta (meta, includeRestricted = false) {
 			return false // Skipped comment field
 		}
 
+		
 		if (!RESERVED_FIELDS.includes(name)) {
 			// Sub-field: just include it
 			isObject = true
@@ -252,16 +253,20 @@ function formatMeta (meta, includeRestricted = false) {
 				result[name] = subres
 			}
 		}
+			
 
 		// Access type defines if we can see this field
 		else if (name === 'accessType' && desc.accessType === 'confidential' && !includeRestricted) {
 			result = null // Skip the field
 		}
-
 		// Field kept as-is
 		else if (FRONT_KEPT_FIELDS.includes(name)) {
 			result[name] = desc[name]
 		}
+		// send accessMonitoring info to frontend to trigger edition warnings only if specified in config
+		else if (name === 'accessMonitoring' && frontendConfig.accessMonitoringWarnings.indexOf(desc[name]) !== -1){
+			result[name] = desc[name]
+		} 	
 
 		// Other reserved fields are skipped
 

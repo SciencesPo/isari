@@ -1,15 +1,11 @@
-<button md-raised-button [md-menu-trigger-for]="menu">{{ 'download_select' | translate }}</button>
+<button mat-raised-button [matMenuTriggerFor]="menu">{{ 'download_select' | translate }}</button>
 
-<md-menu #menu="mdMenu">
+<mat-menu #menu="matMenu">
 
-  <a md-menu-item
-	*ngIf="(feature === 'people')"
-   	href="{{ getExportDowloadLink('staff') }}">{{ 'download_staff_export'  | translate}}
+  <a mat-menu-item *ngIf="(feature === 'people')" href="{{ getExportDowloadLink('staff') }}">{{ 'download_staff_export' | translate}}
   </a>
-  <a md-menu-item
-	*ngIf="(feature === 'activities')"
-   	href="{{ getExportDowloadLink('grants') }}">{{ 'download_grants_export'  | translate}}
+  <a mat-menu-item *ngIf="(feature === 'activities')" href="{{ getExportDowloadLink('grants') }}">{{ 'download_grants_export' | translate}}
   </a>
-  <button md-menu-item (click)="downloadXLSX()">{{ 'download_excel_table'  | translate}}</button>
-  <button md-menu-item (click)="downloadCSV()">{{ 'download_csv_table'  | translate}}</button>
-</md-menu>
+  <button mat-menu-item (click)="downloadXLSX()">{{ 'download_excel_table' | translate}}</button>
+  <button mat-menu-item (click)="downloadCSV()">{{ 'download_csv_table' | translate}}</button>
+</mat-menu>

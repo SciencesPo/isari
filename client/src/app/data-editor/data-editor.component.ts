@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MdDialogRef, MdDialog } from '@angular/material';
+import { MatDialogRef, MatDialog } from '@angular/material';
 import { ConfirmDialog } from '../fields/confirm.component';
 import { StorageService } from '../storage.service';
 
@@ -10,7 +10,7 @@ import { StorageService } from '../storage.service';
   styleUrls: ['./data-editor.component.css']
 })
 export class DataEditorComponent implements OnChanges {
-  dialogRef: MdDialogRef<ConfirmDialog>;
+  dialogRef: MatDialogRef<ConfirmDialog>;
 
   @Input() form: FormGroup;
   @Input() layout;
@@ -28,8 +28,8 @@ export class DataEditorComponent implements OnChanges {
 
   constructor(
     private storageService: StorageService,
-    private dialog: MdDialog
-  ) {}
+    private dialog: MatDialog
+  ) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.layout) {

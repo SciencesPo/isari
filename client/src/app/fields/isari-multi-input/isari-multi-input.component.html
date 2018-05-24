@@ -1,24 +1,24 @@
-<div class="md-input-wrapper" (keyup)="onKey($event)">
-  <div class="md-input-table">
+<div class="mat-form-field-wrapper mat-form-field-can-float mat-form-field-appearance-legacy" [class.mat-form-field-should-float]="!empty"
+  (keyup)="onKey($event)">
+  <div class="mat-form-field-flex">
 
-    <div class="md-input-prefix" *ngFor="let value of _values">
+    <div class="mat-form-field-prefix" *ngFor="let value of _values">
       {{ value }}
-      <md-icon (click)="removeValue(value, $event)">close</md-icon>
+      <mat-icon (click)="removeValue(value, $event)">close</mat-icon>
     </div>
 
-    <div class="md-input-infix" [ngClass]="{'md-empty': empty }">
-      <input class="md-input-element" spellcheck="false" type="text"
-        [formControl]="selectControl"
-        (focus)="onFocus($event)"
-        (blur)="onBlur($event)">
-      <label class="md-input-placeholder md-float" [ngClass]="{'md-empty': empty }">{{ label }}</label>
+    <div class="mat-form-field-infix" [ngClass]="{'md-empty': empty }">
+      <input class="mat-input-element" spellcheck="false" type="text" [formControl]="selectControl" (focus)="onFocus($event)" (blur)="onBlur($event)">
+      <span class="mat-form-field-label-wrapper">
+        <label class="mat-form-field-label" [class.mat-form-field-empty]="empty">{{ label }}</label>
+      </span>
     </div>
-    <div class="md-input-suffix">
+    <div class="mat-form-field-suffix">
       <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
-      <md-icon class="tooltip-fields" *ngIf="description" [md-tooltip]="description">info_outline</md-icon>
+      <mat-icon class="tooltip-fields" *ngIf="description" [matTooltip]="description">info_outline</mat-icon>
     </div>
   </div>
-  <div class="md-input-underline">
-    <span class="md-input-ripple"></span>
+  <div class="mat-form-field-underline">
+    <span class="mat-form-field-ripple"></span>
   </div>
 </div>

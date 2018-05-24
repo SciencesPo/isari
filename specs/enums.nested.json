@@ -635,7 +635,7 @@
             {
                 "value": "MarieCurieITN",
                 "label": {
-                    "fr": "Marie Curie International Training Network",
+                    "fr": "ITN - Marie Curie International Training Network",
                     "en": ""
                 }
             },
@@ -691,7 +691,7 @@
             {
                 "value": "MSCAITN",
                 "label": {
-                    "fr": "Marie Skłodowska-Curie Innovative Training Networks",
+                    "fr": "ITN - Marie Skłodowska-Curie Innovative Training Networks",
                     "en": ""
                 }
             },
@@ -701,7 +701,52 @@
                     "fr": "Laboratoire international associé",
                     "en": ""
                 }
+            },
+            {
+                "value": "RIA",
+                "label": {
+                    "fr": "",
+                    "en": "RIA - Research and innovation action"
+                }
+            },
+            
+            {
+                "value": "CSA",
+                "label": {
+                    "fr": "",
+                    "en": "CSA – Coordination and support action"
+                }
+            },
+            {
+                "value": "IA",
+                "label": {
+                    "fr": "",
+                    "en": "IA - Innovation action"
+                }
+            },
+              {
+                "value": "MSCARISE",
+                "label": {
+                    "fr": "RISE - Marie Skłodowska-Curie Research and Innovation Staff Exchanges",
+                    "en": ""
+                }
+            },
+            {
+                "value": "costaction",
+                "label": {
+                    "fr": "Cost action",
+                    "en": "Cost action"
+                }
+            },
+            {
+                "value": "PRCIANR",
+                "label": {
+                    "fr": "PRCI- projet de recherche collaborative international ANR",
+                    "en": ""
+                }
             }
+
+
         ],
         "individuelinternational": [
             {
@@ -779,6 +824,20 @@
                 "label": {
                     "fr": "Marie Skłodowska-Curie European Researchers’ Night",
                     "en": ""
+                }
+            },
+            {
+                "value": "ERCSynergy",
+                "label": {
+                    "fr": "ERC Synergy Grant",
+                    "en": "ERC Synergy Grant"
+                }
+            },
+            {
+                "value": "ERCPOC",
+                "label": {
+                    "fr": "ERC Proof of Concept Grant",
+                    "en": "ERC Proof of Concept Grant"
                 }
             }
         ],
@@ -859,6 +918,55 @@
                     "fr": "CP-IP - Large-scale integrating project",
                     "en": ""
                 }
+            },
+            {
+                "value": "labex",
+                "label": {
+                    "fr": "Labex",
+                    "en": ""
+                }
+            },
+            {
+                "value": "idefi",
+                "label": {
+                    "fr": "idefi",
+                    "en": ""
+                }
+            },
+            {
+                "value": "EUR",
+                "label": {
+                    "fr": "EUR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "IHU",
+                "label": {
+                    "fr": "IHU",
+                    "en": ""
+                }
+            },
+            {
+                "value": "PRCANR",
+                "label": {
+                    "fr": "PRC - projet de recherche collaborative ANR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "PRCEANR",
+                "label": {
+                    "fr": "PRCE- projet de recherche collaborative entreprise ANR",
+                    "en": ""
+                }
+            },
+            {
+                "value": "PICRI",
+                "label": {
+                    "fr": "PICRI (Ile de France)",
+                    "en": ""
+                }
             }
         ],
         "individuelnational": [
@@ -868,7 +976,22 @@
                     "fr": "Chaires d'excellence",
                     "en": ""
                 }
+            },
+            {
+                "value": "jcjc",
+                "label": {
+                    "fr": "JCJC-Jeune chercheuse jeune chercheur (ANR)",
+                    "en": ""
+                }
+            },
+            {
+                "value": "emergence",
+                "label": {
+                    "fr": "Emergence(s) (Ville de Paris)",
+                    "en": ""
+                }
             }
+
         ],
         "collaboratifterritorial": [
             {
@@ -1139,6 +1262,13 @@
                     "fr": "Doctorant.e",
                     "en": ""
                 }
+            },
+            {
+                "value": "HDRcandidate",
+                "label": {
+                    "fr": "inscrit.e en HDR",
+                    "en": "professoral thesis candidate"
+                }
             }
         ],
         "chercheurenseignant": [
@@ -1224,14 +1354,14 @@
             {
                 "value": "professeur1",
                 "label": {
-                    "fr": "Professeur.e des universités niv1",
+                    "fr": "Professeur.e des universités de première classe",
                     "en": ""
                 }
             },
             {
                 "value": "professeur2",
                 "label": {
-                    "fr": "Professeur.e des universités niv2",
+                    "fr": "Professeur.e des universités de deuxième classe",
                     "en": ""
                 }
             },

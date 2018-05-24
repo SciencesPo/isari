@@ -72,12 +72,12 @@
             "grades"
         ],
         "label": {
-            "fr": "Statut et Grades",
-            "en": "Status & Grades"
+            "fr": "Statut et grades à Sciences Po",
+            "en": "Sciences Po's statuses & ranks"
         },
         "description": {
-            "fr": "Historique des statuts et grades occupés",
-            "en": "History of statuses and grades"
+            "fr": "Historique des statuts et grades occupés à Sciences Po",
+            "en": "History of statuses and ranks at Sciences Po"
         },
         "collapsabled": true
     },
@@ -87,11 +87,11 @@
         ],
         "label": {
             "fr": "Parcours",
-            "en": "Trajectory"
+            "en": "Career"
         },
         "description": {
-            "fr": "Informations contractuelles",
-            "en": "Information concerning the employment contract"
+            "fr": "Les différents postes occupés dans la carrière y compris avant ou après Sciences Po",
+            "en": "Positions occupied included before or after Sciences Po"
         },
         "collapsabled": true
     },

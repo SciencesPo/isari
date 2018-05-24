@@ -1,10 +1,10 @@
-.md-input-infix { position: initial; }
-.md-input-placeholder { top: 16px; }
+.mat-form-field-infix { position: initial; }
+.mat-form-field-label { top: 16px; }
 
-.md-input-infix.md-empty { position: relative; }
-.md-input-placeholder.md-empty { top: 0px; }
+.mat-form-field-infix.md-empty { position: relative; }
+.mat-form-field-label.md-empty { top: 0px; }
 
-.md-input-prefix {
+.mat-form-field-prefix {
     position: relative;
     padding: 0 30px 0 10px;
     background: #ddd;
@@ -15,7 +15,7 @@
     line-height: 22px;
 }
 
-.md-input-prefix md-icon {
+.mat-form-field-prefix mat-icon {
   font-size: 18px;
   vertical-align: middle;
   position: absolute;
@@ -25,18 +25,18 @@
   cursor: pointer;
 }
 
-.md-input-prefix md-icon {
+.mat-form-field-prefix mat-icon {
   color: #777;
   font-size: 20px;
   cursor: pointer;
   right: 0px;
 }
 
-md-icon {
+mat-icon {
   color: #777;
   font-size: 20px;
   cursor: pointer;
 }
-.md-input-table {
+.mat-form-field-flex {
   width: 100%;
 }

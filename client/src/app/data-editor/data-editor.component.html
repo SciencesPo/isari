@@ -1,37 +1,35 @@
 <form [class.border]="deletable && form.enabled" novalidate [formGroup]="form" *ngIf="form" (keydown.enter)="$event.preventDefault()">
   <div class="save-n-delete" *ngIf="!path || (deletable && form.enabled)">
-    <button *ngIf="!path"  class="save" md-button (click)="save($event)">{{ 'save' | translate }} <md-icon>done</md-icon></button>
+    <button *ngIf="!path" class="save" mat-button (click)="save($event)">{{ 'save' | translate }}
+      <mat-icon>done</mat-icon>
+    </button>
     <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
-      <md-icon>delete</md-icon>
+      <mat-icon>delete</mat-icon>
     </a>
   </div>
 
-  <md-card-content [class.border]="!multiple || group.label" *ngFor="let group of layout" style="display: flex; flex-wrap: wrap;">
-    <md-card-subtitle *ngIf="group.label">
-      <div>{{ group.label }} <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)"><md-icon>{{ group.collapsed ? 'arrow_drop_down_circle' : 'keyboard_arrow_down' }}</md-icon>
-      </a></div>
+  <mat-card-content [class.border]="!multiple || group.label" *ngFor="let group of layout" style="display: flex; flex-wrap: wrap;">
+    <mat-card-subtitle *ngIf="group.label">
+      <div>{{ group.label }}
+        <a class="collapse" href *ngIf="group.collapsabled" (click)="collapse($event, group)">
+          <mat-icon>{{ group.collapsed ? 'arrow_drop_down_circle' : 'keyboard_arrow_down' }}</mat-icon>
+        </a>
+      </div>
       <div *ngIf="group.description" [hidden]="group.collapsed" class="tooltip-by-content">
         <div class="tooltip-desc">{{ group.description }}</div>
-        <md-icon>help</md-icon>
+        <mat-icon>help</mat-icon>
       </div>
-    </md-card-subtitle>
+    </mat-card-subtitle>
 
     <table [hidden]="group.collapsed" style="width:100%">
       <tr *ngFor="let row of group.fields">
-          <td *ngFor="let field of row" [colSpan]="row.colspan">
-            <isari-field
-              (onError)="cumulError($event)"
-              (onUpdate)="update($event)"
-              [form]="form"
-              [field]="field"
-              [feature]="feature"
-              [rootFeature]="feature"
-              [lang]="lang"
-              [path]="(path ? path + '.' : '') + field.name"></isari-field>
-          </td>
+        <td *ngFor="let field of row" [colSpan]="row.colspan">
+          <isari-field (onError)="cumulError($event)" (onUpdate)="update($event)" [form]="form" [field]="field" [feature]="feature"
+            [rootFeature]="feature" [lang]="lang" [path]="(path ? path + '.' : '') + field.name"></isari-field>
+        </td>
       </tr>
     </table>
 
-  </md-card-content>
+  </mat-card-content>
 
 </form>

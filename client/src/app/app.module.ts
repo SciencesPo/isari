@@ -8,7 +8,23 @@ import { HttpModule, Http } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
-import { MaterialModule } from '@angular/material';
+
+// import { MaterialModule } from '@angular/material';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { TextMaskModule } from 'angular2-text-mask';
@@ -54,7 +70,7 @@ import { LogTableComponent } from './log-table/log-table.component';
 import { IsariLogsComponent } from './isari-logs/isari-logs.component';
 
 export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, './assets/i18n', '.json');
+  return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
 
 @NgModule({
@@ -95,7 +111,23 @@ export function createTranslateLoader(http: Http) {
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
-    MaterialModule.forRoot(),
+
+    // MaterialModule.forRoot(),
+    MatMenuModule,
+    MatDialogModule,
+    MatCardModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+
     routing,
     HttpModule,
     Ng2PageScrollModule.forRoot(),

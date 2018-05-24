@@ -1,78 +1,7 @@
 :host {
   width: 100%;
-}
-.md-input-infix { position: initial; }
-
-.md-input-infix.md-empty { position: relative; }
-.md-input-placeholder.md-empty { top: 0px; left: 32px; }
-
-.multiselect-container {
-  display: flex; 
   position: relative;
-  justify-content: space-between;
 }
-
-.multiselect-tag {
-    position: relative;
-    padding: 0 30px 0 10px;
-    margin-right: 5px;
-    display: inline-block;
-    line-height: 16px;
-}
-
-.multiselect-tag.edit {
-  padding-right: 45px;
-}
-
-.multiselect-tag md-icon, .multiselect-tag a {
-  font-size: 15px;
-  vertical-align: middle;
-  position: absolute;
-  right: 5px;
-  top: 0px;
-  color: #777;
-  cursor: pointer;
-  line-height: 16px;
-  width: 17px;
-  height: 17px;
-  text-align: left;
-}
-
-.multiselect-tag a {
-  right: 20px;
-}
-
-.md-menu {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    z-index: 100000;
-    padding: 1em;
-    background: #fff;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-}
-
-.md-menu button.active:after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  content: '';
-  background-color: rgba(0, 0, 0, 0.12);
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-md-icon {
-  color: #777;
-  font-size: 20px;
-  cursor: pointer;
-}
-.md-input-table {
+.chip-list {
   width: 100%;
-}
-
-.md-input-suffix {
-  text-align: right;
 }

@@ -53,8 +53,8 @@
     "positions": [
         {
             "label": {
-                "fr": "Données Contractuelles",
-                "en": "Positions"
+                "fr": "Données parcours",
+                "en": "Carreer data"
             },
             "description": {
                 "fr": "Contrats de travail, postes publiques, ...",
@@ -91,8 +91,8 @@
             "template": "organizationDates",
             "jobName": {
                 "label": {
-                    "fr": "Emploi personnalisé",
-                    "en": "Job name"
+                    "fr": "Poste ou fonction occupé.e",
+                    "en": "Job position"
                 }
             },
             "jobType": {
@@ -119,7 +119,7 @@
                     "accessType": "confidential",
                     "label": {
                         "fr": "grade DRH Sciences Po",
-                        "en": "Sciences Po HR grade"
+                        "en": "Sciences Po HR ranks"
                     },
                     "grade": {
                         "requirement": "mandatory",
@@ -303,8 +303,8 @@
     "grades": [
         {
             "label": {
-                "fr": "Statut et grades",
-                "en": "Statuses and grades"
+                "fr": "Statut et grades à Sciences Po",
+                "en": "Sciences Po's statuses and ranks"
             },
             "accessMonitoring":"DS",
             "description": {
@@ -575,6 +575,12 @@
                 "label": {
                     "fr": "Téléphone",
                     "en": "Phone number"
+                }
+            },
+            "website": {
+                "label": {
+                    "fr": "Site web",
+                    "en": "Website"
                 }
             }
         }

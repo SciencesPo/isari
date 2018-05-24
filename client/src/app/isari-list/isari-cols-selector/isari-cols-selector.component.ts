@@ -1,6 +1,8 @@
-import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, HostListener, ElementRef, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, OnChanges, EventEmitter } from '@angular/core';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
-
+import 'rxjs/add/operator/skip';
+import { FormControl } from '@angular/forms';
+import difference from 'lodash/difference';
 
 @Component({
   selector: 'isari-cols-selector',
@@ -9,52 +11,38 @@ import { TranslateService, LangChangeEvent } from 'ng2-translate';
 })
 export class IsariColsSelectorComponent implements OnInit, OnChanges {
   lang: string;
-  open = false;
+  colSelector: FormControl;
 
   @Input() cols: any[] = [];
   @Input() selectedColumns: any[] = [];
-  @Output() onColSeleted = new EventEmitter<any>();
+  @Output() onColSelected = new EventEmitter<any>();
 
-  constructor(private elementRef: ElementRef, private translate: TranslateService) { }
+  constructor(private translate: TranslateService) {
+    this.colSelector = new FormControl([]);
+  }
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+
+    this.colSelector.valueChanges.subscribe(cols => {
+      this.onColSelected.emit({ cols })
+    });
+
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (this.cols && this.cols.length && this.selectedColumns && this.selectedColumns.length) {
-      this.cols = this.cols.map(col => Object.assign(col, {
-        selected: !!this.selectedColumns.find(selectedCol => selectedCol.key === col.key)
-      }));
+      const shouldUpdate = !!difference(
+        this.selectedColumns.map(col => col.key),
+        this.colSelector.value.map(col => col.key)
+      ).length;
+      if (shouldUpdate) {
+        this.colSelector.setValue(this.cols.filter(col => !!this.selectedColumns.find(selectedCol => selectedCol.key === col.key)));
+      }
     }
   }
 
-  @HostListener('document:click', ['$event', '$event.target'])
-  public onClick($event: MouseEvent, targetElement: HTMLElement): void {
-      if (!targetElement) {
-          return;
-      }
-
-      const clickedInside = this.elementRef.nativeElement.contains(targetElement);
-      if (!clickedInside) {
-          this.closeMenu($event);
-      }
-  }
-
-
-  toggleMenu($event) {
-    this.open = !this.open;
-  }
-
-  closeMenu($event) {
-    this.open = false;
-  }
-
-  useColumns($event) {
-    this.onColSeleted.emit({ cols: this.cols.filter(col => col.selected) });
-    this.closeMenu($event);
-  }
 }

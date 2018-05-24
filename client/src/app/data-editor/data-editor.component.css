@@ -1,16 +1,16 @@
-md-card-content {
+mat-card-content {
   /* border-left: 1px solid #ddd; */
   padding-left: 2em;
   margin-bottom: 2em;
 }
 
 
-.delete md-icon, .collapse md-icon {
+.delete mat-icon, .collapse mat-icon {
   vertical-align: middle;
   cursor: pointer;
 }
 
-md-icon {
+mat-icon {
 	font-size: 20px;
 }
 
@@ -23,7 +23,7 @@ md-icon {
   outline: none;
 }
 
-.collapse md-icon {
+.collapse mat-icon {
   color: #777;
 }
 
@@ -51,7 +51,7 @@ div .border {
   text-align: right;
 }
 
-md-card-subtitle {
+mat-card-subtitle {
   font-weight: bold;
   color: black;
   width: 100%;
@@ -67,7 +67,7 @@ md-card-subtitle {
   flex-wrap: nowrap;
 }
 
-.tooltip-by-content md-icon {
+.tooltip-by-content mat-icon {
   color: #777;
   cursor: pointer;
 }

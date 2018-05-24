@@ -587,6 +587,13 @@
                 "fr": "emploi public",
                 "en": ""
             }
+        },
+        {
+            "value": "vacation",
+            "label": {
+                "fr": "vacation",
+                "en": "student contract"
+            }
         }
     ],
     "facultyMonitoringTypes": [
@@ -990,6 +997,13 @@
             "label": {
                 "fr": "séjour à l'étranger",
                 "en": ""
+            }
+        },
+        {
+            "value": "event",
+            "label": {
+                "fr": "manifestation scientifique",
+                "en": "scientific event"
             }
         }
     ],
@@ -2592,6 +2606,20 @@
             "label": {
                 "fr": "Programme d'investissements d'avenir",
                 "en": "Programme d'investissements d'avenir"
+            }
+        },
+         {
+            "value": "ANRSpecific",
+            "label": {
+                "fr": "Programme ANR spécifique",
+                "en": "ANR specific program"
+            }
+        },
+         {
+            "value": "ANRGeneric",
+            "label": {
+                "fr": "Programme ANR générique",
+                "en": "ANR generic program"
             }
         }
     ],

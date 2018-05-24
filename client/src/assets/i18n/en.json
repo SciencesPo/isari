@@ -11,10 +11,10 @@
   "btn_add_activities": "Add activity",
   "columns_select": "Column selection",
   "download_select": "Download",
-  "download_staff_export" : "Staff export in Excel",
-  "download_grants_export" : "Projects grants in Excel",
-  "download_excel_table" : "This table in Excel",
-  "download_csv_table" : "This table in CSV",
+  "download_staff_export": "Staff export in Excel",
+  "download_grants_export": "Projects grants in Excel",
+  "download_excel_table": "This table in Excel",
+  "download_csv_table": "This table in CSV",
   "btn_apply": "Apply",
   "items_per_page": "{{ value }} items per page",
   "lines": "lines",
@@ -24,7 +24,7 @@
   "password": "Password",
   "externals": "Externals",
   "members": "Members",
-  "others" : "Others",
+  "others": "Others",
   "resume": "My Resume",
   "save": "Save",
   "unknown error": "Unknown error",
@@ -39,23 +39,27 @@
   "endDate": "End date",
   "personal-space": "Personal Space",
   "multiplechoices": "You can enter several values",
-  "footermentions" : "Legal notices & GCU",
-  "footeraccess" : "Manage your accesses",
-  "footerinfo" : "If you have any question",
+  "footermentions": "Legal notices & GCU",
+  "footeraccess": "Manage your accesses",
+  "footerinfo": "If you have any question",
   "all_activities": "Every activity",
   "linkedActivity": "Linked activities",
   "linkedPeople": "Linked people",
   "linkedOrganization": "Linked organizations",
   "delete": "Delete",
+  "glossary": "Glossary",
   "warningDelete": {
     "people": "Deletion forbidden, this people is linked",
     "activities": "Deletion forbidden, this activity is linked",
     "organizations": "Deletion forbidden, this organization is linked"
   },
   "checkExistence": {
-    "people": "To avoid duplicates, please check people existence before adding new entries.",
-    "organizations": "To avoid duplicates, please check organizations existence before adding new entries.",
-    "activities": "To avoid duplicates, please check activities existence before adding new entries."
+    "people":
+      "To avoid duplicates, please check people existence before adding new entries.",
+    "organizations":
+      "To avoid duplicates, please check organizations existence before adding new entries.",
+    "activities":
+      "To avoid duplicates, please check activities existence before adding new entries."
   },
   "no matching": "Aucune correspondance ?",
   "add": "Add",

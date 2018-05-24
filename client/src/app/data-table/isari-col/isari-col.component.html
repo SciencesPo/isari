@@ -3,8 +3,8 @@
   <ng-content></ng-content>
 
   <a href (click)="sortBy($event)">
-    <md-icon *ngIf="sorted === true">arrow_upward</md-icon>
-    <md-icon *ngIf="sorted === false">arrow_downward</md-icon>
-    <md-icon *ngIf="sorted === null">swap_vert</md-icon>
+    <mat-icon *ngIf="sorted === true">arrow_upward</mat-icon>
+    <mat-icon *ngIf="sorted === false">arrow_downward</mat-icon>
+    <mat-icon *ngIf="sorted === null">swap_vert</mat-icon>
   </a>
 </th>

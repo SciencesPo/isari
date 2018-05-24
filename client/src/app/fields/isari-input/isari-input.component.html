@@ -1,16 +1,8 @@
-<span
-  class="input"
-  [formGroup]="form"
-  [md-tooltip]="description">
-  <md-input
-    [placeholder]="label"
-    (blur)="update($event)"
-    [isariDisabled]="form.controls[name].disabled"
-    [type]="type"
-    [min]="min || null"
-    [max]="max || null"
-    [step]="step || null"
-    [formControlName]="name">
-     <md-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start" class="error">{{ 'mandatory' | translate }}</md-hint>
-  </md-input>
+<span class="input" [formGroup]="form" [matTooltip]="description">
+  <mat-form-field>
+    <input matInput [placeholder]="label" (blur)="update($event)" [disabled]="form.controls[name].disabled" [type]="type" [min]="min || null"
+      [max]="max || null" [step]="step || null" [formControlName]="name">
+    <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
+      class="error">{{ 'mandatory' | translate }}</mat-hint>
+  </mat-form-field>
 </span>

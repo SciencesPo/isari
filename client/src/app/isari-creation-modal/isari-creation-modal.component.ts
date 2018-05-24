@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { IsariDataService } from '../isari-data.service';
 
 @Component({
-  selector: 'isari-creation-modal',
-  templateUrl: './isari-creation-modal.component.html',
-  styles: [
-  ]
+    selector: 'isari-creation-modal',
+    templateUrl: './isari-creation-modal.component.html',
+    styles: [
+    ]
 })
 export class IsariCreationModal implements OnInit {
 
@@ -22,7 +22,7 @@ export class IsariCreationModal implements OnInit {
     private lang: string;
 
     constructor(
-        public dialogRef: MdDialogRef<IsariCreationModal>,
+        public dialogRef: MatDialogRef<IsariCreationModal>,
         private isariDataService: IsariDataService,
         private translate: TranslateService
     ) { }
@@ -36,7 +36,7 @@ export class IsariCreationModal implements OnInit {
             this.translate.onLangChange
                 .map((event: LangChangeEvent) => event.lang)
                 .startWith(this.translate.currentLang)
-        ).subscribe(([{values}, lang]: [{values: any[]}, string]) => {
+        ).subscribe(([{ values }, lang]: [{ values: any[] }, string]) => {
             this.lang = lang;
             if (this.queryControl.value) {
                 this.minimalSearchDone = true;
@@ -48,10 +48,10 @@ export class IsariCreationModal implements OnInit {
     }
 
     closeMe() {
-      this.dialogRef.close();
+        this.dialogRef.close();
     }
 
-    private translateItem (item) {
+    private translateItem(item) {
         let label = item.value;
         if (item.label && item.label[this.lang]) {
             label = item.label[this.lang];

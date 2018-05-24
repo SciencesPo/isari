@@ -1,4 +1,4 @@
-FROM node:boron-slim
+FROM node:10.1.0-slim
 
 ENV GOSU_VERSION 1.10
 RUN set -x \

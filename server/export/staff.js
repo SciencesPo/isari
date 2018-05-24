@@ -123,11 +123,8 @@ function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlackl
                         {$and: [{startDate: {$regex: /^.{7}$/}}, {startDate: {$lte: reportPeriod.endDate.slice(0, 7)}}]},
                         {$and: [{startDate: {$regex: /^.{10}$/}}, {startDate: {$lte: reportPeriod.endDate.slice(0, 10)}}]}
                         ]};
-          const gradeStatusQuery = {gradeStatus: {$not: {$in: gradeStatusBlacklist.gradeStatus ? gradeStatusBlacklist.gradeStatus : []}}};
-          const gradeQuery = {grade: {$not: {$in: gradeStatusBlacklist.grade ? gradeStatusBlacklist.grade : []}}};
-          return next(null, {
-                    $and: [
-                      {academicMemberships: {
+          // orga part of query
+          const query = [{academicMemberships: {
                         $elemMatch: {
                           $and: [
                             orgFilter,
@@ -136,18 +133,24 @@ function staffMongoQuery(Organization, centerId, reportPeriod, gradeStatusBlackl
                             mongoEndDateQuery
                           ]
                         }
-                      }},
-                      {grades: {
+                      }}];
+          //grade status query
+          const gradesQuery = [mongoStartDateQuery, mongoEndDateQuery];
+          if (gradeStatusBlacklist.gradeStatus && gradeStatusBlacklist.gradeStatus.length > 0)
+            gradesQuery.unshift({gradeStatus: {$not: {$in: gradeStatusBlacklist.gradeStatus}}});
+          if (gradeStatusBlacklist.grade && gradeStatusBlacklist.grade.length > 0)
+            gradesQuery.unshift({grade: {$not: {$in: gradeStatusBlacklist.grade}}});
+          if (gradesQuery.length > 2) {
+            //check if at least grade or status is not empty before adding the query
+            query.push({grades: {
                         $elemMatch: {
-                          $and: [
-                            gradeQuery,
-                            gradeStatusQuery,
-                            mongoStartDateQuery,
-                            mongoEndDateQuery
-                          ]
+                          $and: gradesQuery
                         }
-                      }}
-                    ]
+                      }});
+          }
+
+          return next(null, {
+                    $and: query
                   });
         }
     ], (err, query) => {
@@ -440,7 +443,7 @@ const FACULTY_SHEET_TEMPLATE = {
     }
 };
 
-const TEMP_FACULTY_GRADES = ['directeurderechercheremerite', 'cherchcontractuel', 'postdoc', 'invité', 'CASSIST', 'doctorant(grade)', 'profémérite', 'profunivémérite', 'enseicherchcontractuel', 'ater'];
+const TEMP_FACULTY_GRADES = ['directeurderechercheremerite', 'cherchcontractuel', 'postdoc', 'invité', 'CASSIST', 'doctorant(grade)', 'profémérite', 'profunivémérite', 'enseicherchcontractuel', 'ater', 'HDRcandidate'];
 
 
 const SHEETS = [
