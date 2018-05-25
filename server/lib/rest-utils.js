@@ -168,12 +168,17 @@ const getModelStrings = Model => req => {
 	}
 	return Model.find({ _id: { $in: ids } })
 		.then(founds => {
-			const missing = difference(ids, map('id', founds))
-			if (missing.length > 0) {
-				return Promise.reject(NotFoundError({ title: `Model "${Model.modelName}" returned nothing for IDs ${missing.join(', ')}` }))
-			}
+			// checking missing ids as done here discard the whole bunch of strings where only one is missing. Not the good way..
+			// canceling this test for prod hotfix 
+			// const missing = difference(ids, map('id', founds))
+			// if (missing.length > 0) {
+			// 	return Promise.reject(NotFoundError({ title: `Model "${Model.modelName}" returned nothing for IDs ${missing.join(', ')}` }))
+			// }
 			// Map over ids instead of found object to keep initial order
-			return Promise.all(ids.map(id => founds.find(o => o.id === id).populateAll()))
+			return Promise.all(ids.map(id => { 
+				const i = founds.find(o => o.id === id)
+				return i ? i.populateAll() : undefined
+			}).filter(e => e))
 		})
 		.then(map(o => ({ id: String(o._id), value: o.applyTemplates(req,0) })))
 }
