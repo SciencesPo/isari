@@ -21,6 +21,7 @@ export class DataEditorComponent implements OnChanges {
   @Input() feature: string;
   @Input() multiple: boolean;
   @Input() lang: string;
+  @Input() differences: number;
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onSave = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();

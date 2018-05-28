@@ -1,7 +1,7 @@
 <span class="input" [formGroup]="form" [matTooltip]="description">
   <mat-form-field>
-    <input matInput [placeholder]="label" (blur)="update($event)" [disabled]="form.controls[name].disabled" [type]="type" [min]="min || null"
-      [max]="max || null" [step]="step || null" [formControlName]="name">
+    <input matInput [placeholder]="label" (change)="hasChange = true" (blur)="update($event)" [disabled]="form.controls[name].disabled"
+      [type]="type" [min]="min || null" [max]="max || null" [step]="step || null" [formControlName]="name">
     <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
       class="error">{{ 'mandatory' | translate }}</mat-hint>
   </mat-form-field>

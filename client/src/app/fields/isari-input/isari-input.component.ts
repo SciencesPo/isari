@@ -19,17 +19,18 @@ export class IsariInputComponent {
   @Input() max: number;
   @Input() step: number;
   @Output() onUpdate = new EventEmitter<any>();
+  hasChange: boolean = false;
 
   constructor() { }
 
   update($event) {
+    if (!this.hasChange) return;
     if (this.type === 'number' && Number.isNaN(this.form.controls[this.name].value)) {
       this.form.controls[this.name].setValue(null);
     }
     if (this.onUpdate) {
-      this.onUpdate.emit({log: true, path: this.path, type: 'update'});
+      this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
     }
   }
-
 
 }

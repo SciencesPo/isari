@@ -3,13 +3,13 @@
 </div>
 <div *ngIf="exist">
     <mat-card id="form">
-        <isari-data-editor [feature]="feature" [form]="form" [layout]="layout" (onSave)="save($event)" (onUpdate)="onUpdate($event)"
-            (onError)="cumulError($event)" [path]="" [lang]="lang"></isari-data-editor>
+        <isari-data-editor [differences]="diff.length" [feature]="feature" [form]="form" [layout]="layout" (onSave)="save($event)"
+            (onUpdate)="onUpdate($event)" (onError)="cumulError($event)" [path]="" [lang]="lang"></isari-data-editor>
     </mat-card>
 
     <mat-card *ngIf="data?.opts.deletable && data.id" style="display: flex;justify-content: space-between;">
 
-        <ng-template ngFor let-relation [ngForOf]="relations" let-i="index" [ngForTrackBy]="trackByFn">
+        <ng-template ngFor let-relation [ngForOf]="relations" let-i="index">
             <div *ngIf="relation.value.length" style="margin-right:1em;">
                 <button type="button" mat-raised-button (click)="relation.show = !relation.show">
                     ({{ relation.value.length }}) {{ relation.label | translate }}

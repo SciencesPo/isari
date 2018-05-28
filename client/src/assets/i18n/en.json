@@ -27,6 +27,7 @@
   "others": "Others",
   "resume": "My Resume",
   "save": "Save",
+  "toSave": " changes to save",
   "unknown error": "Unknown error",
   "login error": "Authentication failed: invalid id or password",
   "no_org error": "Forbidden access: no accessible center",
@@ -54,12 +55,9 @@
     "organizations": "Deletion forbidden, this organization is linked"
   },
   "checkExistence": {
-    "people":
-      "To avoid duplicates, please check people existence before adding new entries.",
-    "organizations":
-      "To avoid duplicates, please check organizations existence before adding new entries.",
-    "activities":
-      "To avoid duplicates, please check activities existence before adding new entries."
+    "people": "To avoid duplicates, please check people existence before adding new entries.",
+    "organizations": "To avoid duplicates, please check organizations existence before adding new entries.",
+    "activities": "To avoid duplicates, please check activities existence before adding new entries."
   },
   "no matching": "Aucune correspondance ?",
   "add": "Add",
