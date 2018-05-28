@@ -116,7 +116,7 @@ export class IsariMultiSelectComponent implements OnInit {
         this.translate.onLangChange
           .map((event: LangChangeEvent) => event.lang)
           .startWith(this.translate.currentLang),
-        this.extensible ? this.selectControl.valueChanges : Observable.of(null)
+        this.extensible ? this.selectControl.valueChanges.startWith('') : Observable.of(null)
       ).map(([{ values }, lang, inputValue]: [{ values: any[] }, string, any]) => {
         let x = values.map(item => translateItem(item, lang));
         if (!inputValue) return x;
