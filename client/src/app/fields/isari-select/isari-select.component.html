@@ -1,6 +1,7 @@
 <mat-form-field [formGroup]="form" class="autocomplete">
   <input type="hidden" [formControlName]="name">
 
+
   <input type="text" matInput [placeholder]="label" #selectInput [formControl]="selectControl" [matAutocomplete]="auto">
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [displayWith]="displayFn" autoActiveFirstOption>
@@ -9,12 +10,16 @@
     </mat-option>
   </mat-autocomplete>
 
-  <span matSuffix *ngIf="requirement==='recommended'" class="recommended-field ">{{ 'recommended' | translate }}</span>
-  <span matSuffix>
-    <mat-icon class="tooltip-fields " *ngIf="description" matTooltipPosition="before" [matTooltip]="description ">info_outline</mat-icon>
+  <span matSuffix *ngIf="id">
+    <a routerLink="/{{ api }}/{{ id }}" target="_blank" queryParamsHandling="preserve">
+      <mat-icon>open_in_new</mat-icon>
+    </a>
   </span>
-  <span matSuffix>
-    <mat-icon class="tooltip-fields " matTooltipPosition="before" [matTooltip]=" 'multiplechoices' | translate ">info_outline</mat-icon>
+  <span matSuffix *ngIf="requirement==='recommended'">
+    <mat-icon class="tooltip-fields " matTooltipPosition="before" matTooltip="{{ 'recommended' | translate }}">warning</mat-icon>
+  </span>
+  <span matSuffix *ngIf="description">
+    <mat-icon class="tooltip-fields " matTooltipPosition="before" [matTooltip]="description">info_outline</mat-icon>
   </span>
 
 </mat-form-field>

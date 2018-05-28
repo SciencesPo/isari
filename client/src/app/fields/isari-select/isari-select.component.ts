@@ -19,6 +19,7 @@ export class IsariSelectComponent implements OnInit {
   selectControl: FormControl;
   disabled: boolean;
   filteredItems: Observable<any>;
+  id: string | undefined;
 
   @Input() name: string;
   @Input() path: string;
@@ -104,6 +105,7 @@ export class IsariSelectComponent implements OnInit {
         .startWith(this.translate.currentLang)
     ).subscribe(([stringValues, lang]) => {
       const value = this.form.controls[this.name].value;
+      this.id = (stringValues.length > 0) && stringValues[0].id;
       this.selectControl.setValue(translateItem(stringValues.length ? stringValues[0] : { value }, lang));
     });
   }
