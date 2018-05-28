@@ -1,6 +1,6 @@
 <mat-form-field>
-  <mat-select placeholder="{{ 'columns_select' | translate }}" [formControl]="colSelector" multiple>
-    <mat-option *ngFor="let col of cols" [value]="col">{{ col.label[lang] }}</mat-option>
+  <mat-select panelClass="long-select" placeholder="{{ 'columns_select' | translate }}" [formControl]="colSelector" multiple>
+    <mat-option class="col" *ngFor="let col of cols" [value]="col">{{ col.label[lang] }}</mat-option>
   </mat-select>
 </mat-form-field>
 <!-- 

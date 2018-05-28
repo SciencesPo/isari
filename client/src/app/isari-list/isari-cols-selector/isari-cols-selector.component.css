@@ -1,3 +1,9 @@
 :host {
   margin-right: 1em;
 }
+
+.col {
+  font-size: 0.8em !important;
+  line-height: 1.1em !important;
+  height: 1.1em !important;
+}

@@ -107,3 +107,12 @@ mat-dialog-container [mat-raised-button].mat-primary {
 isari-cols-selector .mat-select-value-text span {
   font-size: 14px;
 }
+
+/* for col selector */
+.long-select {
+  max-height: none !important;
+}
+.long-select .mat-pseudo-checkbox {
+  width: 16px !important;
+  height: 16px !important;
+}
