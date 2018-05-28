@@ -35,9 +35,9 @@ export class IsariDateComponent {
   months: any = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     .map(i => new Date(1, i + 1))
     .reduce((acc, d) => Object.assign(acc, {
-      fr: [...acc.fr,  d.toLocaleString('fr', { month: 'long' })],
-      en: [...acc.en,  d.toLocaleString('en', { month: 'long' })]
-    }), {fr: [], en: []});
+      fr: [...acc.fr, d.toLocaleString('fr', { month: 'long' })],
+      en: [...acc.en, d.toLocaleString('en', { month: 'long' })]
+    }), { fr: [], en: [] });
   years: number[];
   runningClick = false;
   lang: string;
@@ -62,10 +62,9 @@ export class IsariDateComponent {
 
     [this.year, this.month, this.day] = this.form.controls[this.name].value.split('-').map(v => Number(v));
 
-    this.selectControl = new FormControl({
-      value: this.getDisplayedValue(this.year, this.month, this.day),
-      disabled: this.form.controls[this.name].disabled
-    });
+    this.selectControl = new FormControl();
+    this.selectControl.setValue(this.getDisplayedValue(this.year, this.month, this.day));
+    if (this.form.controls[this.name].disabled) this.selectControl.disable();
 
     this.selectIsoControl = new FormControl('');
     this.selectIsoControl.valueChanges.subscribe(value => {
@@ -129,7 +128,7 @@ export class IsariDateComponent {
     this.focused = false;
     this.runningClick = false;
 
-    this.onUpdate.emit({log: true, path: this.path, type: 'update'});
+    this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
   }
 
   display(_displayed) {
@@ -148,7 +147,7 @@ export class IsariDateComponent {
     this.display('days');
   }
 
-  setMonth(m , $event) {
+  setMonth(m, $event) {
     this.month = m;
     this.days = this.setDays(this.year, this.month);
     this.display('days');
@@ -196,7 +195,7 @@ export class IsariDateComponent {
   //   }
   // }
 
-  private getDisplayedValue (year, month, day) {
+  private getDisplayedValue(year, month, day) {
     if (!year) {
       return '';
     }
@@ -205,16 +204,16 @@ export class IsariDateComponent {
       + year;
   }
 
-  private setYears (y) {
-    return [...Array.apply(null, {length: 13}).map((v, i) => i + y - 5)];
+  private setYears(y) {
+    return [...Array.apply(null, { length: 13 }).map((v, i) => i + y - 5)];
   }
 
-  private setDays (year, month) {
+  private setDays(year, month) {
     if (!year || !month) {
       return [];
     }
     const daysInMonth = new Date(+year, +month, 0).getDate();
-    return [...Array.apply(null, {length: daysInMonth}).map((v, i) => i + 1)];
+    return [...Array.apply(null, { length: daysInMonth }).map((v, i) => i + 1)];
   }
 
 }

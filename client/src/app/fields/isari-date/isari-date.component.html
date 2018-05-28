@@ -1,11 +1,11 @@
-<span [formGroup]="form" class="input-date isari-input-wrapper mat-form-field-can-float mat-form-field-appearance-legacy mat-form-field-should-float"
-  (blur)="onBlur($event)" [matTooltip]="description">
+<span [formGroup]="form" class="input-date isari-input-wrapper" (blur)="onBlur($event)" [matTooltip]="description">
   <input type="hidden" [formControlName]="name">
 
   <mat-form-field>
+    <mat-label>{{ label }}</mat-label>
     <input matInput (focus)="onFocus($event)" [formControl]="selectControl" *ngIf="!focused">
     <input matInput (keydown.enter)="update($event)" focusMe (blur)="onBlur($event)" [formControl]="selectIsoControl" [textMask]="{mask: mask, pipe: pipe}"
-      *ngIf="focused" [placeholder]="label">
+      *ngIf="focused">
     <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
       class="error">{{ 'mandatory' | translate }}</mat-hint>
 

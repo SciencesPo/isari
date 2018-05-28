@@ -99,10 +99,6 @@ mat-icon {
   width: 100%;
 }
 
-.mat-form-field-suffix {
-  text-align: right;
-}
-
 .recommended-field {
   color: #777;
 }
