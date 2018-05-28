@@ -41,8 +41,7 @@ export class IsariLogsComponent implements OnInit {
     this.options$ = new BehaviorSubject(this.options);
     this.details$ = new BehaviorSubject(false);
 
-
-    this.route.paramMap.combineLatest(
+    this.logs$ = this.route.paramMap.combineLatest(
       this.options$,
       this.translate.onLangChange
         .map((event: LangChangeEvent) => event.lang)
@@ -92,7 +91,7 @@ export class IsariLogsComponent implements OnInit {
           .getForeignLabel(
             'Organization',
             uniq(
-              flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab):[]))
+              flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab) : []))
             )
           )
           .map(labs => keyBy(labs, 'id'));

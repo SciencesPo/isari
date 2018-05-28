@@ -1,14 +1,8 @@
 <isari-header></isari-header>
 
-<div class="app-content">
+<div class="app-content" *ngIf="logs$ | async as logs">
 
-  <isari-log-table
-    [feature]="feature"
-    [data]="logs$ | async"
-    [labs]="labs$ | async"
-    [options]="options"
-    (onExport)="exportLogs($event)"
-    (onOptionsChange)="changeOpt($event)"
-    (onDetailsToggle)="toggleDetails()"></isari-log-table>
+  <isari-log-table [feature]="feature" [data]="logs" [labs]="labs$ | async" [options]="options" (onExport)="exportLogs($event)"
+    (onOptionsChange)="changeOpt($event)" (onDetailsToggle)="toggleDetails()"></isari-log-table>
 
 </div>
