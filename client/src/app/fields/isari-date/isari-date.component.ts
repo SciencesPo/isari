@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { FocusMeDirective } from '../focus-me.directive';
 import { matchKeyCombo, pad, createAutoCorrectedDatePipe } from '../../utils';
+import { ToasterService } from 'angular2-toaster';
 
 @Component({
   selector: 'isari-date',
@@ -20,9 +21,11 @@ export class IsariDateComponent {
   @Output() onUpdate = new EventEmitter<any>();
   @Input() escapeKey: Array<string> = ['esc'];
   @Input() enterKey: Array<string> = ['enter'];
+  @Input() accessMonitoring: string;
 
   @ViewChild(FocusMeDirective) focusMe;
 
+  open: boolean;
   selectControl: FormControl;
   selectIsoControl: FormControl;
   focused: boolean = false;
@@ -47,32 +50,28 @@ export class IsariDateComponent {
   private pressedEscapeKey: Function;
   private pressedEnterKey: Function;
 
-  constructor(private translate: TranslateService) {
+  constructor(private toasterService: ToasterService, private translate: TranslateService) {
     this.year = (new Date()).getFullYear();
   }
 
-  private ngOnInit() {
-    this.lang = this.translate.currentLang;
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
-    });
+  toggleAccess(val, human = true) {
+    this.open = val;
+    if (!this.open) this.selectControl.disable();
+    else {
+      if (human) {
+        this.translate.get('priorityField').subscribe(priorityField => {
+          this.toasterService.pop('error', priorityField.title, priorityField.message);
+        });
+      }
+      this.selectControl.enable();
+    }
+  }
 
-    this.pressedEscapeKey = matchKeyCombo(this.escapeKey);
-    this.pressedEnterKey = matchKeyCombo(this.enterKey);
-
+  private init() {
     [this.year, this.month, this.day] = this.form.controls[this.name].value.split('-').map(v => Number(v));
-
-    this.selectControl = new FormControl();
     this.selectControl.setValue(this.getDisplayedValue(this.year, this.month, this.day));
     if (this.form.controls[this.name].disabled) this.selectControl.disable();
 
-    this.selectIsoControl = new FormControl('');
-    this.selectIsoControl.valueChanges.subscribe(value => {
-      const dateArray = value.replace(/_/g, '').split('-');
-      this.year = dateArray[0] && dateArray[0].length === 4 ? Number(dateArray[0]) : null;
-      this.month = dateArray[1] && dateArray[1].length === 2 ? Number(dateArray[1]) : null;
-      this.day = dateArray[2] && dateArray[2].length === 2 ? Number(dateArray[2]) : null;
-    })
 
     if (!this.month) {
       this.display('months');
@@ -86,6 +85,31 @@ export class IsariDateComponent {
 
     this.days = this.setDays(this.year, this.month);
     this.years = this.setYears(this.year || new Date().getFullYear());
+
+  }
+
+  private ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+
+    this.pressedEscapeKey = matchKeyCombo(this.escapeKey);
+    this.pressedEnterKey = matchKeyCombo(this.enterKey);
+
+    this.selectControl = new FormControl();
+
+    this.toggleAccess(!this.accessMonitoring, false);
+
+    this.selectIsoControl = new FormControl('');
+    this.selectIsoControl.valueChanges.subscribe(value => {
+      const dateArray = value.replace(/_/g, '').split('-');
+      this.year = dateArray[0] && dateArray[0].length === 4 ? Number(dateArray[0]) : null;
+      this.month = dateArray[1] && dateArray[1].length === 2 ? Number(dateArray[1]) : null;
+      this.day = dateArray[2] && dateArray[2].length === 2 ? Number(dateArray[2]) : null;
+    })
+
+    this.init();
   }
 
   onFocus($event) {
@@ -101,7 +125,7 @@ export class IsariDateComponent {
   onBlur($event) {
     if (!this.runningClick) {
       this.focused = false;
-      this.ngOnInit();
+      this.init();
     } else {
       this.runningClick = false;
       this.focusMe.setFocus();
@@ -174,7 +198,7 @@ export class IsariDateComponent {
   }
 
   undoDate($event) {
-    this.ngOnInit();
+    this.init();
     this.focused = false;
     this.runningClick = false;
   }

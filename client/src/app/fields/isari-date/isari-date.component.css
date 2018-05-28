@@ -110,3 +110,7 @@ mat-icon {
 mat-icon {
   color: #E6142D;
 }
+
+.accessMonitoring {
+  cursor: pointer;
+}
