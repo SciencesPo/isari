@@ -71,9 +71,15 @@ export class IsariMultiSelectComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent) {
-    this.values = [...this.values, event.option.value];
     this.selectInput.nativeElement.value = '';
     this.selectControl.setValue(null);
+    const selected = event.option.value;
+
+    // avoid double
+    const found = this.values.findIndex(item => (selected.value && selected.value === item.value) || (selected.id && selected.id === item.id) || (selected === item)) > -1;
+    if (found) return;
+
+    this.values = [...this.values, selected];
     this.form.controls[this.name].markAsDirty();
     this.onUpdate.emit({ log: true, path: this.path, type: 'push' });
   }
