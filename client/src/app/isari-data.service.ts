@@ -932,7 +932,6 @@ export class IsariDataService {
           json = json.filter(item => {
             return !!item.label.fr || item.label.fr !== '';
           });
-
         }
         return json;
       })
