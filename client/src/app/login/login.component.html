@@ -1,19 +1,30 @@
 <isari-header></isari-header>
 
-<div class="app-content">
+<div class="login-content">
 
-  <form novalidate (submit)="onSubmit(loginForm)" [formGroup]="loginForm">
-    <mat-form-field>
-      <input matInput type="text" placeholder="{{ 'username' | translate }}" formControlName="login">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput type="password" placeholder="{{ 'password' | translate }}" formControlName="password">
-    </mat-form-field>
-    <button type="submit" mat-raised-button>{{ 'btn_login' | translate }}</button>
-  </form>
+  <mat-card>
 
-  <h3 *ngIf="errorMessage" class="error">
-    {{ errorMessage | translate }}
-  </h3>
+    <mat-card-content>
+
+      <form novalidate (submit)="onSubmit(loginForm)" [formGroup]="loginForm">
+        <mat-form-field>
+          <input matInput type="text" placeholder="{{ 'username' | translate }}" formControlName="login">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="password" placeholder="{{ 'password' | translate }}" formControlName="password">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary">{{ 'btn_login' | translate }}</button>
+      </form>
+
+      <h3 *ngIf="errorMessage" class="error">
+        {{ errorMessage | translate }}
+      </h3>
+
+    </mat-card-content>
+
+  </mat-card>
+
 
 </div>
