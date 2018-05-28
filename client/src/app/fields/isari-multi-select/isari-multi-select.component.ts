@@ -10,6 +10,7 @@ import 'rxjs/add/operator/do';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
+import { ToasterService } from 'angular2-toaster';
 
 // const ENTER = 13;
 const BACKSPACE = 8;
@@ -29,6 +30,7 @@ export class IsariMultiSelectComponent implements OnInit {
   selectControl: FormControl;
   disabled: boolean;
   filteredItems: Observable<any>;
+  open: boolean;
 
   @Input() name: string;
   @Input() path: string;
@@ -42,10 +44,11 @@ export class IsariMultiSelectComponent implements OnInit {
   @Input() create: Function;
   @Input() extensible = false;
   @Input() stringValue: Observable<string[]>;
+  @Input() accessMonitoring: string;
 
   @ViewChild('selectInput') selectInput: ElementRef;
 
-  constructor(private translate: TranslateService, private route: ActivatedRoute) { }
+  constructor(private toasterService: ToasterService, private translate: TranslateService, private route: ActivatedRoute) { }
 
   add(event: MatChipInputEvent) {
     // settimeout to avoid consider click in list as a blur
@@ -82,9 +85,25 @@ export class IsariMultiSelectComponent implements OnInit {
     this.onUpdate.emit({ log: true, path: this.path, index: removedIndex, type: 'delete' });
   }
 
-  ngOnInit() {
-    // this.lang = this.translate.currentLang;
+  toggleAccess(val, human = true) {
+    this.open = val;
+    if (!this.open) {
+      this.form.controls[this.name].disable();
+    } else {
+      if (human) {
+        this.translate.get('priorityField').subscribe(priorityField => {
+          this.toasterService.pop('error', priorityField.title, priorityField.message);
+        });
+      }
+      this.form.controls[this.name].enable();
+    }
     this.disabled = this.form.controls[this.name].disabled;
+  }
+
+  ngOnInit() {
+    this.toggleAccess(!this.accessMonitoring, false);
+
+    // this.lang = this.translate.currentLang;
 
     this.selectControl = new FormControl({
       value: '',

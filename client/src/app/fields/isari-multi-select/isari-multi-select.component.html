@@ -22,6 +22,10 @@
   <span matSuffix>
     <mat-icon class="tooltip-fields " matTooltipPosition="before" [matTooltip]=" 'multiplechoices' | translate ">info_outline</mat-icon>
   </span>
+  <span class="accessMonitoring" matSuffix *ngIf="accessMonitoring" (click)="toggleAccess(!open)">
+    <mat-icon *ngIf="!open">lock</mat-icon>
+    <mat-icon *ngIf="open">lock_open</mat-icon>
+  </span>
 </mat-form-field>
 
 <!--  @TODO foreign keys links -->

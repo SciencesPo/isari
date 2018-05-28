@@ -31,9 +31,9 @@
 
   <span *ngIf="field.multiple && field.type !== 'object'" [ngSwitch]="field.controlType">
 
-    <isari-multi-select *ngSwitchCase="'select'" (onUpdate)="update($event)" [path]="path" [src]="field.src" [stringValue]="field.stringValue"
-      [extensible]="!!field.softenum" [create]="field.create" [api]="field.api" [name]="field.name" [requirement]="field.requirement"
-      [label]="field.label" [description]="field.description" [form]="form"></isari-multi-select>
+    <isari-multi-select *ngSwitchCase="'select'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
+      [src]="field.src" [stringValue]="field.stringValue" [extensible]="!!field.softenum" [create]="field.create" [api]="field.api"
+      [name]="field.name" [requirement]="field.requirement" [label]="field.label" [description]="field.description" [form]="form"></isari-multi-select>
 
     <isari-multi-input *ngSwitchCase="'string'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
       [requirement]="field.requirement" [description]="field.description" [form]="form"></isari-multi-input>
