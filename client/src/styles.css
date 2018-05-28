@@ -11,7 +11,7 @@ html {
 
 body {
   margin: 0;
-  background-color: #FAFAFA;
+  background-color: #dedede;
   min-height: 100vh;
   position: relative;
 }
@@ -115,4 +115,9 @@ isari-cols-selector .mat-select-value-text span {
 .long-select .mat-pseudo-checkbox {
   width: 16px !important;
   height: 16px !important;
+}
+
+.mat-sidenav-container {
+  margin-top: 50px;
+  background: #dedede;
 }
