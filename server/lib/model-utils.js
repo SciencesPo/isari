@@ -120,6 +120,7 @@ function _applyTemplates (ownerDoc, object, meta, depth, scope) {
 }
 
 // One pass only when done from query
+// Math.Infinity does not exist... it resolves to undefined. But that actually works to I leave as it is.
 function populateAllQuery (query, name, depth = Math.Infinity) {
 	let meta = getMeta(name)
 
@@ -133,6 +134,7 @@ function populateAllQuery (query, name, depth = Math.Infinity) {
 	return fields.length > 0 ? query.populate(fields.join(' ')) : query
 }
 
+// Math.Infinity does not exist... it resolves to undefined. But that actually works to I leave as it is.
 function populateAll (object, name, depth = Math.Infinity, passes = 1) {
 	const meta = getMeta(name)
 	return _populateAll(object, meta, depth, passes)
@@ -166,6 +168,11 @@ function _getRefFields (baseName, meta, depth) {
 	}
 	if (Array.isArray(meta)) {
 		meta = meta[0]
+	}
+
+	if (meta.ref) {
+		// the meta object is a ref
+		return {[baseName]:meta['ref']}
 	}
 
 	const fields = Object.keys(meta).filter(f => !RESERVED_FIELDS.includes(f) && f[0] !== '/')
