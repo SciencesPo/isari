@@ -1,12 +1,12 @@
 <form [class.border]="deletable && form.enabled" novalidate [formGroup]="form" *ngIf="form" (keydown.enter)="$event.preventDefault()">
   <div class="save-n-delete" *ngIf="!path || (deletable && form.enabled)">
-    <button [disabled]="differences === 0" matTooltip="{{ differences + ('toSave' | translate)}}" matTooltipPosition="before"
-      *ngIf="!path" class="save" mat-button (click)="save($event)">{{ 'save' | translate }}
+    <button [disabled]="!differences" matTooltip="{{ differences + ('toSave' | translate)}}" matTooltipPosition="before" *ngIf="!path"
+      class="save" mat-button (click)="save($event)">{{ 'save' | translate }}
       <mat-icon>done</mat-icon>
     </button>
 
-    <button [disabled]="differences === 0" matTooltip="{{ differences + ('toSave' | translate)}}" matTooltipPosition="before"
-      mat-fab color="primary" (click)="save($event)" style="position:fixed;bottom: 70px;right:10px;z-index:1;">
+    <button [disabled]="!differences" matTooltip="{{ differences + ('toSave' | translate)}}" matTooltipPosition="before" mat-fab
+      color="primary" (click)="save($event)" style="position:fixed;bottom: 70px;right:10px;z-index:1;">
       <mat-icon style="color:#fff;font-weight:bold;">done</mat-icon>
     </button>
 
