@@ -48,8 +48,11 @@ export class IsariMultiSelectComponent implements OnInit {
   constructor(private translate: TranslateService, private route: ActivatedRoute) { }
 
   add(event: MatChipInputEvent) {
-    this.selectInput.nativeElement.value = '';
-    this.selectControl.setValue(null);
+    // settimeout to avoid consider click in list as a blur
+    setTimeout(() => {
+      this.selectInput.nativeElement.value = '';
+      this.selectControl.setValue(null);
+    }, 100);
   }
 
   displayFn(item) {
