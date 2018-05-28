@@ -39,6 +39,7 @@ import startsWith from 'lodash/startsWith';
 import uniq from 'lodash/uniq';
 import values from 'lodash/values';
 import zipObject from 'lodash/zipObject';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   CSV_MIME = 'text/csv;charset=utf-8';
@@ -521,30 +522,16 @@ export class IsariDataService {
 
       const nestedField = this.getFieldForPath(src, form, materializedPath);
 
-      let x$ = terms$
+      return terms$
         .startWith('')
         .distinctUntilChanged()
-        .combineLatest(enum$)
-        .map(([term, enumValues]) => {
-          enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
-
-          // term = this.normalize(term.toLowerCase());
-          return ({
-            reset: false,
-            values: this.filterEnumValues(enumValues, term, lang), // .slice(0, max),
-            // size: values.length
-          });
+        .combineLatest(enum$, nestedField ? nestedField.valueChanges : Observable.of(null))
+        .map(([term, enumValues, reset]: [string, Array<any>, string | null]) => {
+          enumValues = reset ? enumValues[reset] : this.nestedEnum(src, enumValues, form, materializedPath);
+          reset = reset && materializedPath;
+          const values = this.filterEnumValues(enumValues, term, lang);
+          return { values, reset };
         });
-
-      // observe source of nested
-      if (nestedField) {
-        x$ = x$.merge(nestedField.valueChanges.map(x => ({
-          reset: materializedPath, // if reset needed, give path to be sure it's the righht item to reset #453
-          values: []
-        })));
-      }
-
-      return x$;
 
     }.bind(this);
   }

@@ -69,13 +69,14 @@ export class IsariSelectComponent implements OnInit {
           .startWith(this.translate.currentLang),
         this.extensible ? this.selectControl.valueChanges.skip(1) : Observable.of(null)
       ).map(([{ values, reset }, lang, inputValue]: [{ values: any[], reset: boolean | string }, string, any]) => {
+        let x = values.map(item => translateItem(item, lang));
+
         if (reset && reset === this.path && this.selectControl.value) {
-          this.form.controls[this.name].setValue('');
+          this.form.controls[this.name].setValue(' ');
           this.selectControl.setValue('');
           this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
         }
 
-        let x = values.map(item => translateItem(item, lang));
         if (!inputValue) return x;
         inputValue = { value: inputValue, label: inputValue, new: true };
         if (x[0].new) x[0] = inputValue;
