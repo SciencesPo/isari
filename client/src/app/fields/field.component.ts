@@ -28,11 +28,10 @@ export class FieldComponent implements OnChanges {
   @Output() onError = new EventEmitter<any>();
   @Input() rootFeature: string;
 
-  constructor(private isariDataService: IsariDataService) {}
+  constructor(private isariDataService: IsariDataService) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
-
       this.field.controlType = this.isariDataService.getControlType(this.field);
 
       const src = this.field.enum || this.field.softenum;
@@ -69,7 +68,7 @@ export class FieldComponent implements OnChanges {
 
   getForm() {
     if (this.form.controls[this.field.name] instanceof FormArray) {
-      return (<FormArray> this.form.controls[this.field.name]).at(this.index);
+      return (<FormArray>this.form.controls[this.field.name]).at(this.index);
     } else {
       return this.form.controls[this.field.name];
     }
@@ -82,8 +81,8 @@ export class FieldComponent implements OnChanges {
     if (parentFormControl instanceof FormArray) {
       this.isariDataService.getEmptyDataWith(this.field, this.feature, this.path)
         .then(data => {
-          this.isariDataService.addFormControlToArray((<FormArray> parentFormControl), this.field, data);
-          this.update({log: true, path: this.path, type: 'push'});
+          this.isariDataService.addFormControlToArray((<FormArray>parentFormControl), this.field, data);
+          this.update({ log: true, path: this.path, type: 'push' });
         });
     }
   }
@@ -91,8 +90,8 @@ export class FieldComponent implements OnChanges {
   // remove item from a multiple field
   remove($event) {
     if (this.form.controls[this.field.name] instanceof FormArray) {
-      (<FormArray> this.form.controls[this.field.name]).removeAt(this.index);
-      this.update({log: true, path: this.path.split('.').slice(0, -1).join('.'), index: this.index, type: 'delete'});
+      (<FormArray>this.form.controls[this.field.name]).removeAt(this.index);
+      this.update({ log: true, path: this.path.split('.').slice(0, -1).join('.'), index: this.index, type: 'delete' });
     }
   }
 

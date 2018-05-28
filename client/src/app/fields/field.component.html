@@ -24,9 +24,8 @@
     <isari-input *ngSwitchCase="'number'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
       [description]="field.description" [min]="field.min" [max]="field.max" [step]="field.step" type="number" [form]="form"></isari-input>
 
-    <isari-input *ngSwitchDefault (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label" [description]="field.description"
-      type="text" [form]="form"></isari-input>
-
+    <isari-input *ngSwitchDefault (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path" [name]="field.name"
+      [label]="field.label" [description]="field.description" type="text" [form]="form"></isari-input>
   </span>
 
   <span *ngIf="field.multiple && field.type !== 'object'" [ngSwitch]="field.controlType">

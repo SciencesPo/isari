@@ -96,5 +96,9 @@
     "403": "Vous n'avez pas accès à cette information.",
     "401": "Information non trouvée.",
     "400": "données du formulaire incorrectes. Vérifier les champs obligatoires"
+  },
+  "priorityField": {
+    "title": "Champs prioritaire",
+    "message": "Vous êtes sur le point de modifier un champ prioritaire."
   }
 }

@@ -1,3 +1,7 @@
 .mat-input-wrapper {
     width: 400px;
 }
+
+.accessMonitoring {
+    cursor: pointer;
+}
