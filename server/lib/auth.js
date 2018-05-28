@@ -20,17 +20,19 @@ function connectedAuth(login, password) {
 	// Search for user
 	.then(search(config.ldap.dn, { scope: 'sub', filter: `(${config.ldap.loginAtt}=${login})` }))
 	// Found user?
-	.then(entries => entries.length === 0
+	.then((entries) => { 
+		return entries.length === 0
 		? Promise.reject(Error('LDAP User Not Found'))
-		: entries.find(e => e[config.ldap.loginAtt] === login)
+		: entries.find(e => e[config.ldap.loginAtt] === login)}
 	)
 	// Is user active?
-	.then(entry => !Number(entry[config.ldap.activeFlag])
+	.then(entry => { 
+		return !Number(entry[config.ldap.activeFlag])
 		? Promise.reject(Error('User Not Active'))
-		: entry
+		: entry}
 	)
 	// Try to use user's password to bind a new client
-	.then(entry => connect().then(bind(entry.dn, password)).then(c => unbind(c).then(() => {c.destroy(); debug('disconnected')})))
+	.then(entry => connect().then(bind(entry.dn, password)).then((c) => {c.destroy(); debug('disconnected')}))
 	// Then try to find associated People entry
 	.then(() => ldapUidToPeople(login))
 }
