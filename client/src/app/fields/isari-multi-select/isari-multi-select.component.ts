@@ -8,7 +8,8 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/do';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
-import { MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 
 // const ENTER = 13;
 const BACKSPACE = 8;
@@ -44,7 +45,7 @@ export class IsariMultiSelectComponent implements OnInit {
 
   @ViewChild('selectInput') selectInput: ElementRef;
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService, private route: ActivatedRoute) { }
 
   add(event: MatChipInputEvent) {
     this.selectInput.nativeElement.value = '';
@@ -53,6 +54,14 @@ export class IsariMultiSelectComponent implements OnInit {
 
   displayFn(item) {
     return item ? item.label : undefined;
+  }
+
+  selectItem(item) {
+    if (!item.id) return;
+    const queryMap = this.route.snapshot.queryParams;
+    let query = Object.keys(queryMap).map(key => `${key}=${queryMap[key]}`).join('&');
+    if (query) query = '?' + query;
+    window.open(`/${this.api}/${item.id}${query}`, '_blank');
   }
 
   selected(event: MatAutocompleteSelectedEvent) {
