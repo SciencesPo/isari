@@ -2,33 +2,21 @@
   (blur)="onBlur($event)" [matTooltip]="description">
   <input type="hidden" [formControlName]="name">
 
-  <div class="mat-form-field-wrapper">
-    <div class="mat-form-field-flex">
-      <div class="mat-form-field-prefix"></div>
-      <div class="mat-form-field-infix">
-        <input class="mat-input-element" (focus)="onFocus($event)" [formControl]="selectControl" *ngIf="!focused">
-        <input class="mat-input-element" (keydown.enter)="update($event)" focusMe (blur)="onBlur($event)" [formControl]="selectIsoControl"
-          [textMask]="{mask: mask, pipe: pipe}" *ngIf="focused">
-        <span class="mat-form-field-label-wrapper">
-          <label class="mat-form-field-label" [ngClass]="{ 'md-empty': !selectControl.value, 'md-focused': focused }">
-            {{ label }}
-          </label>
-        </span>
-      </div>
-      <div class="mat-form-field-suffix">
-        <div *ngIf="requirement === 'recommended'" class="recommended-field">{{ 'recommended' | translate }}</div>
-        <mat-icon *ngIf="description" class="tooltip-fields" [matTooltip]="description">info_outline</mat-icon>
-      </div>
-    </div>
-    <div class="mat-form-field-underline" [ngClass]="{ 'md-disabled': selectControl?.disabled }">
-      <span class="mat-form-field-ripple" [ngClass]="{ 'md-focused': focused }"></span>
-    </div>
+  <mat-form-field>
+    <input matInput (focus)="onFocus($event)" [formControl]="selectControl" *ngIf="!focused">
+    <input matInput (keydown.enter)="update($event)" focusMe (blur)="onBlur($event)" [formControl]="selectIsoControl" [textMask]="{mask: mask, pipe: pipe}"
+      *ngIf="focused" [placeholder]="label">
     <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
       class="error">{{ 'mandatory' | translate }}</mat-hint>
-  </div>
+
+    <span matSuffix *ngIf="requirement==='recommended'">
+      <mat-icon class="tooltip-fields " matTooltipPosition="before" matTooltip="{{ 'recommended' | translate }}">warning</mat-icon>
+    </span>
+
+  </mat-form-field>
 
   <div class="mat-menu" [hidden]="!focused">
-    <span mat-menu-item disabled>
+    <span class="date-header" mat-menu-item disabled>
       <button tabindex="-1" mat-button (mousedown)="display('days')">{{ day || ('day' | translate) }}</button>
       <div class="remove-content" tabindex="-1" (mousedown)="setDay(null, $event)" mat-button>
         <mat-icon>clear</mat-icon>

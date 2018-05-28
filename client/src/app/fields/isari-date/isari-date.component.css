@@ -18,6 +18,10 @@ isari-date {
     justify-content: space-between;
 }
 
+.date-header {
+  display: flex;
+}
+
 * {
   min-width: inherit;
 }

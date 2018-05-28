@@ -5,6 +5,11 @@
     <mat-hint *ngIf="!form.controls[name].valid && !form.controls[name].disabled && form.controls[name].errors.required" align="start"
       class="error">{{ 'mandatory' | translate }}</mat-hint>
 
+    <span matSuffix *ngIf="false">
+      <!-- requirement==='recommended' -->
+      <mat-icon class="tooltip-fields " matTooltipPosition="before" matTooltip="{{ 'recommended' | translate }}">warning</mat-icon>
+    </span>
+
     <span class="accessMonitoring" matSuffix *ngIf="accessMonitoring" (click)="toggleAccess(!open)">
       <mat-icon *ngIf="!open">lock</mat-icon>
       <mat-icon *ngIf="open">lock_open</mat-icon>
