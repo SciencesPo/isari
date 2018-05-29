@@ -6,7 +6,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/skip';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 
 @Component({
   selector: 'isari-select',
@@ -36,6 +36,7 @@ export class IsariSelectComponent implements OnInit {
   @Input() showLink: boolean = true;
 
   @ViewChild('selectInput') selectInput: ElementRef;
+  @ViewChild('auto', { read: MatAutocomplete }) autoComplete: MatAutocomplete;
 
   constructor(private translate: TranslateService) { }
 
@@ -68,12 +69,12 @@ export class IsariSelectComponent implements OnInit {
         this.translate.onLangChange
           .map((event: LangChangeEvent) => event.lang)
           .startWith(this.translate.currentLang),
-        this.extensible ? this.selectControl.valueChanges.skip(1) : Observable.of(null)
+        this.extensible ? this.selectControl.valueChanges.skip(1).startWith('') : Observable.of(null)
       ).map(([{ values, reset }, lang, inputValue]: [{ values: any[], reset: boolean | string }, string, any]) => {
         let x = values.map(item => translateItem(item, lang));
-
-        if (reset && reset === this.path && this.selectControl.value) {
-          this.form.controls[this.name].setValue(' ');
+        // reset if asked && only if value && only if autoComplete is Open
+        if (reset && reset === this.path && this.selectControl.value && !this.autoComplete.isOpen) {
+          this.form.controls[this.name].setValue('');
           this.selectControl.setValue('');
           this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
         }

@@ -525,10 +525,20 @@ export class IsariDataService {
       return terms$
         .startWith('')
         .distinctUntilChanged()
-        .combineLatest(enum$, nestedField ? nestedField.valueChanges : Observable.of(null))
-        .map(([term, enumValues, reset]: [string, Array<any>, string | null]) => {
-          enumValues = reset ? enumValues[reset] : this.nestedEnum(src, enumValues, form, materializedPath);
-          reset = reset && materializedPath;
+        .combineLatest(enum$, nestedField ? nestedField.valueChanges.startWith({ value: nestedField.value, first: true }) : Observable.of(null))
+        .map(([term, enumValues, reset]: [string, Array<any>, string | null | { first: boolean, value: string }]) => {
+
+          let r = false;
+          let rv = null;
+          if (reset) {
+            if (typeof reset === 'string') {
+              r = true;
+              rv = reset;
+            }
+            if (typeof reset === 'object') rv = reset.value;
+          }
+          enumValues = rv ? enumValues[rv] : this.nestedEnum(src, enumValues, form, materializedPath);
+          reset = r && materializedPath;
           const values = this.filterEnumValues(enumValues, term, lang);
           return { values, reset };
         });
