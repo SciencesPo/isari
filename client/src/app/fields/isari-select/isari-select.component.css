@@ -1,7 +1,10 @@
 :host {
-    width: 100%;
-    position: relative;
-  }
-  .autocomplete {
-    width: 100%;
-  }
+  width: 100%;
+  position: relative;
+}
+.autocomplete {
+  width: 100%;
+}
+.accessMonitoring {
+  cursor: pointer;
+}

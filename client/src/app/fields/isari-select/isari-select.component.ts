@@ -7,6 +7,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/skip';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
+import { ToasterService } from 'angular2-toaster';
 
 @Component({
   selector: 'isari-select',
@@ -20,6 +21,7 @@ export class IsariSelectComponent implements OnInit {
   disabled: boolean;
   filteredItems: Observable<any>;
   id: string | undefined;
+  open: boolean;
 
   @Input() name: string;
   @Input() path: string;
@@ -34,11 +36,12 @@ export class IsariSelectComponent implements OnInit {
   @Input() create: Function;
   @Output() onUpdate = new EventEmitter<any>();
   @Input() showLink: boolean = true;
+  @Input() accessMonitoring: string;
 
   @ViewChild('selectInput') selectInput: ElementRef;
   @ViewChild('auto', { read: MatAutocomplete }) autoComplete: MatAutocomplete;
 
-  constructor(private translate: TranslateService) { }
+  constructor(private toasterService: ToasterService, private translate: TranslateService) { }
 
   add(event: MatChipInputEvent) {
     this.selectInput.nativeElement.value = '';
@@ -54,14 +57,35 @@ export class IsariSelectComponent implements OnInit {
     this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
   }
 
+  toggleAccess(val, human = true) {
+    this.open = val;
+    if (!this.open) {
+      this.form.controls[this.name].disable();
+      this.selectControl.disable();
+      this.disabled = true;
+    } else {
+      if (human) {
+        this.translate.get('priorityField').subscribe(priorityField => {
+          this.toasterService.pop('error', priorityField.title, priorityField.message);
+        });
+      }
+      this.form.controls[this.name].enable();
+      this.selectControl.enable();
+      this.disabled = false;
+    }
+  }
+
+
   ngOnInit() {
+
     // this.lang = this.translate.currentLang;
     this.disabled = this.form.controls[this.name].disabled;
 
-    this.selectControl = new FormControl({
-      value: '',
-      disabled: this.disabled
-    });
+    this.selectControl = new FormControl();
+    this.selectControl.setValue('');
+    if (this.disabled) this.selectControl.disable();
+
+    this.toggleAccess(!this.accessMonitoring, false);
 
     this.filteredItems =
       Observable.combineLatest(

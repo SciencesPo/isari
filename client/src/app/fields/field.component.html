@@ -11,9 +11,9 @@
     <isari-date *ngSwitchCase="'date'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
       [name]="field.name" [label]="field.label" [requirement]="field.requirement" [description]="field.description" [form]="form"></isari-date>
 
-    <isari-select *ngSwitchCase="'select'" (onUpdate)="update($event)" [path]="path" [src]="field.src" [stringValue]="field.stringValue"
-      [extensible]="!!field.softenum" [create]="field.create" [api]="field.api" [name]="field.name" [label]="field.label" [requirement]="field.requirement"
-      [description]="field.description" [form]="form"></isari-select>
+    <isari-select *ngSwitchCase="'select'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
+      [src]="field.src" [stringValue]="field.stringValue" [extensible]="!!field.softenum" [create]="field.create" [api]="field.api"
+      [name]="field.name" [label]="field.label" [requirement]="field.requirement" [description]="field.description" [form]="form"></isari-select>
 
     <isari-checkbox *ngSwitchCase="'boolean'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
       [description]="field.description" [form]="form"></isari-checkbox>

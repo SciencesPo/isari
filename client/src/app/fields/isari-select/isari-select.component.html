@@ -21,5 +21,8 @@
   <span matSuffix *ngIf="description">
     <mat-icon class="tooltip-fields " matTooltipPosition="before" [matTooltip]="description">info_outline</mat-icon>
   </span>
-
+  <span class="accessMonitoring" matSuffix *ngIf="accessMonitoring" (click)="toggleAccess(!open)">
+    <mat-icon *ngIf="!open">lock</mat-icon>
+    <mat-icon *ngIf="open">lock_open</mat-icon>
+  </span>
 </mat-form-field>
