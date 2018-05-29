@@ -5,3 +5,7 @@
 .chip-list {
   width: 100%;
 }
+.lnk {
+  text-decoration: underline;
+  cursor: pointer;
+}

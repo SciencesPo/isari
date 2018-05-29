@@ -1,6 +1,6 @@
 <mat-form-field class="chip-list">
   <mat-chip-list #chipList selectable="true">
-    <mat-chip *ngFor="let item of _values" (click)="selectItem(item)" [removable]="!disabled" (removed)="removeValue(item)">
+    <mat-chip *ngFor="let item of _values" (click)="selectItem(item)" [removable]="!disabled" (removed)="removeValue(item)" [class.lnk]="item.id">
       {{ item.label }}
       <mat-icon matChipRemove *ngIf="!disabled">cancel</mat-icon>
     </mat-chip>
@@ -27,5 +27,3 @@
     <mat-icon *ngIf="open">lock_open</mat-icon>
   </span>
 </mat-form-field>
-
-<!--  @TODO foreign keys links -->
