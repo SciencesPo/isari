@@ -278,16 +278,13 @@ function formatMeta(meta, includeRestricted = false) {
 		}
 		// Field kept as-is
 		else if (FRONT_KEPT_FIELDS.includes(name)) {
-			result[name] = desc[name];
+			// send accessMonitoring info to frontend to trigger edition warnings only if specified in config
+			if (name !== "accessMonitoring" ||
+			frontendConfig.accessMonitoringWarnings.indexOf(desc[name]) !== -1) {
+				result[name] = desc[name];
+			}
 		}
-		// send accessMonitoring info to frontend to trigger edition warnings only if specified in config
-		else if (
-			name === "accessMonitoring" &&
-			frontendConfig.accessMonitoringWarnings.indexOf(desc[name]) !== -1
-		) {
-			result[name] = desc[name];
-		}
-
+		
 		// Other reserved fields are skipped
 
 		return result;
