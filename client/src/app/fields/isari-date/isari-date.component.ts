@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, HostListener, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { FocusMeDirective } from '../focus-me.directive';
@@ -10,7 +10,7 @@ import { ToasterService } from 'angular2-toaster';
   templateUrl: './isari-date.component.html',
   styleUrls: ['./isari-date.component.css']
 })
-export class IsariDateComponent {
+export class IsariDateComponent implements OnInit, OnChanges {
 
   @Input() name: string;
   @Input() path: string;
@@ -22,6 +22,7 @@ export class IsariDateComponent {
   @Input() escapeKey: Array<string> = ['esc'];
   @Input() enterKey: Array<string> = ['enter'];
   @Input() accessMonitoring: string;
+  @Input() am: number = 0;
 
   @ViewChild(FocusMeDirective) focusMe;
 
@@ -52,6 +53,7 @@ export class IsariDateComponent {
 
   constructor(private toasterService: ToasterService, private translate: TranslateService) {
     this.year = (new Date()).getFullYear();
+    this.selectControl = new FormControl();
   }
 
   toggleAccess(val, human = true) {
@@ -88,7 +90,22 @@ export class IsariDateComponent {
 
   }
 
-  private ngOnInit() {
+  ngOnChanges(changes) {
+    if (changes['am']) {
+      if (this.am === 1) {
+        // this.form.controls[this.name].disable();
+        this.selectControl.disable();
+        this.disabled = true;
+      }
+      if (this.am === 2) {
+        // this.form.controls[this.name].enable();
+        this.selectControl.enable();
+        this.disabled = false;
+      }
+    }
+  }
+
+  ngOnInit() {
     this.lang = this.translate.currentLang;
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
@@ -97,9 +114,7 @@ export class IsariDateComponent {
     this.pressedEscapeKey = matchKeyCombo(this.escapeKey);
     this.pressedEnterKey = matchKeyCombo(this.enterKey);
 
-    this.selectControl = new FormControl();
-
-    this.toggleAccess(!this.accessMonitoring, false);
+    //this.toggleAccess(!this.accessMonitoring, false);
 
     this.selectIsoControl = new FormControl('');
     this.selectIsoControl.valueChanges.subscribe(value => {

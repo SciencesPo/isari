@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToasterService } from 'angular2-toaster';
 import { TranslateService } from 'ng2-translate';
@@ -9,7 +9,7 @@ import { TranslateService } from 'ng2-translate';
   styleUrls: ['./isari-input.component.css']
 
 })
-export class IsariInputComponent implements OnInit {
+export class IsariInputComponent implements OnInit, OnChanges {
 
   open: boolean;
   @Input() name: string;
@@ -24,6 +24,7 @@ export class IsariInputComponent implements OnInit {
   @Input() accessMonitoring: string;
   @Output() onUpdate = new EventEmitter<any>();
   hasChange: boolean = false;
+  @Input() am: number = 0;
 
   constructor(private toasterService: ToasterService, private translate: TranslateService) { }
 
@@ -38,7 +39,18 @@ export class IsariInputComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.toggleAccess(!this.accessMonitoring, false);
+    // this.toggleAccess(!this.accessMonitoring, false);
+  }
+
+  ngOnChanges(changes) {
+    if (changes['am']) {
+      if (this.am === 1) {
+        this.form.controls[this.name].disable();
+      }
+      if (this.am === 2) {
+        this.form.controls[this.name].enable();
+      }
+    }
   }
 
   toggleAccess(val, human = true) {

@@ -9,6 +9,8 @@ import { FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { IsariDataService } from '../isari-data.service';
+import { ToasterService } from 'angular2-toaster';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'isari-field',
@@ -27,11 +29,29 @@ export class FieldComponent implements OnChanges {
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onError = new EventEmitter<any>();
   @Input() rootFeature: string;
+  @Input() am: number = 0;
+  _am;
 
-  constructor(private isariDataService: IsariDataService) { }
+  constructor(private isariDataService: IsariDataService, private toasterService: ToasterService,
+    private translate: TranslateService) { }
+
+  toggleAccess(p) {
+    this.am = {
+      0: 0,
+      1: 2,
+      2: 1
+    }[this.am];
+    if (this.am === 2) {
+      this.translate.get('priorityField').subscribe(priorityField => {
+        this.toasterService.pop('error', priorityField.title, priorityField.message);
+      });
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['form'] && changes['form'].isFirstChange()) {
+      this.am = this.am || (this.field.accessMonitoring && 1);
+
       this.field.controlType = this.isariDataService.getControlType(this.field);
 
       const src = this.field.enum || this.field.softenum;

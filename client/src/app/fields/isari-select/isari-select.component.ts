@@ -14,7 +14,7 @@ import { ToasterService } from 'angular2-toaster';
   templateUrl: './isari-select.component.html',
   styleUrls: ['./isari-select.component.css']
 })
-export class IsariSelectComponent implements OnInit {
+export class IsariSelectComponent implements OnInit, OnChanges {
   separatorKeysCodes = [ENTER, COMMA];
   max = 20;
   selectControl: FormControl;
@@ -37,11 +37,14 @@ export class IsariSelectComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<any>();
   @Input() showLink: boolean = true;
   @Input() accessMonitoring: string;
+  @Input() am: number = 0;
 
   @ViewChild('selectInput') selectInput: ElementRef;
   @ViewChild('auto', { read: MatAutocomplete }) autoComplete: MatAutocomplete;
 
-  constructor(private toasterService: ToasterService, private translate: TranslateService) { }
+  constructor(private toasterService: ToasterService, private translate: TranslateService) {
+    this.selectControl = new FormControl();
+  }
 
   add(event: MatChipInputEvent) {
     this.selectInput.nativeElement.value = '';
@@ -62,7 +65,6 @@ export class IsariSelectComponent implements OnInit {
     if (!this.open) {
       this.form.controls[this.name].disable();
       this.selectControl.disable();
-      this.disabled = true;
     } else {
       if (human) {
         this.translate.get('priorityField').subscribe(priorityField => {
@@ -71,21 +73,33 @@ export class IsariSelectComponent implements OnInit {
       }
       this.form.controls[this.name].enable();
       this.selectControl.enable();
-      this.disabled = false;
     }
   }
 
+  ngOnChanges(changes) {
+    if (changes['am']) {
+      if (this.am === 1) {
+        this.form.controls[this.name].disable();
+        this.selectControl.disable();
+        this.disabled = true;
+      }
+      if (this.am === 2) {
+        this.form.controls[this.name].enable();
+        this.selectControl.enable();
+        this.disabled = false;
+      }
+    }
+  }
 
   ngOnInit() {
 
     // this.lang = this.translate.currentLang;
-    this.disabled = this.form.controls[this.name].disabled;
+    this.disabled = this.form.controls[this.name].disabled || this.am === 1;
 
-    this.selectControl = new FormControl();
     this.selectControl.setValue('');
     if (this.disabled) this.selectControl.disable();
 
-    this.toggleAccess(!this.accessMonitoring, false);
+    // this.toggleAccess(!this.accessMonitoring, false);
 
     this.filteredItems =
       Observable.combineLatest(

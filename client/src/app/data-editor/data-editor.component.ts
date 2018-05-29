@@ -3,6 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { ConfirmDialog } from '../fields/confirm.component';
 import { StorageService } from '../storage.service';
+import { ToasterService } from 'angular2-toaster';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'isari-data-editor',
@@ -26,6 +28,8 @@ export class DataEditorComponent implements OnChanges {
   @Output() onSave = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
   @Output() onError = new EventEmitter<any>();
+  @Input() accessMonitoring: string;
+  @Input() am: number = 0;
 
   constructor(
     private storageService: StorageService,

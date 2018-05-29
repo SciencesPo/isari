@@ -10,10 +10,10 @@
       <mat-icon style="color:#fff;font-weight:bold;">done</mat-icon>
     </button>
 
-
-    <a class="delete" href *ngIf="deletable && form.enabled" (click)="delete($event)">
+    <a class="delete" href *ngIf="deletable && form.enabled && am !== 1" (click)="delete($event)">
       <mat-icon>delete</mat-icon>
     </a>
+
   </div>
 
   <mat-card-content [class.border]="!multiple || group.label" *ngFor="let group of layout" style="display: flex; flex-wrap: wrap;">
@@ -32,7 +32,7 @@
     <table [hidden]="group.collapsed" style="width:100%">
       <tr *ngFor="let row of group.fields">
         <td *ngFor="let field of row" [colSpan]="row.colspan">
-          <isari-field (onError)="cumulError($event)" (onUpdate)="update($event)" [form]="form" [field]="field" [feature]="feature"
+          <isari-field [am]="am" (onError)="cumulError($event)" (onUpdate)="update($event)" [form]="form" [field]="field" [feature]="feature"
             [rootFeature]="feature" [lang]="lang" [path]="(path ? path + '.' : '') + field.name"></isari-field>
         </td>
       </tr>

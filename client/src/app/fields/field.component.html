@@ -3,17 +3,25 @@
   <span *ngIf="!field.multiple" [ngSwitch]="field.controlType">
 
     <div *ngSwitchCase="'object'">
-      <isari-data-editor [class.multiple]="multiple" (onDelete)="remove($event)" (onUpdate)="update($event)" (onError)="cumulError($event)"
-        [path]="path" [deletable]="index !== null" [label]="field.label" [form]="getForm()" [feature]="feature" [multiple]="multiple"
-        [lang]="lang" [layout]="field.layout"></isari-data-editor>
+      <div class="access-monitoring" *ngIf="am === 0 && field.accessMonitoring">
+        <a (click)="toggleAccess(this.path)">
+          <mat-icon *ngIf="am === 1">lock</mat-icon>
+          <mat-icon *ngIf="am === 2">lock_open</mat-icon>
+        </a>
+      </div>
+
+      <isari-data-editor [am]="am" [accessMonitoring]="field.accessMonitoring" [class.multiple]="multiple" (onDelete)="remove($event)"
+        (onUpdate)="update($event)" (onError)="cumulError($event)" [path]="path" [deletable]="index !== null" [label]="field.label"
+        [form]="getForm()" [feature]="feature" [multiple]="multiple" [lang]="lang" [layout]="field.layout"></isari-data-editor>
     </div>
 
-    <isari-date *ngSwitchCase="'date'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
+    <isari-date [am]="am" *ngSwitchCase="'date'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
       [name]="field.name" [label]="field.label" [requirement]="field.requirement" [description]="field.description" [form]="form"></isari-date>
 
-    <isari-select *ngSwitchCase="'select'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
-      [src]="field.src" [stringValue]="field.stringValue" [extensible]="!!field.softenum" [create]="field.create" [api]="field.api"
-      [name]="field.name" [label]="field.label" [requirement]="field.requirement" [description]="field.description" [form]="form"></isari-select>
+    <isari-select [am]="am" *ngSwitchCase="'select'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring"
+      [path]="path" [src]="field.src" [stringValue]="field.stringValue" [extensible]="!!field.softenum" [create]="field.create"
+      [api]="field.api" [name]="field.name" [label]="field.label" [requirement]="field.requirement" [description]="field.description"
+      [form]="form"></isari-select>
 
     <isari-checkbox *ngSwitchCase="'boolean'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
       [description]="field.description" [form]="form"></isari-checkbox>
@@ -21,12 +29,12 @@
     <isari-textarea *ngSwitchCase="'text'" (onUpdate)="update($event)" [path]="path" [name]="field.name" [label]="field.label"
       [description]="field.description" [form]="form"></isari-textarea>
 
-    <isari-input *ngSwitchCase="'number'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
+    <isari-input [am]="am" *ngSwitchCase="'number'" (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
       [name]="field.name" [label]="field.label" [description]="field.description" [min]="field.min" [max]="field.max" [step]="field.step"
       type="number" [form]="form"></isari-input>
 
-    <isari-input *ngSwitchDefault (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path" [name]="field.name"
-      [label]="field.label" [description]="field.description" type="text" [form]="form"></isari-input>
+    <isari-input [am]="am" *ngSwitchDefault (onUpdate)="update($event)" [accessMonitoring]="field.accessMonitoring" [path]="path"
+      [name]="field.name" [label]="field.label" [description]="field.description" type="text" [form]="form"></isari-input>
   </span>
 
   <span *ngIf="field.multiple && field.type !== 'object'" [ngSwitch]="field.controlType">
@@ -42,11 +50,18 @@
 
   <span *ngIf="field.multiple && field.type === 'object'" [formArrayName]="field.name">
 
-    <isari-field *ngFor="let ctrl of form.controls[field.name].controls; let i = index" (onError)="cumulError($event)" (onUpdate)="update($event)"
-      [feature]="feature" [rootFeature]="rootFeature" [index]="i" [form]="form" [path]="path + '.' + i" [multiple]="true" [lang]="lang"
-      [field]="getField(field)"></isari-field>
+    <div class="access-monitoring" *ngIf="field.accessMonitoring">
+      <a (click)="toggleAccess(path)">
+        <mat-icon *ngIf="am === 1">lock</mat-icon>
+        <mat-icon *ngIf="am === 2">lock_open</mat-icon>
+      </a>
+    </div>
 
-    <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled">
+    <isari-field [am]="am" *ngFor="let ctrl of form.controls[field.name].controls; let i = index" (onError)="cumulError($event)"
+      (onUpdate)="update($event)" [feature]="feature" [rootFeature]="rootFeature" [index]="i" [form]="form" [path]="path + '.' + i"
+      [multiple]="true" [lang]="lang" [field]="getField(field)"></isari-field>
+
+    <a class="add" href (click)="add($event)" color="warn" *ngIf="!form.controls[field.name].disabled && am !== 1">
       <mat-icon>add</mat-icon> {{ 'add' | translate }} {{field.label}}</a>
 
   </span>
