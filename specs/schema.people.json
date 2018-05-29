@@ -60,12 +60,12 @@
                 "fr": "Contrats de travail, postes publiques, ...",
                 "en": "Academic positions, working positions, ..."
             },
-            "accessMonitoring": "DRH",
             "organization": {
                 "label": {
                     "fr": "Tutelle",
                     "en": "Employer"
                 },
+                "accessMonitoring": "DS",
                 "requirement": "mandatory",
                 "suggestions": "top_10",
                 "description": {
@@ -79,14 +79,16 @@
                     "fr": "Date de début",
                     "en": "Start date"
                 },
-                "type": "date"
+                "type": "date",
+                "accessMonitoring": "DS"
             },
             "endDate": {
                 "label": {
                     "fr": "Date de fin",
                     "en": "End date"
                 },
-                "type": "date"
+                "type": "date",
+                "accessMonitoring": "DS"
             },
             "template": "organizationDates",
             "jobName": {
