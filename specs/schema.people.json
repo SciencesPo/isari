@@ -65,7 +65,7 @@
                     "fr": "Tutelle",
                     "en": "Employer"
                 },
-                "accessMonitoring": "DS",
+                "accessMonitoring": "DSPRIO",
                 "requirement": "mandatory",
                 "suggestions": "top_10",
                 "description": {
@@ -80,7 +80,7 @@
                     "en": "Start date"
                 },
                 "type": "date",
-                "accessMonitoring": "DS"
+                "accessMonitoring": "DSPRIO"
             },
             "endDate": {
                 "label": {
@@ -88,7 +88,7 @@
                     "en": "End date"
                 },
                 "type": "date",
-                "accessMonitoring": "DS"
+                "accessMonitoring": "DSPRIO"
             },
             "template": "organizationDates",
             "jobName": {
@@ -156,7 +156,7 @@
                 "en": "Unit affiliation"
             },
             "requirement": "recommended",
-            "accessMonitoring": "DS",
+            "accessMonitoring": "DSPRIO",
             "organization": {
                 "label": {
                     "fr": "Laboratoire de recherche",
@@ -197,7 +197,7 @@
                 "en": "Departement affiliation"
             },
             "requirement": "recommended",
-            "accessMonitoring": "DS",
+            "accessMonitoring": "DSPRIO",
             "departement": {
                 "label": {
                     "fr": "Département d'enseignement",
@@ -308,7 +308,7 @@
                 "fr": "Statut et grades à Sciences Po",
                 "en": "Sciences Po's statuses and ranks"
             },
-            "accessMonitoring":"DS",
+            "accessMonitoring":"DSPRIO",
             "description": {
                 "fr": "Professeur, DR1, CR1...",
                 "en": "Associate Prof, Full Prof..."
