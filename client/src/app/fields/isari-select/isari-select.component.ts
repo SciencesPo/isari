@@ -63,7 +63,6 @@ export class IsariSelectComponent implements OnInit, OnChanges {
   toggleAccess(val, human = true) {
     this.open = val;
     if (!this.open) {
-      this.form.controls[this.name].disable();
       this.selectControl.disable();
     } else {
       if (human) {
@@ -71,7 +70,6 @@ export class IsariSelectComponent implements OnInit, OnChanges {
           this.toasterService.pop('error', priorityField.title, priorityField.message);
         });
       }
-      this.form.controls[this.name].enable();
       this.selectControl.enable();
     }
   }
@@ -79,12 +77,10 @@ export class IsariSelectComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     if (changes['am']) {
       if (this.am === 1) {
-        this.form.controls[this.name].disable();
         this.selectControl.disable();
         this.disabled = true;
       }
       if (this.am === 2) {
-        this.form.controls[this.name].enable();
         this.selectControl.enable();
         this.disabled = false;
       }
@@ -111,13 +107,14 @@ export class IsariSelectComponent implements OnInit, OnChanges {
       ).map(([{ values, reset }, lang, inputValue]: [{ values: any[], reset: boolean | string }, string, any]) => {
         let x = values.map(item => translateItem(item, lang));
         // reset if asked && only if value && only if autoComplete is Open
+
         if (reset && reset === this.path && this.selectControl.value && !this.autoComplete.isOpen) {
           this.form.controls[this.name].setValue('');
           this.selectControl.setValue('');
           this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
         }
 
-        if (!inputValue) return x;
+        if (!inputValue || typeof inputValue !== 'string') return x;
         inputValue = { value: inputValue, label: inputValue, new: true };
         if (x[0].new) x[0] = inputValue;
         else x = [inputValue, ...x];
