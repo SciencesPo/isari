@@ -8,7 +8,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/do';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
-import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange } from '@angular/material';
+import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange, MatAutocompleteTrigger } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster';
 
@@ -47,6 +47,7 @@ export class IsariMultiSelectComponent implements OnInit {
   @Input() accessMonitoring: string;
 
   @ViewChild('selectInput') selectInput: ElementRef;
+  @ViewChild('selectInput', { read: MatAutocompleteTrigger }) autoComplete: MatAutocompleteTrigger;
 
   constructor(private toasterService: ToasterService, private translate: TranslateService, private route: ActivatedRoute) { }
 
@@ -82,6 +83,7 @@ export class IsariMultiSelectComponent implements OnInit {
     this.values = [...this.values, selected];
     this.form.controls[this.name].markAsDirty();
     this.onUpdate.emit({ log: true, path: this.path, type: 'push' });
+    setTimeout(() => this.autoComplete.openPanel(), 100);
   }
 
   removeValue(value, $event) {
