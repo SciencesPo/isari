@@ -5,10 +5,18 @@
 .chip-list {
   width: 100%;
 }
-.lnk {
-  text-decoration: underline;
+
+.lnk:after {
   cursor: pointer;
+  font-family: 'Material Icons';
+  content: 'open_in_new';
+  color: red;
+  text-decoration: none;
+  font-size: 20px;
+  vertical-align: middle;
+  margin-left: 2px;
 }
+
 .accessMonitoring {
   cursor: pointer;
 }
