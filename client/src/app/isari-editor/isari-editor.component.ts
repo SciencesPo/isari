@@ -25,6 +25,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { BehaviorSubject } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/do';
+
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 
 @Component({
@@ -111,6 +113,10 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
       this.id = id;
       Promise.all([
         this.isariDataService.getData(this.feature, id ? String(id) : null)
+          .then(data => {
+            this.diff = []; // reset diffs
+            return data;
+          })
           .catch(err => {
             this.loaderService.hide();
             const json = err.json();
