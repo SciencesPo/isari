@@ -1,7 +1,7 @@
 <mat-form-field class="chip-list">
   <mat-chip-list #chipList selectable="true">
-    <mat-chip *ngFor="let item of _values" (click)="selectItem(item)" [removable]="!disabled" (removed)="removeValue(item)" [class.lnk]="item.id">
-      {{ item.label }}
+    <mat-chip *ngFor="let item of _values" (click)="selectItem(item)" [removable]="!disabled" (removed)="removeValue(item)">
+      <span [class.lnk]="item.id">{{ item.label }}</span>
       <mat-icon matChipRemove *ngIf="!disabled">cancel</mat-icon>
     </mat-chip>
 
@@ -18,9 +18,6 @@
   <span matSuffix *ngIf="requirement==='recommended' && !_values.length " class="recommended-field ">{{ 'recommended' | translate }}</span>
   <span matSuffix>
     <mat-icon class="tooltip-fields " *ngIf="description" matTooltipPosition="before" [matTooltip]="description ">info_outline</mat-icon>
-  </span>
-  <span matSuffix>
-    <mat-icon class="tooltip-fields " matTooltipPosition="before" [matTooltip]=" 'multiplechoices' | translate ">info_outline</mat-icon>
   </span>
   <span class="accessMonitoring" matSuffix *ngIf="accessMonitoring" (click)="toggleAccess(!open)">
     <mat-icon *ngIf="!open">lock</mat-icon>
