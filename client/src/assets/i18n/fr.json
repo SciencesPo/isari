@@ -98,8 +98,8 @@
     "400": "données du formulaire incorrectes. Vérifier les champs obligatoires"
   },
   "priorityField": {
-    "title": "Champs prioritaire",
-    "message": "Vous êtes sur le point de modifier un champ prioritaire."
+    "title": "Champs prioritaires",
+    "message": "Vous êtes sur le point de saisir ou modifier un champ prioritaire."
   },
   "dialogLeave": {
     "title": "Attention",
