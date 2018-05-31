@@ -2608,14 +2608,14 @@
                 "en": "Programme d'investissements d'avenir"
             }
         },
-         {
+        {
             "value": "ANRSpecific",
             "label": {
                 "fr": "Programme ANR spécifique",
                 "en": "ANR specific program"
             }
         },
-         {
+        {
             "value": "ANRGeneric",
             "label": {
                 "fr": "Programme ANR générique",
@@ -3504,7 +3504,7 @@
         }
     ],
     "grantReportType": [
-         {
+        {
             "value": "financial",
             "label": {
                 "fr": "Financier",
@@ -3519,36 +3519,76 @@
             }
         }
     ],
-    "grantReportPeriods":[
+    "grantReportPeriods": [
         {
-            "value": "1","label": {"fr": "1","en": "1"}
+            "value": "1",
+            "label": {
+                "fr": "1",
+                "en": "1"
+            }
         },
         {
-            "value": "2","label": {"fr": "2","en": "2"}
+            "value": "2",
+            "label": {
+                "fr": "2",
+                "en": "2"
+            }
         },
         {
-            "value": "3","label": {"fr": "3","en": "3"}
+            "value": "3",
+            "label": {
+                "fr": "3",
+                "en": "3"
+            }
         },
         {
-            "value": "4","label": {"fr": "4","en": "4"}
+            "value": "4",
+            "label": {
+                "fr": "4",
+                "en": "4"
+            }
         },
         {
-            "value": "5","label": {"fr": "5","en": "5"}
+            "value": "5",
+            "label": {
+                "fr": "5",
+                "en": "5"
+            }
         },
         {
-            "value": "6","label": {"fr": "6","en": "6"}
+            "value": "6",
+            "label": {
+                "fr": "6",
+                "en": "6"
+            }
         },
         {
-            "value": "7","label": {"fr": "7","en": "7"}
+            "value": "7",
+            "label": {
+                "fr": "7",
+                "en": "7"
+            }
         },
         {
-            "value": "8","label": {"fr": "8","en": "8"}
+            "value": "8",
+            "label": {
+                "fr": "8",
+                "en": "8"
+            }
         },
         {
-            "value": "9","label": {"fr": "9","en": "9"}
+            "value": "9",
+            "label": {
+                "fr": "9",
+                "en": "9"
+            }
         },
         {
-            "value": "10","label": {"fr": "10","en": "10"}
+            "value": "10",
+            "label": {
+                "fr": "10",
+                "en": "10"
+            }
         }
     ],
     "accessMonitoring": [
@@ -3571,6 +3611,13 @@
             "label": {
                 "fr": "DSI",
                 "en": "IT services"
+            }
+        },
+        {
+            "value": "DSPRIO",
+            "label": {
+                "fr": "DS Prio",
+                "en": "DS Prio"
             }
         }
     ]
