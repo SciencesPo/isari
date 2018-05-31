@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { UserService } from './user.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OrganizationResolver implements Resolve<any> {
@@ -9,13 +10,15 @@ export class OrganizationResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot) {
     return this.userService.getOrganization(route.queryParams['organization'])
-      .map(organization => {
-        if (!organization) {
-          this.router.navigate(['/']);
-        }
-        this.userService.setCurrentOrganizationId(organization.id);
-        return organization;
-      });
+      .pipe(
+        map(organization => {
+          if (!organization) {
+            this.router.navigate(['/']);
+          }
+          this.userService.setCurrentOrganizationId(organization.id);
+          return organization;
+        })
+      );
   }
 
 }

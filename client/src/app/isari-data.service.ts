@@ -1,27 +1,15 @@
 // tslint:disable:curly
 
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/combineLatest';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/publishReplay';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/concatAll';
-import 'rxjs/add/operator/scan';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/last';
-import 'rxjs/add/operator/do';
 
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { get, sortByDistance } from './utils';
 
+import { Observable, BehaviorSubject, Subject, combineLatest, from, of, merge } from 'rxjs';
+import { map, catchError, share, distinctUntilChanged, startWith, debounceTime, switchMap, concatMap, tap, concatAll, last, scan, take } from 'rxjs/operators';
+
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import Papa from 'papaparse';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
@@ -39,7 +27,6 @@ import startsWith from 'lodash/startsWith';
 import uniq from 'lodash/uniq';
 import values from 'lodash/values';
 import zipObject from 'lodash/zipObject';
-import { BehaviorSubject, Subject } from 'rxjs';
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   CSV_MIME = 'text/csv;charset=utf-8';
@@ -91,7 +78,7 @@ export class IsariDataService {
     return options;
   }
 
-  getData(feature: string, id?: string) {
+  getData(feature: string, id?: string): Promise<any> {
     if (!id) {
       return this.getEmptyDataWith({
         controlType: 'object',
@@ -111,7 +98,7 @@ export class IsariDataService {
 
   getDatas(feature: string,
     { fields, applyTemplates, externals, start, end, type }:
-      { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }) {
+      { fields: string[], applyTemplates: boolean, externals: boolean, start: string, end: string, type: string }): Promise<any> {
     const url = `${this.dataUrl}/${feature}`;
     fields.push('id'); // force id
 
@@ -137,19 +124,16 @@ export class IsariDataService {
     return item && item.label ? item.label[lang] : '';
   }
 
-  getHistory(feature: string, query: any, lang) {
+  getHistory(feature: string, query: any, lang): Observable<any> {
 
-    return Observable.combineLatest([
-      this.http.get(`${this.editLogUrl}/${feature}`, this.getHttpOptions(query))
-        .map((response) => response.json()),
-      Observable.fromPromise(this.getSchema(feature)),
-      this.getEnum('isariRoles')
-        .map(roles => keyBy(roles, 'value')),
-      this.getEnum('accessMonitoring')
-        .map(vals => keyBy(vals, 'value')),
-    ])
+    return combineLatest(
+      this.http.get(`${this.editLogUrl}/${feature}`, this.getHttpOptions(query)).pipe(map((response) => response.json())),
+      from(this.getSchema(feature)),
+      this.getEnum('isariRoles').pipe(map(roles => keyBy(roles, 'value'))),
+      this.getEnum('accessMonitoring').pipe(map(vals => keyBy(vals, 'value'))),
+    ).pipe(
 
-      .map(([{ count, results: logs }, schema, roles, accessMonitorings]) => {
+      map(([{ count, results: logs }, schema, roles, accessMonitorings]) => {
         logs = (<any[]>logs).map(log => {
 
           // if query accessMonitoring, keep only diff for this accessMonitoring #433
@@ -165,11 +149,11 @@ export class IsariDataService {
             });
             if (diff.valueBefore) {
               res._beforeLabelled$ = this.formatWithRefs(this.key2label(diff.valueBefore, diff.path, schema, lang), lang)
-                .catch(() => Observable.of('ref. not found'));
+                .pipe(catchError(() => of('ref. not found')));
             }
             if (diff.valueAfter) {
               res._afterLabelled$ = this.formatWithRefs(this.key2label(diff.valueAfter, diff.path, schema, lang), lang)
-                .catch(() => Observable.of('ref. not found'));
+                .pipe(catchError(() => of('ref. not found')));
             }
             return res;
           });
@@ -187,7 +171,8 @@ export class IsariDataService {
           return log;
         });
         return { count, logs };
-      });
+      })
+    );
   }
 
   key2label(value, base: string[], schema, lang) {
@@ -213,14 +198,14 @@ export class IsariDataService {
     }, {})
   }
 
-  formatWithRefs(obj, lang) {
+  formatWithRefs(obj, lang): Observable<any> {
 
     // scalar, leave it like it is
-    if (typeof obj === 'string' || typeof obj === 'number') return Observable.of(obj);
+    if (typeof obj === 'string' || typeof obj === 'number') return of(obj);
     // foreign key => trigger label request
-    if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).map(x => x[0].value);
+    if (obj.value && obj.ref) return this.getForeignLabel(obj.ref, obj.value).pipe(map(x => x[0].value));
     // enum => get label
-    if (obj.value && obj.en) return this.getDirectEnumLabel(obj.en, obj.value).map(x => x.label[lang || 'fr']);
+    if (obj.value && obj.en) return this.getDirectEnumLabel(obj.en, obj.value).pipe(map(x => x.label[lang || 'fr']));
 
     const format = (o, refs, level = 0) => {
       if (isArray(o) && o.length === 0) return '[]';
@@ -268,21 +253,22 @@ export class IsariDataService {
     // identify nested ref or enums
     const refs = getRefs(obj);
 
-    return Observable.combineLatest(
+    return combineLatest(
       refs.length
         ? refs.map(({ ref, value, en }) => {
-          return ref ? this.getForeignLabel(ref, value) : this.getDirectEnumLabel(en, value).map(item => ({ en, item }));
+          return ref ? this.getForeignLabel(ref, value) : this.getDirectEnumLabel(en, value).pipe(map(item => ({ en, item })));
         })
-        : Observable.of([])
-    )
-      .map(labels => {
+        : of([])
+    ).pipe(
+      map(labels => {
         return flatten(labels).reduce((l, v) => {
           if (v.en && !v.item) return l; // nested enums not keep
           if (v.en) return Object.assign(l, { [v.en + ':' + v.item.value]: v.item.label[lang || 'fr'] });
           return Object.assign(l, { [v.id]: v.value });
         }, {})
-      }) // { id: value } for all refs founds
-      .map(labels => format(obj, labels));
+      }), // { id: value } for all refs founds
+      map(labels => format(obj, labels))
+    );
 
   }
 
@@ -369,23 +355,24 @@ export class IsariDataService {
         return [
           ...acc1,
           ...log.diff.reduce((acc2, diff) => {
-            const before$ = diff._beforeLabelled$ || Observable.of('');
-            const after$ = diff._afterLabelled$ || Observable.of('');
+            const before$ = diff._beforeLabelled$ || of('');
+            const after$ = diff._afterLabelled$ || of('');
             return [...acc2, before$, after$]
           }, [])
         ]
       }, []);
 
       // RxJS FTW ?!
-      Observable.combineLatest([
-        (<Observable<any>>Observable.merge(logs$)
-          .concatAll())
-          .scan((acc, value, i) => [...acc, value], [])
-          .take(logs$.length)
-          .last(),
+      combineLatest(
+        merge(logs$).pipe(
+          concatAll(),
+          scan((acc, value, i) => [...acc, value], []),
+          take(logs$.length),
+          last(),
+        ),
         translations$,
         labs$
-      ])
+      )
         .subscribe(([values, translations, labs]) => {
           exportFile[filetype](logs.reduce((d, log) => [
             ...d,
@@ -394,17 +381,17 @@ export class IsariDataService {
         });
 
     } else {
-      Observable.combineLatest([
+      combineLatest(
         translations$,
         labs$
-      ])
+      )
         .subscribe(([translations, labs]) => {
           exportFile[filetype](logs.map(log => getRow(log, feature, translations, labs)));
         })
     }
   }
 
-  getRelations(feature: string, id: string) {
+  getRelations(feature: string, id: string): Promise<any> {
     if (!id) return Promise.resolve({}); // no id === creation === no relations
     const url = `${this.dataUrl}/${feature}/${id}/relations`;
     return this.http.get(url, this.getHttpOptions())
@@ -413,7 +400,7 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  removeData(feature: string, id: string) {
+  removeData(feature: string, id: string): Promise<any> {
     const url = `${this.dataUrl}/${feature}/${id}`;
     return this.http.delete(url, this.getHttpOptions())
       .toPromise()
@@ -421,7 +408,7 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  getLayout(feature: string) {
+  getLayout(feature: string): Promise<any> {
     // check for cached results
     if (this.layoutsCache[feature]) {
       return this.layoutsCache[feature].toPromise();
@@ -429,14 +416,14 @@ export class IsariDataService {
 
     const url = `${this.layoutUrl}/${singular[feature]}`;
     let $layout = this.http.get(url, this.getHttpOptions())
-      .map(response => response.json());
-    this.layoutsCache[feature] = $layout.publishReplay(1).refCount();
+      .pipe(map(response => response.json()));
+    this.layoutsCache[feature] = $layout.pipe(share());
     return $layout.toPromise();
   }
 
-  getColumnsInfo(feature: string) {
+  getColumnsInfo(feature: string): Promise<any> {
     if (this.columnsCache) {
-      return Observable.of(this.columnsCache[feature]).toPromise();
+      return of(this.columnsCache[feature]).toPromise();
     }
     return this.http.get(this.columnsUrl)
       .toPromise()
@@ -448,22 +435,22 @@ export class IsariDataService {
       .catch(this.handleError);
   }
 
-  getColumnsWithDefault(feature: string) {
+  getColumnsWithDefault(feature: string): Promise<any> {
     return Promise.all([
       this.getColumns(feature),
       this.getDefaultColumns(feature)
     ]).then(([cols, default_cols]) => default_cols.map(default_col => cols.find(col => col.key === default_col)));
   }
 
-  getDefaultColumns(feature: string) {
+  getDefaultColumns(feature: string): Promise<any> {
     return this.getColumnsInfo(feature).then(info => info['defaults']);
   }
 
-  getSchema(feature: string, path?: string) {
+  getSchema(feature: string, path?: string): Promise<any> {
     if (!this.schemasCache[feature]) {
       const url = `${this.schemaUrl}/${singular[feature]}`;
       this.schemasCache[feature] = this.http.get(url, this.getHttpOptions())
-        .distinctUntilChanged()
+        .pipe(distinctUntilChanged())
         .toPromise()
         .then(response => response.json())
         .then(schema => {
@@ -481,7 +468,7 @@ export class IsariDataService {
     }
   }
 
-  getColumns(feature: string) {
+  getColumns(feature: string): Promise<any> {
     return Promise.all([
       this.getSchema(feature),
       this.getColumnsInfo(feature)
@@ -518,15 +505,16 @@ export class IsariDataService {
 
   srcEnumBuilder(src: string, materializedPath: string, lang: string) {
     const enum$ = this.getEnum(src);
-    return function (terms$: Observable<string>, max, form: FormGroup) {
+    return function (terms$: Observable<string>, max, form: FormGroup): Observable<any> {
 
       const nestedField = this.getFieldForPath(src, form, materializedPath);
 
-      return terms$
-        .startWith('')
-        .distinctUntilChanged()
-        .combineLatest(enum$, nestedField ? nestedField.valueChanges.startWith({ value: nestedField.value, first: true }) : Observable.of(null))
-        .map(([term, enumValues, reset]: [string, Array<any>, string | null | { first: boolean, value: string }]) => {
+      return combineLatest(
+        terms$.pipe(startWith(''), distinctUntilChanged()),
+        enum$,
+        nestedField ? nestedField.valueChanges.startWith({ value: nestedField.value, first: true }) : of(null)
+      ).pipe(
+        map(([term, enumValues, reset]: [string, Array<any>, string | null | { first: boolean, value: string }]) => {
 
           let r = false;
           let rv = null;
@@ -541,53 +529,55 @@ export class IsariDataService {
           reset = r && materializedPath;
           const values = this.filterEnumValues(enumValues, term, lang);
           return { values, reset };
-        });
+        })
+      );
 
     }.bind(this);
   }
 
-  getEnumLabel(src: string, materializedPath: string, form: FormGroup, values: string | string[]) {
+  getEnumLabel(src: string, materializedPath: string, form: FormGroup, values: string | string[]): Observable<any> {
 
     if (!(values instanceof Array)) {
       values = [values];
     }
     return this.getEnum(src)
-      .map(enumValues => {
+      .pipe(map(enumValues => {
         enumValues = this.nestedEnum(src, enumValues, form, materializedPath);
 
         return (<string[]>values).map(v => {
           return enumValues.find(entry => entry.value === v);
         }).filter(v => !!v);
-      });
+      }));
   }
 
-  getDirectEnumLabel(src: string, value: string) {
+  getDirectEnumLabel(src: string, value: string): Observable<any> {
 
     return this.getEnum(src)
-      .map(enumValues => {
+      .pipe(map(enumValues => {
         if (!isArray(enumValues)) enumValues = flatten(values(enumValues)); // for nested : brut forced
         return enumValues.find(entry => entry.value === value) || null;
-      });
+      }));
   }
 
   srcForeignBuilder(src: string, path?: string, feature?: string) {
     return (terms$: Observable<string>, max) =>
-      terms$
-        .startWith('')
-        .debounceTime(400) // pass as parameter ?
-        .distinctUntilChanged()
-        .switchMap(term => this.rawSearch(src, term, path, feature));
+      terms$.pipe(
+        startWith(''),
+        debounceTime(400), // pass as parameter ?
+        distinctUntilChanged(),
+        concatMap(term => this.rawSearch(src, term, path, feature))
+      );
   }
 
   // @TODO handle multiple values (array of ids)
-  getForeignLabel(feature: string, values: string | string[]) {
+  getForeignLabel(feature: string, values: string | string[]): Observable<any> {
     if (!(values instanceof Array)) {
       values = [values];
     }
     values = values.filter(v => !!v);
 
     if (values.length === 0) {
-      return Observable.of([]);
+      return of([]);
     }
 
     const api = mongoSchema2Api[feature] || feature;
@@ -597,9 +587,10 @@ export class IsariDataService {
     const url = `${this.dataUrl}/${api}/${ids}/string`;
 
     if (!this.labelsCache[url]) {
-      this.labelsCache[url] = this.http.get(url, this.getHttpOptions())
-        .map(response => response.json())
-        .share();
+      this.labelsCache[url] = this.http.get(url, this.getHttpOptions()).pipe(
+        map(response => response.json()),
+        share()
+      );
     }
 
     return this.labelsCache[url].map(allvalues => {
@@ -615,16 +606,17 @@ export class IsariDataService {
     }.bind(this);
   }
 
-  rawSearch(feature: string, query: string, path?: string, rootFeature?: string) {
-    if (!query) return Observable.of({ reset: false, values: [] });
+  rawSearch(feature: string, query: string, path?: string, rootFeature?: string): Observable<any> {
+    if (!query) return of({ reset: false, values: [] });
     const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/search`;
     // return this.http.get(url, this.getHttpOptions({ q: deburr(query) || '*', path, rootFeature }))
-    return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature }))
-      .map(response => response.json())
-      .map(items => ({
+    return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature })).pipe(
+      map(response => response.json()),
+      map(items => ({
         reset: false,
         values: items.map(item => ({ id: item.value, value: item.label }))
-      }));
+      }))
+    );
   }
 
   resetTemForeignKeys() {
@@ -712,10 +704,10 @@ export class IsariDataService {
     fa.push(this.buildForm(field.layout, data));
   }
 
-  getEmptyDataWith(field: any, feature: string, path: string | undefined = undefined) {
+  getEmptyDataWith(field: any, feature: string, path: string | undefined = undefined): Promise<any> {
     return this.getSchema(feature, path).then(schema => {
-      return this.userService.getRestrictedFields()
-        .map(restrictedFields => {
+      return this.userService.getRestrictedFields().pipe(
+        map(restrictedFields => {
           let fieldClone = Object.assign({}, field || {});
           delete fieldClone.multiple;
           const data = this.buildData(fieldClone, schema);
@@ -726,7 +718,7 @@ export class IsariDataService {
           };
           return data;
         })
-        .toPromise();
+      ).toPromise();
     });
   }
 
@@ -789,7 +781,7 @@ export class IsariDataService {
   }
 
 
-  save(feature: string, data: any) {
+  save(feature: string, data: any): Promise<any> {
     let options = this.getHttpOptions();
     let query: Observable<any>;
     if (data.id) {
@@ -896,10 +888,10 @@ export class IsariDataService {
     return (scheme ? scheme + SCHEME : '') + (prependSlash ? SLASH : BLANK) + result;
   }
 
-  buildEnumCache() {
-    return this.http.get(this.enumUrl)
-      .map(response => response.json())
-      .do(enums => {
+  buildEnumCache(): Observable<any> {
+    return this.http.get(this.enumUrl).pipe(
+      map(response => response.json()),
+      tap(enums => {
         Object.keys(enums).forEach(key => {
           let data = enums[key];
           if (key === 'nationalities') {
@@ -909,10 +901,11 @@ export class IsariDataService {
           }
           this.storageService.save(data, key, 'enums');
         });
-      });
+      })
+    );
   }
 
-  getEnum(src: string) {
+  getEnum(src: string): Observable<any> {
 
     // nested
     const nestedPos = src.indexOf(':');
@@ -922,7 +915,7 @@ export class IsariDataService {
 
     const storedEnum = this.storageService.get(src, 'enums');
     if (storedEnum) {
-      return Observable.of(storedEnum);
+      return of(storedEnum);
     }
 
     // check for cached results
@@ -931,8 +924,8 @@ export class IsariDataService {
     }
 
     const url = `${this.enumUrl}/${src}`;
-    let $enum = this.http.get(url)
-      .map(response => {
+    let $enum = this.http.get(url).pipe(
+      map(response => {
         let json = response.json();
 
         // NOTE: this is a dirty special case for nationalities.
@@ -944,8 +937,9 @@ export class IsariDataService {
           });
         }
         return json;
-      })
-      .share();
+      }),
+      share()
+    );
 
     this.enumsCache[src] = $enum;
     return $enum;

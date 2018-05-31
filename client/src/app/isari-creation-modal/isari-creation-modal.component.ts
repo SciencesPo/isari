@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable, combineLatest } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { IsariDataService } from '../isari-data.service';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'isari-creation-modal',
@@ -31,11 +32,12 @@ export class IsariCreationModal implements OnInit {
         this.feature = this.dialogRef.componentInstance.feature;
         this.queryControl = new FormControl();
         const src = this.isariDataService.srcForeignBuilder(this.feature);
-        Observable.combineLatest(
+        combineLatest(
             src(this.queryControl.valueChanges, 20),
-            this.translate.onLangChange
-                .map((event: LangChangeEvent) => event.lang)
-                .startWith(this.translate.currentLang)
+            this.translate.onLangChange.pipe(
+                map((event: LangChangeEvent) => event.lang),
+                startWith(this.translate.currentLang)
+            )
         ).subscribe(([{ values }, lang]: [{ values: any[] }, string]) => {
             this.lang = lang;
             if (this.queryControl.value) {

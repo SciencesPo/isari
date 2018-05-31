@@ -1,20 +1,16 @@
-import 'rxjs/add/operator/combineLatest';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from 'ng2-translate';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest, throwError } from 'rxjs';
 import { EditLogApiOptions } from './EditLogApiOptions.class';
 import { IsariDataService } from './../isari-data.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ToasterService } from 'angular2-toaster';
 import flattenDeep from 'lodash/flattenDeep';
 import keyBy from 'lodash/keyBy';
 import uniq from 'lodash/uniq';
+import { map, startWith, switchMap, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'isari-logs',
@@ -41,12 +37,14 @@ export class IsariLogsComponent implements OnInit {
     this.options$ = new BehaviorSubject(this.options);
     this.details$ = new BehaviorSubject(false);
 
-    this.logs$ = this.route.paramMap.combineLatest(
+    this.logs$ = combineLatest(
+      this.route.paramMap,
       this.options$,
-      this.translate.onLangChange
-        .map((event: LangChangeEvent) => event.lang)
-        .startWith(this.translate.currentLang)
-    )
+      this.translate.onLangChange.pipe(
+        map((event: LangChangeEvent) => event.lang),
+        startWith(this.translate.currentLang)
+      )
+    ).pipe(
 
 
       // this.logs$ = Observable.combineLatest([
@@ -59,7 +57,7 @@ export class IsariLogsComponent implements OnInit {
 
 
 
-      .switchMap(([paramMap, options, lang]) => {
+      switchMap(([paramMap, options, lang]) => {
         this.feature = paramMap.get('feature');
         this.options = Object.assign(
           {},
@@ -69,24 +67,28 @@ export class IsariLogsComponent implements OnInit {
           options
         );
 
-        return this.isariDataService
-          .getHistory(this.feature, this.options, lang)
-          .catch(err => {
-            if (err.status === 401) {
-              this.translate
-                .get('error.' + err.status)
-                .subscribe(translated => {
-                  this.toasterService.pop('error', '', translated);
-                  this.router.navigate(['/', this.feature], {
-                    preserveQueryParams: true
-                  });
-                });
-            }
-            return Observable.throw(err);
-          })
-          .combineLatest(this.details$);
-      })
-      .map(([{ count, logs }, details]) => {
+        return combineLatest(
+          this.isariDataService.getHistory(this.feature, this.options, lang)
+            .pipe(
+              catchError(err => {
+                if (err.status === 401) {
+                  this.translate
+                    .get('error.' + err.status)
+                    .subscribe(translated => {
+                      this.toasterService.pop('error', '', translated);
+                      this.router.navigate(['/', this.feature], {
+                        preserveQueryParams: true
+                      });
+                    });
+                }
+                return throwError(err);
+              })
+            ),
+          this.details$
+        );
+      }),
+
+      map(([{ count, logs }, details]) => {
         this.labs$ = this.isariDataService
           .getForeignLabel(
             'Organization',
@@ -94,7 +96,7 @@ export class IsariLogsComponent implements OnInit {
               flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab) : []))
             )
           )
-          .map(labs => keyBy(labs, 'id'));
+          .pipe(map(labs => keyBy(labs, 'id')));
 
         if (details && this.options['path']) {
           return {
@@ -114,7 +116,8 @@ export class IsariLogsComponent implements OnInit {
           count,
           logs: logs.map(log => Object.assign({}, log, { _open: details }))
         };
-      });
+      })
+    );
   }
 
   changeOpt(options) {

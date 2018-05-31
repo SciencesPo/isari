@@ -1,9 +1,8 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { environment } from '../environments/environment';
-import 'rxjs/add/operator/publishReplay';
-import 'rxjs/add/operator/catch';
+import { map, share, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -23,44 +22,52 @@ export class UserService {
     });
   }
 
-  login(username, password) {
+  login(username, password): Observable<any> {
     return this.http
       .post(this.loginUrl, { login: username, password }, this.httpOptions)
-      .map(res => res.json())
-      .map(res => {
-        this.loggedIn = true;
-      });
+      .pipe(
+        map(res => res.json()),
+        map(res => this.loggedIn = true)
+      );
   }
 
-  logout() {
+  logout(): Observable<any> {
     return this.http
       .post(this.logoutUrl, null, this.httpOptions)
-      .map(res => {
-        this.organizations = null;
-        this.loggedIn = false;
-      });
+      .pipe(
+        map(res => {
+          this.organizations = null;
+          this.loggedIn = false;
+        })
+      );
   }
 
-  isLoggedIn() {
+  isLoggedIn(): Observable<any> {
     return this.http.get(this.checkUrl, this.httpOptions)
-      .map(response => response.json()).publishReplay(1).refCount()
-      .catch(err => Observable.throw(err));
+      .pipe(
+        map(response => response.json()),
+        share(),
+        catchError(err => throwError(err))
+      );
   }
 
-  getOrganizations() {
+  getOrganizations(): Observable<any> {
     if (!this.organizations) {
       this.organizations = this.http
         .get(this.permissionsUrl, this.httpOptions)
-        .map(res => res.json())
-        .publishReplay(1)
-        .refCount();
+        .pipe(
+          map(res => res.json()),
+          share()
+        )
     }
     return this.organizations;
   }
 
-  getOrganization(id: string | undefined) {
+  getOrganization(id: string | undefined): Observable<any> {
     return this.getOrganizations()
-      .map(({ organizations }) => organizations.find(organization => organization.id === id));
+      .pipe(
+        map(({ organizations }) => organizations.find(organization => organization.id === id))
+      );
   }
 
   setCurrentOrganizationId(id: string) {
@@ -71,9 +78,11 @@ export class UserService {
     return this.currentOrganizationId;
   }
 
-  getRestrictedFields() {
+  getRestrictedFields(): Observable<any> {
     return this.getOrganization(this.currentOrganizationId)
-      .map(organization => organization.restrictedFields);
+      .pipe(
+        map(organization => organization.restrictedFields)
+      );
   }
 
 }

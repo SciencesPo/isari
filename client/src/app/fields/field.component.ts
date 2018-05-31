@@ -6,7 +6,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 
 import { IsariDataService } from '../isari-data.service';
 import { ToasterService } from 'angular2-toaster';
@@ -58,7 +58,7 @@ export class FieldComponent implements OnChanges {
       if (src) {
         this.field.src = this.isariDataService.srcEnumBuilder(src, this.path, this.lang);
         this.field.stringValue = this.isariDataService.getEnumLabel(src, this.path, this.form, this.form.controls[this.field.name].value);
-        this.field.create = function (x) { return Observable.of(x); };
+        this.field.create = function (x) { return of(x); };
       }
       if (this.field.ref) {
         this.field.api = this.isariDataService.getSchemaApi(this.field.ref);

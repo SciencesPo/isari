@@ -1,6 +1,5 @@
 import { StorageService } from './../storage.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/filter';
+import { Observable, from } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
 import { TranslateService } from 'ng2-translate';
@@ -16,6 +15,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import sortBy from 'lodash/sortBy';
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -80,7 +80,7 @@ export class LogTableComponent implements OnInit, OnChanges {
 
     // store item per page
     this.filterForm.controls['limit'].valueChanges
-      .filter(x => !!x) // ignore reset
+      .pipe(filter(x => !!x)) // ignore reset
       .subscribe(value => {
         this.storageService.save(value, 'itemsPerPage', 'history');
       });
@@ -125,7 +125,7 @@ export class LogTableComponent implements OnInit, OnChanges {
         })));
 
       // field select
-      Observable.fromPromise(this.isariDataService.getSchema(this.feature))
+      from(this.isariDataService.getSchema(this.feature))
         .subscribe(schema =>
           this.fields = sortBy(Object.keys(schema).reduce((acc, value) =>
             ([...acc, { value, label: schema[value].label[this.translate.currentLang] }])

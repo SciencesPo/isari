@@ -20,17 +20,12 @@ import { ConfirmDialog } from '../fields/confirm.component';
 import { PageScrollService, PageScrollInstance, PageScrollConfig } from 'ng2-page-scroll';
 import { DOCUMENT } from '@angular/platform-browser';
 
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { BehaviorSubject } from 'rxjs';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
+import { Observable, Subscription, BehaviorSubject, of, combineLatest } from 'rxjs';
 
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
 import { CanComponentDeactivate } from '../unload.guard';
 import { IsariCloseModal } from './close.component';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'isari-editor',
@@ -94,22 +89,22 @@ export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeac
     let $routeParams =
       // Feature and id provided as Input: just use this
       (this.id && this.feature)
-        ? Observable.of({ feature: this.feature, id: this.id })
+        ? of({ feature: this.feature, id: this.id })
         // Otherwise, feature & id can come from parent or current route
         : this.route.parent
-          ? Observable
-            .combineLatest(this.route.parent.params, this.route.params)
-            .map(([x, y]) => Object.assign({}, x, y))
+          ? combineLatest(this.route.parent.params, this.route.params)
+            .pipe(map(([x, y]) => Object.assign({}, x, y)))
           : this.route.params;
 
     this.route.queryParams.subscribe(({ organization }) => this.organization = organization);
 
-    this.sub = Observable.combineLatest(
+    this.sub = combineLatest(
       $routeParams,
       this.userService.getRestrictedFields(),
-      this.translate.onLangChange
-        .map((event: LangChangeEvent) => event.lang)
-        .startWith(this.translate.currentLang)
+      this.translate.onLangChange.pipe(
+        map((event: LangChangeEvent) => event.lang),
+        startWith(this.translate.currentLang)
+      )
     ).subscribe(([{ feature, id }, restrictedFields, lang]) => {
       this.loaderService.show();
       this.feature = feature;
@@ -209,7 +204,7 @@ export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeac
       disableClose: false
     });
 
-    return closeModalRef.afterClosed().map(answer => !!answer);
+    return closeModalRef.afterClosed().pipe(map(answer => !!answer));
   }
 
   save($event) {
@@ -317,15 +312,15 @@ export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeac
 
     this.options$ = new BehaviorSubject(this.options);
     this.details$ = new BehaviorSubject(false);
-    this.logs$ = Observable
-      .combineLatest([
-        this.route.paramMap,
-        this.options$,
-        this.translate.onLangChange
-          .map((event: LangChangeEvent) => event.lang)
-          .startWith(this.translate.currentLang)
-      ])
-      .switchMap(([paramMap, options, lang]) => {
+    this.logs$ = combineLatest(
+      this.route.paramMap,
+      this.options$,
+      this.translate.onLangChange.pipe(
+        map((event: LangChangeEvent) => event.lang),
+        startWith(this.translate.currentLang)
+      )
+    ).pipe(
+      switchMap(([paramMap, options, lang]) => {
         //this.feature = (<ParamMap>paramMap).get('feature');
         // this.options = Object.assign({}, {
         //   itemID: (<ParamMap>paramMap).get('itemID')
@@ -335,13 +330,14 @@ export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeac
           itemID: String(this.id)
         });
 
-        return this.isariDataService
-          .getHistory(this.feature, this.options, lang)
-          .combineLatest(this.details$)
-      })
-      .map(([{ count, logs }, details]) => {
+        return combineLatest(
+          this.isariDataService.getHistory(this.feature, this.options, lang),
+          this.details$
+        );
+      }),
+      map(([{ count, logs }, details]) => {
         this.labs$ = this.isariDataService.getForeignLabel('Organization', uniq(flattenDeep(logs.map(log => log.who.roles ? log.who.roles.map(role => role.lab) : ''))))
-          .map(labs => keyBy(labs, 'id'));
+          .pipe(map(labs => keyBy(labs, 'id')));
 
         if (details && this.options['path']) return logs.map(log => Object.assign({}, log, {
           _open: true,
@@ -352,7 +348,8 @@ export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeac
           count,
           logs: logs.map(log => Object.assign({}, log, { _open: details }))
         };
-      });
+      })
+    );
   }
 
   changeOpt(options) {

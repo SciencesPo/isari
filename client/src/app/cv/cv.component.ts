@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
+import { Observable, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'isari-cv',
@@ -19,12 +18,12 @@ export class CVComponent implements OnInit {
     private userService: UserService,
   ) { }
 
-  ngOnInit () {
-    Observable.combineLatest(
+  ngOnInit() {
+    combineLatest(
       this.userService.getOrganizations(),
       this.userService.isLoggedIn()
     ).subscribe((data: any) => { // TODO proper type definition
-      const [ { organizations, central }, user ] = data;
+      const [{ organizations, central }, user] = data;
       if (!user || !user.people) {
         // TODO error message: invalid session status
         this.ready = false;

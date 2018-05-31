@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable, combineLatest } from 'rxjs';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
@@ -38,10 +38,10 @@ export class IsariHeaderComponent implements OnInit {
     //   this.logged = !firstSegment || firstSegment.path !== 'login';
     // });
 
-    Observable.combineLatest([
+    combineLatest(
       this.route.data,
       this.userService.isLoggedIn()
-    ]).subscribe(([{ organization }, { people }]) => {
+    ).subscribe(([{ organization }, { people }]) => {
       this.user = people;
 
       this.organization = organization;

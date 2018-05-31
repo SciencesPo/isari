@@ -1,13 +1,11 @@
 import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/skip';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { ToasterService } from 'angular2-toaster';
+import { Observable, combineLatest, of } from 'rxjs';
+import { skip, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'isari-select',
@@ -98,28 +96,33 @@ export class IsariSelectComponent implements OnInit, OnChanges {
     // this.toggleAccess(!this.accessMonitoring, false);
 
     this.filteredItems =
-      Observable.combineLatest(
-        this.src(this.selectControl.valueChanges.skip(1).map(x => trans(x, 'fr')), this.max, this.form),
-        this.translate.onLangChange
-          .map((event: LangChangeEvent) => event.lang)
-          .startWith(this.translate.currentLang),
-        this.extensible ? this.selectControl.valueChanges.skip(1).startWith('') : Observable.of(null)
-      ).map(([{ values, reset }, lang, inputValue]: [{ values: any[], reset: boolean | string }, string, any]) => {
-        let x = values.map(item => translateItem(item, lang));
-        // reset if asked && only if value && only if autoComplete is Open
+      combineLatest(
+        this.src(this.selectControl.valueChanges.pipe(skip(1), map(x => trans(x, 'fr'))), this.max, this.form),
+        this.translate.onLangChange.pipe(
+          map((event: LangChangeEvent) => event.lang),
+          startWith(this.translate.currentLang)
+        ),
+        this.extensible
+          ? this.selectControl.valueChanges.pipe(skip(1), startWith(''))
+          : of(null)
+      ).pipe(
+        map(([{ values, reset }, lang, inputValue]: [{ values: any[], reset: boolean | string }, string, any]) => {
+          let x = values.map(item => translateItem(item, lang));
+          // reset if asked && only if value && only if autoComplete is Open
 
-        if (reset && reset === this.path && this.selectControl.value && !this.autoComplete.isOpen) {
-          this.form.controls[this.name].setValue('');
-          this.selectControl.setValue('');
-          this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
-        }
+          if (reset && reset === this.path && this.selectControl.value && !this.autoComplete.isOpen) {
+            this.form.controls[this.name].setValue('');
+            this.selectControl.setValue('');
+            this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
+          }
 
-        if (!inputValue || typeof inputValue !== 'string') return x;
-        inputValue = { value: inputValue, label: inputValue, new: true };
-        if (x[0].new) x[0] = inputValue;
-        else x = [inputValue, ...x];
-        return x;
-      });
+          if (!inputValue || typeof inputValue !== 'string') return x;
+          inputValue = { value: inputValue, label: inputValue, new: true };
+          if (x[0].new) x[0] = inputValue;
+          else x = [inputValue, ...x];
+          return x;
+        })
+      );
 
     function trans(item, lang = 'fr') {
       return (item && item.label && item.label[lang]) || (item && item.value) || item;
@@ -134,11 +137,12 @@ export class IsariSelectComponent implements OnInit, OnChanges {
       return { ...item, label };
     }
 
-    Observable.combineLatest(
+    combineLatest(
       this.stringValue,
-      this.translate.onLangChange
-        .map((event: LangChangeEvent) => event.lang)
-        .startWith(this.translate.currentLang)
+      this.translate.onLangChange.pipe(
+        map((event: LangChangeEvent) => event.lang),
+        startWith(this.translate.currentLang)
+      )
     ).subscribe(([stringValues, lang]) => {
       const value = this.form.controls[this.name].value;
       this.id = (stringValues.length > 0) && stringValues[0].id;

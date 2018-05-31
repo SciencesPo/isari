@@ -2,15 +2,13 @@ import { Component, Input, EventEmitter, Output, OnInit, ViewChild, ElementRef }
 import { FormGroup, FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/skip';
-import 'rxjs/add/operator/do';
+import { Observable, combineLatest, of } from 'rxjs';
+
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange, MatAutocompleteTrigger } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster';
+import { skip, map, startWith } from 'rxjs/operators';
 
 // const ENTER = 13;
 const BACKSPACE = 8;
@@ -119,20 +117,25 @@ export class IsariMultiSelectComponent implements OnInit {
     });
 
     this.filteredItems =
-      Observable.combineLatest(
-        this.src(this.selectControl.valueChanges.skip(1).map(x => trans(x, 'fr')), this.max),
-        this.translate.onLangChange
-          .map((event: LangChangeEvent) => event.lang)
-          .startWith(this.translate.currentLang),
-        this.extensible ? this.selectControl.valueChanges.startWith('') : Observable.of(null)
-      ).map(([{ values }, lang, inputValue]: [{ values: any[] }, string, any]) => {
-        let x = values.map(item => translateItem(item, lang));
-        if (!inputValue) return x;
-        inputValue = { value: inputValue, label: inputValue, new: true };
-        if (x[0].new) x[0] = inputValue;
-        else x = [inputValue, ...x];
-        return x;
-      });
+      combineLatest(
+        this.src(this.selectControl.valueChanges.pipe(skip(1), map(x => trans(x, 'fr'))), this.max),
+        this.translate.onLangChange.pipe(
+          map((event: LangChangeEvent) => event.lang),
+          startWith(this.translate.currentLang),
+        ),
+        this.extensible
+          ? this.selectControl.valueChanges.pipe(startWith(''))
+          : of(null)
+      ).pipe(
+        map(([{ values }, lang, inputValue]: [{ values: any[] }, string, any]) => {
+          let x = values.map(item => translateItem(item, lang));
+          if (!inputValue) return x;
+          inputValue = { value: inputValue, label: inputValue, new: true };
+          if (x[0].new) x[0] = inputValue;
+          else x = [inputValue, ...x];
+          return x;
+        })
+      );
 
     function trans(item, lang = 'fr') {
       return (item && item.label && item.label[lang]) || (item && item.value) || item;
@@ -145,11 +148,12 @@ export class IsariMultiSelectComponent implements OnInit {
       return { ...item, label };
     }
 
-    Observable.combineLatest(
+    combineLatest(
       this.stringValue,
-      this.translate.onLangChange
-        .map((event: LangChangeEvent) => event.lang)
-        .startWith(this.translate.currentLang)
+      this.translate.onLangChange.pipe(
+        map((event: LangChangeEvent) => event.lang),
+        startWith(this.translate.currentLang)
+      )
     ).subscribe(([stringValues, lang]) => {
       this._values = stringValues.map(item => translateItem(item, lang));
     });

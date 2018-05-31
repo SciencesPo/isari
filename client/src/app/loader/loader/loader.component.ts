@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { LoaderService } from './../loader.service';
 import { Component } from '@angular/core';
 
