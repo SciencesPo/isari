@@ -199,6 +199,11 @@ export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeac
     }
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  doSomething($event) {
+    if (this.diff.length) $event.returnValue = 'Your data will be lost!';
+  }
+
   canDeactivate() {
     const closeModalRef = this.dialog.open(IsariCloseModal, {
       disableClose: false
