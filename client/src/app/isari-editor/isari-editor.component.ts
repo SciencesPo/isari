@@ -200,11 +200,12 @@ export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeac
   }
 
   canDeactivate() {
-    const closeModalRef = this.dialog.open(IsariCloseModal, {
-      disableClose: false
-    });
-
-    return closeModalRef.afterClosed().pipe(map(answer => !!answer));
+    if (this.diff.length) {
+      return this.dialog.open(IsariCloseModal, {
+        disableClose: false
+      }).afterClosed().pipe(map(answer => !!answer));
+    }
+    return true;
   }
 
   save($event) {
