@@ -10,7 +10,6 @@ export class AppComponent {
   lang = 'fr';
 
   constructor(private translate: TranslateService) {
-    console.log('translate', translate);
     this.translate.setDefaultLang(this.lang);
     this.translate.use(this.lang);
   }

@@ -1,6 +1,6 @@
 import { Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { map, share, catchError } from 'rxjs/operators';
 
@@ -12,21 +12,16 @@ export class UserService {
   private logoutUrl = `${environment.API_BASE_URL}/auth/logout`;
   private checkUrl = `${environment.API_BASE_URL}/auth/myself`;
   private permissionsUrl = `${environment.API_BASE_URL}/auth/permissions`;
-  private httpOptions: RequestOptions;
+  private httpOptions = { withCredentials: true };
   public organizations: any;
   private currentOrganizationId;
 
-  constructor(private http: Http) {
-    this.httpOptions = new RequestOptions({
-      withCredentials: true
-    });
-  }
+  constructor(private http: HttpClient) { }
 
   login(username, password): Observable<any> {
     return this.http
       .post(this.loginUrl, { login: username, password }, this.httpOptions)
       .pipe(
-        map(res => res.json()),
         map(res => this.loggedIn = true)
       );
   }
@@ -35,7 +30,7 @@ export class UserService {
     return this.http
       .post(this.logoutUrl, null, this.httpOptions)
       .pipe(
-        map(res => {
+        map(() => {
           this.organizations = null;
           this.loggedIn = false;
         })
@@ -45,7 +40,6 @@ export class UserService {
   isLoggedIn(): Observable<any> {
     return this.http.get(this.checkUrl, this.httpOptions)
       .pipe(
-        map(response => response.json()),
         share(),
         catchError(err => throwError(err))
       );
@@ -56,7 +50,6 @@ export class UserService {
       this.organizations = this.http
         .get(this.permissionsUrl, this.httpOptions)
         .pipe(
-          map(res => res.json()),
           share()
         )
     }

@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -137,7 +136,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatAutocompleteModule,
 
     routing,
-    HttpModule,
     HttpClientModule,
     Ng2PageScrollModule.forRoot(),
     TranslateModule.forRoot({

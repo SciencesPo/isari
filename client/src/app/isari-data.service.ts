@@ -1,8 +1,7 @@
 // tslint:disable:curly
 
-
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { get, sortByDistance } from './utils';
 
 import { Observable, BehaviorSubject, Subject, combineLatest, from, of, merge } from 'rxjs';
@@ -62,20 +61,18 @@ export class IsariDataService {
   private exportUrl = `${environment.API_BASE_URL}/export`;
   private editLogUrl = `${environment.API_BASE_URL}/editLog`;
 
-  constructor(private http: Http, private fb: FormBuilder, private userService: UserService, private storageService: StorageService) { }
+  constructor(private http: HttpClient, private fb: FormBuilder, private userService: UserService, private storageService: StorageService) { }
 
   getHttpOptions(search: {} = null) {
-    const options = new RequestOptions({ withCredentials: true });
-    options.search = new URLSearchParams();
-    options.search.set('organization', this.userService.getCurrentOrganizationId());
-    if (search) {
-      Object.keys(search).forEach(key => {
-        if (search[key]) {
-          options.search.set(key, search[key]);
-        }
-      });
-    }
-    return options;
+    const params = Object.keys(search || {}).reduce(
+      (prms: HttpParams, key) => search[key] ? prms.set(key, search[key]) : prms,
+      new HttpParams().set('organization', this.userService.getCurrentOrganizationId())
+    )
+
+    return {
+      withCredentials: true,
+      params
+    };
   }
 
   getData(feature: string, id?: string): Promise<any> {
@@ -92,7 +89,6 @@ export class IsariDataService {
     const url = `${this.dataUrl}/${feature}/${id}`;
     return this.http.get(url, this.getHttpOptions())
       .toPromise()
-      .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -115,7 +111,6 @@ export class IsariDataService {
 
     return this.http.get(url, options)
       .toPromise()
-      .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -127,7 +122,7 @@ export class IsariDataService {
   getHistory(feature: string, query: any, lang): Observable<any> {
 
     return combineLatest(
-      this.http.get(`${this.editLogUrl}/${feature}`, this.getHttpOptions(query)).pipe(map((response) => response.json())),
+      this.http.get<{ count: any, results: any }>(`${this.editLogUrl}/${feature}`, this.getHttpOptions(query)),
       from(this.getSchema(feature)),
       this.getEnum('isariRoles').pipe(map(roles => keyBy(roles, 'value'))),
       this.getEnum('accessMonitoring').pipe(map(vals => keyBy(vals, 'value'))),
@@ -396,7 +391,6 @@ export class IsariDataService {
     const url = `${this.dataUrl}/${feature}/${id}/relations`;
     return this.http.get(url, this.getHttpOptions())
       .toPromise()
-      .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -404,7 +398,6 @@ export class IsariDataService {
     const url = `${this.dataUrl}/${feature}/${id}`;
     return this.http.delete(url, this.getHttpOptions())
       .toPromise()
-      .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -415,8 +408,7 @@ export class IsariDataService {
     }
 
     const url = `${this.layoutUrl}/${singular[feature]}`;
-    let $layout = this.http.get(url, this.getHttpOptions())
-      .pipe(map(response => response.json()));
+    let $layout = this.http.get(url, this.getHttpOptions());
     this.layoutsCache[feature] = $layout.pipe(share());
     return $layout.toPromise();
   }
@@ -427,7 +419,6 @@ export class IsariDataService {
     }
     return this.http.get(this.columnsUrl)
       .toPromise()
-      .then(response => response.json())
       .then(columns => {
         this.columnsCache = columns;
         return columns[feature];
@@ -449,10 +440,9 @@ export class IsariDataService {
   getSchema(feature: string, path?: string): Promise<any> {
     if (!this.schemasCache[feature]) {
       const url = `${this.schemaUrl}/${singular[feature]}`;
-      this.schemasCache[feature] = this.http.get(url, this.getHttpOptions())
+      this.schemasCache[feature] = this.http.get<any>(url, this.getHttpOptions())
         .pipe(distinctUntilChanged())
         .toPromise()
-        .then(response => response.json())
         .then(schema => {
           // Server always adds 'type = object' on root description, we don't want to bother with that here
           delete schema.type;
@@ -589,22 +579,20 @@ export class IsariDataService {
     const url = `${this.dataUrl}/${api}/${ids}/string`;
 
     if (!this.labelsCache[url]) {
-      this.labelsCache[url] = this.http.get(url, this.getHttpOptions()).pipe(
-        map(response => response.json()),
+      this.labelsCache[url] = this.http.get<any>(url, this.getHttpOptions()).pipe(
         share()
       );
     }
 
     return this.labelsCache[url].pipe(
-      map(allvalues => allvalues.filter(v => (<string[]>values).indexOf(v.id) !== -1))
+      map(allvalues => (<any>allvalues).filter(v => (<string[]>values).indexOf(v.id) !== -1))
     );
   }
 
   getForeignCreate(feature) {
     return function (name: string) {
       const url = `${this.dataUrl}/${mongoSchema2Api[feature]}`;
-      return this.http.post(url, { name }, this.getHttpOptions())
-        .map(response => response.json());
+      return this.http.post(url, { name }, this.getHttpOptions());
     }.bind(this);
   }
 
@@ -612,8 +600,7 @@ export class IsariDataService {
     if (!query) return of({ reset: false, values: [] });
     const url = `${this.dataUrl}/${mongoSchema2Api[feature] || feature}/search`;
     // return this.http.get(url, this.getHttpOptions({ q: deburr(query) || '*', path, rootFeature }))
-    return this.http.get(url, this.getHttpOptions({ q: query || '*', path, rootFeature })).pipe(
-      map(response => response.json()),
+    return this.http.get<Array<any>>(url, this.getHttpOptions({ q: query || '*', path, rootFeature })).pipe(
       map(items => ({
         reset: false,
         values: items.map(item => ({ id: item.value, value: item.label }))
@@ -794,7 +781,6 @@ export class IsariDataService {
       query = this.http.post(url, data, options);
     }
     return query.toPromise()
-      .then(response => response.json())
       .catch(this.handleError);
   }
 
@@ -891,8 +877,7 @@ export class IsariDataService {
   }
 
   buildEnumCache(): Observable<any> {
-    return this.http.get(this.enumUrl).pipe(
-      map(response => response.json()),
+    return this.http.get<any>(this.enumUrl).pipe(
       tap(enums => {
         Object.keys(enums).forEach(key => {
           let data = enums[key];
@@ -926,19 +911,16 @@ export class IsariDataService {
     }
 
     const url = `${this.enumUrl}/${src}`;
-    let $enum = this.http.get(url).pipe(
-      map(response => {
-        let json = response.json();
-
+    let $enum = this.http.get<Array<any>>(url).pipe(
+      map(enums => {
         // NOTE: this is a dirty special case for nationalities.
         // Might be generic one day...
         if (src === 'nationalities') {
-
-          json = json.filter(item => {
+          enums = enums.filter(item => {
             return !!item.label.fr || item.label.fr !== '';
           });
         }
-        return json;
+        return enums;
       }),
       share()
     );
