@@ -29,7 +29,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   constructor(
     private storageService: StorageService,
     private router: Router,
-    private translate: TranslateService) {}
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.lang = this.translate.currentLang;
@@ -38,7 +38,7 @@ export class DataTableComponent implements OnInit, OnChanges {
     });
   }
 
-  cellContent (data): string {
+  cellContent(data): string {
     if (data === null || data === undefined) {
       return '';
     } else if (data instanceof Array) {
@@ -103,6 +103,12 @@ export class DataTableComponent implements OnInit, OnChanges {
     }
     this.storageService.save(this.sortedState, 'sort', this.feature);
     this.applySort();
+  }
+
+  resetFilters() {
+    this.cols.forEach(({ filterControl }: { filterControl: FormControl }) => {
+      filterControl.reset()
+    });
   }
 
   private applySort() {
@@ -175,7 +181,7 @@ export class DataTableComponent implements OnInit, OnChanges {
     let sortOrder = reverse ? -1 : 1;
     return (a, b) => {
       const valueA = this.getValueForKey(a, property).toLowerCase(),
-            valueB = this.getValueForKey(b, property).toLowerCase();
+        valueB = this.getValueForKey(b, property).toLowerCase();
 
       let result = (valueA < valueB) ? -1 : (valueA > valueB) ? 1 : 0;
 

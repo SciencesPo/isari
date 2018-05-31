@@ -7,12 +7,18 @@
             <input matInput type="text" [formControl]="col.filterControl" [placeholder]="col.label[lang]">
           </mat-form-field>
         </isari-col>
+        <th style="width:1%">
+          <button (click)="resetFilters()" mat-icon-button color="primary">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let row of page" [routerLink]="[{outlets: {editor: row['id']} }]" queryParamsHandling="preserve" (click)="edit(row.id)"
         [class.active]="row['id'] === editedId">
         <td *ngFor="let col of cols">{{ cellContent(row[col.key]) }}</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
