@@ -26,15 +26,18 @@ import { BehaviorSubject } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
 
 import { EditLogApiOptions } from '../isari-logs/EditLogApiOptions.class';
+import { CanComponentDeactivate } from '../unload.guard';
+import { IsariCloseModal } from './close.component';
 
 @Component({
   selector: 'isari-editor',
   templateUrl: './isari-editor.component.html',
   styleUrls: ['./isari-editor.component.css']
 })
-export class IsariEditorComponent implements OnInit, OnDestroy {
+export class IsariEditorComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   dialogRef: MatDialogRef<ConfirmDialog>;
 
   @Input() id: number;
@@ -194,6 +197,14 @@ export class IsariEditorComponent implements OnInit, OnDestroy {
     if ($event.keyCode === 27) { // ESC
       $event.view.document.activeElement.blur();
     }
+  }
+
+  canDeactivate() {
+    const closeModalRef = this.dialog.open(IsariCloseModal, {
+      disableClose: false
+    });
+
+    return closeModalRef.afterClosed().map(answer => !!answer);
   }
 
   save($event) {

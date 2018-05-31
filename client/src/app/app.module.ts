@@ -68,6 +68,7 @@ import { IsariCreationModal } from './isari-creation-modal/isari-creation-modal.
 import { StorageService } from './storage.service';
 import { LogTableComponent } from './log-table/log-table.component';
 import { IsariLogsComponent } from './isari-logs/isari-logs.component';
+import { IsariCloseModal } from './isari-editor/close.component';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -105,7 +106,8 @@ export function createTranslateLoader(http: Http) {
     ConfirmDialog,
     IsariCreationModal,
     LogTableComponent,
-    IsariLogsComponent
+    IsariLogsComponent,
+    IsariCloseModal
   ],
   imports: [
     BrowserModule,
@@ -153,6 +155,7 @@ export function createTranslateLoader(http: Http) {
     AppComponent,
     ConfirmDialog,
     IsariCreationModal,
+    IsariCloseModal
   ],
   bootstrap: [
     AppComponent,

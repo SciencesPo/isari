@@ -1,4 +1,4 @@
-import { Routes, RouterModule }   from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { IsariLayoutComponent } from './isari-layout/isari-layout.component';
 import { IsariListComponent } from './isari-list/isari-list.component';
@@ -10,13 +10,14 @@ import { IsariLogsComponent } from './isari-logs/isari-logs.component';
 
 import { LoggedInGuard } from './logged-in.guard';
 import { OrganizationResolver } from './organization.resolver';
+import { UnloadGuard } from './unload.guard';
 
 const isariRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     component: HomeComponent,
-    canActivate: [ LoggedInGuard ]
+    canActivate: [LoggedInGuard]
   },
   {
     path: 'login',
@@ -25,12 +26,12 @@ const isariRoutes: Routes = [
   {
     path: 'cv',
     component: CVComponent,
-    canActivate: [ LoggedInGuard ]
+    canActivate: [LoggedInGuard]
   },
   {
     path: 'logs/:feature',
     component: IsariLogsComponent,
-    canActivate: [ LoggedInGuard ],
+    canActivate: [LoggedInGuard],
     resolve: {
       organization: OrganizationResolver
     }
@@ -41,10 +42,10 @@ const isariRoutes: Routes = [
     children: [
       { path: '', component: IsariListComponent },
       { path: 'new', component: IsariEditorComponent },
-      { path: ':id', component: IsariEditorComponent, outlet: 'editor' },
-      { path: ':id', component: IsariEditorComponent }
+      { path: ':id', component: IsariEditorComponent, canDeactivate: [UnloadGuard], outlet: 'editor' },
+      { path: ':id', component: IsariEditorComponent, canDeactivate: [UnloadGuard] }
     ],
-    canActivate: [ LoggedInGuard ],
+    canActivate: [LoggedInGuard],
     resolve: {
       organization: OrganizationResolver
     }

@@ -96,5 +96,11 @@
     "403": "Access to this information restricted.",
     "401": "Data not found",
     "400": "Form data incorrect. Check mandatory fields."
+  },
+  "dialogLeave": {
+    "title": "Attention",
+    "content": "Modifications are pending, leave anyway ?",
+    "leave": "Leave",
+    "stay": "Stay"
   }
 }

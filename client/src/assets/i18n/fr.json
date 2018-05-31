@@ -100,5 +100,11 @@
   "priorityField": {
     "title": "Champs prioritaire",
     "message": "Vous êtes sur le point de modifier un champ prioritaire."
+  },
+  "dialogLeave": {
+    "title": "Attention",
+    "content": "Des modifications ne seront pas sauvegardées, souhaitez-vous continuer ?",
+    "leave": "Continuer",
+    "stay": "Rester"
   }
 }
