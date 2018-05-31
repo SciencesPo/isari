@@ -25,7 +25,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { TextMaskModule } from 'angular2-text-mask';
 
@@ -69,9 +71,13 @@ import { StorageService } from './storage.service';
 import { LogTableComponent } from './log-table/log-table.component';
 import { IsariLogsComponent } from './isari-logs/isari-logs.component';
 import { IsariCloseModal } from './isari-editor/close.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, './assets/i18n', '.json');
+// export function createTranslateLoader(http: HttpClient) {
+//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+// }
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }
 
 @NgModule({
@@ -132,13 +138,16 @@ export function createTranslateLoader(http: Http) {
 
     routing,
     HttpModule,
+    HttpClientModule,
     Ng2PageScrollModule.forRoot(),
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     }),
-    ToasterModule,
+    ToasterModule.forRoot(),
     TextMaskModule,
     BrowserAnimationsModule,
     LoaderModule,

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild, HostListener, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { FocusMeDirective } from '../focus-me.directive';
 import { matchKeyCombo, pad, createAutoCorrectedDatePipe } from '../../utils';
 import { ToasterService } from 'angular2-toaster';

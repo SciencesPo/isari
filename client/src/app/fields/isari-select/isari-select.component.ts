@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { ToasterService } from 'angular2-toaster';
 import { Observable, combineLatest, of } from 'rxjs';

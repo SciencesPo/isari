@@ -4,7 +4,7 @@ import { MatDialogRef, MatDialog } from '@angular/material';
 import { ConfirmDialog } from '../fields/confirm.component';
 import { StorageService } from '../storage.service';
 import { ToasterService } from 'angular2-toaster';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'isari-data-editor',

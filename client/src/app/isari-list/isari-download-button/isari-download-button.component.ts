@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { TranslateService, LangChangeEvent } from 'ng2-translate';
-import {saveAs} from 'file-saver';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 import { IsariDataService } from '../../isari-data.service';
 import { ActivatedRoute } from '@angular/router';
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      CSV_MIME = 'text/csv;charset=utf-8';
+  CSV_MIME = 'text/csv;charset=utf-8';
 
 @Component({
   selector: 'isari-download-button',
@@ -50,7 +50,7 @@ export class IsariDownloadButtonComponent implements OnInit {
     return headerLine;
   }
 
-  cellContent (data): string {
+  cellContent(data): string {
     if (data === null || data === undefined) {
       return '';
     } else if (data instanceof Array) {
@@ -70,7 +70,7 @@ export class IsariDownloadButtonComponent implements OnInit {
 
       for (let i = 0, l = columns.length; i < l; i++) {
         const column = columns[i],
-              k = column.key;
+          k = column.key;
 
         output[column.label[this.lang]] = this.cellContent(line[k]);
       }
@@ -87,12 +87,12 @@ export class IsariDownloadButtonComponent implements OnInit {
     };
 
     const workbook = {
-      Sheets: {Sheet1: null},
+      Sheets: { Sheet1: null },
       SheetNames: ['Sheet1']
     };
 
     const sheet = {},
-          range = {s: {c: Infinity, r: Infinity}, e: {c: -Infinity, r: -Infinity}};
+      range = { s: { c: Infinity, r: Infinity }, e: { c: -Infinity, r: -Infinity } };
 
     const data = [this.getHeaders()].concat(this.getDataToSave());
 
@@ -117,8 +117,8 @@ export class IsariDownloadButtonComponent implements OnInit {
         }
 
         const value = line[k],
-              address = XLSX.utils.encode_cell({c: C, r: R}),
-              cell = {v: value};
+          address = XLSX.utils.encode_cell({ c: C, r: R }),
+          cell = { v: value };
 
         sheet[address] = cell;
 
@@ -134,35 +134,37 @@ export class IsariDownloadButtonComponent implements OnInit {
 
     // Creating a buffer for the Blob
     const buffer = new ArrayBuffer(xlsx.length),
-          view = new Uint8Array(buffer);
+      view = new Uint8Array(buffer);
 
     for (let i = 0, l = xlsx.length; i !== l; i++) {
       view[i] = xlsx.charCodeAt(i) & 0xFF;
     }
 
-    const blob = new Blob([buffer], {type: XLSX_MIME});
+    const blob = new Blob([buffer], { type: XLSX_MIME });
 
     saveAs(blob, `${this.feature}.xlsx`);
   }
 
   downloadCSV() {
     const csvString = Papa.unparse(this.getDataToSave()),
-          blob = new Blob([csvString], {type: CSV_MIME});
+      blob = new Blob([csvString], { type: CSV_MIME });
 
     saveAs(blob, `${this.feature}.csv`);
   }
 
-   getExportDowloadLink(route) {
+  getExportDowloadLink(route) {
     if (!this.organization) {
       return null;
     }
-  
+
     return this.isariDataService.createExportDownloadLink(
       'xlsx',
       route,
-      {id: this.organization.id,
+      {
+        id: this.organization.id,
         start: this.startDate,
-        end: this.endDate}
+        end: this.endDate
+      }
     );
   }
 }

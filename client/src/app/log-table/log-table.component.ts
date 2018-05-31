@@ -2,7 +2,7 @@ import { StorageService } from './../storage.service';
 import { Observable, from } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IsariDataService } from './../isari-data.service';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import {
   Component,
   Input,

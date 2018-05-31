@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Observable, combineLatest } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { IsariDataService } from '../isari-data.service';
 import { map, startWith } from 'rxjs/operators';
 

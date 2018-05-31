@@ -1,6 +1,6 @@
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { LangChangeEvent, TranslateService } from 'ng2-translate';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import { BehaviorSubject, combineLatest, throwError } from 'rxjs';
 import { EditLogApiOptions } from './EditLogApiOptions.class';

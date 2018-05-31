@@ -1,7 +1,7 @@
 import { Observable, combineLatest } from 'rxjs';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { IsariDataService } from '../isari-data.service';
 import { UserService } from '../user.service';
 

@@ -3,7 +3,7 @@ import { Component, OnInit, ViewContainerRef, Input, HostListener, Inject, OnDes
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
 
 import { IsariDataService } from '../isari-data.service';

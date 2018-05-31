@@ -1,6 +1,5 @@
 import { Component, Input, Output, OnInit, OnChanges, EventEmitter } from '@angular/core';
-import { TranslateService, LangChangeEvent } from 'ng2-translate';
-import 'rxjs/add/operator/skip';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { FormControl } from '@angular/forms';
 import difference from 'lodash/difference';
 

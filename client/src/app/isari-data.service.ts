@@ -512,7 +512,9 @@ export class IsariDataService {
       return combineLatest(
         terms$.pipe(startWith(''), distinctUntilChanged()),
         enum$,
-        nestedField ? nestedField.valueChanges.startWith({ value: nestedField.value, first: true }) : of(null)
+        nestedField
+          ? nestedField.valueChanges.pipe(startWith({ value: nestedField.value, first: true }))
+          : of(null)
       ).pipe(
         map(([term, enumValues, reset]: [string, Array<any>, string | null | { first: boolean, value: string }]) => {
 
@@ -593,9 +595,9 @@ export class IsariDataService {
       );
     }
 
-    return this.labelsCache[url].map(allvalues => {
-      return allvalues.filter(v => (<string[]>values).indexOf(v.id) !== -1);
-    });
+    return this.labelsCache[url].pipe(
+      map(allvalues => allvalues.filter(v => (<string[]>values).indexOf(v.id) !== -1))
+    );
   }
 
   getForeignCreate(feature) {

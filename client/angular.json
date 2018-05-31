@@ -22,7 +22,7 @@
             "styles": [
               "src/material2-app-theme.scss",
               "src/styles.css",
-              "node_modules/angular2-toaster/lib/toaster.css"
+              "node_modules/angular2-toaster/toaster.css"
             ],
             "scripts": []
           },

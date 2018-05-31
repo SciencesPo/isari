@@ -4,7 +4,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 import { Observable, combineLatest, of } from 'rxjs';
 
-import { TranslateService, LangChangeEvent } from 'ng2-translate';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange, MatAutocompleteTrigger } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster';

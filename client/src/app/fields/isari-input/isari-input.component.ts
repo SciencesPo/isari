@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnInit, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToasterService } from 'angular2-toaster';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'isari-input',
