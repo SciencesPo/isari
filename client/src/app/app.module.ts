@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
-// import { MaterialModule } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -71,10 +70,8 @@ import { LogTableComponent } from './log-table/log-table.component';
 import { IsariLogsComponent } from './isari-logs/isari-logs.component';
 import { IsariCloseModal } from './isari-editor/close.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { IsariFastCreationModal } from './isari-editor/creation.component';
 
-// export function createTranslateLoader(http: HttpClient) {
-//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-// }
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -112,14 +109,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     IsariCreationModal,
     LogTableComponent,
     IsariLogsComponent,
-    IsariCloseModal
+    IsariCloseModal,
+    IsariFastCreationModal
   ],
   imports: [
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
 
-    // MaterialModule.forRoot(),
     MatMenuModule,
     MatDialogModule,
     MatCardModule,
@@ -162,7 +159,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     ConfirmDialog,
     IsariCreationModal,
-    IsariCloseModal
+    IsariCloseModal,
+    IsariFastCreationModal
   ],
   bootstrap: [
     AppComponent,

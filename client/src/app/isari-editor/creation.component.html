@@ -1,0 +1,24 @@
+<ng-container *ngIf="fields$ | async as fields">
+    <ng-container *ngIf="lang$ | async as lang">
+        <h1 mat-dialog-title>{{ title | translate }}</h1>
+
+        <form [formGroup]="form">
+
+            <mat-dialog-content>
+
+                <mat-form-field *ngFor="let field of fields">
+                    <mat-label>{{ field.label[lang] }}</mat-label>
+                    <input type="text" matInput [formControlName]="field.name">
+                    <mat-error *ngIf="form.controls[field.name].invalid">{{ 'mandatory' | translate }}</mat-error>
+                </mat-form-field>
+
+            </mat-dialog-content>
+
+            <mat-dialog-actions>
+                <button mat-button (click)="save()" type="submit">{{ 'save' | translate }}</button>
+                <button mat-button (click)="dialogRef.close(false)">{{ 'cancel' | translate }}</button>
+            </mat-dialog-actions>
+
+        </form>
+    </ng-container>
+</ng-container>

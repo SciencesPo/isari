@@ -2,10 +2,11 @@ import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef, 
 import { FormGroup, FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatDialog } from '@angular/material';
 import { ToasterService } from 'angular2-toaster';
 import { Observable, combineLatest, of } from 'rxjs';
 import { skip, map, startWith } from 'rxjs/operators';
+import { IsariFastCreationModal } from '../../isari-editor/creation.component';
 
 @Component({
   selector: 'isari-select',
@@ -40,7 +41,7 @@ export class IsariSelectComponent implements OnInit, OnChanges {
   @ViewChild('selectInput') selectInput: ElementRef;
   @ViewChild('auto', { read: MatAutocomplete }) autoComplete: MatAutocomplete;
 
-  constructor(private toasterService: ToasterService, private translate: TranslateService) {
+  constructor(private toasterService: ToasterService, private translate: TranslateService, private dialog: MatDialog) {
     this.selectControl = new FormControl();
   }
 
@@ -54,6 +55,26 @@ export class IsariSelectComponent implements OnInit, OnChanges {
   }
 
   selected({ option: { value: item } }: MatAutocompleteSelectedEvent) {
+
+    // open creation modal
+    if (item.new === 'ref') {
+
+      this.dialog.open(IsariFastCreationModal, {
+        disableClose: false,
+        data: {
+          feature: this.create
+        }
+      }).afterClosed().subscribe(createdItem => {
+        if (createdItem && createdItem.id) {
+          this.selectControl.setValue(createdItem, { emitEvent: false });
+          this.form.controls[this.name].setValue(createdItem.id);
+          this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
+        }
+      });
+
+      return;
+    }
+
     this.form.controls[this.name].setValue(item.id || item.value);
     this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
   }
@@ -102,7 +123,7 @@ export class IsariSelectComponent implements OnInit, OnChanges {
           map((event: LangChangeEvent) => event.lang),
           startWith(this.translate.currentLang)
         ),
-        this.extensible
+        this.extensible || this.create
           ? this.selectControl.valueChanges.pipe(skip(1), startWith(''))
           : of(null)
       ).pipe(
@@ -117,7 +138,10 @@ export class IsariSelectComponent implements OnInit, OnChanges {
           }
 
           if (!inputValue || typeof inputValue !== 'string') return x;
-          inputValue = { value: inputValue, label: inputValue, new: true };
+
+          if (this.extensible) inputValue = { value: inputValue, label: inputValue, new: 'softenum' };
+          else inputValue = { value: inputValue, label: 'Créer cette entité', new: 'ref' };
+
           if (x[0].new) x[0] = inputValue;
           else x = [inputValue, ...x];
           return x;

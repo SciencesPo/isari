@@ -58,13 +58,14 @@ export class FieldComponent implements OnChanges {
       if (src) {
         this.field.src = this.isariDataService.srcEnumBuilder(src, this.path, this.lang);
         this.field.stringValue = this.isariDataService.getEnumLabel(src, this.path, this.form, this.form.controls[this.field.name].value);
-        this.field.create = function (x) { return of(x); };
+        // this.field.create = function (x) { return of(x); };
       }
       if (this.field.ref) {
         this.field.api = this.isariDataService.getSchemaApi(this.field.ref);
         this.field.src = this.isariDataService.srcForeignBuilder(this.field.ref, this.path, this.rootFeature);
         this.field.stringValue = this.isariDataService.getForeignLabel(this.field.ref, this.form.controls[this.field.name].value);
-        this.field.create = this.isariDataService.getForeignCreate(this.field.ref);
+        this.field.create = this.field.ref
+        // this.field.create = this.isariDataService.getForeignCreate(this.field.ref);
       }
 
       // @TODO : message erreur spécifique. Raf : valeurs initiales fausses (ajout) et pb sur les select + remonter l'info

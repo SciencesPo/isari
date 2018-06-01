@@ -5,10 +5,11 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Observable, combineLatest, of } from 'rxjs';
 
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange, MatAutocompleteTrigger } from '@angular/material';
+import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipSelectionChange, MatAutocompleteTrigger, MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster';
 import { skip, map, startWith } from 'rxjs/operators';
+import { IsariFastCreationModal } from '../../isari-editor/creation.component';
 
 // const ENTER = 13;
 const BACKSPACE = 8;
@@ -47,7 +48,7 @@ export class IsariMultiSelectComponent implements OnInit {
   @ViewChild('selectInput') selectInput: ElementRef;
   @ViewChild('selectInput', { read: MatAutocompleteTrigger }) autoComplete: MatAutocompleteTrigger;
 
-  constructor(private toasterService: ToasterService, private translate: TranslateService, private route: ActivatedRoute) { }
+  constructor(private toasterService: ToasterService, private translate: TranslateService, private route: ActivatedRoute, private dialog: MatDialog) { }
 
   add(event: MatChipInputEvent) {
     // settimeout to avoid consider click in list as a blur
@@ -77,6 +78,24 @@ export class IsariMultiSelectComponent implements OnInit {
     // avoid double
     const found = this.values.findIndex(item => (selected.value && selected.value === item.value) || (selected.id && selected.id === item.id) || (selected === item)) > -1;
     if (found) return;
+
+    // open creation modal
+    if (selected.new === 'ref') {
+
+      this.dialog.open(IsariFastCreationModal, {
+        disableClose: false,
+        data: {
+          feature: this.create
+        }
+      }).afterClosed().subscribe(createdItem => {
+        if (createdItem && createdItem.id) {
+          this.values = [...this.values, createdItem];
+          this.onUpdate.emit({ log: true, path: this.path, type: 'push' });
+        }
+      });
+
+      return;
+    }
 
     this.values = [...this.values, selected];
     this.form.controls[this.name].markAsDirty();
@@ -123,15 +142,18 @@ export class IsariMultiSelectComponent implements OnInit {
           map((event: LangChangeEvent) => event.lang),
           startWith(this.translate.currentLang),
         ),
-        this.extensible
+        this.extensible || this.create
           ? this.selectControl.valueChanges.pipe(startWith(''))
           : of(null)
       ).pipe(
         map(([{ values }, lang, inputValue]: [{ values: any[] }, string, any]) => {
           let x = values.map(item => translateItem(item, lang));
-          if (!inputValue) return x;
-          inputValue = { value: inputValue, label: inputValue, new: true };
-          if (x[0].new) x[0] = inputValue;
+          if (!inputValue || typeof inputValue !== 'string') return x;
+
+          if (this.extensible) inputValue = { value: inputValue, label: inputValue, new: 'softenum' };
+          else inputValue = { value: inputValue, label: 'Créer cette entité', new: 'ref' };
+
+          if (x.length && x[0].new) x[0] = inputValue;
           else x = [inputValue, ...x];
           return x;
         })

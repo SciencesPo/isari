@@ -27,6 +27,7 @@
   "others": "Others",
   "resume": "My Resume",
   "save": "Save",
+  "cancel": "Cancel",
   "toSave": " changes to save",
   "unknown error": "Unknown error",
   "login error": "Authentication failed: invalid id or password",
