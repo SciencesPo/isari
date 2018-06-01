@@ -53,6 +53,9 @@ export class IsariFastCreationModal implements OnInit {
                 fields.forEach(field => {
                     this.form.addControl(field.name, new FormControl('', Validators.required));
                 });
+                if (this.form.controls['name'] && this.data.name) {
+                    this.form.controls['name'].setValue(this.data.name);
+                }
                 return fields;
             });
     }

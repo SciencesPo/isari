@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { get, sortByDistance } from './utils';
 
 import { Observable, BehaviorSubject, Subject, combineLatest, from, of, merge } from 'rxjs';
-import { map, catchError, share, distinctUntilChanged, startWith, debounceTime, switchMap, concatMap, tap, concatAll, last, scan, take } from 'rxjs/operators';
+import { map, catchError, share, distinctUntilChanged, startWith, debounceTime, concatMap, tap, concatAll, last, scan, take } from 'rxjs/operators';
 
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';

@@ -62,7 +62,8 @@ export class IsariSelectComponent implements OnInit, OnChanges {
       this.dialog.open(IsariFastCreationModal, {
         disableClose: false,
         data: {
-          feature: this.create
+          feature: this.create,
+          name: item.value
         }
       }).afterClosed().subscribe(createdItem => {
         if (createdItem && createdItem.id) {

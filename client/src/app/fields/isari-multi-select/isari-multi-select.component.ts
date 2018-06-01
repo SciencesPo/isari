@@ -85,7 +85,8 @@ export class IsariMultiSelectComponent implements OnInit {
       this.dialog.open(IsariFastCreationModal, {
         disableClose: false,
         data: {
-          feature: this.create
+          feature: this.create,
+          name: selected.value
         }
       }).afterClosed().subscribe(createdItem => {
         if (createdItem && createdItem.id) {
