@@ -69,6 +69,7 @@ export class IsariSelectComponent implements OnInit, OnChanges {
         if (createdItem && createdItem.id) {
           this.selectControl.setValue(createdItem, { emitEvent: false });
           this.form.controls[this.name].setValue(createdItem.id);
+          this.id = createdItem.id;
           this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
         }
       });
@@ -77,6 +78,11 @@ export class IsariSelectComponent implements OnInit, OnChanges {
     }
 
     this.form.controls[this.name].setValue(item.id || item.value);
+    
+    // update id to update the open in new link
+    if (item.id)
+      this.id = item.id;
+       
     this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
   }
 
@@ -143,8 +149,8 @@ export class IsariSelectComponent implements OnInit, OnChanges {
           if (this.extensible) inputValue = { value: inputValue, label: inputValue, new: 'softenum' };
           else inputValue = { value: inputValue, label: 'Créer cette entité', new: 'ref' };
 
-          if (x[0].new) x[0] = inputValue;
-          else x = [inputValue, ...x];
+          if (x[0] && x[0].new) x[0] = inputValue;
+          else x = [...x, inputValue];
           return x;
         })
       );
