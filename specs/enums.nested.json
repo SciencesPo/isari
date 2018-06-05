@@ -1313,6 +1313,13 @@
                     "fr": "Invité.e",
                     "en": ""
                 }
+            },
+            {
+                "value": "HDRcandidate",
+                "label": {
+                    "fr": "inscrit.e en HDR",
+                    "en": "professoral thesis candidate"
+                }
             }
         ],
         "enseignantchercheur": [
@@ -1391,6 +1398,13 @@
                 "label": {
                     "fr": "Invité.e",
                     "en": ""
+                }
+            },
+            {
+                "value": "HDRcandidate",
+                "label": {
+                    "fr": "inscrit.e en HDR",
+                    "en": "professoral thesis candidate"
                 }
             }
         ],
