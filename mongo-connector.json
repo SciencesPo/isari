@@ -1,0 +1,48 @@
+{
+  "mongo-connector": {
+    "namespaces": {
+      "include":[],
+      "isari.people": {
+        "includeFields": [
+          "firstName",
+          "name",
+          "birthName"
+        ]
+      },
+      "isari.organizations": {
+        "includeFields": [
+          "acronym",
+          "name",
+          "nameAcronymeAliases"
+        ]
+      },
+      "isari.activities": {
+        "includeFields": [
+          "acronym",
+          "name"
+        ]
+      },
+      "isari.editlogs": false
+    }
+  },
+  "es": {
+    "indexes": {
+      "isari": {
+        "settings": {
+          "analysis": {
+            "analyzer": {
+              "default": {
+                "type": "custom",
+                "tokenizer": "standard",
+                "filter": [
+                  "lowercase",
+                  "asciifolding"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

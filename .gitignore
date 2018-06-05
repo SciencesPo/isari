@@ -39,3 +39,5 @@ server/config/local.toml
 server/config/local-*.toml
 
 .DS_Store
+
+docker-config.env
