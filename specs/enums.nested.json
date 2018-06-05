@@ -1207,6 +1207,20 @@
                     "en": ""
                 }
             },
+              {
+                "value": "chargederechercheCN",
+                "label": {
+                    "fr": "Chargé.e de recherche de classe normale",
+                    "en": ""
+                }
+            },
+            {
+                "value": "chargederechercheHC",
+                "label": {
+                    "fr": "Chargé.e de recherche hors classe",
+                    "en": ""
+                }
+            },
             {
                 "value": "cherchcontractuel",
                 "label": {
