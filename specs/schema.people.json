@@ -8,6 +8,7 @@
         "accessMonitoring": "DRH"
     },
     "firstName": {
+        "requirement": "mandatory",
         "label": {
             "fr": "Prénom",
             "en": "Firstname"
