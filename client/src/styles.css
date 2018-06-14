@@ -121,3 +121,8 @@ isari-cols-selector .mat-select-value-text span {
   margin-top: 50px;
   background: #dedede;
 }
+
+/* material tweecking*/
+.mat-option.mat-active, .mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
+  background: rgba(0, 0, 0, 0.09);
+}
