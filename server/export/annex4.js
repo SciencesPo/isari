@@ -549,10 +549,10 @@ const TABS = [
         else
           grant = activity.grants[0]
 
-        if (grant.grantProgram)
+        if (grant && grant.grantProgram)
           info.program = GRANT_PROGRAM_INDEX[grant.grantProgram] || grant.grantProgram;
 
-        if (grant.grantInstrument && grant.grantType) {
+        if (grant && grant.grantInstrument && grant.grantType) {
           const index = GRANT_INSTRUMENT_INDEX[grant.grantType];
           info.instrument = index[grant.grantInstrument] || grant.grantInstrument;
         }
