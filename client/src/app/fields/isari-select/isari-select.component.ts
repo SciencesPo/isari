@@ -58,7 +58,7 @@ export class IsariSelectComponent implements OnInit, OnChanges {
 
     // open creation modal
     if (item.new === 'ref') {
-
+      this.selectControl.setValue({id:"", label:item.value});
       this.dialog.open(IsariFastCreationModal, {
         disableClose: false,
         data: {
@@ -67,6 +67,7 @@ export class IsariSelectComponent implements OnInit, OnChanges {
         }
       }).afterClosed().subscribe(createdItem => {
         if (createdItem && createdItem.id) {
+          var.log(createdItem.id, createdItem.id)
           this.selectControl.setValue(createdItem, { emitEvent: false });
           this.form.controls[this.name].setValue(createdItem.id);
           this.id = createdItem.id;
@@ -76,14 +77,15 @@ export class IsariSelectComponent implements OnInit, OnChanges {
 
       return;
     }
-
-    this.form.controls[this.name].setValue(item.id || item.value);
+    else {
+      this.form.controls[this.name].setValue(item.id || item.value);
     
-    // update id to update the open in new link
-    if (item.id)
-      this.id = item.id;
-       
-    this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
+      // update id to update the open in new linkzadqsd
+      if (item.id)
+        this.id = item.id;
+         
+      this.onUpdate.emit({ log: true, path: this.path, type: 'update' });  
+    }
   }
 
   toggleAccess(val, human = true) {
