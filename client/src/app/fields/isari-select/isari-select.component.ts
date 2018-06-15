@@ -67,7 +67,6 @@ export class IsariSelectComponent implements OnInit, OnChanges {
         }
       }).afterClosed().subscribe(createdItem => {
         if (createdItem && createdItem.id) {
-          var.log(createdItem.id, createdItem.id)
           this.selectControl.setValue(createdItem, { emitEvent: false });
           this.form.controls[this.name].setValue(createdItem.id);
           this.id = createdItem.id;
