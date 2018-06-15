@@ -58,7 +58,9 @@ export class IsariSelectComponent implements OnInit, OnChanges {
 
     // open creation modal
     if (item.new === 'ref') {
-      this.selectControl.setValue({id:"", label:item.value});
+      this.form.controls[this.name].setValue('');
+      this.selectControl.setValue('');
+          
       this.dialog.open(IsariFastCreationModal, {
         disableClose: false,
         data: {
@@ -70,8 +72,9 @@ export class IsariSelectComponent implements OnInit, OnChanges {
           this.selectControl.setValue(createdItem, { emitEvent: false });
           this.form.controls[this.name].setValue(createdItem.id);
           this.id = createdItem.id;
-          this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
         }
+        this.onUpdate.emit({ log: true, path: this.path, type: 'update' });
+        
       });
 
       return;
@@ -130,12 +133,10 @@ export class IsariSelectComponent implements OnInit, OnChanges {
         this.translate.onLangChange.pipe(
           map((event: LangChangeEvent) => event.lang),
           startWith(this.translate.currentLang)
-        ),
-        this.extensible || this.create
-          ? this.selectControl.valueChanges.pipe(skip(1), startWith(''))
-          : of(null)
+        )
       ).pipe(
-        map(([{ values, reset }, lang, inputValue]: [{ values: any[], reset: boolean | string }, string, any]) => {
+        map(([{ values, reset }, lang]: [{ values: any[], reset: boolean | string }, string]) => {
+          let inputValue = this.extensible || this.create ? this.selectControl.value : null
           let x = values.map(item => translateItem(item, lang));
           // reset if asked && only if value && only if autoComplete is Open
 
