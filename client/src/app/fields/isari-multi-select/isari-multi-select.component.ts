@@ -155,7 +155,7 @@ export class IsariMultiSelectComponent implements OnInit {
           else inputValue = { value: inputValue, label: 'Créer cette entité', new: 'ref' };
 
           if (x.length && x[0].new) x[0] = inputValue;
-          else x = [inputValue, ...x];
+          else x = [...x, inputValue];
           return x;
         })
       );
