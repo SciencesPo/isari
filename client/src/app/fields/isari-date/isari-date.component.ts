@@ -33,7 +33,7 @@ export class IsariDateComponent {
   day: number | null;
   days: any[];
   months: any = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    .map(i => new Date(1, i + 1))
+    .map(i => new Date(2000, i))
     .reduce((acc, d) => Object.assign(acc, {
       fr: [...acc.fr,  d.toLocaleString('fr', { month: 'long' })],
       en: [...acc.en,  d.toLocaleString('en', { month: 'long' })]
