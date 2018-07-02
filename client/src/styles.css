@@ -118,8 +118,11 @@ isari-cols-selector .mat-select-value-text span {
 }
 
 .mat-sidenav-container {
-  margin-top: 50px;
   background: #dedede;
+}
+
+mat-sidenav-content {
+  padding-top:50px;
 }
 
 /* material tweecking*/
