@@ -53,7 +53,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "enum": "activityOrganizationRoles:../activityType"
+                "type" : "string"
             },
             "startDate": {
                 "label": {
@@ -94,7 +94,7 @@
                     "fr": "Rôle",
                     "en": "Role"
                 },
-                "enum": "activityPeopleRoles:../activityType"
+                "type" : "string"
             },
             "startDate": {
                 "label": {
