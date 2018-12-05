@@ -15,8 +15,7 @@ build_client:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push $CLIENT_IMAGE_NAME
   environment:
-    name: staging
-    url: $STAGING_BASEURL
+    name: $CI_COMMIT_REF_SLUG
   only:
     - master
     - prod
@@ -28,8 +27,19 @@ build_api:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push $API_IMAGE_NAME
   environment:
-    name: staging
-    url: $STAGING_BASEURL
+    name: $CI_COMMIT_REF_SLUG
   only:
     - master
     - prod
+
+deploy_staging:
+  stage: deploy
+  image: cdrx/rancher-gitlab-deploy
+  script:
+    - upgrade --rancher-key $RANCHER_ACCESS_KEY --rancher-secret $RANCHER_SECRET_KEY --rancher-url $RANCHER_URL --environment $RANCHER_STAGING_ENV --stack $RANCHER_STACK --service $RANCHER_ISARI_API_SERVICE --start-before-stopping
+    - upgrade --rancher-key $RANCHER_ACCESS_KEY --rancher-secret $RANCHER_SECRET_KEY --rancher-url $RANCHER_URL --environment $RANCHER_STAGING_ENV --stack $RANCHER_STACK --service $RANCHER_ISARI_CLIENT_SERVICE --start-before-stopping
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    url: $STAGING_BASEURL
+  only:
+    - master
