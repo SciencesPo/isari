@@ -56,7 +56,9 @@ services:
       - connector
 # Isari Client
   client:
-    build: client
+    build: 
+      dockerfile: client/Dockerfile
+      context: .
     restart: unless-stopped
     env_file:
       - docker-config.env

@@ -3,4 +3,4 @@ Dockerfile
 specs/docs
 server/dev_docker
 server/node_modules
-client
+client/node_modules
