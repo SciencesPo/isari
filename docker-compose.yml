@@ -1,9 +1,14 @@
-version: '2'
+version: '2.1'
 services:
 # ElasticSearch
   index:
     image: elasticsearch:2.3.5
     restart: unless-stopped
+    healthcheck:
+        test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+        interval: 30s
+        timeout: 30s
+        retries: 3
 # MongoDB
   db:
     image: mongo:3.2.9
@@ -16,9 +21,7 @@ services:
     image: mongo:3.2.9
     links:
       - db
-    volumes:
-      - ./docker-mongosetup.sh:/docker-mongosetup.sh
-    entrypoint: [ "/docker-mongosetup.sh" ]
+    command: "mongo --host db:27017 --eval rs.initiate()"
     depends_on:
       - db
 # Mongo-connector
@@ -30,10 +33,14 @@ services:
       - db
     environment:
       - MONGO_URL=mongodb://db:27017
-      - MONGO_INCLUDES=isari.people,isari.organizations,isari.activities
       - ES_URL=index:9200
+      - MONGO_INCLUDES=isari.people,isari.organizations,isari.activities
+      - CONFIG_LOCATION=file:///opt/mongo-connector/optional-config.json
+    volumes:
+      - ./mongo-connector.json:/opt/mongo-connector/optional-config.json:ro
     depends_on:
-      - mongosetup
+        index:
+           condition: service_healthy
 # Isari Server
   server:
     build: .
@@ -49,12 +56,12 @@ services:
       - connector
 # Isari Client
   client:
-    build: client
+    build: 
+      dockerfile: client/Dockerfile
+      context: .
     restart: unless-stopped
     env_file:
       - docker-config.env
-    volumes_from:
-      - server
     links:
       - server
     ports:

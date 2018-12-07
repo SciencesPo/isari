@@ -1,4 +1,5 @@
 *.md
+Dockerfile
 specs/docs
 server/dev_docker
 server/node_modules

@@ -1,0 +1,21 @@
+[http]
+port = "SERVER_PORT"
+
+[session]
+secret = "SESSION_SECRET"
+
+[mongo]
+url = "MONGO_URL"
+
+[elasticsearch]
+host = "ES_URL"
+index = "ES_INDEX"
+
+[ldap]
+url = "LDAP_URL"
+dn = "LDAP_BASE_DN"
+bind_dn = "LDAP_BIND_DN"
+password = "LDAP_PASSWORD"
+loginAtt = "LDAP_LOGINATT"
+activeFlag = "LDAP_ACTIVE_FLAG"
+skip = "LDAP_SKIP"
