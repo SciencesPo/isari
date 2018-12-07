@@ -349,6 +349,56 @@
         ]
     },
     "activityPeopleRoles": {
+        "event" : [
+            {
+                "value" : "speaker",
+                "label" : {
+                    "fr": "Intervenant",
+                    "en" : ""
+                }
+            },
+            {
+                "value" : "moderator",
+                "label" : {
+                    "fr": "Modérateur",
+                    "en" : ""
+                }
+            },
+            {
+                "value" : "keynotelecturer",
+                "label" : {
+                    "fr": "Keynote lecturer",
+                    "en" : ""
+                }
+            },
+            {
+                "value" : "scientificofficer",
+                "label" : {
+                    "fr": "Responsable scientifique",
+                    "en" : ""
+                }
+            },{
+                "value" : "discussant",
+                "label" : {
+                    "fr": "Discutant",
+                    "en" : ""
+                }
+            },
+            {
+                "value" : "president",
+                "label" : {
+                    "fr": "Président (séance, session, atelier…)",
+                    "en" : ""
+                }
+            },
+            {
+                "value" : "organizer",
+                "label" : {
+                    "fr": "Organisateur",
+                    "en" : ""
+                }
+            }
+        ],
         "partenariat": [
             {
                 "value": "referent",
@@ -524,6 +574,37 @@
         ]
     },
     "activityOrganizationRoles": {
+        "event" : [
+            {
+                "value" : "partner",
+                "label" : {
+                    "fr" : "Partenaire",
+                    "en" :""
+                }
+            },
+            {
+                "value" : "coordinator",
+                "label" : {
+                    "fr" : "Coordinateur",
+                    "en" : ""
+                }
+            },
+            {
+                "value" : "participant",
+                "label" : {
+                    "fr" : "Participant",
+                    "en" : ""
+                }
+            },
+            {
+                "value" : "organizer",
+                "label" : {
+                    "fr" : "Organisateur",
+                    "en" : ""
+                }
+            }
+
+        ],
         "partenariat": [
             {
                 "value": "coordinateur",
