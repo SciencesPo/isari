@@ -354,48 +354,48 @@
                 "value" : "speaker",
                 "label" : {
                     "fr": "Intervenant",
-                    "en" : ""
+                    "en" : "Speaker"
                 }
             },
             {
                 "value" : "moderator",
                 "label" : {
                     "fr": "Modérateur",
-                    "en" : ""
+                    "en" : "Moderator"
                 }
             },
             {
                 "value" : "keynotelecturer",
                 "label" : {
                     "fr": "Keynote lecturer",
-                    "en" : ""
+                    "en" : "Keynote lecturer"
                 }
             },
             {
                 "value" : "scientificofficer",
                 "label" : {
                     "fr": "Responsable scientifique",
-                    "en" : ""
+                    "en" : "Scientific coordinator"
                 }
             },{
                 "value" : "discussant",
                 "label" : {
                     "fr": "Discutant",
-                    "en" : ""
+                    "en" : "Discussant"
                 }
             },
             {
                 "value" : "president",
                 "label" : {
                     "fr": "Président (séance, session, atelier…)",
-                    "en" : ""
+                    "en" : "Chairman"
                 }
             },
             {
                 "value" : "organizer",
                 "label" : {
                     "fr": "Organisateur",
-                    "en" : ""
+                    "en" : "Convener"
                 }
             }
         ],
@@ -579,28 +579,28 @@
                 "value" : "partner",
                 "label" : {
                     "fr" : "Partenaire",
-                    "en" :""
+                    "en" :"Partner"
                 }
             },
             {
                 "value" : "coordinator",
                 "label" : {
                     "fr" : "Coordinateur",
-                    "en" : ""
+                    "en" : "Coordinator"
                 }
             },
             {
                 "value" : "participant",
                 "label" : {
                     "fr" : "Participant",
-                    "en" : ""
+                    "en" : "Participant"
                 }
             },
             {
                 "value" : "organizer",
                 "label" : {
                     "fr" : "Organisateur",
-                    "en" : ""
+                    "en" : "Convener"
                 }
             }
 
