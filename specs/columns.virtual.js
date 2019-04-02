@@ -146,7 +146,8 @@ const activityPeople = (activity, main = true) => {
 			projetderecherche: ['PI'],
 			mob_entrante: ['visiting'],
 			hdr: ['doctorant(role)'],
-			mob_sortante: ['visiting']
+			mob_sortante: ['visiting'],
+			event: ['speaker', 'president', 'organizer', 'scientificofficer']
 		};
 	}
 	else{
@@ -156,13 +157,19 @@ const activityPeople = (activity, main = true) => {
 			projetderecherche: ['responsableScientifique','membre'],
 			mob_entrante: ['referent'],
 			hdr: ['directeur','codirecteur'],
-			mob_sortante: ['referent']
+			mob_sortante: ['referent'],
+			event: ['moderator', 'keynotelecturer',  'discussant']
 		};
 	}
 
+
 	if (activity.people){
-		if (peopleRoleFilter[activity.activityType])
-			return activity.people.filter(p => peopleRoleFilter[activity.activityType].find(e => e === p.role) && p.people).map(p => `${p.people.firstName} ${p.people.name}`)
+		if (peopleRoleFilter[activity.activityType]){
+			return activity.people.filter((p) => {
+				return peopleRoleFilter[activity.activityType].find(e => e === p.role) && p.people
+			}) 
+			.map(p => `${p.people.firstName} ${p.people.name}`)
+		}
 		else 
 			return ''
 	}
@@ -180,7 +187,8 @@ const activityOrganization = (activity, main = true) => {
 			partenariat: ['coordinateur'],
 			projetderecherche: ['coordinateur'],
 			mob_entrante: ['orgadorigine'],
-			mob_sortante: ['orgadaccueil']
+			mob_sortante: ['orgadaccueil'],
+			event: ['coordinator', 'organizer']
 		};
 	}
 	else{
@@ -188,7 +196,8 @@ const activityOrganization = (activity, main = true) => {
 			partenariat: ['partenaire'],
 			projetderecherche: ['partenaire'],
 			mob_entrante: ['orgadaccueil'],
-			mob_sortante: ['orgadorigine']
+			mob_sortante: ['orgadorigine'],
+			event: ['partner', 'participant']
 		};
 	}
 
