@@ -1,26 +1,32 @@
+
+FROM node:10.1.0-alpine AS client
+
+COPY ./specs /isari/specs
+
+COPY ./client /isari/client
+
+RUN  cd /isari/client \
+    && npm install -g npm@latest \ 
+    && npm --quiet install \
+    && npm run build  
+
 FROM nginx:1.13-alpine
 
 ENV SERVER_PORT=8080
 
 ENV SERVER_HOST=server
 
-COPY ./specs /isari/specs
-
-COPY ./client /isari/client
-
-RUN apk add --no-cache nodejs \
-    && cd /isari/client \
-    && npm install -g npm@latest \ 
-    && npm --quiet install \
-    && npm run build  \
-    && npm cache clean --force \
-    && apk del nodejs \
-    && rm -fr /isari/client/node_modules \
-    && rm -fr /usr/lib/node_modules /root/.config /root/.npm 
+COPY --from=client --chown=nginx:nginx /isari/client/dist /isari/client/dist
 
 RUN /bin/rm /etc/nginx/conf.d/default.conf
 
-RUN /bin/cp /isari/client/docker-nginx.conf /etc/nginx/conf.d/docker.template
+COPY ./client/docker-nginx.conf /etc/nginx/conf.d/docker.template
 
-CMD /bin/sh -c "envsubst < /etc/nginx/conf.d/docker.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'" 
+COPY ./client/docker-entrypoint.sh /
+
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["nginx", "-g", "daemon off;"]
 
