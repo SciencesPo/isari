@@ -19,6 +19,7 @@ build_client_image:
   only:
     - staging
     - production
+    - tags
 
 build_api_image:
   stage: build
@@ -31,6 +32,7 @@ build_api_image:
   only:
     - staging
     - production
+    - tags
 
 
 deploy_:
