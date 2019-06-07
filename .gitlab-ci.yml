@@ -80,5 +80,5 @@ copy_prod2staging:restoremongo:
     - schedules
   script:
     - docker run --rm -t -e RANCHER_URL=$RANCHER_URL -e RANCHER_ACCESS_KEY=$RANCHER_ACCESS_KEY -e RANCHER_SECRET_KEY=$RANCHER_SECRET_KEY jrisp/rancher-cli rancher --env ${RANCHER_ENV} exec -d ${RANCHER_STACK}/${RANCHER_ISARI_BACKUP_SERVICE} bash -c 'mongo --host mongo isari --eval "db.dropDatabase()"'
-    - docker run --rm -t -e RANCHER_URL=$RANCHER_URL -e RANCHER_ACCESS_KEY=$RANCHER_ACCESS_KEY -e RANCHER_SECRET_KEY=$RANCHER_SECRET_KEY cdrx/rancher-gitlab-deploy upgrade --environment ${RANCHER_ENV} --stack ${RANCHER_STACK} --service ${RANCHER_MONGOCONNECTOR_SERVICE}  --auto_complete
+    - docker run --rm -t -e RANCHER_URL=$RANCHER_URL -e RANCHER_ACCESS_KEY=$RANCHER_ACCESS_KEY -e RANCHER_SECRET_KEY=$RANCHER_SECRET_KEY cdrx/rancher-gitlab-deploy upgrade --environment ${RANCHER_ENV} --stack ${RANCHER_STACK} --service ${RANCHER_MONGOCONNECTOR_SERVICE}
     - docker run --rm -t -e RANCHER_URL=$RANCHER_URL -e RANCHER_ACCESS_KEY=$RANCHER_ACCESS_KEY -e RANCHER_SECRET_KEY=$RANCHER_SECRET_KEY jrisp/rancher-cli rancher --env ${RANCHER_ENV} exec -d ${RANCHER_STACK}/${RANCHER_ISARI_BACKUP_SERVICE} bash -c 'mongorestore --host mongo -d isari /backup/restore/'
