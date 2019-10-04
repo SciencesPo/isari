@@ -352,9 +352,9 @@ const FACULTY_SHEET_TEMPLATE = {
 
               //******** GRADE & STATUS
               const grade = relevantGrades[0];
-              if (grade.gradeStatus)
+              if (grade && grade.gradeStatus)
                 info.status = simpleEnumValue('gradeStatus', grade.gradeStatus);
-              if (grade.grade && grade.gradeStatus) {
+              if (grade && grade.grade && grade.gradeStatus) {
                 const gradeEnum = getNestedEnumValues('grade')[grade.gradeStatus].find(g => g.value === grade.grade);
                 info.grade = gradeEnum ? gradeEnum.label.fr : '';
               }
