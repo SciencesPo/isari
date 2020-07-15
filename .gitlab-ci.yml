@@ -53,7 +53,8 @@ deploy:
     - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ssh -t $SSH_USER@$SSH_HOST "cd $STACK_DIR && docker-compose pull"
-    - ssh -t $SSH_USER@$SSH_HOST "cd $STACK_DIR && docker-compose down"
+    - ssh -t $SSH_USER@$SSH_HOST "cd $STACK_DIR && docker-compose rm -f -s -v client"
+    - ssh -t $SSH_USER@$SSH_HOST "cd $STACK_DIR && docker-compose rm -f -s -v api"
     - ssh -t $SSH_USER@$SSH_HOST "cd $STACK_DIR && docker-compose up -d"
   only:
     - staging
