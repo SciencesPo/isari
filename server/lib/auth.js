@@ -6,12 +6,18 @@ const { People } = require('./model')
 const debug = require('debug')('isari:ldap')
 
 
-module.exports = config.ldap.skip ? magicAuth() : connectedAuth
+if (config.ldap.skip == "true") {
+        module.exports = magicAuth()
+} else {
+        module.exports = connectedAuth
+}
 
 
 function magicAuth () {
-	return login => Promise.resolve(login).then(ldapUidToPeople)
+        console.log('Beware : skipping LDAP auth because config.ldap.skip is set to "true"')
+        return login => Promise.resolve(login).then(ldapUidToPeople)
 }
+
 
 function connectedAuth(login, password) {
 	return connect()
