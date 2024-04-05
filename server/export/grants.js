@@ -222,6 +222,10 @@ module.exports = function(models, centerId, range, role, callback) {
                 activityHeaders.sciencesPooProjectManagers = 0
 
                 a.people.forEach(p => {
+                  if (!p) {
+                    console.error('P is null. Check the data. Cannot continue')
+                    return
+                  }
                   switch(p.role){
                     case 'PI': 
                       activityHeaders.PIs.push(p.people.firstName+' '+p.people.name)
@@ -244,6 +248,16 @@ module.exports = function(models, centerId, range, role, callback) {
                   if (['central_admin', 'central_reader', 'center_admin'].includes(role)) {
                     //protected fields
                     // is that people from Sciences Po, count by gender
+
+                    if(!p.people) {
+                      console.error('P People looks empty. Please review this guy');
+                      try {
+                        console.log(p)
+                      } catch(err) {
+                        console.log(err)
+                      }
+                      return
+                    }
                     
                     if (findAndSortRelevantItems(p.people.academicMemberships, [a])
                         .find(am => am.organization.isariMonitored)){
