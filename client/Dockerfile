@@ -6,7 +6,7 @@ COPY ./specs /isari/specs
 COPY ./client /isari/client
 
 RUN  cd /isari/client \
-    && npm install -g npm@latest \ 
+    && npm install -g npm@5.6.0 \ 
     && npm --quiet install \
     && npm run build  
 
